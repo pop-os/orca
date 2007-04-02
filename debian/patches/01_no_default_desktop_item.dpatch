@@ -1,0 +1,17 @@
+#!/bin/sh /usr/share/dpatch/dpatch-run
+## 01_no_default_desktop_item.dpatch by Sebastien Bacher <seb128@canonical.com>
+##
+## DP: No Default Desktop Entry for Gnome-orca
+
+@DPATCH@
+diff -urNad gnome-orca-1.0.0~/orca.desktop.in gnome-orca-1.0.0/orca.desktop.in
+--- gnome-orca-1.0.0~/orca.desktop.in	2006-08-09 18:50:02.000000000 +0200
++++ gnome-orca-1.0.0/orca.desktop.in	2006-10-11 15:53:36.000000000 +0200
+@@ -8,6 +8,7 @@
+ Type=Application
+ StartupNotify=true
+ Categories=GNOME;Application;Accessibility;
++NoDisplay=true
+ X-GNOME-Bugzilla-Bugzilla=GNOME
+ X-GNOME-Bugzilla-Product=orca
+ X-GNOME-Bugzilla-Component=general

@@ -1,0 +1,4 @@
+debian/tmp/usr/share/*
+debian/tmp/usr/lib/python*/site-packages/orca/*.{so,py}
+debian/tmp/usr/lib/python2.4/site-packages/orca/scripts/*.py
+debian/tmp/usr/bin/orca

@@ -1,0 +1,6 @@
+gnome-orca (2.17.4-1) experimental; urgency=low
+
+  * Initial release (Closes: #402551)
+  * Added patches from Ubuntu, 01_no_default_desktop and 02_libbrlapi_fix
+
+ -- Kartik Mistry <kartik.mistry@gmail.com>  Sat, 23 Dec 2006 22:52:10 +0530
