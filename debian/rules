@@ -3,6 +3,9 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+# Debian GNOME Maintainers
+include /usr/share/gnome-pkg-tools/1/rules/uploaders.mk
+
 include /usr/share/dpatch/dpatch.make
 
 CFLAGS = -Wall -g
@@ -27,7 +30,7 @@ build-stamp: configure-stamp
 	$(MAKE)
 	touch build-stamp
 
-clean: unpatch
+clean:: unpatch
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp configure-stamp
