@@ -1,3 +1,19 @@
+gnome-orca (2.17.4-3) UNRELEASED; urgency=low
+
+  * Splitted package in two binaries: gnome-orca/gnome-orca-common since large
+    part of script are falls under binary-indep
+  * debian/dirs: removed it
+  * debian/copyright: updated according to standard copyright file
+  * Fix typo debian/pyversion to debian/pyversions, file is fixed now
+  * Added gnome-orca.manpages
+  * debian/control: minor cleanups, reflect package splits
+  * debian/rules: minor cleanups, reflect package splits
+  * Added patch for uselss paragrpah in orca manpage (Closes: #408878)
+  * Added patch for solaris specific terms in /usr/bin/orca (Closes: #408875)
+  * debian/README.Debian: in proper format now
+
+ -- Kartik Mistry <kartik.mistry@gmail.com>  Tue, 10 Apr 2007 08:56:16 +0530
+
 gnome-orca (2.17.4-2) UNRELEASED; urgency=low
 
   * GNOME Team uploads:

@@ -1,8 +1,9 @@
 gnome-orca for Debian
 ---------------------
 
- * It was named gnome-orca to not conflict with the already existing 
-   "orca - Router Monitoring and Graphing System"
- * You need to run orca --setup to first time configurations.
+ It was named gnome-orca to not conflict with the already existing
+ "orca - Router Monitoring and Graphing System"
 
- -- Kartik Mistry <kartik.mistry@gmail.com>, Tue, 19 Dec 2006 11:16:10 +0530
+ You need to run orca --setup to first time configurations.
+
+ -- Kartik Mistry <kartik.mistry@gmail.com>  Sat, 19 Tue 2006 22:52:10 +0530
