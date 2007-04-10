@@ -17,7 +17,7 @@ Description: Scriptable screen reader
  bindings can be overwritten on a per-application basis. Orca creates a script
  object for each running application, which merges both the default behaviors
  and key bindings, and the application specific ones. Orca provides the
- infrastructure to activate and deactivate scripts, as well as a  host of
+ infrastructure to activate and deactivate scripts, as well as a host of
  services accessible from within the scripts.
  .
  Note: gnome-orca works without gnome-mag, you just need it for magnification.

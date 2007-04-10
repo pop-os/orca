@@ -3,21 +3,34 @@ Section: gnome
 Priority: optional
 Maintainer: Kartik Mistry <kartik.mistry@gmail.com>
 Uploaders: @GNOME_TEAM@
-Build-Depends: debhelper (>= 5.0.38), pkg-config, libbrlapi1-dev (>= 3.7.2), libglib2.0-dev (>= 2.10.0), python-dev (>= 2.4), libbonobo2-dev (>= 2.14.0), python-pyorbit-dev (>= 2.14.0), python-glade2, python-gtk2-dev, python-gnome2-dev, libatspi-dev (>= 1.7.6), at-spi, libgnome-speech3-dev (>= 0.3.10), python-at-spi, libxml-parser-perl, python-support (>= 0.5.6), autotools-dev, dpatch, gnome-pkg-tools
+Build-Depends: debhelper (>= 5.0.38), dpatch, at-spi, autotools-dev, gnome-pkg-tools, libatspi-dev (>= 1.7.6), libbonobo2-dev (>= 2.14.0), libbrlapi1-dev (>= 3.7.2), libglib2.0-dev (>= 2.10.0), libgnome-speech3-dev (>= 0.3.10), libxml-parser-perl, pkg-config, python-dev (>= 2.4), python-at-spi, python-glade2, python-gnome2-dev, python-gtk2-dev, python-pyorbit-dev (>= 2.14.0), python-support (>= 0.5.6)
 Standards-Version: 3.7.2
 
 Package: gnome-orca
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, libgnome-speech3 (>= 0.3.10), libatspi1.0-0 (>= 1.7.6), python-pyorbit (>= 2.0), python-gtk2 (>= 2.4), python-gnome2 (>= 2.6.2), python-glade2, at-spi, python-at-spi
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, at-spi, libatspi1.0-0 (>= 1.7.6) libgnome-speech3 (>= 0.3.10), python-at-spi, python-pyorbit (>= 2.0), python-gtk2 (>= 2.4), python-glade2, python-gnome2 (>= 2.6.2), gnome-orca-common (= ${source:Version})
 Recommends: gnome-mag (>= 0.11.14), brltty
 XB-Python-Version: ${python:Versions}
 Description: Scriptable screen reader
- Orca defines a set of default behaviors (reactions to application events)
- and key bindings (reaction to user key presses).  These default behaviors
- and key bindings can be overwritten on a per-application basis.  Orca
- creates a script object for each running application, which merges both the
- default behaviors and key bindings, and the application specific ones.  Orca
- provides the infrastructure to activate and deactivate scripts, as well as a
- host of services accessible from within the scripts.
+ Orca defines a set of default behaviors (reactions to application events) and
+ key bindings (reaction to user key presses). These default behaviors and key
+ bindings can be overwritten on a per-application basis. Orca creates a script
+ object for each running application, which merges both the default behaviors
+ and key bindings, and the application specific ones. Orca provides the
+ infrastructure to activate and deactivate scripts, as well as a host of
+ services accessible from within the scripts.
  .
  Note: gnome-orca works without gnome-mag, you just need it for magnification.
+
+Package: gnome-orca-common
+Architecture: all
+Description: Scriptable screen reader (common files)
+ Orca defines a set of default behaviors (reactions to application events) and
+ key bindings (reaction to user key presses). These default behaviors and key
+ bindings can be overwritten on a per-application basis. Orca creates a script
+ object for each running application, which merges both the default behaviors
+ and key bindings, and the application specific ones. Orca provides the
+ infrastructure to activate and deactivate scripts, as well as a host of
+ services accessible from within the scripts.
+ .
+ This package provides common files.
