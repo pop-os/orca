@@ -20,15 +20,14 @@ configure: configure-stamp
 configure-stamp: patch-stamp
 	dh_testdir
 	./configure --prefix=/usr --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var
-	touch configure-stamp
+	touch $@
 
 build: build-stamp
 
-build-stamp: configure-stamp patch-stamp
+build-stamp: configure-stamp
 	dh_testdir
-
 	$(MAKE)
-	touch build-stamp
+	touch $@
 
 clean:: unpatch
 	dh_testdir
@@ -42,7 +41,6 @@ install: build
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
-
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
 
 binary-indep: build install
