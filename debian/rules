@@ -8,6 +8,10 @@ include /usr/share/gnome-pkg-tools/1/rules/uploaders.mk
 
 include /usr/share/dpatch/dpatch.make
 
+# get-orig-source target to retrieve the upstream tarball
+-include /usr/share/gnome-pkg-tools/1/rules/gnome-get-source.mk
+GNOME_MODULE := orca
+
 CFLAGS = -Wall -g
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))

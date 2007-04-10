@@ -21,8 +21,9 @@ gnome-orca (2.17.4-2) unstable; urgency=low
 
   [ Loic Minier ]
   * Cleanups.
+  * Add a get-orig-source target to retrieve the upstream tarball.
 
- -- Loic Minier <lool@dooz.org>  Tue, 10 Apr 2007 10:55:30 +0200
+ -- Loic Minier <lool@dooz.org>  Tue, 10 Apr 2007 14:10:29 +0200
 
 gnome-orca (2.17.4-1) experimental; urgency=low
 
