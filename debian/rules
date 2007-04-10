@@ -17,14 +17,14 @@ else
 endif
 
 configure: configure-stamp
-configure-stamp: patch-stamp
+configure-stamp:
 	dh_testdir
 	./configure --prefix=/usr --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var
 	touch $@
 
 build: build-stamp
 
-build-stamp: configure-stamp
+build-stamp: configure-stamp patch-stamp
 	dh_testdir
 	$(MAKE)
 	touch $@
