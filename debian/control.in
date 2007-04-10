@@ -9,7 +9,7 @@ Standards-Version: 3.7.2
 Package: gnome-orca
 Architecture: any
 Section: gnome
-Priotity: optional
+Priority: optional
 Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, at-spi, libatspi1.0-0 (>= 1.7.6) libgnome-speech3 (>= 0.3.10), python-at-spi, python-pyorbit (>= 2.0), python-gtk2 (>= 2.4), python-glade2, python-gnome2 (>= 2.6.2), gnome-orca-common (= ${source:Version})
 Recommends: gnome-mag (>= 0.11.14), brltty
 XB-Python-Version: ${python:Versions}
@@ -27,7 +27,8 @@ Description: Scriptable screen reader
 Package: gnome-orca-common
 Architecture: all
 Section: gnome
-Priotity: optional
+Priority: optional
+Replaces: gnome-orca (<= 2.17.4-1)
 Description: Scriptable screen reader (common files)
  Orca defines a set of default behaviors (reactions to application events) and
  key bindings (reaction to user key presses). These default behaviors and key
