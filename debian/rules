@@ -16,7 +16,7 @@ else
 	CFLAGS += -O2
 endif
 
-configure: configure-stamp
+configure: configure-stamp patch-stamp
 configure-stamp:
 	dh_testdir
 	./configure --prefix=/usr --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var
