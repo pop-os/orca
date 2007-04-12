@@ -1,3 +1,11 @@
+gnome-orca (2.18.1-1) unstable; urgency=low
+
+  [Kartik Mistry]
+  * New upstream release, See NEWS for changes
+  * debian/rules: we use CFLAGS in configure now
+
+ -- Kartik Mistry <kartik.mistry@gmail.com>  Thu, 12 Apr 2007 17:37:26 +0530
+
 gnome-orca (2.17.4-2) unstable; urgency=low
 
   [ Loic Minier ]
