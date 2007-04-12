@@ -23,7 +23,7 @@ endif
 configure: configure-stamp patch-stamp
 configure-stamp:
 	dh_testdir
-	./configure --prefix=/usr --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var
+	./configure CFLAGS="$(CFLAGS)" --prefix=/usr --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var
 	touch $@
 
 build: build-stamp
