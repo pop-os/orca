@@ -7,6 +7,7 @@ gnome-orca (2.18.1-1) experimental; urgency=low
   * debian/control: updated dependency for gnome-mag to (>= 0.12.5)
   * debian/control: updated dependency for python-pyorbit to (>= 2.14.0)
     (Closes: #414989)
+  * orca --text-setup works now (Closes: #408876)
 
  -- Kartik Mistry <kartik.mistry@gmail.com>  Thu, 12 Apr 2007 17:37:26 +0530
 
