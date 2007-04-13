@@ -10,7 +10,7 @@ Package: gnome-orca
 Architecture: any
 Section: gnome
 Priority: optional
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, at-spi, libatspi1.0-0 (>= 1.7.6) libgnome-speech3 (>= 0.3.10), python-at-spi, python-pyorbit (>= 2.0), python-gtk2 (>= 2.4), python-glade2, python-gnome2 (>= 2.6.2), gnome-orca-common (= ${source:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, at-spi, libatspi1.0-0 (>= 1.7.6) libgnome-speech3 (>= 0.3.10), python-at-spi, python-pyorbit (>= 2.14.0), python-gtk2 (>= 2.4), python-glade2, python-gnome2 (>= 2.6.2), gnome-orca-common (= ${source:Version})
 Recommends: brltty, gnome-mag (>= 0.12.5), wget
 XB-Python-Version: ${python:Versions}
 Description: Scriptable screen reader
