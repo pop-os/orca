@@ -1,13 +1,13 @@
 gnome-orca (2.18.1-1) experimental; urgency=low
 
   [Kartik Mistry]
-  * New upstream release, See NEWS for changes
+  * New upstream release, See NEWS for changes in details
+    - Fixes orca --text-setup (Closes: #408876)
   * debian/rules: we use CFLAGS in configure now
   * debian/patches/01_no_default_desktop_item.dpatch: updated to work
   * debian/control: updated dependency for gnome-mag to (>= 0.12.5)
   * debian/control: updated dependency for python-pyorbit to (>= 2.14.0)
     (Closes: #414989)
-  * orca --text-setup works now (Closes: #408876)
 
  -- Kartik Mistry <kartik.mistry@gmail.com>  Thu, 12 Apr 2007 17:37:26 +0530
 
