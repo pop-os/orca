@@ -3,6 +3,7 @@ gnome-orca (2.18.1-1) experimental; urgency=low
   [Kartik Mistry]
   * New upstream release, See NEWS for changes
   * debian/rules: we use CFLAGS in configure now
+  * debian/control: updated dependency for gnome-mag
 
  -- Kartik Mistry <kartik.mistry@gmail.com>  Thu, 12 Apr 2007 17:37:26 +0530
 
