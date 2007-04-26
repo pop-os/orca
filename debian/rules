@@ -12,9 +12,6 @@ include /usr/share/dpatch/dpatch.make
 -include /usr/share/gnome-pkg-tools/1/rules/gnome-get-source.mk
 GNOME_MODULE := orca
 
-# prevents accidental uploads to unstable
-include /usr/share/gnome-pkg-tools/1/rules/check-dist.mk
-
 CFLAGS = -Wall -g
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
