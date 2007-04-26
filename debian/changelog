@@ -1,8 +1,9 @@
-gnome-orca (2.18.1-2) UNRELEASED; urgency=low
+gnome-orca (2.18.1-2) unstable; urgency=low
 
   * Upload to unstable; drop check-dist include.
+  * Wrap build-deps and deps.
 
- -- Loic Minier <lool@dooz.org>  Thu, 26 Apr 2007 10:30:05 +0200
+ -- Loic Minier <lool@dooz.org>  Thu, 26 Apr 2007 10:31:01 +0200
 
 gnome-orca (2.18.1-1) experimental; urgency=low
 
