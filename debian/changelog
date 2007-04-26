@@ -1,12 +1,17 @@
-gnome-orca (2.18.1-1) unstable; urgency=low
+gnome-orca (2.18.1-1) experimental; urgency=low
 
   [Kartik Mistry]
-  * New upstream release, See NEWS for changes
+  * New upstream release, See NEWS for changes in details
+    - Fixes orca --text-setup (Closes: #408876)
   * debian/rules: we use CFLAGS in configure now
+  * debian/patches/01_no_default_desktop_item.dpatch: updated to work
+  * debian/control: updated dependency for gnome-mag to (>= 0.12.5)
+  * debian/control: updated dependency for python-pyorbit to (>= 2.14.0)
+    (Closes: #414989)
 
  -- Kartik Mistry <kartik.mistry@gmail.com>  Thu, 12 Apr 2007 17:37:26 +0530
 
-gnome-orca (2.17.4-2) unstable; urgency=low
+gnome-orca (2.17.4-2) experimental; urgency=low
 
   [ Loic Minier ]
   * GNOME Team uploads:
@@ -30,8 +35,10 @@ gnome-orca (2.17.4-2) unstable; urgency=low
   [ Loic Minier ]
   * Cleanups.
   * Add a get-orig-source target to retrieve the upstream tarball.
+  * Include the new check-dist Makefile to prevent accidental uploads to
+    unstable; bump build-dep on gnome-pkg-tools to >= 0.10.
 
- -- Loic Minier <lool@dooz.org>  Tue, 10 Apr 2007 14:10:29 +0200
+ -- Loic Minier <lool@dooz.org>  Tue, 10 Apr 2007 14:14:15 +0200
 
 gnome-orca (2.17.4-1) experimental; urgency=low
 

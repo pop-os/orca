@@ -5,13 +5,13 @@
 
 @DPATCH@
 
---- gnome-orca-2.18.1-orig/orca.desktop.in      2007-04-12 16:25:44.000000000 +0530
-+++ gnome-orca-2.18.1/orca.desktop.in   2007-04-12 16:26:35.000000000 +0530
+--- gnome-orca-2.18.1-orig/orca.desktop.in	2007-04-13 09:02:08.000000000 +0530
++++ gnome-orca-2.18.1/orca.desktop.in	2007-04-13 09:02:49.000000000 +0530
 @@ -8,6 +8,7 @@
  Type=Application
  StartupNotify=true
  Categories=GNOME;GTK;Accessibility;
- +NoDisplay=true
++NoDisplay=true
  X-GNOME-Bugzilla-Bugzilla=GNOME
  X-GNOME-Bugzilla-Product=orca
  X-GNOME-Bugzilla-Component=general
