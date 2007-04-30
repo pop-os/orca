@@ -1,8 +1,13 @@
-gnome-orca (2.18.1-3) unstable; urgency=low
+gnome-orca (2.18.1-3) UNRELEASED; urgency=low
 
-  * Convert to cdbs.
+  * Convert to cdbs (removed most of debian/rules and converted patches
+    to simple-patchsys).
   * debian/patches/04_solaris_specific_fixes.patch:
     Updated patch for startup shell script (orca.in).
+  * debian/rules: Add a rule to run dh_pysupport without having to include
+    cdbs class python-distutils.mk (which does not work with this package).
+  * debian/control.in: Tighten up some version dependencies to ensure the user
+    is getting recent versions.
 
  -- Mario Lang <mlang@debian.org>  Mon, 30 Apr 2007 04:02:41 +0200
 

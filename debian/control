@@ -3,8 +3,7 @@ Section: gnome
 Priority: optional
 Maintainer: Kartik Mistry <kartik.mistry@gmail.com>
 Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Loic Minier <lool@dooz.org>
-Build-Depends: debhelper (>= 5.0.38),
-               dpatch,
+Build-Depends: cdbs,
                at-spi,
                autotools-dev,
                gnome-pkg-tools (>= 0.10),
