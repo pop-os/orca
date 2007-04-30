@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Kartik Mistry <kartik.mistry@gmail.com>
 Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Loic Minier <lool@dooz.org>
 Build-Depends: cdbs,
+               debhelper (>= 5.0.38),
                at-spi,
                autotools-dev,
                gnome-pkg-tools (>= 0.10),
