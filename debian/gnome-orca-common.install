@@ -1,6 +1,6 @@
-usr/lib/python*/site-packages/orca/*.py
-usr/lib/python*/site-packages/orca/scripts/*.py
-usr/share/applications/*
-usr/share/icons/*
-usr/share/locale/*
-usr/share/orca/*
+debian/tmp/usr/lib/python*/site-packages/orca/*.py
+debian/tmp/usr/lib/python*/site-packages/orca/scripts/*.py
+debian/tmp/usr/share/applications/*
+debian/tmp/usr/share/icons/*
+debian/tmp/usr/share/locale/*
+debian/tmp/usr/share/orca/*

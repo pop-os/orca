@@ -3,8 +3,7 @@ Section: gnome
 Priority: optional
 Maintainer: Kartik Mistry <kartik.mistry@gmail.com>
 Uploaders: @GNOME_TEAM@
-Build-Depends: debhelper (>= 5.0.38),
-               dpatch,
+Build-Depends: cdbs,
                at-spi,
                autotools-dev,
                gnome-pkg-tools (>= 0.10),

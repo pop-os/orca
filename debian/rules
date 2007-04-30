@@ -1,84 +1,10 @@
 #!/usr/bin/make -f
 
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
-
-# Debian GNOME Maintainers
+include /usr/share/cdbs/1/rules/buildcore.mk
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/gnome.mk
+include /usr/share/cdbs/1/rules/simple-patchsys.mk
 include /usr/share/gnome-pkg-tools/1/rules/uploaders.mk
-
-include /usr/share/dpatch/dpatch.make
-
-# get-orig-source target to retrieve the upstream tarball
 -include /usr/share/gnome-pkg-tools/1/rules/gnome-get-source.mk
 GNOME_MODULE := orca
 
-CFLAGS = -Wall -g
-
-ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -O0
-else
-	CFLAGS += -O2
-endif
-
-configure: configure-stamp patch-stamp
-configure-stamp:
-	dh_testdir
-	./configure CFLAGS="$(CFLAGS)" --prefix=/usr --mandir=${prefix}/share/man --infodir=${prefix}/share/info --sysconfdir=/etc --localstatedir=/var
-	touch $@
-
-build: build-stamp
-
-build-stamp: configure-stamp patch-stamp
-	dh_testdir
-	$(MAKE)
-	touch $@
-
-clean:: unpatch
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp configure-stamp
-	-$(MAKE) distclean
-	dh_clean
-
-install: build
-	dh_testdir
-	dh_testroot
-	dh_clean -k
-	dh_installdirs
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
-
-binary-indep: build install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs -i ChangeLog
-	dh_installdocs -i
-	dh_install --sourcedir=debian/tmp
-	dh_pysupport
-	dh_link -i
-	dh_compress -i
-	dh_fixperms -i
-	dh_installdeb -i
-	dh_gencontrol -i
-	dh_md5sums -i
-	dh_builddeb -i
-
-binary-arch: build install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs -a ChangeLog
-	dh_installdocs -a
-	dh_install -a --sourcedir=debian/tmp
-	dh_installman -a
-	dh_pysupport -a
-	dh_link -a
-	dh_strip -a
-	dh_compress -a
-	dh_fixperms -a
-	dh_installdeb -a
-	dh_shlibdeps -a
-	dh_gencontrol -a
-	dh_md5sums -a
-	dh_builddeb -a
-
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install configure
