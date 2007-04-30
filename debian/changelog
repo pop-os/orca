@@ -1,3 +1,11 @@
+gnome-orca (2.18.1-3) unstable; urgency=low
+
+  * Convert to cdbs.
+  * debian/patches/04_solaris_specific_fixes.patch:
+    Updated patch for startup shell script (orca.in).
+
+ -- Mario Lang <mlang@debian.org>  Mon, 30 Apr 2007 04:02:41 +0200
+
 gnome-orca (2.18.1-2) unstable; urgency=low
 
   * Upload to unstable; drop check-dist include.
