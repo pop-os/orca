@@ -2,7 +2,7 @@ Source: gnome-orca
 Section: gnome
 Priority: optional
 Maintainer: Kartik Mistry <kartik.mistry@gmail.com>
-Uploaders: @GNOME_TEAM@
+Uploaders: @GNOME_TEAM@, Mario Lang <mlang@debian.org>
 Build-Depends: cdbs,
                debhelper (>= 5.0.38),
                at-spi,
