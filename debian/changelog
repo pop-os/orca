@@ -1,6 +1,7 @@
 gnome-orca (2.18.1-4) UNRELEASED; urgency=low
 
-  * Add Mario Lang <mlang@debian.org> as uploaders.
+  * Add Mario Lang <mlang@debian.org> as uploaders
+  * debian/control: added missing comma in Depends
 
  -- Loic Minier <lool@dooz.org>  Wed, 02 May 2007 10:34:06 +0200
 
