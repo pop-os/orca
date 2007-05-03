@@ -2,16 +2,47 @@ Source: gnome-orca
 Section: gnome
 Priority: optional
 Maintainer: Kartik Mistry <kartik.mistry@gmail.com>
-Uploaders: @GNOME_TEAM@
-Build-Depends: debhelper (>= 5.0.38), dpatch, at-spi, autotools-dev, gnome-pkg-tools (>= 0.10), libatspi-dev (>= 1.7.6), libbonobo2-dev (>= 2.14.0), libbrlapi1-dev (>= 3.7.2), libglib2.0-dev (>= 2.10.0), libgnome-speech3-dev (>= 0.3.10), libxml-parser-perl, pkg-config, python-dev (>= 2.4), python-at-spi, python-glade2, python-gnome2-dev, python-gtk2-dev, python-pyorbit-dev (>= 2.14.0), python-support (>= 0.5.6)
+Uploaders: @GNOME_TEAM@, Mario Lang <mlang@debian.org>
+Build-Depends: cdbs,
+               debhelper (>= 5.0.38),
+               at-spi,
+               autotools-dev,
+               gnome-pkg-tools (>= 0.10),
+               libatspi-dev (>= 1.18.0),
+               libbonobo2-dev (>= 2.18.0),
+               libbrlapi1-dev (>= 3.7.2),
+               libglib2.0-dev (>= 2.10.0),
+               libgnome-speech3-dev (>= 0.3.10),
+               libxml-parser-perl,
+               pkg-config,
+               python-dev (>= 2.4),
+               python-at-spi,
+               python-glade2,
+               python-gnome2-dev,
+               python-gtk2-dev,
+               python-pyorbit-dev (>= 2.14.0),
+               python-support (>= 0.5.6)
 Standards-Version: 3.7.2
 
 Package: gnome-orca
 Architecture: any
 Section: gnome
 Priority: optional
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, at-spi, libatspi1.0-0 (>= 1.7.6) libgnome-speech3 (>= 0.3.10), python-at-spi, python-pyorbit (>= 2.14.0), python-gtk2 (>= 2.4), python-glade2, python-gnome2 (>= 2.6.2), gnome-orca-common (= ${source:Version})
-Recommends: brltty, gnome-mag (>= 0.12.5), wget
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         ${python:Depends},
+         at-spi,
+         libatspi1.0-0 (>= 1.18.0),
+         libgnome-speech3 (>= 0.3.10),
+         python-at-spi,
+         python-pyorbit (>= 2.14.0),
+         python-gtk2 (>= 2.10),
+         python-glade2,
+         python-gnome2 (>= 2.6.2),
+         gnome-orca-common (= ${source:Version})
+Recommends: brltty,
+            gnome-mag (>= 0.12.5),
+            wget
 XB-Python-Version: ${python:Versions}
 Description: Scriptable screen reader
  Orca defines a set of default behaviors (reactions to application events) and
