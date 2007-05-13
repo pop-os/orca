@@ -1,4 +1,4 @@
-gnome-orca (2.19.1-2) UNRELEASED; urgency=low
+gnome-orca (2.19.2-1) experimental; urgency=low
 
   [ Loic Minier ]
   * Include the new check-dist Makefile to prevent accidental uploads to
@@ -6,8 +6,9 @@ gnome-orca (2.19.1-2) UNRELEASED; urgency=low
 
   [ Mario Lang ]
   * Add a debian/watch file.
+  * New upstream release.
 
- -- Mario Lang <mlang@debian.org>  Sun, 06 May 2007 14:18:12 +0200
+ -- Mario Lang <mlang@debian.org>  Sun, 13 May 2007 20:11:32 +0200
 
 gnome-orca (2.19.1-1) experimental; urgency=low
 
