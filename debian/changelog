@@ -1,10 +1,13 @@
-gnome-orca (2.19.2-2) UNRELEASED; urgency=low
+gnome-orca (2.19.2-2) experimental; urgency=low
 
   * debian/control.in:
     * Drop {Build-,}Depends on python-at-spi, it is not needed.
     * Better Description borrowed from docs/doc-set/orca.html.
+    * Drop Build-Depends on libgnome-speech3-dev.  orca uses Bonobo at
+      runtime to communicate with GNOME Speech.
+    * Depend on libgnome-speech7 instead of 3.
 
- -- Mario Lang <mlang@debian.org>  Mon, 14 May 2007 00:24:35 +0200
+ -- Mario Lang <mlang@debian.org>  Mon, 14 May 2007 01:03:25 +0200
 
 gnome-orca (2.19.2-1) experimental; urgency=low
 
