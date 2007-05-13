@@ -1,3 +1,11 @@
+gnome-orca (2.19.2-2) UNRELEASED; urgency=low
+
+  * debian/control.in:
+    * Drop {Build-,}Depends on python-at-spi, it is not needed.
+    * Better Description borrowed from docs/doc-set/orca.html.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 14 May 2007 00:24:35 +0200
+
 gnome-orca (2.19.2-1) experimental; urgency=low
 
   [ Loic Minier ]
