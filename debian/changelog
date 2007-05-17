@@ -1,4 +1,4 @@
-gnome-orca (2.18.1-4) UNRELEASED; urgency=low
+gnome-orca (2.18.1-4) unstable; urgency=low
 
   [ Loic Minier ]
   * Add Mario Lang <mlang@debian.org> as uploaders
