@@ -1,3 +1,9 @@
+gnome-orca (2.19.3-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 04 Jun 2007 16:33:54 +0200
+
 gnome-orca (2.19.2-2) experimental; urgency=low
 
   * debian/control.in:
