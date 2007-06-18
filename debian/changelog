@@ -1,3 +1,10 @@
+gnome-orca (2.19.4-2) UNRELEASED; urgency=low
+
+  * debian/control.in: Remove myself from Uploaders list since this is
+    handled by gnome-pkg-tools now.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 18 Jun 2007 11:50:57 +0200
+
 gnome-orca (2.19.4-1) experimental; urgency=low
 
   * New upstream release.
