@@ -1,3 +1,9 @@
+gnome-orca (2.19.6-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 30 Jul 2007 02:16:49 +0200
+
 gnome-orca (2.19.5-1) experimental; urgency=low
 
   * debian/control.in: Remove myself from Uploaders list since this is
