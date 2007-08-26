@@ -2,7 +2,7 @@ Source: gnome-orca
 Section: gnome
 Priority: optional
 Maintainer: Kartik Mistry <kartik.mistry@gmail.com>
-Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Loic Minier <lool@dooz.org>, Mario Lang <mlang@debian.org>
+Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Mario Lang <mlang@debian.org>
 Build-Depends: cdbs,
                debhelper (>= 5.0.38),
                at-spi,
@@ -10,7 +10,6 @@ Build-Depends: cdbs,
                gnome-pkg-tools (>= 0.10),
                libatspi-dev (>= 1.18.0),
                libbonobo2-dev (>= 2.18.0),
-               libbrlapi1-dev (>= 3.7.2),
                libglib2.0-dev (>= 2.10.0),
                libxml-parser-perl,
                pkg-config,
@@ -37,7 +36,7 @@ Depends: ${shlibs:Depends},
          python-glade2,
          python-gnome2 (>= 2.6.2),
          gnome-orca-common (= ${source:Version})
-Recommends: brltty,
+Recommends: python-brlapi,
             gnome-mag (>= 0.12.5),
             wget
 XB-Python-Version: ${python:Versions}
