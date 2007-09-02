@@ -1,3 +1,13 @@
+gnome-orca (2.18.1-5) unstable; urgency=low
+
+  * debian/control.in:
+    - Remove myself from Uploaders, this is handled by gnome-pkg-tolls
+      now.
+    - No longer Build-Depend on libbrlapi1-dev.
+    - Recommend python-brlapi instead of brltty.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 02 Sep 2007 13:39:17 +0200
+
 gnome-orca (2.18.1-4) unstable; urgency=low
 
   [ Loic Minier ]

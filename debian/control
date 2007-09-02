@@ -10,7 +10,6 @@ Build-Depends: cdbs,
                gnome-pkg-tools (>= 0.10),
                libatspi-dev (>= 1.18.0),
                libbonobo2-dev (>= 2.18.0),
-               libbrlapi1-dev (>= 3.7.2),
                libglib2.0-dev (>= 2.10.0),
                libxml-parser-perl,
                pkg-config,
@@ -37,7 +36,7 @@ Depends: ${shlibs:Depends},
          python-glade2,
          python-gnome2 (>= 2.6.2),
          gnome-orca-common (= ${source:Version})
-Recommends: brltty,
+Recommends: python-brlapi,
             gnome-mag (>= 0.12.5),
             wget
 XB-Python-Version: ${python:Versions}
