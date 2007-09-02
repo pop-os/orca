@@ -1,3 +1,9 @@
+gnome-orca (2.19.91-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 02 Sep 2007 13:24:53 +0200
+
 gnome-orca (2.19.90-2) experimental; urgency=low
 
   * Drop libbrlapi1-dev from Build-Depends.
