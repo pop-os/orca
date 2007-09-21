@@ -1,26 +1,77 @@
-gnome-orca (2.18.1-5) unstable; urgency=low
+gnome-orca (2.19.91-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 02 Sep 2007 13:24:53 +0200
+
+gnome-orca (2.19.90-2) experimental; urgency=low
+
+  * Drop libbrlapi1-dev from Build-Depends.
+  * Recoomend python-brlapi instead of brltty.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 26 Aug 2007 13:50:45 +0200
+
+gnome-orca (2.19.90-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 30 Jul 2007 02:22:47 +0200
+
+gnome-orca (2.19.6-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 30 Jul 2007 02:16:49 +0200
+
+gnome-orca (2.19.5-1) experimental; urgency=low
+
+  * debian/control.in: Remove myself from Uploaders list since this is
+    handled by gnome-pkg-tools now.
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 10 Jul 2007 17:50:46 +0200
+
+gnome-orca (2.19.4-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 18 Jun 2007 11:25:05 +0200
+
+gnome-orca (2.19.3-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 04 Jun 2007 16:33:54 +0200
+
+gnome-orca (2.19.2-2) experimental; urgency=low
 
   * debian/control.in:
-    - Remove myself from Uploaders, this is handled by gnome-pkg-tolls
-      now.
-    - No longer Build-Depend on libbrlapi1-dev.
-    - Recommend python-brlapi instead of brltty.
+    * Drop {Build-,}Depends on python-at-spi, it is not needed.
+    * Better Description borrowed from docs/doc-set/orca.html.
+    * Drop Build-Depends on libgnome-speech3-dev.  orca uses Bonobo at
+      runtime to communicate with GNOME Speech.
+    * Depend on libgnome-speech7 instead of 3.
 
- -- Mario Lang <mlang@debian.org>  Sun, 02 Sep 2007 13:39:17 +0200
+ -- Mario Lang <mlang@debian.org>  Mon, 14 May 2007 01:03:25 +0200
 
-gnome-orca (2.18.1-4) unstable; urgency=low
+gnome-orca (2.19.2-1) experimental; urgency=low
 
   [ Loic Minier ]
-  * Add Mario Lang <mlang@debian.org> as uploaders
-  * debian/control: added missing comma in Depends
+  * Include the new check-dist Makefile to prevent accidental uploads to
+    unstable; bump build-dep on gnome-pkg-tools to >= 0.10.
 
   [ Mario Lang ]
-  * Merge changes from experimental branch (2.19.2-2):
-    - Drop {Build-,}Depends on python-at-spi.
-    - Drop Build-Depends on libgnome-speech3-dev.
-    - Depends on libgnome-speech7 now.
+  * Add a debian/watch file.
+  * New upstream release.
 
- -- Mario Lang <mlang@debian.org>  Thu, 17 May 2007 20:41:18 +0200
+ -- Mario Lang <mlang@debian.org>  Sun, 13 May 2007 20:11:32 +0200
+
+gnome-orca (2.19.1-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/patches/03_manpage_fix.patch: Revmoed.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 03 May 2007 10:18:28 +0200
 
 gnome-orca (2.18.1-3) unstable; urgency=low
 
