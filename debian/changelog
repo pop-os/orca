@@ -1,8 +1,9 @@
-gnome-orca (2.20.0.1-2) UNRELEASED; urgency=low
+gnome-orca (2.20.1-1) unstable; urgency=low
 
   * Fix debian/watch file to point to 2.20.
+  * New upstream release.
 
- -- Mario Lang <mlang@debian.org>  Sun, 14 Oct 2007 11:32:34 +0200
+ -- Mario Lang <mlang@debian.org>  Thu, 01 Nov 2007 15:58:04 +0100
 
 gnome-orca (2.20.0.1-1) unstable; urgency=low
 
