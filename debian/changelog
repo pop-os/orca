@@ -1,3 +1,14 @@
+gnome-orca (2.20.1-2) UNRELEASED; urgency=low
+
+  * debian/patches/02_disable_brlmodule.patch: Added a simple
+    hack to disable building the brl module (which is only needed for
+    backwards-compatibility to brltty 3.7.2).
+  * debian/patches/02_libbrlapi_fix.patch: Removed, obsolete.
+  * debian/control{,.in}: Now that we do no longer distribute the brl module
+    we can make gnome-orca arch: all and remove gnome-orca-common again.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 01 Nov 2007 16:53:22 +0100
+
 gnome-orca (2.20.1-1) unstable; urgency=low
 
   * Fix debian/watch file to point to 2.20.
