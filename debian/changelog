@@ -1,3 +1,11 @@
+gnome-orca (2.20.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * Depend on python-brlapi instead of just recommending it
+    (Closes: Bug#452374).
+
+ -- Mario Lang <mlang@debian.org>  Tue, 27 Nov 2007 19:56:27 +0100
+
 gnome-orca (2.20.1-2) unstable; urgency=low
 
   * debian/patches/02_disable_brlmodule.patch: Added a simple

@@ -33,9 +33,9 @@ Depends: ${misc:Depends},
          python-pyorbit (>= 2.14.0),
          python-gtk2 (>= 2.10),
          python-glade2,
-         python-gnome2 (>= 2.6.2)
-Recommends: python-brlapi,
-            gnome-mag (>= 0.12.5),
+         python-gnome2 (>= 2.6.2),
+         python-brlapi
+Recommends: gnome-mag (>= 0.12.5),
             wget
 Conflicts: gnome-orca-common (<< 2.20.1-2)
 Replaces: gnome-orca-common (<< 2.20.1-2)
