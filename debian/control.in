@@ -27,8 +27,6 @@ Section: gnome
 Priority: optional
 Depends: ${misc:Depends},
          ${python:Depends},
-         at-spi,
-         libatspi1.0-0 (>= 1.18.0),
          libgnome-speech7 (>= 0.4.11),
          python-pyatspi,
          python-gtk2 (>= 2.10),
