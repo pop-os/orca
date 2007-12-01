@@ -1,3 +1,50 @@
+gnome-orca (2.21.2-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Sat, 01 Dec 2007 17:41:52 +0100
+
+gnome-orca (2.20.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * Depend on python-brlapi instead of just recommending it
+    (Closes: Bug#452374).
+
+ -- Mario Lang <mlang@debian.org>  Tue, 27 Nov 2007 19:56:27 +0100
+
+gnome-orca (2.20.1-2) unstable; urgency=low
+
+  * debian/patches/02_disable_brlmodule.patch: Added a simple
+    hack to disable building the brl module (which is only needed for
+    backwards-compatibility to brltty 3.7.2).
+  * debian/patches/02_libbrlapi_fix.patch: Removed, obsolete.
+  * debian/control{,.in}: Now that we do no longer distribute the brl module
+    we can make gnome-orca arch: all and remove gnome-orca-common again.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 01 Nov 2007 17:10:22 +0100
+
+gnome-orca (2.20.1-1) unstable; urgency=low
+
+  * Fix debian/watch file to point to 2.20.
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 01 Nov 2007 15:58:04 +0100
+
+gnome-orca (2.20.0.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Sat, 13 Oct 2007 22:04:58 +0200
+
+gnome-orca (2.20.0-1) unstable; urgency=low
+
+  * New Upstream release.
+  * debian/control.in: Assume maintainership as per discussion with
+    Kartik Mistry.
+  * debian/rules: Remove /usr/share/gnome-pkg-tools/1/rules/check-dist.mk.
+
+ -- Mario Lang <mlang@debian.org>  Fri, 21 Sep 2007 10:29:17 +0200
+
 gnome-orca (2.19.91-1) experimental; urgency=low
 
   * New upstream release.
