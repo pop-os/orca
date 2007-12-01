@@ -6,8 +6,9 @@ gnome-orca (2.21.2-1) UNRELEASED; urgency=low
   * Update watch file to point to 2.21 branch.
   * Remove dependency on at-spi and libatspi1.0-0, this is covered by
     python-pyatspi.
+  * Add Homepage field to debian/control{,.in}.
 
- -- Mario Lang <mlang@debian.org>  Sat, 01 Dec 2007 18:20:37 +0100
+ -- Mario Lang <mlang@debian.org>  Sat, 01 Dec 2007 18:31:22 +0100
 
 gnome-orca (2.20.2-1) unstable; urgency=low
 

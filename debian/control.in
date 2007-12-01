@@ -38,6 +38,7 @@ Recommends: gnome-mag (>= 0.12.5),
 Conflicts: gnome-orca-common (<< 2.20.1-2)
 Replaces: gnome-orca-common (<< 2.20.1-2)
 XB-Python-Version: ${python:Versions}
+Homepage: http://live.gnome.org/Orca
 Description: Scriptable screen reader
  A flexible, extensible, and powerful assistive technology that
  provides end-user access to applications and toolkits that support the
