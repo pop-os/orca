@@ -1,4 +1,4 @@
-gnome-orca (2.21.2-1) UNRELEASED; urgency=low
+gnome-orca (2.21.2-1) experimental; urgency=low
 
   * New upstream release.
   * Depend on python-pyatspi.
