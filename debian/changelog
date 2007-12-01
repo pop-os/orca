@@ -3,8 +3,9 @@ gnome-orca (2.21.2-1) UNRELEASED; urgency=low
   * New upstream release.
   * Depend on python-pyatspi.
   * debian/patches/04_solaris_specific_fixes.patch: Removed.
+  * Update watch file to point to 2.21 branch.
 
- -- Mario Lang <mlang@debian.org>  Sat, 01 Dec 2007 17:49:18 +0100
+ -- Mario Lang <mlang@debian.org>  Sat, 01 Dec 2007 18:00:00 +0100
 
 gnome-orca (2.20.2-1) unstable; urgency=low
 
