@@ -1,3 +1,9 @@
+gnome-orca (2.21.3-2) UNRELEASED; urgency=low
+
+  * Add Vcs-Svn field.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 09 Dec 2007 10:28:55 +0100
+
 gnome-orca (2.21.3-1) experimental; urgency=low
 
   * New upstream release.
