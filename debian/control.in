@@ -3,6 +3,7 @@ Section: gnome
 Priority: optional
 Maintainer: Mario Lang <mlang@debian.org>
 Uploaders: @GNOME_TEAM@
+Vcs-Svn: svn://svn.debian.org/svn/pkg-gnome/desktop/unstable/gnome-orca
 Build-Depends: cdbs,
                debhelper (>= 5.0.38),
                at-spi,
@@ -19,7 +20,7 @@ Build-Depends: cdbs,
                python-gtk2-dev,
                python-pyorbit-dev (>= 2.14.0),
                python-support (>= 0.5.6)
-Standards-Version: 3.7.2
+Standards-Version: 3.7.3
 
 Package: gnome-orca
 Architecture: all
@@ -40,6 +41,7 @@ Recommends: gnome-mag (>= 0.12.5),
 Conflicts: gnome-orca-common (<< 2.20.1-2)
 Replaces: gnome-orca-common (<< 2.20.1-2)
 XB-Python-Version: ${python:Versions}
+Homepage: http://live.gnome.org/Orca
 Description: Scriptable screen reader
  A flexible, extensible, and powerful assistive technology that
  provides end-user access to applications and toolkits that support the
