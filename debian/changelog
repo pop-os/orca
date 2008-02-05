@@ -1,4 +1,4 @@
-gnome-orca (2.21.90-1) UNRELEASED; urgency=low
+gnome-orca (2.21.90-1) experimental; urgency=low
 
   * New upstream release.
   * Update debian/patches/02_disable_brlmodule.patch.
