@@ -29,6 +29,7 @@ Priority: optional
 Depends: ${misc:Depends},
          ${python:Depends},
          libgnome-speech7 (>= 0.4.11),
+         libgail-gnome-module,
          python-pyatspi,
          python-gtk2 (>= 2.10),
          python-glade2,

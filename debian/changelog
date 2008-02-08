@@ -1,3 +1,9 @@
+gnome-orca (2.21.90-2) UNRELEASED; urgency=low
+
+  * Depend on libgail-gnome-module (from Ubuntu gnome-orca package).
+
+ -- Mario Lang <mlang@debian.org>  Fri, 08 Feb 2008 12:53:39 +0100
+
 gnome-orca (2.21.90-1) experimental; urgency=low
 
   * New upstream release.
