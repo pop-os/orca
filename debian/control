@@ -3,7 +3,7 @@ Section: gnome
 Priority: optional
 Maintainer: Mario Lang <mlang@debian.org>
 Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>
-Vcs-Svn: svn://svn.debian.org/svn/pkg-gnome/desktop/experimental/gnome-orca
+Vcs-Svn: svn://svn.debian.org/svn/pkg-gnome/desktop/unstable/gnome-orca
 Build-Depends: cdbs,
                debhelper (>= 5.0.38),
                at-spi,
@@ -30,7 +30,7 @@ Depends: ${misc:Depends},
          ${python:Depends},
          libgnome-speech7 (>= 0.4.11),
          libgail-gnome-module,
-         python-pyatspi,
+         python-pyatspi (>= 1.22.0),
          python-gtk2 (>= 2.10),
          python-glade2,
          python-gnome2 (>= 2.6.2),
