@@ -1,3 +1,9 @@
+gnome-orca (2.22.0-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 11 Mar 2008 19:31:04 +0100
+
 gnome-orca (2.21.91-1) experimental; urgency=low
 
   * Depend on libgail-gnome-module (from Ubuntu gnome-orca package).
