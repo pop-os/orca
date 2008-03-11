@@ -1,11 +1,13 @@
---- orca-2.20.1/src/Makefile.in.orig	2007-10-15 00:27:42.000000000 +0200
-+++ orca-2.20.1/src/Makefile.in	2007-11-01 16:07:16.000000000 +0100
-@@ -227,7 +227,7 @@
+--- orca-2.21.90/src/Makefile.in.orig	2008-01-28 17:53:07.000000000 +0100
++++ orca-2.21.90/src/Makefile.in	2008-02-05 22:15:02.000000000 +0100
+@@ -230,8 +230,8 @@
  target_alias = @target_alias@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
--SUBDIRS = brl orca
-+SUBDIRS = orca
+-@WITH_LOUIS_FALSE@SUBDIRS = brl orca
+-@WITH_LOUIS_TRUE@SUBDIRS = brl orca louis
++@WITH_LOUIS_FALSE@SUBDIRS = orca
++@WITH_LOUIS_TRUE@SUBDIRS = orca louis
  all: all-recursive
  
  .SUFFIXES:
