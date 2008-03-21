@@ -1,3 +1,9 @@
+gnome-orca (2.22.0-2) UNRELEASED; urgency=low
+
+  * Add debian/patches/04_solaris_specific_fixes.patch again.
+
+ -- Mario Lang <mlang@debian.org>  Fri, 21 Mar 2008 18:24:32 +0100
+
 gnome-orca (2.22.0-1) unstable; urgency=low
 
   * New upstream release.
