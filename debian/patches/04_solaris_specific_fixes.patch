@@ -1,8 +1,8 @@
 The orca startup shell script seems to contain some *isms.
 Remove solaris specific PATH components, use set -e, and other cleanups.
 
---- gnome-orca-2.18.1/src/orca/orca.in.orig	2007-04-09 21:59:57.000000000 +0200
-+++ gnome-orca-2.18.1/src/orca/orca.in	2007-04-30 03:54:43.000000000 +0200
+--- orca-2.22.1/src/orca/orca.in.orig	2008-03-08 13:27:37.000000000 +0100
++++ orca-2.22.1/src/orca/orca.in	2008-04-08 20:33:58.000000000 +0200
 @@ -30,7 +30,7 @@
  
  # Set the user's $PATH for this script.
@@ -31,3 +31,21 @@ Remove solaris specific PATH components, use set -e, and other cleanups.
  
  # Cleans up any orca-related processes that might be running,
  # restricting it to those processes owned by the user. These include
+@@ -258,7 +250,7 @@
+ then
+     main
+ else
+-    if [ `grep -c "\-q" <<< $ARGS` -gt 0 ]
++    if echo "$ARGS" | grep -- "-q" > /dev/null
+     then
+         cleanup
+     else
+@@ -270,7 +262,7 @@
+         # erroneously types an illegal command line argument, the
+         # help text is emitted and the other orca is not killed.
+         #
+-        if [ `egrep -c "\-s|\-g|\-t|\-n|\-u|\-e|\-d" <<< $ARGS` -eq 0 ]
++        if ! echo "$ARGS" | egrep -- "\-s|\-g|\-t|\-n|\-u|\-e|\-d" > /dev/null
+         then
+             runOrca "NO_CLEANUP"
+         else

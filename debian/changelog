@@ -1,3 +1,9 @@
+gnome-orca (2.22.1-2) UNRELEASED; urgency=low
+
+  * Fix bashisms in orca startup script (Closes: Bug#468681).
+
+ -- Mario Lang <mlang@debian.org>  Tue, 08 Apr 2008 20:39:06 +0200
+
 gnome-orca (2.22.1-1) unstable; urgency=low
 
   * Add debian/patches/04_solaris_specific_fixes.patch again.
