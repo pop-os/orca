@@ -1,8 +1,9 @@
-gnome-orca (2.22.1-2) UNRELEASED; urgency=low
+gnome-orca (2.22.1-2) unstable; urgency=low
 
   * Fix bashisms in orca startup script (Closes: Bug#468681).
   * Remove the explicit setting of PYTHONPATH in the orca startup
     script (Closes: Bug#476905).
+  * Nack 2.22.1-1.1 NMU.
 
  -- Mario Lang <mlang@debian.org>  Sun, 20 Apr 2008 15:16:35 +0200
 
