@@ -1,0 +1,51 @@
+The orca startup shell script seems to contain some *isms.
+Remove solaris specific PATH components, use set -e, and other cleanups.
+
+--- gnome-orca-2.23.1/src/orca/orca.in.orig	2008-04-20 22:39:16.000000000 +0200
++++ gnome-orca-2.23.1/src/orca/orca.in	2008-04-22 00:19:43.000000000 +0200
+@@ -30,7 +30,7 @@
+ 
+ # Set the user's $PATH for this script.
+ #
+-export PATH="${PATH}:/usr/ccs/bin:/usr/bin:/usr/sbin:/bin:/usr/sfw/bin:/usr/openwin/bin:/usr/X11R6/bin"
++export PATH="${PATH}:/usr/bin:/usr/sbin:/bin:/usr/X11R6/bin"
+ 
+ # If you set RUNONCE to "true", then this will just run Orca once and quit.
+ #
+@@ -58,16 +58,10 @@
+ #
+ IFS=:
+ DBUSSENDCMD=
+-WATCHDOG=0
++WATCHDOG=1
+ if [ "x$DBUS_SESSION_BUS_ADDRESS" != "x" ]
+ then
+-    for dir in $PATH:/usr/sfw/bin:/usr/local/bin; do
+-        test -x "$dir/dbus-send" && {
+-            DBUSSENDCMD="$dir/dbus-send"
+-            WATCHDOG=1
+-            break
+-        }
+-    done
++    DBUSSENDCMD=`which dbus-send || WATCHDOG=0`
+ fi
+ # [[WDW - disabled the watchdog by default since it is problematic.]]
+ WATCHDOG=0
+@@ -266,7 +260,7 @@
+ then
+     main
+ else
+-    if [ `grep -c "\-q" <<< $ARGS` -gt 0 ]
++    if echo "$ARGS" | grep -- "-q" > /dev/null
+     then
+         cleanup
+     else
+@@ -278,7 +272,7 @@
+         # erroneously types an illegal command line argument, the
+         # help text is emitted and the other orca is not killed.
+         #
+-        if [ `egrep -c "\-s|\-g|\-t|\-n|\-u|\-e|\-d" <<< $ARGS` -eq 0 ]
++        if ! echo "$ARGS" | egrep -- "\-s|\-g|\-t|\-n|\-u|\-e|\-d" > /dev/null
+         then
+             runOrca "NO_CLEANUP" &
+             orca_pid=$!

@@ -1,0 +1,12 @@
+--- orca-2.22.1/src/orca/orca.in.orig	2008-04-20 15:11:36.000000000 +0200
++++ orca-2.22.1/src/orca/orca.in	2008-04-20 15:12:59.000000000 +0200
+@@ -86,9 +86,6 @@
+     then
+         cleanup
+     fi
+-    exec_prefix=@prefix@
+-    PYTHONPATH=${PYTHONPATH}:@pyexecdir@
+-    export PYTHONPATH
+ 
+     # We'll save and restore the Caps_Lock as a modifier just in case
+     # the user is using the Caps_Lock as the Orca modifier key.  We

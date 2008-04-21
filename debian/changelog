@@ -1,3 +1,33 @@
+gnome-orca (2.23.1-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/patches/04_solaris_specific_fixes.patch: Update.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 22 Apr 2008 00:29:41 +0200
+
+gnome-orca (2.22.1-2) unstable; urgency=low
+
+  * Fix bashisms in orca startup script (Closes: Bug#468681).
+  * Remove the explicit setting of PYTHONPATH in the orca startup
+    script (Closes: Bug#476905).
+  * Nack 2.22.1-1.1 NMU.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 20 Apr 2008 15:16:35 +0200
+
+gnome-orca (2.22.1-1) unstable; urgency=low
+
+  * Add debian/patches/04_solaris_specific_fixes.patch again.
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 07 Apr 2008 22:00:25 +0200
+
+gnome-orca (2.22.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Tighten Depends on python-pyatspi to >= 1.22.0.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 11 Mar 2008 19:44:14 +0100
+
 gnome-orca (2.21.91-1) experimental; urgency=low
 
   * Depend on libgail-gnome-module (from Ubuntu gnome-orca package).
