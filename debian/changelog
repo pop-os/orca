@@ -1,3 +1,10 @@
+gnome-orca (2.23.4-1) experimental; urgency=low
+
+  * New upstream release.
+  * Bump Standards-Version to 3.8.0 (no changes).
+
+ -- Mario Lang <mlang@debian.org>  Mon, 16 Jun 2008 21:14:04 +0200
+
 gnome-orca (2.23.3-1) experimental; urgency=low
 
   * New upstream release.
