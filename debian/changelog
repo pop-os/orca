@@ -1,3 +1,9 @@
+gnome-orca (2.24.0-2) UNRELEASED; urgency=low
+
+  * debian/watch: Updated to point to 2.24.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 07 Oct 2008 20:47:37 +0200
+
 gnome-orca (2.24.0-1) experimental; urgency=low
 
   * New upstream release.
