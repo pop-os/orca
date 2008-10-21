@@ -1,8 +1,13 @@
-gnome-orca (2.24.0-2) UNRELEASED; urgency=low
+gnome-orca (2.24.1-1) experimental; urgency=low
 
   * debian/watch: Updated to point to 2.24.
+  * New upstream release.
+  * debian/patches/01_no_default_desktop_item.patch: Updated.
+  * debian/patches/04_solaris_specific_fixes.patch: Updated for new
+    startup script in 2.24.1.
+  * debian/patches/05_remove_pythonpath.patch: Updated.
 
- -- Mario Lang <mlang@debian.org>  Tue, 07 Oct 2008 20:47:37 +0200
+ -- Mario Lang <mlang@debian.org>  Tue, 21 Oct 2008 12:24:36 +0200
 
 gnome-orca (2.24.0-1) experimental; urgency=low
 
