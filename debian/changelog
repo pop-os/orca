@@ -1,15 +1,85 @@
-gnome-orca (2.22.3-1) UNRELEASED; urgency=low
+gnome-orca (2.24.4-1) unstable; urgency=low
+
+  * New upstream release.
+  * Upload to unstable: drop check-dist.mk and adjust Vcs-Svn.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 01 Mar 2009 14:09:21 +0100
+
+gnome-orca (2.24.3-1) experimental; urgency=low
 
   * New upstream release.
 
- -- Mario Lang <mlang@debian.org>  Fri, 08 Aug 2008 02:50:12 +0200
+ -- Mario Lang <mlang@debian.org>  Tue, 13 Jan 2009 19:00:59 +0100
 
-gnome-orca (2.22.2-1) unstable; urgency=low
+gnome-orca (2.24.2-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 30 Nov 2008 21:43:35 +0100
+
+gnome-orca (2.24.1-1) experimental; urgency=low
+
+  * debian/watch: Updated to point to 2.24.
+  * New upstream release.
+  * debian/patches/01_no_default_desktop_item.patch: Updated.
+  * debian/patches/04_solaris_specific_fixes.patch: Updated for new
+    startup script in 2.24.1.
+  * debian/patches/05_remove_pythonpath.patch: Updated.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 21 Oct 2008 12:24:36 +0200
+
+gnome-orca (2.24.0-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 02 Oct 2008 18:45:40 +0200
+
+gnome-orca (2.23.92-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 09 Sep 2008 12:05:34 +0200
+
+gnome-orca (2.23.90-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Wed, 20 Aug 2008 01:24:20 +0200
+
+gnome-orca (2.23.6-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/control{,.in}: Add python-gnome2-desktop to Build-Depends
+    (for wnck).
+
+ -- Mario Lang <mlang@debian.org>  Fri, 08 Aug 2008 02:30:53 +0200
+
+gnome-orca (2.23.4-1) experimental; urgency=low
+
+  * New upstream release.
+  * Bump Standards-Version to 3.8.0 (no changes).
+
+ -- Mario Lang <mlang@debian.org>  Mon, 16 Jun 2008 21:14:04 +0200
+
+gnome-orca (2.23.3-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 02 Jun 2008 20:57:02 +0200
+
+gnome-orca (2.23.2-1) experimental; urgency=low
 
   * New upstream release.
   * debian/patches/04_solaris_specific_fixes.patch: Updated.
 
- -- Mario Lang <mlang@debian.org>  Wed, 28 May 2008 16:41:57 +0200
+ -- Mario Lang <mlang@debian.org>  Mon, 12 May 2008 20:52:30 +0200
+
+gnome-orca (2.23.1-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/patches/04_solaris_specific_fixes.patch: Update.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 22 Apr 2008 00:29:41 +0200
 
 gnome-orca (2.22.1-2) unstable; urgency=low
 
