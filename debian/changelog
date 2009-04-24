@@ -1,9 +1,21 @@
-gnome-orca (2.24.4-1) unstable; urgency=low
+gnome-orca (2.26.1-1) unstable; urgency=low
+
+  * New upstream stable release.
+  * Drop check-dist.mk, adjust Vcs-* and target unstable.
+
+ -- Mario Lang <mlang@debian.org>  Fri, 24 Apr 2009 09:29:55 +0200
+
+gnome-orca (2.25.92-1) experimental; urgency=low
 
   * New upstream release.
-  * Upload to unstable: drop check-dist.mk and adjust Vcs-Svn.
 
- -- Mario Lang <mlang@debian.org>  Sun, 01 Mar 2009 14:09:21 +0100
+ -- Mario Lang <mlang@debian.org>  Mon, 02 Mar 2009 22:45:39 +0100
+
+gnome-orca (2.25.91-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 01 Mar 2009 14:22:07 +0100
 
 gnome-orca (2.24.3-1) experimental; urgency=low
 
