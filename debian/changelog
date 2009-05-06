@@ -1,8 +1,8 @@
-gnome-orca (2.26.1-1) UNRELEASED; urgency=low
+gnome-orca (2.27.1-1) UNRELEASED; urgency=low
 
-  * New upstream stable release.
+  * New upstream release.
 
- -- Mario Lang <mlang@debian.org>  Fri, 24 Apr 2009 08:50:49 +0200
+ -- Mario Lang <mlang@debian.org>  Wed, 06 May 2009 15:23:46 +0200
 
 gnome-orca (2.25.92-1) experimental; urgency=low
 
