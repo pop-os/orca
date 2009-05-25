@@ -1,3 +1,10 @@
+gnome-orca (2.26.2-2) UNRELEASED; urgency=low
+
+  * debian/control.in:
+  - Add intltool >= 0.40.0 to build-dependencies
+
+ -- Gustavo Noronha Silva <gustavo.noronha@collabora.co.uk>  Mon, 25 May 2009 15:10:25 -0300
+
 gnome-orca (2.26.2-1) unstable; urgency=low
 
   * New upstream release.
