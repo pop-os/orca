@@ -1,8 +1,17 @@
-gnome-orca (2.27.1-1) UNRELEASED; urgency=low
+gnome-orca (2.27.2-1) UNRELEASED; urgency=low
 
   * New upstream release.
+  * debian/patches/02_disable_brlmodule.patch: Remove because upstream
+    dropped the old-style brl module.
+  * debian/control{,.in}:
+    - Add liblouis-dev to Build-Depends.
+    - Add new binary package gnome-orca-louis for the internal liblouis
+      bindings so that gnome-orca can stay arch: all.
+    - Upgrade Standards-Version from 3.8.0 to 3.8.1 (no changes).
+  * debian/gnome-orca{.install,-louis.install}: Added to adjust for
+    new -louis binary package.
 
- -- Mario Lang <mlang@debian.org>  Wed, 06 May 2009 15:23:46 +0200
+ -- Mario Lang <mlang@debian.org>  Wed, 27 May 2009 11:03:08 +0200
 
 gnome-orca (2.25.92-1) experimental; urgency=low
 
