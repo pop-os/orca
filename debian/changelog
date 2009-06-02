@@ -1,3 +1,11 @@
+gnome-orca (2.27.2-2) UNRELEASED; urgency=low
+
+  * Fix "gnome-orca_2.27.2-1(hppa/experimental): FTBFS: intltool-update:
+    command not found" by adding intltool (>= 0.40) to Build-Depends.
+    (Closes: #531465)
+
+ -- Mario Lang <mlang@debian.org>  Tue, 02 Jun 2009 19:29:39 +0200
+
 gnome-orca (2.27.2-1) experimental; urgency=low
 
   * New upstream release.
