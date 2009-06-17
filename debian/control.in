@@ -39,7 +39,8 @@ Depends: ${misc:Depends},
          python-brlapi
 Recommends: gnome-mag (>= 0.12.5),
             wget
-Conflicts: gnome-orca-common (<< 2.20.1-2)
+Conflicts: gnome-orca-common (<< 2.20.1-2),
+           python-liblouis
 Replaces: gnome-orca-common (<< 2.20.1-2)
 XB-Python-Version: ${python:Versions}
 Homepage: http://live.gnome.org/Orca
