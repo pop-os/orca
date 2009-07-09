@@ -1,3 +1,11 @@
+gnome-orca (2.27.3-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+  * debian/patches/04_solaris_specific_fixes.patch: Mostly merged
+    upstream.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 09 Jul 2009 10:35:46 +0200
+
 gnome-orca (2.27.2-2) experimental; urgency=low
 
   * Fix "gnome-orca_2.27.2-1(hppa/experimental): FTBFS: intltool-update:
