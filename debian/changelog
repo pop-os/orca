@@ -1,10 +1,13 @@
-gnome-orca (2.27.3-1) UNRELEASED; urgency=low
+gnome-orca (2.27.4-1) UNRELEASED; urgency=low
 
   * New upstream release.
   * debian/patches/04_solaris_specific_fixes.patch: Mostly merged
     upstream.
+  * debian/{control,.in}: (Build-)Depend on python-louis and drop binary
+    package gnome-orca-louis.
+  * debian/gnome-orca-louis.install: Deleted.
 
- -- Mario Lang <mlang@debian.org>  Thu, 09 Jul 2009 10:35:46 +0200
+ -- Mario Lang <mlang@debian.org>  Tue, 14 Jul 2009 15:16:32 +0200
 
 gnome-orca (2.27.2-2) experimental; urgency=low
 

@@ -1,13 +1,13 @@
 Remove solaris specific PATH components.
 
---- orca-2.24.1/src/orca/orca.in.orig	2008-10-15 00:49:59.000000000 +0200
-+++ orca-2.24.1/src/orca/orca.in	2008-10-21 12:01:22.000000000 +0200
+--- orca-2.27.4/src/orca/orca.in.orig	2009-07-14 14:25:08.000000000 +0200
++++ orca-2.27.4/src/orca/orca.in	2009-07-14 14:27:05.000000000 +0200
 @@ -30,7 +30,7 @@
  
  # Set the user's $PATH for this script.
  #
--export PATH="${PATH}:/usr/ccs/bin:/usr/bin:/usr/sbin:/bin:/usr/sfw/bin:/usr/openwin/bin:/usr/X11R6/bin"
-+export PATH="${PATH}:/usr/bin:/usr/sbin:/bin"
+-PATH="${PATH}:/usr/ccs/bin:/usr/bin:/usr/sbin:/bin:/usr/sfw/bin:/usr/openwin/bin:/usr/X11R6/bin"
++PATH="${PATH}:/usr/bin:/usr/sbin:/bin"
+ export PATH
  
  # Save the arguments away.
- #
