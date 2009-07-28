@@ -16,14 +16,13 @@ Build-Depends: cdbs,
                libxml-parser-perl,
                pkg-config,
                python-dev (>= 2.4),
-               python-glade2,
                python-gnome2-dev,
                python-gtk2-dev,
                python-gnome2-desktop,
                python-pyorbit-dev (>= 2.14.0),
                python-support (>= 0.5.6),
                python-louis (>= 1.6.2)
-Standards-Version: 3.8.1
+Standards-Version: 3.8.2
 
 Package: gnome-orca
 Architecture: all
@@ -33,7 +32,6 @@ Depends: ${misc:Depends},
          libgail-gnome-module,
          python-pyatspi (>= 1.22.0),
          python-gtk2 (>= 2.10),
-         python-glade2,
          python-gnome2 (>= 2.6.2),
          python-brlapi,
          python-louis (>= 1.6.2)

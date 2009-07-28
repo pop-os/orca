@@ -1,4 +1,4 @@
-gnome-orca (2.27.4-1) UNRELEASED; urgency=low
+gnome-orca (2.27.5-1) UNRELEASED; urgency=low
 
   * New upstream release.
   * debian/patches/04_solaris_specific_fixes.patch: Mostly merged
@@ -6,9 +6,10 @@ gnome-orca (2.27.4-1) UNRELEASED; urgency=low
   * debian/{control,.in}: (Build-)Depend on python-louis and drop binary
     package gnome-orca-louis.
   * debian/gnome-orca-louis.install: Deleted.
-  * debian/patches/02_remove_errant_comma.patch: Taken from upstream.
+  * Remove python-glade2 from (Build-)Depends.
+  * Upgrade Standards-Version to 3.8.2 (no changes required).
 
- -- Mario Lang <mlang@debian.org>  Wed, 15 Jul 2009 11:02:32 +0200
+ -- Mario Lang <mlang@debian.org>  Tue, 28 Jul 2009 10:25:44 +0200
 
 gnome-orca (2.27.2-2) experimental; urgency=low
 

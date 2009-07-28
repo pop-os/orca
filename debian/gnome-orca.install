@@ -1,7 +1,0 @@
-debian/tmp/usr/bin/*
-debian/tmp/usr/share/applications/*
-debian/tmp/usr/share/icons/*
-debian/tmp/usr/share/locale/*
-debian/tmp/usr/share/orca/*
-debian/tmp/usr/lib/python*/site-packages/orca/*.py
-debian/tmp/usr/lib/python*/site-packages/orca/scripts/*
