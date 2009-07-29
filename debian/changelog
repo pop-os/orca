@@ -8,8 +8,9 @@ gnome-orca (2.27.5-1) UNRELEASED; urgency=low
   * debian/gnome-orca-louis.install: Deleted.
   * Remove python-glade2 from (Build-)Depends.
   * Upgrade Standards-Version to 3.8.2 (no changes required).
+  * Change Maintainer to point to the Debian Accessibility Team.
 
- -- Mario Lang <mlang@debian.org>  Tue, 28 Jul 2009 10:25:44 +0200
+ -- Mario Lang <mlang@debian.org>  Wed, 29 Jul 2009 10:34:50 +0200
 
 gnome-orca (2.27.2-2) experimental; urgency=low
 

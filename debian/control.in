@@ -1,7 +1,7 @@
 Source: gnome-orca
 Section: gnome
 Priority: optional
-Maintainer: Mario Lang <mlang@debian.org>
+Maintainer: Debian Accessibility Team <debian-accessibility@lists.debian.org>
 Uploaders: @GNOME_TEAM@
 Vcs-Svn: svn://svn.debian.org/svn/pkg-gnome/desktop/experimental/gnome-orca
 Build-Depends: cdbs,
