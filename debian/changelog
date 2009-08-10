@@ -1,3 +1,12 @@
+gnome-orca (2.27.90-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/control{,.in}:
+    - Build-Depends: Remove at-spi and libatspi-dev, unneeded.
+    - Build-Depends: Add python-dbus and python-pyatspi.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 10 Aug 2009 23:53:07 +0200
+
 gnome-orca (2.27.5-1) experimental; urgency=low
 
   * New upstream release.
