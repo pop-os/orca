@@ -1,10 +1,13 @@
-gnome-orca (2.26.2-3) UNRELEASED; urgency=low
+gnome-orca (2.26.3-1) unstable; urgency=low
 
   * debian/control{,.in}: Add Conflicts with python-liblouis to prevent
     a python module name clash which results in orca not being
     startable.
+  * New upstream release.
+  * Add Build-Conflicts with liblouis-dev.
+  * Update Standards-Version from 3.8.0 to 3.8.3 (no changes).
 
- -- Mario Lang <mlang@debian.org>  Wed, 17 Jun 2009 12:05:42 +0200
+ -- Mario Lang <mlang@debian.org>  Mon, 17 Aug 2009 13:30:09 +0200
 
 gnome-orca (2.26.2-2) unstable; urgency=low
 
