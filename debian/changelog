@@ -1,3 +1,9 @@
+gnome-orca (2.26.3-2) UNRELEASED; urgency=low
+
+  * Stop build depending on python-gnome2-desktop, it's not needed.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Tue, 01 Sep 2009 20:45:26 +0200
+
 gnome-orca (2.26.3-1) unstable; urgency=low
 
   * debian/control{,.in}: Add Conflicts with python-liblouis to prevent
