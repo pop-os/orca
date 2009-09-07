@@ -1,8 +1,12 @@
-gnome-orca (2.27.91-2) UNRELEASED; urgency=low
+gnome-orca (2.27.92-1) experimental; urgency=low
 
+  [ Emilio Pozuelo Monfort ]
   * Stop build depending on python-gnome2-desktop, it's not needed.
 
- -- Emilio Pozuelo Monfort <pochu@debian.org>  Tue, 01 Sep 2009 20:48:57 +0200
+  [ Mario Lang ]
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 07 Sep 2009 17:00:25 +0200
 
 gnome-orca (2.27.91-1) experimental; urgency=low
 
