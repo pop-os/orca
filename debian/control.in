@@ -1,46 +1,42 @@
 Source: gnome-orca
 Section: gnome
 Priority: optional
-Maintainer: Mario Lang <mlang@debian.org>
+Maintainer: Debian Accessibility Team <debian-accessibility@lists.debian.org>
 Uploaders: @GNOME_TEAM@
 Vcs-Svn: svn://svn.debian.org/svn/pkg-gnome/desktop/unstable/gnome-orca
 Build-Depends: cdbs,
                debhelper (>= 5.0.38),
-               at-spi,
                autotools-dev,
                gnome-pkg-tools (>= 0.10),
                intltool (>= 0.40.0),
-               libatspi-dev (>= 1.18.0),
                libbonobo2-dev (>= 2.18.0),
                libglib2.0-dev (>= 2.10.0),
                libxml-parser-perl,
                pkg-config,
                python-dev (>= 2.4),
-               python-glade2,
+               python-dbus,
                python-gnome2-dev,
                python-gtk2-dev,
+               python-pyatspi,
                python-pyorbit-dev (>= 2.14.0),
-               python-support (>= 0.5.6)
-Build-Conflicts: liblouis-dev
+               python-support (>= 0.5.6),
+               python-louis (>= 1.6.2)
 Standards-Version: 3.8.3
 
 Package: gnome-orca
 Architecture: all
-Section: gnome
-Priority: optional
 Depends: ${misc:Depends},
          ${python:Depends},
          libgnome-speech7 (>= 0.4.11),
          libgail-gnome-module,
-         python-pyatspi (>= 1.22.0),
+         python-pyatspi (>= 1.22.0) | python-pyatspi2,
          python-gtk2 (>= 2.10),
-         python-glade2,
          python-gnome2 (>= 2.6.2),
-         python-brlapi
+         python-brlapi,
+         python-louis (>= 1.6.2)
 Recommends: gnome-mag (>= 0.12.5),
             wget
-Conflicts: gnome-orca-common (<< 2.20.1-2),
-           python-liblouis
+Conflicts: gnome-orca-common (<< 2.20.1-2)
 Replaces: gnome-orca-common (<< 2.20.1-2)
 XB-Python-Version: ${python:Versions}
 Homepage: http://live.gnome.org/Orca
@@ -60,4 +56,3 @@ Description: Scriptable screen reader
  services accessible from within the scripts.
  .
  Note: gnome-orca works without gnome-mag, you just need it for magnification.
-

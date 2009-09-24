@@ -1,40 +1,83 @@
-gnome-orca (2.26.3-2) UNRELEASED; urgency=low
+gnome-orca (2.28.0-1) unstable; urgency=low
 
+  * New major upstream release.
+  * debian/watch: Update to track 2.28.
+  * debian/rules: Drop check-dist.mk to allow uploads to unstable.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 24 Sep 2009 13:55:39 +0200
+
+gnome-orca (2.27.92-2) experimental; urgency=low
+
+  * debian/patches/01_no_default_desktop_item.patch: Removed
+    (Closes: Bug#546830).
+
+ -- Mario Lang <mlang@debian.org>  Thu, 17 Sep 2009 10:01:29 +0200
+
+gnome-orca (2.27.92-1) experimental; urgency=low
+
+  [ Emilio Pozuelo Monfort ]
   * Stop build depending on python-gnome2-desktop, it's not needed.
 
- -- Emilio Pozuelo Monfort <pochu@debian.org>  Tue, 01 Sep 2009 20:45:26 +0200
-
-gnome-orca (2.26.3-1) unstable; urgency=low
-
-  * debian/control{,.in}: Add Conflicts with python-liblouis to prevent
-    a python module name clash which results in orca not being
-    startable.
-  * New upstream release.
-  * Add Build-Conflicts with liblouis-dev.
-  * Update Standards-Version from 3.8.0 to 3.8.3 (no changes).
-
- -- Mario Lang <mlang@debian.org>  Mon, 17 Aug 2009 13:30:09 +0200
-
-gnome-orca (2.26.2-2) unstable; urgency=low
-
-  [ Gustavo Noronha Silva ]
-  * debian/control.in:
-  - Add intltool >= 0.40.0 to build-dependencies (Closes: Bug#531465)
-
- -- Mario Lang <mlang@debian.org>  Fri, 12 Jun 2009 13:45:59 +0200
-
-gnome-orca (2.26.2-1) unstable; urgency=low
-
+  [ Mario Lang ]
   * New upstream release.
 
- -- Mario Lang <mlang@debian.org>  Fri, 22 May 2009 14:48:25 +0200
+ -- Mario Lang <mlang@debian.org>  Mon, 07 Sep 2009 17:00:25 +0200
 
-gnome-orca (2.26.1-1) unstable; urgency=low
+gnome-orca (2.27.91-1) experimental; urgency=low
 
-  * New upstream stable release.
-  * Drop check-dist.mk, adjust Vcs-* and target unstable.
+  * New upstream release.
+  * debian/{control,.in}:
+    - Add python-pyatspi2 as an alternative Depends to python-pyatspi to
+      ease testing of at-spi2 (not in the archive yet).
+    - Bump Standards-Version from 3.8.2 to 3.8.3 (no changes).
 
- -- Mario Lang <mlang@debian.org>  Fri, 24 Apr 2009 09:29:55 +0200
+ -- Mario Lang <mlang@debian.org>  Tue, 25 Aug 2009 16:25:23 +0200
+
+gnome-orca (2.27.90-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/control{,.in}:
+    - Build-Depends: Remove at-spi and libatspi-dev, unneeded.
+    - Build-Depends: Add python-dbus and python-pyatspi.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 10 Aug 2009 23:53:07 +0200
+
+gnome-orca (2.27.5-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/patches/04_solaris_specific_fixes.patch: Mostly merged
+    upstream.
+  * debian/{control,.in}: (Build-)Depend on python-louis and drop binary
+    package gnome-orca-louis.
+  * debian/gnome-orca-louis.install: Deleted.
+  * Remove python-glade2 from (Build-)Depends.
+  * Upgrade Standards-Version to 3.8.2 (no changes required).
+  * Change Maintainer to point to the Debian Accessibility Team.
+
+ -- Mario Lang <mlang@debian.org>  Wed, 29 Jul 2009 10:34:50 +0200
+
+gnome-orca (2.27.2-2) experimental; urgency=low
+
+  * Fix "gnome-orca_2.27.2-1(hppa/experimental): FTBFS: intltool-update:
+    command not found" by adding intltool (>= 0.40) to Build-Depends.
+    (Closes: #531465)
+
+ -- Mario Lang <mlang@debian.org>  Tue, 02 Jun 2009 19:29:39 +0200
+
+gnome-orca (2.27.2-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/patches/02_disable_brlmodule.patch: Remove because upstream
+    dropped the old-style brl module.
+  * debian/control{,.in}:
+    - Add liblouis-dev to Build-Depends.
+    - Add new binary package gnome-orca-louis for the internal liblouis
+      bindings so that gnome-orca can stay arch: all.
+    - Upgrade Standards-Version from 3.8.0 to 3.8.1 (no changes).
+  * debian/gnome-orca{.install,-louis.install}: Added to adjust for
+    new -louis binary package.
+
+ -- Mario Lang <mlang@debian.org>  Wed, 27 May 2009 11:03:08 +0200
 
 gnome-orca (2.25.92-1) experimental; urgency=low
 
