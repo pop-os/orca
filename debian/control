@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Debian Accessibility Team <debian-accessibility@lists.debian.org>
 Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Mario Lang <mlang@debian.org>
 Vcs-Svn: svn://svn.debian.org/svn/pkg-gnome/desktop/unstable/gnome-orca
+Vcs-Browser: http://svn.debian.org/viewsvn/pkg-gnome/desktop/unstable/gnome-orca
 Build-Depends: cdbs,
                debhelper (>= 5.0.38),
                autotools-dev,
