@@ -1,3 +1,9 @@
+gnome-orca (2.28.2-1) unstable; urgency=low
+
+  * New upstream bugfix release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 17 Dec 2009 12:44:03 +0100
+
 gnome-orca (2.28.1-1) unstable; urgency=low
 
   * debian/control{,.in}: Add Vcs-Browser field.
