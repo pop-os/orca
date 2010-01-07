@@ -1,3 +1,9 @@
+gnome-orca (2.28.3-1) unstable; urgency=low
+
+  * New upstream bugfix release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 07 Jan 2010 22:49:41 +0100
+
 gnome-orca (2.28.2-1) unstable; urgency=low
 
   * New upstream bugfix release.
