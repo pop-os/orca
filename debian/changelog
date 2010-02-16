@@ -2,8 +2,10 @@ gnome-orca (2.28.3-2) unstable; urgency=low
 
   * Add liblouis-dev to Build-Depends to fix table directory detection
     (Closes: Bug#570057).
+  * Build-Depend on python instead of python-dev.
+  * Remove mentioning of Sun APO from package description.
 
- -- Mario Lang <mlang@debian.org>  Tue, 16 Feb 2010 10:30:48 +0100
+ -- Mario Lang <mlang@debian.org>  Tue, 16 Feb 2010 10:47:13 +0100
 
 gnome-orca (2.28.3-1) unstable; urgency=low
 
