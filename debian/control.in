@@ -21,7 +21,7 @@ Build-Depends: cdbs,
                python-pyatspi,
                python-pyorbit-dev (>= 2.14.0),
                python-support (>= 0.5.6),
-               python-louis (>= 1.6.2)
+               python-louis (>= 1.6.2), liblouis-dev
 Standards-Version: 3.8.3
 
 Package: gnome-orca
