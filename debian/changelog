@@ -1,4 +1,4 @@
-gnome-orca (2.30.0-1) UNRELEASED; urgency=low
+gnome-orca (2.30.0-1) unstable; urgency=low
 
   * New upstream release.
   * Switch to source format 3.0 (quilt).
