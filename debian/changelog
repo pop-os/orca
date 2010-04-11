@@ -1,3 +1,13 @@
+gnome-orca (2.30.0-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+  * Switch to source format 3.0 (quilt).
+    - Add debian/source/format.
+    - Remove /usr/share/cdbs/1/rules/simple-patchsys.mk include.
+  * Upgrade Standards-Version from 3.8.3 to 3.8.4 (no changes).
+
+ -- Mario Lang <mlang@debian.org>  Sun, 11 Apr 2010 17:30:34 +0200
+
 gnome-orca (2.28.3-2) unstable; urgency=low
 
   * Add liblouis-dev to Build-Depends to fix table directory detection
