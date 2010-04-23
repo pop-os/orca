@@ -1,2 +1,3 @@
 04_solaris_specific_fixes.patch
 05_remove_pythonpath.patch
+11_debian_gdm.patch

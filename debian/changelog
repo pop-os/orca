@@ -1,3 +1,10 @@
+gnome-orca (2.30.0-2) unstable; urgency=low
+
+  * 11_debian_gdm.patch: new patch. The user under which the GDM session 
+    is running is Debian-gdm, not gdm. This causes a security issue.
+
+ -- Josselin Mouette <joss@debian.org>  Fri, 23 Apr 2010 18:07:51 +0200
+
 gnome-orca (2.30.0-1) unstable; urgency=low
 
   * New upstream release.

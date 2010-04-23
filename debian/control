@@ -7,7 +7,7 @@ Source: gnome-orca
 Section: gnome
 Priority: optional
 Maintainer: Debian Accessibility Team <debian-accessibility@lists.debian.org>
-Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Mario Lang <mlang@debian.org>
+Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Josselin Mouette <joss@debian.org>, Mario Lang <mlang@debian.org>
 Vcs-Svn: svn://svn.debian.org/svn/pkg-gnome/desktop/unstable/gnome-orca
 Vcs-Browser: http://svn.debian.org/viewsvn/pkg-gnome/desktop/unstable/gnome-orca
 Build-Depends: cdbs,
