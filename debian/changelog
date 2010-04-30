@@ -1,3 +1,9 @@
+gnome-orca (2.30.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Fri, 30 Apr 2010 10:42:45 +0200
+
 gnome-orca (2.30.0-2) unstable; urgency=low
 
   * 11_debian_gdm.patch: new patch. The user under which the GDM session 
