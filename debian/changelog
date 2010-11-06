@@ -1,3 +1,9 @@
+gnome-orca (2.30.2-2) UNRELEASED; urgency=low
+
+  * Add missing dependency on python-dbus. Closes: #602440.
+
+ -- Josselin Mouette <joss@debian.org>  Sat, 06 Nov 2010 08:10:59 +0100
+
 gnome-orca (2.30.2-1) unstable; urgency=low
 
   * New upstream release.

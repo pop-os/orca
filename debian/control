@@ -39,7 +39,8 @@ Depends: ${misc:Depends},
          python-gtk2 (>= 2.10),
          python-gnome2 (>= 2.6.2),
          python-brlapi,
-         python-louis (>= 1.6.2)
+         python-louis (>= 1.6.2),
+         python-dbus
 Recommends: gnome-mag (>= 0.12.5),
             wget
 Conflicts: gnome-orca-common (<< 2.20.1-2)
