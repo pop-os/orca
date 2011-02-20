@@ -1,0 +1,11 @@
+--- orca-2.91.6/src/orca/orca.in.orig	2011-01-08 00:57:23.000000000 +0100
++++ orca-2.91.6/src/orca/orca.in	2011-02-20 14:20:19.891641922 +0100
+@@ -130,7 +130,7 @@
+ # accessible login.  If we're running as gdm, we assume everything is
+ # all set and we don't need to muck around.
+ #
+-if [ "x$LOGNAME" != "xgdm" ] ; then
++if [ "x$LOGNAME" != "xDebian-gdm" ] ; then
+     ACCESSIBILITY_ENABLED=`gconftool-2 \
+         --get /desktop/gnome/interface/accessibility`
+     if [ "x$ACCESSIBILITY_ENABLED" != "xtrue" ] ; then

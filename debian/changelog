@@ -1,3 +1,86 @@
+gnome-orca (2.91.6-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+  * debian/patches/04_solaris_specific_fixes.patch: Removed.
+  * debian/patches/05_remove_pythonpath.patch,
+    debian/patches/11_debian_gdm.patch: Updated.
+  * debian/pyversions: Bump to 2.6 which is required now.
+  * debian/control{,.in}: Add python-xdg and python-yaml to (Build-)Depends.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 20 Feb 2011 14:31:01 +0100
+
+gnome-orca (2.30.2-2) unstable; urgency=low
+
+  * Add missing dependency on python-dbus. Closes: #576226.
+
+ -- Josselin Mouette <joss@debian.org>  Sat, 06 Nov 2010 22:51:12 +0100
+
+gnome-orca (2.30.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/patches/01_man_errors.patch: Added to fix a few man warnings.
+
+ -- Mario Lang <mlang@debian.org>  Fri, 25 Jun 2010 13:38:29 +0200
+
+gnome-orca (2.30.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Fri, 30 Apr 2010 10:42:45 +0200
+
+gnome-orca (2.30.0-2) unstable; urgency=low
+
+  * 11_debian_gdm.patch: new patch. The user under which the GDM session 
+    is running is Debian-gdm, not gdm. This causes a security issue.
+
+ -- Josselin Mouette <joss@debian.org>  Fri, 23 Apr 2010 18:07:51 +0200
+
+gnome-orca (2.30.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Switch to source format 3.0 (quilt).
+    - Add debian/source/format.
+    - Remove /usr/share/cdbs/1/rules/simple-patchsys.mk include.
+  * Upgrade Standards-Version from 3.8.3 to 3.8.4 (no changes).
+
+ -- Mario Lang <mlang@debian.org>  Sun, 11 Apr 2010 17:30:34 +0200
+
+gnome-orca (2.28.3-2) unstable; urgency=low
+
+  * Add liblouis-dev to Build-Depends to fix table directory detection
+    (Closes: Bug#570057).
+  * Build-Depend on python instead of python-dev.
+  * Remove mentioning of Sun APO from package description.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 16 Feb 2010 10:47:13 +0100
+
+gnome-orca (2.28.3-1) unstable; urgency=low
+
+  * New upstream bugfix release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 07 Jan 2010 22:49:41 +0100
+
+gnome-orca (2.28.2-1) unstable; urgency=low
+
+  * New upstream bugfix release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 17 Dec 2009 12:44:03 +0100
+
+gnome-orca (2.28.1-1) unstable; urgency=low
+
+  * debian/control{,.in}: Add Vcs-Browser field.
+  * New upstream bugfix release.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 20 Oct 2009 21:07:00 +0200
+
+gnome-orca (2.28.0-1) unstable; urgency=low
+
+  * New major upstream release.
+  * debian/watch: Update to track 2.28.
+  * debian/rules: Drop check-dist.mk to allow uploads to unstable.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 24 Sep 2009 13:55:39 +0200
+
 gnome-orca (2.27.92-2) experimental; urgency=low
 
   * debian/patches/01_no_default_desktop_item.patch: Removed
