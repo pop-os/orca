@@ -1,4 +1,4 @@
-gnome-orca (2.91.6-1) UNRELEASED; urgency=low
+gnome-orca (2.91.6-1) experimental; urgency=low
 
   * New upstream release.
   * debian/patches/04_solaris_specific_fixes.patch: Removed.
@@ -6,7 +6,7 @@ gnome-orca (2.91.6-1) UNRELEASED; urgency=low
     debian/patches/11_debian_gdm.patch: Updated.
   * debian/pyversions: Bump to 2.6 which is required now.
   * debian/control{,.in}: Add python-xdg and python-yaml to (Build-)Depends.
-  * * Bump Standards-Version to 3.9.1 (no changes).
+  * Bump Standards-Version to 3.9.1 (no changes).
 
  -- Mario Lang <mlang@debian.org>  Sun, 20 Feb 2011 14:53:46 +0100
 
