@@ -29,7 +29,7 @@ Build-Depends: cdbs,
                python-louis (>= 1.6.2), liblouis-dev,
                python-yaml,
                python-xdg
-Standards-Version: 3.8.4
+Standards-Version: 3.9.1
 
 Package: gnome-orca
 Architecture: all
