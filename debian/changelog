@@ -1,11 +1,12 @@
-gnome-orca (3.0.0-1) UNRELEASED; urgency=low
+gnome-orca (3.0.2-1) UNRELEASED; urgency=low
 
   * New upstream release
   * debian/patches/11_debian_gdm.patch: Updated.
   * debian/control{,.in}: Drop outdated Conflicts/Replaces on
     gnome-orca-common.
+  * Drop python-pyatspi from Build-Depends.
 
- -- Mario Lang <mlang@debian.org>  Sun, 10 Apr 2011 20:56:50 +0200
+ -- Mario Lang <mlang@debian.org>  Fri, 29 Jul 2011 14:41:35 +0200
 
 gnome-orca (2.91.6-1) experimental; urgency=low
 
