@@ -43,7 +43,8 @@ Depends: ${misc:Depends},
          python-dbus,
          python-xdg
 Recommends: gnome-mag (>= 0.12.5),
-            wget
+            wget,
+            brltty-x11
 XB-Python-Version: ${python:Versions}
 Homepage: http://live.gnome.org/Orca
 Description: Scriptable screen reader

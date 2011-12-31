@@ -1,3 +1,9 @@
+gnome-orca (3.0.4-2) UNRELEASED; urgency=low
+
+  * Recommend brltty-x11. Closes: #653663.
+
+ -- Josselin Mouette <joss@debian.org>  Sat, 31 Dec 2011 14:45:39 +0100
+
 gnome-orca (3.0.4-1) experimental; urgency=low
 
   * New upstream release
