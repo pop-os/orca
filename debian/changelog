@@ -1,8 +1,17 @@
-gnome-orca (3.0.4-2) UNRELEASED; urgency=low
+gnome-orca (3.2.2-1) experimental; urgency=low
 
+  [ Josselin Mouette ]
   * Recommend brltty-x11. Closes: #653663.
 
- -- Josselin Mouette <joss@debian.org>  Sat, 31 Dec 2011 14:45:39 +0100
+  [ Jordi Mallach ]
+  * New upstream release.
+  * Update (Build-)Depends with configure.ac requirements for GTK+3.
+  * Update Vcs-* URLs.
+  * Move Homepage to the source paragraph.
+  * Require python >= 2.6, as it includes python-json.
+  * Depend on gir1.2-wnck-3.0.
+
+ -- Jordi Mallach <jordi@debian.org>  Thu, 24 Nov 2011 21:27:30 +0100
 
 gnome-orca (3.0.4-1) experimental; urgency=low
 
