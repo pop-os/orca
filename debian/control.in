@@ -3,7 +3,7 @@ Section: gnome
 Priority: optional
 Maintainer: Debian Accessibility Team <debian-accessibility@lists.debian.org>
 Uploaders: @GNOME_TEAM@
-Build-Depends: cdbs (0.4.90~),
+Build-Depends: cdbs (>= 0.4.90~),
                debhelper (>= 9),
                autotools-dev,
                gnome-doc-utils (>= 0.17.3),
