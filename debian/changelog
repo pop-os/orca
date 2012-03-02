@@ -6,10 +6,12 @@ gnome-orca (3.2.2-1) experimental; urgency=low
   [ Jordi Mallach ]
   * New upstream release.
   * Update (Build-)Depends with configure.ac requirements for GTK+3.
+    Orca no longer depends on GNOME2 libs (closes: #649209).
   * Update Vcs-* URLs.
   * Move Homepage to the source paragraph.
   * Require python >= 2.6, as it includes python-json.
   * Depend on gir1.2-wnck-3.0.
+  * Update and rewrite copyright using format 1.0.
 
  -- Jordi Mallach <jordi@debian.org>  Thu, 24 Nov 2011 21:27:30 +0100
 
