@@ -5,6 +5,7 @@ gnome-orca (3.2.2-1) experimental; urgency=low
 
   [ Jordi Mallach ]
   * New upstream release.
+  * Upload to unstable.
   * Update (Build-)Depends with configure.ac requirements for GTK+3.
     Orca no longer depends on GNOME2 libs (closes: #649209).
   * Update Vcs-* URLs.
