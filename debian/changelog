@@ -1,3 +1,45 @@
+gnome-orca (3.2.2-1) experimental; urgency=low
+
+  [ Josselin Mouette ]
+  * Recommend brltty-x11. Closes: #653663.
+
+  [ Jordi Mallach ]
+  * New upstream release.
+  * Update (Build-)Depends with configure.ac requirements for GTK+3.
+    Orca no longer depends on GNOME2 libs (closes: #649209).
+  * Update Vcs-* URLs.
+  * Move Homepage to the source paragraph.
+  * Require python >= 2.6, as it includes python-json.
+  * Depend on gir1.2-wnck-3.0.
+  * Update and rewrite copyright using format 1.0.
+  * Update Standards-Version to 3.9.3.
+  * Update watch file.
+
+ -- Jordi Mallach <jordi@debian.org>  Thu, 24 Nov 2011 21:27:30 +0100
+
+gnome-orca (3.0.4-1) experimental; urgency=low
+
+  * New upstream release
+  * debian/patches/11_debian_gdm.patch: Updated.
+  * debian/control{,.in}: Drop outdated Conflicts/Replaces on
+    gnome-orca-common.
+  * Drop libbonobo2-dev from Build-Depends.
+  * Add python-pyatspi2 and gnome-doc-utils to Build-Depends.
+
+ -- Mario Lang <mlang@debian.org>  Fri, 29 Jul 2011 17:36:37 +0200
+
+gnome-orca (2.91.6-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/patches/04_solaris_specific_fixes.patch: Removed.
+  * debian/patches/05_remove_pythonpath.patch,
+    debian/patches/11_debian_gdm.patch: Updated.
+  * debian/pyversions: Bump to 2.6 which is required now.
+  * debian/control{,.in}: Add python-xdg and python-yaml to (Build-)Depends.
+  * Bump Standards-Version to 3.9.1 (no changes).
+
+ -- Mario Lang <mlang@debian.org>  Sun, 20 Feb 2011 14:53:46 +0100
+
 gnome-orca (2.30.2-2) unstable; urgency=low
 
   * Add missing dependency on python-dbus. Closes: #576226.
