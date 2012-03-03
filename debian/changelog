@@ -12,6 +12,8 @@ gnome-orca (3.2.2-1) experimental; urgency=low
   * Require python >= 2.6, as it includes python-json.
   * Depend on gir1.2-wnck-3.0.
   * Update and rewrite copyright using format 1.0.
+  * Update Standards-Version to 3.9.3.
+  * Update watch file.
 
  -- Jordi Mallach <jordi@debian.org>  Thu, 24 Nov 2011 21:27:30 +0100
 

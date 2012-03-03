@@ -27,7 +27,7 @@ Build-Depends: cdbs (>= 0.4.90~),
                python-speechd,
                python-support (>= 0.5.6),
                python-xdg
-Standards-Version: 3.9.1
+Standards-Version: 3.9.3
 Vcs-Svn: svn://anonscm.debian.org/svn/pkg-gnome/desktop/unstable/gnome-orca
 Vcs-Browser: http://anonscm.debian.org/viewvc/pkg-gnome/desktop/unstable/gnome-orca
 Homepage: http://live.gnome.org/Orca
@@ -37,7 +37,10 @@ Architecture: all
 Depends: ${misc:Depends},
          ${python:Depends},
          at-spi2-core,
+         gir1.2-gtk-3.0,
+         gir1.2-pango-1.0,
          gir1.2-wnck-3.0,
+         libatk-adaptor,
          python-brlapi,
          python-cairo,
          python-dbus,
