@@ -1,3 +1,9 @@
+gnome-orca (3.2.2-2) unstable; urgency=low
+
+  * Really upload to unstable.
+
+ -- Jordi Mallach <jordi@debian.org>  Sat, 03 Mar 2012 11:11:13 +0100
+
 gnome-orca (3.2.2-1) experimental; urgency=low
 
   [ Josselin Mouette ]
