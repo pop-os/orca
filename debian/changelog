@@ -11,7 +11,7 @@ gnome-orca (3.2.2-1) experimental; urgency=low
   * Update Vcs-* URLs.
   * Move Homepage to the source paragraph.
   * Require python >= 2.6, as it includes python-json.
-  * Depend on gir1.2-wnck-3.0.
+  * Depend on gir1.2-wnck-3.0, gir1.2-gtk-3.0 and gir1.2-pango-1.0.
   * Update and rewrite copyright using format 1.0.
   * Update Standards-Version to 3.9.3.
   * Update watch file.
