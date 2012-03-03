@@ -15,7 +15,7 @@ gnome-orca (3.2.2-1) experimental; urgency=low
   * Update Standards-Version to 3.9.3.
   * Update watch file.
 
- -- Jordi Mallach <jordi@debian.org>  Thu, 24 Nov 2011 21:27:30 +0100
+ -- Jordi Mallach <jordi@debian.org>  Sat, 03 Mar 2012 10:05:44 +0100
 
 gnome-orca (3.0.4-1) experimental; urgency=low
 
