@@ -1,9 +1,11 @@
-gnome-orca (3.2.2-3) UNRELEASED; urgency=low
+gnome-orca (3.3.91-1) UNRELEASED; urgency=low
 
+  * New upstream release.
+  * Update python and at-spi build dependencies.
   * Don't depend on libatk-adaptor and at-spi2-core directly, this will be
     provided by pyatspi2.
 
- -- Jordi Mallach <jordi@debian.org>  Sat, 03 Mar 2012 11:16:00 +0100
+ -- Jordi Mallach <jordi@debian.org>  Thu, 15 Mar 2012 18:00:35 +0100
 
 gnome-orca (3.2.2-2) unstable; urgency=low
 
