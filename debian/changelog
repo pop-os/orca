@@ -1,6 +1,6 @@
 gnome-orca (3.4.0-2) UNRELEASED; urgency=low
 
-  * Add orca_setup_without_desktop.patch, cherripicked from git, to fix
+  * Add orca_setup_without_desktop.patch, cherry-picked from git, to fix
     regression on the text mode configuration when running outside a
     desktop session.
 
