@@ -1,3 +1,10 @@
+gnome-orca (3.4.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Drop 01_orca_setup_without_desktop.patch, obsolete.
+
+ -- Jordi Mallach <jordi@debian.org>  Wed, 18 Apr 2012 18:53:28 +0200
+
 gnome-orca (3.4.0-2) unstable; urgency=low
 
   * Add 01_orca_setup_without_desktop.patch, cherry-picked from git, to fix
