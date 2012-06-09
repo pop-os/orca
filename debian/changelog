@@ -1,3 +1,9 @@
+gnome-orca (3.4.2-2) unstable; urgency=low
+
+  * Recommend xbrlapi instead of brltty-x11 (closes: #653663).
+
+ -- Jordi Mallach <jordi@debian.org>  Sun, 10 Jun 2012 00:42:54 +0200
+
 gnome-orca (3.4.2-1) unstable; urgency=low
 
   * New upstream release.

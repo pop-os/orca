@@ -45,7 +45,7 @@ Depends: ${misc:Depends},
          speech-dispatcher
 Recommends: gnome-mag (>= 0.12.5),
             wget,
-            brltty-x11
+            xbrlapi
 XB-Python-Version: ${python:Versions}
 Description: Scriptable screen reader
  A flexible, extensible, and powerful assistive technology that

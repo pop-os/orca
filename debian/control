@@ -7,7 +7,7 @@ Source: gnome-orca
 Section: gnome
 Priority: optional
 Maintainer: Debian Accessibility Team <debian-accessibility@lists.debian.org>
-Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Jordi Mallach <jordi@debian.org>, Josselin Mouette <joss@debian.org>, Mario Lang <mlang@debian.org>
+Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Jordi Mallach <jordi@debian.org>, Mario Lang <mlang@debian.org>
 Build-Depends: cdbs (>= 0.4.90~),
                debhelper (>= 9),
                autotools-dev,
@@ -50,7 +50,7 @@ Depends: ${misc:Depends},
          speech-dispatcher
 Recommends: gnome-mag (>= 0.12.5),
             wget,
-            brltty-x11
+            xbrlapi
 XB-Python-Version: ${python:Versions}
 Description: Scriptable screen reader
  A flexible, extensible, and powerful assistive technology that
