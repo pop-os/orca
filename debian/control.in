@@ -43,9 +43,7 @@ Depends: ${misc:Depends},
          python-speechd,
          python-xdg,
          speech-dispatcher
-Recommends: gnome-mag (>= 1:0.12.5),
-            wget,
-            xbrlapi
+Recommends: xbrlapi
 XB-Python-Version: ${python:Versions}
 Description: Scriptable screen reader
  A flexible, extensible, and powerful assistive technology that

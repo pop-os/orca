@@ -1,6 +1,7 @@
 gnome-orca (3.4.2-3) UNRELEASED; urgency=low
 
-  * Add missing epoch in gnome-mag dependency.
+  * Remove gnome-mag recommendation.
+  * Same for wget, according to NEWS it is gone.
 
  -- Josselin Mouette <joss@debian.org>  Fri, 06 Jul 2012 09:59:52 +0200
 
