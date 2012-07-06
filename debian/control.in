@@ -43,7 +43,7 @@ Depends: ${misc:Depends},
          python-speechd,
          python-xdg,
          speech-dispatcher
-Recommends: gnome-mag (>= 0.12.5),
+Recommends: gnome-mag (>= 1:0.12.5),
             wget,
             xbrlapi
 XB-Python-Version: ${python:Versions}

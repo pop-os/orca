@@ -1,3 +1,9 @@
+gnome-orca (3.4.2-3) UNRELEASED; urgency=low
+
+  * Add missing epoch in gnome-mag dependency.
+
+ -- Josselin Mouette <joss@debian.org>  Fri, 06 Jul 2012 09:59:52 +0200
+
 gnome-orca (3.4.2-2) unstable; urgency=low
 
   * Recommend xbrlapi instead of brltty-x11 (closes: #653663).
