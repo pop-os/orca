@@ -43,7 +43,7 @@ Depends: ${misc:Depends},
          python-speechd,
          python-xdg,
          speech-dispatcher
-Recommends: xbrlapi
+Recommends: xbrlapi, libgail-common
 XB-Python-Version: ${python:Versions}
 Description: Scriptable screen reader
  A flexible, extensible, and powerful assistive technology that
