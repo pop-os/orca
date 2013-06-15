@@ -1,10 +1,20 @@
-gnome-orca (3.4.2-3) UNRELEASED; urgency=low
+gnome-orca (3.8.1-1) UNRELEASED; urgency=low
 
+  [ Josselin Mouette ]
   * Remove gnome-mag recommendation.
   * Same for wget, according to NEWS it is gone.
   * Recommend libgail-common for gtk2 applications. Closes: #682915.
 
- -- Josselin Mouette <joss@debian.org>  Fri, 06 Jul 2012 09:59:52 +0200
+  [ Jordi Mallach ]
+  * New upstream release.
+  * Remove 05_remove_pythonpath.patch, obsolete.
+  * Update Build-Depends as per configure.ac.
+  * Move everything to depend on python3 packages.
+  * Leave out brlapi and speech-dispatcher support for now as there's no
+    python3 package available.
+  * Move to dh_python3.
+
+ -- Jordi Mallach <jordi@debian.org>  Sat, 15 Jun 2013 00:49:06 +0200
 
 gnome-orca (3.4.2-2) unstable; urgency=low
 

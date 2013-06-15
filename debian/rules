@@ -8,5 +8,4 @@ include /usr/share/gnome-pkg-tools/1/rules/uploaders.mk
 GNOME_MODULE := orca
 
 $(patsubst %,binary-install/%,$(DEB_PACKAGES)) :: binary-install/%:
-	dh_pysupport -p$(cdbs_curpkg)
-
+	dh_python3 -p$(cdbs_curpkg)
