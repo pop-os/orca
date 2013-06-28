@@ -14,6 +14,9 @@ gnome-orca (3.8.1-1) UNRELEASED; urgency=low
     python3 package available.
   * Move to dh_python3.
 
+  [ Jeremy Bicha ]
+  * Update homepage
+
  -- Jordi Mallach <jordi@debian.org>  Sat, 15 Jun 2013 00:49:06 +0200
 
 gnome-orca (3.4.2-2) unstable; urgency=low
