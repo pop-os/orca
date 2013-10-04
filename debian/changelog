@@ -10,8 +10,8 @@ gnome-orca (3.8.1-1) UNRELEASED; urgency=low
   * Remove 05_remove_pythonpath.patch, obsolete.
   * Update Build-Depends as per configure.ac.
   * Move everything to depend on python3 packages.
-  * Leave out brlapi and speech-dispatcher support for now as there's no
-    python3 package available.
+  * Leave out speech-dispatcher support for now as there's no python3
+    package available.
   * Move to dh_python3.
 
   [ Jeremy Bicha ]
