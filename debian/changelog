@@ -1,4 +1,4 @@
-gnome-orca (3.8.1-1) UNRELEASED; urgency=low
+gnome-orca (3.10.2-1) UNRELEASED; urgency=low
 
   [ Josselin Mouette ]
   * Remove gnome-mag recommendation.
@@ -6,7 +6,7 @@ gnome-orca (3.8.1-1) UNRELEASED; urgency=low
   * Recommend libgail-common for gtk2 applications. Closes: #682915.
 
   [ Jordi Mallach ]
-  * New upstream release.
+  * New upstream release (3.8.1).
   * Remove 05_remove_pythonpath.patch, obsolete.
   * Update Build-Depends as per configure.ac.
   * Move everything to depend on python3 packages.
@@ -16,6 +16,9 @@ gnome-orca (3.8.1-1) UNRELEASED; urgency=low
 
   [ Jeremy Bicha ]
   * Update homepage
+
+  [ Emilio Pozuelo Monfort ]
+  * New upstream release (3.10.2).
 
  -- Jordi Mallach <jordi@debian.org>  Sat, 15 Jun 2013 00:49:06 +0200
 
