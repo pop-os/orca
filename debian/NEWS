@@ -5,5 +5,10 @@ gnome-orca (3.10.2-1) UNRELEASED; urgency=low
     shortcut for it still works, which is Orca+Space, where the Orca key
     is the insert key by default. The new command to toggle Orca on and off
     is Super+Alt+S, but gnome-settings-daemon 3.10 is needed for that.
+    The command to quit Orca is still available, but it is unbound by
+    default. If you are not using gnome-settings-daemon 3.10, you can
+    rebind this Orca command from within the Preferences dialog, as
+    explained in:
+    https://help.gnome.org/users/orca/stable/howto_key_bindings.html
 
  -- Emilio Pozuelo Monfort <pochu@debian.org>  Fri, 21 Feb 2014 19:24:19 +0100
