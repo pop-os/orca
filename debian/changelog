@@ -21,6 +21,8 @@ gnome-orca (3.10.2-1) UNRELEASED; urgency=low
   * New upstream release (3.10.2).
   * debian/control.in:
     + Update build dependencies.
+    + Tighten dependency on speech-dispatcher to >= 0.8, otherwise
+      Orca won't work.
 
  -- Jordi Mallach <jordi@debian.org>  Sat, 15 Jun 2013 00:49:06 +0200
 

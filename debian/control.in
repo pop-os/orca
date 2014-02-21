@@ -37,8 +37,8 @@ Depends: ${misc:Depends},
          python3-gi (>= 3.4.2),
          python3-louis (>= 1.6.2),
          python3-pyatspi (>= 2.6),
-         python3-speechd,
-         speech-dispatcher
+         python3-speechd (>= 0.8),
+         speech-dispatcher (>= 0.8),
 Recommends: xbrlapi, libgail-common
 Description: Scriptable screen reader
  A flexible, extensible, and powerful assistive technology that
