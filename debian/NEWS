@@ -1,0 +1,9 @@
+gnome-orca (3.10.2-1) UNRELEASED; urgency=low
+
+  * Orca no longer shows a window with a preferences and a quit button
+    while it is running. If you want to open the preferences, the keyboard
+    shortcut for it still works, which is Orca+Space, where the Orca key
+    is the insert key by default. The new command to toggle Orca on and off
+    is Super+Alt+S, but gnome-settings-daemon 3.10 is needed for that.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Fri, 21 Feb 2014 19:24:19 +0100

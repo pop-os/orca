@@ -23,6 +23,8 @@ gnome-orca (3.10.2-1) UNRELEASED; urgency=low
     + Update build dependencies.
     + Tighten dependency on speech-dispatcher to >= 0.8, otherwise
       Orca won't work.
+  * debian/NEWS:
+    + Explain what's happened to the Orca window.
 
  -- Jordi Mallach <jordi@debian.org>  Sat, 15 Jun 2013 00:49:06 +0200
 
