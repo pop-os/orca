@@ -1,21 +1,19 @@
 gnome-orca (3.10.2-1) UNRELEASED; urgency=low
 
   [ Josselin Mouette ]
-  * Remove gnome-mag recommendation.
+  * Remove gnome-mag recommendation (Closes: #712483)
   * Same for wget, according to NEWS it is gone.
-  * Recommend libgail-common for gtk2 applications. Closes: #682915.
+  * Recommend libgail-common for gtk2 applications.
 
   [ Jordi Mallach ]
-  * New upstream release (3.8.1).
+  * New upstream release (3.8.1). (Closes: #683352)
   * Remove 05_remove_pythonpath.patch, obsolete.
   * Update Build-Depends as per configure.ac.
   * Move everything to depend on python3 packages.
-  * Leave out speech-dispatcher support for now as there's no python3
-    package available.
   * Move to dh_python3.
 
   [ Jeremy Bicha ]
-  * Update homepage
+  * Update homepage (Closes: #732975)
 
   [ Emilio Pozuelo Monfort ]
   * New upstream release (3.10.2).
@@ -25,6 +23,11 @@ gnome-orca (3.10.2-1) UNRELEASED; urgency=low
       Orca won't work.
   * debian/NEWS:
     + Explain what's happened to the Orca window.
+
+  [ Paul Gevers ]
+  * Package now depends on python3-speechd (Closes: #739188)
+  * Bump Standards-Version to 3.9.5 (no changes needed)
+  * Add bug numbers in this changelog entry where appropriate
 
  -- Jordi Mallach <jordi@debian.org>  Sat, 15 Jun 2013 00:49:06 +0200
 
