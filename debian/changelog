@@ -1,4 +1,6 @@
-gnome-orca (3.10.2-1) UNRELEASED; urgency=low
+gnome-orca (3.10.2-1) unstable; urgency=low
+
+  * team upload
 
   [ Josselin Mouette ]
   * Remove gnome-mag recommendation (Closes: #712483)
@@ -29,7 +31,7 @@ gnome-orca (3.10.2-1) UNRELEASED; urgency=low
   * Bump Standards-Version to 3.9.5 (no changes needed)
   * Add bug numbers in this changelog entry where appropriate
 
- -- Jordi Mallach <jordi@debian.org>  Sat, 15 Jun 2013 00:49:06 +0200
+ -- Paul Gevers <elbrus@debian.org>  Sun, 23 Feb 2014 09:13:13 +0100
 
 gnome-orca (3.4.2-2) unstable; urgency=low
 
