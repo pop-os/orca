@@ -1,4 +1,4 @@
-gnome-orca (3.11.92-1) UNRELEASED; urgency=low
+gnome-orca (3.11.92-1) experimental; urgency=low
 
   [ Emilio Pozuelo Monfort ]
   * debian/control.in:
