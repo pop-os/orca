@@ -1,4 +1,16 @@
-gnome-orca (3.11.92-1) experimental; urgency=low
+gnome-orca (3.13.3-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 17 Jul 2014 07:38:22 +0200
+
+gnome-orca (3.12.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Andreas Henriksson <andreas@fatal.se>  Fri, 09 May 2014 21:07:17 +0200
+
+gnome-orca (3.12.0-1) unstable; urgency=low
 
   [ Emilio Pozuelo Monfort ]
   * debian/control.in:
@@ -6,9 +18,9 @@ gnome-orca (3.11.92-1) experimental; urgency=low
       keys. Closes: #741211.
 
   [ Mario Lang ]
-  * New version.
+  * New upstream release.
 
- -- Mario Lang <mlang@debian.org>  Fri, 21 Mar 2014 11:03:09 +0100
+ -- Mario Lang <mlang@debian.org>  Wed, 26 Mar 2014 09:02:03 +0100
 
 gnome-orca (3.10.2-1) unstable; urgency=low
 
