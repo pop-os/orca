@@ -1,3 +1,9 @@
+gnome-orca (3.12.2-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 17 Jul 2014 07:38:22 +0200
+
 gnome-orca (3.12.1-1) unstable; urgency=medium
 
   * New upstream release.
