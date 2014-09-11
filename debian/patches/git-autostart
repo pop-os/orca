@@ -1,0 +1,23 @@
+commit 2f96c19d89c1e50423adb090cf3a36d3f5c8c4ea
+Author: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Date:   Sun Sep 7 18:41:52 2014 -0400
+
+    Fix for bug 736237 - Enable orca autostart on XFCE, LXDE, MATE
+
+commit 89de8f82069f7fcc8289e9b426634728796d11e9
+Author: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Date:   Thu Sep 11 14:28:51 2014 -0400
+
+    Tweak for the fix for bug 736237 - Enable autostart on additional DEs
+    
+    Apparently LXDE and XFCE don't implement AutoStartCondition, so remove them.
+    Cinnamon does, so add it.
+
+--- a/orca-autostart.desktop.in
++++ b/orca-autostart.desktop.in
+@@ -6,4 +6,4 @@ NoDisplay=true
+ AutostartCondition=GSettings org.gnome.desktop.a11y.applications screen-reader-enabled
+ X-GNOME-AutoRestart=true
+ #X-GNOME-Autostart-Phase=Initialization
+-OnlyShowIn=GNOME;Unity;
++OnlyShowIn=GNOME;MATE;Unity;Cinnamon;
