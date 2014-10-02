@@ -5,6 +5,9 @@ gnome-orca (3.14.0-1) UNRELEASED; urgency=medium
     - Autostart orca in MATE and Cinnamon too. Closes: #760777.
   * Bump Standards-Version to 3.9.6 (no changes).
 
+  [ Michael Biebl ]
+  * Bump required version of python-gi to (>= 3.10) as per configure.ac.
+
  -- Samuel Thibault <sthibault@debian.org>  Thu, 11 Sep 2014 00:59:22 +0200
 
 gnome-orca (3.13.90-1) experimental; urgency=low
