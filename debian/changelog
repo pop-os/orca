@@ -1,7 +1,8 @@
-gnome-orca (3.12.2-2) UNRELEASED; urgency=medium
+gnome-orca (3.14.0-1) UNRELEASED; urgency=medium
 
-  * patches/git-autostart: Port from 3.12 branch: autostart orca in MATE and
-    Cinnamon too. Closes: #760777.
+  [ Samuel Thibault ]
+  * New upstream release.
+    - Autostart orca in MATE and Cinnamon too. Closes: #760777.
   * Bump Standards-Version to 3.9.6 (no changes).
 
  -- Samuel Thibault <sthibault@debian.org>  Thu, 11 Sep 2014 00:59:22 +0200
