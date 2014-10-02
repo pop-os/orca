@@ -22,7 +22,7 @@ X-Python3-Version: >= 3.3
 Standards-Version: 3.9.6
 Vcs-Svn: svn://anonscm.debian.org/pkg-gnome/desktop/unstable/gnome-orca
 Vcs-Browser: http://anonscm.debian.org/viewvc/pkg-gnome/desktop/unstable/gnome-orca
-Homepage: https://wiki.gnome.org/Orca
+Homepage: https://wiki.gnome.org/Projects/Orca
 
 Package: gnome-orca
 Architecture: all

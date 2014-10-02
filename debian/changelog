@@ -7,6 +7,7 @@ gnome-orca (3.14.0-1) UNRELEASED; urgency=medium
 
   [ Michael Biebl ]
   * Bump required version of python-gi to (>= 3.10) as per configure.ac.
+  * Update Homepage: URL.
 
  -- Samuel Thibault <sthibault@debian.org>  Thu, 11 Sep 2014 00:59:22 +0200
 
