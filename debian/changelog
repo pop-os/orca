@@ -1,6 +1,6 @@
 gnome-orca (3.14.0-2) unstable; urgency=medium
 
-  * Add myself as uploader.
+  * Team upload.
   * patches/mate-notifications.diff: New patch to fix notifications in MATE.
     Closes: #757847.
   * orca-dm-wrapper: New script to start Orca in lightdm.
