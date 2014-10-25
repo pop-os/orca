@@ -1,3 +1,10 @@
+gnome-orca (3.14.0-2) UNRELEASED; urgency=medium
+
+  * patches/git-409ebbc2: New patch from upstream to make MATE's Marco handled
+    like metacity. Almost fixes bug #757852.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 25 Oct 2014 12:51:12 +0200
+
 gnome-orca (3.14.0-1) unstable; urgency=medium
 
   [ Samuel Thibault ]
