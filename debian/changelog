@@ -2,6 +2,7 @@ gnome-orca (3.14.0-2) UNRELEASED; urgency=medium
 
   * patches/mate-notifications.diff: New patch to fix notifications in MATE.
     Closes: #757847.
+  * orca-dm-wrapper: New script to start Orca in lightdm.
 
  -- Samuel Thibault <sthibault@debian.org>  Sat, 25 Oct 2014 12:51:12 +0200
 
