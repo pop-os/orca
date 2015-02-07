@@ -1,0 +1,18 @@
+--- a/src/orca/braille.py	2014-09-18 14:43:51.000000000 +0200
++++ b/src/orca/braille.py	2015-02-02 00:19:04.215929615 +0100
+@@ -1719,6 +1719,15 @@
+                 "Braille module has been initialized using WINDOWPATH=" \
+                 + "%s" % windowPath)
+         except:
++          try:
++            vtnr = os.environ["XDG_VTNR"]
++            _brlAPI.enterTtyModeWithPath()
++            _brlAPIRunning = True
++            debug.println(\
++                debug.LEVEL_CONFIGURATION,
++                "Braille module has been initialized using XDG_VTNR=" \
++                + "%s" % vtnr)
++          except:
+             _brlAPI.enterTtyMode(tty)
+             _brlAPIRunning = True
+             debug.println(\
