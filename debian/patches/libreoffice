@@ -1,0 +1,22 @@
+commit 9dc9b6dc8b6bb4d7092e2c0ad6e7973340fa023a
+Author: Joanmarie Diggs <jdiggs@igalia.com>
+Date:   Mon Feb 9 13:02:00 2015 -0500
+
+    Work around another case of dead LibreOffice accessible objects
+
+diff --git a/src/orca/scripts/apps/soffice/script_utilities.py b/src/orca/scripts/apps/soffice/script_utilities.py
+index 3409e73..0e3508f 100644
+--- a/src/orca/scripts/apps/soffice/script_utilities.py
++++ b/src/orca/scripts/apps/soffice/script_utilities.py
+@@ -83,7 +83,10 @@ class Utilities(script_utilities.Utilities):
+             if text.strip():
+                 return text
+ 
+-        text = script_utilities.Utilities.displayedText(self, obj)
++        try:
++            text = script_utilities.Utilities.displayedText(self, obj)
++        except:
++            return ""
+ 
+         # TODO - JD: This is needed because the default behavior is to fall
+         # back on the name, which is bogus. Once that has been fixed, this
