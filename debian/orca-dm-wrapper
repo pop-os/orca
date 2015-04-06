@@ -1,0 +1,4 @@
+#!/bin/sh
+/usr/lib/at-spi2-core/at-spi-bus-launcher --launch-immediately &
+orca --replace --no-setup --disable splash-window &
+exec $*

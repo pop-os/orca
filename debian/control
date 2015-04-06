@@ -2,12 +2,11 @@
 # 
 # Modifications should be made to debian/control.in instead.
 # This file is regenerated automatically in the clean target.
-
 Source: gnome-orca
 Section: gnome
 Priority: optional
 Maintainer: Debian Accessibility Team <debian-accessibility@lists.debian.org>
-Uploaders: Andreas Henriksson <andreas@fatal.se>, Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Jordi Mallach <jordi@debian.org>, Mario Lang <mlang@debian.org>
+Uploaders: Andreas Henriksson <andreas@fatal.se>, Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Mario Lang <mlang@debian.org>, Michael Biebl <biebl@debian.org>
 Build-Depends: cdbs (>= 0.4.90~),
                debhelper (>= 9),
                autotools-dev,
@@ -17,17 +16,17 @@ Build-Depends: cdbs (>= 0.4.90~),
                libatspi2.0-dev (>= 2.10),
                pkg-config,
                python3 (>= 3.3),
-               python-gi-dev (>= 3.4.2),
+               python-gi-dev (>= 3.10),
                python3-brlapi (>= 0.5.1),
                python3-louis (>= 1.6.2), liblouis-dev,
                python3-pyatspi (>= 2.10),
                python3-speechd (>= 0.8),
                yelp-tools
 X-Python3-Version: >= 3.3
-Standards-Version: 3.9.5
+Standards-Version: 3.9.6
 Vcs-Svn: svn://anonscm.debian.org/pkg-gnome/desktop/unstable/gnome-orca
 Vcs-Browser: http://anonscm.debian.org/viewvc/pkg-gnome/desktop/unstable/gnome-orca
-Homepage: https://wiki.gnome.org/Orca
+Homepage: https://wiki.gnome.org/Projects/Orca
 
 Package: gnome-orca
 Architecture: all
@@ -39,7 +38,7 @@ Depends: ${misc:Depends},
          gir1.2-wnck-3.0,
          python3-brlapi (>= 0.5.1),
          python3-cairo,
-         python3-gi (>= 3.4.2),
+         python3-gi (>= 3.10),
          python3-louis (>= 1.6.2),
          python3-pyatspi (>= 2.10),
          python3-speechd (>= 0.8),

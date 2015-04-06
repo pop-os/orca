@@ -1,3 +1,50 @@
+gnome-orca (3.16.0-1) experimental; urgency=low
+
+  * New upstream release.
+  * Drop debian/patches/lightdm, merged upstream.
+  * Drop debian/patches/libreoffice, from upstream.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 06 Apr 2015 18:40:38 +0200
+
+gnome-orca (3.14.0-4) unstable; urgency=medium
+
+  * Team upload.
+  * patches/libreoffice: New patch to fix various issues with LibreOffice.
+    Closes: #766686.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 15 Feb 2015 23:51:25 +0100
+
+gnome-orca (3.14.0-3) unstable; urgency=medium
+
+  * Team upload.
+  * patches/lightdm: New patch to fix braille output when using lightdm.
+    Closes: #777378.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 07 Feb 2015 20:36:45 +0100
+
+gnome-orca (3.14.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * patches/mate-notifications.diff: New patch to fix notifications in MATE.
+    Closes: #757847.
+  * orca-dm-wrapper: New script to start Orca in lightdm.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 25 Oct 2014 23:34:35 +0200
+
+gnome-orca (3.14.0-1) unstable; urgency=medium
+
+  [ Samuel Thibault ]
+  * New upstream release.
+    - Autostart orca in MATE and Cinnamon too. Closes: #760777.
+  * Bump Standards-Version to 3.9.6 (no changes).
+
+  [ Michael Biebl ]
+  * Bump required version of python-gi to (>= 3.10) as per configure.ac.
+  * Update Homepage: URL.
+  * Upload to unstable.
+
+ -- Michael Biebl <biebl@debian.org>  Thu, 02 Oct 2014 16:29:10 +0200
+
 gnome-orca (3.13.90-1) experimental; urgency=low
 
   * New upstream release.
@@ -5,6 +52,12 @@ gnome-orca (3.13.90-1) experimental; urgency=low
  -- Mario Lang <mlang@debian.org>  Mon, 25 Aug 2014 11:19:47 +0200
 
 gnome-orca (3.13.3-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 17 Jul 2014 07:38:22 +0200
+
+gnome-orca (3.12.2-1) unstable; urgency=low
 
   * New upstream release.
 
