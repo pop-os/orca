@@ -1,3 +1,9 @@
+gnome-orca (3.16.1-1) experimental; urgency=low
+
+  * New upstream release (Closes: Bug#782979):
+
+ -- Mario Lang <mlang@debian.org>  Wed, 22 Apr 2015 12:04:15 +0200
+
 gnome-orca (3.16.0-1) experimental; urgency=low
 
   * New upstream release.
