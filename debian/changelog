@@ -1,3 +1,23 @@
+gnome-orca (3.16.1-2) unstable; urgency=low
+
+  * Upload to unstable.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 28 Apr 2015 23:14:06 +0200
+
+gnome-orca (3.16.1-1) experimental; urgency=low
+
+  * New upstream release (Closes: Bug#782979):
+
+ -- Mario Lang <mlang@debian.org>  Wed, 22 Apr 2015 12:04:15 +0200
+
+gnome-orca (3.16.0-1) experimental; urgency=low
+
+  * New upstream release.
+  * Drop debian/patches/lightdm, merged upstream.
+  * Drop debian/patches/libreoffice, from upstream.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 06 Apr 2015 18:40:38 +0200
+
 gnome-orca (3.14.0-4) unstable; urgency=medium
 
   * Team upload.
