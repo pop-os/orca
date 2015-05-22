@@ -1,3 +1,9 @@
+gnome-orca (3.16.2-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Fri, 22 May 2015 09:41:07 +0200
+
 gnome-orca (3.16.1-2) unstable; urgency=low
 
   * Upload to unstable.
