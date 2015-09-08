@@ -1,0 +1,26 @@
+commit 20ff3868c329eee502241e9d08baa911279d5a0b
+Author: José Vilmar Estácio de Souza <vilmar@invormal.com.br>
+Date:   Sun Sep 6 00:30:59 2015 -0300
+
+    Add save messages to notification-daemon script
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=754653
+
+diff --git a/src/orca/scripts/apps/notification-daemon/script.py b/src/orca/scripts/apps/notification-daemon/script.py
+index 5c229e0..9680b62 100644
+--- a/src/orca/scripts/apps/notification-daemon/script.py
++++ b/src/orca/scripts/apps/notification-daemon/script.py
+@@ -30,7 +30,7 @@ import pyatspi
+ import orca.messages as messages
+ import orca.scripts.default as default
+ import orca.speech as speech
+-
++import orca.notification_messages as notification_messages
+ 
+ ########################################################################
+ #                                                                      #
+@@ -47,3 +47,4 @@ class Script(default.Script):
+         texts = [self.utilities.displayedText(acc) for acc in a]
+         text = '%s %s' % (messages.NOTIFICATION, ' '.join(texts))
+         speech.speak(text, None, True)
++        notification_messages.saveMessage(text)
