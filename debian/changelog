@@ -1,3 +1,10 @@
+gnome-orca (3.18.0-1) unstable; urgency=low
+
+  * New upstream release.
+    - Drop patch upstream-e292943.diff (merged upstream).
+
+ -- Mario Lang <mlang@debian.org>  Tue, 06 Oct 2015 11:15:44 +0200
+
 gnome-orca (3.16.2-2) unstable; urgency=medium
 
   * Fix "Binding to report notifications does not work" by
