@@ -1,5 +1,6 @@
 gnome-orca (3.18.0-2) unstable; urgency=medium
 
+  * Team upload.
   * orca-dm-wrapper: do not start the at-spi bus ourself, lightdm-gtk-greeter
     2.0.0 now does it by itself.
   * patches/password-not-spoken.diff: Make sure to bring focus on password
