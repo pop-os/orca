@@ -2,6 +2,8 @@ gnome-orca (3.18.0-2) UNRELEASED; urgency=medium
 
   * orca-dm-wrapper: do not start the at-spi bus ourself, lightdm-gtk-greeter
     2.0.0 now does it by itself.
+  * patches/password-not-spoken.diff: Make sure to bring focus on password
+    entry when typing a key, so we don't echo it. (Closes: #800602)
 
  -- Samuel Thibault <sthibault@debian.org>  Sun, 18 Oct 2015 16:22:16 +0200
 
