@@ -1,4 +1,4 @@
-gnome-orca (3.18.2-1) UNRELEASED; urgency=low
+gnome-orca (3.18.2-1) unstable; urgency=low
 
   * New upstream release.
   * debian/patches/password-not-spoken.diff: Remove, merged upstream.
