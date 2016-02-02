@@ -1,3 +1,9 @@
+gnome-orca (3.18.2-2) UNRELEASED; urgency=medium
+
+  * control: Bump Standards-Version to 3.9.7 (no change).
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 02 Feb 2016 01:58:02 +0100
+
 gnome-orca (3.18.2-1) unstable; urgency=low
 
   * New upstream release.
