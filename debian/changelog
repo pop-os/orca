@@ -1,4 +1,4 @@
-gnome-orca (3.20.0-1) UNRELEASED; urgency=low
+gnome-orca (3.20.0-1) unstable; urgency=low
 
   [ Samuel Thibault ]
   * control: Bump Standards-Version to 3.9.7 (no change).
