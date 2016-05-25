@@ -1,7 +1,7 @@
-Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: orca
 Upstream-Contact: Joanmarie Diggs <joanmarie.diggs@gmail.com>
-Source: http://download.gnome.org/sources/orca/
+Source: https://download.gnome.org/sources/orca/
 
 Files: *
 Copyright:  2010-2012 The Orca Team
