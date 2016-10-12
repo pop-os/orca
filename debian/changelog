@@ -1,8 +1,9 @@
-gnome-orca (3.20.2-2) UNRELEASED; urgency=medium
+gnome-orca (3.22.1-1) unstable; urgency=medium
 
+  * New upstream release.
   * control: Update uploader.
 
- -- Samuel Thibault <sthibault@debian.org>  Sat, 08 Oct 2016 16:20:01 +0200
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 13 Oct 2016 00:19:43 +0200
 
 gnome-orca (3.20.2-1) unstable; urgency=low
 
