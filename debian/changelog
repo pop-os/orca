@@ -1,3 +1,9 @@
+gnome-orca (3.22.2-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 12 Nov 2016 14:33:58 +0100
+
 gnome-orca (3.22.1-1) unstable; urgency=medium
 
   * New upstream release.
