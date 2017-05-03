@@ -1,3 +1,16 @@
+gnome-orca (3.22.2-3) unstable; urgency=medium
+
+  * Team upload.
+  * cherry-pick upstream commits to prevent Synaptic (and other badly
+    behaving binaries) from causing harm to the Orca experience:
+    - edbfafbd89409bfb1e4a4e3a9339c0b2de7435d6
+    - d51f87a7f000d099da98247dc7ca337b2b5483be
+    - 382c5408afc7dd25f9b477a5e30c50ba917155c0
+    - ea02cc2d268348c22ffe8c23099f6b023d4c90a7
+    (Closes: #859262)
+
+ -- Paul Gevers <elbrus@debian.org>  Wed, 03 May 2017 20:21:45 +0200
+
 gnome-orca (3.22.2-2) unstable; urgency=medium
 
   * git-0da4c2ed3d4dedb2229e542ff47257f1d2ab1a50: cherry-pick upstream fix for
