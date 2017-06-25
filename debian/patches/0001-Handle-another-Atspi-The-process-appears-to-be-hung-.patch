@@ -12,7 +12,7 @@ Index: gnome-orca/src/orca/scripts/default.py
 ===================================================================
 --- gnome-orca.orig/src/orca/scripts/default.py
 +++ gnome-orca/src/orca/scripts/default.py
-@@ -2652,9 +2652,21 @@ class Script(script.Script):
+@@ -2671,9 +2671,21 @@ class Script(script.Script):
  
          obj = event.source
          role = obj.getRole()
@@ -36,7 +36,7 @@ Index: gnome-orca/src/orca/scripts/default.py
              return
  
          isProgressBarUpdate, msg = self.utilities.isProgressBarUpdate(obj, event)
-@@ -2666,7 +2678,7 @@ class Script(script.Script):
+@@ -2685,7 +2697,7 @@ class Script(script.Script):
              debug.println(debug.LEVEL_INFO, msg, True)
              return
  

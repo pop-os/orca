@@ -12,7 +12,7 @@ Index: gnome-orca/src/orca/generator.py
 ===================================================================
 --- gnome-orca.orig/src/orca/generator.py
 +++ gnome-orca/src/orca/generator.py
-@@ -178,6 +178,12 @@ class Generator:
+@@ -181,6 +181,12 @@ class Generator:
          - forceTutorial: boolean (default=False) which says if we
            should force a tutorial to be spoken or not
          """

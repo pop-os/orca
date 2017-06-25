@@ -11,7 +11,7 @@ Index: gnome-orca/src/orca/script_utilities.py
 ===================================================================
 --- gnome-orca.orig/src/orca/script_utilities.py
 +++ gnome-orca/src/orca/script_utilities.py
-@@ -1124,7 +1124,7 @@ class Utilities:
+@@ -1159,7 +1159,7 @@ class Utilities:
  
          layoutOnly = False
  
