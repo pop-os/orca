@@ -4,6 +4,9 @@ gnome-orca (3.26.0-1) UNRELEASED; urgency=medium
   * New upstream release
   * Switch to dh
   * Bump debhelper compat to 10
+  * debian/control.in:
+    - Bump python-gobject to >= 3.18
+    - Bump python3-pyatspi and at-spi2-atk to >= 2.18
   * Drop patches applied in new release:
     - 0001-Return-immediately-in-isLayoutOnly-if-obj-is-dead.patch
     - 0001-Handle-another-Atspi-The-process-appears-to-be-hung-.patch

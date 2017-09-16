@@ -6,19 +6,20 @@ Source: gnome-orca
 Section: gnome
 Priority: optional
 Maintainer: Debian Accessibility Team <pkg-a11y-devel@lists.alioth.debian.org>
-Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>, Samuel Thibault <sthibault@debian.org>
+Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>
+           Samuel Thibault <sthibault@debian.org>, Jeremy Bicha <jbicha@debian.org>, Jordi Mallach <jordi@debian.org>, Michael Biebl <biebl@debian.org>
 Build-Depends: debhelper (>= 10),
                dh-python,
                gnome-pkg-tools (>= 0.10),
                intltool (>= 0.50.0),
-               libatk-bridge2.0-dev (>= 2.10),
-               libatspi2.0-dev (>= 2.10),
+               libatk-bridge2.0-dev (>= 2.18),
+               libatspi2.0-dev (>= 2.18),
                pkg-config,
                python3 (>= 3.3),
-               python-gi-dev (>= 3.10),
+               python-gi-dev (>= 3.18),
                python3-brlapi (>= 0.5.1),
                python3-louis (>= 1.6.2), liblouis-dev,
-               python3-pyatspi (>= 2.10),
+               python3-pyatspi (>= 2.18),
                python3-speechd (>= 0.8),
                yelp-tools
 X-Python3-Version: >= 3.3
@@ -37,9 +38,9 @@ Depends: ${misc:Depends},
          gir1.2-wnck-3.0,
          python3-brlapi (>= 0.5.1),
          python3-cairo,
-         python3-gi (>= 3.10),
+         python3-gi (>= 3.18),
          python3-louis (>= 1.6.2),
-         python3-pyatspi (>= 2.10),
+         python3-pyatspi (>= 2.18),
          python3-speechd (>= 0.8),
          speech-dispatcher (>= 0.8),
          gsettings-desktop-schemas,
