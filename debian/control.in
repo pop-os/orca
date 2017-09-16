@@ -2,7 +2,7 @@ Source: gnome-orca
 Section: gnome
 Priority: optional
 Maintainer: Debian Accessibility Team <pkg-a11y-devel@lists.alioth.debian.org>
-Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>
+Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>,
            Samuel Thibault <sthibault@debian.org>, @GNOME_TEAM@
 Build-Depends: debhelper (>= 10),
                dh-python,
