@@ -2,6 +2,11 @@ gnome-orca (3.26.0-1) UNRELEASED; urgency=medium
 
   [ Jeremy Bicha ]
   * New upstream release
+  * Drop patches applied in new release:
+    - 0001-Return-immediately-in-isLayoutOnly-if-obj-is-dead.patch
+    - 0001-Handle-another-Atspi-The-process-appears-to-be-hung-.patch
+    - 0001-Add-check-for-dead-accessibles-before-attempting-to-.patch
+    - 0001-Handle-yet-another-Atspi-The-process-appears-to-be-h.patch
 
   [ Samuel Thibault ]
   * control: Update maintainer mailing list.
