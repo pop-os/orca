@@ -1,4 +1,4 @@
-gnome-orca (3.26.0-1) UNRELEASED; urgency=medium
+gnome-orca (3.26.0-1) unstable; urgency=medium
 
   [ Jeremy Bicha ]
   * New upstream release
@@ -17,7 +17,7 @@ gnome-orca (3.26.0-1) UNRELEASED; urgency=medium
   * control: Update maintainer mailing list.
   * control: Bump Standards-Version to 4.1.0 (no change)
 
- -- Jeremy Bicha <jbicha@debian.org>  Fri, 15 Sep 2017 21:52:47 -0400
+ -- Jeremy Bicha <jbicha@debian.org>  Fri, 15 Sep 2017 22:17:03 -0400
 
 gnome-orca (3.24.0-1) unstable; urgency=medium
 
