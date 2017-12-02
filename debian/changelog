@@ -1,6 +1,11 @@
 gnome-orca (3.26.0-2) UNRELEASED; urgency=medium
 
+  [ Samuel Thibault ]
   * control: Bump Standards-Version to 4.1.1 (no changes).
+
+  [ Jeremy Bicha ]
+  * Don't recommend the GTK+ 2 library libgail-common, since
+    GTK+2 already recommends it
 
  -- Samuel Thibault <sthibault@debian.org>  Fri, 29 Sep 2017 01:09:31 +0200
 

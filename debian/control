@@ -44,7 +44,7 @@ Depends: ${misc:Depends},
          python3-speechd (>= 0.8),
          speech-dispatcher (>= 0.8),
          gsettings-desktop-schemas,
-Recommends: xbrlapi, libgail-common
+Recommends: xbrlapi
 Description: Scriptable screen reader
  A flexible, extensible, and powerful assistive technology that
  provides end-user access to applications and toolkits that support the
