@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="guide" id="commands" xml:lang="pt-BR">
+  <info>
+    <link type="next" xref="commands_controlling_orca"/>
+    <link type="guide" xref="index#quick_reference"/>
+    <title type="sort">4. Comandos do <app>Orca</app></title>
+    <title type="link">Comandos</title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos do <app>Orca</app></title>
+  <section id="getting_started" style="2column">
+    <title>Primeiros passos</title>
+  </section>
+  <section id="speech_braille" style="2column">
+    <title>Fala e braille</title>
+  </section>
+  <section id="reading_documents" style="2column">
+    <title>Leitura de páginas da web e outros documentos</title>
+  </section>
+  <section id="reviewing_screen_contents" style="2column">
+    <title>Revisando e Interagindo com o conteúdo da tela</title>
+  </section>
+  <section id="accessing_dynamic_information" style="2column">
+    <title>Acessando informação dinâmica</title>
+  </section>
+  <section id="troubleshooting">
+    <title>Resolução de problemas</title>
+  </section>
+</page>

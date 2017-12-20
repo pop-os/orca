@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_flat_review" xml:lang="pt-BR">
+  <info>
+    <link type="next" xref="commands_find"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_flat_review"/>
+    <title type="sort">1. Revisão plana</title>
+    <title type="link">Revisão plana</title>
+    <desc>Comandos para revisão espacial de janelas</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos de revisão plana</title>
+  <p>
+    Orca's <link xref="howto_flat_review">Flat Review</link> commands are
+    designed for spatially reviewing elements displayed on the screen. They
+    also provide a means for reading the current line, word, and character
+    when navigating in the text of a document. Most of these commands are
+    "bound" to keystrokes. Please see <link xref="howto_key_bindings">Modifying
+    Keybindings</link> for information on how to bind unbound commands.
+  </p>
+  <section id="line">
+    <title>Comandos de revisão por linha</title>
+    <list>
+      <item>
+        <p>Primeira linha (posição "inicial"):</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>Tecla modificador do Orca</key><key>NUM 7</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Ctrl</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Linha anterior:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 7</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Linha atual:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 8</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>I</key></keyseq></p></item>
+        </list>
+      </item>
+        <item><p>Soletra a linha atual:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 8</key></keyseq> (pressionada duas vezes)</p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>I</key></keyseq> (pressionada duas vezes)</p></item>
+        </list>
+      </item>
+      <item><p>Soletra fonéticamente a linha atual:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 8</key></keyseq> (pressionada três vezes)</p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>I</key></keyseq> (pressionada três vezes)</p></item>
+        </list>
+      </item>
+      <item><p>Próxima linha:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 9</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Última linha (posição "final"):</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>Tecla modificadora do Orca</key><key>NUM 9</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Ctrl</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="word">
+    <title>Comandos de revisão por palavras</title>
+    <list>
+      <item><p>Palavra acima:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>Tecla modificadora do Orca</key><key>NUM 4</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Ctrl</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Palavra anterior:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 4</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Palavra atual:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 5</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Soletra a palavra atual:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 5</key></keyseq> (pressionada duas vezes)</p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>K</key></keyseq> (pressionada duas vezes)</p></item>
+        </list>
+      </item>
+      <item><p>Soletra foneticamente a palavra atual:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 5</key></keyseq> (pressionada três vezes)</p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>K</key></keyseq> (pressionada três vezes)</p></item>
+        </list>
+      </item>
+      <item><p>Próxima palavra:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 6</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Palavra abaixo:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>Tecla modificadora do Orca</key><key>NUM 6</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Ctrl</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="character">
+    <title>Comandos para revisão por caractere</title>
+    <list>
+      <item><p>Caractere anterior:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 1</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Caractere atual:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 2</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Vírgula</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Fala foneticamente o caractere atual:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 2</key></keyseq> (pressionada duas vezes)</p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Virgula</key></keyseq> (pressionada duas vezes)</p></item>
+        </list>
+      </item>
+      <item><p>Fala o valor unicode do caractere atual:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 2</key></keyseq> (pressionada três vezes)</p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Vírgula</key></keyseq> (pressionada três vezes)</p></item>
+        </list>
+      </item>
+      <item><p>Próximo caractere:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>NUM 3</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Ponto</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Último caractere na linha atual:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>Tecla modificadora do Orca</key><key>NUM 1</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Ctrl</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="other">
+    <title>Comandos adicionais</title>
+    <list>
+      <item><p>Alterna para a revisão plana (atualiza o conteúdo da revisão plana) </p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>Tecla modificadora do Orca</key><key>NUM Ífen</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>P</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Revisa o item/controle atual:</p>
+        <list>
+          <item><p>Computador de mesa: <keyseq><key>Tecla modificadora do Orca</key><key>NUM 5</key></keyseq></p></item>
+          <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Ctrl</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Use Say All to review the current dialog or window:</p>
+        <list>
+          <item><p>Desktop: <key>KP Plus</key> (double-clicked)</p></item>
+          <item><p>Laptop: <keyseq><key>Orca Modifier</key><key>Semicolon</key></keyseq> (double-clicked)</p></item>
+        </list>
+      </item>
+      <item>
+      <p>
+        Copy the contents under flat review to the clipboard: (Unbound)
+      </p>
+      </item>
+        <item>
+        <p>
+          Append the contents under flat review to the clipboard: (Unbound)
+      </p>
+      </item>
+    </list>
+  </section>
+</page>

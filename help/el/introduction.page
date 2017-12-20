@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="introduction" xml:lang="el">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_setting_up_orca"/>
+    <title type="sort">1. Καλώς ήρθατε στο Orca</title>
+    <desc>Εισαγωγή στον αναγνώστη οθόνης του <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Καλώς ήρθατε στο Orca</title>
+  <p>Το <app>Orca</app> είναι ένας ελεύθερος, ανοικτού λογισμικού, ευέλικτος και επεκτάσιμος αναγνώστης οθόνης που παρέχει πρόσβαση στη γραφική επιφάνεια εργασίας μέσα από ομιλία και ανανεώσιμο Μπράιγ.</p>
+  <p>Το <app>Orca</app> δουλεύει με εφαρμογές και εργαλειοθήκες που υποστηρίζουν τη διεπαφή παρόχου υπηρεσιών τεχνολογίας υποβοήθησης (AT-SPI), που είναι η κύρια τεχνολογία υποβοήθησης υποδομής για Linux και Solaris. Οι εφαρμογές και οι εργαλειοθήκες που υποστηρίζουν το AT-SPI περιλαμβάνουν το πακέτο εργαλείων GNOME Gtk+, το πακέτο εργαλείων Swing της πλατφόρμας Java, το LibreOffice, το Gecko, και το WebKitGtk. Η υποστήριξη AT-SPI για το πακέτο εργαλείων KDE Qt επιδιώκεται.</p>
+  <section id="launching">
+    <title>Έναρξη του <app>Orca</app></title>
+    <p>Για την έναρξη του <app>Orca</app>:</p>
+    <list>
+      <item>
+        <p>Η μέθοδος για ρύθμιση της αυτόματης έναρξης του προτιμώμενου αναγνώστη οθόνης του <app>Orca</app> εξαρτάται από το χρησιμοποιούμενο περιβάλλον επιφάνειας εργασίας. Για παράδειγμα, στο GNOME 3.x αυτή η επιλογή μπορεί να βρεθεί στον πίνακα εφαρμογών του κέντρου ελέγχου γενικής πρόσβασης στη σελίδα <gui>όραση</gui>.</p>
+      </item>
+      <item>
+        <p>Για να ενεργοποιήσετε και να απενεργοποιήσετε το <app>Orca</app> στο GNOME, πατήστε το <keyseq><key>πλήκτρο λογότυπου</key><key>Alt</key><key>S</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Πληκτρολογήστε <cmd>orca</cmd>, μαζί με κάθε προαιρετική παράμετρο, σε ένα παράθυρο τερματικού ή μέσα στον διάλογο <gui>εκτέλεσης</gui> και έπειτα πατήστε <key>επιστροφή</key>.</p>
+      </item>
+    </list>
+  </section>
+    <section id="loadtime">
+      <title>Επιλογές χρόνου φόρτωσης</title>
+      <p>Οι επόμενες επιλογές μπορούν να εξειδικευτούν κατά την εκκίνηση του <app>Orca</app> σε παράθυρο τερματικού ή μέσα από τον διάλογο <gui>Εκτέλεση</gui>:</p>
+      <list>
+        <item>
+          <p><cmd>-h</cmd>, <cmd>--help</cmd>: Προβολή του μηνύματος βοήθειας</p>
+        </item>
+        <item>
+          <p><cmd>-v</cmd>, <cmd>--version</cmd>: Προβολή της έκδοσης του <app>Orca</app></p>
+        </item>
+        <item>
+          <p>
+            <cmd>-s</cmd>, <cmd>--setup</cmd>: Set up user preferences
+          </p>
+        </item>
+        <item>
+          <p><cmd>-u</cmd>, <cmd>--user-prefs=<em>όνομακαταλόγου</em></cmd>: Χρησιμοποιείστε το <em>όνομακαταλόγου</em> ως τον εναλλακτικό κατάλογο για προτιμήσεις χρήστη</p>
+        </item>
+        <item>
+          <p><cmd>-e</cmd>, <cmd>--enable=<em>επιλογή</em></cmd>: Εξαναγκασμός χρήσης της επιλογής, όπου η <em>επιλογή</em> μπορεί να είναι μία από τις παρακάτω:</p>
+          <list>
+            <item><p><cmd>ομιλία</cmd></p></item>
+            <item><p><cmd>μπράιγ</cmd></p></item>
+            <item><p><cmd>έλεγχος Μπράιγ</cmd></p></item>
+          </list>
+        </item>
+        <item>
+          <p><cmd>-d</cmd>, <cmd>--disable=<em>επιλογή</em></cmd>: Αποφυγή της χρήσης μιας επιλογής, όπου η <em>επιλογή</em> μπορεί να είναι μία από τις παρακάτω:</p>
+          <list>
+            <item><p><cmd>ομιλία</cmd></p></item>
+            <item><p><cmd>μπράιγ</cmd></p></item>
+            <item><p><cmd>έλεγχος Μπράιγ</cmd></p></item>
+          </list>
+        </item>
+        <item>
+            <p><cmd>-i</cmd>, <cmd>--profile=<em>όνομααρχείου</em></cmd>: Εισαγωγή μιας κατατομής από δοσμένο αρχείο κατατομής του <app>Orca</app></p>
+        </item>
+        <item>
+          <p><cmd>-r</cmd>, <cmd>--replace</cmd>: Αντικατάσταση ενός τρέχοντος εκτελούμενου <app>Orca</app></p>
+        </item>
+        <item>
+          <p><cmd>-l</cmd>, <cmd>--list-apps</cmd>: Εκτύπωση των γνωστών εκτελούμενων εφαρμογών</p>
+        </item>
+        <item>
+          <p><cmd>--debug</cmd>: Αποστολή εξόδου αποσφαλμάτωσης για αποσφαλμάτωση-YYYY-MM-DD-HH:MM:SS.out</p>
+        </item>
+        <item>
+          <p><cmd>--debug-file=<em>όνομααρχείου</em></cmd>: Αποστολή εξόδου αποσφαλμάτωσης στο συγκεκριμένο αρχείο</p>
+        </item>
+      </list>
+    </section>
+
+</page>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_key_bindings" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_profiles"/>
+  <title type="sort">8. Tipke za bližnjice</title>
+  <desc>Ustvarjanje, spreminjanje in odstranjevanje tipkovnih bližnjic ukazov</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Tipkovne bližnjice</title>
+  <p>Orka ima veliko ukazov. Nekateri od njih imajo tipkovne bližnjice, drugi ne. Za dodajanje, spreminjanje in odstranjevanje tipkovnih bližnjic <app>Orke</app> sledite korakom spodaj. </p>
+  <steps>
+    <title>Vezava nedoločnega ukaza</title>
+    <item>
+      <p>Pojdite v pogovorno okno <link xref="preferences">Možnosti Orka</link> s pritiskom na <keyseq><key>Spremenilna tipka Orka</key><key>Preslednica</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Premaknite se na stran <gui>Tipkovne bližnjice</gui>.</p>
+    </item>
+    <item>
+      <p>S puščicami se premaknite do celice, ki vsebuje ukaz, ki mu želite dodeliti pritisk tipke.</p>
+    </item>
+    <item>
+      <p>Enkrat pritisnite puščico desno. To bo žarišče premaknilo na stolpec <gui>Tipkovna bližnjica</gui>. Pritisnite <key>Vnosno tipko</key>.</p>
+    </item>
+    <item>
+      <p>Pritisnite želeno kombinacijo tipk.</p></item>
+    <item>
+      <p>Pritisnite <key>Vnosno tipko</key> za potrditev nove kombinacije. Nova kombinacija bo bila shranjena in izbirno polje v zadnjem stolpcu (stolpec <gui>Spremenjeno</gui>) bo nakazalo, da je bila tipkovna bližnjica spremenjena.</p>
+    </item>
+    <item>
+      <p>Nato pritisnite gumb <gui>Uveljavi</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Spreminjanje obstoječih tipkovnih bližnjic</title>
+    <item>
+      <p>Pojdite v pogovorno okno <link xref="preferences">Možnosti Orka</link> s pritiskom na <keyseq><key>Spremenilna tipka Orka</key><key>Preslednica</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Premaknite se na stran <gui>Tipkovne bližnjice</gui>.</p>
+    </item>
+    <item>
+      <p>S puščicami se premaknite do celice, ki vsebuje tipkovno bližnjico, ki jo želite spremeniti in pritisnite <key>Vnosno tipko</key>.</p>
+    </item>
+    <item>
+        <p>Pritisnite želeno kombinacijo tipk.</p>
+    </item>
+    <item>
+      <p>Pritisnite <key>Vnosno tipko</key> za potrditev nove kombinacije. Nova kombinacija bo bila shranjena in izbirno polje v zadnjem stolpcu (stolpec <gui>Spremenjeno</gui>) bo nakazalo, da je bila tipkovna bližnjica spremenjena.</p>
+    </item>
+    <item>
+      <p>Nato pritisnite gumb <gui>Uveljavi</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Obnavljanje izvornih tipkovnih bližnjic</title>
+    <item>
+      <p>Pojdite v pogovorno okno <link xref="preferences">Možnosti Orka</link> s pritiskom na <keyseq><key>Spremenilna tipka Orka</key><key>Preslednica</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Premaknite se na stran <gui>Tipkovne bližnjice</gui>.</p>
+    </item>
+    <item>
+      <p>S puščicami se premaknite do stolpca spremenjeno, ki je povezan s tipkovno bližnjico</p>
+    </item>
+    <item>
+      <p>Odstranite izbiro polje s pritiskom na <key>Preslednico</key>.</p>
+    </item>
+    <item>
+      <p>Nato pritisnite gumb <gui>Uveljavi</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Odstranitev vezave uporabljenih ukazov</title>
+    <item>
+      <p>Pojdite v pogovorno okno <link xref="preferences">Možnosti Orka</link> s pritiskom na <keyseq><key>Spremenilna tipka Orka</key><key>Preslednica</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Premaknite se na stran <gui>Tipkovne bližnjice</gui>.</p>
+    </item>
+    <item>
+      <p>S puščicami se premaknite do celice, ki vsebuje tipkovno bližnjico, ki jo želite izbrisati in pritisnite <key>Vnosno tipko</key>.</p>
+    </item>
+    <item>
+      <p>Ko boste pozvani za novo tipkovno bližnjico, pritisnite <key>Izbriši</key> ali <key>Vračalko</key>. Orka vam bo povedala, da je bila tipkovna bližnjica odstranjena.</p>
+    </item>
+    <item>
+      <p>Pritisnite <key>Vnosno tipko</key> za potrditev.</p>
+    </item>
+    <item>
+      <p>Nato pritisnite gumb <gui>Uveljavi</gui>.</p>
+    </item>
+  </steps>
+</page>

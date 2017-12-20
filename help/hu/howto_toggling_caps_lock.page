@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_toggling_caps_lock" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_key_bindings"/>
+    <title type="sort">7. A nagybetűzár az Orka laptop kiosztásnál</title>
+    <desc>Átváltás, ha ez az <key>Orka módosítóbillentyű</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>A nagybetűzár az Orka laptop kiosztásnál</title>
+  <p>Az Orka két billentyűzetkiosztással rendelkezik: asztali és laptop. Az Ön által választott billentyűzetkiosztás hatással van az alapértelmezetten használható Orka módosítóbillentyűre. Ha a laptop billentyűzetkiosztást használja, az alapértelmezett Orka módosítóbillentyű a <key>Nagybetűzár</key> lesz. Ha az <app>Orka</app> laptopkiosztását használja, de szeretné változtatni a <key>Nagybetűzár</key> állapotát, tegye a következőket:</p>
+  <steps>
+    <title>A nagybetűzár átváltása az Orka laptop kiosztásnál</title>
+    <item>
+      <p>Nyomja le az <keyseq><key>Orka módosító</key><key>BackSpace</key></keyseq> billentyűkombinációt, ezzel jelezheti az <app>Orka</app> számára, hogy a következő billentyűlenyomást hagyja figyelmen kívül.</p>
+    </item>
+    <item>
+      <p>A nagybetűzár állapotának átváltásához nyomja meg a <key>Nagybetűzár</key> billentyűt.</p>
+    </item>
+  </steps>
+</page>

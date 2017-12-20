@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_bookmarks" xml:lang="sl">
+  <info>
+    <link type="next" xref="commands_live_regions"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_bookmarks"/>
+    <title type="sort">4. Zaznamki</title>
+    <title type="link">Zaznamki</title>
+    <desc>Ukazi za ustvarjanje zaznamkov in pridobivanje predmetov</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Ukazi zaznamkov</title>
+  <p>
+    <app>Orca</app> provides several commands which can be used to "bookmark"
+    a given object for the purpose of navigating back to it later.
+  </p>
+  <list>
+    <item>
+      <p>Shrani zaznamek na oštevilčeno mesto: <keyseq><key>Pomožna tipka Orka</key><key>Izmenjalka</key><key>1</key></keyseq>-<key>6</key></p>
+    </item>
+    <item>
+      <p>Shrani določene zaznamke za program ali stran<keyseq><key>Pomožna tipka Orka</key><key>Alt</key><key>B</key></keyseq></p>
+    </item>
+    <item>
+      <p>Pojdi na določen, oštevilčen zaznamek: <keyseq><key>Pomožna tipka Orka</key><key>1</key></keyseq>-<key>6</key></p>
+    </item>
+    <item>
+      <p>Pojdi na predhodni zaznamek za program ali stran: <keyseq><key>Pomožna tipka Orka</key><key>Dvigalka</key><key>B</key></keyseq></p>
+    </item>
+    <item>
+      <p>
+        Go to the next bookmark for the application or page:
+        <keyseq><key>Orca Modifier</key><key>B</key></keyseq>
+      </p>
+    </item>
+  </list>
+</page>

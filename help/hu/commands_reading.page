@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_reading" xml:lang="hu">
+  <info>
+    <link type="next" xref="commands_structural_navigation"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_documents"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">1. Felolvasással kapcsolatos parancsok</title>
+    <title type="link">Felolvasással kapcsolatos parancsok</title>
+    <desc>Parancsok a dokumentumtartalom eléréséhez</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Felolvasással kapcsolatos parancsok</title>
+  <p>A GNOME részét képező mutatónavigációval kapcsolatos billentyűparancsokon túl az <app>Orka</app> számos billentyűparanccsal rendelkezik, amelyekkel egy dokumentumot felolvastathat.</p>
+  <note style="tip">
+    <p>A következő listákban rengeteg „Numpad” kifejezés látható. Minden „Numpad” kifejezéssel jelölt billentyű a numerikus billentyűzeten található. Talán már tudja, hogy a billentyűparancsok különbözhetnek, attól függően, hogy asztali vagy hordozható számítógépet használ. Pontosabban a billentyűparancsok közötti különbség attól függ, hogy az <app>Orka</app> képernyőolvasót asztali vagy laptop kiosztással használja-e. További információkért olvassa el a <link xref="howto_keyboard_layout">Billentyűzetkiosztás</link> című fejezetet.</p>
+  </note>
+  <section id="flat_review">
+    <title>A jelenlegi elem helyének felolvasása</title>
+    <p>A következő <app>Orka</app> <link xref="commands_flat_review">egyszerű áttekintés parancsok</link> segítségével meghallgathatja az aktuális elemmel kapcsolatos információkat:</p>
+    <list>
+      <item>
+        <p>Az aktuális sor felolvasása:</p>
+        <list>
+          <item>
+            <p>Asztali kiosztás: <keyseq><key>Numpad 8</key></keyseq></p>
+          </item>
+          <item>
+            <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>I</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Az aktuális szó felolvasása:</p>
+        <list>
+          <item>
+            <p>Asztali kiosztás: <keyseq><key>Numpad 5</key></keyseq></p>
+          </item>
+          <item>
+            <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>K</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Az aktuális szó betűztetése:</p>
+        <list>
+          <item>
+            <p>Asztali kiosztás: <keyseq><key>Numpad 5</key></keyseq> (kétszer gyorsan megnyomva)</p>
+          </item>
+          <item>
+            <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>K</key></keyseq> (kétszer gyorsan megnyomva)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Az aktuális szó fonetikus betűztetése:</p>
+        <list>
+          <item>
+            <p>Asztali kiosztás: <keyseq><key>Numpad 5</key></keyseq> (háromszor gyorsan megnyomva)</p>
+          </item>
+          <item>
+            <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>K</key></keyseq> (háromszor gyorsan megnyomva)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Az aktuális karakter felolvasása:</p>
+        <list>
+          <item>
+            <p>Asztali kiosztás: <keyseq><key>Numpad 2</key></keyseq></p>
+          </item>
+          <item>
+            <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Vessző</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Az aktuális karakter fonetikus betűztetése:</p>
+        <list>
+          <item>
+            <p>Asztali kiosztás: <keyseq><key>Numpad 2</key></keyseq> (kétszer gyorsan megnyomva)</p>
+          </item>
+          <item>
+            <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Vessző</key></keyseq> (kétszer gyorsan megnyomva)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Az aktuális karakter unicode kódjának kimondatása:</p>
+        <list>
+          <item>
+            <p>Asztali kiosztás: <keyseq><key>Numpad 2</key></keyseq> (háromszor gyorsan megnyomva)</p>
+          </item>
+          <item>
+            <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Vessző</key></keyseq> (háromszor gyorsan megnyomva)</p>
+          </item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="say_all">
+    <title>A felolvasás parancs</title>
+    <p>Az <app>Orka</app> felolvasás parancsa lehetőséget ad a dokumentum felolvastatására az aktuális kurzorpozíciótól.</p>
+    <list>
+      <item>
+        <p>Asztali kiosztás: <key>Numpad plusz</key></p>
+      </item>
+      <item>
+        <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Pontosvessző</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="attributes_and_selection">
+    <title>Szövegattribútumokkal és a kijelölt szöveggel kapcsolatos parancsok</title>
+    <p>Az <app>Orka</app> rendelkezik egy billentyűparanccsal a kurzor pillanatnyi helyénél található szöveg attribútumainak felolvastatásához. Ha az <app>Orka</app> Hol vagyok művelet billentyűparancsait használja egy szövegrész kijelölése után, az <app>Orka</app> képes kimondani a kijelölt szöveget. Ha erre a célra inkább egy önálló billentyűparancsot szeretne használni, hozzon létre billentyűtársítást a „Kimondja a kijelölt szöveget” parancshoz. Ha billentyűtársítást szeretne hozzárendelni ehhez a parancshoz, olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
+    <list>
+      <item>
+        <p>A szöveges attribútumok ismertetése: <keyseq><key>Orka módosító</key><key>F</key></keyseq></p>
+      </item>
+      <item>
+        <p>Egyszerű hol vagyok művelet végrehajtása:</p>
+        <list>
+          <item>
+            <p>Asztali kiosztás: <key>Numpad Enter</key></p>
+          </item>
+          <item>
+            <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Enter</key></keyseq></p>
+          </item>
+        </list>
+    </item>
+    <item>
+      <p>Részletesebb hol vagyok művelet végrehajtása:</p>
+      <list>
+        <item>
+          <p>Asztali kiosztás: <key>Numpad Enter</key> (kétszer gyorsan megnyomva)</p>
+        </item>
+        <item>
+          <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Enter</key></keyseq> (kétszer gyorsan megnyomva)</p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Kimondja a kijelölt szöveget: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+    </item>
+  </list>
+  </section>
+  <section id="link_details">
+    <title>Részletes információ egy hivatkozásról</title>
+    <p>Ha egy hivatkozáson áll és az <app>Orka</app> egyszerű hol vagyok műveletét használja, információkat kaphat az adott hivatkozásról. Megtudhatja például a hivatkozás típusát, meglátogatta-e már az adott hivatkozást, az oldal leírását és a fájl méretét. Ha erre a célra inkább egy önálló billentyűparancsot szeretne használni, hozzon létre billentyűtársítást a „Kimondja a hivatkozás részleteit” parancshoz. Ha billentyűtársítást szeretne hozzárendelni ehhez a parancshoz, olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
+    <list>
+      <item>
+        <p>Kimondja a hivatkozás részleteit: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+      </item>
+    </list>
+  </section>
+  <section id="browse_and_focus_modes">
+    <title>A böngészőmód és a fókuszmód</title>
+    <p>Az <app>Orka</app> böngésző- és fókuszmódjának segítségével váltani tud a weboldalakon az olvasási és űrlapmód között.</p>
+    <list>
+      <item>
+        <p>Váltás a böngészőmód és a fókuszmód között: <keyseq><key>Orka módosító</key><key>A</key></keyseq></p>
+      </item>
+      <item>
+        <p>A rögzített fókuszmód engedélyezése: <keyseq><key>Orka módosító</key><key>A</key></keyseq> (kétszer gyorsan megnyomva)</p>
+      </item>
+      <item>
+        <p>A rögzített böngészőmód engedélyezése: <keyseq><key>Orka módosító</key><key>A</key></keyseq> (háromszor gyorsan megnyomva)</p>
+      </item>
+    </list>
+  </section>
+</page>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_the_orca_modifier" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_learn_modes"/>
+    <title type="sort">3. Az Orka módosítóbillentyű</title>
+    <desc>A <key>Shift</key>, <key>Ctrl</key>, <key>Alt</key> mintájára működő billentyű</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Az Orka módosítóbillentyű</title>
+  <p>Az Orka rendelkezik egy speciális módosítóbillentyűvel, amely ugyanúgy működik, mint például a <key>Shift</key>, <key>Ctrl</key>, és <key>Alt</key> billentyűk. Ezt a módosítóbillentyűt kifejezetten arra tervezték, hogy az <app>Orka</app> parancsokat anélkül hajthassa végre, hogy ütközés történne az Ön által használt alkalmazások billentyűparancsaival.</p>
+  <p>Hogy mely billentyű lesz az „Orka módosítóbillentyű”, főként attól függ, hogy az <app>Orkának</app> a laptop vagy asztali billentyűzetkiosztását használja:</p>
+  <list>
+    <item>
+      <p>Ha a laptop kiosztást használja, az alapértelmezett Orka módosítóbillentyű a <key>Nagybetűzár</key> lesz.</p>
+    </item>
+    <item>
+      <p>Ha az asztali kiosztást használja, az alapértelmezett Orka módosítóbillentyűk az <key>Inzert</key> és <key>Numpad Inzert</key> billentyűk lesznek, a második billentyű egyben a <key>Numpad 0</key> billentyű is.</p>
+    </item>
+  </list>
+  <p>Ha szeretné megtartani a jelenleg használt billentyűzetkiosztást, de módosítani szeretné az Orka módosítóbillentyűt, tegye a következőket:</p>
+  <steps>
+    <title>Az Orka módosítóbillentyű megváltoztatása</title>
+    <item>
+      <p>Az <link xref="preferences">Orka beállítások</link> párbeszédpanel megnyitásához nyomja meg az <keyseq><key>Orka módosító</key><key>Szóköz</key></keyseq> billentyűkombinációt.</p>
+    </item>
+    <item>
+      <p>Lépjen a <gui>Billentyűtársítások</gui> lapra.</p>
+    </item>
+    <item>
+      <p>Lépjen a <gui>Képernyőolvasó módosítóbillentyűk</gui> kombinált listamezőre.</p>
+    </item>
+    <item>
+      <p>Válassza ki a kívánt módosítóbillentyűt. Az elérhető lehetőségek a következők:</p>
+      <list>
+        <item><p>Insert, KP_Insert</p></item>
+        <item><p>KP_Insert</p></item>
+        <item><p>Insert</p></item>
+        <item><p>Caps_Lock</p></item>
+      </list>
+    </item>
+    <item><p>Nyomja meg az <gui>Alkalmaz</gui> gombot.</p></item>
+  </steps>
+</page>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_braille" xml:lang="de">
+  <info>
+    <link type="next" xref="commands_reading"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_braille"/>
+    <title type="sort">2. Braille</title>
+    <title type="link">Braille</title>
+    <desc>Auf Braillezeilen ausführbare Befehle</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  </info>
+  <title>Braille-Befehle</title>
+  <p>Führen Sie folgende Befehle zur Kontrolle von <app>Orca</app> besser über die Braillezeile anstatt über die Tastatur aus:</p>
+  <list>
+    <item><p>Braille-Anzeige nach links schwenken: Zeile links</p></item>
+    <item><p>Braille-Anzeige nach rechts schwenken: Zeile rechts</p></item>
+    <item><p>Übersichtsmodus ein/ausschalten: Einfrieren</p></item>
+    <item><p>Review the word above: Line Up</p></item>
+    <item><p>Review the word below: Line Down</p></item>
+    <item><p>Review bottom left: Bottom Right</p></item>
+    <item><p>Review the home position: Top Left</p></item>
+    <item><p>Contracted braille: Six Dots</p></item>
+    <item><p>Markiert den Beginn einer Textauswahl: Beginn ausschneiden</p></item>
+    <item><p>Markiert das Ende einer Textauswahl: Zeile ausschneiden</p></item>
+    <item><p>Processes a cursor routing key: Cursor Routing</p></item>
+    <item><p>Kehrt den Tastaturfokus zum Objekt zurück: Cursorposition</p></item>
+  </list>
+</page>

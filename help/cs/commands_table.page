@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_table" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_flat_review"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_tables"/>
+    <title type="sort">3. Pohyb v tabulkách</title>
+    <title type="link">Pohyb v tabulkách</title>
+    <desc>Příkazy pro přístup k tabulkovým informacím</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy pro pohyb v tabulkách</title>
+  <p>Podpora pro pohyb v buňkách tabulek ve čtečce <app>Orca</app> je součástí <link xref="commands_structural_navigation#tables">příkazů strukturované navigace</link>. Navíc můžete:</p>
+  <list>
+    <item>
+      <p>Nastavit dynamická záhlaví řádků pro aktuální sloupec: <keyseq><key>Modifikátor Orca</key> <key>C</key></keyseq></p>
+    </item>
+    <item>
+      <p>Nastavit dynamická záhlaví sloupců pro aktuální řádek: <keyseq><key>Modifikátor Orca</key> <key>R</key></keyseq></p>
+    </item>
+    <item>
+      <p>Zrušit dynamická záhlaví řádků: <keyseq><key>Modifikátor Orca</key> <key>C</key></keyseq> (dvojité zmáčknutí)</p>
+    </item>
+    <item>
+      <p>Zrušit dynamická záhlaví sloupců: <keyseq><key>Modifikátor Orca</key> <key>R</key></keyseq> (dvojité zmáčknutí)</p>
+    </item>
+    <item>
+      <p>Přepnout mezi čtením tabulky po buňkách a po řádcích: <keyseq><key>Modifikátor Orca</key> <key>F11</key></keyseq></p>
+    </item>
+  </list>
+</page>

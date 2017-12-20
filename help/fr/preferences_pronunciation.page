@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_pronunciation" xml:lang="fr">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_text_attributes"/>
+    <title type="sort">7. Prononciation</title>
+    <title type="link">Prononciation</title>
+    <desc>Définir la prononciation de certains mots</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Préférences de prononciation</title>
+  <p id="introduction">Parfois le synthétiseur vocal ne prononce pas correctement certaines chaînes de caractères. Vous pouvez préférer entendre « mort de rire » plutôt que « mdr » ou « accessibilité » plutôt que « a11y ». Il se peut aussi qu'un nom propre ou un terme technique soit mal prononcé par le synthétiseur.</p>
+  <p>L'onglet <gui>Prononciation</gui> de la boîte de dialogue préférences d'<app>Orca</app> vous permet d'ajouter, de modifier et de supprimer des entrées dans le dictionnaire de prononciation d'<app>Orca</app>.</p>
+  <p>Parce que l'onglet de <gui>Prononciation</gui> fait aussi partie des paramètres spécifiques aux applications, vous pouvez personnaliser les entrées pour chaque application utilisée.</p>
+  <steps>
+    <title>Ajout d'une nouvelle entrée de dictionnaire</title>
+    <item>
+      <p>Cliquez sur le bouton Nouvelle entrée (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
+    </item>
+    <item>
+      <p>Saisissez le texte de la nouvelle entrée et appuyez sur <key>Entrée</key> pour finir la saisie de la chaîne actuelle.</p>
+    </item>
+    <item>
+      <p>Allez dans la colonne <gui>Chaîne de remplacement</gui> et appuyez sur <key>Entrée</key> pour commencer la saisie.</p>
+    </item>
+    <item>
+      <p>Saisissez le texte que vous souhaitez entendre à la place et appuyez sur <key>Entrée</key> pour finir la saisie de la chaîne de remplacement.</p>
+    </item>
+  </steps>
+  <steps>
+  <title>Modification d'une entrée de dictionnaire existante</title>
+    <item>
+      <p>Déplacez-vous sur la cellule que vous voulez modifier et appuyez sur <key>Entrée</key> pour commencer à modifier.</p>
+    </item>
+    <item>
+      <p>Faites vos changements et appuyez ensuite sur <key>Entrée</key> pour terminer les modifications.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Suppression d'une entrée de dictionnaire existante</title>
+    <item>
+      <p>Placez-vous sur l'entrée que vous souhaitez supprimer.</p>
+    </item>
+    <item>
+      <p>Cliquez sur le bouton Supprimer ou appuyez sur <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
+    </item>
+  </steps>
+</page>

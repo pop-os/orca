@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_braille" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_reading"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_braille"/>
+    <title type="sort">2. Braille</title>
+    <title type="link">Braille</title>
+    <desc>Příkazy spustitelné na braillském řádku</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy pro braillský řádek</title>
+  <p>Následující příkazy vám umožňují ovládat čtečku <app>Orca</app> z vašeho braillského řádku (hmatového displeje) namísto z klávesnice:</p>
+  <list>
+    <item><p>Posunout braillský řádek doleva: řádek vlevo</p></item>
+    <item><p>Posunout braillský řádek doprava: řádek vpravo</p></item>
+    <item><p>Přepnout režim plošného náhledu: zmrazit</p></item>
+    <item><p>Zobrazit slovo nad: řádek nahoru</p></item>
+    <item><p>Zobrazit slovo pod: řádek dolů</p></item>
+    <item><p>Zobrazit vlevo dole: vlevo dole</p></item>
+    <item><p>Zobrazit počáteční pozici: vlevo nahoře</p></item>
+    <item><p>Braillský zkratkopis: šest bodů</p></item>
+    <item><p>Označit začátek výběru textu: začít kopírování</p></item>
+    <item><p>Označit konec výběru textu: dokončit kopírování</p></item>
+    <item><p>Zpracovat klávesu umisťování kurzoru: umisťování kurzoru</p></item>
+    <item><p>Vrátit se na objekt se zaměřením klávesnicí: pozice kurzoru</p></item>
+  </list>
+</page>

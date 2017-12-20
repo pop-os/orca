@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_time_date_notifications" xml:lang="bg">
+  <info>
+    <link type="next" xref="commands_profiles"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_notifications"/>
+    <title type="sort">4. Час, дата и уведомления</title>
+    <title type="link">Час, дата и уведомления</title>
+    <desc>Команди за прочитане на часа, датата и уведомителните съобщения</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди за прочитане на часа, датата и уведомителните съобщения</title>
+  <p>Следните команди могат да бъдат използвани за достъп до текущия час и дата и за преглед на скорошните уведомителни съобщения:</p>
+  <section id="time_and_date">
+    <title>Прочитане на часа и датата</title>
+    <list>
+      <item>
+        <p>Прочитане на часа: <keyseq><key>Модификатор на Orca</key><key>T</key></keyseq></p>
+      </item>
+      <item>
+        <p>Прочитане на датата: <keyseq><key>Модификатор на Orca</key><key>T</key></keyseq> (двукратно)</p>
+      </item>
+    </list>
+  </section>
+  <section id="notifications">
+    <title>Преглед на уведомленията</title>
+    <p>Orca има три неприсвоени команди за достъп до предишни <link xref="howto_notifications">Уведомления</link>. Вижте секцията <link xref="howto_key_bindings">Промяна на функциите на клавишите</link> за информация как да присвоите тези команди към клавишни комбинации.</p>
+    <list>
+      <item>
+        <p>Прочитане на последното (най-скорошно) уведомление: (неприсвоена)</p>
+      </item>
+      <item>
+        <p>Прочитане на предишното уведомление: (неприсвоена)</p>
+      </item>
+      <item>
+        <p>Извеждане на списък с всички уведомления: (неприсвоена)</p>
+      </item>
+    </list>
+  </section>
+</page>

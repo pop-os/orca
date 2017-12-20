@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_braille" xml:lang="hu">
+  <info>
+    <title type="sort">3. Braille</title>
+    <title type="link">Braille</title>
+    <desc>Az <app>Orka</app> Braille támogatásának konfigurálása</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_echo"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Braille beállítások</title>
+  <section id="braillesupport">
+    <title>Braille támogatás engedélyezése</title>
+    <p>Ezzel a jelölőnégyzettel megadhatja, hogy az <app>Orka</app> használja-e a Braille-kijelzőt. Ha a BrlTTY nem fut, az <app>Orka</app> ezt észleli, és nem fog kommunikálni a Braille-kijelzővel.</p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+    <note style="tip">
+      <p>Ha a BrlTTY programot később konfigurálja, akkor újra kell indítania az <app>Orka</app> képernyőolvasót a Braille-támogatás használatához.</p>
+    </note>
+  </section>
+  <section id="contractedbraille">
+    <title>Irodalmi Braille támogatás engedélyezése</title>
+    <p>Az <app>Orka</app> a liblouis projekt segítségével támogatja az irodalmi Braille-t. Mivel a legtöbb disztribúció már alapértelmezetten tartalmazza a Liblouis komponenseket, így ez a lehetőség nagy valószínűséggel hozzáférhető lesz az Ön számára az <app>Orka</app> képernyőolvasóban.</p>
+    <p>Ha engedélyezni szeretné az irodalmi Braille támogatást egy olyan rendszeren, melyen a liblouis telepítve van, győződjön meg arról, hogy az <gui>Irodalmi Braille támogatás engedélyezése</gui> jelölőnégyzet be van-e jelölve. Ezután a <gui>Fordítási tábla</gui> kombinált listamezőben válassza ki a használni kívánt fordítási táblát.</p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+  </section>
+  <section id="rolenames">
+    <title>Rövidített szerepnevek</title>
+    <p>A „Rövidített szerepnevek” jelölőnégyzet meghatározza, hogy a vezérlőelem-típusok hogyan jelenjenek meg a Braille-kijelzőn. Tegyük fel például, hogy egy csúszka van fókuszban és a „Rövidített szerepnevek” jelölőnégyzet nincs bejelölve. Ebben az esetben a Braille-kijelzőn a „csúszka” szó jelenik meg, az <app>Orka</app> így jelzi, hogy egy csúszka vezérlőelem van fókuszban. Ha a Rövidített szerepnevek jelölőnégyzet be van jelölve, akkor a „csúszka” szó helyett rövidítve a „cszk” szó jelenik meg.</p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+  </section>
+  <section id="eolindicator">
+    <title>A sor vége szimbólum letiltása</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> a sorok végén nem jeleníti meg a Braille-kijelzőn a „$l” szimbólumot.</p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+  </section>
+  <section id="verbosity">
+    <title>Részletesség</title>
+    <p>A „Részletesség” választógomb-csoport megadja a különböző szituációkban a Braille-kijelzőn megjelenő információk mennyiségét. Ha például a „Részletes” beállítás van megadva, akkor megjelennek a gyorsbillentyűk és a szerepnevek. Ezek az információk nem jelennek meg „Tömör” módban.</p>
+    <p>Alapbeállítás: <gui>Részletes</gui></p>
+  </section>
+  <section id="selectionandhyperlink">
+    <title>Kiválasztás és hivatkozásjelzők</title>
+    <p>A <gui>Kiválasztásjelző</gui> és <gui>Hivatkozásjelző</gui> választógomb-csoportokban meghatározhatja, hogy a kijelölt szövegek vagy a hivatkozások hogyan legyenek jelölve a Braille-kijelzőn. Ha kijelöl egy szöveget vagy egy hivatkozásra lép, az <app>Orka</app> a Braille-kijelzőn „aláhúzza” a kijelölt szöveget vagy a hivatkozás szövegét a 7. és 8. Braille pontszámmal. Ha szükségesnek tartja, megváltoztathatja ezeknek a beállításoknak a Braille pontszámát csak a 7. pontra, csak a 8. pontra, vagy kikapcsolhatja a jelzők megjelenítését a <gui>Nincs</gui> beállítás használatával.</p>
+    <p>Alapbeállítás: <gui>7. és 8. pont</gui></p>
+    <note style="tip">
+      <title>Szövegattribútumok jelzése</title>
+      <p>Lehetőség van a kiválasztott szöveges attribútumok megjelenítésére a Braille-kijelzőn. A funkció engedélyezését és az attribútumok kiválasztását az <app>Orka</app> grafikus beállító párbeszédpanel <link xref="preferences_text_attributes"><gui>Szövegattribútumok</gui> lapján</link> teheti meg.</p>
+    </note>
+  </section>
+  <section id="flashMessageSettings">
+    <title>Frissülő üzenetek beállításai</title>
+    <p>A frissülő üzenetek működése nagyon hasonlít az értesítések vagy az egyéb állapotjelentő üzenetek működéséhez: ezek az üzenetek rövid ideig az Ön frissíthető Braille-kijelzőjén jelennek meg, ezután a Braille-kijelzőn megjelenített eredeti tartalom visszaállításra kerül. Az <app>Orka</app> számos olyan beállítási lehetőséget támogat, melyek segítségével a frissülő üzenetek megjelenését szabályozhatja.</p>
+    <section>
+      <title>Frissülő üzenetek engedélyezése</title>
+      <p>Ha a <gui>Frissülő üzenetek engedélyezése</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> által kiküldött üzenetek meg fognak jelenni a Braille-kijelzőjén. Ha inkább azt szeretné, hogy az <app>Orka</app> által kiküldött üzenetek csak kimondásra kerüljenek, törölje a jelölést a <gui>Frissülő üzenetek engedélyezése</gui> jelölőnégyzetből.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section>
+      <title>Részletes üzenetek engedélyezése</title>
+      <p>Ha a <gui>Részletes üzenetek engedélyezése</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> által kiküldött üzenetek hosszabb formában jelennek meg a Braille-kijelzőjén. Például, ha az <app>Orka</app> „Váltás a következő billentyűvisszhang-szintre” parancs segítségével billentyűvisszhang szintet vált, az <app>Orka</app> az „A billentyűvisszhang szavankéntire állítva” üzenetet jelenítheti meg. Ha inkább a rövidebb „Szavak” üzenetformát szeretné, törölje a jelölést a <gui>Részletes üzenetek engedélyezése</gui> jelölőnégyzetből.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section>
+      <title>Üzenetek megtartása</title>
+      <p>Amint azt az előzőekben már olvashatta, a frissülő üzenetek csak egy rövid ideig kerülnek megjelenítésre. Ha inkább azt szeretné, hogy a frissülő üzenetek addig legyenek megjelenítve, amíg nem történik egy olyan művelet ami a Braille-kijelző frissítését eredményezi, jelölje be az <gui>Üzenetek megtartása</gui> jelölőnégyzetet.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+    </section>
+    <section>
+      <title>Üzenet megjelenítés időtartama másodpercben</title>
+      <p>Az <gui>Üzenet megjelenítés időtartama másodpercben</gui> léptetőgomb segítségével szabályozhatja azt az időtartamot, ameddig az <app>Orka</app> megjeleníti a Braille-kijelzőn a frissülő üzenetet, ezután az eredeti tartalom visszaállításra kerül. Megjegyzés: ez a beállítás figyelmen kívül lesz hagyva, ha be van jelölve az <gui>Üzenetek megtartása</gui> jelölőnégyzet.</p>
+      <p>Alapértelmezett érték: 5 másodperc</p>
+    </section>
+  </section>
+</page>

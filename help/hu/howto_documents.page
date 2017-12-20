@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_documents" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_text_attributes"/>
+    <title type="sort">1. Dokumentumok kezelése</title>
+    <desc>Dokumentum tartalmának olvasása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Dokumentumok kezelése</title>
+  <p>A dokumentumok tartalmának elolvasásához használja az alkalmazások beépített mutatónavigációs módját. Ahogyan a dokumentum szövegében navigál, az <app>Orka</app> folyamatosan közölni fogja a dokumentumon belüli tartózkodási helyét. Emiatt nem okozhat gondot a dokumentumok elolvasása az <app>Orka</app> használatával. Például:</p>
+  <list>
+    <item>
+      <p>A karakterenkénti mozgáshoz és olvasáshoz használja a <key>Balra nyíl</key> és <key>Jobbra nyíl</key> billentyűket.</p>
+    </item>
+    <item>
+      <p>A szavankénti mozgáshoz és olvasáshoz használja a <keyseq><key>Ctrl</key><key>Balra nyíl</key></keyseq> és <keyseq><key>Ctrl</key><key>Jobbra nyíl</key></keyseq> billentyűkombinációt.</p>
+    </item>
+    <item>
+      <p>A soronkénti mozgáshoz és olvasáshoz használja a <key>Felfelé nyíl</key> és <key>Lefelé nyíl</key> billentyűket.</p>
+    </item>
+    <item>
+      <p>Szöveg kijelöléséhez vagy szöveg kijelölésének megszüntetéséhez használja az előzőleg leírt parancsokat a <key>Shift</key> billentyűvel együtt.</p>
+    </item>
+  </list>
+  <note style="tip">
+    <title>A mutatónavigáció engedélyezése egy alkalmazásban</title>
+    <p>A mutatónavigáció nem minden alkalmazásban van alapértelmezetten engedélyezve. A legtöbb GNOME alkalmazásban a mutatónavigációt könnyen be- vagy kikapcsolhatja, ha lenyomja az <key>F7</key> billentyűt.</p>
+  </note>
+  <p>Ha egy dokumentumot a mutatónavigációval olvas, hasznos lehet az aktuális szövegrész felolvastatása, lebetűztetése, vagy Unicode karakteradatainak lekérdezése. Ezeket a feladatokat elvégezheti az <app>Orka</app> <link xref="howto_flat_review">egyszerű áttekintés funkciója</link> segítségével.</p>
+  <p>Végezetül, az <app>Orka</app> a felolvasás parancs segítségével képes felolvasni az egész dokumentumot a kurzor pillanatnyi helyétől kezdve. A dokumentumok kezelésével kapcsolatos parancsok teljes listájáért olvassa el a <link xref="commands_reading">felolvasással kapcsolatos parancsok</link> című fejezetet.</p>
+</page>

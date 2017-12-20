@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_table" xml:lang="sl">
+  <info>
+    <link type="next" xref="commands_flat_review"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_tables"/>
+    <title type="sort">3. Krmarjenje po razpredelnici</title>
+    <title type="link">Krmarjenje po razpredelnici</title>
+    <desc>Ukazi za dostop do tabelaričnih podatkov</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Ukazi krmarjenja po razpredelnicah</title>
+  <p>Orkina podpora za krmarjenje po celicah razpredelnice je del njenih <link xref="commands_structural_navigation#tables">ukazov strukturnega krmarjenja</link>. Poleg tega lahko:</p>
+  <list>
+    <item>
+      <p>Nastavite dinamične glave vrstic za trenuten stolpec: <keyseq><key>Spremenilna tipka Orka</key><key>C</key></keyseq></p>
+    </item>
+    <item>
+      <p>Nastavite dinamične vrstice stolpcev za trenutno vrstico: <keyseq><key>Spremenilna tipka Orka</key><key>R</key></keyseq> </p>
+    </item>
+    <item>
+      <p>Počistite dinamične glave vrstci: <keyseq><key>Spremenilna tipka Orka</key><key>C</key></keyseq> (dvakrat kliknjeno)</p>
+    </item>
+    <item>
+      <p>Počistite dinamične glave stolpcev: <keyseq><key>Spremenilna tipka Orka</key><key>R</key></keyseq> (dvakrat kliknjeno) </p>
+    </item>
+    <item>
+      <p>Preklopite med branjem celice in vrstice v razpredelnici: <keyseq><key>Spremenilna tipka Orka</key><key>F11</key></keyseq>  </p>
+    </item>
+  </list>
+</page>

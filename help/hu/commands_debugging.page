@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_debugging" xml:lang="hu">
+  <info>
+    <link type="guide" xref="commands#troubleshooting"/>
+    <title type="sort">1. Hibaelhárítás</title>
+    <title type="link">Hibaelhárítás</title>
+    <desc>Hibaelhárítással kapcsolatos parancsok</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Hibaelhárítással kapcsolatos parancsok</title>
+  <p>A fejlesztők megkérhetik arra, hogy az Ön által tapasztalt problémával kapcsolatban további hibakövetési információkat adjon meg, melyek segíthetik a probléma okának pontos feltárását. A következő parancshoz nincs definiálva billentyűtársítás. Ha billentyűtársítást szeretne rendelni ehhez a parancshoz, olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
+  <list>
+    <item>
+      <p>Váltás a következő hibakövetési szintre: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+    </item>
+  </list>
+</page>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its" type="guide" id="index" xml:lang="bg">
+  <info>
+    <title type="text">Екранен четец Orca</title>
+    <title type="link">Въведение в екранния четец <app>Orca</app></title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+
+    <desc>Orca е свободен, с отворен изходен код, гъвкав и разширяем екранен четец, който предоставя достъп до графичната среда чрез реч и брайл.</desc>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+
+  <title><media type="image" mime="image/png" src="figures/orca-logo.png" its:translate="no">
+      <span its:translate="yes">Логото на <app>Orca</app></span>
+    </media> Екранен четец <app>Orca</app></title>
+  <note style="important">
+    <title>Преди да започнете</title>
+    <p>Ако не сте запознати с командите за придвижване предоставени от вашата графична среда, препоръчваме ви да го направите, преди да продължите.</p>
+  </note>
+  <section id="getting_started" style="2column">
+    <title>Въведение</title>
+  </section>
+  <section id="reading" style="2column">
+    <title>Четене на документи и уеб страници</title>
+  </section>
+  <section id="reviewing" style="2column">
+    <title>Преглед и взаимодействие със съдържанието на екрана</title>
+  </section>
+  <section id="quick_reference" style="2column">
+    <title>Бърза справка</title>
+  </section>
+</page>

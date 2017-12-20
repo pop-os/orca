@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_documents" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_text_attributes"/>
+    <title type="sort">1. Dokumenty</title>
+    <desc>Jak číst obsah</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Dokumenty</title>
+  <p>Pro čtení obsahu libovolného dokumentu použijte režim kurzorové navigace vestavěný v aplikaci. Tak, jak se budete pohybovat po textu dokumentu, bude <app>Orca</app> prezentovat vaši novou polohu. Předpokládá se, že jste již pravděpodobně seznámeni s tím, jak číst dokumenty pomocí čtečky <app>Orca</app>. Například:</p>
+  <list>
+    <item>
+      <p>Pro posouvání a čtení po znacích použijte <key>←</key> a <key>→</key>.</p>
+    </item>
+    <item>
+      <p>Pro posouvání a čtení po slovech použijte <keyseq><key>Ctrl</key><key>←</key></keyseq> a <keyseq><key>Ctrl</key><key>→</key></keyseq></p>
+    </item>
+    <item>
+      <p>Pro posouvání a čtení pro řádcích použijte <key>↑</key> a <key>↓</key>.</p>
+    </item>
+    <item>
+      <p>Výše zmíněné příkazy v kombinaci se <key>Shift</key> použijte k označování a rušení označení textu.</p>
+    </item>
+  </list>
+  <note style="tip">
+    <title>Zapnutí kurzorové navigace v aplikaci</title>
+    <p>Ne všechny aplikace mají ve výchozím stavu kurzorovou navigaci zapnutou. V řadě aplikací GNOME je možné kurzorovou navigaci přepínat pomocí klávesy <key>F7</key>.</p>
+  </note>
+  <p>Mimo čtení dokumentu pomocí kurzorové navigace se vám může hodit i čtení, hláskování a získávání hodnoty Unikódu u aktuálního textu. To vše můžete provádět pomocí <link xref="howto_flat_review">funkce plošného náhledu</link>.</p>
+  <p>A na konec, abyste přiměli čtečku <app>Orca</app> přečíst celý dokument od vaší současné pozice, použijte příkaz pro plynulé čtení. Ten spolu s celým seznamem příkazů <app>Orca</app> sloužících pro přístup k textu dokumentů, můžete najít v kapitole <link xref="commands_reading">Příkazy pro čtení</link>.</p>
+</page>

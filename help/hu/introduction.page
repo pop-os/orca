@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="introduction" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_setting_up_orca"/>
+    <title type="sort">1. Üdvözöljük az Orkában</title>
+    <desc>Az <app>Orka</app> képernyőolvasó bemutatása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Üdvözöljük az Orkában</title>
+  <p>Az <app>Orka</app> egy rugalmas, nyílt forráskódú, bővíthető és hatékony képernyőolvasó, amely a beszéd- és Braille-támogatás felhasználó által személyre szabható kombinációjának használatával teszi elérhetővé az asztali környezetet.</p>
+  <p>Az <app>Orka</app> együttműködik azokkal az alkalmazásokkal és eszközkészletekkel, amelyek támogatják az Assistive Technology Service Provider Interface (AT-SPI) szabványt, amely az elsődleges akadálymentesítési infrastruktúra Linuxhoz és Solarishoz. Az AT-SPI szabványt támogató alkalmazások és eszközkészletek például a GNOME GTK+ eszközkészlete, a Java platform Swing eszközkészlete, a LibreOffice, a Gecko, és a WebKitGtk. Az AT-SPI szabvány támogatása a KDE Qt eszközkészlethez még nem valósult meg.</p>
+  <section id="launching">
+    <title>Az <app>Orka</app> elindítása</title>
+    <p>Az <app>Orka</app> elindításához tegye a következőket:</p>
+    <list>
+      <item>
+        <p>Az <app>Orka</app> automatikus elindulását attól függően más és más módon állíthatja be, hogy milyen asztali környezetet használ. GNOME 3.x asztali környezet esetén például ezt a beállítást a <app>Rendszerbeállítások</app> Akadálymentesítés panelének <app>Látás</app> lapján találja meg.</p>
+      </item>
+      <item>
+        <p>Ha a GNOME asztali környezet használata közben szeretné be- vagy kikapcsolni az <app>Orka</app> képernyőolvasót, nyomja le a <keyseq><key>STARTGOMB</key><key>ALT</key><key>S</key></keyseq> billentyűkombinációt.</p>
+      </item>
+      <item>
+        <p>Gépelje be az <cmd>orca</cmd> parancsot egy terminál ablakban vagy a <gui>Futtatás</gui> párbeszédablakban, ha szükséges adja meg a megfelelő paramétereket, majd nyomja meg az <key>Enter</key> billentyűt.</p>
+      </item>
+    </list>
+  </section>
+    <section id="loadtime">
+      <title>Betöltéssel kapcsolatos opciók</title>
+      <p>Az <app>Orka</app> elindításakor a következő opciókat használhatja a terminál alkalmazásban és a Futtatás párbeszédablakban:</p>
+      <list>
+        <item>
+          <p><cmd>-h</cmd>, <cmd>--help</cmd>: Megjelenít egy súgóüzenetet</p>
+        </item>
+        <item>
+          <p><cmd>-v</cmd>, <cmd>--version</cmd>: Megjeleníti az <app>Orka</app> verziószámát</p>
+        </item>
+        <item>
+          <p><cmd>-s</cmd>, <cmd>--setup</cmd>: Felhasználói beállítások megadása</p>
+        </item>
+        <item>
+          <p><cmd>-u</cmd>, <cmd>--user-prefs=<em>könyvtárnév</em></cmd>: Alternatív <em>könyvtárnév</em> használata a felhasználói beállítások tárolásához</p>
+        </item>
+        <item>
+          <p><cmd>-e</cmd>, <cmd>--enable=<em>opció</em></cmd>: Egy opció használatának kikényszerítése, ahol az <em>opció</em> a következők egyike lehet:</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+          <p><cmd>-d</cmd>, <cmd>--disable=<em>opció</em></cmd>: Egy opció használatának kizárása, ahol az <em>opció</em> a következők egyike lehet:</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+            <p><cmd>-p</cmd>, <cmd>--profile=<em>fájlnév</em></cmd>: Profil importálása a megadott <app>Orka</app> profilfájlból</p>
+        </item>
+        <item>
+          <p><cmd>-r</cmd>, <cmd>--replace</cmd>: Lecseréli a jelenleg futó <app>Orka</app> folyamatot</p>
+        </item>
+        <item>
+          <p><cmd>-l</cmd>, <cmd>--list-apps</cmd>: Az ismert futó alkalmazások kiírása</p>
+        </item>
+        <item>
+          <p><cmd>--debug</cmd>: A hibakövetési információk mentése a debug-ÉÉÉÉ-HH-NN-ÓÓ:PP:MM.out fájlba</p>
+        </item>
+        <item>
+          <p><cmd>--debug-file=<em>fájlnév</em></cmd>: A hibakövetési információk mentése a megadott fájlba</p>
+        </item>
+      </list>
+    </section>
+
+</page>

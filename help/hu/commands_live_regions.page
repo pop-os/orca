@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_live_regions" xml:lang="hu">
+  <info>
+    <link type="next" xref="commands_chat"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="howto_live_regions"/>
+    <title type="sort">1. Élő régiókkal kapcsolatos parancsok</title>
+    <title type="link">Élő régiók</title>
+    <desc>Weboldalak élő régióinak elérése</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Élő régiókkal kapcsolatos parancsok</title>
+  <p>A következő parancsokat használhatja az ARIA szabvánnyal akadálymentesített dinamikusan frissülő webes tartalmak eléréséhez.</p>
+  <list>
+    <item>
+      <p>Élő régiók megjelenítése: <keyseq><key>Orka módosító</key><key>Shift</key><key>Bekszles</key></keyseq></p>
+    </item>
+    <item>
+      <p>Élő régiók udvariassági beállításának módosítása: <key>Bekszles</key></p>
+    </item>
+    <item>
+      <p>Az élő régiók alapértelmezett udvariassági szintjének kikapcsolása: <keyseq><key>Shift</key><key>Bekszles</key></keyseq></p>
+    </item>
+    <item>
+      <p>Ugrás a következő vagy előző élő régióra: <keyseq><key>D</key></keyseq> és <keyseq><key>Shift</key><key>D</key></keyseq></p>
+    </item>
+    <item>
+      <p>Ugrás az utolsó élő régióra, amely információt közölt: <keyseq><key>Y</key></keyseq></p>
+    </item>
+    <item>
+      <p>Élő régiók áttekintése: <keyseq><key>Orka módosító</key><key>F1-től</key></keyseq> <key>F9-ig</key></p>
+    </item>
+</list>
+</page>

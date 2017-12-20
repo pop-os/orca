@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="guide" id="commands" xml:lang="hu">
+  <info>
+    <link type="next" xref="commands_controlling_orca"/>
+    <link type="guide" xref="index#quick_reference"/>
+    <title type="sort">4. Az <app>Orka</app> billentyűparancsai</title>
+    <title type="link">Parancsok</title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Az <app>Orka</app> billentyűparancsai</title>
+  <section id="getting_started" style="2column">
+    <title>Kezdeti lépések</title>
+  </section>
+  <section id="speech_braille" style="2column">
+    <title>Beszéd és Braille</title>
+  </section>
+  <section id="reading_documents" style="2column">
+    <title>Weboldalak és más dokumentumok olvasása</title>
+  </section>
+  <section id="reviewing_screen_contents" style="2column">
+    <title>Képernyőtartalom áttekintése és kezelése</title>
+  </section>
+  <section id="accessing_dynamic_information" style="2column">
+    <title>Hozzáférés a folyamatosan változó információkhoz</title>
+  </section>
+  <section id="troubleshooting">
+    <title>Hibaelhárítás</title>
+  </section>
+</page>

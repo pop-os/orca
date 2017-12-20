@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_voice" xml:lang="hu">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_speech"/>
+    <title type="sort">2.0 Hang</title>
+    <title type="link">Hang</title>
+    <desc>Az <app>Orka</app> által használt hang beállításainak megadása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Hangbeállítások</title>
+  <section id="voice_type_settings">
+    <title>Hangtípusok beállításai</title>
+    <section>
+      <title>Hangtípus</title>
+      <p>Ebben a kombinált listamezőben a különböző szövegtípusokhoz más és más hangkaraktert rendelhet, így lehetősége van például jobban megkülönböztetni a nagybetűs és hivatkozásokat tartalmazó szövegeket a normál szövegektől, vagy a képernyőn megjelenő üzeneteket az <app>Orka</app> által kiküldött üzenetektől.</p>
+      <note style="tip">
+        <title>Több hangkarakter beállítása</title>
+        <p>Ha egy hangkarakter beállításait szeretné konfigurálni, először válassza ki a kívánt hangkaraktert a <gui>Hangtípus</gui> kombinált listamezőből. Ezután állítsa be a kívánt személyt, beszédsebességet, hangmagasságot és hangerőt.</p>
+      </note>
+    </section>
+    <section>
+      <title>Beszédrendszer</title>
+      <p>Ez a kombinált listamező lehetővé teszi, hogy kiválaszthassa a használni kívánt beszédrendszert a telepített beszédrendszerek közül, például a Speech Dispatcher beszédrendszert.</p>
+    </section>
+    <section>
+      <title>Beszédszintetizátor</title>
+      <p>Ebben a kombinált listamezőben kiválaszthatja az Ön által kiválasztott beszédrendszerrel használni kívánt beszédszintetizátort.</p>
+    </section>
+    <section>
+      <title>Személy</title>
+      <p>Ez a kombinált listamező lehetővé teszi, hogy kiválassza, melyik „személy” vagy „beszélő” legyen aktív a kiválasztott hangbeállításnál. Beállíthatja például, hogy Dávid legyen az alapértelmezett hangkarakter az általános információk kimondásakor, de a hivatkozások kimondása Alíz hangján történjen. Ne feledje, hogy a <gui>Személy</gui> kombinált listamezőben választható hangkarakterek az Ön által telepített beszédszintetizátorok lehetőségeitől függenek.</p>
+    </section>
+    <section>
+      <title>Nagybetű jelzési stílus</title>
+      <p>Ez a kombinált listamező lehetővé teszi annak kiválasztását, hogy az <app>Orka</app> melyik Speech Dispatcher nagybetűjelzési stílus használatával jelezze a nagybetűs szövegeket. A lehetséges beállítások a Speech Dispatcher terminológia alapján lettek elnevezve:</p>
+     <list>
+       <item><p><gui>Hangjelzés</gui>: Egy hangjelzés lejátszása</p></item>
+       <item><p><gui>Betűzés</gui>: A „Nagy” szócskával kiegészítve kimondja a nagybetűt tartalmazó szót.</p></item>
+       <item><p><gui>Nincs</gui></p></item>
+    </list>
+    <note style="tip">
+      <title>A beállítás menet közben módosítható</title>
+      <p>Ezen kívül, az <app>Orka</app> lehetővé teszi a nagybetűjelzési stílusok közötti váltást egy parancs segítségével. Ha bővebb információra kíváncsi, olvassa el a <link xref="commands_speech_settings">Parancsok a beszédbeállítások megváltoztatásához</link> című fejezetet.</p>
+    </note>
+    <p>Alapértelmezett beállítás: nincs</p>
+    </section>
+    <section>
+      <title>Sebesség, hangmagasság és hangerő</title>
+      <p>Ezzel a három balra és jobbra mozgatható csúszkával beállíthatja a kiválasztott személy beszédjellemzőit.</p>
+    </section>
+  </section>
+  <section id="global_voice_settings">
+  <title>Globális hangbeállítások</title>
+    <section id="pauses">
+      <title>A beszéd megállítása szüneteknél</title>
+      <p>A különböző engedélyezett beszédbeállításoktól függően az <app>Orka</app> sok információt árul el egy objektumról (az objektum nevét, a vezérlőelem típusát, a gyorsbillentyűjét, a hozzá tartozó oktatói üzenetet stb). Ha be van jelölve a <gui>Beszéd megállítása szüneteknél</gui> jelölőnégyzet, az <app>Orka</app> rövid szüneteket szúr be az információk közé, így a fontosabb információk jól elkülönülnek egymástól.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="multicase_strings">
+      <title>Több nagybetűt tartalmazó kifejezések szavankénti felolvasása</title>
+      <p>Ha forráskódokkal dolgozik, gyakran találkozhat különálló szavakra felbontható „szavakkal”, amelyek vegyesen tartalmazhatnak kis és nagy betűket, mint például a „TöbbNagyBetű” kifejezés. A beszédszintetizátorok nem mindig tudják jól kiejteni az ilyen kifejezéseket. Ha bejelöli a <gui>Több nagybetűt tartalmazó kifejezések szavankénti felolvasása</gui> jelölőnégyzetet, az <app>Orka</app> a TöbbNagyBetű” kifejezést különálló szavakra bontva („Több”, „Nagy”, „Betű” formában) adja át a beszédszintetizátornak.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+    </section>
+    <section id="numbers_as_digits">
+      <title>Számok kimondása számjegyenként</title>
+      <p>Ha be van jelölve a <gui>Számok kimondása számjegyenként</gui> jelölőnégyzet, az <app>Orka</app> például az „123” számot különálló számjegyenként, „1”, „2”, „3” alakban adja át a beszédszintetizátornak.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+    </section>
+  </section>
+</page>

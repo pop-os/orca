@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_braille" xml:lang="hu">
+  <info>
+    <link type="next" xref="commands_reading"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_braille"/>
+    <title type="sort">2. Braille parancsok</title>
+    <title type="link">Braille</title>
+    <desc>Braille-kijelzőkön használható parancsok</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Braille parancsok</title>
+  <p>A következő parancsok lehetővé teszik, hogy az <app>Orkát</app> egy frissíthető Braille-kijelzőn irányíthassa a billentyűzet helyett:</p>
+  <list>
+    <item><p>A Braille-kijelző balra görgetése: Sor balra</p></item>
+    <item><p>A Braille-kijelző jobbra görgetése: Sor jobbra</p></item>
+    <item><p>Braille áttekintő mód be- vagy kikapcsolása: Fagyasztás</p></item>
+    <item><p>A Braille áttekintés mozgatása a jelenlegi szó feletti szóra: Sor fel</p></item>
+    <item><p>A Braille áttekintés mozgatása a jelenlegi szó alatti szóra: Sor le</p></item>
+    <item><p>A Braille áttekintés mozgatása a jobb alsó sarokba: Jobbra lent</p></item>
+    <item><p>A Braille áttekintés mozgatása a kezdő pozícióra: Balra fent</p></item>
+    <item><p>Irodalmi Braille támogatás engedélyezése: Hat pontos</p></item>
+    <item><p>Kijelölés kezdetének kijelölése: Kijelölés kezdete</p></item>
+    <item><p>Kijelölés végének kijelölése: Kijelölés vége</p></item>
+    <item><p>A kurzorirányító billentyűhöz társított esemény feldolgozása: Kurzor irány</p></item>
+    <item><p>Visszaadja a billentyűzetfókusszal rendelkező objektumot: Kurzorpozíció</p></item>
+  </list>
+</page>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_speech_settings" xml:lang="pt-BR">
+  <info>
+    <link type="next" xref="commands_braille"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_speech"/>
+    <title type="sort">2. Configurações de fala</title>
+    <title type="link">Fala</title>
+    <desc>Comandos para personalizar a saída do <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos de configuração de fala</title>
+  <p>Os comandos a seguir podem ser usados para personalizar a saída de fala do <app>Orca</app>. Você perceberá que alguns desses comandos estão "sem teclas de atalho definidas." Por favor veja <link xref="howto_key_bindings">Modificando atribuições de teclas</link> para informações de como atribuir teclas de atalhos a esses comandos.</p>
+  <list>
+    <item>
+      <p>Habilita/desabilita a fala: <keyseq><key>Tecla modificadora do Orca</key><key>S</key></keyseq></p>
+    </item>
+    <item>
+      <p>Alterna entre leitura de célula ou de linha numa tabela: <keyseq><key>Tecla modificadora do Orca</key><key>F11</key></keyseq></p>
+    </item>
+    <item>
+      <p>
+        Toggle between verbose and brief verbosity levels:
+        <keyseq><key>Orca Modifier</key><key>V</key></keyseq>
+      </p>
+    </item>
+    <item>
+      <p>Habilita/desabilita a fala de recuo e justificado: (Sem atalho)</p>
+    </item>
+    <item>
+      <p>Change the spoken number style: (Unbound)</p>
+    </item>
+    <item>
+      <p>Avança para o próximo nível de fala de pontuação: (Sem atalho)</p>
+    </item>
+    <item>
+      <p>Avança para o próximo nível de eco de teclas: (Sem atalho)</p>
+    </item>
+    <item>
+      <p>Cycle to the next capitalization style: (Unbound)</p>
+    </item>
+    <item>
+      <p>Diminui a velocidade: (Sem atalho)</p>
+    </item>
+    <item>
+      <p>Aumenta a velocidade: (Sem atalho)</p>
+    </item>
+    <item>
+      <p>Diminui a tonalidade: (Sem atalho)</p>
+    </item>
+    <item>
+      <p>Aumenta a tonalidade: (Sem atalho)</p>
+    </item>
+    <item>
+      <p>Decrease the volume: (Unbound)</p>
+    </item>
+    <item>
+      <p>Increase the volume: (Unbound)</p>
+    </item>
+  </list>
+</page>

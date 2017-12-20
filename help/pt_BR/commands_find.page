@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_find" xml:lang="pt-BR">
+  <info>
+    <link type="next" xref="commands_mouse"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_orca_find"/>
+    <title type="sort">2. Busca do Orca</title>
+    <title type="link">Busca do Orca</title>
+    <desc>Comandos para pesquisa no conteúdo de uma janela</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos de busca do Orca</title>
+  <p>O <link xref="howto_orca_find">recurso localizar</link> do <app>Orca</app> permite a você pesquisar no contexto da <link xref="howto_flat_review">revisão plana</link> ou por elementos localizados na janela atual.</p>
+  <list>
+    <item>
+      <p>Abre o diálogo localizar do <app>Orca</app>:</p>
+      <list>
+        <item>
+          <p>Computador de mesa: <keyseq><key>NUM Delete</key></keyseq></p>
+        </item>
+        <item>
+          <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Fecha colchetes</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Move o cursor da revisão plana para a próxima ocorrência de um texto:</p>
+      <list>
+        <item>
+          <p>Computador de mesa: <keyseq><key>Tecla modificadora do Orca</key><key>NUM Delete</key></keyseq></p>
+        </item>
+        <item>
+          <p>Notebook: <keyseq><key>Tecla modificador do Orca</key><key>Abre colchetes</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Move o cursor da revisão plana para a ocorrência anterior de um texto:</p>
+      <list>
+        <item>
+          <p>Computador de mesa: <keyseq> <key>Tecla modificadora do Orca</key><key>Shift</key><key>NUM Delete</key> </keyseq></p>
+        </item>
+        <item>
+          <p>Notebook: <keyseq> <key>Tecla modificadora do Orca</key><key>Ctrl</key><key>Abre colchetes</key> </keyseq></p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

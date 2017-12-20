@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_profiles" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_speech_settings"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_profiles"/>
+    <title type="sort">5. Profily</title>
+    <title type="link">Profily</title>
+    <desc>Příkazy pro přístup k uloženému nastavení</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy pro profil</title>
+    <p>Díky profilům můžete ukládat a načítat více nastavení a tak se rychle dostat k nastavení, které potřebujete.</p>
+    <p>Následující příkazy nemají přiřazenou žádnou klávesovou zkratku. Pokud jim nějakou přiřadit chcete, podívejte se prosím na kapitolu <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+    <list>
+      <item>
+        <p>Cyklicky přejít na následující profil: (bez klávesové zkratky)</p>
+      </item>
+    </list>
+</page>

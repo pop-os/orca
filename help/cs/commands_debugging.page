@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_debugging" xml:lang="cs">
+  <info>
+    <link type="guide" xref="commands#troubleshooting"/>
+    <title type="sort">1. Ladění</title>
+    <title type="link">Ladění</title>
+    <desc>Příkazy pro řešení problémů</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy pro ladění</title>
+  <p>Když narazíte na problém, můžete být požádání vývojáři, abyste poskytli některé ladicí informaci, které jim pomohou vypátrat původ onoho problému. Následující příkazy nemají přiřazenou žádnou klávesovou zkratku. Pokud ji potřebujete přiřadit, podívejte se do kapitoly <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+  <list>
+    <item>
+      <p>Přejít cyklicky na následující úroveň ladění: (bez klávesové zkratky)</p>
+    </item>
+  </list>
+</page>

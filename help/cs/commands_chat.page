@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_chat" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_debugging"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="preferences_chat"/>
+    <title type="sort">2. Diskuze</title>
+    <title type="link">Diskuze</title>
+    <desc>Příkazy pro používání s klienty rychlé komunikace a IRC</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy pro diskuze</title>
+  <p>Následující příkazy lze použít k přístupu k informacím v klientech rychlé komunikace a IRC podporovaných čtečkou <app>Orca</app>. Všimněte si, že několik těchto příkazů nemá přiřazenou klávesovou zkratku. Jak jim nějakou přiřadit najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+  <list>
+    <item>
+      <p>Prezentovat předchozí zprávu v diskuzní místnosti: <keyseq><key>Modifikátor Orca</key><key>F1</key></keyseq> až <key>F9</key></p>
+    </item>
+    <item>
+      <p>Povolit/zakázat oznamování názvu místnosti spolu se zprávou: (bez klávesové zkratky)</p>
+    </item>
+    <item>
+      <p>Povolit/zakázat oznámení, že kamarád zveřejňuje stav: (bez klávesové zkratky)</p>
+    </item>
+    <item>
+      <p>Povolit/zakázat historii pro konkrétní místnost: (bez klávesové zkratky)</p>
+    </item>
+  </list>
+</page>

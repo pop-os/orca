@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_profiles" xml:lang="bg">
+  <info>
+    <link type="next" xref="commands_speech_settings"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_profiles"/>
+    <title type="sort">5. Профили</title>
+    <title type="link">Профили</title>
+    <desc>Команди за достъп до съхранени настройки</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди за профилите</title>
+    <p>Профилите ви позволяват да съхраните и в последствие да възстановите множество набори от настройки, до които бихте искали бърз достъп.</p>
+    <p>Следващата команда е „неприсвоена“ към клавишна комбинация. Ако желаете да я присвоите, вижте секцията <link xref="howto_key_bindings">Промяна на функциите на клавишите</link>.</p>
+    <list>
+      <item>
+        <p>Превключване към следващия профил от настройки: (неприсвоена)</p>
+      </item>
+    </list>
+</page>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="fr">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_table_navigation"/>
+    <title type="sort">1. Navigation Gecko</title>
+    <title type="link">Navigation Gecko</title>
+    <desc>Configurer la prise en charge de <app>Firefox</app> et <app>Thunderbird</app> par <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Préférences de navigation Gecko</title>
+  <section id="page_navigation">
+    <title>Navigation à travers la page</title>
+    <p>Le groupement de contrôles <gui>Navigation à travers la page</gui> vous permet de personnaliser comment <app>Orca</app> prononce et vous permet d'interagir avec le texte et d'autres types de contenu.</p>
+    <section>
+      <title>Contrôler la navigation au curseur d'Orca</title>
+      <p>Cette case à cocher bascule la navigation au curseur d'<app>Orca</app>. Quand elle est activée, Orca prend le contrôle du curseur lorsque vous vous déplacez dans la page ; quand elle est désactivée, la navigation au curseur native de Gecko est active.</p>
+      <p>Valeur par défaut : cochée</p>
+      <note style="tip">
+        <title>Ce paramètre peut être activé à la volée</title>
+        <p>Pour basculer ce paramètre pour un moment sans le conserver, utilisez <keyseq><key>Touche de modification d'Orca</key><key>F12</key></keyseq>.</p>
+       </note>
+    </section>
+    <section>
+      <title>Mode focus automatique durant la navigation au curseur</title>
+      <p>Si cette case est cochée, <app>Orca</app> active automatiquement le mode focus lorsque vous utilisez des commandes de navigation au curseur pour naviguer vers un champ de formulaire. Par exemple, un appui sur <key>Flèche bas</key> vous permettrait de passer dans la zone de saisie, mais après cela, Orca passerait en mode focus et les pressions suivantes sur la touche <key>Flèche bas</key> seraient contrôlées par le navigateur Web et plus par Orca. Si cette case n'est pas cochée, <app>Orca</app> continue de contrôler ce qui se passe lorsque vous pressez à nouveau sur <key>Flèche bas</key>, ce qui permet de sortir de la zone avec les touches fléchées et de continuer ainsi la lecture.</p>
+      <p>Valeur par défaut : non cochée</p>
+      <note style="tip">
+        <title>Basculement automatique entre les modes navigation et focus</title>
+        <p>Afin de démarrer ou d'arrêter l'interaction avec un champ de formulaire ayant le focus, utilisez <keyseq><key>Touche de modification d'Orca</key><key>A</key></keyseq> pour basculer entre les modes navigation et focus.</p>
+       </note>
+    </section>
+    <section>
+      <title>Activer la navigation par structure</title>
+      <p>Cette case à cocher bascule la <link xref="howto_structural_navigation">Navigation par structure</link> d'<app>Orca</app>. La navigation par structure vous permet de parcourir la page d'élément en élément tel que les en-têtes, les liens et les champs de formulaire.</p>
+      <p>Valeur par défaut : cochée</p>
+      <note style="tip">
+        <title>Ce paramètre peut être activé à la volée</title>
+        <p>Pour basculer ce paramètre à la volée sans le conserver, utilisez <keyseq><key>Touche de modification d'Orca</key><key>Z</key></keyseq>.</p>
+       </note>
+    </section>
+    <section>
+      <title>Mode focus automatique durant la navigation par structure</title>
+      <p>Si cette case est cochée, <app>Orca</app> active automatiquement le mode focus lorsque vous utilisez des commandes de navigation par structure pour naviguer vers un champ de formulaire. Par exemple, appuyer sur <key>E</key> pour passer à la saisie suivante déplacera le focus à cet endroit et activera aussi le mode focus afin que le prochain appui sur <key>E</key> écrive un caractère « e » dans le champ de saisie. Si cette case n'est pas cochée, <app>Orca</app> reste en mode navigation et le prochain appui sur <key>E</key> vous fera passer à la zone de saisie suivante de la page.</p>
+      <p>Valeur par défaut : non cochée</p>
+      <note style="tip">
+        <title>Basculement automatique entre les modes navigation et focus</title>
+        <p>Afin de démarrer ou d'arrêter l'interaction avec un champ de formulaire ayant le focus, utilisez <keyseq><key>Touche de modification d'Orca</key><key>A</key></keyseq> pour basculer entre les modes navigation et focus.</p>
+       </note>
+    </section>
+    <section>
+      <title>Lancement automatique de la lecture à haute voix d'une page quand il est chargé pour la première fois</title>
+      <p>Si cette case est cochée, <app>Orca</app> effectue un « Lire tout » sur la page Web ou le courriel qui viennent d'être ouverts.</p>
+      <p>Valeur par défaut : cochée pour Firefox, non cochée pour Thunderbird</p>
+    </section>
+    <section>
+      <title>Présente le résumé d'une page lorsqu'elle est chargée pour la première fois</title>
+      <p>Si cette case est cochée, <app>Orca</app> résume les détails de la page Web ou du courriel que vous venez d'ouvrir, tels que le nombre d'en-têtes, de points de repère et de liens.</p>
+      <p>Valeur par défaut : cochée pour Firefox, non cochée pour Thunderbird</p>
+    </section>
+    <section>
+      <title>Activer le mode disposition pour le contenu</title>
+      <p>Si cette case est cochée, la navigation au curseur d'<app>Orca</app> respecte la disposition du contenu à l'écran et présente la ligne complète, y compris d'éventuels liens ou champs de formulaire sur cette ligne. Si cette case n'est pas cochée, <app>Orca</app> traite les objets tels que les liens et les champs de formulaire comme s'ils apparaissaient sur des lignes séparées, aussi bien pour la présentation que la navigation.</p>
+      <p>Valeur par défaut : cochée</p>
+    </section>
+  </section>
+  <section id="table_options">
+    <title>Options des tableaux</title>
+    <note>
+      <p>Pour en savoir plus sur les options d'<app>Orca</app> concernant la navigation au sein des tableaux, reportez-vous à <link xref="preferences_table_navigation">Préférences de navigation dans les tableaux</link>.</p>
+    </note>
+  </section>
+  <section id="find_options">
+    <title>Options de recherche</title>
+    <p>Le groupement de contrôles <gui>Option de recherche</gui> rend possible la personnalisation de la présentation par <app>Orca</app> des résultats d'une recherche effectuée au sein d'une application.</p>
+    <section>
+      <title>Lire les résultats durant la recherche</title>
+      <p>Si cette case est cochée, <app>Orca</app> lit la ligne qui contient l'élément que vous recherchez.</p>
+      <p>Valeur par défaut : cochée</p>
+    </section>
+    <section>
+      <title>Lire uniquement les lignes changées durant la recherche</title>
+      <p>Si cette case est cochée, <app>Orca</app> ne lit pas une ligne correspondante si celle-ci est la même que la ligne correspondante précédente. Cette option est conçue pour prévenir le « bavardage » si une ligne contient plusieurs instances de la chaîne que vous recherchez.</p>
+      <p>Valeur par défaut : non cochée</p>
+    </section>
+    <section>
+      <title>Longueur minimale du texte correspondant</title>
+      <p>Ce bouton de réglage est utilisé pour spécifier le nombre de caractères qui doivent correspondre à votre recherche avant que <app>Orca</app> ne prononce les lignes correspondantes. Cette option est aussi conçue pour prévenir le « bavardage » car il y a de très nombreuses correspondances lorsque vous commencez à saisir la chaîne que vous recherchez.</p>
+      <p>Valeur par défaut : 4</p>
+    </section>
+  </section>
+</page>

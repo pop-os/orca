@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_table" xml:lang="hu">
+  <info>
+    <link type="next" xref="commands_flat_review"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_tables"/>
+    <title type="sort">3. Táblázatnavigációval kapcsolatos parancsok</title>
+    <title type="link">Táblázatnavigáció</title>
+    <desc>Parancsok a táblázatokhoz való hozzáféréshez</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Táblázatnavigációval kapcsolatos parancsok</title>
+  <p>A táblázatcellák közötti navigáció támogatása az Orka <link xref="commands_structural_navigation#tables">Strukturált navigációs billentyűparancsainak</link> része. Ezeken kívül a következő parancsokat is használhatja:</p>
+  <list>
+    <item>
+      <p>Dinamikus sorfejlécek beállítása az aktuális oszlopra: <keyseq><key>Orka módosító</key><key>C</key></keyseq></p>
+    </item>
+    <item>
+      <p>Dinamikus oszlopfejlécek beállítása az aktuális sorra: <keyseq><key>Orka módosító</key><key>R</key></keyseq></p>
+    </item>
+    <item>
+      <p>Dinamikus sorfejlécek törlése: <keyseq><key>Orka módosító</key><key>C</key></keyseq> (kétszer gyorsan megnyomva)</p>
+    </item>
+    <item>
+      <p>Dinamikus oszlopfejlécek törlése: <keyseq><key>Orka módosító</key><key>R</key></keyseq> (kétszer gyorsan megnyomva)</p>
+    </item>
+    <item>
+      <p>Váltás a táblázat aktuális cellájának vagy sorának felolvasása között: <keyseq><key>Orka módosító</key><key>F11</key></keyseq></p>
+    </item>
+  </list>
+</page>

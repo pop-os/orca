@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_setting_up_orca" xml:lang="de">
+<info>
+  <link type="seealso" xref="preferences"/>
+  <link type="guide" xref="index#getting_started"/>
+  <link type="next" xref="howto_the_orca_modifier"/>
+  <title type="sort">4. Orca-Konfiguration</title>
+  <title type="link">Konfiguration</title>
+    <desc>So richten Sie <app>Orca</app> ein</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  </info>
+  <title>Orca-Konfiguration</title>
+    <section id="configuring_orca">
+      <p>
+        If you want to configure <app>Orca</app>, get into the
+        <link xref="preferences">Preferences</link> dialog by pressing
+        <keyseq><key>Orca Modifier</key><key>Space</key></keyseq> from
+        within any accessible application. Alternatively, you can type
+        <cmd>orca</cmd> followed by either <cmd>-s</cmd> or <cmd>--setup</cmd>
+        in a terminal window or within the <gui>Run</gui> dialog and then press
+        <key>Return</key>.
+      </p>
+    </section>
+</page>

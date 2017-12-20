@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="hu">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_table_navigation"/>
+    <title type="sort">1. Gecko navigáció</title>
+    <title type="link">Gecko navigáció</title>
+    <desc>Az <app>Orka</app> <app>Firefox</app> és <app>Thunderbird</app> támogatásának konfigurálása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>A Gecko navigáció beállításai</title>
+  <section id="page_navigation">
+    <title>Oldalnavigáció</title>
+    <p>Az <gui>Oldalnavigáció</gui> alatti vezérlőelemek segítségével személyre szabhatja a szöveges és más tartalmak <app>Orka</app> általi ismertetését.</p>
+    <section>
+      <title>Mutatónavigáció irányítása</title>
+      <p>Ez a jelölőnégyzet be- vagy kikapcsolja az <app>Orka</app> mutatónavigációt. Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> vezérli a mutatót, amikor navigál egy weboldalon. Ha ez a jelölőnégyzet nincs bejelölve, a beépített Gecko mutatónavigáció lesz aktív.</p>
+      <p>Alapbeállítás: bejelölve</p>
+      <note style="tip">
+        <title>A beállítás menet közben módosítható</title>
+        <p>A két beállítás közötti gyors váltáshoz nyomja meg az <keyseq><key>Orka módosító</key><key>F12</key></keyseq> billentyűkombinációt. Ha ezt a billentyűkombinációt használja, a beállítás nem kerül mentésre.</p>
+       </note>
+    </section>
+    <section>
+      <title>A fókuszmód automatikus bekapcsolása a mutatónavigáció használatakor</title>
+      <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> automatikusan fókuszmódba fog váltani egy űrlapmezőre lépéskor, ha a mutatónavigációt használja. Tegyük fel, hogy a <key>Lefelé nyíl</key> segítségével szeretne egy szerkesztőmezőre lépni. Ha ez megtörténik, az <app>Orka</app> automatikusan fókuszmódba kerül, és a további <key>Lefelé nyíl</key> billentyűlenyomásokat már a webböngésző, és nem az <app>Orka</app> vezérli. Ha ez a jelölőnégyzet nincs bejelölve, folyamatosan az <app>Orka</app> vezérli, hogy mi történjen a <key>Lefelé nyíl</key> lenyomásakor, így lehetséges ellépni a szerkesztőmezőről, és folytatni az olvasást.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+      <note style="tip">
+        <title>Manuális váltás a böngészőmód és a fókuszmód között</title>
+        <p>Annak érdekében, hogy meg tudjon kezdeni vagy be tudjon fejezni egy műveletet az éppen fókuszban levő űrlapmezővel, használja az <keyseq><key>Orka módosító</key><key>A</key></keyseq> billentyűkombinációt. Ezzel a billentyűkombinációval váltani tud a fókuszmód és a böngészőmód között.</p>
+       </note>
+    </section>
+    <section>
+      <title>Strukturált navigáció engedélyezése</title>
+      <p>Ez a jelölőnégyzet be- vagy kikapcsolja a <link xref="howto_structural_navigation">strukturált Orka navigációt</link>. A strukturált Orka navigáció lehetővé teszi az elemek, például a címsorok, hivatkozások és űrlapmezők alapján történő navigációt.</p>
+      <p>Alapbeállítás: bejelölve</p>
+      <note style="tip">
+        <title>A beállítás menet közben módosítható</title>
+        <p>A beállítás ideiglenes be- vagy kikapcsolásához nyomja meg az <keyseq><key>Orka módosító</key><key>Z</key></keyseq> billentyűkombinációt. Ha ezt a billentyűkombinációt használja, a beállítás nem kerül mentésre.</p>
+       </note>
+    </section>
+    <section>
+      <title>A fókuszmód automatikus bekapcsolása a strukturált navigáció használatakor</title>
+      <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> automatikusan fókuszmódba fog kerülni, amikor az <app>Orka</app> strukturált navigációs parancsait használja egy űrlapmezőre navigáláshoz. Tegyük fel, hogy az <key>E</key> billentyű lenyomásával a következő szerkesztőmezőre szeretne lépni. Ha újra lenyomja az <key>E</key> billentyűt, mivel az <app>Orka</app> már fókuszmódba került, a fókuszban levő szerkesztőmezőbe be fog íródni az <key>E</key> betű. Ha ez a jelölőnégyzet nincs bejelölve, akkor az <app>Orka</app> böngészőmódban marad, és a következő lenyomott <key>E</key> billentyű hatására a következő szerkesztőmezőre kerül a weboldalon.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+      <note style="tip">
+        <title>Manuális váltás a böngészőmód és a fókuszmód között</title>
+        <p>Annak érdekében, hogy meg tudjon kezdeni vagy be tudjon fejezni egy műveletet az éppen fókuszban levő űrlapmezővel, használja az <keyseq><key>Orka módosító</key><key>A</key></keyseq> billentyűkombinációt. Ezzel a billentyűkombinációval váltani tud a fókuszmód és a böngészőmód között.</p>
+       </note>
+    </section>
+    <section>
+      <title>A weblap automatikus felolvasása, amint befejeződött a letöltése</title>
+      <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> fel fogja olvasni az újonnan betöltött oldal vagy egy e-mail tartalmát.</p>
+      <p>Alapbeállítás: Firefox esetén bejelölve, Thunderbird esetén nincs bejelölve</p>
+    </section>
+    <section>
+      <title>Összefoglaló megjelenítése egy lap első betöltésekor</title>
+      <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> egy részletes összegzést fog adni egy újonnan megnyitott weboldalról vagy a megnyitott e-mailről. Megtudhatja például, hogy a megnyitott weboldal hány címsort, jelölőt vagy hivatkozást tartalmaz.</p>
+      <p>Alapbeállítás: Firefox esetén bejelölve, Thunderbird esetén nincs bejelölve</p>
+    </section>
+    <section>
+      <title>Az elrendezésmód engedélyezése a tartalom megjelenítésekor</title>
+      <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> mutatónavigációja a képernyő-elrendezés szerinti teljes sort fogja megjeleníteni, az adott sorban szereplő hivatkozásokkal és űrlapmezőkkel együtt. Ha ez a jelölőnégyzet nincs bejelölve, az <app>Orka</app> különálló sorként fogja kezelni a hivatkozásokat és az űrlapmezőket, a megjelenítéskor és a navigációkor egyaránt.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+  </section>
+  <section id="table_options">
+    <title>Táblázatnavigáció beállításai</title>
+    <note>
+      <p>Ha bővebb információra kíváncsi az <app>Orka</app> táblázatnavigációval kapcsolatos beállításaival kapcsolatban, olvassa el a <link xref="preferences_table_navigation">Táblázatnavigációval kapcsolatos beállítások</link> című fejezetét.</p>
+    </note>
+  </section>
+  <section id="find_options">
+    <title>Keresési feltételek</title>
+    <p>A <gui>Keresési feltételek</gui> beállítócsoport vezérlőelemeivel személyre szabhatja, hogyan ismertesse az <app>Orka</app> az alkalmazások beépített keresőjében végzett keresés eredményeit.</p>
+    <section>
+      <title>Keresés eredményének felolvasása</title>
+      <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> fel fogja olvasni azt a sort, amelyben az Ön által keresett kifejezés található.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section>
+      <title>Csak a megváltozott sorok felolvasása a keresés során</title>
+      <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> nem fogja többször felolvasni azokat a sorokat, amelyekben több helyen is előfordul a keresett kifejezés.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+    </section>
+    <section>
+      <title>A keresett szöveg minimális hossza</title>
+      <p>Ezzel a léptetőgombbal megadhatja, hogy az <app>Orka</app> hány karakter begépelése után olvassa fel a keresett kifejezést tartalmazó sorokat. Ezzel az opcióval megelőzheti a keresett kifejezés begépelésekor előforduló rövidebb egyezéseket tartalmazó sorok felolvasását.</p>
+      <p>Alapbeállítás: 4</p>
+    </section>
+  </section>
+</page>

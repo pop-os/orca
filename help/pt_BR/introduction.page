@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="introduction" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_setting_up_orca"/>
+    <title type="sort">1. Bem-vindo ao Orca</title>
+    <desc>Introdução ao leitor de telas <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Bem-vindo ao Orca</title>
+  <p>O <app>Orca</app> é um leitor de telas livre, de código aberto, flexível, e extensível que fornece acesso ao ambiente de trabalho gráfico através de fala e braille atualizável.</p>
+  <p>O <app>Orca</app> funciona com aplicativos e kits de ferramentas que possuem suporte à interface de provedor de serviços de tecnologia assistiva (AT-SPI), que é a principal infra-estrutura de tecnologia assistiva para Linux e Solaris. Aplicativos e kits de ferramentas que suportam o AT-SPI incluem o kit de ferramentas Gtk+ do GNOME, o kit de ferramentas Swing da plataforma Java, LibreOffice, Gecko, e o WebKitGtk. O suporte a AT-SPI para a ferramenta KDE Qt está sendo desenvolvida.</p>
+  <section id="launching">
+    <title>Executando o <app>Orca</app></title>
+    <p>Para executar o <app>Orca</app>:</p>
+    <list>
+      <item>
+        <p>O método para configurar o <app>Orca</app> a ser iniciado automaticamente como seu leitor de tela preferido vai depender de qual ambiente de área de trabalho você usa. Por exemplo, no GNOME 3.x esta opção pode ser localizada no painel de Acesso universal do centro de controle, na página <gui>Visão</gui>.</p>
+      </item>
+      <item>
+        <p>Para alternar o <app>Orca</app> em ligado e desligado no GNOME, pressione as teclas <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Digite <cmd>orca</cmd>, juntamente com os parametros opcionais, em uma janela do terminal ou dentro do diálogo <gui>Run</gui> e então pressione <key>Enter</key>.</p>
+      </item>
+    </list>
+  </section>
+    <section id="loadtime">
+      <title>Opções de carregamento</title>
+      <p>As seguintes opções podem ser especificadas ao executar o <app>Orca</app> em uma janela de terminal ou através do diálogo <gui>Executar</gui>:</p>
+      <list>
+        <item>
+          <p><cmd>-h</cmd>, <cmd>--help</cmd>: Mostra mensagem de ajuda</p>
+        </item>
+        <item>
+          <p><cmd>-v</cmd>, <cmd>--version</cmd>: Mostra a versão do <app>Orca</app></p>
+        </item>
+        <item>
+          <p>
+            <cmd>-s</cmd>, <cmd>--setup</cmd>: Set up user preferences
+          </p>
+        </item>
+        <item>
+          <p>
+            <cmd>-u</cmd>, <cmd>--user-prefs=<em>dirname</em></cmd>:
+            Use <em>dirname</em> as the alternate directory for user
+            preferences
+          </p>
+        </item>
+        <item>
+          <p><cmd>-e</cmd>, <cmd>--enable=<em>opção</em></cmd>: Força o uso de uma opção, sendo que a <em>opção</em> pode ser uma das seguintes:</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+          <p><cmd>-d</cmd>, <cmd>--disable=<em>opção</em></cmd>: Impede o uso de uma opção, sendo que a <em>opção</em> pode ser uma das seguintes:</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+            <p>
+              <cmd>-p</cmd>, <cmd>--profile=<em>filename</em></cmd>:
+              Import a profile from a given <app>Orca</app> profile file
+            </p>
+        </item>
+        <item>
+          <p>
+            <cmd>-r</cmd>, <cmd>--replace</cmd>: Replace a currently-running <app>Orca</app>
+          </p>
+        </item>
+        <item>
+          <p><cmd>-l</cmd>, <cmd>--list-apps</cmd>: Lista os aplicativos conhecidos que estão sendo executados</p>
+        </item>
+        <item>
+          <p><cmd>--debug</cmd>: Envia a saída de depuração para debug-AAAA-MM-DD-HH:MM:SS.out</p>
+        </item>
+        <item>
+          <p><cmd>--debug-file=<em>NomeArquivo</em></cmd>: Envia a saída de depuração para o arquivo especificado</p>
+        </item>
+      </list>
+    </section>
+
+</page>

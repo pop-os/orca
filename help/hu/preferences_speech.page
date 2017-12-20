@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_speech" xml:lang="hu">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_braille"/>
+    <title type="sort">2.1 Beszéd</title>
+    <title type="link">Beszéd</title>
+    <desc>A beszéddel kapcsolatos beállítások megadása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Beszédbeállítások</title>
+  <section id="enable_speech">
+    <title>Beszéd engedélyezése</title>
+    <p>Ez a jelölőnégyzet szabályozza, hogy az <app>Orka</app> használja-e a beszédszintetizátort. A csak Braille-kijelzőt használó felhasználók töröljék a jelölőnégyzetet.</p>
+    <p>Alapbeállítás: bejelölve</p>
+  </section>
+  <section id="verbosity">
+    <title>Részletesség</title>
+    <p>A <gui>Részletesség</gui> beállításával megadható az egyes szituációkban kimondandó információk mennyisége. Ha például a részletes lehetőség van beállítva, és a nyílbillentyűkkel egy elgépelt szóra mozgatja a kurzort, akkor az <app>Orka</app> jelezni fogja Önnek az elgépelést. Ha a Tömör lehetőség van beállítva, ez az információ nem kerül kimondásra.</p>
+    <p>Alapbeállítás: <gui>Részletes</gui></p>
+  </section>
+  <section id="punctuation_level">
+    <title>Központozás szintje</title>
+    <p>A <gui>Központozás szintje</gui> választógomb-csoport meghatározza a beszédszintetizátor által használandó központozási szintet. Az elérhető szintek: Nincs, Néhány, Legtöbb és Mindent.</p>
+    <p>Alapbeállítás: <gui>Legtöbb</gui></p>
+    <section>
+      <title>Nincs</title>
+      <p>Ha a <gui>Nincs</gui> központozási szintet választja, semmilyen írásjel kimondása nem történik meg. Kivételt képeznek ez alól a speciális szimbólumok, például a felső és alsó indexben lévő számok, Unicode jelek és felsorolásjelek, noha egyesek ezeket a szimbólumokat is központozási jeleknek tekintik.</p>
+    </section>
+    <section>
+      <title>Néhány</title>
+      <p>Ha a <gui>Néhány</gui> központozási szintet választja, minden előzőleg írt szimbólum kimondásra kerül. Továbbá, az <app>Orka</app> ki fogja mondani az ismert matematikai szimbólumokat, pénznemeket, valamint a „^”, „@”, „/”, „&amp;”, „#” szimbólumokat is.</p>
+    </section>
+    <section>
+      <title>Legtöbb</title>
+      <p>Ha a <gui>Legtöbb</gui> központozási szintet választja, minden előzőleg írt szimbólum kimondásra kerül. Továbbá, az <app>Orka</app> ki fog mondani minden más ismert írásjelet, <em>kivéve</em> a „!”, „'”, „,”, „.”, „?” írásjeleket.</p>
+    </section>
+    <section>
+      <title>Mindent</title>
+      <p>Ha a <gui>Mindent</gui> központozási szintet választja, az <app>Orka</app> minden ismert írásjelet és szimbólumot ki fog mondani.</p>
+    </section>
+  </section>
+  <section id="spoken_context">
+    <title>Kimondott szövegkörnyezet</title>
+    <p>A következő kiegészítő lehetőségekkel irányíthatja a fókuszban levő objektumról elhangzó „rendszer” üzenetek kimondását. Mivel az objektumhoz társított szöveg nem jelenik meg a képernyőn, ezért ez az információ az <app>Orka</app> rendszer hangkaraktere által lesz kimondva.</p>
+    <section id="only_speak_displayed_text">
+      <title>Csak a képernyőn megjelenő szöveg kimondása</title>
+      <p>Ha bejelöli ezt a jelölőnégyzetet, az <app>Orka</app> csak a képernyőn megjelenő szövegeket fogja kimondani. Ez a beállítás elsősorban a gyengén látó, vagy vizuális tanulási nehézségekkel küzdő felhasználók számára lehet hasznos.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+      <note style="note">
+        <p>A következő beállítások nem lesznek elérhetők, ha a <gui>Csak a képernyőn megjelenő szöveg kimondása</gui> jelölőnégyzet be van jelölve.</p>
+      </note>
+    </section>
+    <section id="speak_blank_lines">
+      <title>Üres sorok felolvasása</title>
+      <p>Ha az <gui>Üres sorok felolvasása</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> egy „üres” szót fog mondani, amikor egy üres sorra lép. Ha ez a jelölőnégyzet nincs bejelölve, az <app>Orka</app> semmit sem fog mondani, amikor egy üres sorra lép.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="indentation_and_justification">
+      <title>Behúzás és igazítás felolvasása</title>
+      <p>Ha kódot vagy szövegeket szerkeszt, gyakran szüksége lehet az igazítás vagy a behúzás felolvasására. A <gui>Behúzás és igazítás felolvasása</gui> jelölőnégyzet bejelölése után az <app>Orka</app> kimondja ezeket az információkat.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+    </section>
+    <section id="speak_misspelled_word_indicator">
+      <title>A hibásan írt szó jelzés felolvasása</title>
+      <p>A hibásan írt szó jelölés a cikk-cakkos piros vonal, mely a hibásan írt szavak alatt jelenik meg a szerkeszthető szövegmezőkben. Ha be van jelölve <gui>A hibásan írt szó jelzés felolvasása</gui> jelölőnégyzet, amikor egy hibásan írt szóra navigál vagy elgépel egy szót, és megjelenik ez a jelölés, az <app>Orka</app> a „Hibásan írt szó” üzenetet fogja kimondani.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="mnemonics">
+     <title>Gyorsbillentyűk felolvasása</title>
+      <p>Ha a <gui>Gyorsbillentyűk felolvasása</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> kimondja a fókuszban lévő objektumokhoz társított gyorsbillentyűket. Ha például az <gui>OK</gui> gomb van fókuszban és ez a jelölőnégyzet be van jelölve, a kimondott szöveg a következő lesz: „<gui>OK</gui> gomb. <keyseq><key>Alt</key><key>O</key></keyseq>”.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+    </section>
+    <section id="child_position">
+      <title>Pozícióadatok kimondásának engedélyezése</title>
+      <p>Ha a <gui>Pozícióadatok kimondásának engedélyezése</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> kimondja a fókuszban lévő objektum pozícióadatait, ha ez az adat elérhető. Ha például egy listában a második elemen áll, és a listának nyolc eleme van, a kimondott adat 2/8 lesz. Ezek az információk például a következő objektumoknál hangzanak el: választógombok, kombinált listamezők, menük, listák, lapfülek, stb.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+    </section>
+    <section id="speak_tutorial_messages">
+      <title>Oktatói üzenetek kimondásának engedélyezése</title>
+      <p>Ha ez a jelölőnégyzet be van jelölve és mozog a kezelőfelület komponensei között, az <app>Orka</app> oktatói üzenet kimondásával tudatja, hogyan dolgozhat egy fókuszban levő komponenssel.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+    </section>
+    <section id="speak_description">
+      <title>Leírás felolvasása</title>
+      <p>Ha a <gui>Leírás felolvasása</gui> jelölőnégyzet be van jelölve és mozog a kezelőfelület komponensei között, az <app>Orka</app> az objektum akadálymentes nevével együtt felolvassa az objektum akadálymentes leírását is.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="system_messages_are_detailed">
+      <title>Részletes rendszerüzenetek engedélyezése</title>
+      <p>Ha a <gui>Részletes rendszerüzenetek engedélyezése</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> által kiküldött üzenetek hosszabb formában lesznek kimondva. Például, ha az <app>Orka</app> „Váltás a következő billentyűvisszhang-szintre” parancs segítségével billentyűvisszhang-szintet vált, az <app>Orka</app> az „A billentyűvisszhang szavankéntire állítva” üzenetet fogja kimondani. Ha inkább a rövidebb „Szavak” üzenetformát szeretné, törölje a jelölést a <gui>Részletes rendszerüzenetek engedélyezése</gui> jelölőnégyzetből.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="speak_colors_as_names">
+      <title>A színek kimondása színnevekkel</title>
+      <p>Ha be van jelölve <gui>A színek kimondása színnevekkel</gui> jelölőnégyzet, az <app>Orka</app> megpróbálja leírni a fókuszban levő objektum színjellemzőit. Például, az RGB 0, 27, 51 színkód „éjkék” színként lesz kimondva. Ha inkább a színek RGB értékeit szeretné hallani, törölje a jelölést ebből a jelölőnégyzetből.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="announce_blockquotes_during_navigation">
+      <title>Idézetblokkok bejelentése navigálás közben</title>
+      <p>Ha az <gui>Idézetblokkok bejelentése navigálás közben</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> be fogja jelenteni, amikor rálép egy idézetblokkra, vagy elhagyja azt. Megjegyzés: ez a beállítás független attól, hogy ez a bejelentés megtörténjen-e a felolvasás közben vagy sem. Ha bővebb információra kíváncsi, olvassa el a <link xref="preferences_general#say_all_announce_context">Szövegkörnyezettel kapcsolatos információk bejelentése a felolvasás közben</link> című fejezetet.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="announce_forms_during_navigation">
+      <title>Űrlapok bejelentése navigálás közben</title>
+      <p>Ha az <gui>Űrlapok bejelentése navigálás közben</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja mondani, amikor belép egy űrlapba, vagy elhagyja azt. Ne feledje, hogy ez a beállítás csak olyan űrlapokra vonatkozik, amelyek nem tartalmaznak ARIA jelölőket. Az ARIA jelölők bejelentésével kapcsolatos beállítást a <gui>Jelölők bejelentése navigálás közben</gui> jelölőnégyzet segítségével konfigurálhatja. Ezen kívül vegye figyelembe, hogy ez a beállítás független attól, hogy a bejelentés a felolvasás alatt megtörténik-e vagy sem. Ha bővebb információra kíváncsi, olvassa el a <link xref="preferences_general#say_all_announce_context">Szövegkörnyezettel kapcsolatos információk bejelentése a felolvasás közben</link> című fejezetet.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="announce_landmarks_during_navigation">
+      <title>Jelölők bejelentése navigálás közben</title>
+      <p>Ha a <gui>Jelölők bejelentése navigálás közben</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja mondani, amikor egy ARIA jelölőre navigál, vagy elhagyja azt. Megjegyzés: ez a beállítás független attól, hogy a jelölők bejelentése a felolvasás közben megtörténik-e vagy sem. Ha bővebb információra kíváncsi, olvassa el a <link xref="preferences_general#say_all_announce_context">Szövegkörnyezettel kapcsolatos információk bejelentése a felolvasás közben</link> című fejezetet.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="announce_lists_during_navigation">
+      <title>Listák bejelentése navigálás közben</title>
+      <p>Ha a <gui>Listák bejelentése navigálás közben</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja mondani, amikor egy listára navigál, vagy elhagyja azt. Megjegyzés: ez a beállítás független attól, hogy a listák bejelentése a felolvasás közben megtörténik-e vagy sem. Ha bővebb információra kíváncsi, olvassa el a <link xref="preferences_general#say_all_announce_context">Szövegkörnyezettel kapcsolatos információk bejelentése a felolvasás közben</link> című fejezetet.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="announce_panels_during_navigation">
+      <title>Panelek bejelentése navigálás közben</title>
+      <p>Ha a <gui>Panelek bejelentése navigálás közben</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja mondani, amikor egy panelre navigál, vagy elhagyja azt. Megjegyzés: ez a beállítás független attól, hogy ez a bejelentés megtörténik-e a felolvasás közben vagy sem. Ha bővebb információra kíváncsi, olvassa el a <link xref="preferences_general#say_all_announce_context">Szövegkörnyezettel kapcsolatos információk bejelentése a felolvasás közben</link> című fejezetet.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="announce_tables_during_navigation">
+      <title>Táblázatok bejelentése navigálás közben</title>
+      <p>Ha a <gui>Táblázatok bejelentése navigálás közben</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja mondani, amikor egy táblázatra navigál, vagy elhagyja azt. Megjegyzés: ez a beállítás független attól, hogy a táblázatok bejelentése a felolvasás közben megtörténik-e vagy sem. Ha bővebb információra kíváncsi, olvassa el a <link xref="preferences_general#say_all_announce_context">Szövegkörnyezettel kapcsolatos információk bejelentése a felolvasás közben</link> című fejezetet.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="read_full_row_in_gui_tables">
+      <title>A teljes sor kimondása a grafikus táblázatokban</title>
+      <p>Ha a <gui>A teljes sor kimondása a grafikus táblázatokban</gui> jelölőnégyzet be van jelölve, úgy ha az alkalmazások táblázataiban, például a bejövő üzenetek listájában a nyilakkal mozog, az <app>Orka</app> a táblázat teljes sorát ki fogja mondani. Ha inkább csak a fókuszban levő cella tartalmát szeretné hallani, törölje a jelölést ebből a jelölőnégyzetből.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="read_full_row_in_document_tables">
+      <title>A teljes sor kimondása a dokumentum táblázatokban</title>
+      <p>Ha be van jelölve <gui>A teljes sor kimondása a dokumentum táblázatokban</gui> jelölőnégyzet, és a felfelé és lefelé nyilak segítségével mozog például egy <app>LibreOffice Writer</app> vagy egy webes táblázatban, az <app>Orka</app> a táblázat teljes sorát ki fogja mondani. Ha inkább csak a fókuszban levő cella tartalmát szeretné hallani, törölje a jelölést ebből a jelölőnégyzetből.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="read_full_row_in_spreadsheets">
+      <title>A teljes sor kimondása a táblázatkezelőkben</title>
+      <p>Ha be van jelölve <gui>A teljes sor kimondása a táblázatkezelőkben</gui> jelölőnégyzet és felfelé vagy lefelé mozog egy táblázatkezelőben megnyitott táblázatban, az <app>Orka</app> a táblázat teljes sorát ki fogja mondani. Ha inkább csak a fókuszban levő cella tartalmát szeretné hallani, törölje a jelölést ebből a jelölőnégyzetből.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+    </section>
+  </section>
+</page>

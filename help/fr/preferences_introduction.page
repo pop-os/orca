@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_introduction" xml:lang="fr">
+  <info>
+    <title type="sort">0. Introduction aux préférences d'<app>Orca</app></title>
+    <title type="link">Introduction aux préférences d'<app>Orca</app></title>
+    <link type="guide" xref="preferences"/>
+    <link type="next" xref="preferences_general"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Introduction aux préférences d'<app>Orca</app></title>
+  <section>
+    <title>Préférences d'Orca</title>
+    <p>Les préférences d'Orca vous permettent de personnaliser les fonctions d'<app>Orca</app> qui s'appliquent à toutes les applications. Un exemple de préférence d'Orca est l'écho des touches car il s'applique à toutes les applications.</p>
+    <p>Remarque : les préférences d'Orca peuvent être personnalisées pour chaque application individuellement. Par exemple vous pouvez configurer l'écho des touches par défaut à « écho par mot » et configurer l'écho des touches dans Pidgin à « aucun écho ». Une fois que vous avez effectué cette configuration <app>Orca</app> effectue toujours l'écho des touches par mot saisi, sauf dans Pidgin.</p>
+    <note style="tip">
+      <title>Raccourcis clavier pour aller dans la boîte de dialogue des préférences</title>
+      <list>
+        <item>
+          <p><keyseq><key>Touche de modification d'Orca</key><key>Barre d'espace</key></keyseq> : préférences d'<app>Orca</app></p>
+        </item>
+        <item>
+          <p><keyseq><key>Ctrl</key><key>Touche de modification d'Orca</key><key>Barre d'espace</key></keyseq> : préférences d'<app>Orca</app> pour l'application en cours d'utilisation</p>
+        </item>
+      </list>
+    </note>
+  </section>
+  <section>
+    <title>Préférences spécifiques aux applications</title>
+      <p>En supplément des préférences d'Orca, il existe des préférences spécifiques aux applications. Ces préférences vous permettent de personnaliser les fonctions d'<app>Orca</app> qui ne s'appliquent qu'à certains environnements, tel que des pages Web ou des applications de discussion. Ces options ne sont disponibles que dans la boîte de dialogue des préférences spécifiques de l'application et seulement pour les applications auxquelles elles s'appliquent.</p>
+  </section>
+</page>

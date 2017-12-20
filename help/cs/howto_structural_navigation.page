@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_structural_navigation" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_tables"/>
+    <title type="sort">3. Strukturovaná navigace</title>
+    <desc>Jak se pohybovat podle nadpisů a jiných prvků</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Strukturovaná navigace</title>
+  <p>Funkce strukturované navigace ve čtečce <app>Orca</app> vám umožňují pohybovat se mezi prvky v dokumentu. K typům prvků, mezi kterými se můžete pohybovat, patří:</p>
+  <list>
+    <item><p>Nadpisy a další typy textových bloků</p></item>
+    <item><p>Prvky formulářů</p></item>
+    <item><p>Odkazy</p></item>
+    <item><p>Seznamy a položky seznamů</p></item>
+    <item><p>Záchytné body, oddělovače a kotvy</p></item>
+    <item><p>Tabulky a buňky v tabulkách</p></item>
+  </list>
+  <p>Úplný seznam jednotlivých prvků a k nim patřících klávesových zkratek najdete v kapitole <link xref="commands_structural_navigation">Příkazy pro strukturovanou navigaci</link>.</p>
+  <section id="applications">
+      <title>Podporované aplikace</title>
+      <p>V současnosti je strukturovaná navigace plně implementovaná pro webový obsah, včetně obsahu nápověd, jako je třeba ta, kterou právě čtete. Podpora strukturované navigace pro buňky tabulek je rovněž implementována pro <app>OpenOffice Writer</app> a <app>LibreOffice Writer</app>. Implementace strukturované navigace pro ostatní objekty v těchto kancelářských balících vyžaduje změny, které musí provést vývojáři těchto balíků. Obdobně to je se strukturovanou navigací v prohlížeči <app>Evince</app>, která také závisí na účasti jeho vývojářů.</p>
+      <note style="tip">
+        <title>Nezapomeňte zapnout strukturovanou navigaci!</title>
+        <p>V závislosti na tom, kde se zrovna nacházíte, může být potřeba, abyste strukturovanou navigaci ručně zapnuli, než ji začnete používat.</p>
+      </note>
+      <section id="toggling_required">
+        <title>Kdy je požadováno zapnutí strukturované navigace</title>
+        <p>Na webových stránkách výslovné zapnutí strukturované navigace obecně není nutné, protože práce s dokumenty převážně sestává z čtení obsahu. Proto zde nevyvstávají otázky typu, zda „M“, které jste právě zmáčkli, má být napsáno nebo se jedná o příkaz.</p>
+        <p>Na druhou stranu, v editovatelných dokumentech, jaké najdete v <app>OpenOffice</app> a <app>LibreOffice</app>, je pro čtečku <app>Orca</app> mnohem obtížnější odhadnout co od zmáčknutí „M“ očekáváte. Proto před tím, než použijete příkaz strukturované navigace v editovatelném dokumentu, musíte strukturovanou navigaci nejprve zapnout zmáčknutím <keyseq><key>Modifikátor Orca</key> <key>Z</key></keyseq>. Až dokončíte pohyb a budete se chtít vrátit k psaní, zmáčkněte <keyseq><key>Modifikátor Orca</key> <key>Z</key></keyseq> znovu a strukturovaná navigace se vypne.</p>
+      </section>
+  </section>
+  <section id="settings">
+    <title>Dostupná nastavení</title>
+    <p>Mimo v předchozím zmíněných příkazů má <app>Orca</app> řadu nastavitelných voleb dostupných speciálně pro aplikace, ve kterých je podporována strukturovaná navigace.</p>
+    <steps>
+      <title>Nastavení strukturované navigace</title>
+      <item>
+        <p>Zaměřte aplikaci, pro kterou má <app>Orca</app> podporu strukturované navigace.</p>
+      </item>
+      <item>
+        <p>Zmáčknutím <keyseq><key>Ctrl</key> <key>Modifikátor Orca</key> <key>mezerník</key> </keyseq> přejděte do dialogového okna <link xref="preferences">Předvolby Orca</link> pro aktuální aplikaci.</p>
+      </item>
+      <item>
+        <p>Přesuňte se na poslední stránku dialogového okna, která by měla být nazvaná právě podle vaší aktuální aplikace.</p>
+      </item>
+      <item>
+        <p>Prozkoumejte a upravte nastavení, jak se vám to hodí.</p>
+      </item>
+      <item>
+        <p>Zmáčkněte tlačítko <gui>OK</gui>.</p>
+      </item>
+    </steps>
+  </section>
+</page>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_flat_review" xml:lang="hu">
+  <info>
+    <link type="next" xref="commands_find"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_flat_review"/>
+    <title type="sort">1. Az egyszerű áttekintés parancsai</title>
+    <title type="link">Az egyszerű áttekintés</title>
+    <desc>Parancsok az ablakok áttekintéséhez</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Az egyszerű áttekintés parancsai</title>
+  <p>Az <app>Orka</app> <link xref="howto_flat_review">egyszerű áttekintés</link> parancsait arra tervezték, hogy át tudja velük tekinteni a képernyőn megjelenő elemeket. Ez például azt jelenti, hogy a képernyőn megjelenő információkat áttekintheti soronként, szavanként vagy karakterenként, ezt megteheti akkor is, amikor egy dokumentumban navigál. A legtöbb parancshoz definiálva van billentyűtársítás. Ha billentyűtársítást szeretne rendelni egy nem definiált parancshoz, olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
+  <section id="line">
+    <title>Parancsok a soronkénti áttekintéshez</title>
+    <list>
+      <item>
+        <p>Az egyszerű áttekintés mozgatása a kezdő pozícióra:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Orka módosító</key><key>Numpad 7</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Ctrl</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Ugrás az előző sorra:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 7</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Az aktuális sor kimondatása:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 8</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>I</key></keyseq></p></item>
+        </list>
+      </item>
+        <item><p>Az aktuális sor betűztetése:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 8</key></keyseq> (kétszer gyorsan megnyomva)</p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>I</key></keyseq> (kétszer gyorsan megnyomva)</p></item>
+        </list>
+      </item>
+      <item><p>Az aktuális sor fonetikus betűztetése:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 8</key></keyseq> (háromszor gyorsan megnyomva)</p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>I</key></keyseq> (háromszor gyorsan megnyomva)</p></item>
+        </list>
+      </item>
+      <item><p>Ugrás a következő sorra:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 9</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Az egyszerű áttekintés mozgatása a záró pozícióra:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Orka módosító</key><key>Numpad 9</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Ctrl</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="word">
+    <title>Parancsok a szavankénti áttekintéshez</title>
+    <list>
+      <item><p>Az egyszerű áttekintés mozgatása a jelenlegi szó fölötti szóra:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Orka módosító</key><key>Numpad 4</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Ctrl</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Ugrás az előző szóra:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 4</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Az aktuális elem vagy szó kimondatása, ahol az egyszerű áttekintés áll:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 5</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Az aktuális elem vagy szó betűztetése:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 5</key></keyseq> (kétszer gyorsan megnyomva)</p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>K</key></keyseq> (kétszer gyorsan megnyomva)</p></item>
+        </list>
+      </item>
+      <item><p>Az aktuális elem vagy szó fonetikus betűztetése:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 5</key></keyseq> (háromszor gyorsan megnyomva)</p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>K</key></keyseq> (háromszor gyorsan megnyomva)</p></item>
+        </list>
+      </item>
+      <item><p>Ugrás a következő szóra:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 6</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Az egyszerű áttekintés mozgatása az aktuális szó alatti szóra:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Orka módosító</key><key>Numpad 6</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Ctrl</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="character">
+    <title>Parancsok a karakterenkénti áttekintéshez</title>
+    <list>
+      <item><p>Az egyszerű áttekintés mozgatása az előző karakterre:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 1</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Az aktuális karakter kimondatása, amelyen az egyszerű áttekintés áll:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 2</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Vessző</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Az aktuális karakter fonetikus betűztetése:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 2</key></keyseq> (kétszer gyorsan megnyomva)</p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Vessző</key></keyseq> (kétszer gyorsan megnyomva)</p></item>
+        </list>
+      </item>
+      <item><p>Az aktuális karakter unicode kódjának kimondatása:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 2</key></keyseq> (háromszor gyorsan megnyomva)</p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Vessző</key></keyseq> (háromszor gyorsan megnyomva)</p></item>
+        </list>
+      </item>
+      <item><p>Az egyszerű áttekintés mozgatása a következő karakterre:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Numpad 3</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Pont</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Az egyszerű áttekintés mozgatása az aktuális sor végére:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Orka módosító</key><key>Numpad 1</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Ctrl</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="other">
+    <title>Egyéb parancsok</title>
+    <list>
+      <item><p>Egyszerű áttekintés be/ki (frissíti a környezetet):</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Orka módosító</key><key>Numpad mínusz</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>P</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Az aktuális objektum vagy felületi elem kimondatása:</p>
+        <list>
+          <item><p>Asztali kiosztás: <keyseq><key>Orka módosító</key><key>Numpad 5</key></keyseq></p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Ctrl</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>A felolvasás parancs használata az aktuális párbeszédablak vagy ablak áttekintéséhez:</p>
+        <list>
+          <item><p>Asztali kiosztás: <key>Numpad plusz</key> (kétszer gyorsan megnyomva)</p></item>
+          <item><p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Pontosvessző</key></keyseq> (kétszer gyorsan megnyomva)</p></item>
+        </list>
+      </item>
+      <item>
+      <p>Az egyszerű áttekintés által kijelölt tartalom másolása a vágólapra: Ehhez a parancshoz nincs definiálva billentyűtársítás</p>
+      </item>
+        <item>
+        <p>Az egyszerű áttekintés által kijelölt tartalom hozzáfűzése a vágólaphoz: Ehhez a parancshoz nincs definiálva billentyűtársítás</p>
+      </item>
+    </list>
+  </section>
+</page>

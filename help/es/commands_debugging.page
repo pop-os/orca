@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_debugging" xml:lang="es">
+  <info>
+    <link type="guide" xref="commands#troubleshooting"/>
+    <title type="sort">1. Depurado</title>
+    <title type="link">Depurar</title>
+    <desc>Comandos para la resolución de problemas</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Compartir Igual 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Daniel Mustieles</mal:name>
+      <mal:email>daniel.mustieles@gmail.com</mal:email>
+      <mal:years>2012 - 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jorge González</mal:name>
+      <mal:email>jorgegonz@svn.gnome.org</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos de depurado</title>
+  <p>Es posible que los desarrolladores le pidan algún tipo de información de depuración para ayudarles a identificar el origen del problema. El siguiente comando no está asociado a una pulsación de teclas. Si necesita asociarlo, consulte cómo <link xref="howto_key_bindings">Modificar las asociaciones de teclas</link>.</p>
+  <list>
+    <item>
+      <p>Cambiar al siguiente nivel de depuración: (sin asociar)</p>
+    </item>
+  </list>
+</page>

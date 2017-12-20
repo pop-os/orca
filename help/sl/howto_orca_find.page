@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_orca_find" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_mouse_review"/>
+    <title type="sort">3. Iskanje z Orko</title>
+    <desc>Iskanje predmetov v oknu</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Orkino iskanje</title>
+  <p><app>Orkina</app> zmožnost iskanja je na <link xref="howto_flat_review">ploskem pregledu</link> zasnovano iskanje, ki vam pomaga hitro najti predmete, ki so vidni na zaslonu v trenutnem oknu.</p>
+  <note style="tip">
+    <title>Omogočanje Okrinega iskanja</title>
+      <p>Za odprtje Orkinega pogovornega okna <gui>Iskanja</gui> uporabite naslednji ukaz osnovan na vaši izbrani <link xref="howto_keyboard_layout">razporeditvi tipkovnice</link>:</p>
+      <list>
+        <item>
+          <p>Namizni računalnik: <keyseq><key>NT Izbriši</key></keyseq></p>
+        </item>
+        <item>
+          <p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Levi uklepaj</key></keyseq> </p>
+        </item>
+      </list>
+      <p>Za seznam dodatnih nalog, ki jih lahko izvedete, si oglejte <link xref="commands_find">Orkine ukaze iskanja</link></p>
+  </note>
+  <p>Ko omogočite Orkino iskanje, boste bili postavljeni v pogovorno polje.</p>
+  <p>Tukaj lahko navedete naslednje predmete:</p>
+  <list>
+    <item>
+      <p>Besedilo za iskanje</p>
+    </item>
+    <item>
+      <p>Mesto za začetek iskanja, ki je lahko trenutno mesto ali vrh okna</p>
+      <p>Privzeta vrednost <gui>Začni od</gui>: <gui>Trenutno mesto</gui></p>
+    </item>
+    <item>
+      <p>Ali naj bodo pri iskanju zadetkov upoštevane velike črke</p>
+      <p>Privzeta vrednost <gui>Upoštevaj velike črke</gui>: neizbrano</p>
+    </item>
+    <item>
+      <p>Ali naj se zadetki omejijo na tiste, ki se ujemajo s celotno besedo ali frazo</p>
+      <p>Privzeta vrednost <gui>Ujemaj le celo besedo</gui>: neizbrano</p>
+    </item>
+    <item>
+      <p>Ali naj Iskanje za naslednji zadetek išče navzdol in/ali na desno ali navzgor in/ali na levo.</p>
+      <p>Privzeta vrednost <gui>Iskanja nazaj</gui>: ni izbrno</p>
+    </item>
+    <item>
+      <p>Ali naj iskanje oblije okoli vrha/dna okna, če ni ujemanja od začetnega mesta v smeri iskanja.</p>
+      <p>Privzeta vrednost <gui>Oblivanja okoli</gui>: izbrano</p>
+    </item>
+  </list>
+  <p>Ko boste izvedli iskanje, lahko hitro iščete naslednje ali predhodno ujemanje brez vračanja nazaj v pogovorno polje iskanja Orke.</p>
+  <p>Ker je to zmožnost <link xref="howto_flat_review">ploskega pregleda</link>, bo ob ujemanju ploski pregled samodejno omogočen in ujemajoč predmet besedila bo postal trenuten predmet pregleda. Vedite da žarišče v programu ne bo spremenjeno. Prav tako se kazalka ne bo premaknila. Če želite doseči karkoli od tega si oglejte <link xref="commands_mouse">Orkini ukazi miške/kazalnika</link>.</p>
+</page>

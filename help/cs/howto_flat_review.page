@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_flat_review" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_orca_find"/>
+    <title type="sort">2. Plošný náhled</title>
+    <desc>Jak prozkoumat okno speciálním způsobem</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Plošný náhled</title>
+  <p>Funkce plošného náhledu ve čtečce <app>Orca</app> vám poskytne speciální pohled na obsah, jak text, tak widgety, v aktivním okně. V tomto režimu zachází <app>Orca</app> s oknem, jako by to byl plochý list papíru s textem a odstraní jakékoliv známky hierarchie objektů nebo jiných logických seskupení v okně.</p>
+  <p>„Zploštělý“ obsah, známý také jako plošný náhled kontextu, můžete <link xref="commands_flat_review">procházet</link> po řádcích, slovech, znacích a objektech. Navíc můžete na prohlížených objektech provádět levé a pravé kliknutí. A nakonec můžete použít <link xref="howto_orca_find">hledání čtečkou Orca</link>, které vychází z plošného náhledu při vyhledávání v obsahu aktivního okna.</p>
+  <p>Protože plošný náhled kontextu je speciální prezentací obsahu aktivního okna, vytvoří se, když do plošného náhledu poprvé vstoupíte a obsahuje jen ty objekty, které jsou viditelné. Výsledkem je, že nebudete moci použít plošný náhled pro přístup k položkám, kterou v okně sice jsou, ale zrovna se nezobrazují. Navíc, pokud se obsah okna z vlastního popudu změní, plošný náhled kontextu se automaticky neaktualizuje. Sestavení nového kontextu můžete způsobit vypnutím a opětovným zapnutím plošného náhledu.</p>
+  <p>A na konec, plošný náhled je ze své povahy režim, který nelze použít naráz se sledováním zaměření čtečkou <app>Orca</app>. Z toho důvodu, když se nacházíte v plošném náhledu a použijete nějaký příkaz pro pohyb v navigaci, který přesune kurzor nebo zaměření na jiný objekt, plošný náhled se automaticky opustí.</p>
+</page>

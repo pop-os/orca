@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_flat_review" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_find"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_flat_review"/>
+    <title type="sort">1. Plošný náhled</title>
+    <title type="link">Plošný náhled</title>
+    <desc>Příkazy pro speciální náhled na okna</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy pro plošný náhled</title>
+  <p>Příkazy Orca pro <link xref="howto_flat_review">plošný náhled</link> jsou naržené pro speciální pohled na prvky zobrazené na obrazovce. Poskytují také prostředky pro čtení aktuálního řádku, slova a znaku, když se pohybujete po textu v dokumentu. Většina těchto příkazů má přiřazenou klávesovou zkratku. Informace jak ji přiřadit těm, co žádnou nemají, najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+  <section id="line">
+    <title>Příkazy pro pohled po řádcích</title>
+    <list>
+      <item>
+        <p>První řádek (pozice „Home“)</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>Modifikátor Orca</key><key>KP 7</key></keyseq> (sedm na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>Ctrl</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Předchozí řádek:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 7</key></keyseq> (sedm na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Aktuální řádek:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 8</key></keyseq> (osm na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>I</key></keyseq></p></item>
+        </list>
+      </item>
+        <item><p>Hláskovat aktuální řádek:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 8</key></keyseq> (osm na numerické klávesnici, dvojité zmáčknutí)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>I</key></keyseq> (dvojité zmáčknutí)</p></item>
+        </list>
+      </item>
+      <item><p>Foneticky hláskovat aktuální řádek:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 8</key></keyseq> (osm na numerické klávesnici, trojité zmáčknutí)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key> <key>I</key></keyseq> (trojité zmáčknutí)</p></item>
+        </list>
+      </item>
+      <item><p>Následující řádek:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 9</key></keyseq> (devět na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Poslední řádek (pozice „End“)</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>Modifikátor Orca</key><key>KP 9</key></keyseq> (devět na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>Ctrl</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="word">
+    <title>Příkazy pro pohled po slovech</title>
+    <list>
+      <item><p>Slovo nad:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>Modifikátor Orca</key><key>KP 4</key></keyseq> (čtyři na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>Ctrl</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Předchozí slovo:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 4</key></keyseq> (čtyři na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Aktuální slovo:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 5</key></keyseq> (pět na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Hláskovat aktuální slovo:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 5</key></keyseq> (pět na numerické klávesnici, dvojité zmáčknutí)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>K</key></keyseq> (dvojité zmáčknutí)</p></item>
+        </list>
+      </item>
+      <item><p>Foneticky hláskovat aktuální slovo:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 5</key></keyseq> (pět na numerické klávesnici, trojité zmáčknutí)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key> <key>K</key></keyseq> (trojité zmáčknutí)</p></item>
+        </list>
+      </item>
+      <item><p>Následující slovo:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 6</key></keyseq> (šest na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Slovo pod:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>Modifikátor Orca</key><key>KP 6</key></keyseq> (šest na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>Ctrl</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="character">
+    <title>Příkazy pro pohled po znacích</title>
+    <list>
+      <item><p>Předchozí znak:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 1</key></keyseq> (jedna na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Aktuální znak:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 2</key></keyseq> (dva na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>,</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Foneticky vyslovit aktuální znak:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 2</key></keyseq> (dva na numerické klávesnici, dvojité zmáčknutí)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>,</key></keyseq> (dvojité zmáčknutí)</p></item>
+        </list>
+      </item>
+      <item><p>Říct hodnotu Unikódu pro aktuální znak:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 2</key></keyseq> (dva na numerické klávesnici, trojité zmáčknutí)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>,</key></keyseq> (trojité zmáčknutí)</p></item>
+        </list>
+      </item>
+      <item><p>Následující znak:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>KP 3</key></keyseq> (tři na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>.</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Poslední znak na aktuálním řádku:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>Modifikátor Orca</key><key>KP 1</key></keyseq> (jedna na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>Ctrl</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="other">
+    <title>Doplňující příkazy</title>
+    <list>
+      <item><p>Přepnout plošný náhled (aktualizovat plošný náhled kontextu):</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>Modifikátor Orca</key><key>KP -</key></keyseq> (mínus na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>P</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Prozkoumat aktuální položku/widget:</p>
+        <list>
+          <item><p>Stolní počítač: <keyseq><key>Modifikátor Orca</key><key>KP 5</key></keyseq> (pět na numerické klávesnici)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>Ctrl</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Použít plynulé čtení k prozkoumání aktuálního dialogového okna nebo okna:</p>
+        <list>
+          <item><p>Stolní počítač: <key>KP +</key> (plus na numerické klávesnici, dvojité zmáčknutí)</p></item>
+          <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca Modifier</key><key>;</key></keyseq> (dvojité zmáčknutí)</p></item>
+        </list>
+      </item>
+      <item>
+      <p>Kopírovat obsah pod plošným náhledem do schránky: (bez klávesové zkratky)</p>
+      </item>
+        <item>
+        <p>Připojit obsah pod plošným náhledem ke stávajícímu obsahu ve schránce: (bez klávesové zkratky)</p>
+      </item>
+    </list>
+  </section>
+</page>

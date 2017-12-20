@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_flat_review" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_orca_find"/>
+    <title type="sort">2. Ploski pregled</title>
+    <desc>Prostorsko preučevanje okna</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Ploski pregled</title>
+  <p><app>Orkina</app> zmožnost ploskega pregleda vam omogoča prostorski pregled vsebina tako besedila in gradnikov dejavnega okna. V tem načinu <app>Orka</app> obravnava okno kot da bi bilo dvodimenzionalen list besedila in ne upošteva hierarhije gradnikov ali drugih logičnih združevanj v oknu.</p>
+  <p>Po "ploski" vsebini, poznani tudi kot vsebini ploskega pregleda lahko <link xref="commands_flat_review">krmarite</link> po vrstici, po besedi, po znaku in po predmetu. Poleg tega lahko izvedete levi ali desni klin na pregledovani predmet. Uporabite lahko <link xref="howto_orca_find">Orkino iskanje</link>, zmožnost ploskega pregleda za iskanje vsebine dejavnih oken.</p>
+  <p>Ker je vsebina ploskega pregleda prostorska predstavitev vsebine dejavnega okna, je ustvarjena, ko prvič vstopite v ploski pregled in vsebuje le vidne predmete. Zato ploskega pregleda ne boste mogli uporabiti za dostop do predmetov, ki so v oknu, vendar trenutno niso na zaslonu. Poleg tega se v primeru spremembe vsebine okna vsebina ploskega pregleda ne bo samodejno posodobila. Novo vsebino lahko izgradite z izklopom in vklopom ploskega pregleda.</p>
+  <p>Ploskega pregleda ni mogoče uporabiti hkrati z <app>Orkinim</app> sledenjem žarišča. Zato boste v primeru da ste v ploskem pregledu in nato za premik miške ali za dajanje žarišča drugemu predmetu uporabite ukaze krmarjenja programa, samodejno zapustili ploski prelged. </p>
+</page>

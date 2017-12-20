@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_mouse_review" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_notifications"/>
+    <title type="sort">4. Az áttekintés egérrel mód</title>
+    <desc>A mutató használata a képernyő áttekintéséhez</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Áttekintés egérrel</title>
+  <p>Az <app>Orka</app> áttekintés egérrel funkciója lehetőséget ad az egér alatti objektumok ismertetésére. Az <app>Orka</app> <link xref="howto_flat_review">egyszerű áttekintés</link> funkciójával ellentétben az áttekintés egérrel funkció nem korlátozódik az aktív ablakra, az <app>Orka</app> megpróbál minden akadálymentesen hozzáférhető objektumot azonosítani, melyre az egérmutató mutat. Ha az egérmutatót egy olyan akadálymentesen hozzáférhető objektumra mozgatta, amely információkat közöl, az <app>Orka</app> ismertetni fogja az objektumot és az objektum által közölt információkat.</p>
+  <p>Mivel az áttekintés egérrel funkció engedélyezése azt eredményezi, hogy az <app>Orka</app> az egér minden pozícióváltozását figyeli és közli az információkat, ez a funkció alapértelmezetten nincs engedélyezve. Ha azt szeretné, hogy ez a funkció mindig engedélyezve legyen, jelölje be <gui>Az egér alatti objektum felolvasása</gui> jelölőnégyzetet. Ezt a beállítást az <link xref="preferences_general"><app>Orka</app> Beállítások párbeszédpanelének Általános lapján</link> találja meg. Ugyanezen párbeszédpanel <link xref="preferences_key_bindings">Billentyűtársítások lapján</link> találni fog egy nem kiosztott <app>Orka</app> parancsot, melynek segítségével szükség szerint be- vagy kikapcsolhatja az áttekintés egérrel funkciót. Ennek a parancsnak a neve: <gui>Be- vagy kikapcsolja az áttekintés egérrel módot</gui>. Ha szeretne billentyűtársítást hozzárendelni ehhez a funkcióhoz, olvassa el a <link xref="howto_key_bindings">Billentyűtársítások bemutatása</link> című fejezetet.</p>
+  <note style="tip">
+    <title>Az alapbeállítások és billentyűtársítások függetlenek egymástól</title>
+    <p>Megjegyzés: függetlenül attól, hogy engedélyezi-e az áttekintés egérrel funkciót, folyamatosan be- és kikapcsolhatja, ha létrehoz egy billentyűtársítást a <gui>Be- vagy kikapcsolja az áttekintés egérrel módot</gui> parancshoz. Nem szükséges véglegesen engedélyeznie ezt a funkciót, mivel az alapbeállítások és a billentyűtársítások függetlenek egymástól.</p>
+  </note>
+</page>

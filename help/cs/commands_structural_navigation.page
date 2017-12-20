@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_structural_navigation" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_table"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_forms"/>
+    <title type="sort">2. Strukturovaná navigace</title>
+    <title type="link">Strukturovaná navigace</title>
+    <desc>Příkazy pro pohyb po prvcích</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy pro strukturovanou navigaci</title>
+  <p>Následující příkazy můžete používat k pohybu po nadpisech, odkazech a dalších prvcích nalezených v aplikaci, pro které <app>Orca</app> poskytuje podporu strukturované navigace.</p>
+  <list>
+    <item>
+      <p>Povolit/zakázat klávesy strukturované navigace: <keyseq><key>Modifikátor Orca</key><key>Z</key></keyseq></p>
+    </item>
+  </list>
+  <section id="headings">
+    <title>Nadpisy</title>
+      <list>
+        <item>
+          <p>Následující a předchozí nadpis: <keyseq><key>H</key></keyseq> a <keyseq><key>Shift</key><key>H</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam nadpisů: <keyseq><key>Alt</key><key>Shift</key><key>H</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí nadpis úrovně 1: <keyseq><key>1</key></keyseq> a <keyseq><key>Shift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Zobrazit seznam nadpisů úrovně 1: <keyseq><key>Alt</key><key>Shift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí nadpis úrovně 2: <keyseq><key>1</key></keyseq> a <keyseq><key>Shift</key><key>2</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam nadpisů úrovně 2: <keyseq><key>Alt</key><key>Shift</key><key>2</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí nadpis úrovně 3: <keyseq><key>1</key></keyseq> a <keyseq><key>Shift</key><key>3</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam nadpisů úrovně 3: <keyseq><key>Alt</key><key>Shift</key><key>3</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí nadpis úrovně 4: <keyseq><key>1</key></keyseq> a <keyseq><key>Shift</key><key>4</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam nadpisů úrovně 4: <keyseq><key>Alt</key><key>Shift</key><key>4</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí nadpis úrovně 5: <keyseq><key>1</key></keyseq> a <keyseq><key>Shift</key><key>5</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam nadpisů úrovně 5: <keyseq><key>Alt</key><key>Shift</key><key>5</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí nadpis úrovně 6: <keyseq><key>1</key></keyseq> a <keyseq><key>Shift</key><key>6</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam nadpisů úrovně 6: <keyseq><key>Alt</key><key>Shift</key><key>6</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="forms">
+      <title>Formuláře</title>
+      <list>
+        <item>
+          <p>Následující a předchozí pole formuláře: <keyseq><key>Modifikátor Orca</key><key>Tab</key></keyseq> a <keyseq><key>Modifikátor Orca</key><key>Shift</key><key>Tab</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam polí formuláře: <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí tlačítko: <keyseq><key>B</key></keyseq> a <keyseq><key>Shift</key><key>B</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam tlačítek: <keyseq><key>Alt</key><key>Shift</key><key>B</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí rozbalovací seznam: <keyseq><key>C</key></keyseq> a <keyseq><key>Shift</key><key>C</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam rozbalovacích seznamů: <keyseq><key>Alt</key><key>Shift</key><key>C</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí textové pole: <keyseq><key>E</key></keyseq> a <keyseq><key>Shift</key><key>E</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam textových polí: <keyseq><key>Alt</key><key>Shift</key><key>E</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí skupinový přepínač: <keyseq><key>R</key></keyseq> a <keyseq><key>Shift</key><key>R</key></keyseq></p>
+        </item>
+        <item>
+          <p>Zobrazit seznam skupinových přepínačů: <keyseq><key>Alt</key><key>Shift</key><key>R</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Následující a předchozí zaškrtávací políčko: <keyseq><key>X</key></keyseq> a <keyseq><key>Shift</key><key>X</key></keyseq></p>
+        </item>
+        <item>
+          <p>Zobrazit seznam zaškrtávacích políček: <keyseq><key>Alt</key><key>Shift</key><key>X</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="links">
+    <title>Odkazy</title>
+      <list>
+        <item>
+          <p>Následující a předchozí odkaz: <keyseq><key>K</key></keyseq> a <keyseq><key>Shift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Zobrazit seznam odkazů: <keyseq><key>Alt</key><key>Shift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí nenavštívený odkaz: <keyseq><key>U</key></keyseq> a <keyseq><key>Shift</key><key>U</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam nenavštívených odkazů: <keyseq><key>Alt</key><key>Shift</key><key>U</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí navštívený odkaz: <keyseq><key>V</key></keyseq> a <keyseq><key>Shift</key><key>V</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam navštívených odkazů: <keyseq><key>Alt</key><key>Shift</key><key>V</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="lists">
+      <title>Seznamy</title>
+      <list>
+        <item>
+          <p>Následující a předchozí seznam: <keyseq><key>L</key></keyseq> a <keyseq><key>Shift</key><key>L</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam seznamů: <keyseq><key>Alt</key><key>Shift</key><key>L</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí položka seznamu: <keyseq><key>I</key></keyseq> a <keyseq><key>Shift</key><key>I</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam položek seznamu: <keyseq><key>Alt</key><key>Shift</key><key>I</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="tables">
+      <title>Tabulky</title>
+      <list>
+        <item>
+          <p>Následující a předchozí tabulka: <keyseq><key>T</key></keyseq> a <keyseq><key>Shift</key><key>T</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam tabulek: <keyseq><key>Alt</key><key>Shift</key><key>T</key></keyseq></p>
+        </item>
+        <item>
+          <p>Buňka vlevo: <keyseq><key>Alt</key><key>Shift</key><key>←</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Buňka vpravo: <keyseq><key>Alt</key><key>Shift</key><key>→</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Buňka nad: <keyseq><key>Alt</key><key>Shift</key><key>↑</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Buňka pod: <keyseq><key>Alt</key><key>Shift</key><key>↓</key></keyseq></p>
+        </item> 
+        <item>
+          <p>První buňka v tabulce: <keyseq><key>Alt</key><key>Shift</key><key>Home</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Poslední buňka v tabulce: <keyseq><key>Alt</key><key>Shift</key><key>End</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="text_blocks">
+      <title>Textové bloky</title>
+      <list>
+        <item>
+          <p>Následující a předchozí odstavec: <keyseq><key>P</key></keyseq> a <keyseq><key>Shift</key><key>P</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam odstavců: <keyseq><key>Alt</key><key>Shift</key><key>P</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí citace:<key>Q</key> a <keyseq><key>Shift</key> <key>Q</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam citací: <keyseq><key>Alt</key> <key>Shift</key> <key>Q</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí „velký objekt“: <keyseq><key>O</key></keyseq> a <keyseq><key>Shift</key><key>O</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam „velkých objektů“: <keyseq><key>Alt</key><key>Shift</key><key>O</key></keyseq></p>
+        </item>
+       </list>
+    </section>
+    <section id="other">
+      <title>Ostatní prvky</title>
+      <list>
+        <item>
+          <p>Následující a předchozí záchytný bod: <keyseq><key>M</key></keyseq> a <keyseq><key>Shift</key><key>M</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam záchytných bodů: <keyseq><key>Alt</key><key>Shift</key><key>M</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí oddělovač: <keyseq><key>S</key></keyseq> a <keyseq><key>Shift</key><key>S</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Následující a předchozí „kliknutelný“: <keyseq><key>A</key></keyseq> a <keyseq><key>Shift</key><key>A</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zobrazit seznam „kliknutelných“: <keyseq><key>Alt</key><key>Shift</key><key>A</key></keyseq></p>
+        </item>
+        <item>
+          <p>Následující a předchozí obrázek: <keyseq><key>G</key></keyseq> a <keyseq><key>Shift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Zobrazit seznam obrázků: <keyseq><key>Alt</key><key>Shift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Začátek a konec aktuálního kentejneru: <keyseq><key>Shift</key><key>,</key></keyseq> a <keyseq><key>,</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+</page>

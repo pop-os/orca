@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_live_regions" xml:lang="fr">
+  <info>
+    <link type="next" xref="commands_chat"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="howto_live_regions"/>
+    <title type="sort">1. Zone dynamique</title>
+    <title type="link">Zones dynamiques</title>
+    <desc>Commandes d'accès aux zones Web dynamiques</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Commandes de zone dynamique</title>
+  <p>Les commandes suivantes peuvent être utilisées pour accéder à du contenu mis à jour dynamiquement sur des pages Web rendues accessibles grâce à ARIA</p>
+  <list>
+    <item>
+      <p>Surveiller les zones dynamiques : <keyseq><key>Touche de modification d'Orca</key><key>Maj</key><key>Barre oblique inversée</key></keyseq></p>
+    </item>
+    <item>
+      <p>Avancer le paramètre de politesse de zone dynamique : <key>Barre oblique inversée</key></p>
+    </item>
+    <item>
+      <p>Définir le niveau de politesse par défaut à aucun : <keyseq><key>Maj</key><key>barre oblique inverse</key></keyseq></p>
+    </item>
+    <item>
+      <p>Aller à la zone dynamique précédente ou suivante : <keyseq><key>D</key></keyseq> ou <keyseq><key>Maj</key><key>D</key></keyseq></p>
+    </item>
+    <item>
+      <p>Aller à la dernière zone dynamique qui a effectué une annonce : <keyseq><key>Y</key></keyseq></p>
+    </item>
+    <item>
+      <p>Lire les annonces des zones dynamiques : <keyseq><key>Touche de modification d'Orca</key><key>F1</key></keyseq> à <key>F9</key></p>
+    </item>
+</list>
+</page>

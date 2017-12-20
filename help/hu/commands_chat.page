@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_chat" xml:lang="hu">
+  <info>
+    <link type="next" xref="commands_debugging"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="preferences_chat"/>
+    <title type="sort">2. Csevegés</title>
+    <title type="link">Csevegés</title>
+    <desc>Azonnali üzenők és IRC-kliensek használata</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Csevegéssel kapcsolatos billentyűparancsok</title>
+  <p>A következő parancsok segítségével használhatja az <app>Orka</app> által támogatott azonnaliüzenet-küldő alkalmazásokat és internetes csevegőklienseket. Számos parancs nem rendelkezik billentyűtársítással. Ha billentyűtársítást szeretne hozzárendelni ezekhez a parancsokhoz, olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
+  <list>
+    <item>
+      <p>A csevegőszoba korábbi csevegési üzeneteinek megjelenítése: <keyseq><key>Orka módosító</key><key>F1</key></keyseq> és <keyseq><key>Orka módosító</key><key>F9</key></keyseq> között.</p>
+    </item>
+    <item>
+      <p>A csatorna nevének a csevegőüzenetek elé illesztése be/ki: Ez a funkció nem rendelkezik előre definiált billentyűtársítással</p>
+    </item>
+    <item>
+      <p>Partner gépelési állapotának közlése be/ki: Ez a funkció nem rendelkezik előre definiált billentyűtársítással</p>
+    </item>
+    <item>
+      <p>A csevegőszoba üzenetelőzményeinek megjelenítése be/ki: Ez a funkció nem rendelkezik előre definiált billentyűtársítással</p>
+    </item>
+  </list>
+</page>

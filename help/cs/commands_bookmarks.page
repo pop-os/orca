@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_bookmarks" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_live_regions"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_bookmarks"/>
+    <title type="sort">4. Záložky</title>
+    <title type="link">Záložky</title>
+    <desc>Příkazy pro vytváření záložek a získávání objektů podle nich</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy pro záložky</title>
+  <p><app>Orca</app> nabízí několik příkazů, pomocí kterých lze pro zadaný objekt použít „záložku“, abyste se k tomuto objektu mohli později snadno vracet.</p>
+  <list>
+    <item>
+      <p>Uložit záložku do očíslované pozice: <keyseq><key>Modifikátor Orca</key> <key>Alt</key><key>1</key></keyseq> – <key>6</key></p>
+    </item>
+    <item>
+      <p>Uložit definovanou záložku pro aplikaci nebo stránku: <keyseq><key>Modifikátor Orca</key><key>Alt</key><key>B</key></keyseq></p>
+    </item>
+    <item>
+      <p>Přejít na určenou očíslovanou záložku: <keyseq><key>Modifikátor Orca</key><key>1</key></keyseq> – <key>6</key></p>
+    </item>
+    <item>
+      <p>Přejít na předchozí záložku pro aplikaci nebo stránku: <keyseq><key>Modifikátor Orca</key><key>Shift</key><key>B</key></keyseq></p>
+    </item>
+    <item>
+      <p>Přejít na následující záložku pro aplikaci nebo stránku: <keyseq><key>Modifikátor Orca</key><key>B</key></keyseq></p>
+    </item>
+  </list>
+</page>

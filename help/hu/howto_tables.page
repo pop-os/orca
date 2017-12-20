@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_tables" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_forms"/>
+    <title type="sort">4. Táblázatok</title>
+    <desc>Navigálás a táblázatokban, dinamikus fejlécek beállítása és törlése</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Táblázatok</title>
+  <p>Az <app>Orka</app> számos speciális funkcióval rendelkezik a táblázatokhoz való hozzáférés megkönnyítése érdekében, amelyekkel egy weboldalon vagy dokumentumban találkozhat. Néhány ezek közül: konfigurálható cella- és sorfelolvasás, <link xref="howto_structural_navigation">Strukturált navigáció</link> és dinamikus fejlécek támogatása.</p>
+  <section id="cell_row">
+    <title>Az aktuális cella vagy sor felolvasása</title>
+    <p>Tegyük fel, hogy át kell tekintenie a beérkezett üzenetek mappában levő üzeneteit. Ha azt szeretné, hogy az <app>Orka</app> kimondja egy üzenet esetén a feladót, tárgyat, dátumot és hogy az üzenet tartalmaz-e mellékletet, arra van szüksége, hogy az <app>Orka</app> a táblázat teljes sorát felolvassa. Ha viszont egy táblázat sorai között navigál, a teljes sor végighallgatása akár zavaró is lehet, pusztán a sorok celláinak mennyiségétől. Ebben az esetben arra lehet szüksége, hogy az <app>Orka</app> csak a fókuszba kerülő cellát olvassa fel. Ugyanez lehet a helyzet a dokumentumok táblázataival.</p>
+    <p>Az <app>Orka</app> lehetővé teszi annak testreszabását, hogy egy grafikus felületen megjelenő táblázatban, dokumentum táblázatban vagy egy táblázatkezelőben csak az adott cella, vagy a teljes sor kerüljön-e felolvasásra. Mivel ezek a beállítások függetlenek egymástól a különböző táblázattípusok esetén, nem szükséges egyetlen táblázatolvasási módot használni mindhárom táblázattípushoz.</p>
+    <p>Az <app>Orka</app> táblázatolvasási beállításai az <link xref="preferences"><app>Orka</app> beállítóablakaiban</link> akár alkalmazás szinten is testreszabhatóak. A beállításokat a <link xref="preferences_speech"><gui>Beszéd</gui> lapon</link> találja meg.</p>
+    <p>Végezetül: létezik egy Orka gyorsbillentyű, mellyel menet közben válthat az aktuális cella vagy a teljes sor felolvasása mód között a pillanatnyilag használt táblázatban anélkül, hogy a beállítás mentésre kerülne. Ha ezt szeretné, nyomja meg az <keyseq><key>Orka módosító</key><key>F11</key></keyseq> billentyűkombinációt.</p>
+  </section>
+  <section id="structural_navigation">
+    <title>Strukturált navigáció</title>
+    <p>Az <app>Orka</app> <link xref="commands_structural_navigation#tables">táblázatnavigációval kapcsolatos parancsai</link> lehetővé teszik, hogy gyorsan megtalálhassa a táblázatokat, elugorhasson a táblázatok első vagy utolsó cellájára, valamint hogy bármely irányba mozoghasson a táblázatok cellái között.</p>
+    <p>Amikor egy táblázatban az <app>Orka</app> strukturált navigáció segítségével navigál, az <app>Orka</app> bejelenti a táblázatban elfoglalt pillanatnyi pozíciójával kapcsolatos fontos információkat, például a táblázat méretét, valamint azt, hogy a táblázatban való mozgáskor elérte a táblázat valamelyik szélét.</p>
+    <p>Ezen kívül az <app>Orka</app> számos konfigurálható <link xref="preferences_table_navigation">megjelenítéssel kapcsolatos beállítással</link> rendelkezik, melyek együttműködnek a strukturált <app>Orka</app> navigációval. Testreszabható például, hogy bejelentésre kerüljenek-e a cellakoordináták, a cellák kiterjesztései, és a cellafejlécek.</p>
+    <note style="tip">
+      <title>Ne felejtse el bekapcsolni a strukturált Orka navigációt!</title>
+      <p>Attól függően, hogy éppen hol tartózkodik, szükséges lehet az <app>Orka</app> strukturált navigációjának bekapcsolása. További információkért olvassa el az <link type="seealso" xref="howto_structural_navigation#toggling_required">Amikor mindenképpen szükséges a strukturált Orka navigáció bekapcsolása</link> című fejezetet.</p>
+    </note>
+  </section>
+  <section id="dynamic_headers">
+    <title>Dinamikus fejlécek használata</title>
+    <p>Sok olyan táblázattal találkozhat, amelynél a táblázat valamelyik sorában vagy oszlopában levő cellák fejlécekként szolgálnak. Hogy a táblázat készítője jól jelölte-e meg ezeket a fejléceket vagy sem, a legtöbb esetben elég nehéz megállapítani. A szövegek sokszor csak nagyobb betűmérettel és/vagy dőlt betűstílussal vannak formázva. Ha egy táblázatnál jól is vannak megjelölve a fejlécek, semmilyen garancia nincs arra, hogy a használt alkalmazás vagy eszközkészlet jól adja át a szöveges fejléc-információkat az akadálymentesítési technológiáknak. Az <app>Orka</app> a dinamikus fejlécek támogatásával ennek esélyét viszont nagyban növeli.</p>
+    <steps>
+      <title>Oszlopfejlécek beállítása</title>
+      <item>
+        <p>Lépjen a táblázat azon sorára, amely az összes oszlopfejlécet tartalmazza.</p>
+      </item>
+      <item>
+        <p>Nyomja le az <keyseq><key>Orka módosító</key><key>R</key></keyseq> billentyűkombinációt, ezzel jelezheti az <app>Orka</app> számára, hogy a táblázat aktuális sora tartalmazza a fejléc-információkat.</p>
+      </item>
+    </steps>
+    <steps>
+      <title>Sorfejlécek beállítása</title>
+      <item>
+        <p>Lépjen a táblázat azon oszlopára, amely az összes sorfejlécet tartalmazza.</p>
+      </item>
+      <item>
+        <p>Nyomja le az <keyseq><key>Orka módosító</key><key>C</key></keyseq> billentyűkombinációt, ezzel jelezheti az <app>Orka</app> számára, hogy a táblázat aktuális oszlopa tartalmazza a fejléc-információkat.</p>
+      </item>
+    </steps>
+    <p>A dinamikus oszlop- vagy sorfejléc beállítása esetén a cellák között navigációkor az <app>Orka</app> egyaránt ki fogja mondani a megváltozott fejléceket. Másképp fogalmazva, az <app>Orka</app> nem fogja kimondani az oszlopfejléceket újra és újra, ha felfelé vagy lefelé mozog egy táblázat aktuális oszlopában, nem fogja kimondani a sorfejléceket újra és újra, ha jobbra és balra mozog a táblázat aktuális sorában. Ha azonban átlép egy másik sorba, és definiált sorfejlécet, akkor az új sorhoz társított sorfejléc kerül kimondásra. Ha pedig egy másik oszlopba lép át, és definiált oszlopfejlécet, akkor az új oszlophoz társított oszlopfejléc kerül kimondásra.</p>
+    <p>Ha törölni szeretné a fejléceket, egyszerűen nyomja meg kétszer egymás után a fejléc beállításához használt billentyűkombinációt. Az <keyseq><key>Orka módosító</key><key>R</key></keyseq> billentyűkombináció kétszeri gyors lenyomása közli az <app>Orkával</app>, hogy nincsenek oszlopfejlécek. Az <keyseq><key>Orka módosító</key><key>C</key></keyseq> billentyűkombináció kétszeri gyors megnyomása közli az <app>Orkával</app>, hogy nincsenek sorfejlécek.</p>
+  </section>
+</page>

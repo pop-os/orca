@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_where_am_i" xml:lang="fr">
+  <info>
+    <link type="next" xref="commands_time_date_notifications"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">3. « Où suis-je »</title>
+    <title type="link">« Où suis-je »</title>
+    <desc>Commandes pour obtenir des informations sur votre emplacement actuel</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Commandes « Où suis-je »</title>
+  <p>La fonction « où suis-je » d'<app>Orca</app> vous fournit des informations qui dépendent du contexte concernant le lieu où vous vous trouvez. Par exemple, dans un tableau, la fonction « où suis-je » fournit des détails sur la cellule où vous vous situez, mais dans du texte, elle fournit la ligne ainsi que le texte qui est sélectionné. La liste complète de ce que vous pouvez attendre d'<app>Orca</app>, se trouve dans l'<link xref="howto_whereami">Introduction à « où suis-je »</link>.</p>
+  <p><app>Orca</app> fournit les commandes « où suis-je » suivantes :</p>
+  <list>
+    <item>
+      <p>Effectuer l'opération « où suis-je » de base :</p>
+      <list>
+        <item>
+          <p>Ordinateur de bureau : <key>PN Entrée</key></p>
+        </item>
+        <item>
+          <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>Entrée</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Effectuer l'opération « où suis-je » détaillée :</p>
+      <list>
+        <item>
+          <p>Ordinateur de bureau : <key>PN Entrée</key> (double clic)</p>
+        </item>
+        <item>
+          <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>Entrée</key></keyseq> (double clic)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+  <p>En plus des commandes « où suis-je » dédiées, <app>Orca</app> dispose de deux commandes liées supplémentaires pour obtenir votre emplacement actuel :</p>
+  <list>
+    <item>
+      <p>Lire la barre de titre :</p>
+      <list>
+        <item>
+          <p>Ordinateur de bureau : <keyseq><key>Touche de modification d'Orca</key><key>PN Entrée</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>Barre oblique (/)</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Lire la barre d'état :</p>
+      <list>
+        <item>
+          <p>Ordinateur de bureau : <keyseq><key>Touche de modification d'Orca</key><key>PN Entrée</key></keyseq>(double clic)</p>
+        </item>
+        <item>
+          <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>Barre oblique (/)</key></keyseq> (double clic)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

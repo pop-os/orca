@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_learn_modes" xml:lang="es">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_keyboard_layout"/>
+    <title type="sort">5. Modo de «aprendizaje»</title>
+    <desc>Descubrir los comandos de <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Compartir Igual 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Daniel Mustieles</mal:name>
+      <mal:email>daniel.mustieles@gmail.com</mal:email>
+      <mal:years>2012 - 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jorge González</mal:name>
+      <mal:email>jorgegonz@svn.gnome.org</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  </info>
+  <title>Modos de «aprendizaje»</title>
+  <p>En el modo de aprendizaje, <app>Orca</app> anunciará cada pulsación de tecla que pulse junto con cualquier comando asociado de <app>Orca</app> que esté vinculado a una pulsación de tecla. En este modo, puede obtener una de lista de todos los atajos que contiene todos los comandos de <app>Orca</app> que puede usar.</p>
+  <steps>
+    <title>Usar el modo de aprendizaje</title>
+    <item>
+      <p>Entre en el modo de aprendizaje pulsando <keyseq><key>Modificador de Orca</key><key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Pulse cualquier tecla. <app>Orca</app> anunciará las teclas y cualquier comando asociado.</p>
+    </item>
+    <item>
+      <p>Pulse <key>Esc</key> para salir del modo de aprendizaje.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Obtener una lista de atajos</title>
+    <item>
+      <p>Entre en el modo de aprendizaje pulsando <keyseq><key>Modificador de Orca</key><key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Pulse <key>F2</key> si quiere una lista de todos los atajos que se aplican en todo <app>Orca</app>, o pulse <key>F3</key> si quiere una lista de los atajos específicos para la aplicación que tiene el foco.</p>
+    </item>
+    <item>
+      <p>Pulse <key>Arriba</key> o <key>abajo</key> para examinar el contenido de la lista.</p>
+    </item>
+    <item>
+      <p>Pulse <key>Esc</key> para salir de la lista.</p>
+    </item>
+  </steps>
+</page>

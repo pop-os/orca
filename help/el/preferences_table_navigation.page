@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_table_navigation" xml:lang="el">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_chat"/>
+    <link type="seealso" xref="commands_structural_navigation"/>
+    <link type="seealso" xref="commands_table"/>
+    <title type="sort">2. Πίνακας περιήγησης</title>
+    <title type="link">Πίνακας περιήγησης</title>
+    <desc>Περιήγηση ρύθμισης του <app>Orca</app> μέσα σε πίνακες</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Προτιμήσεις πίνακα περιήγησης</title>
+  <p>Η παρακάτω επιλογή επιτρέπει την προσαρμογή του <app>Orca</app> κατά την περιήγηση μέσα σε ένα πίνακα στη <link xref="howto_structural_navigation">δομική περιήγηση</link>-ενεργές εφαρμογές.</p>
+  <section>
+    <title>Εκφώνηση συντεταγμένων κελιών</title>
+    <p>Εάν αυτό το πλαισίου ελέγχου σημειωθεί, το <app>Orca</app> θα ανακοινώσει τις συντεταγμένες κάθε κελιού που περιηγείστε.</p>
+    <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+  </section>
+  <section>
+    <title>Εκφώνηση επικαλύψεων πολλαπλών κελιών</title>
+    <p>Εάν αυτό το πλαίσιο ελέγχου σημειωθεί, το <app>Orca</app> θα ανακοινώσει πόσες γραμμές και/ή στήλες καλύπτει ένα κελί όταν καλύπτει περισσότερα από ένα.</p>
+    <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+  </section>
+  <section>
+    <title>Αναγγελία κεφαλίδας κελιού</title>
+    <p>Εάν αυτό το πλαίσιο ελέγχου σημειωθεί, το <app>Orca</app> θα αναγγείλει αλλαγές στην κεφαλίδα, εάν κεφαλίδες για το τρέχον κελί μπορεί να καθοριστούν.</p>
+    <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+  </section>
+  <section>
+    <title>Αγνόηση των κενών κελιών</title>
+    <p>Εάν αυτό το πλαίσιο ελέγχου σημειωθεί, το <app>Orca</app> θα παραλείψει κενά κελιά όταν χρησιμοποιείτε τις εντολές περιήγησης δομικού πίνακα του <app>Orca</app> για πρόσβαση στον πίνακα.</p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+  </section>
+</page>

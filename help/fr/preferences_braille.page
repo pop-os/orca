@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_braille" xml:lang="fr">
+  <info>
+    <title type="sort">3. Braille</title>
+    <title type="link">Braille</title>
+    <desc>Configurer la prise en charge de l'afficheur braille par <app>Orca</app></desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_echo"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Préférences braille</title>
+  <section id="braillesupport">
+    <title>Activer la prise en charge du braille</title>
+    <p>Cette case à cocher bascule l'utilisation d'un afficheur braille par <app>Orca</app>. Si BrlTTY n'est pas en cours d'exécution, <app>Orca</app> se rétablit correctement et ne communique pas avec l'afficheur braille.</p>
+    <p>Valeur par défaut : non cochée</p>
+    <note style="tip">
+      <p>Si vous configurez BrlTTY plus tard, vous devrez redémarrer <app>Orca</app> pour pouvoir utiliser le braille.</p>
+    </note>
+  </section>
+  <section id="contractedbraille">
+    <title>Activer le braille abrégé</title>
+    <p>Orca prend en charge le braille abrégé via le projet liblouis. Comme de nombreuses distributions incluent liblouis, vous avez automatiquement accès à la prise en charge du braille abrégé dans <app>Orca</app>.</p>
+    <p>Pour activer le braille abrégé sur un système où liblouis est installé, assurez-vous que la case <gui>Activer le braille abrégé</gui> est cochée. Sélectionnez ensuite le tableau de traduction désiré dans la liste déroulante <gui>Tableau d'abréviation</gui>.</p>
+    <p>Valeur par défaut : non cochée</p>
+  </section>
+  <section id="rolenames">
+    <title>Noms de rôle abrégés</title>
+    <p>Cette case à cocher détermine la façon dont sont affichés les noms de rôles et elle peut être utilisée pour conserver de la place sur l'afficheur braille. Par exemple, si une glissière a le focus, le mot « Glissière » s'affiche si les rôles abrégés ne sont pas activés sinon « glis » est affiché à la place.</p>
+    <p>Valeur par défaut : non cochée</p>
+  </section>
+  <section id="eolindicator">
+    <title>Désactiver le symbole de fin de ligne</title>
+    <p>Lorsqu'elle est cochée, cette fonction indique à <app>Orca</app> de ne pas lire la chaîne « $l » à la fin d'une ligne de texte.</p>
+    <p>Valeur par défaut : non cochée</p>
+  </section>
+  <section id="verbosity">
+    <title>Verbosité</title>
+    <p>Ce groupement de boutons radio détermine la quantité d'informations produites en braille dans certaines situations. Par exemple, si ce paramètre est défini à Verbeux, les raccourcis clavier et les noms de rôle sont affichés. Ces informations ne sont pas affichées en mode Court.</p>
+    <p>Valeur par défaut : <gui>Verbeux</gui></p>
+  </section>
+  <section id="selectionandhyperlink">
+    <title>Indicateurs de sélection et d'hyperliens</title>
+    <p>Les boutons radio <gui>Indicateur de sélection</gui> et <gui>Indicateur d'hyperlien</gui> vous permettent de configurer le comportement d'<app>Orca</app> lors de l'affichage d'un texte sélectionné et d'hyperliens. Par défaut, lorsque vous rencontrez l'un ou l'autre, <app>Orca</app> « souligne » ce texte sur votre afficheur braille avec les points 7 et 8. Si vous le préférez, vous pouvez modifier l'indicateur : soit uniquement le point 7, soit uniquement le point 8 ou ne pas avoir d'indicateur du tout.</p>
+    <p>Valeur par défaut : <gui>points 7 et 8</gui></p>
+    <note style="tip">
+      <title>Indicateurs d'attribut de texte</title>
+      <p>Vous pouvez, sur option, indiquer les attributs de texte en braille. L'activation de cette fonction et le choix des attributs qui vous intéressent, s'effectuent dans l'onglet <link xref="preferences_text_attributes"> <gui>Attributs de texte</gui></link> de la boîte de dialogue des préférences.</p>
+    </note>
+  </section>
+  <section id="flashMessageSettings">
+    <title>Paramètres des messages flash</title>
+    <p>Les messages flash sont de nature semblable aux notifications ou aux annonces : ils apparaissent brièvement sur votre plage braille, après quoi le contenu précédent de la plage réapparaît. <app>Orca</app> offre plusieurs réglages permettant de contrôler la présentation des messages flash.</p>
+    <section>
+      <title>Activer les messages flash</title>
+      <p>Si <gui>Activer les messages flash</gui> est coché, <app>Orca</app> présentera les messages en braille. Si vous préférez que <app>Orca</app> se limite à lire les messages, vous devriez décocher cette case.</p>
+      <p>Valeur par défaut : cochée</p>
+    </section>
+    <section>
+      <title>Les messages sont détaillés</title>
+      <p>Si <gui>Les messages sont détaillés</gui> est coché, <app>Orca</app> présentera des messages détaillés en braille. Par exemple, si vous utilisez la commande d'<app>Orca</app> pour modifier l'écho des touches, <app>Orca</app> pourrait afficher « écho de touche défini par mot. » Si vous préférez des messages plus courts, comme par exemple « mot », vous devriez décocher cette case.</p>
+      <p>Valeur par défaut : cochée</p>
+    </section>
+    <section>
+      <title>Les messages sont persistants</title>
+      <p>Comme expliqué précédemment, les messages flash n'apparaissent que brièvement. Si vous préférez que les messages restent affichés jusqu'au moment où vous effectuez une action qui mettra à jour l'affichage, vous devriez cocher la case <gui>Les messages sont persistants</gui>.</p>
+      <p>Valeur par défaut : non cochée</p>
+    </section>
+    <section>
+      <title>Durée des messages (sec)</title>
+      <p>Le temps que <app>Orca</app> attendra avant de supprimer le message et de restaurer le contenu original de l'affichage peut être défini par le bouton compteur <gui>Durée des messages (sec)</gui>. Notez que la valeur de ce réglage sera ignorée si vous avez activé l'affichage persistant des messages flash.</p>
+      <p>Valeur par défaut : 5</p>
+    </section>
+  </section>
+</page>

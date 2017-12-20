@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_spellcheck" xml:lang="es">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <title type="sort">4. Revisión ortográfica</title>
+    <title type="link">Revisión ortográfica</title>
+    <desc>Configurar el soporte de <app>Orca</app>  para la revisión ortográfica</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Compartir Igual 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Daniel Mustieles</mal:name>
+      <mal:email>daniel.mustieles@gmail.com</mal:email>
+      <mal:years>2012 - 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jorge González</mal:name>
+      <mal:email>jorgegonz@svn.gnome.org</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  </info>
+  <title>Preferencias de la revisión ortográfica</title>
+  <p><app>Orca</app> trata de ofrecer una experiencia de usuario consistente al interactuar con los correctores ortográficos de las aplicaciones. Para aquellas aplicaciones en las que se proporciona este soporte mejorado, encontrará varios opciones que puede ajustar para conseguir el nivel de detalle que mejor se ajusta a sus necesidades.</p>
+  <note style="tip">
+    <title>Puede tener información escueta y detallada sobre la corrección ortográfica</title>
+    <p>Si normalmente quiere un nivel bajo de detalles al usar un corrector ortográfico, pero en ocasiones necesita información detallada sobre un determinado error, puede desactivar estas opciones. Cuando necesite más detalles, simplemente use el comando detallado <link xref="howto_whereami">Dónde estoy</link> de <app>Orca</app> para hacer que <app>Orca</app> muestre el error actual como si todas estas opciones estuviesen activadas</p>
+  </note>
+  <section>
+    <title>Error ortográfico</title>
+    <p>Si esta casilla está marcada, <app>Orca</app> anunciará la palabra mal escrita después de leerla.</p>
+    <p>Valor predeterminado: marcado</p>
+  </section>
+  <section>
+    <title>Sugerencia ortográfica</title>
+    <p>Si esta casilla está marcada, <app>Orca</app> anunciará la corrección sugerida después de leerla.</p>
+    <p>Valor predeterminado: marcado</p>
+  </section>
+  <section>
+    <title>Mostrar el contexto de un error</title>
+    <p>Si esta casilla está marcada, <app>Orca</app> leerá la frase o la línea del documento en la que se ha encontrado el error.</p>
+    <p>Valor predeterminado: marcado</p>
+  </section>
+</page>

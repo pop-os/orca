@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_braille" xml:lang="pt-BR">
+  <info>
+    <link type="next" xref="commands_reading"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_braille"/>
+    <title type="sort">2. Braille</title>
+    <title type="link">Braille</title>
+    <desc>Comandos executáveis no monitor braille</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos para linhas braille</title>
+  <p>Os seguintes comandos permitem que você controle o <app>Orca</app> do seu monitor Braille atualizável ao invés do teclado:</p>
+  <list>
+    <item><p>Varre o monitor Braille para a esquerda: Linha à esquerda</p></item>
+    <item><p>Varre o monitor Braille para a direita: Linha à direita</p></item>
+    <item><p>Alterna para o modo de revisão plana: Congelar</p></item>
+    <item><p>Revisa a palavra acima: Linha acima</p></item>
+    <item><p>Revisa a palavra abaixo: Linha abaixo</p></item>
+    <item><p>Revisa canto inferior esquerdo: Inferior direito</p></item>
+    <item><p>Revisa posição inicial: Superior à esquerda</p></item>
+    <item><p>Braille contraído: Seis pontos</p></item>
+    <item><p>Marca o início de uma seleção de texto: Iniciar corte</p></item>
+    <item><p>Marca o final de uma seleção de texto: Cortar linha</p></item>
+    <item><p>Processa uma chave de roteamento do cursor: Roteamento do cursor</p></item>
+    <item><p>Retorna ao objeto que está com o foco do teclado: Posição do cursor</p></item>
+  </list>
+</page>

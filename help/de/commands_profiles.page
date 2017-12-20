@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_profiles" xml:lang="de">
+  <info>
+    <link type="next" xref="commands_speech_settings"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_profiles"/>
+    <title type="sort">5. Profile</title>
+    <title type="link">Profile</title>
+    <desc>Befehle zum Zugriff auf gespeicherte Konfigurationen</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  </info>
+  <title>Profilbefehle</title>
+    <p>Profile ermöglichen das Laden und Speichern verschiedener Konfigurationen. Dadurch können Sie jede benötigte Einstellung schnell einrichten.</p>
+    <p>Der folgende Befehl ist nicht einem Tastenkürzel zugewiesen. Möchten Sie es zuweisen, lesen Sie <link xref="howto_key_bindings">Tastaturkürzel bearbeiten</link>.</p>
+    <list>
+      <item>
+        <p>Zum nächsten Profil wechseln: (Nicht zugewiesen)</p>
+      </item>
+    </list>
+</page>

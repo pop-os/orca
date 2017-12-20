@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_profiles" xml:lang="hu">
+  <info>
+    <link type="next" xref="commands_speech_settings"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_profiles"/>
+    <title type="sort">5. Profilok</title>
+    <title type="link">Profilok</title>
+    <desc>Parancsok a mentett konfigurációk eléréséhez</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Profilokkal kapcsolatos parancsok</title>
+    <p>Az Orka profiljai lehetővé teszik, hogy gyorsan menthessen és betölthessen többféle beállítási sablont, így gyorsan hozzáférhet az épp szükséges különböző beállításokhoz.</p>
+    <p>A következő parancshoz nincs előre definiálva billentyűtársítás. Ha billentyűtársítást szeretne hozzárendelni ehhez a parancshoz, olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
+    <list>
+      <item>
+        <p>Váltás a következő profilra: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+      </item>
+    </list>
+</page>

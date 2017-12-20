@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_setting_up_orca" xml:lang="es">
+<info>
+  <link type="seealso" xref="preferences"/>
+  <link type="guide" xref="index#getting_started"/>
+  <link type="next" xref="howto_the_orca_modifier"/>
+  <title type="sort">4. Configuración de Orca</title>
+  <title type="link">Configuración</title>
+    <desc>Configurar <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Compartir Igual 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Daniel Mustieles</mal:name>
+      <mal:email>daniel.mustieles@gmail.com</mal:email>
+      <mal:years>2012 - 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jorge González</mal:name>
+      <mal:email>jorgegonz@svn.gnome.org</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  </info>
+  <title>Configuración de Orca</title>
+    <section id="configuring_orca">
+      <p>Si quiere configurar <app>Orca</app>, vaya al diálogo de <link xref="preferences">Preferencias</link> pulsando <keyseq><key>Modificador de Orca</key><key>Espacio</key></keyseq> desde cualquier aplicación accesible. Alternativamente, puede escribir <cmd>orca</cmd> seguido de <cmd>-s</cmd> o <cmd>--setup</cmd> en una ventana de la terminal o en el diálogo <gui>Ejecutar</gui> y pulse <key>Intro</key>.</p>
+    </section>
+</page>

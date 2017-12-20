@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_toggling_caps_lock" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_key_bindings"/>
+    <title type="sort">7. CapsLock in Laptop Layout</title>
+    <desc>Preklapljanje ko je <key>Spremenilna tipka Orka</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>CapsLock v razporeditvi prenosnika.</title>
+  <p>Orka ima dve razporeditvi tipkovnice: Namizni računalnik in prenosnik. Izbrana razporeditev vpliva na to katera tipka je spremenilna tipka Orka. V primeru da uporabljate razporeditev prenosnika, bo privzeta spremenilna tipka Orka <key>CapsLock</key> V primeru da uporabljate <app>Orkino</app> razporeditev tipkovnice, lahko <key>CapsLock</key> zaklenete ali odklenete z izvedbo naslednjih korakov:</p>
+  <steps>
+    <title>Preklapljanje CapsLock v razporeditvi prenosnika.</title>
+    <item>
+      <p>Pritisnite ukaz Obidi, <keyseq><key>Spremenilna tipka Orka</key><key>Vračalka</key></keyseq>, ki bo <app>Orki</app> sporočil, da naj bo naslednji ukaz prezrt.</p>
+    </item>
+    <item>
+      <p>Pritisnite <key>CapsLock</key> za preklop njegovega zaklenjenega stanja.</p>
+    </item>
+  </steps>
+</page>

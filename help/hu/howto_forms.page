@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_forms" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#reading"/>
+     <link type="next" xref="howto_live_regions"/>
+    <title type="sort">5. Űrlapok kitöltése</title>
+    <desc>Dokumentumokba ágyazott elemek elérése</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Űrlapok kitöltése</title>
+  <p>Amikor az <app>Orka</app> segítségével dolgozik egy weboldallal vagy dokumentummal, Ön a dokumentumon hajt végre minden feladatot, nem pedig a dokumentum egy átmeneti pufferbe töltött másolatán. Az <app>Orka</app> böngésző- és fókuszmódja lehetőséget nyújt az olvasási és űrlapkitöltési mód közötti váltásra.</p>
+  <section>
+    <title>Navigálás az űrlapmezők között</title>
+    <p>Az űrlapmezők közötti navigációhoz számos lehetőség áll rendelkezésére:</p>
+    <list>
+      <item>
+        <p>Az előző vagy következő objektum fókuszba hozására használhatja a <key>Tab</key> és <keyseq><key>Shift</key><key>Tab</key></keyseq> billentyűket, függetlenül az objektum típusától.</p>
+      </item>
+      <item>
+        <p>Használhatja az <app>Orka</app> strukturált navigációját az <link xref="commands_structural_navigation#forms">űrlapok kezeléséhez</link>.</p>
+      </item>
+      <item>
+        <p>Az űrlaptól és a használt alkalmazástól függően a nyílbillentyűkkel is ráléphet egy űrlapmezőre.</p>
+      </item>
+   </list>
+   <note style="tip">
+     <p>Függetlenül attól, hogy az <app>Orka</app> mutatónavigációját vagy strukturált navigációs parancsait használja egy űrlapmezőre navigáláshoz, böngészőmódban kell lennie. Ha éppen fókuszmódban van, böngészőmódba tud váltani az <keyseq><key>Orka módosító</key><key>A</key></keyseq> billentyűkombinációval.</p>
+   </note>
+  </section>
+  <section>
+    <title>Kilépés az űrlapmezőkből</title>
+    <p>Ha egy űrlapmezőből ki szeretne lépni, számos lehetőség áll rendelkezésére:</p>
+    <list>
+      <item>
+        <p>Ha el szeretné hagyni a fókuszban levő űrlapmezőt, és a következő vagy előző objektumot szeretné fókuszba hozni, az objektum típusától függetlenül használja a <key>Tab</key> vagy a <keyseq><key>Shift</key><key>Tab</key></keyseq> billentyűkombinációt.</p>
+      </item>
+      <item>
+        <p>Az előző vagy következő űrlapmezőre lépéshez használhatja az <app>Orka</app> strukturált navigációjának <link xref="commands_structural_navigation#forms">űrlapkezeléssel kapcsolatos parancsait</link>.</p>
+      </item>
+      <item>
+        <p>A használt űrlaptól és alkalmazástól függően a nyílbillentyűkkel is kiléphet egy űrlapmezőből.</p>
+      </item>
+    </list>
+   <note style="tip">
+     <p>Ahhoz, hogy egy űrlapmezőből ki tudjon lépni az <app>Orka</app> mutatónavigációjával vagy az <app>Orka</app> strukturált navigációs parancsaival, az <app>Orkának</app> böngészőmódban kell lennie. Ha az <app>Orka</app> fókuszmódban van, átválthat a böngészőmódba az <keyseq><key>Orka módosító</key><key>A</key></keyseq> billentyűkombinációval.</p>
+   </note>
+  </section>
+</page>

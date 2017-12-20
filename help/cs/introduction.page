@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="introduction" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_setting_up_orca"/>
+    <title type="sort">1. Vítejte ve čtečce obrazovky Orca</title>
+    <desc>Úvod do čtečky obrazovky <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Vítejte ve čtečce Orca</title>
+  <p><app>Orca</app> je svobodná, přizpůsobivá a rozšiřitelná čtečka obrazovky s otevřeným kódem, která poskytuje přístup ke grafickému pracovnímu prostředí přes hlasový výstup a braillský řádek.</p>
+  <p><app>Orca</app> spolupracuje s aplikacemi a nástrojovými sadami, které podporují AT-SPI (Assistive Technology Service Provider Interface – rozhraní poskytovatelů služeb asistenčních technologií), což je hlavní infrastruktura asistenční technologie pro Linux a Solaris. Mezi aplikace a nástrojové sady podporující AT-SPI patří GNOME Gtk+, Javovská platforma Swing, LibreOffice, Gecko a WebKitGtk. Podpora AT-SPI pro KDE Qt je ve vývoji.</p>
+  <section id="launching">
+    <title>Spouštění čtečky <app>Orca</app></title>
+    <p>Když chcete spustit aplikaci <app>Orca</app>:</p>
+    <list>
+      <item>
+        <p>Způsob, jak nastavit čtečku <app>Orca</app>, aby se spouštěla automticky jako vaše upřednostňovaná čtečka obrazovky, závisí na pracovním prostředí, které používáte. Například, v GNOME 3.x můžete tuto volbu najít v části <gui>Zrak</gui> na panelu <gui>Univerzální přístup</gui> v Centru nastavení.</p>
+      </item>
+      <item>
+        <p>Pro zapnutí či vypnutí čtečky <app>Orca</app> v GNOME použijte <keyseq><key>Super</key> <key>Alt</key> <key>S</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>V terminálovém okně nebo dialogovém okně <gui>Spustit</gui> napište <cmd>orca</cmd>, případně připojte volitelné přepínače, a zmáčkněte <key>Enter</key>.</p>
+      </item>
+    </list>
+  </section>
+    <section id="loadtime">
+      <title>Volby při načítání</title>
+      <p>Při spouštění aplikace <app>Orca</app> můžete v terminálovém okně nebo v dialogovém okně <app>Spuštění</app> zadat následující přepínače:</p>
+      <list>
+        <item>
+          <p><cmd>-h</cmd>, <cmd>--help</cmd>: Zobrazit zprávu s nápovědou</p>
+        </item>
+        <item>
+          <p><cmd>-v</cmd>, <cmd>--version</cmd>: Zobrazit verzi aplikace<app>Orca</app></p>
+        </item>
+        <item>
+          <p><cmd>-s</cmd>, <cmd>--setup</cmd>: Nastavit uživatelské předvolby</p>
+        </item>
+        <item>
+          <p><cmd>-u</cmd>, <cmd>--user-prefs=<em>název_složky</em></cmd>: Použít <em>název_složky</em> jako alternativní složku pro uživatelské předvolby</p>
+        </item>
+        <item>
+          <p><cmd>-e</cmd>, <cmd>--enable=<em>volba</em></cmd>: Vynutit použití volby, kde <em>volba</em> může být něco z následujícího:</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+          <p><cmd>-d</cmd>, <cmd>--disable=<em>volba</em></cmd>: Zabránit použití volby, kde <em>volba</em> může být něco z následujícího:</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+            <p><cmd>-p</cmd>, <cmd>--profile=<em>název_souboru</em></cmd>: Importovat profil ze zadaného souboru s profilem <app>Orca</app></p>
+        </item>
+        <item>
+          <p><cmd>-r</cmd>, <cmd>--replace</cmd>: Nahradit aktuálně běžící aplikaci<app>Orca</app></p>
+        </item>
+        <item>
+          <p><cmd>-l</cmd>, <cmd>--list-apps</cmd>: Vypsat známé běžící aplikace</p>
+        </item>
+        <item>
+          <p><cmd>--debug</cmd>: Poslat ladicí výstup do debug-RRRR-MM-DD-HH:MM:SS.out</p>
+        </item>
+        <item>
+          <p><cmd>--debug-file=<em>název_souboru</em></cmd>: Poslat ladicí výstup do zadaného souboru</p>
+        </item>
+      </list>
+    </section>
+
+</page>
