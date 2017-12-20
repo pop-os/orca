@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_where_am_i" xml:lang="hu">
+  <info>
+    <link type="next" xref="commands_time_date_notifications"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">3. A hol vagyok művelet</title>
+    <title type="link">Hol vagyok művelet</title>
+    <desc>Parancsok az aktuális objektum azonosításához</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>A hol vagyok művelet parancsai</title>
+  <p>Az <app>Orka</app> hol vagyok művelete helyzetérzékeny információt közöl az aktuális felületi elemről vagy objektumról. Ha például egy táblázatban tartózkodik, a hol vagyok művelet minden részletet közöl a táblázat aktuális cellájáról, de egy szövegben például csak az aktuális sor kerül közlésre a kijelölt szövegrész mellett. Az <app>Orka</app> hol vagyok műveletről részletesebb információt <link xref="howto_whereami">A hol vagyok művelet bemutatása</link> című fejezetben talál.</p>
+  <p>Az <app>Orka</app> a következő hol vagyok parancsokat biztosítja:</p>
+  <list>
+    <item>
+      <p>Egyszerű hol vagyok művelet végrehajtása:</p>
+      <list>
+        <item>
+          <p>Asztali kiosztás: <key>Numpad Enter</key></p>
+        </item>
+        <item>
+          <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Enter</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Részletesebb hol vagyok művelet végrehajtása:</p>
+      <list>
+        <item>
+          <p>Asztali kiosztás: <key>Numpad Enter</key> (kétszer gyorsan megnyomva)</p>
+        </item>
+        <item>
+          <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Enter</key></keyseq> (kétszer gyorsan megnyomva)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+  <p>A fenti hol vagyok műveletek billentyűparancsain kívül az <app>Orka</app> további két billentyűparanccsal rendelkezik a pillanatnyi objektum azonosításához:</p>
+  <list>
+    <item>
+      <p>A címsor kimondatása:</p>
+      <list>
+        <item>
+          <p>Asztali kiosztás: <keyseq><key>Orka módosító</key><key>Numpad Enter</key></keyseq></p>
+        </item>
+        <item>
+          <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Per</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Az állapotsor kimondatása:</p>
+      <list>
+        <item>
+          <p>Asztali kiosztás: <keyseq><key>Orka módosító</key><key>Numpad Enter</key></keyseq> (kétszer gyorsan megnyomva)</p>
+        </item>
+        <item>
+          <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Per</key></keyseq> (kétszer gyorsan megnyomva)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

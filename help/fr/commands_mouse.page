@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_mouse" xml:lang="fr">
+  <info>
+    <link type="next" xref="commands_bookmarks"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <title type="sort">3. En relation avec la souris ou le pointeur</title>
+    <title type="link">En relation avec la souris ou le pointeur</title>
+    <link type="seealso" xref="howto_flat_review"/>
+    <link type="seealso" xref="howto_mouse_review"/>
+    <desc>Commandes de manipulation du pointeur</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Commandes en relation avec la souris ou le pointeur</title>
+  <p><app>Orca</app> fournit plusieurs commandes qui peuvent être utilisées pour manipuler le pointeur de la souris et lire ce qui est en dessous. Toutes ces commandes sont « liées » à des combinaisons de touches à une exception : activer ou désactiver le mode de lecture à la souris. Consultez <link xref="howto_key_bindings">Modifier les combinaison de touches</link> pour en apprendre plus sur la façon de lier ces commandes à des combinaisons de touches.</p>
+  <note style="tip">
+    <p>Dans la liste qui suit, Vous trouverez plusieurs références à « PN ». Toutes les touches « PN » se trouvent dans le pavé numérique. Vous remarquerez qu'il existe des combinaisons de touches différentes si vous utilisez un clavier d'ordinateur de bureau ou de portable - ou pour être plus précis, si vous utilisez l'agencement de clavier ordinateur de bureau ou portable d'<app>Orca</app>. Pour plus d'informations, consultez la rubrique <link xref="howto_keyboard_layout">Agencement de clavier</link>.</p>
+  </note>
+  <list>
+    <item>
+      <p>Faire un clic gauche sur l'élément actuel :</p>
+      <list>
+        <item><p>Ordinateur de bureau : <keyseq><key>PN division</key></keyseq></p></item>
+        <item><p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>7</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Faire un clic droit sur l'élément actuel :</p>
+      <list>
+        <item><p>Ordinateur de bureau : <keyseq><key>PN multiplication</key></keyseq></p></item>
+        <item><p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>8</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Placer le pointeur sur l'élément actuel :</p>
+      <list>
+        <item><p>Ordinateur de bureau : <keyseq><key>Touche de modification d'Orca</key><key>PN division</key></keyseq></p></item>
+        <item><p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>9</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Déplacer le focus dans ou hors de l'objet survolé par le pointeur de la souris (uniquement sur le Web) :</p>
+      <list>
+        <item><p>Ordinateur de bureau : <keyseq><key>Touche de modification d'Orca</key><key>PN multiplication</key></keyseq></p></item>
+        <item><p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>0 (zéro)</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Activer ou désactiver le mode de lecture à la souris : (non lié)</p>
+    </item>
+  </list>
+</page>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_debugging" xml:lang="el">
+  <info>
+    <link type="guide" xref="commands#troubleshooting"/>
+    <title type="sort">1. Αποσφαλμάτωση</title>
+    <title type="link">Αποσφαλμάτωση</title>
+    <desc>Εντολές για αντιμετώπιση προβλημάτων</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εντολές αποσφαλμάτωσης</title>
+  <p>Μπορεί να σας ζητηθεί από τους προγραμματιστές να δώσετε κάποιες πληροφορίες αποσφαλμάτωσης για να τους βοηθήσετε να αναγνωρίσουν την αιτία ενός που αντιμετωπίζετε. Η παρακάτω εντολή δεν είναι "δεσμευμένη" με μια πληκτρολόγηση. Αν χρειάζεστε να την συσχετίσετε, παρακαλούμε δείτε το <link xref="howto_key_bindings">Τροποποίηση συνδυασμών πλήκτρων</link>.</p>
+  <list>
+    <item>
+      <p>Κυκλικά στο επόμενο επίπεδο αποσφαλμάτωσης: (αδέσμευτο)</p>
+    </item>
+  </list>
+</page>

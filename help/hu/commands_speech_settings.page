@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_speech_settings" xml:lang="hu">
+  <info>
+    <link type="next" xref="commands_braille"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_speech"/>
+    <title type="sort">2. Beszédbeállítások</title>
+    <title type="link">Beszéd</title>
+    <desc>Parancsok az <app>Orka</app> kimenetének testreszabásához</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Beszédbeállításokkal kapcsolatos parancsok</title>
+  <p>A következő parancsok segítségével személyre szabhatja az <app>Orka</app> beszédbeállításait. Számos parancs ezek közül nem rendelkezik billentyűtársítással. Ha billentyűtársítást szeretne hozzárendelni ezekhez a parancsokhoz, olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
+  <list>
+    <item>
+      <p>A beszéd engedélyezése vagy letiltása: <keyseq><key>Orka módosító</key><key>S</key></keyseq></p>
+    </item>
+    <item>
+      <p>Váltás a táblázat aktuális cellájának vagy sorának felolvasása között: <keyseq><key>Orka módosító</key><key>F11</key></keyseq></p>
+    </item>
+    <item>
+      <p>Váltás a részletes és tömör részletességi szintek között: <keyseq><key>Orka módosító</key><key>V</key></keyseq></p>
+    </item>
+    <item>
+      <p>A behúzás és igazítás felolvasásának be- vagy kikapcsolása: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+    </item>
+    <item>
+      <p>Megváltoztatja a kimondott szám stílusát: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+    </item>
+    <item>
+      <p>Váltás a következő központozási szintre: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+    </item>
+    <item>
+      <p>Váltás a következő billentyűvisszhang-szintre: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+    </item>
+    <item>
+      <p>Váltás a következő nagybetű stílusra: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+    </item>
+    <item>
+      <p>A beszéd sebességének csökkentése: nincs előre definiált billentyűtársítás</p>
+    </item>
+    <item>
+      <p>A beszéd sebességének növelése: nincs előre definiált billentyűtársítás</p>
+    </item>
+    <item>
+      <p>A beszéd hangmagasságának csökkentése: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+    </item>
+    <item>
+      <p>A beszéd hangmagasságának növelése: nincs előre definiált billentyűtársítás</p>
+    </item>
+    <item>
+      <p>A beszéd hangerejének csökkentése: nincs előre definiált billentyűtársítás</p>
+    </item>
+    <item>
+      <p>A beszéd hangerejének növelése: nincs előre definiált billentyűtársítás</p>
+    </item>
+  </list>
+</page>

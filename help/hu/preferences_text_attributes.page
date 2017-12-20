@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_text_attributes" xml:lang="hu">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_gecko"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <title type="sort">8. Szövegattribútumok</title>
+    <title type="link">Szövegattribútumok</title>
+    <desc>Megjelenítendő formázások beállítása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Szövegattribútumok beállításai</title>
+  <p>A „szövegattribútumok” kifejezés egy karakter vagy karaktersorozat betűkészletét, stílusát, igazítását, és más formázásait jelenti. Az <app>Orka</app> grafikus beállító párbeszédpanelének <gui>Szövegattribútumok</gui> lapján személyre szabhatja, hogy milyen szövegattribútumok kerüljenek kimondásra, milyen sorrendben történjen a kimondás, valamint milyen attribútumokat jelenítsen meg az <app>Orka</app> a Braille-kijelzőn.</p>
+  <section id="table">
+    <title>A szövegattribútumok táblázat</title>
+    <p>A szövegattribútumok táblázatban megadhatja, hogy milyen attribútumok kerüljenek kimondásra vagy megjelenítésre a Braille-kijelzőn. A szövegattribútumok táblázat minden sora négy oszlopot tartalmaz.</p>
+    <list>
+      <item>
+        <p><gui>Attribútumnév</gui>: A szöveges attribútum neve.</p>
+      </item>
+      <item>
+        <p><gui>Felolvasás</gui>: Jelölje be ezt a jelölőnégyzetet, ha azt szeretné, hogy az <app>Orka</app> az <keyseq><key>Orka</key><key>F</key></keyseq> billentyűkombináció lenyomásakor felolvassa ezt a szöveges attribútumot.</p>
+      </item>
+      <item>
+        <p><gui>Braille jelölés</gui>: Jelölje be ezt a jelölőnégyzetet, ha azt szeretné, hogy az <app>Orka</app> „aláhúzza” ezt az attribútumot a Braille kijelzőjén.</p>
+      </item>
+      <item>
+        <p><gui>Megjelenítés, ha nem</gui>: Ebben a szerkeszthető oszlopban megadhatja, milyen szöveg kerüljön akkor kimondásra, ha a bejelölt attribútum nem található.</p>
+        <p>Az „aláhúzás” attribútum alapértéke például a „nincs”. Ennek hatására az <app>Orka</app> addig értesíti az aláhúzott szövegről, amíg a szöveg ténylegesen alá van húzva. Ha azt szeretné, hogy ez az attribútum kimondásra kerüljön függetlenül attól, hogy a kérdéses szöveg alá van-e húzva, jelölje be a <gui>Felolvasás</gui> jelölőnégyzetet, és törölje a <gui>Megjelenítés, ha nem</gui> oszlopot.</p>
+      </item>
+    </list>
+  </section>
+  <section id="reset">
+     <title>A változtatások visszavonása</title>
+     <p>A Visszaállítás (<keyseq><key>Alt</key><key>V</key></keyseq>) gomb megnyomásakor az attribútumlista a szöveges attribútum párbeszédablak első megjelenésének megfelelő kiinduló helyzetbe áll.</p>
+  </section>
+  <section id="rearranging">
+     <title>Az attribútumok sorrendjének megváltoztatása</title>
+     <p>Ha először jelenik meg a szöveges attribútumok párbeszédablak, akkor az összes engedélyezett attribútum a lista elején található. A szöveges attribútumok a sorrendnek megfelelően kerülnek kimondásra és megjelenítésre a Braille-kijelzőn. Négy gombot használhat a sorrend módosítására:</p>
+    <list>
+      <item>
+        <p>„<gui>A tetejére</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>): a kiválasztott attribútumot a lista tetejére mozgatja.</p>
+      </item>
+      <item>
+        <p><gui>Eggyel feljebb</gui> (<keyseq><key>Alt</key><key>F</key></keyseq>): a kiválasztott attribútumot egy sorral feljebb mozgatja.</p>
+      </item>
+      <item>
+        <p><gui>Eggyel lejjebb</gui> (<keyseq><key>Alt</key><key>L</key></keyseq>): a kiválasztott attribútumot egy sorral lejjebb mozgatja.</p>
+      </item>
+      <item>
+        <p><gui>Az aljára</gui> (<keyseq><key>Alt</key><key>R</key></keyseq>): a kiválasztott attribútumot a lista aljára helyezi.</p>
+      </item>
+    </list>
+  </section>
+  <section id="braille_indicator">
+    <title>A Braille „aláhúzás” beállításai a formázás megjelenítéséhez</title>
+    <p>Ezen gombok alatt találhatók a Braille kiválasztásjelző választógomb-csoport elemei. Ezek meghatározzák, hogy az adott attribútumot mely cella (vagy cellák) jelenítsék meg. A következő lehetőségek közül választhat:</p>
+    <list>
+      <item>
+        <p><gui>Nincs</gui>: A szöveges attribútumok nem lesznek aláhúzva a Braille kijelzőn. Ez az alapértelmezett beállítás.</p>
+      </item>
+      <item>
+        <p><gui>7. pont</gui>: A szöveges attribútumok csak a 7. ponttal lesznek aláhúzva a Braille-kijelzőn.</p>
+      </item>
+      <item>
+        <p><gui>8. pont</gui>: a szöveges attribútumok csak a 8. ponttal lesznek aláhúzva a Braille-kijelzőn.</p>
+      </item>
+      <item>
+        <p><gui>7. és 8. pont</gui>: A szöveges attribútumok a 7. és a 8. ponttal lesznek aláhúzva a Braille-kijelzőn.</p>
+      </item>
+    </list>
+  </section>
+</page>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_whereami" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_flat_review"/>
+    <title type="sort">1. A hol vagyok művelet</title>
+    <desc>Parancsok az aktuális objektum azonosításához</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>A hol vagyok művelet</title>
+  <p>A dedikált címsor és állapotsor felolvasó parancsokon kívül az <app>Orka</app> két helyzetérzékeny hol vagyok műveletet is nyújt: Az egyszerű hol vagyok műveletet, és a részletesebb hol vagyok műveletet. Az egyszerű hol vagyok művelet minden objektumhoz megvalósításra került. A részletesebb hol vagyok művelet olyan objektumokhoz lett megvalósítva, melyekhez jelentős mennyiségű fontos információ érhető el, de ezekről csak néha szeretne értesülni.</p>
+  <p>A legjobb módszer a hol vagyok művelettel való ismerkedésre <link xref="commands_where_am_i">A hol vagyok művelet billentyűparancsainak</link> kipróbálása. Másrészt, talán jobban segíthetnek az <app>Orka</app> helyzetérzékeny hol vagyok szolgáltatásának megértésében az alábbi információk:</p>
+  <p>A legtöbb felületi elemhez elérhetők az alábbi információk, melyeket hallani fog: felirat és/vagy név, a felületi elem típusa vagy szerepe, gyorsbillentyűje és/vagy hívóbetűje, ha létezik. Ebben az esetben a következő fog történni, ha valamelyik hol vagyok műveletet kezdeményezi:</p>
+  <list>
+    <item>
+      <p>Ha a felületi elem egy szerkesztőmező, és végrehajtja az egyszerű hol vagyok műveletet, hallani fogja az aktuális sorban levő szöveget, ha előzőleg nem jelölt ki egy szövegrészt. Ha korábban kijelölt egy szövegrészt, az egyszerű hol vagyok művelet a kijelölt szöveget fogja újra kimondani. A részletesebb hol vagyok művelet által kimondott információk egy szerkesztőmező esetén tartalmazni fogják a szöveges attribútumokat is.</p>
+    </item>
+    <item>
+      <p>Ha a felületi elem egy jelölőnégyzet vagy választógomb, és a felületi elem be van jelölve, a bejelölt állapot hangzik el.</p>
+    </item>
+    <item>
+      <p>Ha a felületi elem egy lista vagy listaszerű objektum, például kombinált listamező, választógombcsoport vagy laplista, akkor az aktuális elem pozícióadata újra kimondásra kerül.</p>
+    </item>
+    <item>
+      <p>Ha a felületi elem hierarchikus, például fanézet, és kiterjeszthető elemen áll, akkor kimondásra fog kerülni, hogy az elem ki van-e terjesztve. Ha az elem kiterjesztett, kimondásra kerül, hogy hány szintet tartalmaz. Ezeken az információkon kívül az aktuális szintszám is kimondásra kerül.</p>
+    </item>
+    <item>
+      <p>Ha a felületi elem egy folyamatjelző vagy csúszka, újra kimondásra kerül az aktuális százalékérték.</p>
+    </item>
+    <item>
+      <p>Ha a felületi elem egy ikon az ikonok csoportjában, az egyszerű hol vagyok művelet ki fogja mondani az ikon nevét, az összes elem számát, hogy hányadik az elem a listában, és hogy mennyi elemet jelölt ki. A részletesebb Hol vagyok művelet használatakor a kijelölt elemek neveit is meghallgathatja.</p>
+    </item>
+    <item>
+      <p>Ha egy hivatkozáson áll, meghallgathatja a hivatkozás típusát (azonos oldal, különböző oldal, FTP-hivatkozás, stb).</p>
+    </item>
+    <item>
+      <p>Ha egy táblázatcellán áll, meghallgathatja az aktuális cella koordinátáit és fejléceit.</p>
+    </item>
+    <item>
+      <p>Ha egy olyan alkalmazás helyesírás-ellenőrzőjét használja, melyhez az <app>Orka</app> kiterjesztett támogatást nyújt, az egyszerű hol vagyok művelet megismétli a hibával kapcsolatos információkat úgy, ahogyan azt a <link xref="preferences_spellcheck">Helyesírás-ellenőrzéssel kapcsolatos beállításoknál</link> megadta. A részletesebb hol vagyok művelet használatakor az <app>Orka</app> részletes információt közöl a hibával kapcsolatban.</p>
+    </item>
+  </list>
+  <p>És így tovább. Az <app>Orka</app> hol vagyok műveletei tehát információk széles körét tudják nyújtani az éppen kijelölt objektumról. Ha ki szeretné próbálni a hol vagyok műveleteket, nézze meg <link xref="commands_where_am_i">A hol vagyok művelet billentyűparancsainak</link> listáját.</p>
+</page>

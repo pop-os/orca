@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="guide" id="preferences" xml:lang="pt-BR">
+  <info>
+    <link type="next" xref="preferences_introduction"/>
+    <link type="guide" xref="index#quick_reference"/>
+    <title type="link">Preferências</title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Diálogos de preferências do <app>Orca</app></title>
+  <section id="orca" style="2column">
+    <title>Preferências do Orca</title>
+  </section>
+  <section id="application" style="2column">
+    <title>Preferências exclusivas do aplicativo</title>
+  </section>
+</page>

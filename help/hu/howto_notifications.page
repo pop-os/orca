@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_notifications" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_bookmarks"/>
+    <title type="sort">5. Értesítések</title>
+    <desc>Korábban kapott értesítések olvasása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Értesítések</title>
+  <p>A GNOME asztali környezet tartalmaz egy „értesítési területet”, amelyet az alkalmazások információk közlésére használnak a felhasználóval. Ilyen értesítések például a beérkező csevegési üzenetek, a lejátszott zeneszám részletei, amely lejátszását a Médialejátszó megkezdi, vagy az alacsony akkumulátortöltöttségre figyelmeztető üzenet.</p>
+  <p>Mivel az értesítéseket arra tervezték, hogy az információk megjelenítésekor a felhasználónak ne kelljen megszakítania a feladatát, ezek az értesítő üzenetek általában csak megjelennek, és hamarosan eltűnnek. Ezen kívül nem lehet fókuszba hozni őket. Amíg az <app>Orka</app> bejelenti ezeket az értesítő üzeneteket, könnyen előfordulhat, hogy a felhasználó véletlenül megszakítja egy értesítő üzenet kimondását, például elkezd újra gépelni, vagy átváltja a fókuszt egy másik alkalmazásra. Az <app>Orka</app> emiatt rendelkezik három paranccsal, amelyek segítségével hozzáférhet az előzőleg megjelenített értesítési üzenetekhez:</p>
+  <list>
+    <item>
+      <p>Az utolsó értesítés megjelenítése</p>
+    </item>
+    <item>
+      <p>Az előző értesítés megjelenítése</p>
+    </item>
+    <item>
+      <p>Az értesítések listájának megjelenítése</p>
+    </item>
+  </list>
+  <p>Az első két parancs főként azért lett megvalósítva, hogy gyorsan hozzá tudjon férni egy kapott értesítési üzenethez. Az utolsó parancs segítségével az összes korábbi értesítést újra áttekintheti egy listában.</p>
+  <p>Ha aktiválja az értesítések listájának megjelenítése funkciót, megtudhatja, mennyi értesítésből áll a lista, valamint a következő lehetőségekről fog tájékoztatást kapni:</p>
+  <list>
+    <item><p>A segítségért nyomja meg a H billentyűt.</p></item>
+    <item><p>A listában való navigációhoz használja a Felfelé, Lefelé, Home és End billentyűket.</p></item>
+    <item><p>A kilépéshez nyomja meg az Esc billentyűt.</p></item>
+    <item><p>Nyomja meg a szóköz billentyűt az utoljára kimondott értesítési üzenet újbóli meghallgatásához.</p></item>
+    <item><p>Nyomjon meg egy számot egy megadott számú értesítési üzenet újbóli meghallgatásához.</p></item>
+  </list>
+  <p>Megjegyzés: az utoljára kapott értesítési üzenet lesz a legelső a listában.</p>
+  <p>Alapesetben egyik <app>Orka</app> értesítésiüzenet-áttekintő parancshoz sincsenek billentyűtársítások rendelve. Az Ön választásának megfelelően bármelyik parancshoz új billentyűtársítást rendelhet. Erről részletesebben <link xref="howto_key_bindings">A billentyűtársítások bemutatása</link> című fejezetben olvashat.</p>
+</page>

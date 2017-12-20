@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_learn_modes" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_keyboard_layout"/>
+    <title type="sort">5. Az <app>Orka</app> tanuló mód</title>
+    <desc>Az <app>Orka</app> parancsainak felfedezése</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Az <app>Orka</app> tanuló mód használata</title>
+  <p>A tanuló és billentyűparancs-listázó módok segítségével elsajátíthatja az <app>Orka</app> parancsait. A tanuló módban az <app>Orka</app> kimondja az Ön által lenyomott billentyűkombinációkat és a hozzájuk társított <app>Orka</app> parancsokat. Ezen kívül, a billentyűparancs-listázó mód segítségével az összes használható <app>Orka</app> parancsot egy listában áttekintheti.</p>
+  <steps>
+    <title>A tanuló mód használata</title>
+    <item>
+      <p>A tanuló mód eléréséhez nyomja meg az <keyseq><key>Orka módosító</key><key>H</key></keyseq> billentyűkombinációt.</p>
+    </item>
+    <item>
+      <p>Nyomjon le egy billentyűkombinációt. Az <app>Orka</app> fel fogja olvasni a lenyomott billentyűkombinációt és a hozzá társított parancsot.</p>
+    </item>
+    <item>
+      <p>A tanuló módból való kilépéshez nyomja meg az <key>Esc</key> billentyűt.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>A billentyűparancsok listájának megjelenítése</title>
+    <item>
+      <p>A tanuló mód eléréséhez nyomja meg az <keyseq><key>Orka módosító</key><key>H</key></keyseq> billentyűkombinációt.</p>
+    </item>
+    <item>
+      <p>Nyomja le az <key>F2</key> billentyűt az <app>Orka</app> általános billentyűparancsainak felsorolásához. Ha az éppen fókuszban levő alkalmazás billentyűparancsait szeretné megismerni, akkor nyomja le az <key>F3</key> billentyűt.</p>
+    </item>
+    <item>
+      <p>A lista áttekintéséhez használja a <key>Felfelé nyíl</key> és a <key>Lefelé nyíl</key> billentyűket.</p>
+    </item>
+    <item>
+      <p>A billentyűparancs-listázó módból az <key>Esc</key> billentyű megnyomásával léphet ki.</p>
+    </item>
+  </steps>
+</page>

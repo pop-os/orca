@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_reading" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_structural_navigation"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_documents"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">1. Čtení</title>
+    <title type="link">Čtení</title>
+    <desc>Příkazy pro přístup k obsahu dokumentu</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy pro čtení</title>
+  <p>Mimo příkazů kurzorové navigace, která je součástí GNOME, poskytuje <app>Orca</app> i několik příkazů, které můžete použít ke čtení dokumentů.</p>
+  <note style="tip">
+    <p>V seznamu níže můžete několikrát narazit na zkatku „KP“. Znamená „key pad“, což je anglické označení pro numerickou (číselnou) klávesnici a všechny klávesy s touto zkratkou jsou umístěné na ní. Upozorňujeme také, že zmáčknutí klávesy se liší podle toho, jestli používáte stolní nebo přenosný počítač – respektive přesněji, jestli používáte rozložení klávesnice stolního nebo přenosného počítače podle čtečky <app>Orca</app>. Více informací najdete u tématu <link xref="howto_keyboard_layout">rozložení klávesnice</link>.</p>
+  </note>
+  <section id="flat_review">
+    <title>Čtení na vaší aktuální pozici</title>
+    <p>Následující <app>příkazy plošného náhledu</app> můžete použít ke čtení v místě, kde se právě nacházíte:</p>
+    <list>
+      <item>
+        <p>Přečíst aktuální řádek:</p>
+        <list>
+          <item>
+            <p>Stolní počítač: <keyseq><key>KP 8</key></keyseq> (osm na numerické klávesnici)</p>
+          </item>
+          <item>
+            <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>I</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Přečíst aktuální slovo:</p>
+        <list>
+          <item>
+            <p>Stolní počítač: <keyseq><key>KP 5</key></keyseq> (pět na numerické klávesnici)</p>
+          </item>
+          <item>
+            <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>K</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Hláskovat aktuální slovo:</p>
+        <list>
+          <item>
+            <p>Stolní počítač: <keyseq><key>KP 5</key></keyseq> (pět na numerické klávesnici, dvojité zmáčknutí)</p>
+          </item>
+          <item>
+            <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>K</key></keyseq> (dvojité zmáčknutí)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Foneticky hláskovat aktuální slovo:</p>
+        <list>
+          <item>
+            <p>Stolní počítač: <keyseq><key>KP 5</key></keyseq> (pět na numerické klávesnici, trojité zmáčknutí)</p>
+          </item>
+          <item>
+            <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key> <key>K</key></keyseq> (trojité zmáčknutí)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Přečíst aktuální znak:</p>
+        <list>
+          <item>
+            <p>Stolní počítač: <keyseq><key>KP 2</key></keyseq> (dva na numerické klávesnici)</p>
+          </item>
+          <item>
+            <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>,</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Foneticky přečíst aktuální znak:</p>
+        <list>
+          <item>
+            <p>Stolní počítač: <keyseq><key>KP 2</key></keyseq> (dva na numerické klávesnici, dvojité zmáčknutí)</p>
+          </item>
+          <item>
+            <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>,</key></keyseq> (dvojité zmáčknutí)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Říct hodnotu Unikódu pro aktuální znak:</p>
+        <list>
+          <item>
+            <p>Stolní počítač: <keyseq><key>KP 2</key></keyseq> (dva na numerické klávesnici, trojité zmáčknutí)</p>
+          </item>
+          <item>
+            <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>,</key></keyseq> (trojité zmáčknutí)</p>
+          </item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="say_all">
+    <title>Plynulé čtení</title>
+    <p>Příkaz <app>Orca</app> „číst plynule“ způsobí, že <app>Orca</app> přečte celý dokument počínaje od aktuálního místa.</p>
+    <list>
+      <item>
+        <p>Stolní počítač: <key>KP +</key> (plus na numerické klávesnici)</p>
+      </item>
+      <item>
+        <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>;</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="attributes_and_selection">
+    <title>Vlastnosti textu a vybraný text</title>
+    <p><app>Orca</app> má zvláštní příkazy pro získávání vlastností textu v místě kurzoru. Navíc, když použijete příkaz čtečky <app>Orca</app> „Kde se nacházím“ pro textový objekt, ve kterém je vybrán text, oznámí vám <app>Orca</app> tento vybraný text. Pokud byste pro tento účel měli raději vyhrazený příkaz, můžete navázat příkaz „Přečíst vybraný text“ na klávesovou zkratku. Jak to udělat, najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+    <list>
+      <item>
+        <p>Prezentovat vlastnosti textu: <keyseq><key>Modifikátor Orca</key> <key>F</key></keyseq></p>
+      </item>
+      <item>
+        <p>Zjištění základních informací o tom, kde se nacházíte:</p>
+        <list>
+          <item>
+            <p>Stolní počítač: <key>KP Enter</key> (Enter na numerické klávesnici)</p>
+          </item>
+          <item>
+            <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>Enter</key></keyseq></p>
+          </item>
+        </list>
+    </item>
+    <item>
+      <p>Zjištění podrobných informací o tom, kde se nacházíte:</p>
+      <list>
+        <item>
+          <p>Stolní počítač: <key>KP Enter</key> (Enter na numerické klávesnici, dvojité zmáčknutí)</p>
+        </item>
+        <item>
+          <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key> <key>Enter</key></keyseq> (dvojité zmáčknutí)</p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Přečíst vybraný text: (bez klávesové zkratky)</p>
+    </item>
+  </list>
+  </section>
+  <section id="link_details">
+    <title>Podrobnosti k odkazu</title>
+    <p>Když se nacházíte na odkazu, můžete použít příkaz čtečky <app>Orca</app> „Kde se nacházím“ k oznámení informací patřících k odkazu, jako typ odkazu, jestli byl již navštíven, popis webu a velikost souboru. Pokud byste pro tento účel měli raději vyhrazený příkaz, můžete navázat příkaz „Přečíst podrobnosti k odkazu“ na klávesovou zkratku. Jak to udělat, najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+    <list>
+      <item>
+        <p>Přečíst podrobnosti k odkazu: (bez klávesové zkratky)</p>
+      </item>
+    </list>
+  </section>
+  <section id="browse_and_focus_modes">
+    <title>Režimy procházení a zaměřování</title>
+    <p>Režimy procházení a zaměřování v čtečce <app>Orca</app> umožňují přepínat se mezi čtením nebo interakcí s webovým obsahem.</p>
+    <list>
+      <item>
+        <p>Přepnout mezi režimem procházení a zaměřování: <keyseq><key>Modifikátor Orca</key><key>A</key></keyseq></p>
+      </item>
+      <item>
+        <p>Zapnout „přichytávací“ režim zaměřování: <keyseq><key>Modifikátor Orca</key><key>A</key></keyseq> (dvojité zmáčknutí)</p>
+      </item>
+      <item>
+        <p>Zapnout „přichytávací“ režim zaměřování: <keyseq><key>Modifikátor Orca</key><key>A</key></keyseq> (trojité zmáčknutí)</p>
+      </item>
+    </list>
+  </section>
+</page>

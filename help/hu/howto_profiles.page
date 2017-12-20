@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_profiles" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_documents"/>
+    <title type="sort">9. Profilok</title>
+    <desc>Több konfiguráció fenntartása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Profilok</title>
+  <p>Az Orka profiljai lehetővé teszik, hogy gyorsan menthessen és betölthessen többféle beállítási sablont, így gyorsan hozzáférhet az épp szükséges különböző beállításokhoz.</p>
+  <steps>
+    <title>Új profil mentése</title>
+    <item>
+      <p>Nyissa meg az <link xref="preferences">Orka Beállítások</link> ablakát.</p>
+    </item>
+    <item>
+      <p>Változtassa meg a kívánt beállításokat.</p>
+    </item>
+    <item>
+      <p>Az <gui>Általános</gui> lapon nyomja meg a <gui>Mentés másként</gui> gombot.</p>
+    </item>
+    <item>
+      <p>A megjelenő <gui>Profil mentése másként</gui> párbeszédpanelen írja be az új profil nevét a <gui>Profil neve</gui> szerkesztőmezőbe.</p>
+    </item>
+    <item>
+      <p>Ha végzett, nyomja meg az <gui>OK</gui> gombot.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Meglévő profil betöltése</title>
+    <item>
+      <p>Nyissa meg az <link xref="preferences">Orka Beállítások</link> ablakát.</p>
+    </item>
+    <item>
+      <p>Az <gui>Általános</gui> lap <gui>Aktív profil</gui> kombinált listamezőjében válassza ki a betöltendő profilt.</p>
+    </item>
+    <item>
+      <p>Nyomja meg a <gui>Betöltés</gui> gombot.</p>
+    </item>
+    <item>
+      <p>Megjelenik egy megerősítést kérő ablak. Ha be szeretné tölteni a kiválasztott profilt, nyomja meg az <gui>Igen</gui> gombot.</p>
+    </item>
+    <item>
+      <p>Ha végzett, nyomja meg az <gui>OK</gui> gombot.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Meglévő profil beállításainak megváltoztatása</title>
+    <item>
+      <p>A megváltoztatni kívánt profil betöltéséhez kövesse a profil betöltésével kapcsolatos fentebb leírt lépéseket.</p>
+    </item>
+    <item>
+      <p>Az új profil elmentéséhez kövesse a profil mentésével kapcsolatos fentebb leírt lépéseket.</p>
+    </item>
+    <item>
+      <p>Amikor megjelenik az új profil nevét kérő párbeszédpanel, adja meg az aktuális profilnévvel egyező nevet. Az <gui>OK</gui> gomb megnyomásakor figyelmeztető üzenet jelenik meg, miszerint már létezik a megadott nevű profil.</p>
+    </item>
+    <item>
+      <p>Nyomja meg az <gui>Igen</gui> gombot. Ezzel felülírja a már létező profilban a beállításokat.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>A <gui>Kezdeti profil</gui> megváltoztatása</title>
+    <item>
+      <p>Nyissa meg az <link xref="preferences">Orka Beállítások</link> ablakát.</p>
+    </item>
+    <item>
+      <p>Az <gui>Általános</gui> lap <gui>Kezdeti profil</gui> kombinált listamezőjében válassza ki a betöltendő profilt.</p>
+    </item>
+    <item>
+      <p>Nyomja meg az <gui>OK</gui> gombot. Az <app>Orka</app> következő indításakor az újonnan beállított profil kerül automatikusan betöltésre.</p>
+    </item>
+  </steps>
+</page>

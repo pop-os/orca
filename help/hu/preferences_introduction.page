@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_introduction" xml:lang="hu">
+  <info>
+    <title type="sort">0. Az <app>Orka</app> beállításainak bemutatása</title>
+    <title type="link">Az <app>Orka</app> beállításainak bemutatása</title>
+    <link type="guide" xref="preferences"/>
+    <link type="next" xref="preferences_general"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Az <app>Orka</app> beállításainak bemutatása</title>
+  <section>
+    <title>Az Orka beállításai</title>
+    <p>Az Orka beállításai lehetővé teszik az <app>Orka</app> funkcióinak testreszabását, ezek a változtatások minden alkalmazásnál alkalmazva lesznek. Erre egy jó példa a billentyűvisszhang beállítás, mivel a billentyűvisszhang beállítást általában minden alkalmazásra alkalmazni szokták.</p>
+    <p>Megjegyzés: Az Orka beállításai alkalmazásonként is személyre szabhatók. Lehetősége van például arra, hogy alapértelmezetten a szavankénti billentyűvisszhang beállítást használja, de például a Pidgin alkalmazásnál teljesen letiltsa a billentyűvisszhangot. Vagyis, az <app>Orka</app> minden szót ki fog mondani amit begépelt, kivéve a Pidgin alkalmazásnál.</p>
+    <note style="tip">
+      <title>Gyorsbillentyűk az Orka beállító párbeszédablakok megnyitásához</title>
+      <list>
+        <item>
+          <p><keyseq><key>Orka módosító</key><key>Szóköz</key></keyseq>: Megnyitja az <app>Orka</app> Beállítások párbeszédablakát.</p>
+        </item>
+        <item>
+          <p><keyseq><key>Orka módosító</key><key>Ctrl</key><key>Szóköz</key></keyseq>: Megnyitja az <app>Orka</app> alkalmazásbeállító párbeszédablakát az aktuális alkalmazáshoz.</p>
+        </item>
+      </list>
+    </note>
+  </section>
+  <section>
+    <title>Alkalmazásfüggő beállítások</title>
+      <p>Az Orka beállítások mellett léteznek alkalmazásfüggő beállítások. Ezekkel a beállításokkal testreszabhatók az <app>Orka</app> funkciói bizonyos környezetekben, például a webes vagy csevegő alkalmazásokban. Ennek eredményeként ezeket a beállításokat csak az Orka alkalmazásbeállító párbeszédablakában fogja megtalálni, és csak a célalkalmazásoknál lesznek alkalmazva.</p>
+  </section>
+</page>

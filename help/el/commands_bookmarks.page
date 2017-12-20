@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_bookmarks" xml:lang="el">
+  <info>
+    <link type="next" xref="commands_live_regions"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_bookmarks"/>
+    <title type="sort">4. Σελιδοδείκτες</title>
+    <title type="link">Σελιδοδείκτες</title>
+    <desc>Εντολές για σελιδοδείκτες και ανάκτηση αντικειμένων</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εντολές σελιδοδεικτών</title>
+  <p>Το <app>Orca</app> παρέχει αρκετές εντολές που μπορούν να χρησιμοποιηθούν για να "επισημάνουν" ένα δοσμένο αντικείμενο με σκοπό να επιστρέψουν πάλι αργότερα.</p>
+  <list>
+    <item>
+      <p>Αποθήκευση σελιδοδείκτη σε μια αριθμημένη υποδοχή: <keyseq><key>τροποποιητής Orca</key> <key>Alt</key><key>1</key></keyseq>-<key>6</key></p>
+    </item>
+    <item>
+      <p>Αποθήκευση των ορισμένων σελιδοδεικτών για την εφαρμογή ή σελίδα: <keyseq><key>τροποποιητής Orca</key><key>Alt</key><key>B</key></keyseq></p>
+    </item>
+    <item>
+      <p>Μετάβαση στο συγκεκριμένο αριθμημένο σελιδοδείκτη: <keyseq><key>τροποποιητής Orca</key> <key>1</key></keyseq>-<key>6</key></p>
+    </item>
+    <item>
+      <p>Μετάβαση στον προηγούμενο σελιδοδείκτη για την εφαρμογή ή σελίδα: <keyseq><key>τροποποιητής Orca</key><key>Shift</key><key>B</key> </keyseq></p>
+    </item>
+    <item>
+      <p>Μετάβαση στον επόμενο σελιδοδείκτη για την εφαρμογή ή σελίδα: <keyseq><key>τροποποιητής Orca</key><key>B</key></keyseq></p>
+    </item>
+  </list>
+</page>

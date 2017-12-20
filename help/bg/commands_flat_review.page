@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_flat_review" xml:lang="bg">
+  <info>
+    <link type="next" xref="commands_find"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_flat_review"/>
+    <title type="sort">1. Равнинен преглед</title>
+    <title type="link">Равнинен преглед</title>
+    <desc>Команди за пространствен преглед на прозорци</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди за равнинния преглед</title>
+  <p>Командите за <link xref="howto_flat_review">равнинния преглед</link> на Orca са предназначени за пространствен преглед на елементите, изобразени на екрана. Те също така предоставят и начини за прочитане на текущия ред, дума и знак при придвижване в текста на документи. Повечето от тези команди са „присвоени“ към клавишни комбинации. Вижте секцията <link xref="howto_key_bindings">Промяна на функциите на клавишите</link> за повече информация как да присвоите неприсвоени команди.</p>
+  <section id="line">
+    <title>Команди за преглед по редове</title>
+    <list>
+      <item>
+        <p>Първи ред („началната“ позиция):</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>Модификатор на Orca</key><key>7 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>Ctrl</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Предишен ред:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>7 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Текущ ред:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>8 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>I</key></keyseq></p></item>
+        </list>
+      </item>
+        <item><p>Текущият ред по букви:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>8 от цифровия блок</key></keyseq> (двукратно)</p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>I</key></keyseq> (двукратно)</p></item>
+        </list>
+      </item>
+      <item><p>Текущият ред по букви, фонетично:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>8 от цифровия блок</key></keyseq> (трикратно)</p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>I</key></keyseq> (трикратно)</p></item>
+        </list>
+      </item>
+      <item><p>Следващ ред:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>9 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Последният ред („крайната“ позиция):</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>Модификатор на Orca</key><key>9 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>Ctrl</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="word">
+    <title>Команди за преглед по думи</title>
+    <list>
+      <item><p>Думата отгоре:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>Модификатор на Orca</key><key>4 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>Ctrl</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Предишна дума:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>4 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Текущата дума:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>5 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Текущата дума, по букви:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>5 от цифровия блок</key></keyseq> (двукратно)</p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>K</key></keyseq> (двукратно)</p></item>
+        </list>
+      </item>
+      <item><p>Текущата дума по букви, фонетично:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>5 от цифровия блок</key></keyseq> (трикратно)</p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>K</key></keyseq> (трикратно)</p></item>
+        </list>
+      </item>
+      <item><p>Следваща дума:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>6 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Думата отдолу:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>Модификатор на Orca</key><key>6 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>Ctrl</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="character">
+    <title>Команди за преглед по знаци</title>
+    <list>
+      <item><p>Предишен знак:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>1 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Текущ знак:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>2 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>запетая</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Текущ знак, фонетично:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>2 от цифровия блок</key></keyseq> (двукратно)</p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>запетая</key></keyseq> (двукратно)</p></item>
+        </list>
+      </item>
+      <item><p>Стойност на текущия знак по Уникод:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>2 от цифровия блок</key></keyseq> (трикратно)</p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>запетая</key></keyseq> (трикратно)</p></item>
+        </list>
+      </item>
+      <item><p>Следващ знак:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>3 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>точка</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Последният знак на текущия ред:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>Модификатор на Orca</key><key>1 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>Ctrl</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="other">
+    <title>Допълнителни команди</title>
+    <list>
+      <item><p>Превключване на равнинния преглед (опреснява контекста):</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>Модификатор на Orca</key><key>наклонена черта от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>P</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Преглед на текущия елемент:</p>
+        <list>
+          <item><p>Настолни компютри: <keyseq><key>Модификатор на Orca</key><key>5 от цифровия блок</key></keyseq></p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>Ctrl</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Използвайте „Прочитане на всичко“, за да прегледате текущия прозорец:</p>
+        <list>
+          <item><p>Настолни компютри: <key>плюс от цифровия блок</key> (двукратно)</p></item>
+          <item><p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>точка и запетая</key></keyseq> (двукратно)</p></item>
+        </list>
+      </item>
+      <item>
+      <p>Копиране на съдържанието от равнинния преглед в буфера за обмен: (неприсвоена)</p>
+      </item>
+        <item>
+        <p>Добавяне на съдържанието от равнинния преглед към буфера за обмен: (неприсвоена)</p>
+      </item>
+    </list>
+  </section>
+</page>

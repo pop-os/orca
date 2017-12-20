@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_bookmarks" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <title type="sort">6. Záložky</title>
+    <desc>Jak ukládat a získávat objekty</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Záložky</title>
+  <p>Podpora záložek ve čtečce <app>Orca</app> vám umožňuje poznačit si objekt, který vás zajímá. To představuje následující funkce:</p>
+  <list>
+    <item>
+      <p>Nejste omezeni jen na jeden objekt: V jednom prostředí můžete nastavit až šest záložek. Záložky si můžete také uložit, takže zůstanou uchovány i mezi jednotlivými sezeními.</p>
+    </item>
+    <item>
+      <p>Když máte nastavenou záložku, můžete se na ni později přesunout a to bez ohledu na to, jestli máte nebo nemáte zvolené trvalé ukládání záložek patřících k aktuálnímu prostředí. Pokud se chcete přesunout přímo na konkrétní položku, může k tomu posloužit číslo záložky. Případně se můžete přesouvat na následující a předchozí záložky, podobně jako je tomu u <link xref="howto_structural_navigation">strukturované navigace</link> po objektech.</p>
+    </item>
+    <item>
+      <p>Objektem, který leze přidat do záložek, může být widget v aplikaci nebo objekt na webové stránce, kterou čtete. Od toho, v jakém se nacházíte prostředí, se bude odvíjet, co se stane, když se pohybujete mezi záložkami. Když jste ve webovém obsahu, přemístí se na záložku kurzor, takže od ní můžete pokračovat ve čtení. Jinak se aktivuje <link xref="howto_flat_review">plošný náhled</link>, ve kterém se záložka stane aktuální položkou.</p>
+    </item>
+  </list>
+  <p>Klávesové zkratky přiřazené jednotlivým výše zmíněným funkcím můžete najít v <link xref="commands_bookmarks">příkazech pro záložky</link>.</p>
+</page>

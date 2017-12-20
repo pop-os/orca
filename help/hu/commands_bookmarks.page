@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_bookmarks" xml:lang="hu">
+  <info>
+    <link type="next" xref="commands_live_regions"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_bookmarks"/>
+    <title type="sort">4. Könyvjelzők</title>
+    <title type="link">Könyvjelzők</title>
+    <desc>Objektumok könyvjelzőzése és lekérése</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Könyvjelzőkkel kapcsolatos parancsok</title>
+  <p>Az <app>Orka</app> számos paranccsal rendelkezik egy objektum könyvjelzővel történő megjelöléséhez. Ha könyvjelzővel lát el egy objektumot, a könyvjelző segíthet a későbbi navigációban.</p>
+  <list>
+    <item>
+      <p>Könyvjelző elhelyezése a megadott sorszámú helyre: <keyseq><key>Orka módosító</key><key>Alt</key><key>1-től</key></keyseq>–<key>6-ig</key></p>
+    </item>
+    <item>
+      <p>Az aktuális alkalmazáshoz vagy oldalhoz megadott könyvjelzők mentése: <keyseq><key>Orka módosító</key><key>Alt</key><key>B</key></keyseq></p>
+    </item>
+    <item>
+      <p>Ugrás a megadott számú könyvjelzőre: <keyseq><key>Orka módosító</key><key>1-től</key></keyseq>–<key>6-ig</key></p>
+    </item>
+    <item>
+      <p>Ugrás az adott alkalmazás vagy oldal előző könyvjelzőjére: <keyseq><key>Orka módosító</key><key>Shift</key><key>B</key></keyseq></p>
+    </item>
+    <item>
+      <p>Ugrás az adott alkalmazás vagy oldal következő könyvjelzőjére: <keyseq><key>Orka módosító</key><key>B</key></keyseq></p>
+    </item>
+  </list>
+</page>

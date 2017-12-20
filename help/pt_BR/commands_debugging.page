@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_debugging" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="commands#troubleshooting"/>
+    <title type="sort">1. Depuração</title>
+    <title type="link">Depuração</title>
+    <desc>Comandos para resolução de problemas</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos de depuração</title>
+  <p>
+    You may be asked by the developers to provide some debugging information in
+    order to help them identify the source of a problem you are experiencing.
+    The following command is not "bound" to a keystroke. If you need to bind it,
+    please see <link xref="howto_key_bindings">Modifying Keybindings</link>.
+  </p>
+  <list>
+    <item>
+      <p>Cycle to the next debug level: (Unbound)</p>
+    </item>
+  </list>
+</page>

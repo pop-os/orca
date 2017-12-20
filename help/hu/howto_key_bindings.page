@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_key_bindings" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_profiles"/>
+  <title type="sort">8. Billentyűtársítások</title>
+  <desc>Parancsok társítása billentyűkombinációkhoz, és a társítások módosítása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Billentyűtársítások</title>
+  <p>Az <app>Orka</app> rengeteg funkciót tartalmaz. Sok funkciónak van előre definiált billentyűtársítása, másoknak nincs. A létező billentyűtársítások az alábbi lépések végrehajtásával megváltoztathatók, törölhetők, vagy billentyűtársítás rendelhető a ki nem osztott <app>Orka</app> funkciókhoz.</p>
+  <steps>
+    <title>Billentyűtársítás hozzárendelése egy nem kiosztott funkcióhoz</title>
+    <item>
+      <p>Az <link xref="preferences">Orka beállítások</link> párbeszédpanel megnyitásához nyomja meg az <keyseq><key>Orka módosító</key><key>Szóköz</key></keyseq> billentyűkombinációt.</p>
+    </item>
+    <item>
+      <p>Lépjen a <gui>Billentyűtársítások</gui> lapra.</p>
+    </item>
+    <item>
+      <p>Lépjen arra a cellára, amely tartalmazza a billentyűtársítással nem rendelkező parancsot.</p>
+    </item>
+    <item>
+      <p>A jobbra nyíl segítségével lépjen a <gui>Billentyűtársítás</gui> oszlopra, majd nyomja meg az <key>Enter</key> billentyűt.</p>
+    </item>
+    <item>
+      <p>Nyomja le a kívánt billentyűkombinációt.</p></item>
+    <item>
+      <p>Az új billentyűkombináció megerősítéséhez nyomja meg az <key>Enter</key> billentyűt. Ezután a módosítás mentésre kerül, a táblázat <gui>Módosítva</gui> cellájában található jelölőnégyzet pedig jelzi a billentyűtársítás módosítását.</p>
+    </item>
+    <item>
+      <p>Nyomja meg az <gui>Alkalmaz</gui> gombot.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Létező billentyűtársítások megváltoztatása</title>
+    <item>
+      <p>Az <link xref="preferences">Orka beállítások</link> párbeszédpanel megnyitásához nyomja meg az <keyseq><key>Orka módosító</key><key>Szóköz</key></keyseq> billentyűkombinációt.</p>
+    </item>
+    <item>
+      <p>Lépjen a <gui>Billentyűtársítások</gui> lapra.</p>
+    </item>
+    <item>
+      <p>A nyílbillentyűk segítségével lépjen a módosítani kívánt billentyűtársításra, majd nyomja meg az <key>Enter</key> billentyűt.</p>
+    </item>
+    <item>
+        <p>Nyomja le a kívánt billentyűkombinációt.</p>
+    </item>
+    <item>
+      <p>Az új billentyűkombináció megerősítéséhez nyomja meg az <key>Enter</key> billentyűt. Ezután a módosítás mentésre kerül, a táblázat <gui>Módosítva</gui> cellájában található jelölőnégyzet pedig jelzi a billentyűtársítás módosítását.</p>
+    </item>
+    <item>
+      <p>Nyomja meg az <gui>Alkalmaz</gui> gombot.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Eredeti billentyűtársítások visszaállítása</title>
+    <item>
+      <p>Az <link xref="preferences">Orka beállítások</link> párbeszédpanel megnyitásához nyomja meg az <keyseq><key>Orka módosító</key><key>Szóköz</key></keyseq> billentyűkombinációt.</p>
+    </item>
+    <item>
+      <p>Lépjen a <gui>Billentyűtársítások</gui> lapra.</p>
+    </item>
+    <item>
+      <p>Lépjen a visszaállítani kívánt billentyűtársítás Módosítva oszlopára.</p>
+    </item>
+    <item>
+      <p>A <key>Szóköz</key> billentyű lenyomásával törölje a Módosítva jelölőnégyzetet.</p>
+    </item>
+    <item>
+      <p>Nyomja meg az <gui>Alkalmaz</gui> gombot.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Létező billentyűtársítások törlése</title>
+    <item>
+      <p>Az <link xref="preferences">Orka beállítások</link> párbeszédpanel megnyitásához nyomja meg az <keyseq><key>Orka módosító</key><key>Szóköz</key></keyseq> billentyűkombinációt.</p>
+    </item>
+    <item>
+      <p>Lépjen a <gui>Billentyűtársítások</gui> lapra.</p>
+    </item>
+    <item>
+      <p>A nyílbillentyűk segítségével lépjen a törölni kívánt billentyűtársítás cellájára, majd nyomja meg az <key>Enter</key> billentyűt.</p>
+    </item>
+    <item>
+      <p>Amikor megjelenik az „Üsse le az új billentyűparancsot” üzenet, nyomja meg a <key>Del</key> vagy a <key>BackSpace</key> billentyűt. Ezután a billentyűtársítás törlésre kerül, valamint elhangzik a „Billentyűtársítás törölve” üzenet.</p>
+    </item>
+    <item>
+      <p>A megerősítéshez nyomja meg az <key>Enter</key> billentyűt.</p>
+    </item>
+    <item>
+      <p>Nyomja meg az <gui>Alkalmaz</gui> gombot.</p>
+    </item>
+  </steps>
+</page>

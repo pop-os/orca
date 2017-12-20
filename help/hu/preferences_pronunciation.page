@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_pronunciation" xml:lang="hu">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_text_attributes"/>
+    <title type="sort">7. Kiejtés</title>
+    <title type="link">Kiejtés</title>
+    <desc>Egyes szavak kiejtési módjának megadása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kiejtési beállítások</title>
+  <p id="introduction">Előfordulhat, hogy a beszédszintetizátora néha nem a megfelelő szöveget mondja ki, például rövidítések esetén. Erre egy jó példa, ha a „LOL” rövidítés helyett „laughing out loud” szöveget, vagy az „a11y” rövidítés helyett „accessibility” szöveget szeretne hallani. Hasznos a kivételszótár akkor is, ha a beszédszintetizátor egy nevet, vagy egy technikai kifejezést rosszul ejt ki.</p>
+  <p>Az <app>Orka</app> grafikus beállító párbeszédpanel <gui>Kiejtés</gui> lapja lehetőséget ad új bejegyzések hozzáadására, szerkesztésére és törlésére az <app>Orka</app> kivételszótárából.</p>
+  <p>Mivel a <gui>Kiejtés</gui> lap megtalálható az <app>Orka</app> alkalmazás beállító párbeszédpanelén is, így a kivételszótárak akár alkalmazásszinten is személyre szabhatók.</p>
+  <steps>
+    <title>Új szó hozzáadása a kivételszótárhoz</title>
+    <item>
+      <p>A Kiejtés lapon aktiválja az <gui>Új bejegyzés</gui> gombot, vagy nyomja meg az <keyseq><key>Alt</key><key>B</key></keyseq> billentyűkombinációt.</p>
+    </item>
+    <item>
+      <p>A megjelenő „Tényleges karakterlánc” szerkesztőmezőbe gépelje be az eredeti szót vagy szöveget, majd nyomja meg az <key>Enter</key> billentyűt.</p>
+    </item>
+    <item>
+      <p>A nyílbillentyűk segítségével lépjen a <gui>Helyettesítő szó</gui> oszlopra, majd nyomja meg az <key>Enter</key> billentyűt az új bejegyzés szerkesztéséhez.</p>
+    </item>
+    <item>
+      <p>Gépelje be azt a szöveget, amelyet kimondáskor szeretne hallani az eredeti helyett, majd nyomja meg az <key>Enter</key> billentyűt.</p>
+    </item>
+  </steps>
+  <steps>
+  <title>Létező szótárbejegyzés szerkesztése</title>
+    <item>
+      <p>A nyílbillentyűk segítségével lépjen arra a cellára, amelynek a bejegyzését szerkeszteni szeretné, majd nyomja meg az <key>Enter</key> billentyűt.</p>
+    </item>
+    <item>
+      <p>Hajtsa végre a kívánt változtatásokat, majd nyomja meg az <key>Enter</key> billentyűt a befejezéshez.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Létező szótárbejegyzés törlése</title>
+    <item>
+      <p>A nyílbillentyűk segítségével lépjen a törölni kívánt bejegyzésre.</p>
+    </item>
+    <item>
+      <p>Nyomja meg a <key>Del</key> billentyűt, vagy az <keyseq><key>Alt</key><key>T</key></keyseq> billentyűkombinációt.</p>
+    </item>
+  </steps>
+</page>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="fr">
+  <info>
+    <title type="link">Écho de touche</title>
+    <title type="sort">4. Écho de touche</title>
+    <desc>Configurer ce qui est dit lors de la saisie</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_bindings"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Préférences de « Écho de touche »</title>
+  <section id="keyecho">
+    <title>Activer l'écho des touches</title>
+    <p>Les paramètres de « Écho des touches » contrôlent ce qui se passe à chaque fois que vous appuyez sur une touche du clavier. Pour activer l'écho des touches, cochez la case « Activer l'écho des touches ». Plusieurs autres cases à cocher sont alors activées ; à l'aide de celles-ci, vous pouvez configurer exactement selon vos besoins les touches soumises à l'écho.</p>
+    <p>Valeur par défaut : cochée</p>  
+    <section>
+      <title>Activer les touches alphabétiques</title>
+      <p>Cette option contrôle si les touches telles que <key>a</key>, <key>b</key> et <key>c</key> doivent être lues quand elles sont pressées.</p>
+      <p>Valeur par défaut : cochée</p>
+    </section>
+    <section>
+      <title>Activer les touches numériques</title>
+      <p>Cette option contrôle si les touches telles que <key>1</key>, <key>2</key> et <key>3</key> doivent être lues quand elles sont pressées.</p>
+      <p>Valeur par défaut : cochée</p>
+    </section>
+    <section>
+      <title>Activer les touches de ponctuation</title>
+      <p>Cette option contrôle si les touches telles que <key>%</key>, <key>;</key> et <key>?</key> doivent être lues quand elles sont pressées.</p>
+      <p>Valeur par défaut : cochée</p>
+    </section>
+    <section>
+      <title>Activer l'espace</title>
+      <p>Cette option contrôle si la barre <key>espace</key> doit être lue quand elle est pressée.</p>
+      <p>Valeur par défaut : cochée</p>
+    </section>
+    <section>
+      <title>Activer les touches de modification</title>
+      <p>Cette option contrôle si les touches <key>Maj</key>, <key>Ctrl</key>, <key>Alt</key> et <key>Meta</key> doivent être lues quand elles sont pressées.</p>
+      <p>Valeur par défaut : cochée</p>
+    </section>
+    <section>
+      <title>Activer les touches de fonctions</title>
+      <p>Cette option contrôle si les touches <key>F1</key> jusqu'à <key>F12</key> doivent être lues quand elles sont pressées.</p>
+      <p>Valeur par défaut : cochée</p>
+    </section>
+    <section>
+      <title>Activer les touches d'action</title>
+      <p>Cette option contrôle si les touches <key>Retour arrière</key>, <key>Suppr</key>, <key>Entrée</key>, <key>Échap</key>, <key>Tab</key>, <key>Page Haut</key>, <key>Page bas</key>, <key>Origine</key> et <key>Fin</key> doivent être lues quand elles sont pressées.</p>
+      <p>Valeur par défaut : cochée</p>
+    </section>
+    <section>
+      <title>Activer les touches de navigation</title>
+      <p>Cette option contrôle si les touches <key>Flèche gauche</key>, <key>Flèche droite</key>, <key>Flèche haut</key> et <key>Flèche bas</key> doivent être lues quand elles sont pressées. Cette option s'applique aussi quand ces touches sont utilisées avec la touche <key>Touche de modification d'Orca</key> pressée, par exemple lorsque l'examen global est utilisé.</p>
+      <p>Valeur par défaut : non cochée</p>
+    </section>
+    <section>
+      <title>Activer les touches diacritiques de non espacement</title>
+      <p>Cette option contrôle si les « touches mortes » utilisées pour obtenir les lettres accentuées doivent être lues quand elles sont pressées.</p>
+      <p>Valeur par défaut : non cochée</p>
+    </section>
+  </section>
+  <section id="characterecho">
+    <title>Activer l'écho par caractère</title>
+    <p>Quand cette option est activée, Orca annonce le caractère qui est saisi.</p>
+    <p>Cette option est très similaire à l'écho des touches alphabétiques, numériques et de ponctuation, il existe cependant des différences importantes, surtout pour les lettres accentuées et certains symboles pour lesquels il n'existe pas de touche dédiée :</p>
+    <list>
+      <item>
+        <p>Si l'option « Écho de touche » est activée, <app>Orca</app> prononce la touche qui vient d'être <em>pressée</em>.</p>
+      </item>
+      <item>
+        <p>Si l'option « Écho par caractère » est activée, <app>Orca</app> prononce le caractère <em>inséré</em>.</p>
+      </item>
+    </list>
+    <p>Pour que les caractères accentués soient prononcés lorsque vous les saisissez, vous devez activer l'écho par caractère.</p>
+    <p>Valeur par défaut : non cochée</p>
+    <note style="tip">
+      <title>Activer l'écho des touches et l'écho par caractère</title>
+      <p>Si vous appréciez l'écho de touche et que vous saisissez fréquemment des caractères accentués, songez à activer les deux. La logique de l'écho par caractère d'<app>Orca</app> essaie d'éliminer les caractères qui ont été prononcés par l'écho de touche, pour minimiser par conséquent les cas de « double lecture » lors de la saisie.</p>
+    </note>
+  </section>
+  <section id="wordandsentenceecho">
+    <title>Activer l'écho par mot ou par phrase</title>
+    <p>Si vous cochez la case <gui>Activer l'écho par mot</gui>, <app>Orca</app> prononce le mot que vous venez de saisir. De même, si vous cochez la case <gui>Activer l'écho par phrase</gui>, <app>Orca</app> prononce la phrase que vous avez saisie.</p>
+    <p>Valeur par défaut : non cochée</p>
+  </section>
+</page>

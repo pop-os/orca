@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_toggling_caps_lock" xml:lang="bg">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_key_bindings"/>
+    <title type="sort">7. CapsLock в клавиатурната подредба за лаптопи</title>
+    <desc>Превключването му, когато е <key>Модификатор на Orca</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>CapsLock в клавиатурната подредба за лаптопи</title>
+  <p>Orca има две клавиатурни подредби: за настолни компютри и за лаптопи. Подредбата, която изберете, указва влияние на това кои клавиши ще се използват като модификатори на Orca. Ако използвате клавиатурната подредба за лаптопи, модификаторът на Orca по подразбиране ще бъде <key>CapsLock</key>. Ако използвате клавиатурната подредба на <app>Orca</app> за лаптопи и искате да заключите или отключите <key>CapsLock</key>, можете да направите това като изпълните следните стъпки:</p>
+  <steps>
+    <title>Превключване на CapsLock в клавиатурната подредба за лаптопи</title>
+    <item>
+      <p>Изпълнете командата за пренебрегване, <keyseq><key>Модификатор на Orca</key><key>BackSpace</key> </keyseq>, за да укажете на <app>Orca</app>, че следващата команда трябва да бъде игнорирана.</p>
+    </item>
+    <item>
+      <p>Натиснете <key>CapsLock</key>, за да го превключите.</p>
+    </item>
+  </steps>
+</page>

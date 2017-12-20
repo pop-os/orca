@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_live_regions" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_whereami"/>
+    <title type="sort">6. Élő régiók</title>
+    <desc>Dinamikus webtartalmak kezelése</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Élő régiók</title>
+  <p>Az élő régió egy weboldal dinamikusan frissülő része, például a legfrissebb sporteredmények táblázata, az aktuális tőzsdei árfolyamok listája, egy csevegés naplója, vagy az oldalon található információs sáv. Noha élő régiókkal gyakran találkozhat, a teljesen akadálymentesen használható élő régiókat tartalmazó weboldalak ritkábbak. Ezen probléma megoldásán rengeteg szervezet dolgozik.</p>
+  <section>
+    <title>Az élő régiók udvariassági szintjei</title>
+    <p>Minden élő régióhoz tartozik egy „udvariassági” szint, ezzel jelzik a szerzők az információ fontosságát, és javaslatot tesznek az akadálymentesítési technológiák számára, hogy mikor értesítsék a felhasználót az élő régiók frissüléséről. Az élő régiók a „kikapcsolva”, „udvarias”, „agresszív” vagy akár „durva” udvariassági szintekkel rendelkezhetnek.</p>
+  </section>
+  <section>
+    <title>Az <app>Orka</app> élő régió támogatása</title>
+    <p>Mivel az élő régiónak a weboldal szerzője által megadott udvariassági szintje nem minden esetben felelhet meg az Ön igényeinek, az <app>Orka</app> számos <link xref="commands_live_regions">élő régióval kapcsolatos parancsot</link> biztosít, amelyek segítségével módosíthatja egy oldal egyik vagy minden élő régiójának udvariassági szintjét. A következőket is megteheti:</p>
+    <list>
+      <item>
+        <p>Be- vagy kikapcsolhatja az élő régiók támogatását</p>
+      </item>
+      <item>
+        <p>Odaugorhat a következő vagy előző élő régióra</p>
+      </item>
+      <item>
+        <p>Odaugorhat az utolsóként információt közölt élő régióra</p>
+      </item>
+      <item>
+        <p>Áttekintheti az élő régiók utoljára megjelent kilenc üzenetét</p>
+    </item>
+    </list>
+  </section>
+</page>

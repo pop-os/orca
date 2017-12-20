@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_bookmarks" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <title type="sort">6. Zaznamki</title>
+    <desc>Shranjevanje in pridobivanje predmetov</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Zaznamki</title>
+  <p><app>Orkina</app> podpora zaznamkov vam omogoča označbo zanimive predmete. Vključuje naslednje zmožnosti:</p>
+  <list>
+    <item>
+      <p>Niste omejeni na posamezen predmet. Nastavite lahko do šest zaznamkov na okolje. Zaznamke lahko tudi shranite tako da se ohranijo med Orkinimi sejami.</p>
+    </item>
+    <item>
+      <p>Ko ste zaznamek nastavili, lahko do njega kasneje krmarite in to storite ne glede na to ali ste zaznamke povezane s svojim trenutnim okoljem trajno shranili. Krmarjenje je lahko osnovano na številki zaznamka, če želite skočiti neposredno na določen predmet. Nadomestno lahko krmarite na naslednji ali predhodni zaznamek tako kot na predmet <link xref="howto_structural_navigation">Strukturnega krmarjenja</link></p>
+    </item>
+    <item>
+      <p>Narediti je mogoče zaznamke gradnikov v programu ali predmetov na spletni strani, ki jo berete. Okolje v katerem ste določi kaj se zgodi, ko krmarite med zaznamki: v primeru, da ste v spletni vsebini bo kazalka premaknjena na zaznamek tako da lahko nadaljujete z branjem. V nasprotnem primeru bo omogočen <link xref="howto_flat_review">ploski pregled</link>. Zaznamek bo postal trenuten predmet pregleda.</p>
+    </item>
+  </list>
+  <p>Določene tipkovne bližnjice povezane z vsako od zgornjih nalog lahko najdete v  <link xref="commands_bookmarks">Ukazih zaznamkov</link>.</p>
+</page>

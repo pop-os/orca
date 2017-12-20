@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_text_attributes" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_structural_navigation"/>
+    <title type="sort">2. Szövegattribútumok</title>
+    <desc>Szövegformázás vizsgálata</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Szövegattribútumok</title>
+  <p>A „szövegattribútumok” kifejezés egy karakter vagy karaktersorozat betűkészletét, stílusát, igazítását, és más formázásait jelenti.</p>
+  <section>
+    <title>Formázási információk lekérdezése</title>
+    <p>Ha lenyomja az <keyseq><key>Orka módosító</key><key>F</key></keyseq> billentyűkombinációt, az <app>Orka</app> minden ismert szövegattribútummal kapcsolatos információt ki fog mondani az aktuális objektumról. Ezen kívül az <app>Orka</app> képes a szövegattribútumokat Braille-ben „aláhúzással” jelölni, amikor egy dokumentumban navigál.</p>
+    <p>Mivel a szöveges attribútumok száma elég nagy és általában nincs szükség minden attribútumra, az <app>Orka</app> grafikus beállító párbeszédpanel <link xref="preferences_text_attributes">szövegattribútumok lapján</link> testreszabható, hogy milyen attribútumok kerüljenek kimondásra, milyen sorrendben történjen a szövegattribútumok kimondása, valamint milyen attribútumokat jelenítsen meg az <app>Orka</app> a Braille-kijelzőn.</p>
+    <p>Mivel a <link xref="preferences_text_attributes">Szövegattribútumok lap</link> is része az alkalmazásbeállító párbeszédpanelnek, akár alkalmazás szinten is teljesen személyre szabhatja a szövegattribútumok megjelenítését.</p>
+  </section>
+  <section>
+    <title>Elgépelt szavak azonosítása</title>
+    <p>A legtöbb alkalmazás és eszközkészlet egy piros hullámvonallal jelzi, ha egy szó el lett gépelve. Az akadálymentesítési technológiák számára ezt a vonalat legtöbbször egy attribútum jelöli. Ennek eredményeként könnyen azonosíthatja az elgépelt szavakat, ha kiválasztja a betűtévesztés és a hiba attribútumokat. A hiba attribútum alapértelmezetten engedélyezve van mind a kimondásnál, mind a Braille jelölésnél, és meg fog jelenni a többi engedélyezett és megjelenített attribútum között.</p>
+    <p>A hibásan írt szavak nem csak egy szövegattribútummal érhetők el. Ha a billentyűvisszhang és/vagy a szavankénti visszhang engedélyezett, és elgépelt egy szót, amint megjelenik a hibás szó jelzése, az <app>Orka</app> egy „Hibásan írt szó” üzenettel jelzi a hibát. Ezután azonnal visszatérhet az elgépelt szóhoz, és kijavíthatja a hibát.</p>
+    <p>Végül, ha egy dokumentumban navigál a kurzorral, és a kurzor egy hibás szóhoz ér, az <app>Orka</app> közölni fogja a betűtévesztést.</p>
+  </section>
+</page>

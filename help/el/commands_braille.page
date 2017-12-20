@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_braille" xml:lang="el">
+  <info>
+    <link type="next" xref="commands_reading"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_braille"/>
+    <title type="sort">2. Μπράιγ</title>
+    <title type="link">Μπράιγ</title>
+    <desc>Εντολές εκτελέσιμες σε προβολές Μπράιγ</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εντολές Μπράιγ</title>
+  <p>Οι επόμενες εντολές επιτρέπουν τον έλεγχο του <app>Orca</app> από την ανανεώσιμη προβολή Μπράιγ παρά από το πληκτρολόγιο σας:</p>
+  <list>
+    <item><p>Μετακίνηση προβολής Μπράιγ στα αριστερά: γραμμή αριστερά</p></item>
+    <item><p>Μετακίνηση προβολής Μπράιγ στα δεξιά: γραμμή δεξιά</p></item>
+    <item><p>Εναλλαγή κατάστασης γενικής επισκόπησης: πάγωμα</p></item>
+    <item><p>Επισκόπηση της επάνω λέξης: γραμμή πάνω</p></item>
+    <item><p>Επισκόπηση της κάτω λέξης: γραμμή κάτω</p></item>
+    <item><p>Επισκόπηση κάτω αριστερά: κάτω δεξιά</p></item>
+    <item><p>Επισκόπηση της αρχικής θέσης: επάνω αριστερά</p></item>
+    <item><p>Συμπυκνωμένο Μπράιγ: έξι κουκκίδες</p></item>
+    <item><p>Σημειώνει την αρχή μιας επιλογής κειμένου: έναρξη αποκοπής</p></item>
+    <item><p>Σημειώνει το τέλος μιας επιλογής κειμένου: γραμμή αποκοπής</p></item>
+    <item><p>Επεξεργάζεται ένα πλήκτρο δρομολόγησης δρομέα: δρομολόγηση δρομέα</p></item>
+    <item><p>Επιστρέφει στο αντικείμενο με εστίαση πληκτρολογίου: θέση δρομέα</p></item>
+  </list>
+</page>

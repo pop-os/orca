@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_mouse_review" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_notifications"/>
+    <title type="sort">4. Pregled miške</title>
+    <desc>Uporaba kazalnika za preučevanje zaslona</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Pregled miške</title>
+  <p><app>Orkina</app> zmožnost pregleda miške <app>Orki</app> omogoča predstavitev vsebine pod miškinim kazalnikom. V nasprotju z <app>Orkino</app> zmožnostjo <link xref="howto_flat_review">Ploskega pregleda</link> pregled miške ni omejen na dejavno okno. namesto tega bo <app>Orka</app> poskušala določiti kateri dostopni predmet je vidno pod kazalnikom medtem ko premikate miško. V primeru,da ste kazalnik premaknili preko dostopnega predmeta, ki vsebuje podatke za predstavitev, vam bo <app>Orka</app> predstavila predmet in njegove podatke.</p>
+  <p>Ker omogočanje pregleda miške povzroči, da <app>Orka</app> pričakuje in nato obdelav vse spremembe položaja miške, je ta zmožnost privzeto onemogočena. V kolikor želite, da je vedno omogočena, izberite izbirno polje <gui>Izgovori predmet pod miško</gui>, ki ga lahko najdete na strani <link xref="preferences_general">Splošno <app>Orkinega</app>pogovornega okna možnosti</link>. Poleg tega boste v istem pogovornem oknu na <link xref="preferences_key_bindings">strani tipkovnih bližnjic</link> našli nedoločen ukaz z imenom <gui>Preklopi način pregleda miške</gui>. Ko boste temu ukazu določili tipkovno bližnjico kot je opisano v <link xref="howto_key_bindings">Uvodu v tipkovne bližnjice</link>, lahko pregled miške po potrebi omogočate in onemogočate.</p>
+  <note style="tip">
+    <title>Privzete nastavitve in tipkovne bližnjice so medsebojno neodvisne</title>
+    <p>Pregled miške imate lahko vedno omogočen ali onemogočen in ga še vedno preklapljate s tipkovno bližnjico in ukazom <gui>Preklopi način pregleda miške</gui>. Omogočitev pregleda za preklapljanje ni zahtevana, ker so nastavitve in tipkovne bližnjice medsebojno neodvisne,</p>
+  </note>
+</page>

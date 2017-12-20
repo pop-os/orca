@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_orca_find" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_mouse_review"/>
+    <title type="sort">3. Hledání čtečkou Orca</title>
+    <desc>Jak v okně vyhledávat objekty</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Hledání čtečkou Orca</title>
+  <p>Funkce hledání čtečkou <app>Orca</app> je hledání založené na <link xref="howto_flat_review">plošném náhledu</link> a je navržené k rychlému vyhledání objektů, které jsou viditelné na obrazovce v aktuálním okně.</p>
+  <note style="tip">
+    <title>Aktivace hledání čtečkou Orca</title>
+      <p>Pro otevření dialogového okna <gui>Hledání</gui> použijte následující příkazy závisející na zvoleném <link xref="howto_keyboard_layout">rozložení klávesnice</link>:</p>
+      <list>
+        <item>
+          <p>Stolní počítač: <keyseq><key>KP Delete</key></keyseq> (Del na numerické klávesnici)</p>
+        </item>
+        <item>
+          <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>(</key></keyseq></p>
+        </item>
+      </list>
+      <p>Seznam dalších úkolů, které můžete provádět, najdete v <link xref="commands_find">příkazech pro hledání čtečkou Orca</link>.</p>
+  </note>
+  <p>Když aktivujete hledání, budete nasměrováni do dialogového okna.</p>
+  <p>V něm můžete určit následující položky:</p>
+  <list>
+    <item>
+      <p>Text, který se má hledat</p>
+    </item>
+    <item>
+      <p>Místo, od kterého se má začít hledat. Což může být buď aktuální místo nebo horní část okna.</p>
+      <p>Výchozí hodnota pro <gui>Začít od</gui>: <gui>Aktuálního místa</gui></p>
+    </item>
+    <item>
+      <p>Jestli by se měla při hledání shod brát v úvahu velikost písmen</p>
+      <p>Výchozí hodnota pro <gui>Odpovídat velikostí písmen</gui>: nezaškrtnuto</p>
+    </item>
+    <item>
+      <p>Jestli se při hledání omezit jen na shodu celých slov a frází, či nikoliv</p>
+      <p>Výchozí hodnota pro <gui>Odpovídat jako celá slova</gui>: nezaškrtnuto</p>
+    </item>
+    <item>
+      <p>Jestli by se následující shoda měla hledat směrem dolů a/nebo doprava nebo nahoru a/nebo doleva.</p>
+      <p>Výchozí hodnota pro <gui>Hledat od konce k začátku</gui>: nezaškrtnuto</p>
+    </item>
+    <item>
+      <p>Jestli se má při hledání cyklicky přecházete přes vrchní/spodní konec okna v případě, že od počáteční pozice ve směru hledání nebyla nalezena žádná shoda.</p>
+      <p>Výchozí hodnota pro <gui>Přecházet přes konec/začátek</gui>: nezaškrtnuto</p>
+    </item>
+  </list>
+  <p>Když máte hledání provedené, můžete rychle najít následující nebo předchozí shodu, aniž byste se museli vrace to dialogového okna hledání.</p>
+  <p>Protože se jedná o funkci <link xref="howto_flat_review">plošného náhledu</link>, tak když existuje shoda, plošný náhled se automaticky aktivuje a vyhovující položka nebo text se stane aktuální položkou. Poznamenejme ale, že zaměření v rámci aplikace se nezmění a ani se nepřemístí kurzor. Pokud potřebujete dosáhnout něčeho takového, podívejte se prosím na <link xref="commands_mouse">příkazy Orca vztahující se k myši/ukazateli myši</link>.</p>
+</page>

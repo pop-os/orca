@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_whereami" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_flat_review"/>
+    <title type="sort">1. Kde se nacházím</title>
+    <desc>Jak zjistit svoji polohu</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Kde se nacházím</title>
+  <p>Navíc k samostatným příkazům pro čtení lišty záhlaví a stavové lišty poskytuje <app>Orca</app> dva kontextově závisle příkazy „Kde se nacházím“: základní a podrobný. Základní je implementován pro všechny objekty. Podrobný je implementován jen pro ty objekty, u kterých je významné množství informací, které byste si mohli přát znát, ale nemusíte si je přát znát vždy.</p>
+  <p>Nejlepší způsob, jak se seznámit s tím, co bude funkce „Kde se nacházím“ prezentovat naživo, je vyzkoušet si <link xref="commands_where_am_i">příkazy „Kde se nacházím“</link>. Abyste získali lepší představu o kontextové povaze této funkce, zvažte následující:</p>
+  <p>U většiny widgetů vám bude přečten aspoň popisek a/nebo název, typ nebo role widgetu a horká klávesa a/nebo klávesová zkratka, pokud existují. Navíc:</p>
+  <list>
+    <item>
+      <p>Když je widgetem text a požádáte o základní informace „Kde se nácházím“, bude vám, v případě že není žádný text vybraný, přečten aktuální řádek. Pokud nějaký text vybrán je, bude přečten tento vybraný text. Součástí podrobných informací „Kde se nacházím“ budou navíc vlastnosti textu.</p>
+    </item>
+    <item>
+      <p>Když může být widget zaškrtnut, což je případ zaškrtávacích políček a skupinových přepínačů, bude součástí stav zaškrtnutí.</p>
+    </item>
+    <item>
+      <p>Když je widgetem seznam nebo objekt fungující podobně jako seznam, jako jsou rozbalovací seznam, skupinový přepínač nabo ouška karet, budou součástí pořadí aktuální položky.</p>
+    </item>
+    <item>
+      <p>Když je widget hierarchický, jako třeba strom, a nacházíte se na rozbalitelném uzlu, bude vám řečeno, jestli uzel rozbalený je či nikoliv. A když je rozbalený bude vám rovněž řečeno, kolik obsahuje potomků. Navíc bude součástí pořadí úrovně.</p>
+    </item>
+    <item>
+      <p>Když je widgetem ukazatel průběhu nebo posuvník, budou součástí aktuální procenta.</p>
+    </item>
+    <item>
+      <p>Když je widgetem ikona ve skupině ikon, budou součástí základních informacích „Kde se nacházím“ objekt, ve kterém se nacházíte, položka, na které se nacházíte počet položek, které jsou vybrány. V podrobných informacích „Kde se nacházím“ budou rovněž položky, které jsou vybrány.</p>
+    </item>
+    <item>
+      <p>Když se nacházíte na odkazu, bude součástí typ odkazu (stejný web, jiný web, odkaz na FTP atd.).</p>
+    </item>
+    <item>
+      <p>Když se nacházíte v buňce tabulky, budou součástí souřadnice buňky a záhlaví buňky.</p>
+    </item>
+    <item>
+      <p>Když se v nějaké aplikaci, pro kterou má <app>Orca</app> rozšířenou podporu, nacházíte v kontrole pravopisu, bude v základních informacích „Kde se nacházím“ zopakována chyba podle pravidel nastavených v <link xref="preferences_spellcheck">předvolbách kontroly pravopisu</link>. U podrobných informací pak bude <app>Orca</app> prezentovat veškeré podrobnosti o chybě.</p>
+    </item>
+  </list>
+  <p>A tak dále. Pro zopakování, cílem funkce „Kde se nacházím“ je poskytnout vám podrobnosti, které byste většinou chtěli znát o objektu, na kterém se právě nacházíte. Abyste si to mohli vyzkoušet, podívejte se na seznam <app>příkazů „Kde se nacházím“</app>.</p>
+</page>

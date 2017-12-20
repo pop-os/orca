@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_learn_modes" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_keyboard_layout"/>
+    <title type="sort">5. „Výukový“ režim</title>
+    <desc>Jak prozkoumat příkazy čtečky <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>„Výukový“ režim</title>
+  <p>Ve výukovém režimu bude <app>Orca</app> oznamovat všechny klávesy, které zmáčknete, spolu s příkazem <app>Orca</app>, který je k nim přiřazen. V tomto režimu můžete také získat seznam klávesových zkratek obsahující všechny příkazy <app>Orca</app>, které můžete použít.</p>
+  <steps>
+    <title>Používání výukového režimu</title>
+    <item>
+      <p>Přejděte do výukového režimu zmáčknutím <keyseq><key>Modifikátor Orca</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Zmáčkněte klávesu nebo kombinaci kláves. <app>Orca</app> vám oznámí názvy kláves a přiřazený příkaz.</p>
+    </item>
+    <item>
+      <p>Zmáčknutím <key>Esc</key> výukový režim opusťte.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Získání seznamu klávesových zkratek</title>
+    <item>
+      <p>Přejděte do výukového režimu zmáčknutím <keyseq><key>Modifikátor Orca</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Zmáčkněte <key>F2</key>, pokud chcete seznam klávesových zkratek, které se používají napříč celou čtečkou <app>Orca</app>, nebo klávesu <key>F3</key>, pokud chcete seznam klávesových zkratek, které jsou specifické pro zaměřenou aplikaci.</p>
+    </item>
+    <item>
+      <p>Mačkáním <key>↑</key> a <key>↓</key> můžete obsah seznamu procházet.</p>
+    </item>
+    <item>
+      <p>Zmáčknutím <key>Esc</key> seznam opusťte.</p>
+    </item>
+  </steps>
+</page>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_table_navigation" xml:lang="hu">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_chat"/>
+    <link type="seealso" xref="commands_structural_navigation"/>
+    <link type="seealso" xref="commands_table"/>
+    <title type="sort">2. Táblázatnavigáció</title>
+    <title type="link">Táblázatnavigáció</title>
+    <desc>Az <app>Orka</app> táblázatnavigációval kapcsolatos beállításai</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>A táblázatnavigáció beállításai</title>
+  <p>A következő beállításokkal személyre szabhatja az <app>Orka</app> táblázatnavigációval kapcsolatos beállításait a <link xref="howto_structural_navigation">strukturált Orka navigációt</link> támogató alkalmazásokban.</p>
+  <section>
+    <title>Cellakoordináták felolvasása</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja mondani annak a táblázatcellának a cellakoordinátáját, amelyre éppen navigált.</p>
+    <p>Alapbeállítás: bejelölve</p>
+  </section>
+  <section>
+    <title>Cella kiterjedésének felolvasása</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja mondani, hogy a táblázat hány sort és oszlopot tartalmaz, ha egy cella több sorból vagy oszlopból áll.</p>
+    <p>Alapbeállítás: bejelölve</p>
+  </section>
+  <section>
+    <title>Cellafejléc felolvasása</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja mondani a cellafejlécek változásait, ha a jelenlegi cella fejlécei meghatározhatók.</p>
+    <p>Alapbeállítás: bejelölve</p>
+  </section>
+  <section>
+    <title>Üres cellák kihagyása</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja hagyni az üres cellákat. Ez a beállítás csak akkor használható, ha az <app>Orka</app> strukturált navigáció táblázatnavigációs billentyűparancsait használja a táblázatok közötti navigáláshoz.</p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+  </section>
+</page>

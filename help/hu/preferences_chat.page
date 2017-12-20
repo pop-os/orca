@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_chat" xml:lang="hu">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_spellcheck"/>
+    <title type="sort">3. Csevegés</title>
+    <title type="link">Csevegés</title>
+    <desc>Az <app>Orka</app> azonnaliüzenő- és IRC-támogatásának konfigurálása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>A csevegéssel kapcsolatos beállítások</title>
+  <p>A következő beállítások segítségével személyre szabhatja az <app>Orka</app> működését az azonnali üzenetküldő alkalmazások vagy internetes csevegőkliensek használatakor.</p>
+  <section>
+    <title>Csevegőszoba nevének felolvasása</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja egészíteni a bejövő üzenetet a csevegőszoba vagy a partner nevével, akitől az üzenet érkezett, kivételt képez ez alól a pillanatnyilag fókuszban levő csevegés.</p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+  </section>
+  <section>
+    <title>Értesítés, amikor a partnerek gépelnek</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, és az <app>Orka</app> képes felismerni, hogy a partnere gépel, akkor be fogja jelenteni a gépelés állapotváltozásait.</p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+  </section>
+  <section>
+    <title>A csevegőszoba üzenetelőzményeinek megjelenítése</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> üzenetelőzményeket megjelenítő parancsai csak a jelenleg fókuszban levő csevegésre lesznek alkalmazva. Ha ez a jelölőnégyzet nincs bejelölve, akkor az üzenetelőzményeket megjelenítő parancsok bármely csevegésből érkezett üzeneteket megjeleníthetik.</p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+  </section>
+  <section>
+    <title>Üzenetek kimondása</title>
+    <p>Ezeknek a választógomboknak a segítségével megadhatja, hogy mely csatornákból legyenek felolvasva a beérkezett üzenetek. A következő lehetőségek közül választhat:</p>
+    <list>
+      <item>
+        <p><gui>Minden csatorna</gui></p>
+      </item>
+      <item>
+        <p><gui>Csak az a csatorna, amely ablaka aktív</gui></p>
+      </item>
+      <item>
+        <p><gui>Minden csatorna, ha bármely csevegőablak aktív</gui></p>
+      </item>
+    </list>
+    <p>Alapbeállítás: minden csatorna</p>
+  </section>
+</page>

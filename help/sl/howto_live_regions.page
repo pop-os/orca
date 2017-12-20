@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_live_regions" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_whereami"/>
+    <title type="sort">6. Live Regions</title>
+    <desc>Sporazumevanje z dinamično spletno vsebino</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Samodejno posodobljeni predeli</title>
+  <p>Samodejno posodobljen predel je dinamično posodabljajoč se del spletne strani kot je razpredelnica ali športna statistika, seznam trenutnih cen delnic, dnevnik klepeta ali alarm prikazan na strani, ki jo berete. Čeprav se samodejno posodoblejni predeli pojavljajo pogosto so spletne strani s samodejno posodabljajočimi predeli manj pogoste. Težavo dejavno rešuje več organizacij.</p>
+  <section>
+    <title>Ravni prijaznosti samodejno posodobljenih predelov</title>
+    <p>Samodejno posodobljena področja imajo povezano raven "prijaznosti", ki jo je določil avtor in sporoča pomembnost podatkov in predlaga kdaj naj tehnologija dostopnosti uporabnika obvesti o posodobitvah v tem področju. Samodejno posodobljena področja so lahko "nedejavna", "vljudna", "agresiva" in "nesramna".</p>
+  </section>
+  <section>
+    <title><app>Orkina</app> podpora za samodejno posodobljene predele.</title>
+    <p>Ker se morda ne strinjate z ravno prijatnosti, ki jo je navedel avtor strani, vam <app>Orka</app> zagotavlja številne ukaze <link xref="commands_live_regions">ukaze samodejno posodobljenih področij</link>, ki vam omogočajo spreminjanje ravni kateregakoli ali vseh področij na strani. Poleg tega lahko:</p>
+    <list>
+      <item>
+        <p>Podporo samodejno posodobljenih vklopite ali izklopite</p>
+      </item>
+      <item>
+        <p>Prostorsko skočite na naslednje in predhodno samodejno posodobljeno področje</p>
+      </item>
+      <item>
+        <p>Skočite na samodejno posodobljeno področje, ki je zadnje predstavilo podatke</p>
+      </item>
+      <item>
+        <p>Pregledati zadnjih devet predstavljenih sporočil samodejno posodabljajočih področij</p>
+    </item>
+    </list>
+  </section>
+</page>

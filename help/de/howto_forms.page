@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_forms" xml:lang="de">
+  <info>
+    <link type="guide" xref="index#reading"/>
+     <link type="next" xref="howto_live_regions"/>
+    <title type="sort">5. Ausfüllen von Formularen</title>
+    <desc>Zugriff auf im Dokument eingebettete Widgets</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  </info>
+  <title>Ausfüllen von Formularen</title>
+  <p>
+    When interacting with web pages and other documents using <app>Orca</app>,
+    you are interacting with the document itself; not a buffered copy of that
+    document. <app>Orca</app>'s browse and focus modes let you switch between
+    reading and filling out forms.
+  </p>
+  <section>
+    <title>So navigieren Sie in Formularen</title>
+    <p>
+      To navigate amongst form fields, you have several options:
+    </p>
+    <list>
+      <item>
+        <p>Verwenden Sie die <key>Tabulatortaste</key> und <keyseq><key>Umschalt</key><key>Tabulator</key></keyseq>, um zwischen fokussierbaren Objekten beliebigen Typs zu navigieren.</p>
+      </item>
+      <item>
+        <p>
+          Use <app>Orca</app>'s <link xref="commands_structural_navigation#forms">
+          structural navigation commands for forms</link>.
+        </p>
+      </item>
+      <item>
+        <p>
+          Depending on the form and the application, you may also be
+          able to use the arrow keys to navigate to a given form field.
+        </p>
+      </item>
+   </list>
+   <note style="tip">
+     <p>
+       In order to use <app>Orca</app>'s caret navigation or structural navigation
+       commands to navigate to a form field, you must be in browse mode. If you are
+       in focus mode, you can switch to browse mode by pressing <keyseq><key>Orca
+       Modifier</key><key>A</key></keyseq>.
+     </p>
+   </note>
+  </section>
+  <section>
+    <title>So verlassen Sie Formularfelder</title>
+    <p>Sie haben mehrere Möglichkeiten ein Eingabefeld zu verlassen:</p>
+    <list>
+      <item>
+        <p>Verwenden Sie <key>Tabulatortaste</key>/<keyseq><key>Umschalt</key><key>Tabulator</key></keyseq>, um das derzeit fokussierte Eingabefeld zu verlassen und zum nächsten/vorhergehenden fokussierbaren Objekt beliebigen Typs zu navigieren.</p>
+      </item>
+      <item>
+        <p>
+          Use <app>Orca</app>'s <link xref="commands_structural_navigation#forms">
+          structural navigation commands for forms</link> to move to the next or
+          previous form field.
+        </p>
+      </item>
+      <item>
+        <p>
+          Depending on the form and the application, you may also be
+          able to use the arrow keys to navigate out of a given form field.
+        </p>
+      </item>
+    </list>
+   <note style="tip">
+     <p>
+       In order to use <app>Orca</app>'s caret navigation or structural navigation
+       commands to exit a form field, you must be in browse mode. If you are in
+       focus mode, you can switch to browse mode by pressing <keyseq><key>Orca
+       Modifier</key><key>A</key></keyseq>.
+     </p>
+   </note>
+  </section>
+</page>

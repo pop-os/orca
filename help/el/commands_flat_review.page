@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_flat_review" xml:lang="el">
+  <info>
+    <link type="next" xref="commands_find"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_flat_review"/>
+    <title type="sort">1. Γενική επισκόπηση</title>
+    <title type="link">Γενική επισκόπηση</title>
+    <desc>Εντολές για χωρική επισκόπηση παραθύρων</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εντολές γενικής επισκόπησης</title>
+  <p>Οι εντολές του Orca <link xref="howto_flat_review">Γενική επισκόπηση</link> σχεδιάστηκαν για χωρική επισκόπηση στοιχείων που εμφανίζονται στην οθόνη. Παρέχουν επίσης μέσα για ανάγνωση της τρέχουσας γραμμής, λέξης και χαρακτήρα όταν περιηγείστε στο κείμενο ενός εγγράφου. Οι περισσότερες από αυτές τις εντολές είναι "δεσμευμένες" με πληκτρολογήσεις. Παρακαλούμε, δείτε το <link xref="howto_key_bindings">Τροποποίηση συνδυασμών πλήκτρων</link> για πληροφορίες σχετικές με τη συσχέτιση αδέσμευτων εντολών.</p>
+  <section id="line">
+    <title>Εντολές για επισκόπηση ανά γραμμή</title>
+    <list>
+      <item>
+        <p>Πρώτη γραμμή (η "αρχική" θέση):</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>τροποποιητής Orca</key><key>KP 7</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Ctrl</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Προηγούμενη γραμμή:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 7</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Τρέχουσα γραμμή:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 8</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>I</key></keyseq></p></item>
+        </list>
+      </item>
+        <item><p>Ορθογραφία τρέχουσας γραμμής:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 8</key></keyseq> (διπλό κλικ)</p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>I</key></keyseq> (διπλό κλικ)</p></item>
+        </list>
+      </item>
+      <item><p>Φωνητική ορθογραφία της τρέχουσας γραμμής:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 8</key></keyseq> (τριπλό κλικ)</p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>I</key></keyseq> (τριπλό κλικ)</p></item>
+        </list>
+      </item>
+      <item><p>Επόμενη γραμμή:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 9</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Ο</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Τελευταία γραμμή (η "τελική" θέση):</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>τροποποιητής Orca</key><key>KP 9</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Ctrl</key><key>Ο</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="word">
+    <title>Εντολές για επισκόπηση ανά λέξη</title>
+    <list>
+      <item><p>Η επάνω λέξη:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>τροποποιητής Orca</key><key>KP 4</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Ctrl</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Προηγούμενη λέξη:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 4</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Τρέχουσα λέξη:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 5</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Κ</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Ορθογραφία της τρέχουσας λέξης:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 5</key></keyseq> (διπλό κλικ)</p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Κ</key></keyseq> (διπλό κλικ)</p></item>
+        </list>
+      </item>
+      <item><p>Φωνητική ορθογραφία της τρέχουσας λέξης:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 5</key></keyseq> (τριπλό κλικ)</p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Κ</key></keyseq> (τριπλό κλικ)</p></item>
+        </list>
+      </item>
+      <item><p>Επόμενη λέξη:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 6</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Κάτω λέξη:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>τροποποιητής Orca</key><key>KP 6</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Ctrl</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="character">
+    <title>Εντολές για επισκόπηση ανά χαρακτήρα</title>
+    <list>
+      <item><p>Προηγούμενος χαρακτήρας:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 1</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Μ</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Τρέχον χαρακτήρας:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 2</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>κόμμα</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Φωνητική εκφώνηση του τρέχοντος χαρακτήρα:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 2</key></keyseq> (διπλό κλικ)</p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>κόμμα</key></keyseq> (διπλό κλικ)</p></item>
+        </list>
+      </item>
+      <item><p>Εκφώνηση της τιμής unicode του τρέχοντος χαρακτήρα:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 2</key></keyseq> (τριπλό κλικ)</p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>κόμμα</key></keyseq> (τριπλό κλικ)</p></item>
+        </list>
+      </item>
+      <item><p>Επόμενος χαρακτήρας:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>KP 3</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>τελεία</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Τελευταίος χαρακτήρας της τρέχουσας γραμμής:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>τροποποιητής Orca</key><key>KP 1</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Ctrl</key><key>Μ</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="other">
+    <title>Πρόσθετες εντολές</title>
+    <list>
+      <item><p>Εναλλαγή γενικής επισκόπησης (ανανέωση του περιεχομένου γενικής επισκόπησης):</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>τροποποιητής Orca</key><key>KP αφαίρεση</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>P</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Επισκόπηση τρέχοντος στοιχείου/γραφικού συστατικού:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <keyseq><key>τροποποιητής Orca</key><key>KP 5</key></keyseq></p></item>
+          <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Ctrl</key><key>Κ</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Χρήση του Πείτε τα όλα για να ελέγξετε τον τρέχοντα διάλογο ή παράθυρο:</p>
+        <list>
+          <item><p>Επιτραπέζιος: <key>KP συν</key> (διπλό πάτημα)</p></item>
+          <item><p>Φορητός: <keyseq><key>Τροποποιητής Orca</key><key>;</key></keyseq> (διπλό πάτημα)</p></item>
+        </list>
+      </item>
+      <item>
+      <p>Αντιγραφή των περιεχομένων κάτω από επίπεδη επισκόπηση στο πρόχειρο: (Αδέσμευτο)</p>
+      </item>
+        <item>
+        <p>Προσάρτηση των περιεχομένων κάτω από επίπεδη επισκόπηση στο πρόχειρο: (Αδέσμευτο)</p>
+      </item>
+    </list>
+  </section>
+</page>

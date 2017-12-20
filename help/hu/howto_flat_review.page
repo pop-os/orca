@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_flat_review" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_orca_find"/>
+    <title type="sort">2. Az egyszerű áttekintés</title>
+    <desc>Ablak térbeli vizsgálata</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Az egyszerű áttekintés</title>
+  <p>Az <app>Orka</app> egyszerű áttekintés funkciója lehetőséget ad a képernyőn megjelenő aktív ablakban található szövegek és felületi elemek áttekintésére. Ebben a módban az <app>Orka</app> az ablakokat két dimenziós elrendezésben úgy jeleníti meg, ahogyan az ablakokban található felületi elemek vagy szövegek valójában látszanak a képernyőn. Ez azt jelenti, hogy nem fog érvényesülni semmilyen hierarchikus csoportosítás a felületi elemeknél és szövegeknél, melyet az aktív ablak használ.</p>
+  <p>A képernyőn megjelenő információkat az <link xref="commands_flat_review">egyszerű áttekintés</link> parancsai segítségével áttekintheti soronként, szavanként, karakterenként vagy objektumonként, valamint lehetősége van szimulált egérkattintást végrehajtani azon az objektumon, ahová az egyszerű áttekintés segítségével éppen navigált. Végül az áttekintendő objektumok között kereshet is az <link xref="howto_orca_find">Orka keresés funkciója</link> segítségével.</p>
+  <p>Mivel az egyszerű áttekintés az aktív ablaktartalom pillanatnyi állapotát adja vissza, a pillanatnyi tartalom akkor kerül rögzítésre, amikor először belép az egyszerű áttekintés módba. Az áttekintési terület csak az éppen látható objektumokat tartalmazza. Emiatt nem használhatja az egyszerű áttekintést az olyan elemekhez való hozzáféréshez, amelyek időközben jelentek meg az aktív ablakban, de kívül esnek a pillanatnyi egyszerű áttekintési területen. Vagyis, ha az ablakok tartalma megváltozik, az egyszerű áttekintés által mutatott tartalom nem fog automatikusan frissülni. Az egyszerű áttekintés által ismertetett tartalmat frissítheti, ha ki- és bekapcsolja az egyszerű áttekintés funkciót.</p>
+  <p>Végezetül, az egyszerű áttekintés funkció egy olyan mód, amely nem használható egy időben az <app>Orka</app> fókuszkövető módjával. Ha az egyszerű áttekintés módban van, és az alkalmazások navigációs parancsait használja, például a mutató mozgatására vagy a fókusz áthelyezésére egy másik objektumra, akkor az egyszerű áttekintés módot automatikusan elhagyja.</p>
+</page>

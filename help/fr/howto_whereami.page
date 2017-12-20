@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_whereami" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_flat_review"/>
+    <title type="sort">1. « Où suis-je »</title>
+    <desc>Connaître votre emplacement actuel</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>« Où suis-je »</title>
+  <p>En plus des commandes dédiées à la lecture des barres de titre et de statut, Orca fournit deux commandes « où suis-je » sensibles au contexte  : la commande « où suis-je » de base et la commande « où suis-je » détaillée. La commande de base est disponible pour tous les objets. La commande détaillée est disponible pour les objets pour lesquels beaucoup d'informations intéressantes sont disponibles, mais vous ne voudrez probablement pas toujours toutes les connaître.</p>
+  <p>Le meilleur moyen pour se familiariser avec ce qu'elles fournissent, est d'essayer les <link xref="commands_where_am_i">commandes « où suis-je »</link>. Toutefois, pour avoir une meilleure idée sur la sensibilité au contexte des fonctionnalités « où suis-je » d'<app>Orca</app>, considérez ce qui suit :</p>
+  <p>Pour la plupart des éléments graphiques, sont lus a minima l'étiquette et/ou le nom, le type ou le rôle de l'élément graphique et le mnémonique et/ou la touche accélératrice, si elles existent. De plus :</p>
+  <list>
+    <item>
+      <p>Si l'élément graphique est du texte, et que vous effectuez un « où suis-je » de base, la ligne actuelle est lue si aucun texte n'est sélectionné. Si du texte est sélectionné, la commande « où suis-je » de base lit le texte sélectionné. La commande « où suis-je » détaillée lit de plus les attributs du texte sélectionné.</p>
+    </item>
+    <item>
+      <p>Si l'élément graphique peut être coché, comme pour les cases à cocher et les boutons radio, son état est lu.</p>
+    </item>
+    <item>
+      <p>Si l'élément graphique est un objet liste ou du type liste, comme une liste déroulante, un groupement de boutons radio, une liste d'onglets, la position de l'élément actuel est lue.</p>
+    </item>
+    <item>
+      <p>Si l'élément graphique est hiérarchique, comme une arborescence, et que vous êtes sur un nœud extensible, l'état étendu ou non du nœud est lu. Et s'il est étendu, le nombre de fils contenus est lu. De plus, le niveau d'imbrication du nœud est fourni.</p>
+    </item>
+    <item>
+      <p>Si l'élément graphique est une barre de progression ou une glissière, le pourcentage actuel est lu.</p>
+    </item>
+    <item>
+      <p>Si l'élément graphique est une icône dans un groupement d'icônes, la commande « où suis-je » de base lit l'objet dans lequel vous êtes, l'élément sur lequel vous êtes et le nombre d'éléments sélectionnés. Avec la commande « où suis-je » détaillée, les objets sélectionnés sont aussi lus.</p>
+    </item>
+    <item>
+      <p>Si vous êtes sur un lien, le type du lien (même site, site différent, lien FTP, etc.) est lu.</p>
+    </item>
+    <item>
+      <p>Si vous êtes dans une cellule de tableau, les coordonnées de la cellule et ses en-têtes sont lus.</p>
+    </item>
+    <item>
+      <p>Si vous êtes dans le correcteur orthographique d'une application où <app>Orca</app> offre une gestion améliorée, un Où suis-je basique répète l'erreur en respectant vos <link xref="preferences_spellcheck">préférences de correcteur orthographique</link>. Un Où suis-je détaillé conduit <app>Orca</app> à présenter tous les détails de l'erreur.</p>
+    </item>
+  </list>
+  <p>Et ainsi de suite. Le but de la commande « où suis-je » d'<app>Orca</app> est donc de vous fournir les détails qui sont potentiellement les plus intéressants pour vous, à propos de l'objet sur lequel vous êtes. Pour essayer la commande « où suis-je », consultez la liste des <link xref="commands_where_am_i">commandes « où suis-je »</link>.</p>
+</page>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_profiles" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_documents"/>
+    <title type="sort">9. Profili</title>
+    <desc>Vzdrževanje več nastavitev</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Profili</title>
+  <p>Orkini profili vam omogočajo shranjevanje in nalaganje več nastavitev zato, da lahko hitro dostopate do nastavitev, ki jih potrebujete.</p>
+  <steps>
+    <title>Shranjevanje novega profila</title>
+    <item>
+      <p>Pojdite v pogovorno polje <link xref="preferences">Možnosti Orka</link></p>
+    </item>
+    <item>
+      <p>Spremenite, kar želite</p>
+    </item>
+    <item>
+      <p>Na strani <gui>Splošno</gui> pritisnite gumb <gui>Shrani kot</gui>.</p>
+    </item>
+    <item>
+      <p>Vnesite novo ime profila v pogovorno okno <gui>Shrani profil kot</gui>.</p>
+    </item>
+    <item>
+      <p>V pogovornem oknu <gui>Shrani profil kot</gui> pritisnite gumb <gui>V redu</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Nalaganje obstoječega profila</title>
+    <item>
+      <p>Pojdite v pogovorno polje <link xref="preferences">Možnosti Orka</link></p>
+    </item>
+    <item>
+      <p>Na strani <gui>Splošno</gui> izberite profil za nalaganje iz spustnega polja <gui>Dejaven profil</gui>.</p>
+    </item>
+    <item>
+      <p>Pritisnite gumb <gui>Naloži</gui>.</p>
+    </item>
+    <item>
+      <p>Vprašani boste za potrditev. Pritisnite gumb <gui>Da</gui>.</p>
+    </item>
+    <item>
+      <p>Pritisnite gumb <gui>V redu</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Spreminjanje obstoječega profila</title>
+    <item>
+      <p>Sledite korakom opisanim zgoraj za nalaganje profila, ki ga želite spremeniti.</p>
+    </item>
+    <item>
+      <p>Sledite korakom opisanim zgoraj za shranjevanje novega profila.</p>
+    </item>
+    <item>
+      <p>Ko boste pozvani za novo ime profila, vnesite enako ime kot trenuten profil. Po pritisku na gumb <gui>V redu</gui> boste obveščeni o sporu imen.</p>
+    </item>
+    <item>
+      <p>Pritisnite gumb <gui>Da</gui> za potrditev, da želite obstoječi profil prepisati z novimi nastavitvami.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Spreminjanje <gui>Zagonskega profila</gui></title>
+    <item>
+      <p>Pojdite v pogovorno polje <link xref="preferences">Možnosti Orka</link></p>
+    </item>
+    <item>
+      <p>Na strani <gui>Splošno</gui> v spustnem polju <gui>Zagonski profil</gui> izberite profil za nalaganje.</p>
+    </item>
+    <item>
+      <p>Pritisnite gumb <gui>V redu</gui>. Ob naslednjem zagonu <app>Orke</app> bo uporabljen novo izbrani profil.</p>
+    </item>
+  </steps>
+</page>

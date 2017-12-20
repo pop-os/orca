@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_keyboard_layout" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_toggling_caps_lock"/>
+    <title type="sort">6. Billentyűzetkiosztás</title>
+    <desc>Az asztali vagy laptop kiosztás kiválasztása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Billentyűzetkiosztás</title>
+  <p>Az Orka két billentyűzetkiosztással rendelkezik, ezek az asztali (numerikus billentyűzettel rendelkező) és a laptop. Az Ön által választott billentyűzetkiosztás az alapértelmezetten használható Orka módosítóbillentyűre van hatással.</p>
+  <list>
+    <item>
+      <p>Ha a laptop kiosztást használja, az alapértelmezett Orka módosítóbillentyű a <key>Nagybetűzár</key> lesz.</p>
+    </item>
+    <item>
+      <p>Ha az asztali kiosztást használja, az alapértelmezett Orka módosítóbillentyűk az <key>Inzert</key> és <key>Numpad Inzert</key> billentyűk lesznek, a második billentyű egyben a <key>Numpad 0</key> billentyű is.</p>
+    </item>
+  </list>
+  <p>A választott billentyűzetkiosztás meghatároz számos <app>Orka</app> parancshoz tartozó billentyűtársítást, például az egyszerű áttekintésnél, a hol vagyok műveleteknél és a felolvasás parancsainál.</p>
+  <steps>
+    <title>A billentyűzetkiosztás megváltoztatása</title>
+    <item>
+      <p>Az <link xref="preferences">Orka beállítások</link> párbeszédpanel megnyitásához nyomja meg az <keyseq><key>Orka módosító</key><key>Szóköz</key></keyseq> billentyűkombinációt.</p>
+    </item>
+    <item>
+      <p>Lépjen a <gui>Billentyűzetkiosztás</gui> választógomb-csoportra.</p>
+    </item>
+    <item>
+      <p>Válassza ki a kívánt billentyűzetkiosztást.</p>
+    </item>
+    <item>
+      <p>Nyomja meg az <gui>Alkalmaz</gui> gombot.</p>
+    </item>
+  </steps>
+</page>

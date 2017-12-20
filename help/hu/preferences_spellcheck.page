@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_spellcheck" xml:lang="hu">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <title type="sort">4. Helyesírás-ellenőrzés</title>
+    <title type="link">Helyesírás-ellenőrzés</title>
+    <desc>Az <app>Orka</app> helyesírás-ellenőrzés támogatásának konfigurálása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Helyesírás-ellenőrzéssel kapcsolatos beállítások</title>
+  <p>Az <app>Orka</app> megpróbál egyenletesen jó felhasználói élményt nyújtani az alkalmazások helyesírás-ellenőrzőjének használatakor. A támogatott alkalmazásokhoz számos beállítás elérhető, melyek segítségével az Ön által használt részletességi beállításnak megfelelően személyre szabhatja a megjelenített információk mennyiségét.</p>
+  <note style="tip">
+    <title>A helyesírás-ellenőrzéssel kapcsolatos információk a Részletes és a Tömör részletező módban is elérhetők</title>
+    <p>Ha általában kevés információt szeretne hallani a helyesírás-ellenőrzés használatakor, de egy konkrét hibával kapcsolatban részletesebb információra van szüksége, letilthatja ezeket a beállításokat. Ha egy hibával kapcsolatban részletes információra van szüksége, használja az <app>Orka</app> részletesebb <link xref="howto_whereami">hol vagyok műveletét</link>, ekkor a hibával kapcsolatos információk ugyanúgy megjelenítésre kerülnek, mintha ezek a beállítások engedélyezve lennének.</p>
+  </note>
+  <section>
+    <title>A hibás szó betűzése</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> a hibás szó kimondása után lebetűzi azt.</p>
+    <p>Alapbeállítás: bejelölve</p>
+  </section>
+  <section>
+    <title>Javítási javaslat betűzése</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> a javítási javaslat kimondása után lebetűzi azt.</p>
+    <p>Alapbeállítás: bejelölve</p>
+  </section>
+  <section>
+    <title>A hiba szövegkörnyezetének felolvasása</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> a dokumentumból fel fogja olvasni azt a mondatot vagy sort, melyben a hiba található.</p>
+    <p>Alapbeállítás: bejelölve</p>
+  </section>
+</page>

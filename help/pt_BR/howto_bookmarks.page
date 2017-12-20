@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_bookmarks" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <title type="sort">6. Marcadores</title>
+    <desc>Armazenando e recuperando objetos</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Marcadores</title>
+  <p>O suporte aos marcadores do <app>Orca</app> permite-lhe indicar que um objeto é de seu interesse. Isto inclui os seguintes recursos:</p>
+  <list>
+    <item>
+      <p>Você não está limitado a um único objeto: Você pode definir seis marcadores por ambiente. Também podem ser salvos marcadores que continuarão a existir entre o encerramento de uma seção do Orca e o início de outra.</p>
+    </item>
+    <item>
+      <p>Definido um marcador você pode navegar para ele mais tarde, independentemente de ter escolhido o salvamento dos marcadores associados com o seu ambiente atual. A navegação pode ser baseada no número do marcador se você desejar saltar diretamente para um item específico. De forma alternativa, pode navegar para o anterior ou o próximo marcador, assim como você pode ter uma <link xref="howto_structural_navigation">Navegação estrutural</link> por objeto.</p>
+    </item>
+    <item>
+      <p>Podem ser definidos como marcadores controles de um aplicativo ou objetos de uma página da web que você esteja lendo. O ambiente em que você está determina o que acontece quando navega entre os marcadores: se está num conteúdo da web, o cursor será movido para o marcador para que se possa prosseguir a leitura; em caso contrário, a <link xref="howto_flat_review">Revisão plana</link> será ativada com o marcador tornando-se o item atual da revisão.</p>
+    </item>
+  </list>
+  <p>As associações de teclas específicas relativas a cada uma das tarefas acima podem ser encontradas entre os <link xref="commands_bookmarks">Comandos de marcadores</link>.</p>
+</page>

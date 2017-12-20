@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="introduction" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_setting_up_orca"/>
+    <title type="sort">1. Bienvenue dans Orca</title>
+    <desc>Présentation du lecteur d'écran <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Bienvenue dans Orca</title>
+  <p><app>Orca</app> est un lecteur d'écran extensible, gratuit, libre et flexible qui donne accès au bureau graphique via synthèse vocale et plage braille.</p>
+  <p><app>Orca</app> fonctionne avec les applications et les boîtes à outils qui prennent en charge l'« Interface du fournisseur de service en technologie d'assistance » (Assistive Technology Service Provider Interface : AT-SPI), qui est la principale technologie d'assistance pour Linux et Solaris. Les applications et boîtes à outils qui prennent en charge AT-SPI comprennent la boîte à outils GNOME Gtk+, la boîte à outils Swing de la plateforme Java, LibreOffice, Gecko et WebKitGtk. La prise en charge d'AT-SPI pour la boîte à outils KDE Qt est poursuivie.</p>
+  <section id="launching">
+    <title>Lancement d'<app>Orca</app></title>
+    <p>Pour lancer <app>Orca</app> :</p>
+    <list>
+      <item>
+        <p>La méthode pour configurer le lancement automatique d'<app>Orca</app> comme lecteur d'écran favori, dépend de l'environnement de bureau que vous utilisez. Par exemple, dans GNOME 3.x cette option se trouve dans le panneau du centre de contrôle Accès universel dans l'onglet <gui>Vision</gui>. Ndt : avec Gnome 3.2, il s'agit de l'icône en forme de personne dans la barre du haut.</p>
+      </item>
+      <item>
+        <p>Pour activer/désactiver <app>Orca</app> dans GNOME, appuyez sur <keyseq><key>Logo</key><key>Alt</key><key>S</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Saisissez <cmd>orca</cmd>, ainsi que les paramètres optionnels, dans une fenêtre de terminal ou dans la boîte de dialogue <gui>Lancer une application</gui> et appuyez sur <key>Entrée</key>.</p>
+      </item>
+    </list>
+  </section>
+    <section id="loadtime">
+      <title>Options de lancement</title>
+      <p>Les options suivantes peuvent être spécifiées lors du lancement d'<app>Orca</app> dans une fenêtre de terminal ou à l'intérieur de la boîte de dialogue <gui>Démarrer</gui></p>
+      <list>
+        <item>
+          <p><cmd>-h</cmd>, <cmd>--help</cmd> : affiche le message d'aide</p>
+        </item>
+        <item>
+          <p><cmd>-v</cmd>, <cmd>--version</cmd> : affiche la version d'<app>Orca</app></p>
+        </item>
+        <item>
+          <p><cmd>-s</cmd>, <cmd>--setup</cmd> : définit les préférences utilisateur</p>
+        </item>
+        <item>
+          <p><cmd>-u</cmd>, <cmd>--user-prefs-dir=<em>nomrepertoire</em></cmd> : utilise <em>nomrepertoire</em> comme répertoire alternatif pour les préférences utilisateur</p>
+        </item>
+        <item>
+          <p><cmd>-e</cmd>, <cmd>--enable=<em>option</em></cmd> : force l'utilisation de l'option, où <em>option</em> peut être l'un des termes suivants :</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+          <p><cmd>-d</cmd>, <cmd>--disable=<em>option</em></cmd> : empêche l'utilisation de l'option, où <em>option</em> peut être l'un des termes suivants :</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+            <p><cmd>-p</cmd>, <cmd>--profile=<em>filename</em></cmd> : importe un profil depuis un fichier de profil <app>Orca</app> donné</p>
+        </item>
+        <item>
+          <p><cmd>-r</cmd>, <cmd>--replace</cmd> : remplace la session actuelle d'<app>Orca</app></p>
+        </item>
+        <item>
+          <p><cmd>-l</cmd>, <cmd>--list-apps</cmd> : affiche les applications lancées connues</p>
+        </item>
+        <item>
+          <p><cmd>--debug</cmd> : envoie la sortie de débogage dans le fichier debug-AAAA-MM-JJ-HH:MM:SS.out</p>
+        </item>
+        <item>
+          <p><cmd>--debug-file=<em>nom2fichier</em></cmd> : envoie la sortie de débogage dans le fichier indiqué</p>
+        </item>
+      </list>
+    </section>
+
+</page>

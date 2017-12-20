@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_reading" xml:lang="el">
+  <info>
+    <link type="next" xref="commands_structural_navigation"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_documents"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">1. Ανάγνωση</title>
+    <title type="link">Ανάγνωση</title>
+    <desc>Εντολές για πρόσβαση περιεχομένου εγγράφου</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Ανάγνωση εντολών</title>
+  <p>Πέρα από τις εντολές περιήγησης δρομέα που είναι μέρος του GNOME, το <app>Orca</app> παρέχει έναν αριθμό εντολών που μπορείτε να χρησιμοποιήσετε για ανάγνωση εγγράφου.</p>
+  <note style="tip">
+    <p>Στις λίστες που ακολουθούν, θα δείτε αρκετές αναφορές στο "KP". Όλα τα πλήκτρα "KP" τοποθετούνται στο αριθμητικό υποπληκτρολόγιο. Θα σημειώσετε επίσης ότι υπάρχουν διαφορετικές πληκτρολογήσεις ανάλογα με το εάν χρησιμοποιείτε έναν επιτραπέζιο ή φορητό υπολογιστή -- ή με περισσότερη ακρίβεια, εάν χρησιμοποιείτε τη διάταξη πληκτρολογίου επιτραπέζιου του <app>Orca</app> ή τη διάταξη πληκτρολογίου του φορητού. Για πρόσθετες πληροφορίες, παρακαλώ δείτε το θέμα <link xref="howto_keyboard_layout">διάταξη πληκτρολογίου</link>.</p>
+  </note>
+  <section id="flat_review">
+    <title>Ανάγνωση της τρέχουσας θέση σας</title>
+    <p>Στο <app>Orca</app> οι επόμενες <link xref="commands_flat_review">Εντολές γενικής επισκόπησης</link> μπορούν να χρησιμοποιηθούν για ανάγνωση της τρέχουσας θέσης σας:</p>
+    <list>
+      <item>
+        <p>Ανάγνωση της τρέχουσας γραμμής:</p>
+        <list>
+          <item>
+            <p>Επιτραπέζιος: <keyseq><key>KP 8</key></keyseq></p>
+          </item>
+          <item>
+            <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>I</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Ανάγνωση της τρέχουσας λέξης:</p>
+        <list>
+          <item>
+            <p>Επιτραπέζιος: <keyseq><key>KP 5</key></keyseq></p>
+          </item>
+          <item>
+            <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Κ</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Ορθογραφία της τρέχουσας λέξης:</p>
+        <list>
+          <item>
+            <p>Επιτραπέζιος: <keyseq><key>KP 5</key></keyseq> (διπλό κλικ)</p>
+          </item>
+          <item>
+            <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Κ</key></keyseq> (διπλό κλικ)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Φωνητική ορθογραφία της τρέχουσας λέξης:</p>
+        <list>
+          <item>
+            <p>Επιτραπέζιος: <keyseq><key>KP 5</key></keyseq> (τριπλό κλικ)</p>
+          </item>
+          <item>
+            <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>Κ</key></keyseq> (τριπλό κλικ)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Ανάγνωση του τρέχοντος χαρακτήρα:</p>
+        <list>
+          <item>
+            <p>Επιτραπέζιος: <keyseq><key>KP 2</key></keyseq></p>
+          </item>
+          <item>
+            <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>κόμμα</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Φωνητική εκφώνηση του τρέχοντος χαρακτήρα:</p>
+        <list>
+          <item>
+            <p>Επιτραπέζιος: <keyseq><key>KP 2</key></keyseq> (διπλό κλικ)</p>
+          </item>
+          <item>
+            <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>κόμμα</key></keyseq> (διπλό κλικ)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Εκφώνηση της τιμής unicode του τρέχοντος χαρακτήρα:</p>
+        <list>
+          <item>
+            <p>Επιτραπέζιος: <keyseq><key>KP 2</key></keyseq> (τριπλό κλικ)</p>
+          </item>
+          <item>
+            <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>κόμμα</key></keyseq> (τριπλό κλικ)</p>
+          </item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="say_all">
+    <title>Εκφώνηση όλων</title>
+    <p>Η εντολή εκφώνηση όλων του Orca θα προκαλέσει την εκφώνηση από το <app>Orca</app> όλου του εγγράφου αρχίζοντας από την τρέχουσα θέση σας.</p>
+    <list>
+      <item>
+        <p>Επιτραπέζιος: <key>KP συν</key></p>
+      </item>
+      <item>
+        <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>;</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="attributes_and_selection">
+    <title>Gνωρίσματα κειμένου και επιλεγμένo κείμενο</title>
+    <p>
+      <app>Orca</app> has a dedicated command for obtaining the attributes of the
+      text at the caret location. In addition, if you use <app>Orca</app>'s
+      Where Am I commands from within a text object in which text has been
+      selected, <app>Orca</app> will announce the selected text. If you would
+      instead prefer a dedicated command for this purpose, you can bind
+      <app>Orca</app>'s Speak Selected Text command to a keystroke. Please see
+      <link xref="howto_key_bindings">Modifying Keybindings</link> for information
+      on how to do so.
+    </p>
+    <list>
+      <item>
+        <p>Παρουσίαση των γνωρισμάτων κειμένου: ο <keyseq><key>τροποποιητής Orca</key><key>F</key></keyseq></p>
+      </item>
+      <item>
+        <p>Εκτέλεση βασικού πού είμαι:</p>
+        <list>
+          <item>
+            <p>Επιτραπέζιος: <key>εισαγωγή KP</key></p>
+          </item>
+          <item>
+            <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>επιστροφή</key></keyseq></p>
+          </item>
+        </list>
+    </item>
+    <item>
+      <p>Εκτέλεση λεπτομερούς πού είμαι:</p>
+      <list>
+        <item>
+          <p>Επιτραπέζιος: <key>εισαγωγή KP</key> (διπλό κλικ)</p>
+        </item>
+        <item>
+          <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>επιστροφή</key></keyseq> (διπλό κλικ)</p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Speak the selected text: (Unbound)</p>
+    </item>
+  </list>
+  </section>
+  <section id="link_details">
+    <title>Link Details</title>
+    <p>
+      If you are on a link, <app>Orca</app>'s Basic Where Am I command can be
+      used to announce the details associated with the link such as the link type,
+      if the link is visited, the site description, and file size. If you would
+      instead prefer dedicated command for this purpose, you can bind <app>Orca</app>'s
+      Speak Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
+      Modifying Keybindings</link> for information on how to do so.
+    </p>
+    <list>
+      <item>
+        <p>Speak the link details: (Unbound)</p>
+      </item>
+    </list>
+  </section>
+  <section id="browse_and_focus_modes">
+    <title>Περιήγηση και εστίαση λειτουργιών</title>
+    <p>Οι λειτουργίες περιήγησης και εστίασης του <app>Orca</app> σας επιτρέπουν να εναλλάσσεστε μεταξύ ανάγνωσης και αλληλεπίδρασης με περιεχόμενο του ιστού.</p>
+    <list>
+      <item>
+        <p>Για εναλλαγή μεταξύ λειτουργιών περιήγησης και εστίασης: <keyseq><key>τροποποιητής Orca</key><key>Α</key></keyseq></p>
+      </item>
+      <item>
+        <p>Ενεργοποίηση κατάστασης "κολλώδους" εστίασης: <keyseq><key>τροποποιητής Orca</key><key>Α</key></keyseq> (διπλό πάτημα)</p>
+      </item>
+      <item>
+        <p>
+          Enable "sticky" browse mode:
+          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (triple-clicked)
+        </p>
+      </item>
+    </list>
+  </section>
+</page>

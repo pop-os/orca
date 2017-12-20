@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_reading" xml:lang="fr">
+  <info>
+    <link type="next" xref="commands_structural_navigation"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_documents"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">1. Lecture</title>
+    <title type="link">Lecture</title>
+    <desc>Commandes d'accès au contenu d'un document</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Commandes de lecture</title>
+  <p>En plus des commandes de navigation au curseur qui font partie de GNOME, <app>Orca</app> fournit des commandes que vous pouvez utiliser pour lire un document.</p>
+  <note style="tip">
+    <p>Dans les listes qui suivent, vous trouverez plusieurs référence à « PN ». Toutes les touches « PN » se trouvent dans le pavé numérique. Vous remarquerez qu'il existe des combinaisons de touches différentes si vous utilisez un clavier d'ordinateur de bureau ou de portable - ou pour être plus précis, si vous utilisez l'agencement de clavier ordinateur de bureau ou portable d'<app>Orca</app>. Pour plus d'informations, consultez la rubrique <link xref="howto_keyboard_layout">Agencement de clavier</link>.</p>
+  </note>
+  <section id="flat_review">
+    <title>Lecture de l'emplacement actuel</title>
+    <p>Les <link xref="commands_flat_review">commandes d'examen global</link> de <app>Orca</app> suivantes peuvent être utilisées pour lire votre emplacement actuel :</p>
+    <list>
+      <item>
+        <p>Lire la ligne actuelle :</p>
+        <list>
+          <item>
+            <p>Ordinateur de bureau : <keyseq><key>PN 8</key></keyseq></p>
+          </item>
+          <item>
+            <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>I</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Lire le mot actuel :</p>
+        <list>
+          <item>
+            <p>Ordinateur de bureau : <keyseq><key>PN 5</key></keyseq></p>
+          </item>
+          <item>
+            <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>K</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Épeler le mot actuel :</p>
+        <list>
+          <item>
+            <p>Ordinateur de bureau : <keyseq><key>PN 5</key></keyseq> (double clic)</p>
+          </item>
+          <item>
+            <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>K</key></keyseq> (double clic)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Épeler phonétiquement le mot actuel :</p>
+        <list>
+          <item>
+            <p>Ordinateur de bureau : <keyseq><key>PN 5</key></keyseq> (triple clic)</p>
+          </item>
+          <item>
+            <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>K</key></keyseq> (triple clic)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Lire le caractère actuel :</p>
+        <list>
+          <item>
+            <p>Ordinateur de bureau : <keyseq><key>PN 2</key></keyseq></p>
+          </item>
+          <item>
+            <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>Virgule</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Lire phonétiquement le caractère actuel :</p>
+        <list>
+          <item>
+            <p>Ordinateur de bureau : <keyseq><key>PN 2</key></keyseq> (double clic)</p>
+          </item>
+          <item>
+            <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>Virgule</key></keyseq> (double clic)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Lire la valeur Unicode du caractère actuel :</p>
+        <list>
+          <item>
+            <p>Ordinateur de bureau : <keyseq><key>PN 2</key></keyseq> (triple clic)</p>
+          </item>
+          <item>
+            <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>Virgule</key></keyseq> (triple clic)</p>
+          </item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="say_all">
+    <title>« Lire tout »</title>
+    <p>La commande « Lire tout » d'Orca fait lire tout le texte du document à partir de votre emplacement actuel.</p>
+    <list>
+      <item>
+        <p>Ordinateur de bureau : <keyseq><key>PN plus</key></keyseq></p>
+      </item>
+      <item>
+        <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>Point virgule</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="attributes_and_selection">
+    <title>Attributs de texte et texte sélectionné</title>
+    <p><app>Orca</app> dispose d'une commande dédiée pour obtenir les attributs du texte à l'emplacement de curseur. De plus, si vous utilisez les commandes « où suis-je » d'<app>Orca</app> depuis un objet texte dans lequel du texte est sélectionné, <app>Orca</app> lit alors le texte sélectionné. Si vous préférez plutôt une commande dédiée pour cela, vous pouvez lier la commande Lire le texte sélectionné d'<app>Orca</app> à une combinaison de touches. Consultez <link xref="howto_key_bindings">Modifier les combinaisons de touches</link> pour plus d'informations sur la procédure.</p>
+    <list>
+      <item>
+        <p>Présenter les attributs du texte : <keyseq><key>Touche de modification d'Orca</key><key>F</key></keyseq></p>
+      </item>
+      <item>
+        <p>Effectuer l'opération « où suis-je » de base :</p>
+        <list>
+          <item>
+            <p>Ordinateur de bureau : <key>PN Entrée</key></p>
+          </item>
+          <item>
+            <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>Entrée</key></keyseq></p>
+          </item>
+        </list>
+    </item>
+    <item>
+      <p>Effectuer l'opération « où suis-je » détaillée :</p>
+      <list>
+        <item>
+          <p>Ordinateur de bureau : <key>PN Entrée</key> (double clic)</p>
+        </item>
+        <item>
+          <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>Entrée</key></keyseq> (double clic)</p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Lire le texte sélectionné : (non lié)</p>
+    </item>
+  </list>
+  </section>
+  <section id="link_details">
+    <title>Détails du lien</title>
+    <p>Si vous vous trouvez sur un lien, la commande de base d'<app>Orca</app> « où suis-je ? » peut être utilisée pour annoncer les détails associés au lien, comme le type de lien, si le lien a été visité, la description du site et la taille de fichier. Si vous préférez plutôt une commande dédiée pour cela, vous pouvez lier la commande Lire les détails du lien d'<app>Orca</app> à une combinaison de touches. Consultez <link xref="howto_key_bindings">Modifier les combinaisons de touches</link> pour plus d'informations sur la procédure.</p>
+    <list>
+      <item>
+        <p>Lire les détails du lien : (non lié)</p>
+      </item>
+    </list>
+  </section>
+  <section id="browse_and_focus_modes">
+    <title>Modes de navigation et de focus</title>
+    <p>Les modes de navigation et de focus d'<app>Orca</app> permettent de basculer entre la lecture et l'interaction avec du contenu Web.</p>
+    <list>
+      <item>
+        <p>Basculer entre les modes de navigation et de focus : <keyseq><key>Touche de modification d'Orca</key><key>A</key></keyseq></p>
+      </item>
+      <item>
+        <p>Activer le mode focus permanent : <keyseq><key>Touche de modification d'Orca</key><key>A</key></keyseq> (double clic)</p>
+      </item>
+      <item>
+        <p>Activer le mode navigation permanent : <keyseq><key>Touche de modification d'Orca</key><key>A</key></keyseq> (triple clic)</p>
+      </item>
+    </list>
+  </section>
+</page>

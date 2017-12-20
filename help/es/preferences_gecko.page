@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="es">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_table_navigation"/>
+    <title type="sort">1. Navegación Gecko</title>
+    <title type="link">Navegación Gecko</title>
+    <desc>Configurar el soporte de <app>Orca</app> para <app>Firefox</app> y <app>Thunderbird</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Compartir Igual 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Daniel Mustieles</mal:name>
+      <mal:email>daniel.mustieles@gmail.com</mal:email>
+      <mal:years>2012 - 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jorge González</mal:name>
+      <mal:email>jorgegonz@svn.gnome.org</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  </info>
+  <title>Preferencias de la navegación Gecko</title>
+  <section id="page_navigation">
+    <title>Navegación por páginas</title>
+    <p>El grupo de controles <gui>Navegación por páginas</gui> le permite personalizar cómo se presenta <app>Orca</app>, y le permite interactuar con el texto y otros contenidos.</p>
+    <section>
+      <title>Controlar la navegación de cursor</title>
+      <p>Esta casilla activa o desactiva la navegación de cursor de <app>Orca</app>. Cuando está activada, <app>Orca</app> toma el control del cursor a mientras se mueve por una página; cuando está desactivada, la navegación del cursor nativa de Gecko está activa.</p>
+      <p>Valor predeterminado: marcado</p>
+      <note style="tip">
+        <title>Esta configuración se puede cambiar al vuelo</title>
+        <p>Para cambiar esta configuración al vuelo sin guardarla, use <keyseq><key>Modificador de Orca</key><key>F12</key></keyseq>.</p>
+       </note>
+    </section>
+    <section>
+      <title>Modo de foco automático durante la navegación de cursor</title>
+      <p>Si esta casilla está activada, <app>Orca</app> activará automáticamente el modo de foco cuando use los comandos de navegación del cursor para navegar a un campo de un formulario. Por ejemplo, pulsar la tecla <key>Abajo</key> le permitirá moverse a una entrada pero una vez que lo haya hecho, Orca cambiará al modo de foco, y la siguientes pulsaciones de la tecla <key>Abajo</key> estarán controladas por el navegador web y no por Orca. Si esta casilla no está marcada, <app>Orca</app> continuará controlando lo que sucede cuando pulsa la tecla <key>Abajo</key>, haciendo por lo tanto posible salir de la entrada y seguir leyendo.</p>
+      <p>Valor predeterminado: no marcado</p>
+      <note style="tip">
+        <title>Cambiar manualmente entre modo navegación y modo foco</title>
+        <p>Para iniciar o detener la interacción con el campo del formulario que tiene el foco, use <keyseq><key>Modificador de Orca</key><key>A</key></keyseq> para cambiar entre el modo navegación y el modo foco.</p>
+       </note>
+    </section>
+    <section>
+      <title>Activar la navegación estructural</title>
+      <p>Esta opción activa o desactiva la <link xref="howto_structural_navigation">navegación estructura</link> de <app>Orca</app>. La navegación estructural le permite navegar por elementos como cabeceras, enlaces y campos de formularios.</p>
+      <p>Valor predeterminado: marcado</p>
+      <note style="tip">
+        <title>Esta configuración se puede cambiar al vuelo</title>
+        <p>Para cambiar esta configuración al vuelo sin guardarla, use <keyseq><key>Modificador de Orca</key><key>Z</key></keyseq>.</p>
+       </note>
+    </section>
+    <section>
+      <title>Modo de foco automático durante la navegación estructural</title>
+      <p>Si esta casilla está marcada, <app>Orca</app> activará automáticamente el modo foco cuando use los comandos de navegación estructural para navegar al campo de un formulario. Por ejemplo, al pulsar la tecla <key>E</key> para moverse a la siguiente entrada se moverá el foco y se activará el modo foco, por lo que la siguiente pulsación de la tecla <key>E</key> escribirá una «e» en la entrada. Si esta casilla no está marcada <app>Orca</app> permanecerá en modo navegación, y la siguiente pulsación de la tecla <key>E</key> le moverá a la siguiente entrada en la página.</p>
+      <p>Valor predeterminado: no marcado</p>
+      <note style="tip">
+        <title>Cambiar manualmente entre modo navegación y modo foco</title>
+        <p>Para iniciar o detener la interacción con el campo del formulario que tiene el foco, use <keyseq><key>Modificador de Orca</key><key>A</key></keyseq> para cambiar entre el modo navegación y el modo foco.</p>
+       </note>
+    </section>
+    <section>
+      <title>Empezar a leer una página automáticamente cuando se carga por primera vez</title>
+      <p>Si esta casilla está marcada, <app>Orca</app> leerá la página web o el correo-e completos.</p>
+      <p>Valor predeterminado: activado para Firefox, desactivado para Thunderbird</p>
+    </section>
+    <section>
+      <title>Mostrar el resumen de una página cuando se carga por primera vez</title>
+      <p>Si esta casilla está marcada, <app>Orca</app> resumirá los detalles sobre la nueva página o correo-e abierto, tales como el número de encabezados, marcadores y enlaces.</p>
+      <p>Valor predeterminado: activado para Firefox, desactivado para Thunderbird</p>
+    </section>
+    <section>
+      <title>Activar el modo de distribución para el contenido</title>
+      <p>Si esta casilla está marcada, <app>Orca</app> respetará siempre la distribución del contenido de la pantalla y mostrará la línea completa, incluyendo los enlaces o campos de formulario de esa línea. Si esta casilla no está marcada, <app>Orca</app> tratará los objetos como enlaces y campos de formulario como si estuvieran en líneas separadas, tanto para presentación como para navegación.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+  </section>
+  <section id="table_options">
+    <title>Opciones de tabla</title>
+    <note>
+      <p>Para aprender más sobre las opciones de <app>Orca</app> para navegar por tablas, consulta las <link xref="preferences_table_navigation">Preferencias de navegación por tablas</link>.</p>
+    </note>
+  </section>
+  <section id="find_options">
+    <title>Opciones de búsqueda</title>
+    <p>El grupo de controles <gui>Opciones de búsqueda</gui> hace posible que personalice cómo <app>Orca</app> presenta los resultados de una búsqueda llevada a cabo usando la funcionalidad de búsqueda de la aplicación.</p>
+    <section>
+      <title>Hablar resultados durante la búsqueda</title>
+      <p>Si esta casilla está marcada, <app>Orca</app> leerá la línea que coincida con su búsqueda actual.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section>
+      <title>Hablar solamente las líneas modificadas durante la búsqueda</title>
+      <p>Si esta casilla de verificación está marcada, <app>Orca</app> no presentará la línea coincidente si es la misma línea que para la coincidencia anterior. Esta opción está diseñada para evitar «charlatanería» en una línea con múltiples coincidencias de la cadena que está buscando.</p>
+      <p>Valor predeterminado: no marcado</p>
+    </section>
+    <section>
+      <title>Longitud mínima del texto coincidente</title>
+      <p>Este botón contador editable es donde puede especificar el número de caracteres que deben coincidir al menos antes que <app>Orca</app> anuncie la línea coincidente. Esta opción también está diseñada para prevenir «ruido» ya que al principio cuando comienza a teclear la cadena de búsqueda hay muchas coincidencias.</p>
+      <p>Valor predeterminado: 4</p>
+    </section>
+  </section>
+</page>

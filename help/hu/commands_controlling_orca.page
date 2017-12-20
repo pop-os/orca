@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_controlling_orca" xml:lang="hu">
+  <info>
+    <link type="next" xref="commands_where_am_i"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <title type="sort">1. Az Orka irányítása és használatának megtanulása</title>
+    <title type="link">Az Orka irányítása, és használatának megtanulása</title>
+    <desc>Parancsok az <app>Orka</app> kezeléséhez</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title type="link">Az Orka irányítása, és használatának megtanulása</title>
+  <section id="controlling">
+    <title>Parancsok az <app>Orka</app> irányításához</title>
+    <p>A következő billentyűparancsok segítségével megnyithatja az <app>Orka</app> beállító párbeszédablakait, kiléphet az <app>Orka</app> képernyőolvasóból, és figyelmen kívül hagyathat olyan <app>Orka</app> billentyűparancsokat, amelyek ütköznének az éppen használt alkalmazás billentyűparancsaival.</p>
+    <list>
+      <item>
+        <p>Az <app>Orka</app> képernyőolvasó be- vagy kikapcsolása a GNOME asztali környezetben: <keyseq><key>STARTGOMB</key><key>ALT</key><key>S</key></keyseq>.</p>
+        <note style="tip">
+           <p>Ha az <app>Orka</app> képernyőolvasót olyan asztali környezettel használja, amelyben nincs beépített billentyűparancs a képernyőolvasó be- és kikapcsolására, akkor hasznos lehet a kilépés a <app>Képernyőolvasóból</app> parancs. Ehhez a parancshoz nincs alapértelmezetten definiált billentyűtársítás. Ha billentyűtársítást szeretne rendelni egy parancshoz, akkor olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
+        </note>
+      </item>
+      <item>
+        <p>Az <link xref="preferences">Orka beállítások párbeszédablak</link> megnyitása: <keyseq><key>Orka módosító</key><key>Szóköz</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Az Orka alkalmazásbeállító párbeszédablak megnyitása a fókuszban levő alkalmazáshoz: <keyseq><key>Orka módosító</key><key>Ctrl</key><key>Szóköz</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>A következő billentyűparancs átadása az aktuális alkalmazásnak: <keyseq><key>Orka módosító</key><key>BackSpace</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="learning">
+    <title>Parancsok az <app>Orka</app> használatának megtanulásához</title>
+    <p>A tanuló és billentyűparancs-listázó módok segítségével elsajátíthatja az <app>Orka</app> parancsait. A tanuló módban az <app>Orka</app> kimondja az Ön által lenyomott billentyűkombinációkat és a hozzájuk társított <app>Orka</app> parancsokat. Ezen kívül, a billentyűparancs-listázó mód segítségével az összes használható <app>Orka</app> parancsot egy listában áttekintheti.</p>
+    <list>
+      <item>
+        <p>Belépés a tanuló módba: <keyseq><key>Orka módosító</key><key>H</key></keyseq></p>
+      </item>
+      <item>
+        <p>Kilépés a tanuló módból: <keyseq><key>Esc</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+</page>

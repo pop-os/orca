@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_orca_find" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_mouse_review"/>
+    <title type="sort">3. Az Orka keresés</title>
+    <desc>Objektumok keresése ablakokban</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Az Orka keresés</title>
+  <p>Az <app>Orka</app> keresés funkciója az <link xref="howto_flat_review">egyszerű áttekintésre</link> épül, amely segít gyorsan megtalálni a képernyőn látható és az aktív ablakban található objektumokat.</p>
+  <note style="tip">
+    <title>Az Orka keresés párbeszédablak aktiválása</title>
+      <p>Ha meg szeretné nyitni az Orka <gui>Keresés</gui> párbeszédablakát, a választott <link xref="howto_keyboard_layout">billentyűzetkiosztástól</link> függően használja a következő parancsok valamelyikét:</p>
+      <list>
+        <item>
+          <p>Asztali kiosztás: <keyseq><key>Numpad Del</key></keyseq></p>
+        </item>
+        <item>
+          <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Nyitó szögletes</key></keyseq></p>
+        </item>
+      </list>
+      <p>Ha meg szeretné nézni a végrehajtható keresési feladatok listáját, olvassa el <link xref="commands_find">Az Orka keresési parancsai</link> fejezetet.</p>
+  </note>
+  <p>Ha aktiválja az Orka keresés funkciót, egy párbeszédablakba fog kerülni.</p>
+  <p>A következő adatokat adhatja meg:</p>
+  <list>
+    <item>
+      <p>A keresendő szöveget.</p>
+    </item>
+    <item>
+      <p>A keresés kiindulási pontját, amely lehet a jelenlegi hely, vagy az aktív ablak teteje.</p>
+      <p>A <gui>Kezdés</gui> beállítás alapértéke: <gui>Jelenlegi hely</gui>.</p>
+    </item>
+    <item>
+      <p>Megadhatja, hogy kereséskor meg legyenek-e különböztetve a kis és nagybetűs egyezések.</p>
+      <p>A <gui>Kis és nagybetűk megkülönböztetése</gui> jelölőnégyzet alapbeállítása: nincs bejelölve.</p>
+    </item>
+    <item>
+      <p>Megadhatja, hogy a találatok csak teljes szó szerinti egyezés esetén, vagy töredék esetén is megjelenjenek-e.</p>
+      <p>A <gui>Csak teljes szóra</gui> jelölőnégyzet alapbeállítása: nincs bejelölve.</p>
+    </item>
+    <item>
+      <p>Megadhatja, hogy a következő találat keresése visszafelé és/vagy jobbra történjen, vagy felfelé és/vagy balra.</p>
+      <p>A <gui>Keresés visszafelé</gui> jelölőnégyzet alapbeállítása: nincs bejelölve.</p>
+    </item>
+    <item>
+      <p>Megadhatja, hogy a keresés az aktív ablak felső és alsó fele között körkörösen történjen, ha nem található egyező találat a keresett kifejezéssel a kiindulási helytől kezdve a keresés iránya felé.</p>
+      <p>A <gui>Körbe</gui> jelölőnégyzet alapbeállítása: bejelölve.</p>
+    </item>
+  </list>
+  <p>Ha végrehajtott egy keresést, gyorsan megkeresheti az előző vagy következő találatot anélkül, hogy újra aktiválnia kellene az Orka keresés párbeszédablakot.</p>
+  <p>Mivel az Orka keresés egy <link xref="howto_flat_review">Egyszerű áttekintés</link> funkció, ha van találat a keresett kifejezésre, akkor az egyszerű áttekintés funkció automatikusan aktiválásra kerül, és az egyező kifejezésre vagy szövegre kerül az egyszerű áttekintő kurzor. Megjegyzés: az alkalmazás fókusza vagy a mutató pozíciója ezzel szemben nem fog megváltozni, ha mégis erre lenne szüksége, olvassa el az <link xref="commands_mouse">Orka egérmutatóval kapcsolatos parancsai</link> című fejezetet.</p>
+</page>

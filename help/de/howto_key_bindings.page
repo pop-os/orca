@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_key_bindings" xml:lang="de">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_profiles"/>
+  <title type="sort">8. Tastenkürzel</title>
+  <desc>Binding, rebinding, and unbinding commands</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  </info>
+  <title>Tastenkürzel</title>
+  <p>Bei <app>Orca</app> gibt es viele Befehle, von denen einige mit Tastenkombinationen ausgelöst werden können, während andere unbelegt sind. Sie können <app>Orca</app>-Befehle auf folgende Weise zuweisen, verändern und löschen.</p>
+  <steps>
+    <title>Eine Tastenkombination vergeben</title>
+    <item>
+      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Taste</key><key>Leertaste</key></keyseq> drücken.</p>
+    </item>
+    <item>
+      <p>Wechseln Sie nun zum Reiter <gui>Tastenbelegung</gui>.</p>
+    </item>
+    <item>
+      <p>Bewegen Sie sich zu der Zelle mit dem Befehl, dem Sie eine Tastenkombination zuweisen wollen.</p>
+    </item>
+    <item>
+      <p>Bewegen Sie den Cursor einmal nach rechts. Der Fokus wird auf die Spalte <gui>Tastenkombination</gui> gesetzt. Drücken Sie <key>Eingabe</key>.</p>
+    </item>
+    <item>
+      <p>Drücken Sie die gewünschte Tastenkombination.</p></item>
+    <item>
+      <p>Drücken Sie <key>eingabe</key>, um die neue Tastenkombination zu bestätigen. Die neue Tastenkombination wird gespeichert und das Kontrollkästchen in der letzten Spalte (<gui>Verändert</gui>) zeigt an, dass die Tastenbelegung geändert wurde.</p>
+    </item>
+    <item>
+      <p>Klicken Sie auf <gui>Anwenden</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Änderung vorhandener Tastenkürzel</title>
+    <item>
+      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Taste</key><key>Leertaste</key></keyseq> drücken.</p>
+    </item>
+    <item>
+      <p>Wechseln Sie nun zum Reiter <gui>Tastenbelegung</gui>.</p>
+    </item>
+    <item>
+      <p>Navigieren Sie auf die Zelle, welche die Belegung enthält, die Sie ändern wollen, und drücken Sie <key>Eingabe</key>.</p>
+    </item>
+    <item>
+        <p>Drücken Sie die gewünschte Tastenkombination.</p>
+    </item>
+    <item>
+      <p>Drücken Sie <key>eingabe</key>, um die neue Tastenkombination zu bestätigen. Die neue Tastenkombination wird gespeichert und das Kontrollkästchen in der letzten Spalte (<gui>Verändert</gui>) zeigt an, dass die Tastenbelegung geändert wurde.</p>
+    </item>
+    <item>
+      <p>Klicken Sie auf <gui>Anwenden</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Originale Tastenkürzel wiederherstellen</title>
+    <item>
+      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Taste</key><key>Leertaste</key></keyseq> drücken.</p>
+    </item>
+    <item>
+      <p>Wechseln Sie nun zum Reiter <gui>Tastenbelegung</gui>.</p>
+    </item>
+    <item>
+      <p>Gehen Sie zur geänderten Spalte, die mit der Tastenbelegung verbunden ist.</p>
+    </item>
+    <item>
+      <p>Heben Sie die Markierung im Kontrollkästchen auf, indem Sie <key>Leertaste</key> drücken.</p>
+    </item>
+    <item>
+      <p>Klicken Sie auf <gui>Anwenden</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Zugewiesene Befehle freigeben</title>
+    <item>
+      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Taste</key><key>Leertaste</key></keyseq> drücken.</p>
+    </item>
+    <item>
+      <p>Wechseln Sie nun zum Reiter <gui>Tastenbelegung</gui>.</p>
+    </item>
+    <item>
+      <p>Navigieren sie auf die Zelle, welche die Belegung enthält, die Sie löschen wollen, und drücken Sie <key>Eingabe</key>.</p>
+    </item>
+    <item>
+      <p>Wenn Sie zur Eingabe der neuen Tastenbelegung aufgefordert werden, drücken Sie <key>Entfernen</key> oder die <key>Rückschritttaste</key>. Ihnen wird mitgeteilt, dass die Tastenbelegung gelöscht wurde.</p>
+    </item>
+    <item>
+      <p>Drücken Sie zur Bestätigung die <key>Eingabetaste</key>.</p>
+    </item>
+    <item>
+      <p>Klicken Sie auf <gui>Anwenden</gui>.</p>
+    </item>
+  </steps>
+</page>

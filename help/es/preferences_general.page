@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_general" xml:lang="es">
+  <info>
+    <title type="sort">1. General</title>
+    <title type="link">General</title>
+    <desc>Configurar el comportamiento básico de <app>Orca</app></desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_voice"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Compartir Igual 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Daniel Mustieles</mal:name>
+      <mal:email>daniel.mustieles@gmail.com</mal:email>
+      <mal:years>2012 - 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jorge González</mal:name>
+      <mal:email>jorgegonz@svn.gnome.org</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  </info>
+  <title>Preferencias generales</title>
+  <section id="keyboardlayout">
+    <info>
+      <desc>Opción del cuadro de diálogo de preferencias para seleccionar qué disposición del teclado de <app>Orca</app> usar, sobremesa o portátil.</desc>
+    </info>
+    <title>Distribución del teclado</title>
+    <p>El grupo de botones de radio <gui>distribución de teclado</gui> le permite especificar si trabajará en un equipo sobremesa (es decir, con un teclado numérico) o con un teclado de portátil. La distribución que elija determinará tanto el <key>Modificador de Orca</key> como cierto número de atajos de teclado para los comandos de <app>Orca</app>.</p>
+    <p>Valor predeterminado: <gui>Escritorio</gui></p>
+  </section>
+  <section id="presenttooltips">
+    <info>
+      <desc>Opción del cuadro de diálogo de preferencias para activar la presentación de consejos que aparece al pasar el ratón por encima.</desc>
+    </info>
+    <title>Mostrar consejos</title>
+    <p>Cuando está marcada, esta opción le dirá a <app>Orca</app> que presente información sobre los consejos cuando estos aparezcan como resultado de pasar el ratón. Las acciones específicas para forzar que se muestren los consejos, tales como presionar <keyseq><key>Ctrl</key><key>F1</key></keyseq> cuando un objeto tiene el foco, siempre hará que se presente el consejo independientemente de este ajuste.</p>
+    <p>Valor predeterminado: no marcado</p>
+  </section>
+  <section id="objectundermouse">
+    <info>
+      <desc>Opción del cuadro de diálogo de preferencias para activar la presentación del objeto de debajo del puntero del ratón.</desc>
+    </info>
+    <title>Leer el objeto de debajo del ratón</title>
+    <p>Cuando está marcada, esta opción hace que <app>Orca</app> presente la información acerca del objeto bajo el puntero del ratón, según lo mueve alrededor de la pantalla, usando la característica <link xref="howto_mouse_review">Revisión del ratón</link> de <app>Orca</app>.</p>
+    <p>Valor predeterminado: no marcado</p>
+  </section>
+  <section id="timeanddate">
+    <info>
+      <desc>Opciones del cuadro de diálogo de preferencias para personalizar los formatos de fecha y hora usados por <app>Orca</app>.</desc>
+    </info>
+    <title>Formato de fecha y hora</title>
+    <p>Los cuadros combinados <gui>Formato de hora</gui> y <gui>Formato de fecha</gui> le permite especificar cómo leerá y mostrará <app>Orca</app> en Braille la hora y la fecha.</p>
+    <p>Valor predeterminado: utilizar el formato de la configuración regional del sistema para cada uno</p>
+  </section>
+  <section id="navigation_in_say_all">
+    <info>
+      <desc>Opciones del cuadro de diálogo de preferencias para activar el ir hacia adelante y hacia atrás y la navegación estructural al Hablar todo.</desc>
+    </info>
+    <title>Navegación en hablar todo</title>
+    <p>La funcionalidad Hablar todo de <app>Orca</app> habla el contenido del documento desde el punto actual hasta el final. De manera predeterminada, al pulsar cualquier tecla se interrumpirá la presentación de Hablar todo. Sin embargo, si activa la casilla <gui>Activar ir hacia atrás y avance rápido en Hablar todo</gui>, las teclas <key>Arriba</key> y <key>Abajo</key> se pueden usar durante Hablar todo para moverse rápidamente por el documento para volver a escuchar algo que ya se ha leído o para omitir texto no interesante sin tener que reiniciar la lectura.</p>
+    <p>Si está leyendo un documento con un aplicación que soporte la navegación estructural, y ha marcado la casilla <gui>Activar la navegación estructural en Hablar todo</gui> puede usar los comandos de navegación estructural soportados de manera similar: <key>H</key>/<keyseq><key>Mayús</key> <key>H</key></keyseq> sigue leyendo el encabezado anterior o siguiente, <key>P</key>/<keyseq><key>Mayús</key><key>P</key></keyseq> sigue leyendo el párrafo anterior o siguiente, <key>T</key>/<keyseq><key>Mayús</key> <key>T</key></keyseq>, sigue leyendo la tabla anterior o siguiente, y así sucesivamente.</p>
+    <p>Valor predeterminado: no marcado</p>
+  </section>
+  <section id="say_all_announce_context">
+    <title>Anunciar información contextual en Hablar todo</title>
+    <p><app>Orca</app> puede opcionalmente proporcionar más información sobre el contenido del documento que se está hablando, como anunciar cuando entra o sale de un bloque, lista, tabla u otro contenedor. Si estos anuncios se hacen o no se puede configurar de manera independiente mediante las siguientes casillas:</p>
+    <list>
+      <item><p>Anunciar citas en Hablar todo</p></item>
+      <item><p>Anunciar formularios en Hablar todo</p></item>
+      <item><p>Anunciar marcas en Hablar todo</p></item>
+      <item><p>Anunciar listas en Hablar todo</p></item>
+      <item><p>Anunciar paneles en Hablar todo</p></item>
+      <item><p>Anunciar tablas en Hablar todo</p></item>
+    </list>
+    <p>Valor predeterminado: marcado</p>
+    <note style="note">
+      <p>Indica si los anuncios que hace <app>Orca</app> durante la navegación son configurables o no. Encontrará casillas similares en la página <gui>Hablar</gui>. Consulte el <link xref="preferences_speech#spoken_context">Contexto hablado</link> para obtener más información.</p>
+    </note>
+  </section>
+  <section id="say_all_by">
+   <info>
+      <desc>Opción del cuadro de diálogo de preferencias para personalizar la presentación Hablar todo de <app>Orca</app>.</desc>
+   </info>
+   <title>Hablar todo por</title>
+   <p>El cuadro combinado <gui>Hablar todo por</gui> le permite especificar si <app>Orca</app> habla una frase a la vez o una línea cuando se hace un «Hablar todo» de un documento.</p>
+    <p>Valor predeterminado: <gui>Frase</gui></p>
+  </section>
+  <section id="profiles">
+    <info>
+      <desc>Opciones del cuadro de diálogo de preferencias para gestionar perfiles de configuración.</desc>
+    </info>
+    <title>Perfiles</title>
+    <p>El grupo de controles <gui>Perfiles</gui>, que aparece en la parte inferior de la página <gui>General</gui>, le permite mantener y usar varias configuraciones.</p>
+   <list>
+      <item>
+        <p>El cuadro combinado <gui>Perfil activo</gui> muestra el perfil actual y le permite seleccionar un perfil diferente que cargar.</p>
+      </item>
+      <item>
+        <p>El botón <gui>Cargar</gui> hará que <app>Orca</app> cargue el perfil indicado en el cuadro combinado <gui>Perfil activo</gui>.</p>
+      </item>
+      <item>
+        <p>El botón <gui>Guardar como</gui> le permite guardar el conjunto actual de opciones desde el cuadro de diálogo de preferencias a un perfil con nombre.</p>
+      </item>
+      <item>
+        <p>El cuadro combinado <gui>Perfil inicial</gui> le permite selección qué perfil se cargará automáticamente cada vez que ejecute <app>Orca</app>.</p>
+      </item>
+    </list>
+  </section>
+  <section id="progress_bar_updates">
+    <title>Actualizaciones de barras de progreso</title>
+    <section>
+      <title>Hablar actualizaciones</title>
+      <p>Si la casilla <gui>Hablar actualizaciones</gui> está marcada <app>Orca</app> hablará periódicamente el estado de las barras de progreso.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section>
+      <title>Actualizaciones en Braille</title>
+      <p>Si la casilla <gui>Actualizaciones en Braille</gui> está marcada <app>Orca</app> presentará periódicamente el estado de las barras de progreso en su pantalla Braille.</p>
+      <p>Valor predeterminado: no marcado</p>
+    </section>
+    <section>
+      <title>Sonar actualizaciones</title>
+      <p>Si la casilla <gui>Sonar actualizaciones</gui> está marcada <app>Orca</app> emitirá pitidos periódicos a medida que el valor de la barra de progreso aumenta.</p>
+      <p>Valor predeterminado: no marcado</p>
+    </section>
+    <section>
+      <title>Frecuencia (segs)</title>
+      <p>Este botón incremental determina con qué frecuencia se muestran las actualizaciones.</p>
+      <p>Valor predeterminado: 10</p>
+    </section>
+    <section>
+      <title>Restringir a</title>
+      <p>Este cuadro combinado le permite controlar qué barras de progreso se deberían presentar, asumiendo que la presentación de actualización de barras de progreso se ha activado. Las opciones son <gui>Todo</gui>, <gui>Aplicación</gui> y <gui>Ventana</gui>.</p>
+      <p>Seleccionar <gui>Todo</gui> dará lugar a que <app>Orca</app> presente actualizaciones para todas las barras de progreso, con independencia de la ubicación en que se encuentren las mismas.</p>
+      <p>Seleccionar <gui>Aplicación</gui> dará lugar a que <app>Orca</app> presente actualizaciones de las barras de progreso para la aplicación activa, incluso si las mismas no están en la ventana activa.</p>
+      <p>Seleccionar <gui>Ventana</gui> dará lugar a que <app>Orca</app> presente solamente actualizaciones de las barras de progreso en la ventana activa.</p>
+      <p>Valor predeterminado: <gui>Aplicación</gui></p>
+    </section>
+  </section>
+</page>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_text_attributes" xml:lang="gl">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_gecko"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <title type="sort">8. Text Attributes</title>
+    <title type="link">Text Attributes</title>
+    <desc>Configurar que formateo se presenta</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Compartir Igual 3.0</p>
+    </license>
+  </info>
+  <title>Preferencias dos atributos de texto</title>
+  <p>O termo «atributos do texto» fai referencia a un tipo de letra, estilo, aliñación e outro formato asociado a un caracter ou serie de caracteres dados. A páxina <app>Atributos do texto</app> de <gui>Orca</gui> permítelle personalizar que atributos de texto presentará <app>Orca</app> por voz, xunto ao orde na que se deben presentar, e cales de eles indicará <app>Orca</app> en braille.</p>
+  <section id="table">
+    <title>A táboa de atributo de texto</title>
+    <p>A táboa de atributos de texto é onde se especifica que atributos se presentarán e cales non e baixo que condicións. Cada fila consiste en catro columnas.</p>
+    <list>
+      <item>
+        <p><gui>Nome do atributo</gui>: o nome do atributo de texto.</p>
+      </item>
+      <item>
+        <p><gui>Falar</gui>: marque esta caixa de verificación se quere que <app>Orca</app> fale este atributo cando prema <keyseq><key>Orca</key><key>F</key></keyseq>.</p>
+      </item>
+      <item>
+        <p><gui>Marcar en braille</gui>: marque esta casilla se quere que <app>Orca</app> subliñe este atributo na súa liña braille.</p>
+      </item>
+      <item>
+        <p><gui>Presentar a menos que</gui>: este campo editábel permítelle especificar cando un atributo non é de interese.</p>
+        <p>Por exemplo, o atributo «subliñado» ten un valor predeterminado de «none». Isto fai que <app>Orca</app> lle informe sobre o texto subliñado sempre e cando o texto estea actualmente subliñado. Se quere que este atributo se fale sempre independentemente de que o texto estea subliñado ou non, entón o atributo debería estar marcad e o valor de <gui>Presentar a menos que</gui> en branco. Ademais, debería asegurarse de que a columna <gui>Falar</gui> para o subliñado estea marcada.</p>
+      </item>
+    </list>
+  </section>
+  <section id="reset">
+     <title>Desfacendo cambios</title>
+     <p>Baixo a lista de atributos de texto, hai un botón «Restabelecer» (<keyseq><key>Alt</key><key>R</key></keyseq>) que restaurará os valores da táboa aos que eran cando o diálogo se mostrou por primeira vez.</p>
+  </section>
+  <section id="rearranging">
+     <title>Reorganizando a orde de presentación</title>
+     <p>Cando mostra a páxina de atributos de texto inicialmente, todos os atributos marcados póñense ao inicio da lista. Danse na orde na que se falarán. Hai catro botóns que se poden usar para reorganizar a orde de presentación.</p>
+    <list>
+      <item>
+        <p><gui>Mover ao principio</gui> (<keyseq><key>Alt</key><key>P</key></keyseq>): move o atributo seleccionado ao principio da lista.</p>
+      </item>
+      <item>
+        <p><gui>Mvoer un arriba</gui> (<keyseq><key>Alt</key><key>R</key></keyseq>): move o atributo seleccionado unha fila arriba.</p>
+      </item>
+      <item>
+        <p><gui>Mover un abaixo</gui> (<keyseq><key>Alt</key><key>A</key></keyseq>): move o atributo seleccionado unha fila abaixo.</p>
+      </item>
+      <item>
+        <p><gui>Mover ao final</gui> (<keyseq><key>Alt</key><key>F</key></keyseq>): move o atributo seleccionado ao final da lista.</p>
+      </item>
+    </list>
+  </section>
+  <section id="braille_indicator">
+    <title>Opcións para configurar o «subliñado» braille para o formato</title>
+    <p>Debaixo dos botóns está o grupo de botóns de radio <gui>Indicador Braille</gui>. Aquí pode seleccionar a cela ou celas que se usarán para indicar o texto  que teña cando menos un dos atributos especificados.</p>
+    <list>
+      <item>
+        <p><gui>Ningún</gui>: non subliñar os atributos de texto en braille (predeterminado)</p>
+      </item>
+      <item>
+        <p><gui>Punto 7</gui>: subliñar os atributos de texto soamente co punto 7</p>
+      </item>
+      <item>
+        <p><gui>Punto 8</gui>: subliñar os atributos de texto soamente co punto 8</p>
+      </item>
+      <item>
+        <p><gui>Puntos 7 e 8</gui>: subliñar os atributos de texto soamente co puntos 7 e puntos 8</p>
+      </item>
+    </list>
+  </section>
+</page>

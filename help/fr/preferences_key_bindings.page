@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_bindings" xml:lang="fr">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_pronunciation"/>
+    <link type="seealso" xref="howto_key_bindings"/>
+    <title type="sort">6. Raccourcis clavier</title>
+    <title type="link">Raccourcis clavier</title>
+    <desc>Configurer les raccourcis clavier d'<app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Préférences de raccourcis clavier</title>
+  <section id="orca_modifier_keys">
+    <title>Touches de modification d'Orca</title>
+    <p>La liste déroulante <gui>Touches de modification du lecteur d'écran</gui> vous permet de sélectionner quelles touches sont utilisées comme Touche de modification Orca. Les options suivantes sont disponibles :</p>
+    <list>
+      <item>
+        <p><gui>PN_Inser</gui> (la même touche que le <key>0</key> sur le pavé numérique)</p></item>
+      <item><p><gui>Insérer</gui></p></item>
+      <item><p><gui>Inser, PN_Inser</gui></p></item>
+      <item><p><gui>Verr. maj.</gui></p></item>
+    </list>
+  </section>
+  <section id="key_bindings_table">
+    <title>Tableau des raccourcis clavier</title>
+    <p>Le tableau des raccourcis clavier offre une liste des fonctions d'<app>Orca</app> et les touches qui correspondent à ces opérations.</p>
+    <list>
+      <item>
+        <p>La colonne <gui>Fonction</gui> contient la description de l'opération <app>Orca</app> à réaliser.</p>
+      </item>
+      <item>
+        <p>La colonne <gui>raccourci</gui> contient le raccourci actuellement assigné à cette fonction. Pour modifier la valeur de cette colonne, appuyez sur la touche <key>Entrée</key> et pressez ensuite les touches pour le nouveau raccourci puis, appuyez sur <key>Entrée</key> à nouveau.</p>
+      </item>
+      <item>
+        <p>La colonne <gui>Modifié</gui> sert à la fois d'indicateur de modification et de moyen de restaurer le raccourci par défaut associé à cette fonction.</p>
+      </item>
+    </list>
+    <p>Sous la liste des raccourci d'<app>Orca</app>, se trouve un groupe de commande « non liées ». Ce sont des commandes qui doivent certainement être très utiles pour certains utilisateurs, mais qui ne le sont pas pour d'autres. Plutôt que d'utiliser un raccourci pour ces commandes, elles ne sont pas assignées par défaut. À la fin de cette liste se trouvent les raccourcis braille, pour l'utilisation avec une plage braille.</p>
+  </section>
+</page>

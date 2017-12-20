@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_where_am_i" xml:lang="de">
+  <info>
+    <link type="next" xref="commands_time_date_notifications"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">3. Wo bin ich</title>
+    <title type="link">Wo bin ich</title>
+    <desc>Befehle, um Ihren Standort zu erfahren</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  </info>
+  <title>Befehle zu »Wo bin ich«</title>
+  <p><app>Orcas</app> »Wo bin ich«-Funktion gibt Ihnen kontextsensitive Details über Ihre aktuelle Position. In Tabellen zum Beispiel gibt Ihnen »Wo bin ich« Details über die Zelle aus, in der Sie sich befinden. In einem Text jedoch gibt es Ihnen Informationen zur aktuellen Zeile mit dem ausgewählten Text aus. Eine vollständige Liste, was <app>Orca</app> Ihnen ausgeben kann, können Sie hier lesen: <link xref="howto_whereami">Einführung in Wo bin ich</link>.</p>
+  <p><app>Orca</app> unterstützt die folgenden Wo bin ich Befehle:</p>
+  <list>
+    <item>
+      <p>Die einfache »Wo bin ich«-Funktion ausführen:</p>
+      <list>
+        <item>
+          <p>Desktop: <key>Eingabetaste (Nmblck)</key></p>
+        </item>
+        <item>
+          <p>Laptop: <keyseq><key>Orca Zusatztaste</key><key>Eingabetaste</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Die detaillierte »Wo bin ich«-Funktion ausführen:</p>
+      <list>
+        <item>
+          <p>Desktop: <key>Eingabetaste (Nmblck)</key> (Doppelklick)</p>
+        </item>
+        <item>
+          <p>Laptop: <keyseq><key>Orca Zusatztaste</key><key>Eingabetaste</key></keyseq> (Doppelklick)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+  <p>Zusätzlich zu den vorgesehenen »Wo bin ich«-Befehlen hat <app>Orca</app> zwei zusätzliche Befehle, die von der aktuellen Position abhängig sind:</p>
+  <list>
+    <item>
+      <p>Die Titelleiste anzeigen:</p>
+      <list>
+        <item>
+          <p>Desktop: <keyseq><key>Orca Zusatztaste</key><key>Eingabetaste (Nmblck)</key></keyseq></p>
+        </item>
+        <item>
+          <p>Laptop: <keyseq><key>Orca Zusatztaste</key><key>Schrägstrick</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Die Statusleiste anzeigen:</p>
+      <list>
+        <item>
+          <p>Desktop: <keyseq><key>Orca Zusatztaste</key><key>Eingabetaste (Nmblck)</key></keyseq> (Doppelklick)</p>
+        </item>
+        <item>
+          <p>Laptop: <keyseq><key>Orca Zusatztaste</key><key>Schrägstrich</key></keyseq> (Doppelklick)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

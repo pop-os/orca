@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_profiles" xml:lang="es">
+  <info>
+    <link type="next" xref="commands_speech_settings"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_profiles"/>
+    <title type="sort">5. Perfiles</title>
+    <title type="link">Perfiles</title>
+    <desc>Comandos para acceder a la configuración guardada</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Compartir Igual 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Daniel Mustieles</mal:name>
+      <mal:email>daniel.mustieles@gmail.com</mal:email>
+      <mal:years>2012 - 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jorge González</mal:name>
+      <mal:email>jorgegonz@svn.gnome.org</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos del perfil</title>
+    <p>Los perfiles le permiten guardar y cargar varias configuraciones, por lo que puede acceder rápidamente a la configuración que necesite.</p>
+    <p>El siguiente comando no está asociado a ninguna pulsación de teclas. Si quiere asociarlo, consulte cómo <link xref="howto_key_bindings">Modificar asociaciones de teclas</link>.</p>
+    <list>
+      <item>
+        <p>Cambiar al siguiente perfil: (sin asociar)</p>
+      </item>
+    </list>
+</page>

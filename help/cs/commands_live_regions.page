@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_live_regions" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_chat"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="howto_live_regions"/>
+    <title type="sort">1. Živá oblast</title>
+    <title type="link">Živé oblasti</title>
+    <desc>Příkazy pro přístup k živým částem stránek</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy pro živé oblasti</title>
+  <p>Následující příkazy můžete použít pro přístup k dynamicky aktualizovanému obsahu na webových stránkách, který dostaly podporu zpřístupnění přes ARIA.</p>
+  <list>
+    <item>
+      <p>Sledovat živé oblasti: <keyseq><key>Modifikátor Orca</key> <key>Shift</key> <key>\</key></keyseq></p>
+    </item>
+    <item>
+      <p>Pokročilé nastavení chování živé oblasti: <key>\</key></p>
+    </item>
+    <item>
+      <p>Nastavit výchozí úroveň chování na vypnuto: <keyseq><key>Shift</key> <key>\</key></keyseq></p>
+    </item>
+    <item>
+      <p>Přejít na následující/předchozí živou oblast: <keyseq><key>D</key></keyseq>/<keyseq><key>Shift</key><key>D</key></keyseq></p>
+    </item>
+    <item>
+      <p>Přejít na poslední živou oblast, která provedla oznámení: <key>Y</key></p>
+    </item>
+    <item>
+      <p>Znovu se podívat na živou oblast, která provedla oznámení: <keyseq><key>Modifikátor Orca</key> <key>F1</key></keyseq> až <key>F9</key></p>
+    </item>
+</list>
+</page>

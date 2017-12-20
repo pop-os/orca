@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_structural_navigation" xml:lang="hu">
+  <info>
+    <link type="next" xref="commands_table"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_forms"/>
+    <title type="sort">2. A strukturált Orka navigáció használata</title>
+    <title type="link">Strukturált navigáció</title>
+    <desc>Parancsok az elemek közötti navigáláshoz</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>A strukturált Orka navigáció billentyűparancsai</title>
+  <p>A következő parancsok segítségével a címsorok, hivatkozások és más elemek alapján navigálhat azokban az alkalmazásokban, amelyekhez az <app>Orka</app> biztosítja a strukturált Orka navigáció támogatását.</p>
+  <list>
+    <item>
+      <p>A strukturált Orka navigáció engedélyezése vagy letiltása: <keyseq><key>Orka módosító</key><key>Z</key></keyseq></p>
+    </item>
+  </list>
+  <section id="headings">
+    <title>Címsor-navigációs parancsok</title>
+      <list>
+        <item>
+          <p>Ugrás az előző vagy következő címsorra: <keyseq><key>H</key></keyseq> és <keyseq><key>Shift</key><key>H</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Címsorok listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>H</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő 1. szintű és az előző 1. szintű címsorra: <keyseq><key>1</key></keyseq> és <keyseq><key>Shift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Az 1. szintű címsorok listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő 2. szintű és az előző 2. szintű címsorra: <keyseq><key>2</key></keyseq> és <keyseq><key>Shift</key><key>2</key></keyseq></p>
+        </item> 
+        <item>
+          <p>A 2. szintű címsorok listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>2</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő 3. szintű és az előző 3. szintű címsorra: <keyseq><key>3</key></keyseq> és <keyseq><key>Shift</key><key>3</key></keyseq></p>
+        </item> 
+        <item>
+          <p>A 3. szintű címsorok listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>3</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő 4. szintű és az előző 4. szintű címsorra: <keyseq><key>4</key></keyseq> és <keyseq><key>Shift</key><key>4</key></keyseq></p>
+        </item> 
+        <item>
+          <p>A 4. szintű címsorok listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>4</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő 5. szintű és az előző 5. szintű címsorra: <keyseq><key>5</key></keyseq> és <keyseq><key>Shift</key><key>5</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Az 5. szintű címsorok listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>5</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő 6. szintű és az előző 6. szintű címsorra: <keyseq><key>6</key></keyseq> és <keyseq><key>Shift</key><key>6</key></keyseq></p>
+        </item> 
+        <item>
+          <p>A 6. szintű címsorok listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>6</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="forms">
+      <title>Űrlap-navigációs parancsok</title>
+      <list>
+        <item>
+          <p>Ugrás a következő vagy az előző űrlapmezőre: <keyseq><key>Orka módosító</key><key>Tab</key></keyseq> és <keyseq><key>Orka módosító</key><key>Shift</key><key>Tab</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Űrlapmezők listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő és az előző gombra: <keyseq><key>B</key></keyseq> és <keyseq><key>Shift</key><key>B</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Gombok listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>B</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő és az előző kombinált listamezőre: <keyseq><key>C</key></keyseq> és <keyseq><key>Shift</key><key>C</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Kombinált listamezők megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>C</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő és az előző szerkesztőmezőre, ha a kurzor nem szerkesztőmezőn áll: <keyseq><key>E</key></keyseq> és <keyseq><key>Shift</key><key>E</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Szerkesztőmezők listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>E</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő és az előző választógombra: <keyseq><key>R</key></keyseq> és <keyseq><key>Shift</key><key>R</key></keyseq></p>
+        </item>
+        <item>
+          <p>Választógombok listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>R</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Ugrás a következő és az előző jelölőnégyzetre: <keyseq><key>X</key></keyseq> és <keyseq><key>Shift</key><key>X</key></keyseq></p>
+        </item>
+        <item>
+          <p>Jelölőnégyzetek listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>X</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="links">
+    <title>Hivatkozások</title>
+      <list>
+        <item>
+          <p>Ugrás a következő és az előző hivatkozásra: <keyseq><key>K</key></keyseq> és <keyseq><key>Shift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Hivatkozások listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő és az előző nem meglátogatott hivatkozásra: <keyseq><key>U</key></keyseq> és <keyseq><key>Shift</key><key>U</key></keyseq></p>
+        </item> 
+        <item>
+          <p>A nem meglátogatott hivatkozások listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>U</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő és az előző meglátogatott hivatkozásra: <keyseq><key>V</key></keyseq> és <keyseq><key>Shift</key><key>V</key></keyseq></p>
+        </item> 
+        <item>
+          <p>A meglátogatott hivatkozások listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>V</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="lists">
+      <title>Listanavigációs billentyűparancsok</title>
+      <list>
+        <item>
+          <p>Ugrás a következő és az előző listára: <keyseq><key>L</key></keyseq> és <keyseq><key>Shift</key><key>L</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Listák listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>L</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő és az előző listaelemre: <keyseq><key>I</key></keyseq> és <keyseq><key>Shift</key><key>I</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Listaelemek listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>I</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="tables">
+      <title>Táblázatok</title>
+      <list>
+        <item>
+          <p>Ugrás a következő és az előző táblázatra: <keyseq><key>T</key></keyseq> és <keyseq><key>Shift</key><key>T</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Táblázatok listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>T</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás egy cellát balra: <keyseq><key>Alt</key><key>Shift</key><key>Balra nyíl</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Ugrás egy cellát jobbra: <keyseq><key>Alt</key><key>Shift</key><key>Jobbra nyíl</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Ugrás egy cellát felfelé: <keyseq><key>Alt</key><key>Shift</key><key>Felfelé nyíl</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Ugrás egy cellát lefelé: <keyseq><key>Alt</key><key>Shift</key><key>Lefelé nyíl</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Ugrás a táblázat első cellájára: <keyseq><key>Alt</key><key>Shift</key><key>Home</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Ugrás a táblázat utolsó cellájára: <keyseq><key>Alt</key><key>Shift</key><key>End</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="text_blocks">
+      <title>Szövegblokkal kapcsolatos navigációs parancsok</title>
+      <list>
+        <item>
+          <p>Ugrás a következő és az előző bekezdésre: <keyseq><key>P</key></keyseq> és <keyseq><key>Shift</key><key>P</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Bekezdések listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>P</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő és az előző idézett blokkra: <keyseq><key>Q</key></keyseq> és <keyseq><key>Shift</key><key>Q</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Idézetblokkok listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>Q</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő és az előző „nagy objektumra”: <keyseq><key>O</key></keyseq> és <keyseq><key>Shift</key><key>O</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Nagy objektumok listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>O</key></keyseq></p>
+        </item>
+       </list>
+    </section>
+    <section id="other">
+      <title>Egyéb navigációs parancsok</title>
+      <list>
+        <item>
+          <p>Ugrás a következő és az előző jelölőre: <keyseq><key>M</key></keyseq> és <keyseq><key>Shift</key><key>M</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Jelölők listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>M</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő és az előző elválasztóra: <keyseq><key>S</key></keyseq> és <keyseq><key>Shift</key><key>S</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Ugrás a következő vagy előző kattintható elemre: <keyseq><key>A</key></keyseq> és <keyseq><key>Shift</key><key>A</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Kattintható elemek listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>A</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás a következő vagy előző képre: <keyseq><key>G</key></keyseq> és <keyseq><key>Shift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Képek listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ugrás az aktuális elemblokk elejére vagy végére: <keyseq><key>Shift</key><key>vessző</key></keyseq> és <keyseq><key>vessző</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+</page>

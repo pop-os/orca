@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_the_orca_modifier" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_learn_modes"/>
+    <title type="sort">3. Modifikátor Orca</title>
+    <desc>Klávesa, která pracuje podobně jako <key>Shift</key>, <key>Ctrl</key> a <key>Alt</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Modifikátor Orca</title>
+  <p><app>Orca</app> má speciální modifikační klávesu, která funguje podobně, jako <key>Shift</key>, <key>Ctrl</key> a <key>Alt</key>. Je navržena speciálně pro provádění příkazů <app>Orca</app> a dělá to bez vytváření konfliktů s příkazy aplikací, které zrovna používáte.</p>
+  <p>Která klávesa je definována jako „Modifikátor Orca“ ve výchozím stavu, záleží na tom, jestli používáte ve čtečce <app>Orca</app> rozložení klávesnice přenosného počítače nebo stolního počítače:</p>
+  <list>
+    <item>
+      <p>Pokud používáte rozložení Přenosný počítač, výchozím modifikátorem Orca bude <key>CapsLock</key>.</p>
+    </item>
+    <item>
+      <p>Pokud používáte rozložení Stolní počítač, výchozími modifikátory Orca budou <key>Insert</key> a <key>Ins</key> na numerické klávesnici, což je stejná klávesa, jako <key>0</key> na numerické klávesnici.</p>
+    </item>
+  </list>
+  <p>Pokud chcete zachovat své současné rozložení klávesnice, ale vybrat si jinou modifikační klávesu, můžete tak učinit následovně:</p>
+  <steps>
+    <title>Změna modifikátoru Orca</title>
+    <item>
+      <p>Zobrazte si zmáčknutím <keyseq><key>Modifikátor Orca</key><key>mezerník</key></keyseq> dialogové okno <link xref="preferences">Předvolby Orca</link>.</p>
+    </item>
+    <item>
+      <p>Přejděte na stránku <gui>Klávesové zkratky</gui>.</p>
+    </item>
+    <item>
+      <p>Přesuňte se na rozbalovací seznam <gui>Modifikační klávesy čtečky obrazovky</gui>.</p>
+    </item>
+    <item>
+      <p>Vyberte požadovaný modifikátor. Na výběr jsou:</p>
+      <list>
+        <item><p>Insert, KP_Insert (Insert na numerické klávesnici)</p></item>
+        <item><p>KP_Insert (Insert na numerické klávesnici)</p></item>
+        <item><p>Insert</p></item>
+        <item><p>Caps_Lock</p></item>
+      </list>
+    </item>
+    <item><p>Zmáčkněte tlačítko <gui>Použít</gui>.</p></item>
+  </steps>
+</page>

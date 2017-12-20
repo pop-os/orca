@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_keyboard_layout" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_toggling_caps_lock"/>
+    <title type="sort">6. Rozložení klávesnice</title>
+    <desc>Jak vybrat rozložení klávesnice Stolní počítač nebo Přenosný počítač</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Rozložení klávesnice</title>
+  <p>Orca má dvě rozložení klávesnice: Stolní počítač (tj. s numerickou klávesnicí) a Přenosný počítač. To, které rozložení zvolíte, má vliv na klávesy, které používá Orca jako modifikátory.</p>
+  <list>
+    <item>
+      <p>Pokud používáte rozložení Přenosný počítač, výchozím modifikátorem Orca bude <key>CapsLock</key>.</p>
+    </item>
+    <item>
+      <p>Pokud používáte rozložení Stolní počítač, výchozími modifikátory Orca budou <key>Insert</key> a <key>Ins</key> na numerické klávesnici, což je stejná klávesa, jako <key>0</key> na numerické klávesnici.</p>
+    </item>
+  </list>
+  <p>Rozvržení rovněž určuje klávesové kombinace přidružené k některým příkazům <app>Orca</app>, hlavně týkajících se plošného náhledu, funkce „Kde se nacházím“ a plynulého čtení.</p>
+  <steps>
+    <title>Změna vašeho rozložení klávesnice</title>
+    <item>
+      <p>Zobrazte si zmáčknutím <keyseq><key>Modifikátor Orca</key><key>mezerník</key></keyseq> dialogové okno <link xref="preferences">Předvolby Orca</link>.</p>
+    </item>
+    <item>
+      <p>Přesuňte se na skupinové přepínače <gui>Rozložení klávesnice</gui>.</p>
+    </item>
+    <item>
+      <p>Zvolte požadované rozložení.</p>
+    </item>
+    <item>
+      <p>Zmáčkněte tlačítko <gui>Použít</gui>.</p>
+    </item>
+  </steps>
+</page>

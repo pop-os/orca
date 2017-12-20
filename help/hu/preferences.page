@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="guide" id="preferences" xml:lang="hu">
+  <info>
+    <link type="next" xref="preferences_introduction"/>
+    <link type="guide" xref="index#quick_reference"/>
+    <title type="link">Az Orka beállításai</title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Az <app>Orka</app> beállító párbeszédablakai</title>
+  <section id="orca" style="2column">
+    <title>Az Orka beállításai</title>
+  </section>
+  <section id="application" style="2column">
+    <title>Alkalmazásfüggő beállítások</title>
+  </section>
+</page>

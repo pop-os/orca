@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="hu">
+  <info>
+    <title type="link">Billentyűvisszhang</title>
+    <title type="sort">4. Billentyűvisszhang</title>
+    <desc>Gépeléskor kimondott elemek beállítása</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_bindings"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Billentyűvisszhang beállításai</title>
+  <section id="keyecho">
+    <title>Billentyűvisszhang engedélyezése</title>
+    <p>Az <app>Orka</app> billentyűvisszhang-beállításaival személyre szabhatja, hogy mi történjen egy billentyű lenyomásakor. Ha szeretné engedélyezni a billentyűvisszhangot, jelölje be a <gui>Billentyűvisszhang engedélyezése</gui> jelölőnégyzetet. Ha ezt megteszi, számos jelölőnégyzet válik elérhetővé, ezek segítségével teljesen személyre szabhatja, hogy mely billentyűk legyenek vagy ne legyenek kimondva.</p>
+    <p>Alapbeállítás: bejelölve</p>  
+    <section>
+      <title>Alfabetikus billentyűk engedélyezése</title>
+      <p>Ez a beállítás meghatározza, hogy például az <key>a</key>, <key>b</key>, <key>c</key> billentyűk lenyomásakor az <app>Orka</app> kimondja-e a begépelt karaktereket.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section>
+      <title>Számbillentyűk engedélyezése</title>
+      <p>Ez a beállítás meghatározza, hogy például az <key>1</key>, <key>2</key>, <key>3</key> billentyűk lenyomásakor az <app>Orka</app> kimondja-e a begépelt számokat.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section>
+      <title>Írásjelekkel kapcsolatos billentyűk engedélyezése</title>
+      <p>Ez a beállítás meghatározza, hogy például a <key>%</key>, <key>;</key>, <key>?</key> billentyűk lenyomásakor az <app>Orka</app> kimondja-e a begépelt írásjeleket.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section>
+      <title>A szóköz billentyű kimondásának engedélyezése</title>
+      <p>Ez az opció meghatározza, hogy a <key>Szóköz</key> billentyű lenyomásakor kimondásra kerüljön-e a szóköz szöveg.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section>
+      <title>Módosítóbillentyűk engedélyezése</title>
+      <p>Ez az opció megadja, hogy például a <key>Shift</key>, <key>Ctrl</key>, <key>Alt</key> és <key>Meta</key> billentyűk kimondásra kerüljenek-e, ha lenyomja ezeket a billentyűket.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section>
+      <title>Funkcióbillentyűk engedélyezése</title>
+      <p>Ez az opció meghatározza, hogy az <key>F1</key> ... <key>F12</key> billentyűk lenyomásakor ezek a billentyűk kimondásra kerüljenek-e.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section>
+      <title>Műveletbillentyűk engedélyezése</title>
+      <p>Ez a beállítás meghatározza, hogy a <key>BackSpace</key>, <key>Del </key>, <key>Enter</key>, <key>Escape</key>, <key>Tab</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</key>, és <key>End</key> billentyűk lenyomásakor kimondásra kerüljenek-e a billentyűmegnevezések.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section>
+      <title>Navigációs billentyűk engedélyezése</title>
+      <p>Ez a beállítás szabályozza, hogy a <key>Balra</key>, <key>Jobbra</key>, <key>Fel</key>, és <key>Le</key> nyilak lenyomásakor kimondásra kerüljenek-e a billentyűmegnevezések. Ez a beállítás minden olyan billentyűkombinációra alkalmazva lesz, amelyhez az <key>Orka módosító</key> billentyűt nyomva kell tartani, például ha az egyszerű áttekintést használja.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+    </section>
+    <section>
+      <title>Nem helykitöltő mellékjelek kimondásának engedélyezése</title>
+      <p>Ez a beállítás meghatározza, hogy a „Halott billentyűk” lenyomásakor kimondásra kerüljenek-e a megfelelő ékezetek.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+    </section>
+  </section>
+  <section id="characterecho">
+    <title>Karakterenkénti visszhang engedélyezése</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, a begépelt karakterek kimondásra kerülnek.</p>
+    <p>Ez a jelölőnégyzet nagyban hasonlít az „Alfabetikus billentyűk engedélyezése, Számbillentyűk engedélyezése, Írásjelek engedélyezése jelölőnégyzetek működéséhez. A fő különbség az, hogy a „Karakterenkénti visszhang engedélyezése” jelölőnégyzet mindig elérhető, függetlenül a többi billentyűvisszhang-beállítástól, valamint ezzel a jelölőnégyzettel az <app>Orka</app> olyan szimbólumokat is ki tud mondani, amelyeknek nincsenek dedikált billentyűi a billentyűzeten:</p>
+    <list>
+      <item>
+        <p>A billentyűvisszhang lehetőség segítségével az <app>Orka</app> képes kimondani, milyen billentyűt <em>nyomott le</em>.</p>
+      </item>
+      <item>
+        <p>A karakterenkénti visszhang lehetőséget teremt az <app>Orka</app> számára, hogy kimondja, milyen karaktert <em>szúrt be</em>.</p>
+      </item>
+    </list>
+    <p>Ha ékezetes karaktereket is be szokott írni, engedélyezze a karakterenkénti visszhangot.</p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+    <note style="tip">
+      <title>Billentyű- és karakterenkénti visszhang engedélyezése</title>
+      <p>Ha szereti a karakterenkénti visszhangot, és gyakran gépel be ékezetes karaktereket vagy szimbólumokat, akkor engedélyezze mindkét billentyűvisszhangot. Az <app>Orka</app> karakterenkénti visszhangja megpróbálja kiszűrni azokat a karaktereket, melyek a billentyűvisszhang miatt már ki lettek mondva, így minimalizálja a „dupla beszéd” valószínűségét.</p>
+    </note>
+  </section>
+  <section id="wordandsentenceecho">
+    <title>Szavankénti és mondatonkénti visszhang engedélyezése</title>
+    <p>Ha bejelöli a <gui>Szavankénti visszhang engedélyezése</gui> jelölőnégyzetet, az <app>Orka</app> ki fogja mondani a begépelt szót a gépelés befejezése után (például ha lenyomja a szóköz billentyűt). Hasonlóan, ha bejelöli a <gui>Mondatonkénti visszhang engedélyezése</gui> jelölőnégyzetet, az <app>Orka</app> ki fogja mondani a begépelt mondatot.</p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+  </section>
+</page>

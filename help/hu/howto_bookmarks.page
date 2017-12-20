@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_bookmarks" xml:lang="hu">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <title type="sort">6. Könyvjelzők</title>
+    <desc>Objektumok tárolása és lekérése</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Könyvjelzők</title>
+  <p>Az <app>Orka</app> könyvjelzők funkciója lehetővé teszi az érdekes objektumok megjelölését. A következő funkciókat használhatja:</p>
+  <list>
+    <item>
+      <p>A könyvjelzők nincsenek egy objektumra korlátozva: Hat könyvjelzőt állíthat be környezetenként. Elmentheti a könyvjelzőket, így ezek megmaradnak minden Orka munkamenetben.</p>
+    </item>
+    <item>
+      <p>A beállított könyvjelzőkre később közvetlenül ráugorhat, függetlenül attól, hogy elmentette-e az aktuális környezethez tartozó könyvjelzőket. A navigáció azon könyvjelző száma alapján történik, amelyre éppen ugrani szeretne. Alternatív lehetőségként az előző vagy következő könyvjelzőre léphet az <link xref="howto_structural_navigation">Orka strukturált navigáció</link> használatával.</p>
+    </item>
+    <item>
+      <p>A könyvjelzővel ellátható objektumok egy alkalmazás felületi elemei lehetnek, vagy az éppen olvasott weboldal objektumai. A pillanatnyilag használt környezet határozza meg, mi történik a könyvjelzők közötti lépkedéskor: ha egy weboldalon tartózkodik, a mutató a könyvjelzőre fog ugrani, így az olvasást a könyvjelzőtől folytathatja. Ha egy alkalmazásban tartózkodik, az <link xref="howto_flat_review">egyszerű áttekintés</link> kerül aktiválásra, az áttekintő kurzor pedig a könyvjelzővel ellátott objektumra fog kerülni.</p>
+    </item>
+  </list>
+  <p>Az ezekkel a funkciókkal kapcsolatos billentyűparancsok teljes listáját a <link xref="commands_bookmarks">Könyvjelzőkkel kapcsolatos parancsok</link> fejezet tartalmazza.</p>
+</page>

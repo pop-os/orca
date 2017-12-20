@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its" type="guide" id="index" xml:lang="sl">
+  <info>
+    <title type="text">Bralnik zaslona Orca</title>
+    <title type="link">Uvod v Bralnik zaslona <app>Orka</app></title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+
+    <desc>Orca is a free, open source, flexible, and extensible screen reader
+    that provides access to the graphical desktop via speech and refreshable
+    braille.</desc>
+  </info>
+
+  <title>
+    <media type="image" mime="image/png" src="figures/orca-logo.png" its:translate="no">
+      <span its:translate="yes"><app>Orca</app>'s logo</span>
+    </media>
+    <app>Orca</app> Screen Reader
+  </title>
+  <note style="important">
+    <title>Preden začnete</title>
+    <p>Če ne poznate ukazov za krmarjenje po svojem namizju, je najbolje, da najprej preberete dokumentacijo o namizju.</p>
+  </note>
+  <section id="getting_started" style="2column">
+    <title>Kako začeti</title>
+  </section>
+  <section id="reading" style="2column">
+    <title>Branje dokumentov in spletnih strani</title>
+  </section>
+  <section id="reviewing" style="2column">
+    <title>Pregledovanje in sporazumevanje z vsebino zaslona</title>
+  </section>
+  <section id="quick_reference" style="2column">
+    <title>Hitri priročnik</title>
+  </section>
+</page>

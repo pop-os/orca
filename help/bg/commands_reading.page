@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_reading" xml:lang="bg">
+  <info>
+    <link type="next" xref="commands_structural_navigation"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_documents"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">1. Четене</title>
+    <title type="link">Четене</title>
+    <desc>Команди за достъп до съдържанието на документи</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди за четене</title>
+  <p>В допълнение към командите за придвижване с курсора, които са част от GNOME, <app>Orca</app> предоставя някои команди, които можете да използвате, за да прочетете документ.</p>
+  <note style="tip">
+    <p>В следващия списък ще видите няколко препратки към „цифровия блок“. Всички клавиши от цифровия блок обикновено са отделени в дясната част на клавиатурата. Ще забележите също, че има различни клавишни комбинации, в зависимост от това дали използвате настолен компютър или лаптоп — или по-точно, дали използвате подредбата на <app>Orca</app> за настолни компютри или подредбата за лаптопи. За повече информация, вижте секцията <link xref="howto_keyboard_layout">Клавиатурни подредби</link>.</p>
+  </note>
+  <section id="flat_review">
+    <title>Прочитане на текущото местоположение</title>
+    <p>Следните <link xref="commands_flat_review">Команди за равнинния преглед</link> на <app>Orca</app> могат да бъдат използвани за прочитане на текущото ви местоположение:</p>
+    <list>
+      <item>
+        <p>Прочитане на текущия ред:</p>
+        <list>
+          <item>
+            <p>Настолни компютри: <keyseq><key>8 от цифровия блок</key></keyseq></p>
+          </item>
+          <item>
+            <p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>I</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Прочитане на текущата дума:</p>
+        <list>
+          <item>
+            <p>Настолни компютри: <keyseq><key>5 от цифровия блок</key></keyseq></p>
+          </item>
+          <item>
+            <p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>K</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Прочитане на текущата дума по букви:</p>
+        <list>
+          <item>
+            <p>Настолни компютри: <keyseq><key>5 от цифровия блок</key></keyseq> (двукратно)</p>
+          </item>
+          <item>
+            <p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>K</key></keyseq> (двукратно)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Прочитане на текущата дума по букви, фонетично:</p>
+        <list>
+          <item>
+            <p>Настолни компютри: <keyseq><key>5 от цифровия блок</key></keyseq> (трикратно)</p>
+          </item>
+          <item>
+            <p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>K</key></keyseq> (трикратно)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Прочитане на текущия знак:</p>
+        <list>
+          <item>
+            <p>Настолни компютри: <keyseq><key>2 от цифровия блок</key></keyseq></p>
+          </item>
+          <item>
+            <p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>запетая</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Прочитане на текущия знак, фонетично:</p>
+        <list>
+          <item>
+            <p>Настолни компютри: <keyseq><key>2 от цифровия блок</key></keyseq> (двукратно)</p>
+          </item>
+          <item>
+            <p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>запетая</key></keyseq> (двукратно)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Прочитане на стойността по Уникод на текущия знак:</p>
+        <list>
+          <item>
+            <p>Настолни компютри: <keyseq><key>2 от цифровия блок</key></keyseq> (трикратно)</p>
+          </item>
+          <item>
+            <p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>запетая</key></keyseq> (трикратно)</p>
+          </item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="say_all">
+    <title>Прочитане на всичко</title>
+    <p>Командата на Orca за прочитане на всичко ще накара <app>Orca</app> да прочете целия документ, започвайки от текущото ви местоположение.</p>
+    <list>
+      <item>
+        <p>Настолни компютри: <key>плюс от цифровия блок</key></p>
+      </item>
+      <item>
+        <p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>точка и запетая</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="attributes_and_selection">
+    <title>Атрибути на текста и маркиран текст</title>
+    <p><app>Orca</app> има команда, предназначена за получаване на информация за атрибутите на текста на текущото местоположение на курсора. В допълнение, ако използвате командата на <app>Orca</app> „Къде съм?“ докато сте върху текстов обект, чиито текст е бил маркиран, <app>Orca</app> ще ви съобщи маркирания текст. Ако предпочитате отделна команда за това, трябва да присвоите клавишна комбинация на „Прочитане на избрания текст“. Вижте секцията <link xref="howto_key_bindings">Промяна на функциите на клавишите</link> за повече информация как да присвоите тези команди към клавишни комбинации.</p>
+    <list>
+      <item>
+        <p>Прочитане на атрибутите на текста: <keyseq><key>Модификатор на Orca</key><key>F</key></keyseq></p>
+      </item>
+      <item>
+        <p>Изпълнение на основната операция „Къде съм?“:</p>
+        <list>
+          <item>
+            <p>Настолни компютри: <key>Enter от цифровия блок</key></p>
+          </item>
+          <item>
+            <p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>Return</key></keyseq></p>
+          </item>
+        </list>
+    </item>
+    <item>
+      <p>Изпълнение на разширената операция „Къде съм?“:</p>
+      <list>
+        <item>
+          <p>Настолни компютри: <key>Enter от цифровия блок</key> (двукратно)</p>
+        </item>
+        <item>
+          <p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>Return</key></keyseq> (двукратно)</p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Прочитане на избрания текст: (неприсвоена)</p>
+    </item>
+  </list>
+  </section>
+  <section id="link_details">
+    <title>Информация за връзката</title>
+    <p>Ако сте върху връзка, основната операция „Къде съм?“ на <app>Orca</app> прочита вида ѝ, дали е посетена, описание на сайта и размер на сайта. Ако искате специална команда за това, трябва да присвоите клавишна комбинация на командата „Информация за връзката“. Вижте секцията <link xref="howto_key_bindings">Промяна на функциите на клавишите</link> за повече информация как да присвоите неприсвоени команди.</p>
+    <list>
+      <item>
+        <p>Прочитане на информация за връзката: (неприсвоена)</p>
+      </item>
+    </list>
+  </section>
+  <section id="browse_and_focus_modes">
+    <title>Режими на четене и взаимодействие</title>
+    <p>Режимите за четене и взаимодействие на <app>Orca</app> ви позволяват да превключвате между прочитане на уеб страницата и взаимодействие с нея.</p>
+    <list>
+      <item>
+        <p>Превключване между режимите на четене и взаимодействие: <keyseq><key>Модификатор на Orca</key><key>A</key></keyseq></p>
+      </item>
+      <item>
+        <p>Използване на „лепкав“ режим на фокуса: <keyseq><key>Модификатор на Orca</key><key>A</key></keyseq> (двукратно)</p>
+      </item>
+      <item>
+        <p>
+          Enable "sticky" browse mode:
+          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (triple-clicked)
+        </p>
+      </item>
+    </list>
+  </section>
+</page>

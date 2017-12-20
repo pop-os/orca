@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_setting_up_orca" xml:lang="hu">
+<info>
+  <link type="seealso" xref="preferences"/>
+  <link type="guide" xref="index#getting_started"/>
+  <link type="next" xref="howto_the_orca_modifier"/>
+  <title type="sort">4. Az Orka beállítása</title>
+  <title type="link">Beállítások</title>
+    <desc>Az <app>Orka</app> kiinduló és későbbi beállítása</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Az Orka beállítása</title>
+    <section id="configuring_orca">
+      <p>Ha megszeretné változtatni az <app>Orka</app> beállításait, bármely akadálymentesen használható alkalmazás használatakor beléphet a <link xref="preferences">Beállítások</link> párbeszédablakba az <keyseq><key>Orka módosító</key><key>Szóköz</key></keyseq> billentyűkombináció lenyomásával. Ezenkívül, ha a Terminálban vagy a <gui>Futtatás</gui> párbeszédablakban begépeli az <cmd>orca -s</cmd> vagy az <cmd>orca --setup</cmd> parancsot és lenyomja az <key>Enter</key> billentyűt, a beállítások párbeszédablak meg fog jelenni.</p>
+    </section>
+</page>

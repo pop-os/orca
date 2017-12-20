@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_flat_review" xml:lang="sl">
+  <info>
+    <link type="next" xref="commands_find"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_flat_review"/>
+    <title type="sort">1. Ploski pregled</title>
+    <title type="link">Ploski pregled</title>
+    <desc>Ukazi za prostorsko pregledovanje oken</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Ukazi ploskega pregleda</title>
+  <p>
+    Orca's <link xref="howto_flat_review">Flat Review</link> commands are
+    designed for spatially reviewing elements displayed on the screen. They
+    also provide a means for reading the current line, word, and character
+    when navigating in the text of a document. Most of these commands are
+    "bound" to keystrokes. Please see <link xref="howto_key_bindings">Modifying
+    Keybindings</link> for information on how to bind unbound commands.
+  </p>
+  <section id="line">
+    <title>Ukazi za pregledovanja po vrstici</title>
+    <list>
+      <item>
+        <p>Prva vrstica (Položaj "domov"):</p>
+        <list>
+          <item><p>Namizni računalnik: <keyseq><key>Spremenilna tipka Orka</key><key>KP 7</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Ctrl</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Predhodna vrstica:</p>
+        <list>
+          <item><p>Namizje: <keyseq><key>KP 7</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Trenutna vrstica:</p>
+        <list>
+          <item><p>Namizje: <keyseq><key>KP 8</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>I</key></keyseq></p></item>
+        </list>
+      </item>
+        <item><p>Črkujte trenutno vrstico:</p>
+        <list>
+          <item><p>Namizni računalnik: <keyseq><key>KP 8</key></keyseq> (dvakrat kliknjeno)</p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>I</key></keyseq> (dvakrat kliknjeno)</p></item>
+        </list>
+      </item>
+      <item><p>Fonetično črkuje trenutno vrstico:</p>
+        <list>
+          <item><p>Namizni računalnik: <keyseq><key>KP 8</key></keyseq> (trikrat kliknjeno)</p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>I</key></keyseq> (trikrat klikljeno)</p></item>
+        </list>
+      </item>
+      <item><p>Naslednja vrstica:</p>
+        <list>
+          <item><p>Namizje: <keyseq><key>KP 9</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Zadnja vrstica (Položaj "konec"):</p>
+        <list>
+          <item><p>Namizni računalnik: <keyseq><key>Spremenilna tipka Orka</key><key>KP 9</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Ctrl</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="word">
+    <title>Ukazi za pregledovanje po besedi</title>
+    <list>
+      <item><p>Beseda zgoraj:</p>
+        <list>
+          <item><p>Namizni računalnik: <keyseq><key>Spremenilna tipka Orka</key><key>KP 4</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Ctrl</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Predhodna beseda:</p>
+        <list>
+          <item><p>Namizje: <keyseq><key>KP 4</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Trenutna beseda:</p>
+        <list>
+          <item><p>Namizje: <keyseq><key>KP 5</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Črkujte trenutno besedo:</p>
+        <list>
+          <item><p>Namizni računalnik: <keyseq><key>KP 5</key></keyseq> (dvakrat kliknjeno)</p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>K</key></keyseq> (dvakrat kliknjeno)</p></item>
+        </list>
+      </item>
+      <item><p>Fonetično črkujte trenutno besedo:</p>
+        <list>
+          <item><p>Namizni računalnik: <keyseq><key>KP 5</key></keyseq> (trikrat kliknjeno)</p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>K</key></keyseq> (trikrat kliknjeno)</p></item>
+        </list>
+      </item>
+      <item><p>Naslednja beseda:</p>
+        <list>
+          <item><p>Namizje: <keyseq><key>KP 6</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Beseda spodaj:</p>
+        <list>
+          <item><p>Namizni računalnik: <keyseq><key>Spremenilna tipka Orka</key><key>KP 6</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Ctrl</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="character">
+    <title>Ukazi za pregledovanje po znakih</title>
+    <list>
+      <item><p>Predhodni znak:</p>
+        <list>
+          <item><p>Namizje: <keyseq><key>KP 1</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Trenutni znak:</p>
+        <list>
+          <item><p>Namizje: <keyseq><key>KP 2</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Vejica</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Fonetično izgovorite trenutni znak:</p>
+        <list>
+          <item><p>Namizje: <keyseq><key>KP 2</key></keyseq> (dvakrat kliknjeno)</p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Vejica</key></keyseq> (dvakrat kliknjeno)</p></item>
+        </list>
+      </item>
+      <item><p>Izgovori vrednost unicode trenutnega znaka:</p>
+        <list>
+          <item><p>Namizni računalnik: <keyseq><key>KP 2</key></keyseq> (trikrat kliknjeno)</p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Vejica</key></keyseq> (trikrat kliknjeno)</p></item>
+        </list>
+      </item>
+      <item><p>Naslednji znak:</p>
+        <list>
+          <item><p>Namizje: <keyseq><key>KP 3</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Pika</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Zadnji znak v trenutni vrstici:</p>
+        <list>
+          <item><p>Namizni računalnik: <keyseq><key>Spremenilna tipka Orka</key><key>KP 1</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Ctrl</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="other">
+    <title>Dodatni ukazi</title>
+    <list>
+      <item><p>Preklopi ploski pregled (osveži vsebino ploskega pregleda):</p>
+        <list>
+          <item><p>Namizje: <keyseq><key>Spremenilna tipka Orka</key><key>KP Odštej</key></keyseq></p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>P</key></keyseq> </p></item>
+        </list>
+      </item>
+      <item><p>Pregled trenutnega predmeta/gradnika:</p>
+        <list>
+          <item><p>Namizni računalnik: <keyseq><key>Spremenilna tipka Orka</key><key>KP 5</key></keyseq> </p></item>
+          <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Ctrl</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Use Say All to review the current dialog or window:</p>
+        <list>
+          <item><p>Desktop: <key>KP Plus</key> (double-clicked)</p></item>
+          <item><p>Laptop: <keyseq><key>Orca Modifier</key><key>Semicolon</key></keyseq> (double-clicked)</p></item>
+        </list>
+      </item>
+      <item>
+      <p>
+        Copy the contents under flat review to the clipboard: (Unbound)
+      </p>
+      </item>
+        <item>
+        <p>
+          Append the contents under flat review to the clipboard: (Unbound)
+      </p>
+      </item>
+    </list>
+  </section>
+</page>

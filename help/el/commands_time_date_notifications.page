@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_time_date_notifications" xml:lang="el">
+  <info>
+    <link type="next" xref="commands_profiles"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_notifications"/>
+    <title type="sort">4. Χρόνος, ημερομηνία και ειδοποίηση</title>
+    <title type="link">Χρόνος, ημερομηνία και ειδοποίηση</title>
+    <desc>Εντολές για λήψη του χρόνου, ημερομηνίας και μηνυμάτων ειδοποίησης</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εντολές χρόνου, ημερομηνίας και ειδοποίησης</title>
+  <p>Οι επόμενες εντολές μπορούν να χρησιμοποιηθούν για λήψη του τρέχοντος χρόνου και ημερομηνίας και επισκόπηση των προηγουμένως εμφανιζόμενων μηνυμάτων ειδοποίησης:</p>
+  <section id="time_and_date">
+    <title>Λήψη του χρόνου και ημερομηνίας</title>
+    <list>
+      <item>
+        <p>Παρουσίαση του χρόνου: <keyseq><key>τροποποιητής Orca</key><key>T</key></keyseq></p>
+      </item>
+      <item>
+        <p>Παρουσίαση της ημερομηνίας: <keyseq><key>τροποποιητής Orca</key><key>T</key></keyseq> (διπλό κλικ)</p>
+      </item>
+    </list>
+  </section>
+  <section id="notifications">
+    <title>Επισκόπηση μηνυμάτων ειδοποίησης</title>
+    <p>Το Orca έχει τρεις ασύνδετες εντολές για πρόσβαση προηγούμενα εμφανιζόμενων <link xref="howto_notifications">μηνυμάτων ειδοποίησης</link>. Παρακαλώ δείτε <link xref="howto_key_bindings">τροποποίηση συνδυασμών πλήκτρων</link> για πληροφορίες στο πώς να συσχετίσετε αυτές τις εντολές με πληκτρολογήσεις.</p>
+    <list>
+      <item>
+        <p>Παρουσίαση του τελευταίου (πιο πρόσφατου) μηνύματος ειδοποίησης: (αδέσμευτο)</p>
+      </item>
+      <item>
+        <p>Παρουσίαση του προηγούμενου μηνύματος ειδοποίησης: (αδέσμευτο)</p>
+      </item>
+      <item>
+        <p>Παρουσίαση του καταλόγου όλων των μηνυμάτων ειδοποίησης: (αδέσμευτο)</p>
+      </item>
+    </list>
+  </section>
+</page>

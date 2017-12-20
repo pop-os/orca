@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_documents" xml:lang="es">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_text_attributes"/>
+    <title type="sort">1. Documentos</title>
+    <desc>Leer contenido</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Compartir Igual 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Daniel Mustieles</mal:name>
+      <mal:email>daniel.mustieles@gmail.com</mal:email>
+      <mal:years>2012 - 2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jorge González</mal:name>
+      <mal:email>jorgegonz@svn.gnome.org</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  </info>
+  <title>Documentos</title>
+  <p>Para leer el contenido de cualquier documento, use el modo de navegación del cursor incorporado en la aplicación. A medida que navega dentro del texto del documento, <app>Orca</app> mostrará su nueva ubicación. Como consecuencia, probablemente ya sabe cómo leer un documento usando <app>Orca</app>. Por ejemplo:</p>
+  <list>
+    <item>
+      <p>Use <key>Izquierda</key> y <key>Derecha</key> para moverse y leer por carácter.</p>
+    </item>
+    <item>
+      <p>Use <keyseq><key>Ctrl</key><key>Izquierda</key></keyseq> y <keyseq><key>Ctrl</key><key>Derecha</key></keyseq> para moverse y leer por palabra.</p>
+    </item>
+    <item>
+      <p>Use <key>Arriba</key> y <key>Abajo</key> para moverse y leer por línea.</p>
+    </item>
+    <item>
+      <p>Use <key>Mayús</key> junto a los comandos anteriores para seleccionar y deseleccionar texto.</p>
+    </item>
+  </list>
+  <note style="tip">
+    <title>Activar la navegación del cursor en una aplicación</title>
+    <p>No todas las aplicaciones tienen activada la navegación del cursor activada de manera predeterminada. Para muchas aplicaciones de GNOME, la navegación del cursor se puede activar y desactivar pulsando la tecla <key>F7</key>.</p>
+  </note>
+  <p>Además de leer un documento mediante la navegación del cursor, podría serle útil leer, deletrear y obtener el valor Unicode del texto actual. Puede hacer esto a través de la <link xref="howto_flat_review">característica de revisión</link>.</p>
+  <p>Finalmente, para que <app>Orca</app> lea todo el documento desde su ubicación actual, use el comando «Hablar todo». Puede encontrar este comando, junto con un listado más completo de comandos de <app>Orca</app> para acceder al texto de los documentos, en la guía <link xref="commands_reading">comandos de lectura</link>.</p>
+</page>
