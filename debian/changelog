@@ -1,4 +1,4 @@
-gnome-orca (3.26.0-3) UNRELEASED; urgency=medium
+gnome-orca (3.26.0-3) unstable; urgency=medium
 
   * Update Vcs fields for conversion to git
   * Add debian/gbp.conf
@@ -6,7 +6,7 @@ gnome-orca (3.26.0-3) UNRELEASED; urgency=medium
   * Bump debhelper compat to 11
   * Build with all hardening flags
 
- -- Jeremy Bicha <jbicha@debian.org>  Wed, 20 Dec 2017 13:17:12 -0500
+ -- Jeremy Bicha <jbicha@debian.org>  Wed, 20 Dec 2017 13:44:04 -0500
 
 gnome-orca (3.26.0-2) unstable; urgency=medium
 
