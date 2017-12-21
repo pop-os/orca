@@ -2,7 +2,7 @@
 # 
 # Modifications should be made to debian/control.in instead.
 # This file is regenerated automatically in the clean target.
-Source: gnome-orca
+Source: orca
 Section: gnome
 Priority: optional
 Maintainer: Debian Accessibility Team <pkg-a11y-devel@lists.alioth.debian.org>
@@ -28,7 +28,7 @@ Vcs-Git: https://anonscm.debian.org/git/pkg-gnome/orca.git
 Vcs-Browser: https://anonscm.debian.org/git/pkg-gnome/orca.git
 Homepage: https://wiki.gnome.org/Projects/Orca
 
-Package: gnome-orca
+Package: orca
 Architecture: all
 Depends: ${misc:Depends},
          ${python3:Depends},
@@ -57,3 +57,16 @@ Description: Scriptable screen reader
  and key bindings, and the application specific ones. Orca provides the
  infrastructure to activate and deactivate scripts, as well as a host of
  services accessible from within the scripts.
+
+Package: gnome-orca
+Architecture: all
+Section: oldlibs
+Depends: ${misc:Depends},
+         orca
+Description: Scriptable screen reader - transitional package
+ A flexible, extensible, and powerful assistive technology that
+ provides end-user access to applications and toolkits that support the
+ AT-SPI (e.g., the GNOME desktop).
+ .
+ This package is here to ensure smooth upgrades. It can be removed when
+ you see fit.
