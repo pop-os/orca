@@ -1,9 +1,9 @@
-orca (3.26.0-4) UNRELEASED; urgency=medium
+orca (3.26.0-4) unstable; urgency=medium
 
   * Rename source and binary to orca to match upstream naming
   * Remove old NEWS.Debian from 2014
 
- -- Jeremy Bicha <jbicha@debian.org>  Thu, 21 Dec 2017 15:51:03 -0500
+ -- Jeremy Bicha <jbicha@debian.org>  Thu, 21 Dec 2017 16:14:12 -0500
 
 gnome-orca (3.26.0-3) unstable; urgency=medium
 
