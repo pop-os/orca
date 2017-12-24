@@ -41,6 +41,8 @@ Depends: ${misc:Depends},
          speech-dispatcher (>= 0.8),
          gsettings-desktop-schemas,
 Recommends: xbrlapi
+Breaks: gnome-orca (<< 3.26.0-4~)
+Replaces: gnome-orca (<< 3.26.0-4~)
 Description: Scriptable screen reader
  A flexible, extensible, and powerful assistive technology that
  provides end-user access to applications and toolkits that support the
