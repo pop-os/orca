@@ -1,8 +1,8 @@
-orca (3.26.0-5) UNRELEASED; urgency=medium
+orca (3.26.0-5) unstable; urgency=medium
 
   * Add missing Breaks/Replaces for renamed package (Closes: #885130)
 
- -- Jeremy Bicha <jbicha@debian.org>  Sun, 24 Dec 2017 08:24:52 -0500
+ -- Jeremy Bicha <jbicha@debian.org>  Sun, 24 Dec 2017 08:25:54 -0500
 
 orca (3.26.0-4) unstable; urgency=medium
 
