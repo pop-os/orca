@@ -1,3 +1,9 @@
+orca (3.26.0-6) UNRELEASED; urgency=medium
+
+  * Update Vcs fields for migration to https://salsa.debian.org/
+
+ -- Jeremy Bicha <jbicha@debian.org>  Sun, 21 Jan 2018 10:01:57 -0500
+
 orca (3.26.0-5) unstable; urgency=medium
 
   * Add missing Breaks/Replaces for renamed package (Closes: #885130)
