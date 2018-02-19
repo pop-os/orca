@@ -158,7 +158,7 @@
   </section>
   <section id="progress_bar_updates">
     <title>Atualizações de barras de progresso</title>
-    <section>
+    <section id="progress_bar_updates_speak">
       <title>Speak updates</title>
       <p>
         If the <gui>Speak updates</gui> checkbox is checked <app>Orca</app> will
@@ -166,7 +166,7 @@
       </p>
       <p>Valor padrão: selecionada</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_braille">
       <title>Braille updates</title>
       <p>
         If the <gui>Braille updates</gui> checkbox is checked <app>Orca</app> will
@@ -175,7 +175,7 @@
       </p>
       <p>Valor padrão: desmarcado</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_beep">
       <title>Beep updates</title>
       <p>
         If the <gui>Beep updates</gui> checkbox is checked <app>Orca</app> will
@@ -184,14 +184,14 @@
       </p>
       <p>Valor padrão: desmarcado</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_frequency">
       <title>Frequência (segundos)</title>
       <p>
         This spin button determines how often updates are presented.
       </p>
       <p>Valor padrão: 10</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_restrict">
       <title>Restrito a</title>
       <p>Esta caixa de combinação permite-lhe controlar qual a barra de progresso que deve ser apresentada, assumindo que as atualizações de barras de progresso tenham sido ativadas. As opções são <gui>todas</gui>, <gui>Aplicativo</gui>, e <gui>Janela</gui>.</p>
       <p>Selecionando <gui>Todas</gui> fará que o <app>Orca</app> apresente atualizações para todas as barras de progresso, independentemente de onde estas estejam localizadas.</p>

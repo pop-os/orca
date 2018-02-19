@@ -101,12 +101,6 @@ class Utilities(script_utilities.Utilities):
         if self.isDocument(obj) and text == obj.name and obj.name.startswith("file:///"):
             return ""
 
-        # TODO - JD: Once the VCL script is completed and subclasses the
-        # appropriate toolkit scripts, this should not be needed.
-        if obj.parent and obj.parent.getRole() == pyatspi.ROLE_LIST_BOX:
-            labels = self.unrelatedLabels(obj, onlyShowing=False)
-            text = " ".join(map(self.displayedText, labels))
-
         return text
 
     def isCellBeingEdited(self, obj):
@@ -266,6 +260,15 @@ class Utilities(script_utilities.Utilities):
             else:
                 if parentRole == pyatspi.ROLE_COMBO_BOX:
                     return True
+
+        if role == pyatspi.ROLE_FRAME and name:
+            try:
+                windowName = orca_state.activeWindow.name
+            except:
+                msg = "SOFFICE: Exception getting name of active window"
+                debug.println(debug.LEVEL_INFO, msg, True)
+            else:
+                return name == windowName
 
         return super().isLayoutOnly(obj)
 
@@ -742,3 +745,6 @@ class Utilities(script_utilities.Utilities):
             return False
 
         return self.cellRowChanged(obj)
+
+    def presentEventFromNonShowingObject(self, event):
+        return self.inDocumentContent(event.source)

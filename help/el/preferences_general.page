@@ -144,7 +144,7 @@
   </section>
   <section id="progress_bar_updates">
     <title>Ενημερώσεις γραμμής προόδου</title>
-    <section>
+    <section id="progress_bar_updates_speak">
       <title>Speak updates</title>
       <p>
         If the <gui>Speak updates</gui> checkbox is checked <app>Orca</app> will
@@ -152,7 +152,7 @@
       </p>
       <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_braille">
       <title>Braille updates</title>
       <p>
         If the <gui>Braille updates</gui> checkbox is checked <app>Orca</app> will
@@ -161,7 +161,7 @@
       </p>
       <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_beep">
       <title>Beep updates</title>
       <p>
         If the <gui>Beep updates</gui> checkbox is checked <app>Orca</app> will
@@ -170,14 +170,14 @@
       </p>
       <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_frequency">
       <title>Συχνότητα (s)</title>
       <p>
         This spin button determines how often updates are presented.
       </p>
       <p>Προεπιλεγμένη τιμή: 10</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_restrict">
       <title>Περιορισμός σε</title>
       <p>Αυτό το σύνθετο πλαίσιο επιτρέπει τον έλεγχο ποιες γραμμές προόδου θα εμφανίζονται, υποθέτοντας ότι η παρουσίαση των ενημερώσεων της γραμμής προόδου έχει ενεργοποιηθεί. Οι επιλογές είναι <gui>όλα</gui>, <gui>εφαρμογή</gui> και <gui>παράθυρο</gui>.</p>
       <p>Επιλέγοντας <gui>όλα</gui> θα καταλήξει στην παρουσίαση ενημερώσεων για όλες τις γραμμές προόδου από το <app>Orca</app>, ανεξάρτητα από πού εντοπιονται οι γραμμές προόδου.</p>

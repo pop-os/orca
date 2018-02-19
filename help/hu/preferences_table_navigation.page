@@ -23,23 +23,28 @@
     </mal:credit>
   </info>
   <title>A táblázatnavigáció beállításai</title>
-  <p>A következő beállításokkal személyre szabhatja az <app>Orka</app> táblázatnavigációval kapcsolatos beállításait a <link xref="howto_structural_navigation">strukturált Orka navigációt</link> támogató alkalmazásokban.</p>
-  <section>
+  <p>
+    The following options allow you to customize how <app>Orca</app>
+    behaves when navigating within a table in
+    <link xref="howto_structural_navigation">Structural-Navigation</link>-enabled
+    applications.
+  </p>
+  <section id="speak_cell_coordinates">
     <title>Cellakoordináták felolvasása</title>
     <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja mondani annak a táblázatcellának a cellakoordinátáját, amelyre éppen navigált.</p>
     <p>Alapbeállítás: bejelölve</p>
   </section>
-  <section>
+  <section id="speak_multiple_cell_spans">
     <title>Cella kiterjedésének felolvasása</title>
     <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja mondani, hogy a táblázat hány sort és oszlopot tartalmaz, ha egy cella több sorból vagy oszlopból áll.</p>
     <p>Alapbeállítás: bejelölve</p>
   </section>
-  <section>
+  <section id="announce_cell_header">
     <title>Cellafejléc felolvasása</title>
     <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja mondani a cellafejlécek változásait, ha a jelenlegi cella fejlécei meghatározhatók.</p>
     <p>Alapbeállítás: bejelölve</p>
   </section>
-  <section>
+  <section id="skip_blank_cells">
     <title>Üres cellák kihagyása</title>
     <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja hagyni az üres cellákat. Ez a beállítás csak akkor használható, ha az <app>Orka</app> strukturált navigáció táblázatnavigációs billentyűparancsait használja a táblázatok közötti navigáláshoz.</p>
     <p>Alapbeállítás: nincs bejelölve</p>

@@ -29,23 +29,28 @@
     </mal:credit>
   </info>
   <title>Preferencias de la navegación por tablas</title>
-  <p>La siguiente opción le permite personalizar cómo se comporta <app>Orca</app> cuando navega dentro de una tabla en aplicaciones habilitadas para <link xref="howto_structural_navigation">navegación-estructural</link>.</p>
-  <section>
+  <p>
+    The following options allow you to customize how <app>Orca</app>
+    behaves when navigating within a table in
+    <link xref="howto_structural_navigation">Structural-Navigation</link>-enabled
+    applications.
+  </p>
+  <section id="speak_cell_coordinates">
     <title>Leer las coordenadas de una celda</title>
     <p>Si esta casilla está marcada, <app>Orca</app> anunciará las coordenadas de cada celda a la que navegue.</p>
     <p>Valor predeterminado: marcado</p>
   </section>
-  <section>
+  <section id="speak_multiple_cell_spans">
     <title>Leer celdas dentro de otra celda</title>
     <p>Si esta casilla está marcada, <app>Orca</app> anunciará cuántas filas y/o columnas abarca una celda cuando ésta abarque más de una.</p>
     <p>Valor predeterminado: marcado</p>
   </section>
-  <section>
+  <section id="announce_cell_header">
     <title>Anunciar la cabecera de una celda</title>
     <p>Si esta casilla está marcada, <app>Orca</app> anunciará los cambios en la cabecera si se pueden determinar las cabeceras para la celda actual.</p>
     <p>Valor predeterminado: marcado</p>
   </section>
-  <section>
+  <section id="skip_blank_cells">
     <title>Saltar celdas en blanco</title>
     <p>Si esta casilla está marcada, <app>Orca</app> se saltará las celdas en blanco cuando utilice los comandos de navegación estructural por tablas de <app>Orca</app> para acceder a la tabla.</p>
     <p>Valor predeterminado: no marcado</p>

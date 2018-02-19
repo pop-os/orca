@@ -28,7 +28,6 @@
     </mal:credit>
   </info>
   <title>Конфигуриране на Orca</title>
-    <section id="configuring_orca">
+
       <p>Ако искате да настроите <app>Orca</app>, отворете прозореца <link xref="preferences">Настройки</link> като натиснете <keyseq><key>Модификатор на Orca</key><key>Интервал</key></keyseq> от произволно достъпно приложение. Друга възможност е в терминал или прозореца за <gui>Изпълнение</gui> да въведете <cmd>orca -s</cmd> или <cmd>orca --setup</cmd> и да натиснете <key>Return</key>.</p>
-    </section>
 </page>

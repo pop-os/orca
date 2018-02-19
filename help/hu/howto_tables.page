@@ -35,7 +35,12 @@
     <p>Ezen kívül az <app>Orka</app> számos konfigurálható <link xref="preferences_table_navigation">megjelenítéssel kapcsolatos beállítással</link> rendelkezik, melyek együttműködnek a strukturált <app>Orka</app> navigációval. Testreszabható például, hogy bejelentésre kerüljenek-e a cellakoordináták, a cellák kiterjesztései, és a cellafejlécek.</p>
     <note style="tip">
       <title>Ne felejtse el bekapcsolni a strukturált Orka navigációt!</title>
-      <p>Attól függően, hogy éppen hol tartózkodik, szükséges lehet az <app>Orka</app> strukturált navigációjának bekapcsolása. További információkért olvassa el az <link type="seealso" xref="howto_structural_navigation#toggling_required">Amikor mindenképpen szükséges a strukturált Orka navigáció bekapcsolása</link> című fejezetet.</p>
+      <p>
+        Depending on where you are, it may be necessary for you to explicitly
+        toggle Structural Navigation on before you can use it. To learn more, read
+        <link xref="howto_structural_navigation#toggling_required">
+        when toggling Structural Navigation on is required.</link>
+      </p>
     </note>
   </section>
   <section id="dynamic_headers">
@@ -51,7 +56,7 @@
       </item>
     </steps>
     <steps>
-      <title>Sorfejlécek beállítása</title>
+      <title>Setting Row Headers</title>
       <item>
         <p>Lépjen a táblázat azon oszlopára, amely az összes sorfejlécet tartalmazza.</p>
       </item>

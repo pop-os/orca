@@ -19,7 +19,7 @@
   <title>Voice Preferences</title>
   <section id="voice_type_settings">
     <title>Voice Type Settings</title>
-    <section>
+    <section id="voice_type">
       <title>Voice type</title>
       <p>Este cadro combinado fai posiel que use voces diferentes para distinguir mellor o texto en maiúsculas e o texto ligado de outro texto, e o texto en que aparece en pantalla de outro texto que <app>Orca</app> engada.</p>
       <note style="tip">
@@ -32,22 +32,22 @@
         </p>
       </note>
     </section>
-    <section>
+    <section id="speech_system">
       <title>Sistema de voz</title>
       <p>
         This combo box allows you to select your preferred speech system from
         those you have installed, such as Speech Dispatcher.
       </p>
     </section>
-    <section>
+    <section id="speech_synthesizer">
       <title>Sintetizador de voz</title>
       <p>Este cadro combinado permítelle seleccionar o sintetizador de voz que usar co sistema de voz elixido.</p>
     </section>
-    <section>
+    <section id="person">
       <title>Persoa</title>
       <p>Este cadro combinado permítelle elixir que «persona» ou «falante» se debería usar coa voz seleccionada. Por exemplo, podería querer ter a David para falar de maneira predeterminada, pero ter a alicia para falar as hiperligazóns. Teña en conta que o que atope no cadro combinado <gui>Persoa</gui> dependerá de que sintetizador de voz teña instalado.</p>
     </section>
-    <section>
+    <section id="capitalization_style">
       <title>Capitalization style</title>
       <p>
        This combo box allows you to choose which Speech Dispatcher capitalization
@@ -72,7 +72,7 @@
       Default value: none
     </p>
     </section>
-    <section>
+    <section id="rate_pitch_and_volume">
       <title>Velocidade, ton e volume</title>
       <p>Estes tres deslizadores esquerda-dereita permítenlle personalizar aínda máis o son da persoa que acaba de seleccionar.</p>
     </section>

@@ -25,7 +25,7 @@
     <title>Ενεργοποίηση ηχούς πλήκτρου</title>
     <p>Η ηχώ πλήκτρου του Orca ορίζει ελέγχους που συμβαίνουν κάθε φορά που πατάτε ένα πλήκτρο. Για ενεργοποίηση της ηχούς πλήκτρου, σημειώστε το πλαίσιο ελέγχου "ενεργοποίηση ηχούς πλήκτρου". Κάνοντας το, γίνονται πρόσθετα πλαίσια ελέγχου διαθέσιμα μέσα από τα οποία μπορείτε να επιλέξτε ακριβώς ποια πλήκτρα θα πρέπει να ηχήσουν για βέλτιστη προσαρμογή στις ανάγκες σας.</p>
     <p>Προεπιλεγμένη τιμή: σημειωμένη</p>  
-    <section>
+    <section id="keyecho_enable_alphanumeric">
       <title>Enable alphabetic keys</title>
       <p>
         This option controls whether or not keys like <key>a</key>,
@@ -33,7 +33,7 @@
       </p>
       <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
     </section>
-    <section>
+    <section id="keyecho_enable_numeric">
       <title>Enable numeric keys</title>
       <p>
         This option controls whether or not keys like <key>1</key>,
@@ -41,7 +41,7 @@
       </p>
       <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
     </section>
-    <section>
+    <section id="keyecho_enable_punctuation">
       <title>Enable punctuation keys</title>
       <p>
         This option controls whether or not keys like <key>%</key>,
@@ -49,7 +49,7 @@
       </p>
       <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
     </section>
-    <section>
+    <section id="keyecho_enable_space">
       <title>Enable space</title>
       <p>
         This option controls whether or not <key>space</key> should be
@@ -57,27 +57,27 @@
       </p>
       <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
     </section>
-    <section>
+    <section id="keyecho_enable_modifier">
       <title>Ενεργοποίηση πλήκτρων τροποποιητή</title>
       <p>Αυτή η επιλογή ελέγχει εάν τα <key>Shift</key>, <key>Ctrl</key>, <key>Alt</key> και <key>Meta</key> θα πρέπει να εκφωνούνται όταν πατιούνται ή όχι.</p>
       <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
     </section>
-    <section>
+    <section id="keyecho_enable_function">
       <title>Ενεργοποίηση πλήκτρων συναρτήσεων</title>
       <p>Αυτή η επιλογή ελέγχει εάν τα <key>F1</key> έως <key>F12</key> πρέπει να εκφωνούνται όταν πατιούνται ή όχι.</p>
       <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
     </section>
-    <section>
+    <section id="keyecho_enable_action">
       <title>Ενεργοποίηση πλήκτρων ενέργειας</title>
       <p>Αυτή η επιλογή ελέγχει εάν τα <key>BackSpace</key>, <key>Delete </key>, <key>Return</key>, <key>Escape</key>, <key>Tab</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</key> και <key>End</key> θα πρέπει να εκφωνούνται εάν πατιούνται ή όχι.</p>
       <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
     </section>
-    <section>
+    <section id="keyecho_enable_navigation">
       <title>Ενεργοποίηση πλήκτρων περιήγησης</title>
       <p>Αυτή η επιλογή ελέγχει εάν τα <key>Left</key>, <key>Right</key>, <key>Up</key> και <key>Down</key> πρέπει να εκφωνούνται όταν πατιούνται. Αυτή η επιλογή επίσης εφαρμόζεται σε κάθε συνδυασμό πλήκτρων στον οποίο ο <key>τροποποιητής Orca</key> κρατιέται πατημένος, για παράδειγμα όταν χρησιμοποιείται γενική επισκόπηση.</p>
       <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
     </section>
-    <section>
+    <section id="keyecho_enable_diacritical">
       <title>Ενεργοποίηση μη κενών διακριτικών πλήκτρων</title>
       <p>Αυτή η επιλογή ελέγχει εάν τα "νεκρά πλήκτρα" που χρησιμοποιούνται για δημιουργία τονισμένων γραμμάτων πρέπει να εκφωνούνται όταν πατιούνται.</p>
       <p>Προεπιλεγμένη τιμή: ασημείωτη</p>

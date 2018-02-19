@@ -64,5 +64,10 @@
     <p>La navigation au curseur n'est pas activée par défaut dans toutes les applications. Dans de nombreuses applications GNOME, cette navigation peut être activée/désactivée en appuyant sur la touche <key>F7</key>.</p>
   </note>
   <p>En plus de la lecture d'un document avec la navigation au curseur, vous pouvez trouver utile de lire, d'épeler et d'obtenir la valeur Unicode du texte actuel. Vous pouvez faire tout cela en utilisant la <link xref="howto_flat_review">commande Examen global</link> d'<app>Orca</app>.</p>
-  <p>Finalement, pour que <app>Orca</app> lise le document en entier à partir de votre emplacement actuel, utilisez la commande « Lire tout ». Celle-ci, ainsi qu'une liste plus complète des commandes <app>Orca</app> pour l'accès au texte des documents, se trouve dans le guide <link xref="commands_reading">Commandes de lecture</link>.</p>
+  <p>
+    Finally, in order to have <app>Orca</app> speak the entire document from your
+    present location, use the Say All command. It, along with a more complete
+    listing of <app>Orca</app>'s commands for accessing document text, can
+    be found in the <link xref="commands_reading">Reading Commands</link> guide.
+  </p>
 </page>

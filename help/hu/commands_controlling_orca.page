@@ -20,7 +20,7 @@
       <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
     </mal:credit>
   </info>
-  <title type="link">Az Orka irányítása, és használatának megtanulása</title>
+  <title>Az Orka irányítása, és használatának megtanulása</title>
   <section id="controlling">
     <title>Parancsok az <app>Orka</app> irányításához</title>
     <p>A következő billentyűparancsok segítségével megnyithatja az <app>Orka</app> beállító párbeszédablakait, kiléphet az <app>Orka</app> képernyőolvasóból, és figyelmen kívül hagyathat olyan <app>Orka</app> billentyűparancsokat, amelyek ütköznének az éppen használt alkalmazás billentyűparancsaival.</p>

@@ -140,7 +140,7 @@
   </section>
   <section id="progress_bar_updates">
     <title>Posodobitve kazalnika napredka</title>
-    <section>
+    <section id="progress_bar_updates_speak">
       <title>Speak updates</title>
       <p>
         If the <gui>Speak updates</gui> checkbox is checked <app>Orca</app> will
@@ -148,7 +148,7 @@
       </p>
       <p>Privzeta vrednost: izbrano</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_braille">
       <title>Braille updates</title>
       <p>
         If the <gui>Braille updates</gui> checkbox is checked <app>Orca</app> will
@@ -157,7 +157,7 @@
       </p>
       <p>Prikazana vrednost: ni izbrano</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_beep">
       <title>Beep updates</title>
       <p>
         If the <gui>Beep updates</gui> checkbox is checked <app>Orca</app> will
@@ -166,14 +166,14 @@
       </p>
       <p>Prikazana vrednost: ni izbrano</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_frequency">
       <title>Frekvenca (sek):</title>
       <p>
         This spin button determines how often updates are presented.
       </p>
       <p>Privzeta vrednost: 10</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_restrict">
       <title>Omeji na</title>
       <p>To spustno polje vam omogoča nadzor katere vrstice napredka naj bodo predstavljene, če je bilo predstavljanje posodobitev vrstic napredka omogočeno. Izbire so <gui>Vse</gui>, <gui>Program</gui> in <gui>Okno</gui>.</p>
       <p>Izbira <gui>Vse</gui> določi, da <app>Orka</app> predstavi posodobitve za vse vrstice napredka ne glede na to kje so.</p>

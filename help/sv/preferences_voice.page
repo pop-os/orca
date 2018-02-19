@@ -23,7 +23,7 @@
   <title>Röstinställningar</title>
   <section id="voice_type_settings">
     <title>Inställningar för rösttyp</title>
-    <section>
+    <section id="voice_type">
       <title>Rösttyp</title>
       <p>Denna kombinationsruta gör det möjligt för dig att använda olika röster så att du lättare kan skilja versal och länkad text från annan text, och text på skärmen från text som lagts till av <app>Orca</app>.</p>
       <note style="tip">
@@ -31,19 +31,19 @@
         <p>För varje röst du vill konfigurera väljer du först rösten i kombinationsrutan <gui>Rösttyp</gui>. Konfigurera sedan person, hastighet, tonart och volym att använda för den rösten.</p>
       </note>
     </section>
-    <section>
+    <section id="speech_system">
       <title>Uppläsningssystem</title>
       <p>Denna kombinationsruta låter dig välja ditt föredragna uppläsningssystem från de som du har installerade, som exempelvis Speech Dispatcher.</p>
     </section>
-    <section>
+    <section id="speech_synthesizer">
       <title>Talsyntes</title>
       <p>Denna kombinationsruta låter dig välja talsyntesen att använda med ditt valda uppläsningssystem.</p>
     </section>
-    <section>
+    <section id="person">
       <title>Person</title>
       <p>Denna kombinationsruta låter dig välja vilken ”person” eller ”talare” som ska användas med den valda rösten. Till exempel vill du kanske att David talar som standard, men att Alice läser upp hyperlänkar. Notera att vad du hittar i kombinationsrutan <gui>Person</gui> kommer bero på vilka talsynteser som du har installerade.</p>
     </section>
-    <section>
+    <section id="capitalization_style">
       <title>Versaliseringsstil</title>
       <p>Denna kombinationsruta låter dig välja vilka stilar för versaliseringsindikation i Speech Dispatcher du vill använda utöver <app>Orca</app>s versaliseringsröst. Alternativen, vilka är namngivna enligt Speech Dispatchers terminologi, är:</p>
      <list>
@@ -57,7 +57,7 @@
     </note>
     <p>Standardvärde: ingen</p>
     </section>
-    <section>
+    <section id="rate_pitch_and_volume">
       <title>Hastighet, tonart och volym</title>
       <p>Dessa tre vänster-höger-skjutreglage låter dig ytterligare anpassa ljudet för personen som du just valt.</p>
     </section>

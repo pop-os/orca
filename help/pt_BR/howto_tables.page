@@ -63,7 +63,12 @@
     <p>Além disso, o <app>Orca</app> fornece <link xref="preferences_table_navigation">opções de apresentação</link> configuráveis que funcionam em conjunto com a Navegação Estrutural e permitem controlar se as coordenadas das células são ou não faladas, se a existência de várias células é anunciada, e se as células de cabeçalhos são anunciadas.</p>
     <note style="tip">
       <title>Não esqueça de alternar a Navegação Estrutural para ativado!</title>
-      <p>Dependendo de onde você estiver, pode ser necessário ativar a Navegação Estrutural antes que você possa usá-la. Para aprender mais, consulte <link type="seealso" xref="howto_structural_navigation#toggling_required"> quando é necessário ativar a Navegação Estrutural.</link></p>
+      <p>
+        Depending on where you are, it may be necessary for you to explicitly
+        toggle Structural Navigation on before you can use it. To learn more, read
+        <link xref="howto_structural_navigation#toggling_required">
+        when toggling Structural Navigation on is required.</link>
+      </p>
     </note>
   </section>
   <section id="dynamic_headers">
@@ -79,7 +84,7 @@
       </item>
     </steps>
     <steps>
-      <title>Definir cabeçalhosde linha</title>
+      <title>Setting Row Headers</title>
       <item>
         <p>Mova para a coluna que contenha os cabeçalhos de linha.</p>
       </item>

@@ -40,5 +40,10 @@
     <p>A mutatónavigáció nem minden alkalmazásban van alapértelmezetten engedélyezve. A legtöbb GNOME alkalmazásban a mutatónavigációt könnyen be- vagy kikapcsolhatja, ha lenyomja az <key>F7</key> billentyűt.</p>
   </note>
   <p>Ha egy dokumentumot a mutatónavigációval olvas, hasznos lehet az aktuális szövegrész felolvastatása, lebetűztetése, vagy Unicode karakteradatainak lekérdezése. Ezeket a feladatokat elvégezheti az <app>Orka</app> <link xref="howto_flat_review">egyszerű áttekintés funkciója</link> segítségével.</p>
-  <p>Végezetül, az <app>Orka</app> a felolvasás parancs segítségével képes felolvasni az egész dokumentumot a kurzor pillanatnyi helyétől kezdve. A dokumentumok kezelésével kapcsolatos parancsok teljes listájáért olvassa el a <link xref="commands_reading">felolvasással kapcsolatos parancsok</link> című fejezetet.</p>
+  <p>
+    Finally, in order to have <app>Orca</app> speak the entire document from your
+    present location, use the Say All command. It, along with a more complete
+    listing of <app>Orca</app>'s commands for accessing document text, can
+    be found in the <link xref="commands_reading">Reading Commands</link> guide.
+  </p>
 </page>

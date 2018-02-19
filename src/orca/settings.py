@@ -68,7 +68,6 @@ userCustomizableSettings = [
     "brailleRolenameStyle",
     "brailleSelectorIndicator",
     "brailleLinkIndicator",
-    "brailleAlignmentStyle",
     "enableSound",
     "soundVolume",
     "playSoundForRole",
@@ -94,6 +93,7 @@ userCustomizableSettings = [
     "progressBarUpdateInterval",
     "progressBarVerbosity",
     "ignoreStatusBarProgressBars",
+    "enableBrailleWordWrap",
     "enableContractedBraille",
     "brailleContractionTable",
     "enableMouseReview",
@@ -154,10 +154,6 @@ LAPTOP_MODIFIER_KEYS  = ["Caps_Lock"]
 
 VERBOSITY_LEVEL_BRIEF   = 0
 VERBOSITY_LEVEL_VERBOSE = 1
-
-BRAILLE_ALIGN_BY_EDGE   = 0
-BRAILLE_ALIGN_BY_MARGIN = 1
-BRAILLE_ALIGN_BY_WORD   = 2
 
 BRAILLE_UNDERLINE_NONE = 0x00 # 00000000
 BRAILLE_UNDERLINE_7    = 0x40 # 01000000
@@ -267,6 +263,7 @@ enableFlashMessages            = True
 brailleFlashTime               = 5000
 flashIsPersistent              = False
 flashIsDetailed                = True
+enableBrailleWordWrap          = False
 enableContractedBraille        = False
 brailleContractionTable        = ''
 disableBrailleEOL              = False
@@ -275,9 +272,6 @@ brailleSelectorIndicator       = BRAILLE_UNDERLINE_BOTH
 brailleLinkIndicator           = BRAILLE_UNDERLINE_BOTH
 textAttributesBrailleIndicator = BRAILLE_UNDERLINE_NONE
 brailleVerbosityLevel          = VERBOSITY_LEVEL_VERBOSE
-brailleAlignmentStyle          = BRAILLE_ALIGN_BY_EDGE
-brailleAlignmentMargin         = 3
-brailleMaximumJump             = 8
 
 # Sound
 enableSound = True

@@ -49,19 +49,25 @@
     <title>Nível de pontuação</title>
     <p>O botão de opção <gui>nível de pontuação</gui> é usado para ajustar a quantidade de pontuação falada pelo sintetizador. Os níveis disponíveis são <gui>Nenhum</gui>, <gui>Algum</gui>, <gui>Maioria</gui>, e <gui>Todas</gui>.</p>
     <p>Valor padrão: <gui>A maioria</gui></p>
-    <section>
+    <section id="punctuation_level_none">
       <title>Nenhum</title>
-      <p>Selecionando um nível de pontuação para <gui>Nenhum</gui> tal qual você espera, faria com que a pontuação não fosse falada. Observe, porém, que símbolos especiais tal como os números subscritos ou sobrescritos, frações Unicodes e marcadores ainda são falados neste nível de pontuação, ainda que alguns possam considerar estes tipos de sinais de pontuação.</p>
+      <p>
+        Choosing a punctuation level of <gui>None</gui> would, as you expect,
+        cause no punctuation to be spoken. Note, however, that special symbols
+        such as subscripted and superscripted numbers, Unicode fractions, and
+        bullets are still spoken at this level, even though some might consider
+        these types of symbols punctuation.
+      </p>
     </section>
-    <section>
+    <section id="punctuation_level_some">
       <title>Algum</title>
       <p>Selecionando um nível de pontuação de <gui>Algum</gui> faz com que todos os sinais anteriormente mencionados sejam falados. Além disso, <app>Orca</app> falará sinais matemáticos conhecidos, símbolos monetários, como também "^", "@", "/", "&amp;", "#".</p>
     </section>
-    <section>
+    <section id="punctuation_level_most">
       <title>Maioria</title>
       <p>Selecionando o nível de pontuação <gui>maioria</gui> faz com que todos os sinais anteriormente mencionados sejam falados. Além disso, o <app>Orca</app> falará os demais sinais de pontuação conhecidos <em>exceto</em> "!", "'", ",", ".", "?".</p>
     </section>
-    <section>
+    <section id="punctuation_level_all">
       <title>Todos</title>
       <p>Selecionando o nível de pontuação <gui>Todos</gui>, como é esperado, faz com que o <app>Orca</app> fale todos os sinais de pontuação.</p>
     </section>
@@ -74,7 +80,10 @@
       <p>Marcando esta caixa de seleção, faz-se com que o <app>Orca</app> fale somente os textos atualmente exibidos na tela. Esta opção é destinada, em primeiro lugar, para usuários de baixa visão e para usuários com distúrbios visuais de aprendizado.</p>
       <p>Valor padrão: desmarcado</p>
       <note style="note">
-        <p>Os seguintes itens não estarão disponíveis para configuração se a caixa de seleção <gui>Falar apenas texto exibido</gui> estiver marcada.</p>
+        <p>
+          The following items will not be available for configuration if
+          the <gui>Only speak displayed text</gui> checkbox is checked.
+        </p>
       </note>
     </section>
     <section id="speak_blank_lines">

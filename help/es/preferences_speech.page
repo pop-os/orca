@@ -41,19 +41,25 @@
     <title>Nivel de puntuación</title>
     <p>El grupo de botones de radio <gui>Nivel de puntuación</gui> se usa para ajustar la cantidad de puntuación que se habla por el sintetizador. Los niveles disponibles son <gui>Ninguna</gui>, <gui>Alguna</gui>, <gui>La mayoría</gui> y <gui>Toda</gui>.</p>
     <p>Valor predeterminado: <gui>La mayoría</gui></p>
-    <section>
+    <section id="punctuation_level_none">
       <title>Ninguna</title>
-      <p>Seleccionar un nivel de puntuación <gui>Ninguna</gui> hará, como imagina, que no se hable ninguna puntuación. Sin embargo, note que los símbolos especiales tales como números superíndice y subíndice, fracciones unicode y viñetas todavía se hablarán en este nivel, a pesar de que algunos podrían considerar estos símbolos como signos de puntuación.</p>
+      <p>
+        Choosing a punctuation level of <gui>None</gui> would, as you expect,
+        cause no punctuation to be spoken. Note, however, that special symbols
+        such as subscripted and superscripted numbers, Unicode fractions, and
+        bullets are still spoken at this level, even though some might consider
+        these types of symbols punctuation.
+      </p>
     </section>
-    <section>
+    <section id="punctuation_level_some">
       <title>Alguna</title>
       <p>Seleccionar nivel de puntuación <gui>Alguna</gui> hace que se hablen todos los símbolos mencionados anteriormente. Por otro lado, <app>Orca</app> hablará los símbolos matemáticos conocidos, símbolos de moneda y «^», «@», «/», «&amp;», «#».</p>
     </section>
-    <section>
+    <section id="punctuation_level_most">
       <title>La mayoría</title>
       <p>Seleccionar el nivel de puntuación <gui>La mayoría</gui> hace que se hablen todos los símbolos mencionados anteriormente. Por otra parte <app>Orca</app> hablará todos los otros símbolos de puntuación conocidos <em>que no sean</em> «!», «'», «,», «.», «?».</p>
     </section>
-    <section>
+    <section id="punctuation_level_all">
       <title>Toda</title>
       <p>Seleccionar un nivel de puntuación <gui>Toda</gui> hace, como ya imagina, que <app>Orca</app> hable todos los símbolos de puntuación conocidos.</p>
     </section>
@@ -66,7 +72,10 @@
       <p>Al marcar esta casilla hace que <app>Orca</app> solamente hable el texto actual que se muestra en pantalla. Esta opción está destinada a usuarios con baja visión y usuarios con una discapacidad de aprendizaje visual.</p>
       <p>Valor predeterminado: no marcado</p>
       <note style="note">
-        <p>Los siguientes elementos no estarán disponibles para configurar si la casilla <gui>Hablar solamente el texto mostrado.</gui> está marcada.</p>
+        <p>
+          The following items will not be available for configuration if
+          the <gui>Only speak displayed text</gui> checkbox is checked.
+        </p>
       </note>
     </section>
     <section id="speak_blank_lines">

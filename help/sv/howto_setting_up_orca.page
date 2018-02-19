@@ -22,7 +22,6 @@
     </mal:credit>
   </info>
   <title>Konfiguration av Orca</title>
-    <section id="configuring_orca">
+
       <p>Om du vill konfigurera <app>Orca</app>, gå in i dialogrutan <link xref="preferences">Inställningar</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq> inifrån ett valfritt åtkomligt program. Alternativt kan du skriva <cmd>orca</cmd> följt av antingen <cmd>-s</cmd> eller <cmd>--setup</cmd> i ett terminalfönster eller i <gui>Kör</gui>-dialogen och sedan trycka <key>Retur</key>.</p>
-    </section>
 </page>

@@ -109,27 +109,27 @@
   </section>
   <section id="progress_bar_updates">
     <title>Folyamatjelző frissítésének felolvasása</title>
-    <section>
+    <section id="progress_bar_updates_speak">
       <title>Folyamatjelző frissítésének kimondása</title>
       <p>Ha a <gui>Folyamatjelző frissítésének kimondása</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> megadott időközönként felolvassa a folyamatjelzők állapotváltozását.</p>
       <p>Alapbeállítás: bejelölve</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_braille">
       <title>Folyamatjelző frissítésének megjelenítése a Braille-kijelzőn</title>
       <p>Ha a <gui>Folyamatjelző frissítésének megjelenítése a Braille-kijelzőn</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> megadott időközönként megjeleníti a frissíthető Braille-kijelzőn a folyamatjelzők állapotváltozását.</p>
       <p>Alapbeállítás: nincs bejelölve</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_beep">
       <title>Hangjelzés a folyamatjelző frissülésekor</title>
       <p>Ha a <gui>Hangjelzés a folyamatjelző frissülésekor</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> megadott időközönként egy növekvő hangmagasságú hangjelzést játszik le, amikor a folyamatjelzők értéke növekszik.</p>
       <p>Alapbeállítás: nincs bejelölve</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_frequency">
       <title>Gyakoriság másodpercben</title>
       <p>Ezzel a léptetőgombbal megadhatja, hogy az <app>Orka</app> milyen gyakran jelenítse meg a folyamatjelzők állapotváltozását.</p>
       <p>Alapbeállítás: 10</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_restrict">
       <title>Korlátozás erre</title>
       <p>Ha a folyamatjelzők állapotának felolvasása engedélyezve van, ebben a kombinált listamezőben megadhatja, hogy milyen esetekben legyenek kimondva a folyamatjelzők állapotváltozásai. A választható lehetőségek: <gui>Mindent</gui>, <gui>Alkalmazás</gui>, és <gui>Ablak</gui>.</p>
       <p>Ha a <gui>Mindent</gui> lehetőséget választja, az <app>Orka</app> minden folyamatjelző-állapotváltozást ki fog mondani, függetlenül azok helyétől.</p>

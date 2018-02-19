@@ -109,27 +109,27 @@
   </section>
   <section id="progress_bar_updates">
     <title>Uppdateringar i förloppsindikator</title>
-    <section>
+    <section id="progress_bar_updates_speak">
       <title>Läs upp uppdateringar</title>
       <p>Om kryssrutan <gui>Läs upp uppdateringar</gui> är ikryssad kommer <app>Orca</app> med jämna mellanrum läsa upp statusen för förloppsindikatorer.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_braille">
       <title>Punktskriftsuppdateringar</title>
       <p>Om kryssrutan <gui>Punktskriftsuppdateringar</gui> är ikryssad kommer <app>Orca</app> med jämna mellanrum visa statusen för förloppsindikatorer på din uppdateringsbara punktskriftsskärm.</p>
       <p>Standardvärde: inte ikryssad</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_beep">
       <title>Signalera uppdateringar</title>
       <p>Om kryssrutan <gui>Signalera uppdateringar</gui> är ikryssad kommer <app>Orca</app> med jämna mellanrum utstöta signaler som ökar i tonart då värdet för förloppsindikatorn ökar.</p>
       <p>Standardvärde: inte ikryssad</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_frequency">
       <title>Frekvens (sekunder)</title>
       <p>Denna snurrknapp avgör hur ofta uppdateringar presenteras.</p>
       <p>Standardvärde: 10</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_restrict">
       <title>Begränsa till</title>
       <p>Denna kombinationsruta låter dig styra vilka förloppsindikatorer som ska presenteras, under förutsättning att presentation av uppdateringar av förloppsindikatorer har aktiverats. Valen är <gui>Alla</gui>, <gui>Program</gui> och <gui>Fönster</gui>.</p>
       <p>Att välja <gui>Alla</gui> leder till att <app>Orca</app> presenterar uppdateringar för alla förloppsindikatorer, oavsett var förloppsindikatorerna finns.</p>

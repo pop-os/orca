@@ -25,7 +25,11 @@
         <p><gui>Název vlastnosti</gui>: Název vlastnosti textu</p>
       </item>
       <item>
-        <p><gui>Říci</gui>: Toto políčko zaškrtněte, pokud si přejete, aby <app>Orca</app> oznamovala tuto vlastnost, když zmáčknete <keyseq><key>Orca</key><key>F</key></keyseq>.</p>
+        <p>
+          <gui>Speak</gui>: Check this checkbox if you would like
+          <app>Orca</app> to speak this attribute when you press
+          <keyseq><key>Orca Modifier</key><key>F</key></keyseq>.
+        </p>
       </item>
       <item>
         <p><gui>Označit na braillu</gui>: Toto políčko zaškrtněte, pokud si přejete, aby <app>Orca</app> „podtrhávala“ tuto vlastnost na braillském řádku.</p>

@@ -38,7 +38,7 @@
     document. <app>Orca</app>'s browse and focus modes let you switch between
     reading and filling out forms.
   </p>
-  <section>
+  <section id="navigating_amongst_form_fields">
     <title>So navigieren Sie in Formularen</title>
     <p>
       To navigate amongst form fields, you have several options:
@@ -69,7 +69,7 @@
      </p>
    </note>
   </section>
-  <section>
+  <section id="exiting_form_fields">
     <title>So verlassen Sie Formularfelder</title>
     <p>Sie haben mehrere Möglichkeiten ein Eingabefeld zu verlassen:</p>
     <list>

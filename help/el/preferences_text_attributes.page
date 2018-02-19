@@ -31,7 +31,11 @@
         <p>Το <gui>όνομα γνωρίσματος</gui>: Το όνομα του γνωρίσματος κειμένου.</p>
       </item>
       <item>
-        <p>Η <gui>εκφώνηση</gui>: Σημειώστε αυτό το πλαίσιο ελέγχου εάν θα θέλατε το <app>Orca</app> να εκφωνεί αυτό το γνώρισμα όταν πατάτε <keyseq><key>Orca</key><key>F</key></keyseq>.</p>
+        <p>
+          <gui>Speak</gui>: Check this checkbox if you would like
+          <app>Orca</app> to speak this attribute when you press
+          <keyseq><key>Orca Modifier</key><key>F</key></keyseq>.
+        </p>
       </item>
       <item>
         <p><gui>Σημείωση στο Μπράιγ</gui>: Σημειώστε αυτό το πλαίσιο ελέγχου εάν θα θέλατε το <app>Orca</app> να "υπογραμμίζει" αυτό το γνώρισμα στην εμφάνιση Μπράιγ.</p>

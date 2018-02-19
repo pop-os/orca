@@ -18,7 +18,7 @@
   <section id="page_navigation">
     <title>Krmarjenje po strani</title>
     <p>Skupni nadzornikov <gui>Krmarjenje strani</gui> vam omogoča prilagajanje <app>Orkinega</app> prikaza in možnosti sporazumevanja z besedilom in drugo vsebino.</p>
-    <section>
+    <section id="page_navigation_control_caret">
       <title>Control caret navigation</title>
       <p>To izbirno polje vklopi in izklopi <app>Okrino</app> krmarjenje kazalke. Ko je krmarjenje vklopljeno, <app>Orka</app> prevzame nadzor nad kazalko medtem ko se premikate po strani. Ko je krmarjenje izklopljeno je dejavna Geckovo lastno krmarjenje kazalke.</p>
       <p>Privzeta vrednost: izbrano</p>
@@ -27,7 +27,7 @@
         <p>Za sproten preklop te nastavitve brez shranjevanja uporabite <keyseq><key>Pomožna tipka Orka</key><key>F12</key></keyseq></p>
        </note>
     </section>
-    <section>
+    <section id="page_navigation_focus_caret">
       <title>Automatic focus mode during caret navigation</title>
       <p>
         If this checkbox is checked, <app>Orca</app> will automatically turn on
@@ -49,7 +49,7 @@
         </p>
        </note>
     </section>
-    <section>
+    <section id="page_navigation_structural">
       <title>Enable structural navigation</title>
       <p>To izbirno polje vklopi in izklopi <app>Orkino</app>'s <link xref="howto_structural_navigation">Strukturno krmarjenje</link>. Structural Navigation allows you to navigate by elements such as headings, links, and form fields.</p>
       <p>Privzeta vrednost: izbrano</p>
@@ -58,7 +58,7 @@
         <p>Za sproten preklop te nastavitve brez shranjevanja uporabite <keyseq><key>Pomožna tipka Orka</key><key>Z</key></keyseq></p>
        </note>
     </section>
-    <section>
+    <section id="page_navigation_focus_structural">
       <title>Automatic focus mode during structural navigation</title>
       <p>
         If this checkbox is checked, <app>Orca</app> will automatically turn on
@@ -79,7 +79,7 @@
         </p>
        </note>
     </section>
-    <section>
+    <section id="page_navigation_speak">
       <title>Automatically start speaking a page when it is first loaded</title>
       <p>
         If this checkbox is checked, <app>Orca</app> will perform a Say All on
@@ -89,7 +89,7 @@
         Default value: checked for Firefox; not checked for Thunderbird
       </p>
     </section>
-    <section>
+    <section id="page_navigation_summary">
       <title>Present summary of a page when it is first loaded</title>
       <p>
         If this checkbox is checked, <app>Orca</app> will summarize details about the
@@ -100,7 +100,7 @@
         Default value: checked for Firefox; not checked for Thunderbird
       </p>
     </section>
-    <section>
+    <section id="page_navigation_layout_mode">
       <title>Enable layout mode for content</title>
       <p>
         If this checkbox is checked, <app>Orca</app>'s caret navigation will respect
@@ -116,7 +116,7 @@
     <title>Table Options</title>
     <note>
       <p>
-        To learn more about <app>Orca's</app> options for navigating within
+        To learn more about <app>Orca</app>'s options for navigating within
         tables, please see <link xref="preferences_table_navigation">Table
 	Navigation Preferences</link>.
       </p>
@@ -125,19 +125,25 @@
   <section id="find_options">
     <title>Možnosti iskanja</title>
     <p>Skupina nadzornikom <gui>Možnosti iksanja</gui> vam omogočajo prilagajanje <app>Orkine</app> predstavitve rezultatov iskanja z uporabo programove vgrajene zmožnosti iskanja.</p>
-    <section>
+    <section id="find_options_speak_during_find">
       <title>Izgovori rezultate med iskanjem</title>
       <p>V primeru, da je izbrano to izbirno polje, bo <app>Orka</app> prebrala vrstico, ki se ujema z vašo poizvedbo iskanja.</p>
       <p>Privzeta vrednost: izbrano</p>
     </section>
-    <section>
+    <section id="find_options_speak_changed_lines_during_find">
       <title>Izgovori le spremenjene vrstice med iskanjem</title>
       <p>V primeru da je to izbiro polje izbrano, <app>Orka</app> ne bo predstavila ujemajoče vrstice, če je enaka vrstica kot predhodni zadetek. Ta možnost je zasnovana za preprečevanje "klepetavosti" v vrstici z več primeri niza, ki ga iščete.</p>
       <p>Prikazana vrednost: ni izbrano</p>
     </section>
-    <section>
+    <section id="find_options_minimum_match_length">
       <title>Najmanjša dolžina ujemajočega se besedila</title>
-      <p>V tem uredljivem vrtilnem gumbu lahko navedete število znakov, ki se morajo ujemati preden <app>Orka</app> oznani ujemajočo vrstico. Ta možnost je zasnovana za preprečevanje "klepetavosti" v vrstici z več primeri niza, ki ga iščete.</p>
+      <p>
+        This editable spin button is where you can specify the number of
+        characters which much match before <app>Orca</app> announces the
+        matching line. This option is also designed to prevent "chattiness"
+        as there are many matches when you first begin typing the string
+        for which you are searching.
+      </p>
       <p>Privzeta vrednost: 4</p>
     </section>
   </section>

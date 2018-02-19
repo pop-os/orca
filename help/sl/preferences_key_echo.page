@@ -19,7 +19,7 @@
     <title>Omogoči odmev tipk</title>
     <p>Nadzorniki Okrinega odmeva tipk nastavijo kaj se zgodi, ko pritisnete tipko. Za omogočenje odmeva tipka izberite izbirno polje "Omogoči odmev tipk". To povzroči, da so na voljo dodatna izbirna polja v katerih lahko izberete katere tipke naj odmevajo ali ne, da najboljše ustrezajo vašim potrebam:</p>
     <p>Privzeta vrednost: izbrano</p>  
-    <section>
+    <section id="keyecho_enable_alphanumeric">
       <title>Enable alphabetic keys</title>
       <p>
         This option controls whether or not keys like <key>a</key>,
@@ -27,7 +27,7 @@
       </p>
       <p>Privzeta vrednost: izbrano</p>
     </section>
-    <section>
+    <section id="keyecho_enable_numeric">
       <title>Enable numeric keys</title>
       <p>
         This option controls whether or not keys like <key>1</key>,
@@ -35,7 +35,7 @@
       </p>
       <p>Privzeta vrednost: izbrano</p>
     </section>
-    <section>
+    <section id="keyecho_enable_punctuation">
       <title>Enable punctuation keys</title>
       <p>
         This option controls whether or not keys like <key>%</key>,
@@ -43,7 +43,7 @@
       </p>
       <p>Privzeta vrednost: izbrano</p>
     </section>
-    <section>
+    <section id="keyecho_enable_space">
       <title>Enable space</title>
       <p>
         This option controls whether or not <key>space</key> should be
@@ -51,27 +51,27 @@
       </p>
       <p>Privzeta vrednost: izbrano</p>
     </section>
-    <section>
+    <section id="keyecho_enable_modifier">
       <title>Omogoči pomožne tipke</title>
       <p>Ta možnost nadzira ali so tipke <key>Dvigalka</key>, <key>Ctrl</key>, <key>Alt</key> in <key>Meta</key> izgovorjene ob pritisku.</p>
       <p>Privzeta vrednost: izbrano</p>
     </section>
-    <section>
+    <section id="keyecho_enable_function">
       <title>Omogoči funkcijske tipke</title>
       <p>Ta možnost nadzira ali so tipke od <key>F1</key> do <key>F12</key> izgovorjene ob pritisku.</p>
       <p>Privzeta vrednost: izbrano</p>
     </section>
-    <section>
+    <section id="keyecho_enable_action">
       <title>Omogoči tipke dejanj</title>
       <p>Ta možnost nadzira ali so tipke <key>Vračalka</key>, <key>Izbriši</key>, <key>Vnosna tipka</key>, <key>Ubežna tipka</key>, <key>Tabulator</key>, <key>Stran navzgor</key>, <key>Stran navzdol</key>, <key>Domov</key> in <key>Konec</key> izgovorjene ob pritisku.</p>
       <p>Privzeta vrednost: izbrano</p>
     </section>
-    <section>
+    <section id="keyecho_enable_navigation">
       <title>Omogoči tipke krmarjenja</title>
       <p>Ta možnost nadzira ali so tipke <key>Levo</key>, <key>Desno</key>, <key>Navzgor</key> in <key>Navzdol</key> izgovorjene ob pritisku. Ta možnost je uveljavljena za katerokoli kombinacijo tipk pri kateri je pritisnjena <key>Pomožna tipka Orka</key> na primer pri uporabi ploskega pregleda.</p>
       <p>Prikazana vrednost: ni izbrano</p>
     </section>
-    <section>
+    <section id="keyecho_enable_diacritical">
       <title>Omogoči ne-presledne razločevalne tipke</title>
       <p>Ta možnost nadzira ali so "mrtve tipke" uporabljene za ustvarjanje naglašenih črk izgovorjene ob pritisku.</p>
       <p>Prikazana vrednost: ni izbrano</p>

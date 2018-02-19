@@ -105,7 +105,7 @@
         </list>
       </item>
       <item>
-        <p>Прочитане на стойността по Уникод на текущия знак:</p>
+        <p>Speak the Unicode value of current character:</p>
         <list>
           <item>
             <p>Настолни компютри: <keyseq><key>2 от цифровия блок</key></keyseq> (трикратно)</p>

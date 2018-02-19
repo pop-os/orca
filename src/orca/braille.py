@@ -33,6 +33,7 @@ __license__   = "LGPL"
 
 import signal
 import os
+import re
 
 from gi.repository import GLib
 
@@ -840,12 +841,13 @@ class Line:
           include knowning that we will fail and/or it taking an
           unreasonable amount of time (AKA Gecko).
 
-        Returns [string, offsetIndex, attributeMask]
+        Returns [string, offsetIndex, attributeMask, ranges]
         """
 
         string = ""
         focusOffset = -1
         attributeMask = ""
+        ranges = []
         for region in self.regions:
             if region == _regionWithFocus:
                 focusOffset = len(string)
@@ -854,7 +856,24 @@ class Line:
             mask = region.getAttributeMask(getLinkMask)
             attributeMask += mask
 
-        return [string, focusOffset, attributeMask]
+        words = [word.span() for word in re.finditer(r"(^\s+|\S+\s*)", string)]
+        span = []
+        for start, end in words:
+            if span and end - span[0] > _displaySize[0]:
+                ranges.append(span)
+                span = []
+            if not span:
+                span = [start, end]
+            else:
+                span[1] = end
+            if end == focusOffset:
+                ranges.append(span)
+                span = []
+        else:
+            if span:
+                ranges.append(span)
+
+        return [string, focusOffset, attributeMask, ranges]
 
     def getRegionAtOffset(self, offset):
         """Finds the Region at the given 0-based offset in this line.
@@ -1012,7 +1031,7 @@ def setFocus(region, panToFocus=True, getLinkMask=True):
             lineNum += 1
 
     line = _lines[viewport[1]]
-    [string, offset, attributeMask] = line.getLineInfo(getLinkMask)
+    [string, offset, attributeMask, ranges] = line.getLineInfo(getLinkMask)
 
     # If the cursor is too far right, we scroll the viewport
     # so the cursor will be on the last cell of the display.
@@ -1021,127 +1040,6 @@ def setFocus(region, panToFocus=True, getLinkMask=True):
         offset += _regionWithFocus.cursorOffset - _displaySize[0] + 1
 
     viewport[0] = max(0, offset)
-
-def _realignViewport(string, focusOffset, cursorOffset):
-    """Realigns the braille display to account for braille alignment
-    preferences.  By the time this method is called, if there is a
-    cursor cell to be displayed, it should already be somewhere in
-    the viewport.  All we're going to do is adjust the viewport a
-    little to align the viewport edge according to the
-    settings.brailleAlignmentStyle.
-
-    Arguments:
-    - string: the entire string to be presented
-    - focusOffset: where in string the focused region begins
-    - cursorOffset: where in the string the cursor should be
-
-    Returns: the viewport[0] value is potentially modified.
-    """
-
-    # pylint complains we don't set viewport, which in fact we do if
-    # 'jump' ends up being set.
-    #
-    # pylint: disable-msg=W0602
-    #
-    global viewport
-
-    jump = 0
-
-    # If there's no cursor to show or we're doing
-    # ALIGN_BRAILLE_BY_EDGE, the viewport should already be where it
-    # belongs.  Otherwise, we may need to do some adjusting of the
-    # viewport.
-    #
-    if (cursorOffset < 0) \
-       or (settings.brailleAlignmentStyle == settings.BRAILLE_ALIGN_BY_EDGE) \
-       or not (cursorOffset >= viewport[0]
-               and cursorOffset < (viewport[0] + _displaySize[0])):
-        pass
-    else:
-        # The left and right margin values are absolute values in the
-        # string and represent where in the string the margins of the
-        # current viewport lie.  Note these are margins and not the
-        # actual edges of the viewport.
-        #
-        leftMargin = viewport[0] + settings.brailleAlignmentMargin - 1
-        rightMargin = (viewport[0] + _displaySize[0]) \
-                      - settings.brailleAlignmentMargin
-
-        # This represents how far left in the string we want to search
-        # and also how far left we'll realign the viewport. Setting it
-        # to focusOffset means we won't move the viewport further left
-        # than the beginning of the current region with focus.
-        #
-        leftMostEdge = max(0, focusOffset)
-
-        # If we align by margin, we just want to keep the cursor at or
-        # in between the margins.  The only time we go outside the
-        # margins are when we are at the ends of the string.
-        #
-        if settings.brailleAlignmentStyle == settings.BRAILLE_ALIGN_BY_MARGIN:
-            if cursorOffset < leftMargin:
-                jump = cursorOffset - leftMargin
-            elif cursorOffset > rightMargin:
-                jump = cursorOffset - rightMargin
-        elif settings.brailleAlignmentStyle == settings.BRAILLE_ALIGN_BY_WORD:
-            # When we align by word, we want to try to show complete
-            # words at the edges of the braille display.  When we're
-            # near the left edge, we'll try to start a word at the
-            # left edge.  When we're near the right edge, we'll try to
-            # end a word at the right edge.
-            #
-            if cursorOffset < leftMargin:
-                # Find the index of the character that is the first
-                # letter of the word prior to left edge of the
-                # viewport.
-                #
-                inWord = False
-                leftWordEdge = viewport[0] - 1
-                while leftWordEdge >= leftMostEdge:
-                    if not string[leftWordEdge] in ' \t\n\r\v\f':
-                        inWord = True
-                    elif inWord:
-                        leftWordEdge += 1
-                        break
-                    leftWordEdge -= 1
-                leftWordEdge = max(leftMostEdge, leftWordEdge)
-                jump = leftWordEdge - viewport[0]
-            elif cursorOffset > rightMargin:
-                # Find the index of the character that is the last
-                # letter of the word after the right edge of the
-                # viewport.
-                #
-                inWord = False
-                rightWordEdge = viewport[0] + _displaySize[0]
-                while rightWordEdge < len(string):
-                    if not string[rightWordEdge] in ' \t\n\r\v\f':
-                        inWord = True
-                    elif inWord:
-                        break
-                    rightWordEdge += 1
-                rightWordEdge = min(len(string), rightWordEdge)
-                jump = max(0, rightWordEdge - (viewport[0] + _displaySize[0]))
-
-            # We use the brailleMaximumJump to help us handle really
-            # long words.  The (jump/abs(jump)) stuff is a quick and
-            # dirty way to retain the sign (i.e., +1 or -1).
-            #
-            if abs(jump) > settings.brailleMaximumJump:
-                jump = settings.brailleMaximumJump * (jump/abs(jump))
-
-    if jump:
-        # Set the viewport's left edge based upon the jump, making
-        # sure we don't go any farther left than the leftMostEdge.
-        #
-        viewport[0] = max(leftMostEdge, viewport[0] + jump)
-
-        # Now, make sure we don't scroll too far to the right.  That
-        # is, avoid showing blank spaces to the right if there is more
-        # of the string that can be shown.
-        #
-        viewport[0] = min(viewport[0],
-                          max(leftMostEdge, len(string) - _displaySize[0]))
-        viewport[0] = int(viewport[0])
 
 def refresh(panToCursor=True,
             targetCursorCell=0,
@@ -1246,7 +1144,7 @@ def refresh(panToCursor=True,
     # actually is in the string.
     #
     line = _lines[viewport[1]]
-    [string, focusOffset, attributeMask] = line.getLineInfo(getLinkMask)
+    [string, focusOffset, attributeMask, ranges] = line.getLineInfo(getLinkMask)
     cursorOffset = -1
     if focusOffset >= 0:
         cursorOffset = focusOffset + _regionWithFocus.cursorOffset
@@ -1265,15 +1163,12 @@ def refresh(panToCursor=True,
             viewport[0] = max(0, cursorOffset)
         elif cursorOffset >= (viewport[0] + _displaySize[0]):
             viewport[0] = max(0, cursorOffset - _displaySize[0] + 1)
+        else:
+            rangeForOffset = _getRangeForOffset(cursorOffset)
+            viewport[0] = max(0, rangeForOffset[0])
 
-    # The cursorOffset should be somewhere in the viewport right now.
-    # Let's try to realign the viewport so that the cursor shows up
-    # according to the settings.brailleAlignmentStyle setting.
-    #
-    _realignViewport(string, focusOffset, cursorOffset)
-
-    startPos = int(viewport[0])
-    endPos = startPos + _displaySize[0]
+    startPos, endPos = _adjustForWordWrap()
+    viewport[0] = startPos
 
     # Now normalize the cursor position to BrlTTY, which uses 1 as
     # the first cursor position as opposed to 0.
@@ -1487,6 +1382,37 @@ def displayKeyEvent(event):
         msg = "%s %s" % (keyname, lockingStateString)
         displayMessage(msg, flashTime=settings.brailleFlashTime)
 
+def _adjustForWordWrap():
+    startPos = viewport[0]
+    endPos = startPos + _displaySize[0]
+    msg = "BRAILLE: Current range: (%i, %i)." % (startPos, endPos)
+    debug.println(debug.LEVEL_INFO, msg, True)
+
+    if not _lines or not settings.enableBrailleWordWrap:
+        return startPos, endPos
+
+    line = _lines[viewport[1]]
+    lineString, focusOffset, attributeMask, ranges = line.getLineInfo()
+    ranges = list(filter(lambda x: x[0] <= startPos < x[1], ranges))
+    if ranges:
+        msg = "BRAILLE: Adjusted range: (%i, %i)" % (ranges[0][0], ranges[-1][1])
+        debug.println(debug.LEVEL_INFO, msg, True)
+        if ranges[-1][1] - ranges[0][0] > _displaySize[0]:
+            msg = "BRAILLE: Not adjusting range which is greater than display size"
+            debug.println(debug.LEVEL_INFO, msg, True)
+        else:
+            startPos, endPos = ranges[0][0], ranges[-1][1]
+
+    return startPos, endPos
+
+def _getRangeForOffset(offset):
+    string, focusOffset, attributeMask, ranges = _lines[viewport[1]].getLineInfo()
+    for r in ranges:
+        if r[0] <= offset < r[1]:
+            return r
+
+    return [0, 0]
+
 def panLeft(panAmount=0):
     """Pans the display to the left, limiting the pan to the beginning
     of the line being displayed.
@@ -1499,13 +1425,12 @@ def panLeft(panAmount=0):
     """
 
     oldX = viewport[0]
-
     if panAmount == 0:
-        panAmount = _displaySize[0]
+        oldStart, oldEnd = _getRangeForOffset(oldX)
+        newStart, newEnd = _getRangeForOffset(oldStart - 1)
+        panAmount = max(0, min(oldStart - newStart, _displaySize[0]))
 
-    if viewport[0] > 0:
-        viewport[0] = max(0, viewport[0] - panAmount)
-
+    viewport[0] = max(0, viewport[0] - panAmount)
     return oldX != viewport[0]
 
 def panRight(panAmount=0):
@@ -1520,17 +1445,10 @@ def panRight(panAmount=0):
     """
 
     oldX = viewport[0]
-
     if panAmount == 0:
         panAmount = _displaySize[0]
 
-    if len(_lines) > 0:
-        lineNum = viewport[1]
-        newX = viewport[0] + panAmount
-        [string, focusOffset, attributeMask] = _lines[lineNum].getLineInfo()
-        if newX < len(string):
-            viewport[0] = newX
-
+    viewport[0] += panAmount
     return oldX != viewport[0]
 
 def panToOffset(offset):

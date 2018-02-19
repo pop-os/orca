@@ -23,23 +23,28 @@
     </mal:credit>
   </info>
   <title>Inställningar för tabellnavigering</title>
-  <p>Det följande alternativet låter dig anpassa hur <app>Orca</app> beter sig vid navigering i en tabell i program för vilka <link xref="howto_structural_navigation">strukturell navigering</link> är aktiverat.</p>
-  <section>
+  <p>
+    The following options allow you to customize how <app>Orca</app>
+    behaves when navigating within a table in
+    <link xref="howto_structural_navigation">Structural-Navigation</link>-enabled
+    applications.
+  </p>
+  <section id="speak_cell_coordinates">
     <title>Läs upp cellkoordinater</title>
     <p>Om denna kryssruta är ikryssad kommer <app>Orca</app> att annonsera koordinaterna för varje cell som du navigerar till.</p>
     <p>Standardvärde: ikryssad</p>
   </section>
-  <section>
+  <section id="speak_multiple_cell_spans">
     <title>Läs upp flera cellspann</title>
     <p>Om denna kryssruta är ikryssad kommer <app>Orca</app> meddela hur många rader och/eller kolumner som en cell spänner över om den spänner över mer än en.</p>
     <p>Standardvärde: ikryssad</p>
   </section>
-  <section>
+  <section id="announce_cell_header">
     <title>Meddela cellhuvud</title>
     <p>Om denna kryssruta är ikryssad kommer <app>Orca</app> meddela ändringar i huvudet om huvudena för den aktuella cellen kan avgöras.</p>
     <p>Standardvärde: ikryssad</p>
   </section>
-  <section>
+  <section id="skip_blank_cells">
     <title>Hoppa över tomma celler</title>
     <p>Om denna kryssruta är ikryssad kommer <app>Orca</app> hoppa över tomma celler då du använder <app>Orca</app>s tabellkommandon för strukturell navigering för att komma åt tabellen.</p>
     <p>Standardvärde: inte ikryssad</p>

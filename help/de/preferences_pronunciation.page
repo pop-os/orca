@@ -33,7 +33,7 @@
     </mal:credit>
   </info>
   <title>Einstellungen für Aussprache</title>
-  <p id="introduction">
+  <p>
     Sometimes your speech synthesizer just doesn't say the right thing
     for a given string. You might prefer to hear "laughing out loud"
     rather than "LOL," or "accessibility" rather than "a11y". Or there

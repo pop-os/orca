@@ -5,7 +5,9 @@
     <link type="next" xref="preferences_spellcheck"/>
     <title type="sort">3. Discussion</title>
     <title type="link">Discussion</title>
-    <desc>Configurer la prise en charge de la messagerie instantanée et de l'IRC par <app>Orca</app></desc>
+    <desc>
+      Configuring <app>Orca</app>'s support for IM and IRC
+    </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -46,22 +48,22 @@
   </info>
   <title>Préférences de discussion</title>
   <p>Les options suivantes vous permettent de personnaliser le comportement d'<app>Orca</app> pendant l'utilisation de messagerie instantanée et de clients IRC (discussion relayée par internet).</p>
-  <section>
+  <section id="speak_name">
     <title>Lire le nom du salon de discussion</title>
     <p>Si cette case est cochée, <app>Orca</app> préfixe les messages entrants avec le nom du salon ou du contact émetteur, sauf s'ils proviennent de la conversation actuellement utilisée.</p>
     <p>Valeur par défaut : non cochée</p>
   </section>
-  <section>
+  <section id="announce_typing">
     <title>Indique si vos contacts saisissent un message</title>
     <p>Si cette case est cochée, et si <app>Orca</app> possède les informations indiquant que votre contact est en train de saisir, <app>Orca</app> annonce les changements de statut de saisie.</p>
     <p>Valeur par défaut : non cochée</p>
   </section>
-  <section>
+  <section id="message_histories">
     <title>Donner les historiques de messages par salon de discussion.</title>
     <p>Si cette case est cochée, <app>Orca</app> relit les messages récents de la conversation actuelle. Autrement, l'historique des conversations les plus récentes est lue indépendamment de l'origine des conversations.</p>
     <p>Valeur par défaut : non cochée</p>
   </section>
-  <section>
+  <section id="speak_messages_from">
     <title>Lire les messages provenant de</title>
     <p>Ce groupement de boutons radio vous permet de contrôler dans quelles circonstances <app>Orca</app> vous présente un nouveau message. Les choix sont les suivants :</p>
     <list>

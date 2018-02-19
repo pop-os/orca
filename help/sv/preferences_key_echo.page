@@ -25,47 +25,47 @@
     <title>Aktivera tangenteko</title>
     <p>Orcas inställningar för tangenteko styr vad som händer varje gång du trycker ner en tangent. Kryssa i kryssrutan ”Aktivera tangenteko” för att aktivera tangenteko. Att göra detta får ytterligare kryssrutor att bli tillgängliga, och genom dessa kan du välja precis vilka tangenter som ska upprepas så att det i största möjliga mån passar dina behov.</p>
     <p>Standardvärde: ikryssad</p>  
-    <section>
+    <section id="keyecho_enable_alphanumeric">
       <title>Aktivera bokstavstangenter</title>
       <p>Detta alternativ styr huruvida tangenter som <key>a</key>, <key>b</key> och <key>c</key> ska läsas upp då de trycks ned.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
-    <section>
+    <section id="keyecho_enable_numeric">
       <title>Aktivera siffertangenter</title>
       <p>Detta alternativ styr huruvida tangenter som <key>1</key>, <key>2</key> och <key>3</key> ska läsas upp då de trycks ned.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
-    <section>
+    <section id="keyecho_enable_punctuation">
       <title>Aktivera skiljetecken</title>
       <p>Detta alternativ styr huruvida tangenter som <key>%</key>, <key>;</key> och <key>?</key> ska läsas upp då de trycks ned.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
-    <section>
+    <section id="keyecho_enable_space">
       <title>Aktivera blanksteg</title>
       <p>Detta alternativ styr huruvida <key>blanksteg</key> ska läsas upp då det trycks ned.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
-    <section>
+    <section id="keyecho_enable_modifier">
       <title>Aktivera modifierartangenter</title>
       <p>Detta alternativ styr huruvida <key>Skift</key>, <key>Ctrl</key>, <key>Alt</key> och <key>Meta</key> ska läsas upp då de trycks ned.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
-    <section>
+    <section id="keyecho_enable_function">
       <title>Aktivera funktionstangenter</title>
       <p>Detta alternativ styr huruvida <key>F1</key> till <key>F12</key> ska läsas upp då de trycks ned.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
-    <section>
+    <section id="keyecho_enable_action">
       <title>Aktivera åtgärdstangenter</title>
       <p>Detta alternativ styr huruvida <key>Backsteg</key>, <key>Delete </key>, <key>Retur</key>, <key>Escape</key>, <key>Tabb</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</key> och <key>End</key> ska läsas upp då de trycks ned.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
-    <section>
+    <section id="keyecho_enable_navigation">
       <title>Aktivera navigeringstangenter</title>
       <p>Detta alternativ styr huruvida <key>Vänster</key>, <key>Höger</key>, <key>Upp</key> och <key>Ned</key> ska läsas upp då de trycks ned. Detta alternativ tillämpas också till alla tangentkombinationer i vilka <key>Orca-modifierare</key> hålls ned, till exempel då platt granskning används.</p>
       <p>Standardvärde: inte ikryssad</p>
     </section>
-    <section>
+    <section id="keyecho_enable_diacritical">
       <title>Aktivera icke-blankstegs diakritiska tangenter</title>
       <p>Detta alternativ styr huruvida ”stumma tangenter” som används för att skapa bokstäver med diakritiska tecken ska uttalas då de trycks ned.</p>
       <p>Standardvärde: inte ikryssad</p>

@@ -45,7 +45,7 @@
       echoed to best suit your needs.
     </p>
     <p>Standardwert: aktiviert</p>  
-    <section>
+    <section id="keyecho_enable_alphanumeric">
       <title>Alphabetische Tasten aktivieren</title>
       <p>
         This option controls whether or not keys like <key>a</key>,
@@ -53,7 +53,7 @@
       </p>
       <p>Standardwert: aktiviert</p>
     </section>
-    <section>
+    <section id="keyecho_enable_numeric">
       <title>Numerische Tasten aktivieren</title>
       <p>
         This option controls whether or not keys like <key>1</key>,
@@ -61,7 +61,7 @@
       </p>
       <p>Standardwert: aktiviert</p>
     </section>
-    <section>
+    <section id="keyecho_enable_punctuation">
       <title>Interpunktionstasten aktivieren</title>
       <p>
         This option controls whether or not keys like <key>%</key>,
@@ -69,7 +69,7 @@
       </p>
       <p>Standardwert: aktiviert</p>
     </section>
-    <section>
+    <section id="keyecho_enable_space">
       <title>Leertaste aktivieren</title>
       <p>
         This option controls whether or not <key>space</key> should be
@@ -77,7 +77,7 @@
       </p>
       <p>Standardwert: aktiviert</p>
     </section>
-    <section>
+    <section id="keyecho_enable_modifier">
       <title>Zusatztasten aktivieren</title>
       <p>
         This option controls whether or not <key>Shift</key>, <key>Ctrl</key>,
@@ -85,7 +85,7 @@
       </p>
       <p>Standardwert: aktiviert</p>
     </section>
-    <section>
+    <section id="keyecho_enable_function">
       <title>Funktionstasten aktivieren</title>
       <p>
         This option controls whether or not <key>F1</key> through <key>F12</key>
@@ -93,7 +93,7 @@
       </p>
       <p>Standardwert: aktiviert</p>
     </section>
-    <section>
+    <section id="keyecho_enable_action">
       <title>Aktionstasten aktivieren</title>
       <p>
         This option controls whether or not <key>BackSpace</key>, <key>Delete
@@ -103,7 +103,7 @@
       </p>
       <p>Standardwert: aktiviert</p>
     </section>
-    <section>
+    <section id="keyecho_enable_navigation">
       <title>Navigationstasten aktivieren</title>
       <p>
         This option controls whether or not <key>Left</key>, <key>Right</key>,
@@ -114,7 +114,7 @@
       </p>
       <p>Standardwert: nicht aktiviert</p>
     </section>
-    <section>
+    <section id="keyecho_enable_diacritical">
       <title>Diakritische Tasten aktivieren</title>
       <p>
         This option controls whether or not "dead keys" used to generate

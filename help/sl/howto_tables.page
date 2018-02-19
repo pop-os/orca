@@ -45,7 +45,12 @@
     <p>Poleg tega <app>Orka</app> zagotavlja nastavljive <link xref="preferences_table_navigation">možnosti predstavitve</link>, ki delujejo skupaj s strukturnim krmarjenjem in vam omogočajo nastavljanje ali so predstavljene koordinate celic, ali je nakazana širina več celic in ali so glave celic oznanjene.</p>
     <note style="tip">
       <title>Ne pozabite vklopiti strukturnega krmarjenja!</title>
-      <p>Glede na to kje ste boste morda morali pred uporabo strukturno krmarjenje eksplicitno vklopiti. Za več podrobnosti si preberite <link type="seealso" xref="howto_structural_navigation#toggling_required"> kdaj je preklapljanje strukturnega krmarjenja zahtevano.</link></p>
+      <p>
+        Depending on where you are, it may be necessary for you to explicitly
+        toggle Structural Navigation on before you can use it. To learn more, read
+        <link xref="howto_structural_navigation#toggling_required">
+        when toggling Structural Navigation on is required.</link>
+      </p>
     </note>
   </section>
   <section id="dynamic_headers">
@@ -61,7 +66,7 @@
       </item>
     </steps>
     <steps>
-      <title>Nastavi glave vrstic</title>
+      <title>Setting Row Headers</title>
       <item>
         <p>Premaknite se na stolpec, ki vsebuje vse glave vrstic.</p>
       </item>

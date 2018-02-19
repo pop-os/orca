@@ -23,23 +23,28 @@
     </mal:credit>
   </info>
   <title>Προτιμήσεις πίνακα περιήγησης</title>
-  <p>Η παρακάτω επιλογή επιτρέπει την προσαρμογή του <app>Orca</app> κατά την περιήγηση μέσα σε ένα πίνακα στη <link xref="howto_structural_navigation">δομική περιήγηση</link>-ενεργές εφαρμογές.</p>
-  <section>
+  <p>
+    The following options allow you to customize how <app>Orca</app>
+    behaves when navigating within a table in
+    <link xref="howto_structural_navigation">Structural-Navigation</link>-enabled
+    applications.
+  </p>
+  <section id="speak_cell_coordinates">
     <title>Εκφώνηση συντεταγμένων κελιών</title>
     <p>Εάν αυτό το πλαισίου ελέγχου σημειωθεί, το <app>Orca</app> θα ανακοινώσει τις συντεταγμένες κάθε κελιού που περιηγείστε.</p>
     <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
   </section>
-  <section>
+  <section id="speak_multiple_cell_spans">
     <title>Εκφώνηση επικαλύψεων πολλαπλών κελιών</title>
     <p>Εάν αυτό το πλαίσιο ελέγχου σημειωθεί, το <app>Orca</app> θα ανακοινώσει πόσες γραμμές και/ή στήλες καλύπτει ένα κελί όταν καλύπτει περισσότερα από ένα.</p>
     <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
   </section>
-  <section>
+  <section id="announce_cell_header">
     <title>Αναγγελία κεφαλίδας κελιού</title>
     <p>Εάν αυτό το πλαίσιο ελέγχου σημειωθεί, το <app>Orca</app> θα αναγγείλει αλλαγές στην κεφαλίδα, εάν κεφαλίδες για το τρέχον κελί μπορεί να καθοριστούν.</p>
     <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
   </section>
-  <section>
+  <section id="skip_blank_cells">
     <title>Αγνόηση των κενών κελιών</title>
     <p>Εάν αυτό το πλαίσιο ελέγχου σημειωθεί, το <app>Orca</app> θα παραλείψει κενά κελιά όταν χρησιμοποιείτε τις εντολές περιήγησης δομικού πίνακα του <app>Orca</app> για πρόσβαση στον πίνακα.</p>
     <p>Προεπιλεγμένη τιμή: ασημείωτη</p>

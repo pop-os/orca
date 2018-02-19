@@ -21,11 +21,17 @@
   </info>
   <title>Levande regioner</title>
   <p>En levande region är en dynamiskt uppdaterad del av en webbsida, som en tabell med sportstatistik, en lista med aktuella aktiekurser, en logg från en chatt eller en varning som visas av sidan som du läser. Medan levande regioner förekommer rätt ofta så är det mer sällsynt med fullständigt åtkomliga webbsidor med levande regioner. Ett antal organisationer arbetar aktivt med detta problem.</p>
-  <section>
+  <section id="politeness_levels">
     <title>Snällhetsnivåer för levande regioner</title>
-    <p>Levande regioner har en associerad ”snällhets”-nivå som anges av författaren som ett sätt att uttrycka vikten hos informationen och för att föreslå när användare ska informeras av deras hjälpmedelsteknik om uppdateringar som gjorts i den regionen. En levande region kan vara ”av”, ”snäll” eller ”påträngande” till gränsen att vara ”fräck”.</p>
+    <p>
+      Live regions have an associated "politeness" level which is set by the
+      author as a means to convey the importance of the information and to
+      suggest when users should be informed by their assistive technology of
+      updates made within that region. Live regions can be "off", "polite", or
+      "assertive" to the point of being "rude."
+    </p>
   </section>
-  <section>
+  <section id="orca_support">
     <title><app>Orca</app>s stöd för levande regioner</title>
     <p>Eftersom du kanske inte håller med om den snällhetsnivå som angivits av författaren vars sida du tittar på så tillhandahåller <app>Orca</app> ett antal <link xref="commands_live_regions">kommandon för levande regioner</link> som låter dig ändra nivån på någon eller alla regionerna på en sida. Du kan dessutom:</p>
     <list>

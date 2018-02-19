@@ -14,7 +14,7 @@
     </license>
   </info>
   <title>Úvod do předvoleb čtečky <app>Orca</app></title>
-  <section>
+  <section id="orca">
     <title>Předvolby Orca</title>
     <p>Předvolby Orca vám umožňují přizpůsobit si funkcionalitu čtečky <app>Orca</app>, která se použije pro všechny aplikace. Příkladem předvolby je oznamování kláves, protože to se použije u všech aplikací.</p>
     <p>Všimněte si, že předvolby Orca lze přizpůsobit i pro jednotlivé aplikace. Například můžete nastavit odezvu pro oznamování kláves na celá slova a pro aplikaci Pidgin pak oznamování kláves vypnout. Když tak učiníte, bude <app>Orca</app> vždy po dopsání slova hlásit jednotlivé klávesy, vyjma situace, kdy budete v komunikátoru Pidgin.</p>
@@ -30,7 +30,7 @@
       </list>
     </note>
   </section>
-  <section>
+  <section id="application_unique">
     <title>Předvolby jedinečné pro aplikaci</title>
       <p>Jako opak předvoleb Orca existují předvolby jedinečné pro aplikace. Pomocí nich si můžete přizpůsobit funkce <app>Orca</app>, které se používají jen v konkrétním prostředí, například na webových stránkách nebo v diskuzních aplikacích. Následkem toho tyto volby najdete dostupné jen v dialogovém okně předvoleb pro konkrétní aplikaci a jen pro tuto aplikaci se tyto volby použijí.</p>
   </section>

@@ -15,7 +15,7 @@
     </license>
   </info>
   <title>Možnosti izgovorjave</title>
-  <p id="introduction">Včasih vaš sintetizator govora ne reče prave stvari za dani niz. Morda bi rajši slišali "lep pozdrav" namesto "Lp". Morda obstaja ime ali tehnični izraz, ki ga sintetizetor napačno izgovori.</p>
+  <p>Včasih vaš sintetizator govora ne reče prave stvari za dani niz. Morda bi rajši slišali "lep pozdrav" namesto "Lp". Morda obstaja ime ali tehnični izraz, ki ga sintetizetor napačno izgovori.</p>
   <p>Stran <gui>Izgovorjava</gui> možnosti <app>Orke</app> vam omogoča dodajanje, urejanje in izbris vnosov v <app>Orkinem</app> slovarju izgovorjave.</p>
   <p>Ker je stran <gui>Izgovorjava</gui> tudi del nastavitev določenih za program, lahko svoje vnose prilagodite na osnovi želja za vsak program, ki ga potrebujete.</p>
   <steps>

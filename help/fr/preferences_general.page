@@ -144,27 +144,27 @@
   </section>
   <section id="progress_bar_updates">
     <title>Mises à jour des barres de progression</title>
-    <section>
+    <section id="progress_bar_updates_speak">
       <title>Lire les mises à jour</title>
       <p>Si la case <gui>Lire les mises à jour</gui> est cochée, <app>Orca</app> annonce périodiquement l'état des barres de progression.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_braille">
       <title>Suivi des mises à jour en braille</title>
       <p>Si la case <gui>Suivi des mises à jour en braille</gui> est cochée, <app>Orca</app> affiche périodiquement l'état des barres de progression sur la plage braille.</p>
       <p>Valeur par défaut : non cochée</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_beep">
       <title>Suivi des mises à jour par bip</title>
       <p>Si la case <gui>Suivi des mises à jour par bip</gui> est cochée, <app>Orca</app> émet périodiquement des bips sonores dont la tonalité s'élève au fur et à mesure de l'avancement des barres de progression.</p>
       <p>Valeur par défaut : non cochée</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_frequency">
       <title>Fréquence (sec)</title>
       <p>Ce bouton compteur détermine la fréquence à laquelle les mises à jour sont annoncées.</p>
       <p>Valeur par défaut : 10</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_restrict">
       <title>Limiter à</title>
       <p>Cette liste déroulante vous permet de choisir quelles barres de progression sont prononcées, en supposant que l'annonce de la mise à jour des barres de progression soit activée. Les choix possibles sont : <gui>Toutes</gui>, <gui>Application</gui> et <gui>Fenêtre</gui>.</p>
       <p>Quand vous choisissez <gui>Toutes</gui>, <app>Orca</app> prononce les mises à jour de toutes les barres de progression, quel que soit leur emplacement.</p>

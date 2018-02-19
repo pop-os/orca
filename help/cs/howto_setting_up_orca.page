@@ -16,7 +16,6 @@
     </license>
   </info>
   <title>Nastavení čtečky Orca</title>
-    <section id="configuring_orca">
+
       <p>Když chcete provést nastavení čtečky <app>Orca</app>, přejděte do dialogového okna <link xref="preferences">Předvolby</link> zmáčknutím <keyseq><key>modifikátor Orca</key><key>mezerník</key></keyseq> v kterékoliv zpřístupněné aplikaci. Jinou možností je napsat v terminálovém okně nebo v dialogovém okně <gui>Spuštení</gui> příkaz <cmd>orca</cmd> následovaný <cmd>-s</cmd> nebo <cmd>--setup</cmd> a zmáčknout <key>Enter</key>.</p>
-    </section>
 </page>

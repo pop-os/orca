@@ -23,6 +23,16 @@
       <p>V případě, že BrlTTY zapnete později, musíte čtečku <app>Orca</app> restartovat, aby mohla používat Braill.</p>
     </note>
   </section>
+  <section id="braillewordwrap">
+    <title>Enable word wrap</title>
+    <p>
+      If <gui>Enable word wrap</gui> is checked, <app>Orca</app> will adjust the
+      text so that only full words are shown on the braille display. If it is not
+      checked, <app>Orca</app> will use all of the cells on the display so that
+      more text can be shown at once.
+    </p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+  </section>
   <section id="contractedbraille">
     <title>Zapnout zkratkopis u Braillu</title>
     <p><app>Orca</app> podporuje braillský zkratkopis díky projektu liblouis. Protože většina distribucí liblous obsahuje, budete mít ve čtečce <app>Orca</app> k podpoře braillského zkratkopisu pravděpodobně automaticky přístup.</p>
@@ -56,22 +66,22 @@
   <section id="flashMessageSettings">
     <title>Nastavení bleskových zpráv</title>
     <p>Bleskové zprávy jsou něco podobného, jako upozornění nebo oznámení. Zobrazí se na braillském řádku jen na krátkou chvíli a pak se obnoví původní obsah braillského řádku. <app>Orca</app> má několik nastavení, které můžete použít k ovládání prezentace bleskových zpráv.</p>
-    <section>
+    <section id="flashMessageSettings_enable">
       <title>Povolit bleskové zprávy</title>
       <p>Když je zaškrtnuto <gui>Povolit bleskové zprávy</gui>, bude <app>Orca</app> prezentovat zprávy na braillském řádku. Jestli dáváte přednost tomu, aby byly zprávy jen čteny, neměli byste mít toto políčko zaškrtnuté.</p>
       <p>Výchozí hodnota: zaškrtnuto</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_detailed">
       <title>Zprávy jsou podrobné</title>
       <p>Když je zaškrtnuté <gui>Zprávy jsou podrobné</gui>, bude <app>Orca</app> prezentovat podrobné zprávy na braillském řádku. Například, když použijete příkaz <app>Orca</app> ke změně oznamování kláves, může vám oznámit „Oznamování kláves je nastavené na slova.“ Jestli dáváte přednost kratším zprávám, jako je prosté „slovo“, neměli byste mít toto políčko zaškrtnuté.</p>
       <p>Výchozí hodnota: zaškrtnuto</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_persistent">
       <title>Zprávy jsou trvalé</title>
       <p>Jak bylo uvedeno výše, bleskové zprávy se zobrazí jen na krátkou chvíli. Jestli je pro vás lepší, aby zůstaly zobrazené, dokud neprovedete činnost, která způsobí aktualizaci řádku, měli byste zaškrtnout políčko <gui>Zprávy jsou trvalé</gui>.</p>
       <p>Výchozí hodnota: nezaškrtnuto</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_duration">
       <title>Doba prezentování zprávy (v sekundách)</title>
       <p>Dobu, po kterou bude <app>Orca</app> čekat, než zprávu odstraní a obnoví původní obsah řádku, můžete nastavit pomocí číselníku <gui>Doba prezentování zprávy (v sekundách)</gui>. Uvědomte si, že pokud máte zapnuté trvalé bleskové zprávy, bude hodnota tohoto nastavení ignorována.</p>
       <p>Výchozí hodnota: 5</p>

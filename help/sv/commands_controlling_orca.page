@@ -20,7 +20,7 @@
       <mal:years>2015, 2016, 2017</mal:years>
     </mal:credit>
   </info>
-  <title type="link">Kontrollera och lära sig använda Orca</title>
+  <title>Kontrollera och lära sig använda Orca</title>
   <section id="controlling">
     <title>Kommandon för att kontrollera <app>Orca</app></title>
     <p>Följande kommandon kan användas för att komma till <app>Orca</app>s inställningsdialoger, slå på eller av <app>Orca</app> och åsidosätta <app>Orca</app>-kommandon för att undvika genvägskonflikter i programmet som koms åt.</p>

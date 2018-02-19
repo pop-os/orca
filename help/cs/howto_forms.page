@@ -15,7 +15,7 @@
   </info>
   <title>Vyplňování formulářů</title>
   <p>Když pomocí čtečky <app>Orca</app> pracujete s webovými stránkami a jinými dokumenty, pracujete přímo s dokumentem a ne s kopií ve vyrovnávací paměti. Režimy procházení a zaměřování vám ve čtečce <app>Orca</app> umožňují přepínat se mezi čtením a vyplňováním formulářů.</p>
-  <section>
+  <section id="navigating_amongst_form_fields">
     <title>Pohyb mezi poli formuláře</title>
     <p>Za účelem pohybu mezi poli formuláře máte několik možností:</p>
     <list>
@@ -33,7 +33,7 @@
      <p>Abyste mohli ve čtečce <app>Orca</app> použít příkazy pro ovládání kurzoru nebo strukturovanou navigaci k přístupu do formulářových polí, musíte být v režimu procházení. Když jste v režimu zaměřování, můžete se přepnout do režimu procházení zmáčknutím <keyseq><key>Modifikátor Orca</key><key>A</key></keyseq>.</p>
    </note>
   </section>
-  <section>
+  <section id="exiting_form_fields">
     <title>Opuštění polí formuláře</title>
     <p>Když chcete opustit formulářové pole, máte několik možností:</p>
     <list>

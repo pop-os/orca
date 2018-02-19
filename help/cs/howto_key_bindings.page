@@ -62,7 +62,7 @@
   <steps>
     <title>Obnovení původních klávesových zkratek</title>
     <item>
-      <p>Vstupte do dialogového okna <link xref="preferences">Předvolby Orca</link> zmáčknutím <keyseq><key>Modifikátor Orca</key> <key>mezerník</key></keyseq>.</p>
+      <p>Zobrazte si zmáčknutím <keyseq><key>Modifikátor Orca</key><key>mezerník</key></keyseq> dialogové okno <link xref="preferences">Předvolby Orca</link>.</p>
     </item>
     <item>
       <p>Přejděte na stránku <gui>Klávesové zkratky</gui>.</p>
@@ -80,7 +80,7 @@
   <steps>
     <title>Zrušení přiřazení klávesové zkratky příkazu</title>
     <item>
-      <p>Vstupte do dialogového okna <link xref="preferences">Předvolby Orca</link> zmáčknutím <keyseq><key>Modifikátor Orca</key> <key>mezerník</key></keyseq>.</p>
+      <p>Zobrazte si zmáčknutím <keyseq><key>Modifikátor Orca</key><key>mezerník</key></keyseq> dialogové okno <link xref="preferences">Předvolby Orca</link>.</p>
     </item>
     <item>
       <p>Přejděte na stránku <gui>Klávesové zkratky</gui>.</p>

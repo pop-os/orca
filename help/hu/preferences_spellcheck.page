@@ -4,7 +4,9 @@
     <link type="guide" xref="preferences#application"/>
     <title type="sort">4. Helyesírás-ellenőrzés</title>
     <title type="link">Helyesírás-ellenőrzés</title>
-    <desc>Az <app>Orka</app> helyesírás-ellenőrzés támogatásának konfigurálása</desc>
+    <desc>
+      Configuring <app>Orca</app>'s support for Spell Check
+    </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -25,17 +27,17 @@
     <title>A helyesírás-ellenőrzéssel kapcsolatos információk a Részletes és a Tömör részletező módban is elérhetők</title>
     <p>Ha általában kevés információt szeretne hallani a helyesírás-ellenőrzés használatakor, de egy konkrét hibával kapcsolatban részletesebb információra van szüksége, letilthatja ezeket a beállításokat. Ha egy hibával kapcsolatban részletes információra van szüksége, használja az <app>Orka</app> részletesebb <link xref="howto_whereami">hol vagyok műveletét</link>, ekkor a hibával kapcsolatos információk ugyanúgy megjelenítésre kerülnek, mintha ezek a beállítások engedélyezve lennének.</p>
   </note>
-  <section>
+  <section id="spell_error">
     <title>A hibás szó betűzése</title>
     <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> a hibás szó kimondása után lebetűzi azt.</p>
     <p>Alapbeállítás: bejelölve</p>
   </section>
-  <section>
+  <section id="spell_suggestion">
     <title>Javítási javaslat betűzése</title>
     <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> a javítási javaslat kimondása után lebetűzi azt.</p>
     <p>Alapbeállítás: bejelölve</p>
   </section>
-  <section>
+  <section id="error_context">
     <title>A hiba szövegkörnyezetének felolvasása</title>
     <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> a dokumentumból fel fogja olvasni azt a mondatot vagy sort, melyben a hiba található.</p>
     <p>Alapbeállítás: bejelölve</p>

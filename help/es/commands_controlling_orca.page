@@ -26,7 +26,7 @@
       <mal:years>2011</mal:years>
     </mal:credit>
   </info>
-  <title type="link">Controlar y aprender a usar Orca</title>
+  <title>Controlar y aprender a usar Orca</title>
   <section id="controlling">
     <title>4. Comandos para controlar <app>Orca</app></title>
     <p>Los siguientes comandos se pueden usar para acceder a los diálogos de preferencias de <app>Orca</app>, activar y desactivar <app>Orca</app> e ignorar los comandos de <app>Orca</app> para evitar conflictos de atajos mientras se accede a la aplicación.</p>

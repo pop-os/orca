@@ -25,7 +25,7 @@
       echoed to best suit your needs.
     </p>
     <p>Valor por omisión: marcado</p>  
-    <section>
+    <section id="keyecho_enable_alphanumeric">
       <title>Enable alphabetic keys</title>
       <p>
         This option controls whether or not keys like <key>a</key>,
@@ -33,7 +33,7 @@
       </p>
       <p>Valor por omisión: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_numeric">
       <title>Enable numeric keys</title>
       <p>
         This option controls whether or not keys like <key>1</key>,
@@ -41,7 +41,7 @@
       </p>
       <p>Valor por omisión: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_punctuation">
       <title>Enable punctuation keys</title>
       <p>
         This option controls whether or not keys like <key>%</key>,
@@ -49,7 +49,7 @@
       </p>
       <p>Valor por omisión: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_space">
       <title>Enable space</title>
       <p>
         This option controls whether or not <key>space</key> should be
@@ -57,7 +57,7 @@
       </p>
       <p>Valor por omisión: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_modifier">
       <title>Activar as teclas de modificación</title>
       <p>
         This option controls whether or not <key>Shift</key>, <key>Ctrl</key>,
@@ -65,7 +65,7 @@
       </p>
       <p>Valor por omisión: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_function">
       <title>Activar as teclas de función</title>
       <p>
         This option controls whether or not <key>F1</key> through <key>F12</key>
@@ -73,7 +73,7 @@
       </p>
       <p>Valor por omisión: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_action">
       <title>Activar as teclas de acción</title>
       <p>
         This option controls whether or not <key>BackSpace</key>, <key>Delete
@@ -83,7 +83,7 @@
       </p>
       <p>Valor por omisión: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_navigation">
       <title>Activar as teclas de navegación</title>
       <p>
         This option controls whether or not <key>Left</key>, <key>Right</key>,
@@ -94,7 +94,7 @@
       </p>
       <p>Valor predeterminado: non marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_diacritical">
       <title>Enable non-spacing diacritical keys</title>
       <p>
         This option controls whether or not "dead keys" used to generate

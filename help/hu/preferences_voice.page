@@ -23,7 +23,7 @@
   <title>Hangbeállítások</title>
   <section id="voice_type_settings">
     <title>Hangtípusok beállításai</title>
-    <section>
+    <section id="voice_type">
       <title>Hangtípus</title>
       <p>Ebben a kombinált listamezőben a különböző szövegtípusokhoz más és más hangkaraktert rendelhet, így lehetősége van például jobban megkülönböztetni a nagybetűs és hivatkozásokat tartalmazó szövegeket a normál szövegektől, vagy a képernyőn megjelenő üzeneteket az <app>Orka</app> által kiküldött üzenetektől.</p>
       <note style="tip">
@@ -31,19 +31,19 @@
         <p>Ha egy hangkarakter beállításait szeretné konfigurálni, először válassza ki a kívánt hangkaraktert a <gui>Hangtípus</gui> kombinált listamezőből. Ezután állítsa be a kívánt személyt, beszédsebességet, hangmagasságot és hangerőt.</p>
       </note>
     </section>
-    <section>
+    <section id="speech_system">
       <title>Beszédrendszer</title>
       <p>Ez a kombinált listamező lehetővé teszi, hogy kiválaszthassa a használni kívánt beszédrendszert a telepített beszédrendszerek közül, például a Speech Dispatcher beszédrendszert.</p>
     </section>
-    <section>
+    <section id="speech_synthesizer">
       <title>Beszédszintetizátor</title>
       <p>Ebben a kombinált listamezőben kiválaszthatja az Ön által kiválasztott beszédrendszerrel használni kívánt beszédszintetizátort.</p>
     </section>
-    <section>
+    <section id="person">
       <title>Személy</title>
       <p>Ez a kombinált listamező lehetővé teszi, hogy kiválassza, melyik „személy” vagy „beszélő” legyen aktív a kiválasztott hangbeállításnál. Beállíthatja például, hogy Dávid legyen az alapértelmezett hangkarakter az általános információk kimondásakor, de a hivatkozások kimondása Alíz hangján történjen. Ne feledje, hogy a <gui>Személy</gui> kombinált listamezőben választható hangkarakterek az Ön által telepített beszédszintetizátorok lehetőségeitől függenek.</p>
     </section>
-    <section>
+    <section id="capitalization_style">
       <title>Nagybetű jelzési stílus</title>
       <p>Ez a kombinált listamező lehetővé teszi annak kiválasztását, hogy az <app>Orka</app> melyik Speech Dispatcher nagybetűjelzési stílus használatával jelezze a nagybetűs szövegeket. A lehetséges beállítások a Speech Dispatcher terminológia alapján lettek elnevezve:</p>
      <list>
@@ -57,7 +57,7 @@
     </note>
     <p>Alapértelmezett beállítás: nincs</p>
     </section>
-    <section>
+    <section id="rate_pitch_and_volume">
       <title>Sebesség, hangmagasság és hangerő</title>
       <p>Ezzel a három balra és jobbra mozgatható csúszkával beállíthatja a kiválasztott személy beszédjellemzőit.</p>
     </section>

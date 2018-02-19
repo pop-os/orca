@@ -20,7 +20,7 @@
     document. <app>Orca</app>'s browse and focus modes let you switch between
     reading and filling out forms.
   </p>
-  <section>
+  <section id="navigating_amongst_form_fields">
     <title>Krmarjenje po poljih obrazca</title>
     <p>Za krmarjenje med polji obrazca imate več možnosti:</p>
     <list>
@@ -49,7 +49,7 @@
      </p>
    </note>
   </section>
-  <section>
+  <section id="exiting_form_fields">
     <title>Izhod iz polj obrazca</title>
     <p>
       To exit a form field, you have several options:

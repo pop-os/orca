@@ -456,17 +456,11 @@ class Utilities:
             except (LookupError, RuntimeError):
                 pass
 
-        # [[[WDW - HACK because push buttons can have labels as their
-        # children.  An example of this is the Font: button on the General
-        # tab in the Editing Profile dialog in gnome-terminal.
-        #
-        if not displayedText and role == pyatspi.ROLE_PUSH_BUTTON:
-            for child in obj:
-                if child.getRole() == pyatspi.ROLE_LABEL:
-                    childText = self.displayedText(child)
-                    if childText and len(childText):
-                        displayedText = \
-                            self.appendString(displayedText, childText)
+        if not displayedText and role in [pyatspi.ROLE_PUSH_BUTTON, pyatspi.ROLE_LIST_ITEM]:
+            labels = self.unrelatedLabels(obj)
+            if not labels:
+                labels = self.unrelatedLabels(obj, onlyShowing=False)
+            displayedText = " ".join(map(self.displayedText, labels))
 
         if self.DISPLAYED_TEXT not in self._script.generatorCache:
             self._script.generatorCache[self.DISPLAYED_TEXT] = {}
@@ -547,6 +541,9 @@ class Utilities:
             parent = parent.parent
 
         return results
+
+    def presentEventFromNonShowingObject(self, event):
+        return False
 
     def grabFocusBeforeRouting(self, obj, offset):
         """Whether or not we should perform a grabFocus before routing
@@ -1344,6 +1341,8 @@ class Utilities:
             layoutOnly = False
         elif role == pyatspi.ROLE_MENU:
             layoutOnly = parentRole == pyatspi.ROLE_COMBO_BOX
+        elif role == pyatspi.ROLE_COMBO_BOX:
+            layoutOnly = False
         elif role == pyatspi.ROLE_LIST:
             layoutOnly = False
         elif role == pyatspi.ROLE_FORM:
@@ -1915,6 +1914,21 @@ class Utilities:
             return True        
 
         return False
+
+    def realActiveAncestor(self, obj):
+        if obj.getState().contains(pyatspi.STATE_FOCUSED):
+            return obj
+
+        roles = [pyatspi.ROLE_TABLE_CELL,
+                 pyatspi.ROLE_COLUMN_HEADER,
+                 pyatspi.ROLE_ROW_HEADER,
+                 pyatspi.ROLE_LIST_ITEM]
+
+        ancestor = pyatspi.findAncestor(obj, lambda x: x and x.getRole() in roles)
+        if ancestor and not self._script.utilities.isLayoutOnly(ancestor.parent):
+            obj = ancestor
+
+        return obj
 
     def realActiveDescendant(self, obj):
         """Given an object that should be a child of an object that
@@ -4559,6 +4573,9 @@ class Utilities:
             msg = "INFO: Event is not being presented due to role and states"
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
+
+        if self.isTypeahead(event.source):
+            return state.contains(pyatspi.STATE_FOCUSED)
 
         if role == pyatspi.ROLE_PASSWORD_TEXT and state.contains(pyatspi.STATE_FOCUSED):
             return True

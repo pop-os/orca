@@ -29,6 +29,16 @@
       <p>Ha a BrlTTY programot később konfigurálja, akkor újra kell indítania az <app>Orka</app> képernyőolvasót a Braille-támogatás használatához.</p>
     </note>
   </section>
+  <section id="braillewordwrap">
+    <title>Enable word wrap</title>
+    <p>
+      If <gui>Enable word wrap</gui> is checked, <app>Orca</app> will adjust the
+      text so that only full words are shown on the braille display. If it is not
+      checked, <app>Orca</app> will use all of the cells on the display so that
+      more text can be shown at once.
+    </p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+  </section>
   <section id="contractedbraille">
     <title>Irodalmi Braille támogatás engedélyezése</title>
     <p>Az <app>Orka</app> a liblouis projekt segítségével támogatja az irodalmi Braille-t. Mivel a legtöbb disztribúció már alapértelmezetten tartalmazza a Liblouis komponenseket, így ez a lehetőség nagy valószínűséggel hozzáférhető lesz az Ön számára az <app>Orka</app> képernyőolvasóban.</p>
@@ -62,22 +72,22 @@
   <section id="flashMessageSettings">
     <title>Frissülő üzenetek beállításai</title>
     <p>A frissülő üzenetek működése nagyon hasonlít az értesítések vagy az egyéb állapotjelentő üzenetek működéséhez: ezek az üzenetek rövid ideig az Ön frissíthető Braille-kijelzőjén jelennek meg, ezután a Braille-kijelzőn megjelenített eredeti tartalom visszaállításra kerül. Az <app>Orka</app> számos olyan beállítási lehetőséget támogat, melyek segítségével a frissülő üzenetek megjelenését szabályozhatja.</p>
-    <section>
+    <section id="flashMessageSettings_enable">
       <title>Frissülő üzenetek engedélyezése</title>
       <p>Ha a <gui>Frissülő üzenetek engedélyezése</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> által kiküldött üzenetek meg fognak jelenni a Braille-kijelzőjén. Ha inkább azt szeretné, hogy az <app>Orka</app> által kiküldött üzenetek csak kimondásra kerüljenek, törölje a jelölést a <gui>Frissülő üzenetek engedélyezése</gui> jelölőnégyzetből.</p>
       <p>Alapbeállítás: bejelölve</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_detailed">
       <title>Részletes üzenetek engedélyezése</title>
       <p>Ha a <gui>Részletes üzenetek engedélyezése</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> által kiküldött üzenetek hosszabb formában jelennek meg a Braille-kijelzőjén. Például, ha az <app>Orka</app> „Váltás a következő billentyűvisszhang-szintre” parancs segítségével billentyűvisszhang szintet vált, az <app>Orka</app> az „A billentyűvisszhang szavankéntire állítva” üzenetet jelenítheti meg. Ha inkább a rövidebb „Szavak” üzenetformát szeretné, törölje a jelölést a <gui>Részletes üzenetek engedélyezése</gui> jelölőnégyzetből.</p>
       <p>Alapbeállítás: bejelölve</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_persistent">
       <title>Üzenetek megtartása</title>
       <p>Amint azt az előzőekben már olvashatta, a frissülő üzenetek csak egy rövid ideig kerülnek megjelenítésre. Ha inkább azt szeretné, hogy a frissülő üzenetek addig legyenek megjelenítve, amíg nem történik egy olyan művelet ami a Braille-kijelző frissítését eredményezi, jelölje be az <gui>Üzenetek megtartása</gui> jelölőnégyzetet.</p>
       <p>Alapbeállítás: nincs bejelölve</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_duration">
       <title>Üzenet megjelenítés időtartama másodpercben</title>
       <p>Az <gui>Üzenet megjelenítés időtartama másodpercben</gui> léptetőgomb segítségével szabályozhatja azt az időtartamot, ameddig az <app>Orka</app> megjeleníti a Braille-kijelzőn a frissülő üzenetet, ezután az eredeti tartalom visszaállításra kerül. Megjegyzés: ez a beállítás figyelmen kívül lesz hagyva, ha be van jelölve az <gui>Üzenetek megtartása</gui> jelölőnégyzet.</p>
       <p>Alapértelmezett érték: 5 másodperc</p>

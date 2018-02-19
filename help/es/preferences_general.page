@@ -115,27 +115,27 @@
   </section>
   <section id="progress_bar_updates">
     <title>Actualizaciones de barras de progreso</title>
-    <section>
+    <section id="progress_bar_updates_speak">
       <title>Hablar actualizaciones</title>
       <p>Si la casilla <gui>Hablar actualizaciones</gui> está marcada <app>Orca</app> hablará periódicamente el estado de las barras de progreso.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_braille">
       <title>Actualizaciones en Braille</title>
       <p>Si la casilla <gui>Actualizaciones en Braille</gui> está marcada <app>Orca</app> presentará periódicamente el estado de las barras de progreso en su pantalla Braille.</p>
       <p>Valor predeterminado: no marcado</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_beep">
       <title>Sonar actualizaciones</title>
       <p>Si la casilla <gui>Sonar actualizaciones</gui> está marcada <app>Orca</app> emitirá pitidos periódicos a medida que el valor de la barra de progreso aumenta.</p>
       <p>Valor predeterminado: no marcado</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_frequency">
       <title>Frecuencia (segs)</title>
       <p>Este botón incremental determina con qué frecuencia se muestran las actualizaciones.</p>
       <p>Valor predeterminado: 10</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_restrict">
       <title>Restringir a</title>
       <p>Este cuadro combinado le permite controlar qué barras de progreso se deberían presentar, asumiendo que la presentación de actualización de barras de progreso se ha activado. Las opciones son <gui>Todo</gui>, <gui>Aplicación</gui> y <gui>Ventana</gui>.</p>
       <p>Seleccionar <gui>Todo</gui> dará lugar a que <app>Orca</app> presente actualizaciones para todas las barras de progreso, con independencia de la ubicación en que se encuentren las mismas.</p>

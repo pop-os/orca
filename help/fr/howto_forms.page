@@ -45,7 +45,7 @@
   </info>
   <title>Remplir des formulaires</title>
   <p>Lorsque vous interagissez avec des pages Web et d'autres documents en utilisant <app>Orca</app>, vous interagissez directement avec le document ; pas avec une copie intermédiaire en cache. Les modes navigation et focus d'<app>Orca</app> permettent de basculer entre la lecture et le remplissage de formulaires.</p>
-  <section>
+  <section id="navigating_amongst_form_fields">
     <title>Navigation parmi les champs d'un formulaire</title>
     <p>Pour naviguer parmi les champs du formulaire, vous avez plusieurs options :</p>
     <list>
@@ -63,7 +63,7 @@
      <p>Afin de pouvoir utiliser les commandes de navigation au curseur ou de navigation par structure d'<app>Orca</app> pour naviguer vers un champ de formulaire, vous devez être en mode navigation. Si vous êtes en mode focus, vous pouvez basculer en mode navigation en pressant sur <keyseq><key>Touche de modification d'Orca</key><key>A</key></keyseq>.</p>
    </note>
   </section>
-  <section>
+  <section id="exiting_form_fields">
     <title>Quitter les champs de formulaire</title>
     <p>Pour sortir d'un champ du formulaire, vous avez plusieurs options :</p>
     <list>

@@ -14,7 +14,7 @@
     </license>
   </info>
   <title>Uvod v možnosti <app>Orke</app>.</title>
-  <section>
+  <section id="orca">
     <title>Možnosti Orke</title>
     <p>Možnosti Orke vam omogočajo prilagajanje zmožnosti v <app>Orki</app>, ki so uveljavljene za vse programe. Primer možnosti Orke je odmev tipk, ker je odmev tipk uveljavljen za vse programe. </p>
     <p>Možnosti Orke lahko prilagodite za posamezen program. Tako lahko na primer nastavitev privzeti odmev tipk na besede in nato nastavite odmev tipk za Pidgin na brez. V tem primeru bo <app>Orka</app> odmevala vse napisane besede razen besed napisanih v Pidginu.</p>
@@ -30,7 +30,7 @@
       </list>
     </note>
   </section>
-  <section>
+  <section id="application_unique">
     <title>Edinstvene možnosti programa</title>
       <p>Te možnosti so edinstvene za določen program. Omogočajo vam prilagajanje zmožnosti <app>Orke</app>, ki so uveljavljene le v določenih okoljih, kot so spletne strani ali programi klepeta. Te možnosti boste našli le v pogovornih oknih možnosti le pri tistih programih, za katere te možnosti veljajo.</p>
   </section>

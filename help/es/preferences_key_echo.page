@@ -31,47 +31,47 @@
     <title>Activar eco de teclas</title>
     <p>La configuración del eco de teclas de Orca controla lo que sucede cada vez que pulsa una tecla. Para activar el eco de teclas, marque la casilla «Activar eco de teclas». Al hacerlo, se activan algunas casillas adicionales mediante las que puede elegir exactamente qué de qué teclas se debe hacer eco y de cuáles no para ajustarse mejor a sus necesidades.</p>
     <p>Valor predeterminado: marcado</p>  
-    <section>
+    <section id="keyecho_enable_alphanumeric">
       <title>Activar teclas alfabéticas</title>
       <p>Esta opción controla si las teclas <key>a</key>, <key>b</key> y <key>c</key> se deben hablar o no cuando se pulsan.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_numeric">
       <title>Activar teclas numéricas</title>
       <p>Esta opción controla si las teclas <key>1</key>, <key>2</key> y <key>3</key> se deben hablar o no cuando se pulsan.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_punctuation">
       <title>Activar teclas de puntuación</title>
       <p>Esta opción controla si las teclas <key>%</key>, <key>;</key> y <key>?</key> se deben hablar o no cuando se pulsan.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_space">
       <title>Activar espacio</title>
       <p>Esta opción controla si la tecla <key>espacio</key> se debe hablar o no cuando se pulsa.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_modifier">
       <title>Activar teclas modificadoras</title>
       <p>Esta opción controla si las teclas <key>Shift</key>, <key>Ctrl</key>, <key>Alt</key> y <key>Windows</key>, etcétera se deben hablar o no cuando se pulsan.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_function">
       <title>Activar teclas de función</title>
       <p>Esta opción controla si las teclas <key>F1</key> hasta <key>F12</key> se deben hablar o no cuando se pulsan.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_action">
       <title>Activar teclas de acción</title>
       <p>Esta opción controla si las teclas <key>Retroceso</key>, <key>Supr </key>, <key>Intro</key>, <key>Esc</key>, <key>Tab</key>, <key>Re Pág</key>, <key>Av Pág</key>, <key>Inicio</key>, y <key>Fin</key>, etcétera se deben hablar o no cuando se pulsan.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_navigation">
       <title>Activar teclas de navegación</title>
       <p>Esta opción controla si se deben leer las teclas <key>Izquierda</key>, <key>Derecha</key>, <key>Arriba</key>, y <key>Abajo</key> cuando al pulsarlas. Esta opción también se aplica a cualquier combinación de teclas en la que se pulse el <key>Modificador de Orca</key>, por ejemplo cuando se usa la revisión.</p>
       <p>Valor predeterminado: no marcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_diacritical">
       <title>Activar teclas diacríticas no espaciadas</title>
       <p>Esta opción controla si las «teclas muertas» usadas para generar letras acentuadas se deben hablar o no cuando se pulsan.</p>
       <p>Valor predeterminado: no marcado</p>

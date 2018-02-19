@@ -46,5 +46,10 @@
     <p>Не във всички приложения придвижването с курсора е включено по подразбиране. За много приложения в GNOME придвижването с курсора може да бъде включено и изключено с натискане на <key>F7</key>.</p>
   </note>
   <p>В допълнение към четенето на документи с курсора, може да намерите за полезно да прочитате, буквувате и да получите стойността по Уникод за текущото парче текст. Може да направите тези неща с <link xref="howto_flat_review">равнинния преглед</link> на <app>Orca</app>.</p>
-  <p>Накрая, за да накарате <app>Orca</app> да прочете целия документ от текущото ви местоположение до края, използвайте командата Прочитане на всичко. Тази команда, заедно с пълен списък с командите на <app>Orca</app> за достъп до текста на документи, може да бъде намерена в секцията <link xref="commands_reading">Команди за четене</link>.</p>
+  <p>
+    Finally, in order to have <app>Orca</app> speak the entire document from your
+    present location, use the Say All command. It, along with a more complete
+    listing of <app>Orca</app>'s commands for accessing document text, can
+    be found in the <link xref="commands_reading">Reading Commands</link> guide.
+  </p>
 </page>

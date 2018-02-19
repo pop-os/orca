@@ -99,7 +99,7 @@
         </list>
       </item>
       <item>
-        <p>Εκφώνηση της τιμής unicode του τρέχοντος χαρακτήρα:</p>
+        <p>Speak the Unicode value of current character:</p>
         <list>
           <item>
             <p>Επιτραπέζιος: <keyseq><key>KP 2</key></keyseq> (τριπλό κλικ)</p>

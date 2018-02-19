@@ -15,11 +15,17 @@
   </info>
   <title>Samodejno posodobljeni predeli</title>
   <p>Samodejno posodobljen predel je dinamično posodabljajoč se del spletne strani kot je razpredelnica ali športna statistika, seznam trenutnih cen delnic, dnevnik klepeta ali alarm prikazan na strani, ki jo berete. Čeprav se samodejno posodoblejni predeli pojavljajo pogosto so spletne strani s samodejno posodabljajočimi predeli manj pogoste. Težavo dejavno rešuje več organizacij.</p>
-  <section>
+  <section id="politeness_levels">
     <title>Ravni prijaznosti samodejno posodobljenih predelov</title>
-    <p>Samodejno posodobljena področja imajo povezano raven "prijaznosti", ki jo je določil avtor in sporoča pomembnost podatkov in predlaga kdaj naj tehnologija dostopnosti uporabnika obvesti o posodobitvah v tem področju. Samodejno posodobljena področja so lahko "nedejavna", "vljudna", "agresiva" in "nesramna".</p>
+    <p>
+      Live regions have an associated "politeness" level which is set by the
+      author as a means to convey the importance of the information and to
+      suggest when users should be informed by their assistive technology of
+      updates made within that region. Live regions can be "off", "polite", or
+      "assertive" to the point of being "rude."
+    </p>
   </section>
-  <section>
+  <section id="orca_support">
     <title><app>Orkina</app> podpora za samodejno posodobljene predele.</title>
     <p>Ker se morda ne strinjate z ravno prijatnosti, ki jo je navedel avtor strani, vam <app>Orka</app> zagotavlja številne ukaze <link xref="commands_live_regions">ukaze samodejno posodobljenih področij</link>, ki vam omogočajo spreminjanje ravni kateregakoli ali vseh področij na strani. Poleg tega lahko:</p>
     <list>

@@ -99,7 +99,7 @@
         </list>
       </item>
       <item>
-        <p>Läs upp Unicode-värdet för aktuellt tecken:</p>
+        <p>Speak the Unicode value of current character:</p>
         <list>
           <item>
             <p>Stationär dator: <keyseq><key>KP 2</key></keyseq> (trippelklickat)</p>

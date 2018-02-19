@@ -32,7 +32,7 @@
     </mal:credit>
   </info>
   <title>Einführung in die Einstellungen von <app>Orca</app></title>
-  <section>
+  <section id="orca">
     <title>Orca-Einstellungen</title>
     <p>
       Orca preferences allow you to customize functionality in <app>Orca</app>
@@ -57,7 +57,7 @@
       </list>
     </note>
   </section>
-  <section>
+  <section id="application_unique">
     <title>Anwendungsspezifische Einstellungen</title>
       <p>
         In contrast to Orca preferences, there are application-unique preferences.

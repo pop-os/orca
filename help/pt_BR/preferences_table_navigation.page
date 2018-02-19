@@ -35,23 +35,28 @@
     </mal:credit>
   </info>
   <title>Preferências de Navegação de Tabelas</title>
-  <p>A seguinte opção permite que você personalize como o <app>Orca</app> se comporta ao navegar em uma tabela em <link xref="howto_structural_navigation">Structural-Navigation</link>-aplicativos habilitados.</p>
-  <section>
+  <p>
+    The following options allow you to customize how <app>Orca</app>
+    behaves when navigating within a table in
+    <link xref="howto_structural_navigation">Structural-Navigation</link>-enabled
+    applications.
+  </p>
+  <section id="speak_cell_coordinates">
     <title>Falar as coordenadas da célula</title>
     <p>Se essa caixa de seleção está marcada, o <app>Orca</app> anunciará as coordenadas de cada célula para a qual você navegue.</p>
     <p>Valor padrão: selecionada</p>
   </section>
-  <section>
+  <section id="speak_multiple_cell_spans">
     <title>Falar número de células mescladas</title>
     <p>Se essa caixa de opção está marcada, o <app>Orca</app> anunciará quantas linhas e/ou colunas uma célula mescla quando ela mesclar mais de uma.</p>
     <p>Valor padrão: selecionada</p>
   </section>
-  <section>
+  <section id="announce_cell_header">
     <title>Anunciar cabeçalho da célula</title>
     <p>Se essa caixa de opção está marcada, o <app>Orca</app> anunciará mudanças no cabeçalho se os cabeçalhos para a célula corrente puderem ser determinados.</p>
     <p>Valor padrão: selecionada</p>
   </section>
-  <section>
+  <section id="skip_blank_cells">
     <title>Pular células em branco</title>
     <p>Se essa caixa de seleção está marcada, o <app>Orca</app> irá pular células em branco quando você estiver usando os comandos de navegação estrutural de tabelas do <app>Orca</app> para acessar a tabela.</p>
     <p>Valor padrão: desmarcado</p>
