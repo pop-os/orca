@@ -47,23 +47,28 @@
     </mal:credit>
   </info>
   <title>Préférences du parcours de tableau</title>
-  <p>L'option suivante vous permet de personnaliser comment <app>Orca</app> se comporte quand il parcourt un tableau dans les applications qui prennent en charge la <link xref="howto_structural_navigation">Navigation par structure</link>.</p>
-  <section>
+  <p>
+    The following options allow you to customize how <app>Orca</app>
+    behaves when navigating within a table in
+    <link xref="howto_structural_navigation">Structural-Navigation</link>-enabled
+    applications.
+  </p>
+  <section id="speak_cell_coordinates">
     <title>Lire les coordonnées des cellules</title>
     <p>Si cette case est cochée, <app>Orca</app> lit les coordonnées de chaque cellule parcourue.</p>
     <p>Valeur par défaut : cochée</p>
   </section>
-  <section>
+  <section id="speak_multiple_cell_spans">
     <title>Lire l'étendue des cellules chevauchant plusieurs lignes/colonnes</title>
     <p>Si cette case est cochée, <app>Orca</app> lit sur combien de lignes et/ou de colonnes une cellule s'étend.</p>
     <p>Valeur par défaut : cochée</p>
   </section>
-  <section>
+  <section id="announce_cell_header">
     <title>Annoncer les en-têtes de cellule</title>
     <p>Si cette case est cochée, <app>Orca</app> lit les changements d'en-tête, si les en-têtes de la cellule peuvent être déterminés.</p>
     <p>Valeur par défaut : cochée</p>
   </section>
-  <section>
+  <section id="skip_blank_cells">
     <title>Ignorer les cellules vides</title>
     <p>Si cette case est cochée, <app>Orca</app> ignore les cellules vides quand vous utilisez les commandes de navigation par structure d'<app>Orca</app> pour accéder au tableau.</p>
     <p>Valeur par défaut : non cochée</p>

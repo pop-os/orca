@@ -14,7 +14,7 @@
       <p>Creative Commons Share Alike 3.0</p>
     </license>
   </info>
-  <title type="link">Ovládání a výuka používání čtečky <app>Orca</app></title>
+  <title>Ovládání a výuka používání čtečky <app>Orca</app></title>
   <section id="controlling">
     <title>Příkazy pro ovládání čtečky <app>Orca</app></title>
     <p>Následující příkazy se používají pro přístup do dialogového okna předvoleb <app>Orca</app>, k zápínání a vypínání čtečky <app>Orca</app> a k obcházení příkazů <app>Orca</app>, aby se předešlo konfliktům s aplikací, se kterou se pracuje.</p>

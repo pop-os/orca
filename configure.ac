@@ -1,12 +1,12 @@
 m4_define([orca_major_version], [3])
-m4_define([orca_minor_version], [26])
-m4_define([orca_micro_version], [0])
+m4_define([orca_minor_version], [27])
+m4_define([orca_micro_version], [91])
 m4_define([orca_version],
           [orca_major_version.orca_minor_version.orca_micro_version])
 
 m4_define(pygobject_required_version, 3.18)
-m4_define(atspi_required_version, 2.18)
-m4_define(atkbridge_required_version, 2.18)
+m4_define(atspi_required_version, 2.26)
+m4_define(atkbridge_required_version, 2.26)
 
 AC_INIT([orca],
         [orca_version],
@@ -101,7 +101,6 @@ src/orca/scripts/apps/gcalctool/Makefile
 src/orca/scripts/apps/gedit/Makefile
 src/orca/scripts/apps/gnome-documents/Makefile
 src/orca/scripts/apps/gnome-keyring-ask/Makefile
-src/orca/scripts/apps/gnome-mud/Makefile
 src/orca/scripts/apps/gnome-panel/Makefile
 src/orca/scripts/apps/gnome-screensaver-dialog/Makefile
 src/orca/scripts/apps/gnome-search-tool/Makefile
@@ -109,13 +108,11 @@ src/orca/scripts/apps/gnome-shell/Makefile
 src/orca/scripts/apps/gnome-window-properties/Makefile
 src/orca/scripts/apps/gtk-window-decorator/Makefile
 src/orca/scripts/apps/Instantbird/Makefile
-src/orca/scripts/apps/liferea/Makefile
 src/orca/scripts/apps/metacity/Makefile
 src/orca/scripts/apps/notification-daemon/Makefile
 src/orca/scripts/apps/notify-osd/Makefile
 src/orca/scripts/apps/Mozilla/Makefile
 src/orca/scripts/apps/pidgin/Makefile
-src/orca/scripts/apps/planner/Makefile
 src/orca/scripts/apps/rhythmbox/Makefile
 src/orca/scripts/apps/soffice/Makefile
 src/orca/scripts/apps/SeaMonkey/Makefile

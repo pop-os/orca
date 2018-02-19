@@ -25,47 +25,47 @@
     <title>Billentyűvisszhang engedélyezése</title>
     <p>Az <app>Orka</app> billentyűvisszhang-beállításaival személyre szabhatja, hogy mi történjen egy billentyű lenyomásakor. Ha szeretné engedélyezni a billentyűvisszhangot, jelölje be a <gui>Billentyűvisszhang engedélyezése</gui> jelölőnégyzetet. Ha ezt megteszi, számos jelölőnégyzet válik elérhetővé, ezek segítségével teljesen személyre szabhatja, hogy mely billentyűk legyenek vagy ne legyenek kimondva.</p>
     <p>Alapbeállítás: bejelölve</p>  
-    <section>
+    <section id="keyecho_enable_alphanumeric">
       <title>Alfabetikus billentyűk engedélyezése</title>
       <p>Ez a beállítás meghatározza, hogy például az <key>a</key>, <key>b</key>, <key>c</key> billentyűk lenyomásakor az <app>Orka</app> kimondja-e a begépelt karaktereket.</p>
       <p>Alapbeállítás: bejelölve</p>
     </section>
-    <section>
+    <section id="keyecho_enable_numeric">
       <title>Számbillentyűk engedélyezése</title>
       <p>Ez a beállítás meghatározza, hogy például az <key>1</key>, <key>2</key>, <key>3</key> billentyűk lenyomásakor az <app>Orka</app> kimondja-e a begépelt számokat.</p>
       <p>Alapbeállítás: bejelölve</p>
     </section>
-    <section>
+    <section id="keyecho_enable_punctuation">
       <title>Írásjelekkel kapcsolatos billentyűk engedélyezése</title>
       <p>Ez a beállítás meghatározza, hogy például a <key>%</key>, <key>;</key>, <key>?</key> billentyűk lenyomásakor az <app>Orka</app> kimondja-e a begépelt írásjeleket.</p>
       <p>Alapbeállítás: bejelölve</p>
     </section>
-    <section>
+    <section id="keyecho_enable_space">
       <title>A szóköz billentyű kimondásának engedélyezése</title>
       <p>Ez az opció meghatározza, hogy a <key>Szóköz</key> billentyű lenyomásakor kimondásra kerüljön-e a szóköz szöveg.</p>
       <p>Alapbeállítás: bejelölve</p>
     </section>
-    <section>
+    <section id="keyecho_enable_modifier">
       <title>Módosítóbillentyűk engedélyezése</title>
       <p>Ez az opció megadja, hogy például a <key>Shift</key>, <key>Ctrl</key>, <key>Alt</key> és <key>Meta</key> billentyűk kimondásra kerüljenek-e, ha lenyomja ezeket a billentyűket.</p>
       <p>Alapbeállítás: bejelölve</p>
     </section>
-    <section>
+    <section id="keyecho_enable_function">
       <title>Funkcióbillentyűk engedélyezése</title>
       <p>Ez az opció meghatározza, hogy az <key>F1</key> ... <key>F12</key> billentyűk lenyomásakor ezek a billentyűk kimondásra kerüljenek-e.</p>
       <p>Alapbeállítás: bejelölve</p>
     </section>
-    <section>
+    <section id="keyecho_enable_action">
       <title>Műveletbillentyűk engedélyezése</title>
       <p>Ez a beállítás meghatározza, hogy a <key>BackSpace</key>, <key>Del </key>, <key>Enter</key>, <key>Escape</key>, <key>Tab</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</key>, és <key>End</key> billentyűk lenyomásakor kimondásra kerüljenek-e a billentyűmegnevezések.</p>
       <p>Alapbeállítás: bejelölve</p>
     </section>
-    <section>
+    <section id="keyecho_enable_navigation">
       <title>Navigációs billentyűk engedélyezése</title>
       <p>Ez a beállítás szabályozza, hogy a <key>Balra</key>, <key>Jobbra</key>, <key>Fel</key>, és <key>Le</key> nyilak lenyomásakor kimondásra kerüljenek-e a billentyűmegnevezések. Ez a beállítás minden olyan billentyűkombinációra alkalmazva lesz, amelyhez az <key>Orka módosító</key> billentyűt nyomva kell tartani, például ha az egyszerű áttekintést használja.</p>
       <p>Alapbeállítás: nincs bejelölve</p>
     </section>
-    <section>
+    <section id="keyecho_enable_diacritical">
       <title>Nem helykitöltő mellékjelek kimondásának engedélyezése</title>
       <p>Ez a beállítás meghatározza, hogy a „Halott billentyűk” lenyomásakor kimondásra kerüljenek-e a megfelelő ékezetek.</p>
       <p>Alapbeállítás: nincs bejelölve</p>

@@ -5,7 +5,9 @@
     <link type="next" xref="preferences_spellcheck"/>
     <title type="sort">3. Csevegés</title>
     <title type="link">Csevegés</title>
-    <desc>Az <app>Orka</app> azonnaliüzenő- és IRC-támogatásának konfigurálása</desc>
+    <desc>
+      Configuring <app>Orca</app>'s support for IM and IRC
+    </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -22,22 +24,22 @@
   </info>
   <title>A csevegéssel kapcsolatos beállítások</title>
   <p>A következő beállítások segítségével személyre szabhatja az <app>Orka</app> működését az azonnali üzenetküldő alkalmazások vagy internetes csevegőkliensek használatakor.</p>
-  <section>
+  <section id="speak_name">
     <title>Csevegőszoba nevének felolvasása</title>
     <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja egészíteni a bejövő üzenetet a csevegőszoba vagy a partner nevével, akitől az üzenet érkezett, kivételt képez ez alól a pillanatnyilag fókuszban levő csevegés.</p>
     <p>Alapbeállítás: nincs bejelölve</p>
   </section>
-  <section>
+  <section id="announce_typing">
     <title>Értesítés, amikor a partnerek gépelnek</title>
     <p>Ha ez a jelölőnégyzet be van jelölve, és az <app>Orka</app> képes felismerni, hogy a partnere gépel, akkor be fogja jelenteni a gépelés állapotváltozásait.</p>
     <p>Alapbeállítás: nincs bejelölve</p>
   </section>
-  <section>
+  <section id="message_histories">
     <title>A csevegőszoba üzenetelőzményeinek megjelenítése</title>
     <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> üzenetelőzményeket megjelenítő parancsai csak a jelenleg fókuszban levő csevegésre lesznek alkalmazva. Ha ez a jelölőnégyzet nincs bejelölve, akkor az üzenetelőzményeket megjelenítő parancsok bármely csevegésből érkezett üzeneteket megjeleníthetik.</p>
     <p>Alapbeállítás: nincs bejelölve</p>
   </section>
-  <section>
+  <section id="speak_messages_from">
     <title>Üzenetek kimondása</title>
     <p>Ezeknek a választógomboknak a segítségével megadhatja, hogy mely csatornákból legyenek felolvasva a beérkezett üzenetek. A következő lehetőségek közül választhat:</p>
     <list>

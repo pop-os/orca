@@ -5,7 +5,9 @@
     <link type="next" xref="preferences_spellcheck"/>
     <title type="sort">3. Chatt</title>
     <title type="link">Chatt</title>
-    <desc>Konfigurera <app>Orca</app>s stöd för snabbmeddelanden och IRC</desc>
+    <desc>
+      Configuring <app>Orca</app>'s support for IM and IRC
+    </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -22,22 +24,22 @@
   </info>
   <title>Chattinställningar</title>
   <p>Följande alternativ låter dig anpassa hur <app>Orca</app> beter sig då det ger åtkomst till snabbmeddelande- och IRC-klienter.</p>
-  <section>
+  <section id="speak_name">
     <title>Läs upp chattrummets namn</title>
     <p>Om denna kryssruta är ikryssad kommer <app>Orca</app> att föregå inkommande meddelanden med namnet på rummet eller kompisen de kom från, om de inte kom från den nu fokuserade konversationen.</p>
     <p>Standardvärde: inte ikryssad</p>
   </section>
-  <section>
+  <section id="announce_typing">
     <title>Annonsera när dina kompisar skriver något</title>
     <p>Om denna kryssruta är ikryssad och <app>Orca</app> har tillräcklig information som visar att din kompis skriver, kommer <app>Orca</app> annonsera ändringar i skrivstatus.</p>
     <p>Standardvärde: inte ikryssad</p>
   </section>
-  <section>
+  <section id="message_histories">
     <title>Tillhandahåll historik för chattrumsspecifika meddelanden</title>
     <p>Om denna kryssruta är ikryssad kommer <app>Orca</app>s kommandon för att granska senaste meddelanden bara tillämpas på den aktuellt fokuserade konversationen. I annat fall kommer historiken att innehålla de senaste meddelandena oavsett vilken konversation de kom från.</p>
     <p>Standardvärde: inte ikryssad</p>
   </section>
-  <section>
+  <section id="speak_messages_from">
     <title>Läs upp meddelanden från</title>
     <p>Denna grupp av radioknappar låter dig kontrollera under vilka omständigheter <app>Orca</app> kommer läsa upp ett inkommande meddelande för dig. Dina val är:</p>
     <list>

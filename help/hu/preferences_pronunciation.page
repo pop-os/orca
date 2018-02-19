@@ -21,7 +21,7 @@
     </mal:credit>
   </info>
   <title>Kiejtési beállítások</title>
-  <p id="introduction">Előfordulhat, hogy a beszédszintetizátora néha nem a megfelelő szöveget mondja ki, például rövidítések esetén. Erre egy jó példa, ha a „LOL” rövidítés helyett „laughing out loud” szöveget, vagy az „a11y” rövidítés helyett „accessibility” szöveget szeretne hallani. Hasznos a kivételszótár akkor is, ha a beszédszintetizátor egy nevet, vagy egy technikai kifejezést rosszul ejt ki.</p>
+  <p>Előfordulhat, hogy a beszédszintetizátora néha nem a megfelelő szöveget mondja ki, például rövidítések esetén. Erre egy jó példa, ha a „LOL” rövidítés helyett „laughing out loud” szöveget, vagy az „a11y” rövidítés helyett „accessibility” szöveget szeretne hallani. Hasznos a kivételszótár akkor is, ha a beszédszintetizátor egy nevet, vagy egy technikai kifejezést rosszul ejt ki.</p>
   <p>Az <app>Orka</app> grafikus beállító párbeszédpanel <gui>Kiejtés</gui> lapja lehetőséget ad új bejegyzések hozzáadására, szerkesztésére és törlésére az <app>Orka</app> kivételszótárából.</p>
   <p>Mivel a <gui>Kiejtés</gui> lap megtalálható az <app>Orka</app> alkalmazás beállító párbeszédpanelén is, így a kivételszótárak akár alkalmazásszinten is személyre szabhatók.</p>
   <steps>

@@ -724,6 +724,26 @@ class SpeechGenerator(generator.Generator):
     #                                                                   #
     #####################################################################
 
+    def _generateColumnHeader(self, obj, **args):
+        if self._script.inSayAll():
+            return []
+
+        result = super()._generateColumnHeader(obj, **args)
+        if result:
+            result.extend(self.voice(DEFAULT))
+
+        return result
+
+    def _generateRowHeader(self, obj, **args):
+        if self._script.inSayAll():
+            return []
+
+        result = super()._generateRowHeader(obj, **args)
+        if result:
+            result.extend(self.voice(DEFAULT))
+
+        return result
+
     def _generateNewRowHeader(self, obj, **args):
         """Returns an array of strings (and possibly voice and audio
         specifications) that represent the row header for an object
@@ -1555,6 +1575,8 @@ class SpeechGenerator(generator.Generator):
                 result.append(messages.LEAVING_FIGURE)
             elif self._script.utilities.isDocumentPanel(obj):
                 result.append(messages.LEAVING_PANEL)
+            else:
+                result = ['']
         elif role == pyatspi.ROLE_TABLE and self._script.utilities.isTextDocumentTable(obj):
             result.append(messages.LEAVING_TABLE)
         elif role == 'ROLE_DPUB_LANDMARK':
@@ -2044,7 +2066,8 @@ class SpeechGenerator(generator.Generator):
         if obj.parent and obj.parent.getRole() == pyatspi.ROLE_LIST_BOX:
             widgets = pyatspi.findAllDescendants(obj, isWidget)
             for widget in widgets:
-                result.append(self.generate(widget, includeContext=False))
+                if self._script.utilities.isShowingAndVisible(widget):
+                    result.append(self.generate(widget, includeContext=False))
 
         return result
 

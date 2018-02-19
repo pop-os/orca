@@ -40,5 +40,10 @@
     <p>Alla program har inte markörnavigering aktiverad som standard. För många GNOME-program kan markörnavigering aktiveras och inaktiveras genom att trycka <key>F7</key>.</p>
   </note>
   <p>Utöver att läsa ett dokument med markörnavigering kan du finna det hjälpsamt att läsa, bokstavera och erhålla Unicode-värdet för den aktuella texten. Du kan göra dessa saker genom <app>Orca</app>s <link xref="howto_flat_review">funktion för platt granskning</link>.</p>
-  <p>Slutligen kan du använda Läs upp allt-kommandot för att <app>Orca</app>ska läsa upp hela dokumentet från och med din aktuella position. Det kommandot kan tillsammans med en mer utförlig lista över <app>Orca</app>s kommandon för att komma åt dokuments text hittas i guiden för <link xref="commands_reading">Läskommandon</link>.</p>
+  <p>
+    Finally, in order to have <app>Orca</app> speak the entire document from your
+    present location, use the Say All command. It, along with a more complete
+    listing of <app>Orca</app>'s commands for accessing document text, can
+    be found in the <link xref="commands_reading">Reading Commands</link> guide.
+  </p>
 </page>

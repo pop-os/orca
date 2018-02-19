@@ -33,7 +33,7 @@
   </info>
   <title>Textattribute</title>
   <p>Der Begriff »Textattribute« bezieht sich auf alle Formatierungen von Schrift, Stil, Anordnung und andere im Bezug auf einen Buchstaben oder eine Gruppe von Buchstaben.</p>
-  <section>
+  <section id="obtaining">
     <title>Formatierungsinformationen erhalten</title>
     <p>
       When you press <keyseq><key>Orca Modifier</key><key>F</key>
@@ -57,7 +57,7 @@
       application you use.
     </p>
   </section>
-  <section>
+  <section id="identifying_misspelled_words">
     <title>Identifizierung falsch geschriebener Wörter</title>
     <p>
       Most applications and toolkits indicate that a word is misspelled by

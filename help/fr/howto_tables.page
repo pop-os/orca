@@ -59,7 +59,12 @@
     <p>De plus, <app>Orca</app> fournit des <link xref="preferences_table_navigation">options de présentation</link> paramétrables qui fonctionnent en conjonction avec la navigation par structure et vous permettent de contrôler si les coordonnées de la cellule sont lues, si les fusions de cellules sont indiquées, et si les en-têtes de cellules sont lus.</p>
     <note style="tip">
       <title>N'oubliez pas d'activer la navigation par structure !</title>
-      <p>En fonction de votre emplacement, il peut être nécessaire d'activer explicitement la navigation par structure avant de pouvoir l'utiliser. Pour en savoir plus, lisez <link type="seealso" xref="howto_structural_navigation#toggling_required">Quand est-il nécessaire d'activer la navigation par structure</link>.</p>
+      <p>
+        Depending on where you are, it may be necessary for you to explicitly
+        toggle Structural Navigation on before you can use it. To learn more, read
+        <link xref="howto_structural_navigation#toggling_required">
+        when toggling Structural Navigation on is required.</link>
+      </p>
     </note>
   </section>
   <section id="dynamic_headers">
@@ -75,7 +80,7 @@
       </item>
     </steps>
     <steps>
-      <title>Définition des en-têtes de ligne</title>
+      <title>Setting Row Headers</title>
       <item>
         <p>Déplacez-vous sur la colonne contenant tous les en-têtes de ligne.</p>
       </item>

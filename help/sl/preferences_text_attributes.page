@@ -25,7 +25,11 @@
         <p><gui>Ime atributa</gui>: ime atributa besedila.</p>
       </item>
       <item>
-        <p><gui>Govor</gui>: Izberite to izbirno polje, če želite da <app>Orka</app> izgovori ta atribut, ko pritisnete <keyseq><key>Orka</key><key>F</key></keyseq>.</p>
+        <p>
+          <gui>Speak</gui>: Check this checkbox if you would like
+          <app>Orca</app> to speak this attribute when you press
+          <keyseq><key>Orca Modifier</key><key>F</key></keyseq>.
+        </p>
       </item>
       <item>
         <p><gui>Označi v Braillovi pisavi</gui>: Izberite to izbirno polje, če želite, da <app>Orka</app> "podčrta" ta artibut na vašem braillovem prikazu.</p>

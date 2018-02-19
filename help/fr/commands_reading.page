@@ -123,7 +123,7 @@
         </list>
       </item>
       <item>
-        <p>Lire la valeur Unicode du caractère actuel :</p>
+        <p>Speak the Unicode value of current character:</p>
         <list>
           <item>
             <p>Ordinateur de bureau : <keyseq><key>PN 2</key></keyseq> (triple clic)</p>

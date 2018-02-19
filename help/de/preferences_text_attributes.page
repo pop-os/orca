@@ -43,7 +43,11 @@
         <p><gui>Attributname</gui>: Der Name des Textattributs.</p>
       </item>
       <item>
-        <p><gui>Vorlesen</gui>: Wählen Sie dieses Ankreuzfeld aus, wenn <app>Orca</app> dieses Attribut bei Drücken von <keyseq><key>Orca</key><key>F</key></keyseq> vorlesen soll.</p>
+        <p>
+          <gui>Speak</gui>: Check this checkbox if you would like
+          <app>Orca</app> to speak this attribute when you press
+          <keyseq><key>Orca Modifier</key><key>F</key></keyseq>.
+        </p>
       </item>
       <item>
         <p><gui>Markierung in Braille</gui>: Wählen Sie dieses Ankreuzfeld aus, wenn <app>Orca</app> dieses Attribut in der Braille-Anzeige unterstreichen soll.</p>

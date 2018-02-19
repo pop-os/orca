@@ -105,7 +105,7 @@
         </list>
       </item>
       <item>
-        <p>Leer el valor unicode del carácter actual:</p>
+        <p>Speak the Unicode value of current character:</p>
         <list>
           <item>
             <p>Sobremesa: <keyseq><key>TN 2</key></keyseq> (triple pulsación)</p>

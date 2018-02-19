@@ -41,7 +41,7 @@
     <p>Además, <app>Orca</app> proporciona <link xref="preferences_table_navigation">opciones de presentación</link> configurables que funcionan en conjunto con la navegación estructural y le permiten controlar si se presentan las coordenadas de celda, si se indican las celdas dentro de otra celda y si se anuncian o no las cabeceras de celda.</p>
     <note style="tip">
       <title>No olvide activar la navegación estructural.</title>
-      <p>Dependiendo de donde se encuentre, puede ser necesario activar explícitamente la navegación estructural antes de que pueda usarla. Para obtener más información, lea <link type="seealso" xref="howto_structural_navigation#toggling_required">cuándo es necesario activar la navegación estructural</link>.</p>
+      <p>Dependiendo de donde se encuentre, puede ser necesario activar explícitamente la navegación estructural antes de que pueda usarla. Para obtener más información, lea <link xref="howto_structural_navigation#toggling_required">cuándo es necesario activar la navegación estructural</link>.</p>
     </note>
   </section>
   <section id="dynamic_headers">
@@ -57,7 +57,7 @@
       </item>
     </steps>
     <steps>
-      <title>Configurar las cabeceras de las filas</title>
+      <title>Setting Row Headers</title>
       <item>
         <p>Muévase a la columna que contiene las cabeceras de las filas.</p>
       </item>

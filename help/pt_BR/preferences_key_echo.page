@@ -37,7 +37,7 @@
     <title>Habilitar eco de teclas</title>
     <p>As configurações de eco de teclas do Orca controlam o que acontece cada vez que você pressiona uma tecla. Para habilitar o eco de teclas, marque a caixa de seleção "Habilitar eco de tecla". Ao fazer isso, caixas de seleção adicionais ficarão disponíveis através das quais você poderá escolher exatamente quais teclas devem ou não haver o eco, para melhor adequar-se às suas necessidades.</p>
     <p>Valor padrão: selecionada</p>  
-    <section>
+    <section id="keyecho_enable_alphanumeric">
       <title>Enable alphabetic keys</title>
       <p>
         This option controls whether or not keys like <key>a</key>,
@@ -45,7 +45,7 @@
       </p>
       <p>Valor padrão: selecionada</p>
     </section>
-    <section>
+    <section id="keyecho_enable_numeric">
       <title>Enable numeric keys</title>
       <p>
         This option controls whether or not keys like <key>1</key>,
@@ -53,7 +53,7 @@
       </p>
       <p>Valor padrão: selecionada</p>
     </section>
-    <section>
+    <section id="keyecho_enable_punctuation">
       <title>Enable punctuation keys</title>
       <p>
         This option controls whether or not keys like <key>%</key>,
@@ -61,7 +61,7 @@
       </p>
       <p>Valor padrão: selecionada</p>
     </section>
-    <section>
+    <section id="keyecho_enable_space">
       <title>Enable space</title>
       <p>
         This option controls whether or not <key>space</key> should be
@@ -69,27 +69,27 @@
       </p>
       <p>Valor padrão: selecionada</p>
     </section>
-    <section>
+    <section id="keyecho_enable_modifier">
       <title>Habilitar teclas modificadoras</title>
       <p>Esta opção controla se as teclas <key>Shift</key>, <key>Ctrl</key>, <key>Alt</key> e <key>Meta</key> devem ser faladas ou não quando pressionadas.</p>
       <p>Valor padrão: selecionada</p>
     </section>
-    <section>
+    <section id="keyecho_enable_function">
       <title>Habilitar teclas de função</title>
       <p>Esta opção controla se as teclas de <key>F1</key> a <key>F12</key> devem ser faladas ou não quando pressionadas.</p>
       <p>Valor padrão: selecionada</p>
     </section>
-    <section>
+    <section id="keyecho_enable_action">
       <title>Habilitar teclas de ação</title>
       <p>Esta opção controla se <key>BackSpace</key>, <key>Delete </key>, <key>Enter</key>, <key>Esc</key>, <key>Tab</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</key>, e <key>End</key> devem ser faladas ou não quando pressionadas.</p>
       <p>Valor padrão: selecionada</p>
     </section>
-    <section>
+    <section id="keyecho_enable_navigation">
       <title>Habilitar teclas de navegação</title>
       <p>Esta opção controla se <key>Esquerda</key>, <key>Direita</key>, <key>Acima</key>, e <key>Baixo</key> devem ser faladas ou não quando pressionadas. Esta opção também se aplica à qualquer combinação de teclas na qual a <key>Tecla Modificadora do Orca</key> está sendo pressionada, por exemplo, quando a revisão plana está sendo utilizada.</p>
       <p>Valor padrão: desmarcado</p>
     </section>
-    <section>
+    <section id="keyecho_enable_diacritical">
       <title>Habilitar teclas mortas</title>
       <p>Esta opção controla se "teclas mortas" usadas para gerar letras acentuadas devem ser faladas ou não quando pressionadas.</p>
       <p>Valor padrão: desmarcado</p>

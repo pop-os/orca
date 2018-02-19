@@ -29,7 +29,7 @@
   <title>Preferencias de voz</title>
   <section id="voice_type_settings">
     <title>Configuración del tipo de voz</title>
-    <section>
+    <section id="voice_type">
       <title>Tipo de voz</title>
       <p>Este cuadro combinado hace posible que use voces diferentes para distinguir mejor el texto en mayúscula y el texto enlazado de otro texto, y el texto en que aparece en pantalla de otro texto que <app>Orca</app> añada.</p>
       <note style="tip">
@@ -37,19 +37,19 @@
         <p>Para cada voz que desee configurar, primero seleccione la voz en la caja combinada <gui>Tipo de voz</gui>. Luego configure la persona, la velocidad, el tono y el volumen que se usarán con esa voz.</p>
       </note>
     </section>
-    <section>
+    <section id="speech_system">
       <title>Sistema de voz</title>
       <p>Esta caja combinada le permite seleccionar su sistema de voz preferido de entre los que tenga instalados. Como por ejemplo Speech Dispatcher.</p>
     </section>
-    <section>
+    <section id="speech_synthesizer">
       <title>Sintetizador de voz</title>
       <p>Este cuadro combinado le permite seleccionar el sintetizador de voz que usar con el sistema de voz elegido.</p>
     </section>
-    <section>
+    <section id="person">
       <title>Persona</title>
       <p>Este cuadro combinado le permite elegir qué «persona» o «hablante» se debería usar con la voz seleccionada. Por ejemplo, podría querer tener a David para hablar de manera predeterminada, pero tener a Alicia para hablar los hiperenlaces. Tenga en cuenta que lo que encuentre en el cuadro combinado <gui>Persona</gui> dependerá de qué sintetizador de voz tenga instalado.</p>
     </section>
-    <section>
+    <section id="capitalization_style">
       <title>Estilo de uso de mayúsculas</title>
       <p>Esta caja combinada le permite elegir qué estilo de uso de mayúsculas de «Speech Dispatcher» quiere usar además de la voz de <app>Orca</app>. Las opciones, usando la terminología de nombres de «Speech Dispatcher», son:</p>
      <list>
@@ -63,7 +63,7 @@
     </note>
     <p>Valor predeterminado: ninguno</p>
     </section>
-    <section>
+    <section id="rate_pitch_and_volume">
       <title>Velocidad, tono y volumen</title>
       <p>Estos tres deslizadores izquierda-derecha le permiten personalizar aún más el sonido de la persona que acaba de seleccionar.</p>
     </section>

@@ -35,7 +35,7 @@
   <title>Stimmeneinstellungen</title>
   <section id="voice_type_settings">
     <title>Typ der Sprachausgabe</title>
-    <section>
+    <section id="voice_type">
       <title>Stimmtyp</title>
       <p>
         This combo box makes it possible for you to use different voices so that
@@ -52,21 +52,21 @@
         </p>
       </note>
     </section>
-    <section>
+    <section id="speech_system">
       <title>Sprachsystem</title>
       <p>
         This combo box allows you to select your preferred speech system from
         those you have installed, such as Speech Dispatcher.
       </p>
     </section>
-    <section>
+    <section id="speech_synthesizer">
       <title>Sprachsynthesizer</title>
       <p>
         This combo box allows you to select the speech synthesizer to be used
         with your chosen Speech system.
       </p>
     </section>
-    <section>
+    <section id="person">
       <title>Person</title>
       <p>
         This combo box allows you to choose which "person" or "speaker" should
@@ -76,7 +76,7 @@
         speech synthesizers you have installed.
       </p>
     </section>
-    <section>
+    <section id="capitalization_style">
       <title>Großschreibungsstil</title>
       <p>
        This combo box allows you to choose which Speech Dispatcher capitalization
@@ -99,7 +99,7 @@
     </note>
     <p>Vorgabewert: Keinen</p>
     </section>
-    <section>
+    <section id="rate_pitch_and_volume">
       <title>Geschwindigkeit, Tonhöhe und Lautstärke</title>
       <p>
         These three left-right sliders allow you to further customize the sound

@@ -35,7 +35,7 @@
     <p><app>Orca</app> tillhandahåller dessutom konfigurerbara <link xref="preferences_table_navigation">presentationsalternativ</link> som arbetar tillsammans med strukturell navigering och låter dig styra huruvida cellkoordinater ska presenteras, om spann över flera celler indikeras och om cellhuvuden meddelas.</p>
     <note style="tip">
       <title>Glöm inte att slå på strukturell navigering!</title>
-      <p>Beroende på var du är kan det vara nödvändigt för dig att explicit slå på strukturell navigering innan du kan använda den. För att få veta mer, läs <link type="seealso" xref="howto_structural_navigation#toggling_required"> när strukturell navigering behöver slås på.</link></p>
+      <p>Beroende på var du är kan det vara nödvändigt för dig att explicit slå på strukturell navigering innan du kan använda den. För att få veta mer, läs <link xref="howto_structural_navigation#toggling_required"> när strukturell navigering behöver slås på.</link></p>
     </note>
   </section>
   <section id="dynamic_headers">
@@ -51,7 +51,7 @@
       </item>
     </steps>
     <steps>
-      <title>Ställa in radhuvuden</title>
+      <title>Setting Row Headers</title>
       <item>
         <p>Flytta till kolumnen som innehåller alla radhuvuden.</p>
       </item>

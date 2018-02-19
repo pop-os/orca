@@ -47,7 +47,7 @@
   <title>Préférences de la voix</title>
   <section id="voice_type_settings">
     <title>Paramètres pour le type de voix</title>
-    <section>
+    <section id="voice_type">
       <title>Type de voix</title>
       <p>Cette liste déroulante rend possible l'utilisation de différentes voix pour que vous puissiez distinguer les majuscules et les liens textuels d'autres textes, et aussi distinguer un texte affiché à l'écran de celui ajouté par <app>Orca</app>.</p>
       <note style="tip">
@@ -55,19 +55,19 @@
         <p>Pour chaque voix que vous souhaitez configurer, sélectionnez en premier la voix dans la liste déroulante <gui>Type de voix</gui>. Configurez ensuite la personne, le débit, la hauteur, et le volume pour cette voix.</p>
       </note>
     </section>
-    <section>
+    <section id="speech_system">
       <title>Système de synthèse vocale</title>
       <p>Cette liste déroulante vous permet de sélectionner votre système de synthèse vocale préféré parmi ceux que vous avez installés. Par exemple, Speech Dispatcher.</p>
     </section>
-    <section>
+    <section id="speech_synthesizer">
       <title>Synthétiseur vocal</title>
       <p>Cette liste déroulante vous permet de sélectionner le synthétiseur vocal à utiliser avec le système de synthèse vocale.</p>
     </section>
-    <section>
+    <section id="person">
       <title>Personne</title>
       <p>Cette liste déroulante vous permet de choisir quelle « personne » ou « lecteur » doit être utilisé avec la voix sélectionnée. Par exemple, vous pouvez souhaiter que David lise par défaut et qu'Alice lise les hyperliens. Notez que ce qui se trouve dans la liste déroulante <gui>Personne</gui> dépend des synthétiseurs vocaux que vous avez installés.</p>
     </section>
-    <section>
+    <section id="capitalization_style">
       <title>Style de lecture des majuscules</title>
       <p>Cette liste déroulante permet de choisir le style d'indication de majuscules par le système Speech Dispatcher, en plus de la voix d'<app>Orca</app> pour les majuscules. Les options nommées selon la terminologie de Speech Dispatcher sont :</p>
      <list>
@@ -81,7 +81,7 @@
     </note>
     <p>Valeur par défaut : aucun</p>
     </section>
-    <section>
+    <section id="rate_pitch_and_volume">
       <title>Débit, hauteur et volume</title>
       <p>Ces trois glissières horizontales vous permettent de personnaliser de manière plus complète la voix de la personne que vous venez de choisir.</p>
     </section>

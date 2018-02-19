@@ -17,23 +17,28 @@
     </license>
   </info>
   <title>Možnosti krmarjenja razpredelnice</title>
-  <p>Naslednja možnost vam omogoča prilagajanje kako se <app>Orka</app> obnaša pri krmarjenju v razpredelnici v programih z omočenim <link xref="howto_structural_navigation">strukturnim krmarjenjem</link>.</p>
-  <section>
+  <p>
+    The following options allow you to customize how <app>Orca</app>
+    behaves when navigating within a table in
+    <link xref="howto_structural_navigation">Structural-Navigation</link>-enabled
+    applications.
+  </p>
+  <section id="speak_cell_coordinates">
     <title>Izgovori koordinate celic</title>
     <p>V primeru, da je to izbirno polje izbrano, bo <app>Orka</app> oznanila koordinate vsake celice do katere krmarite.</p>
     <p>Privzeta vrednost: izbrano</p>
   </section>
-  <section>
+  <section id="speak_multiple_cell_spans">
     <title>Izgovori širino več celic</title>
     <p>V primeru, da je to izbirno polje izbrano, bo <app>Orka</app> oznanila koliko vrstic in stolpcev sega celica, kader sega dlje kot čez enega.</p>
     <p>Privzeta vrednost: izbrano</p>
   </section>
-  <section>
+  <section id="announce_cell_header">
     <title>Oznani glavo celice</title>
     <p>V primeru, da je izbrano to izbirno polje, bo <app>Orka</app> oznanila spremembe v glavi, če je mogoče določiti glave za trenutno celico.</p>
     <p>Privzeta vrednost: izbrano</p>
   </section>
-  <section>
+  <section id="skip_blank_cells">
     <title>Preskoči prazne celice</title>
     <p>V primeru, da je to izbirno polje izbrano, bo <app>Orka</app> preskočila prazne celice kadar za dostop do razpredelnice uporabljate <app>Orkine</app> ukaze strukturnega krmarjenja.</p>
     <p>Prikazana vrednost: ni izbrano</p>

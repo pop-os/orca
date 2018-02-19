@@ -37,7 +37,11 @@
         <p><gui>Име на атрибут</gui>: името на атрибута на текста.</p>
       </item>
       <item>
-        <p><gui>Прочитане</gui>: сложете отметка в това поле ако искате <app>Orca</app> да прочита този атрибут когато натиснете <keyseq><key>Модификатор на Orca</key><key>F</key></keyseq>.</p>
+        <p>
+          <gui>Speak</gui>: Check this checkbox if you would like
+          <app>Orca</app> to speak this attribute when you press
+          <keyseq><key>Orca Modifier</key><key>F</key></keyseq>.
+        </p>
       </item>
       <item>
         <p><gui>Отбелязване на брайл</gui>: сложете отметка в това поле ако искате <app>Orca</app> да „подчертава“ този атрибут на брайловия дисплей.</p>

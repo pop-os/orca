@@ -51,7 +51,12 @@
     <p>Επιπλέον, το <app>Orca</app> παρέχει διαμορφώσιμες <link xref="preferences_table_navigation">επιλογές παρουσίασης</link> που δουλεύουν μαζί με τη δομική περιήγηση και επιτρέπουν τον έλεγχο της εμφάνισης ή όχι των συντεταγμένων του κελιού, υποδεικνύονται επικαλύψεις πολλαπλού κελιού και ανακοινώνονται κεφαλίδες κελιού.</p>
     <note style="tip">
       <title>Μην ξεχάσετε να ενεργοποιήσετε την εναλλαγή της δομικής περιήγησης!</title>
-      <p>Ανάλογα με πού είσαστε, μπορεί να είναι απαραίτητο για σας να ενεργοποιήσετε ρητά την εναλλαγή της δομικής περιήγησης πριν να μπορέσετε να τη χρησιμοποιήσετε. Για να μάθετε περισσότερα, διαβάστε <link type="seealso" xref="howto_structural_navigation#toggling_required">όταν η εναλλαγή δομικής περιήγησης απαιτείται.</link></p>
+      <p>
+        Depending on where you are, it may be necessary for you to explicitly
+        toggle Structural Navigation on before you can use it. To learn more, read
+        <link xref="howto_structural_navigation#toggling_required">
+        when toggling Structural Navigation on is required.</link>
+      </p>
     </note>
   </section>
   <section id="dynamic_headers">
@@ -67,7 +72,7 @@
       </item>
     </steps>
     <steps>
-      <title>Ορισμός κεφαλίδων γραμμής</title>
+      <title>Setting Row Headers</title>
       <item>
         <p>Μετάβαση στη στήλη που περιέχει όλες τις κεφαλίδες γραμμής.</p>
       </item>

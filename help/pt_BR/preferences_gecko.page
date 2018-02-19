@@ -36,7 +36,7 @@
   <section id="page_navigation">
     <title>Navegação por página</title>
     <p>O grupo de controles da <gui>navegação da página</gui> possibilita que você personalize como o <app>Orca</app> apresenta textos e outros conteúdos, e como permite-lhe interagir com eles.</p>
-    <section>
+    <section id="page_navigation_control_caret">
       <title>Control caret navigation</title>
       <p>Esta caixa de seleção permite-lhe habilitar ou desabilitar a navegação por cursor do <app>Orca</app>. Quando está marcada, o <app>Orca</app>controla o cursor quando você se move com as setas dentro de uma página; quando está desmarcada, ativa-se a navegação por cursor nativa do Gecko.</p>
       <p>Valor padrão: selecionada</p>
@@ -45,7 +45,7 @@
         <p>Para ativar esta configuração temporariamente sem a salvar, use a <keyseq><key>Tecla modificadora do Orca</key><key>F12</key></keyseq>.</p>
        </note>
     </section>
-    <section>
+    <section id="page_navigation_focus_caret">
       <title>Automatic focus mode during caret navigation</title>
       <p>
         If this checkbox is checked, <app>Orca</app> will automatically turn on
@@ -67,7 +67,7 @@
         </p>
        </note>
     </section>
-    <section>
+    <section id="page_navigation_structural">
       <title>Enable structural navigation</title>
       <p>Esta caixa de seleção habilita/desabilita a <link xref="howto_structural_navigation">Navegação Estrutural</link> do <app>Orca</app>. A navegação estrutural permite-lhe navegar pelos elementos como cabeçalhos, links e campos de formulário.</p>
       <p>Valor padrão: selecionada</p>
@@ -76,7 +76,7 @@
         <p>Para ativar esta configuração temporariamente sem a salvar, use a <keyseq><key>Tecla modificadora do Orca</key><key>Z</key></keyseq>.</p>
        </note>
     </section>
-    <section>
+    <section id="page_navigation_focus_structural">
       <title>Automatic focus mode during structural navigation</title>
       <p>
         If this checkbox is checked, <app>Orca</app> will automatically turn on
@@ -97,7 +97,7 @@
         </p>
        </note>
     </section>
-    <section>
+    <section id="page_navigation_speak">
       <title>Automatically start speaking a page when it is first loaded</title>
       <p>
         If this checkbox is checked, <app>Orca</app> will perform a Say All on
@@ -107,7 +107,7 @@
         Default value: checked for Firefox; not checked for Thunderbird
       </p>
     </section>
-    <section>
+    <section id="page_navigation_summary">
       <title>Present summary of a page when it is first loaded</title>
       <p>
         If this checkbox is checked, <app>Orca</app> will summarize details about the
@@ -118,7 +118,7 @@
         Default value: checked for Firefox; not checked for Thunderbird
       </p>
     </section>
-    <section>
+    <section id="page_navigation_layout_mode">
       <title>Enable layout mode for content</title>
       <p>
         If this checkbox is checked, <app>Orca</app>'s caret navigation will respect
@@ -134,7 +134,7 @@
     <title>Table Options</title>
     <note>
       <p>
-        To learn more about <app>Orca's</app> options for navigating within
+        To learn more about <app>Orca</app>'s options for navigating within
         tables, please see <link xref="preferences_table_navigation">Table
 	Navigation Preferences</link>.
       </p>
@@ -143,19 +143,25 @@
   <section id="find_options">
     <title>Opções de busca</title>
     <p>O grupo de controles das <gui>opções de busca</gui> permite-lhe personalizar como o <app>Orca</app> apresenta o resultado de uma pesquisa realizada com as funcionalidades de busca próprias do aplicativo.</p>
-    <section>
+    <section id="find_options_speak_during_find">
       <title>Falar resultados durante a busca</title>
       <p>Se esta caixa de seleção for marcada, o <app>Orca</app> lerá a linha que combina com a sua pesquisa atual.</p>
       <p>Valor padrão: selecionada</p>
     </section>
-    <section>
+    <section id="find_options_speak_changed_lines_during_find">
       <title>Somente falar as linhas alteradas durante a pesquisa</title>
       <p>Se esta caixa de seleção for marcada, o <app>Orca</app> não apresentará a linha correspondente se esta for idêntica a correspondência anterior. Esta opção foi criada para prevenir excesso de fala em uma linha com várias instâncias de um texto que você esteja buscando.</p>
       <p>Valor padrão: desmarcado</p>
     </section>
-    <section>
+    <section id="find_options_minimum_match_length">
       <title>Tamanho mínimo de textos encontrados</title>
-      <p>Este botão de rotação editável é onde você pode especificar o número de caracteres correspondentes antes que o <app>Orca</app> anuncie a linha correspondente. Esta opção também foi projetada para evitar "excesso de fala" caso existam muitas ocorrências quando você começa a digitar o texto que você está procurando.</p>
+      <p>
+        This editable spin button is where you can specify the number of
+        characters which much match before <app>Orca</app> announces the
+        matching line. This option is also designed to prevent "chattiness"
+        as there are many matches when you first begin typing the string
+        for which you are searching.
+      </p>
       <p>Valor padrão: 4</p>
     </section>
   </section>

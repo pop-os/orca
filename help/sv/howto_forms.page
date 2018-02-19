@@ -21,7 +21,7 @@
   </info>
   <title>Fylla i formulär</title>
   <p>När du interagerar med webbsidor och andra dokument genom <app>Orca</app> så interagerar du med dokumentet självt, inte en buffrad kopia av det dokumentet. <app>Orca</app>s bläddrings- och fokuslägen låter dig växla mellan att läsa och fylla i formulär.</p>
-  <section>
+  <section id="navigating_amongst_form_fields">
     <title>Navigera mellan formulärfält</title>
     <p>För att navigera mellan formulärfält har du flera alternativ:</p>
     <list>
@@ -39,7 +39,7 @@
      <p>För att använda <app>Orca</app>s kommandon för markörnavigering eller strukturell navigering för att navigera till ett formulärfält måste du vara i bläddringsläge. Om du är i fokusläge kan du växla till bläddringsläge genom att trycka <keyseq><key>Orca-modifierare</key><key>A</key></keyseq>.</p>
    </note>
   </section>
-  <section>
+  <section id="exiting_form_fields">
     <title>Gå ut ur formulärfält</title>
     <p>För att gå ut ur ett formulärfält har du flera alternativ:</p>
     <list>

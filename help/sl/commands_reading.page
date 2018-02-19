@@ -95,7 +95,7 @@
         </list>
       </item>
       <item>
-        <p>Izgovori unicode vrednost trenutnega znaka:</p>
+        <p>Speak the Unicode value of current character:</p>
         <list>
           <item>
             <p>Namizni računalnik: <keyseq><key>KP 2</key></keyseq> (trikrat kliknjeno)</p>

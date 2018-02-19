@@ -17,7 +17,7 @@
   <title>Předvolby hlasu</title>
   <section id="voice_type_settings">
     <title>Nastavení typu hlasu</title>
-    <section>
+    <section id="voice_type">
       <title>Typ hlasu</title>
       <p>Tento rozbalovací seznam umožňuje použít různé hlasy, takže pak dokážete lépe rozlišit text velkými písmeny, a text odkazů od ostatního textu a text z obrazovky od textu přidaného čtečkou <app>Orca</app>.</p>
       <note style="tip">
@@ -25,19 +25,19 @@
         <p>Pro každý hlas, který nastavíte, nejprve vyberte hlas v rozbalovacím seznamu <gui>Typ hlasu</gui>. Pak nastavte osobu, tempo, výšku a hlasitost, které se mají s tímto hlasem používat.</p>
       </note>
     </section>
-    <section>
+    <section id="speech_system">
       <title>Řečový systém</title>
       <p>V tomto rozbalovacím seznamu si můžete vybrat z řečových systémů, které máte nainstalované (třeba Speech Dispatcher), ten, kterému dáváte přednost.</p>
     </section>
-    <section>
+    <section id="speech_synthesizer">
       <title>Hlasový výstup</title>
       <p>V tomto rozbalovacím seznamu si můžete vybrat hlasový výstup, který se má použít u zvoleného řečového systému.</p>
     </section>
-    <section>
+    <section id="person">
       <title>Osoba</title>
       <p>V tomto rozbalovacím seznamu si můžete zvolit „osobu“ nebo „mluvčího“, který by se měl používat s vybraným hlasem. Například si můžete přát, aby standardně mluvil David, ale hypertextové odkazy vyslovovala Alice. Vezměte na vědomí, že výběr v rozbalovacím seznamu <gui>Osoba</gui> závisí na tom, jaký typ hlasového výstupu máte nainstalován.</p>
     </section>
-    <section>
+    <section id="capitalization_style">
       <title>Styl velkých písmen</title>
       <p>V tomto rozbalovacím seznamu si můžete zvolit styl reprezentace velkých písmen, který si přejete používat v dispečerovi hlasového výstupu navíc ke čtení velikosti písmen. Volby, nazvané tak, jak je používá dispečer hlasového výstupu, jsou:</p>
      <list>
@@ -51,7 +51,7 @@
     </note>
     <p>Výchozí hodnota: žádný</p>
     </section>
-    <section>
+    <section id="rate_pitch_and_volume">
       <title>Tempo, výška a hlasitost</title>
       <p>Tyto tři posuvníky umožňují dostatečně přizpůsobit znění hlasu osoby, kterou máte vybranou.</p>
     </section>

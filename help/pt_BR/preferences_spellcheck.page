@@ -5,7 +5,7 @@
     <title type="sort">4. Spell Check</title>
     <title type="link">Spell Check</title>
     <desc>
-      Configuring <app>Orca's</app> support for Spell Check
+      Configuring <app>Orca</app>'s support for Spell Check
     </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -51,7 +51,7 @@
       options were enabled.
     </p>
   </note>
-  <section>
+  <section id="spell_error">
     <title>Spell error</title>
     <p>
       If this checkbox is checked, <app>Orca</app> will spell out the misspelled
@@ -59,7 +59,7 @@
     </p>
     <p>Valor padrão: selecionada</p>
   </section>
-  <section>
+  <section id="spell_suggestion">
     <title>Spell suggestion</title>
     <p>
       If this checkbox is checked, <app>Orca</app> will spell out the suggested
@@ -67,7 +67,7 @@
     </p>
     <p>Valor padrão: selecionada</p>
   </section>
-  <section>
+  <section id="error_context">
     <title>Present context of error</title>
     <p>
       If this checkbox is checked, <app>Orca</app> will speak the sentence or

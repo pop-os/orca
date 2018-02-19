@@ -5,7 +5,9 @@
     <link type="next" xref="preferences_spellcheck"/>
     <title type="sort">3. Chat</title>
     <title type="link">Chat</title>
-    <desc>Einstellungen der <app>Orca</app>-Unterstützung für Sofortnachrichten und IRC</desc>
+    <desc>
+      Configuring <app>Orca</app>'s support for IM and IRC
+    </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -38,7 +40,7 @@
     behaves when providing access to instant messaging and internet
     relay chat clients.
   </p>
-  <section>
+  <section id="speak_name">
     <title>Name des Chatraums vorlesen</title>
     <p>
       If this checkbox is checked, <app>Orca</app> will prefix incoming messages
@@ -47,7 +49,7 @@
     </p>
     <p>Standardwert: nicht aktiviert</p>
   </section>
-  <section>
+  <section id="announce_typing">
     <title>Anzeigen, wenn ihre Kontakte etwas eintippen</title>
     <p>
       If this checkbox is checked, and if <app>Orca</app> has sufficient
@@ -56,7 +58,7 @@
     </p>
     <p>Standardwert: nicht aktiviert</p>
   </section>
-  <section>
+  <section id="message_histories">
     <title>Nachrichtenverläufe je Chatraum bereitstellen</title>
     <p>
       If this checkbox is checked, <app>Orca</app>'s commands for reviewing
@@ -66,7 +68,7 @@
     </p>
     <p>Standardwert: nicht aktiviert</p>
   </section>
-  <section>
+  <section id="speak_messages_from">
     <title>Nachrichten vorlesen von</title>
     <p>
       This group of radio buttons allows you to control under what circumstances

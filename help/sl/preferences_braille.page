@@ -23,6 +23,16 @@
       <p>V primeru, da BrlTTY nastavite kasneje, boste morali za to, da <app>Orca</app> uporablja Braillovo pisavo znova zagnati.</p>
     </note>
   </section>
+  <section id="braillewordwrap">
+    <title>Enable word wrap</title>
+    <p>
+      If <gui>Enable word wrap</gui> is checked, <app>Orca</app> will adjust the
+      text so that only full words are shown on the braille display. If it is not
+      checked, <app>Orca</app> will use all of the cells on the display so that
+      more text can be shown at once.
+    </p>
+    <p>Prikazana vrednost: ni izbrano</p>
+  </section>
   <section id="contractedbraille">
     <title>Omogoči skrčen zapis braillove pisave</title>
     <p>Orka podpira skrajšano Braillovo pisavo preko projekta liblouis. Ker veliko distribucij vključuje liblouis, boste verjetno v <app>Orki</app> samodejno imeli podporo za skrčeno Braillovo pisavo. </p>
@@ -67,7 +77,7 @@
         <app>Orca</app> has several settings you can use to control flash message
         presentation.
     </p>
-    <section>
+    <section id="flashMessageSettings_enable">
       <title>Enable flash messages</title>
       <p>
         If <gui>Enable flash messages</gui> is checked, <app>Orca</app> will
@@ -76,7 +86,7 @@
       </p>
       <p>Privzeta vrednost: izbrano</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_detailed">
       <title>Messages are detailed</title>
       <p>
         If <gui>Messages are detailed</gui> is checked, <app>Orca</app> will
@@ -87,7 +97,7 @@
       </p>
       <p>Privzeta vrednost: izbrano</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_persistent">
       <title>Messages are persistent</title>
       <p>
         As stated above, flash messages are only shown for a brief period of time.
@@ -97,7 +107,7 @@
       </p>
       <p>Prikazana vrednost: ni izbrano</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_duration">
       <title>Message duration (secs)</title>
       <p>
         The amount of time <app>Orca</app> will wait before removing the message and

@@ -20,7 +20,7 @@
     </mal:credit>
   </info>
   <title>Az <app>Orka</app> beállításainak bemutatása</title>
-  <section>
+  <section id="orca">
     <title>Az Orka beállításai</title>
     <p>Az Orka beállításai lehetővé teszik az <app>Orka</app> funkcióinak testreszabását, ezek a változtatások minden alkalmazásnál alkalmazva lesznek. Erre egy jó példa a billentyűvisszhang beállítás, mivel a billentyűvisszhang beállítást általában minden alkalmazásra alkalmazni szokták.</p>
     <p>Megjegyzés: Az Orka beállításai alkalmazásonként is személyre szabhatók. Lehetősége van például arra, hogy alapértelmezetten a szavankénti billentyűvisszhang beállítást használja, de például a Pidgin alkalmazásnál teljesen letiltsa a billentyűvisszhangot. Vagyis, az <app>Orka</app> minden szót ki fog mondani amit begépelt, kivéve a Pidgin alkalmazásnál.</p>
@@ -36,7 +36,7 @@
       </list>
     </note>
   </section>
-  <section>
+  <section id="application_unique">
     <title>Alkalmazásfüggő beállítások</title>
       <p>Az Orka beállítások mellett léteznek alkalmazásfüggő beállítások. Ezekkel a beállításokkal testreszabhatók az <app>Orka</app> funkciói bizonyos környezetekben, például a webes vagy csevegő alkalmazásokban. Ennek eredményeként ezeket a beállításokat csak az Orka alkalmazásbeállító párbeszédablakában fogja megtalálni, és csak a célalkalmazásoknál lesznek alkalmazva.</p>
   </section>

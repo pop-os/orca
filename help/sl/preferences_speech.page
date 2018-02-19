@@ -31,19 +31,25 @@
     <title>Raven ločil</title>
     <p>Skupino izbirnih gumbov <gui>Raven ločil</gui> lahko uporabite za prilagajanje količine ločil, ki jih izgovori sintetizator. Razpoložljive ravni so <gui>Brez</gui>, <gui>Nekaj</gui>, <gui>Večina</gui> in <gui>Vsa</gui>.</p>
     <p>Privzeta vrednost: <gui>Večina</gui></p>
-    <section>
+    <section id="punctuation_level_none">
       <title>Brez</title>
-      <p>Izbira ravni ločil <gui>Brez</gui> določi, da ni izgovorjeno nobeno ločilo. Vendar so na ti ravni še vedno izgovorjeni posebni simboli kot so podpisana in nadpisana števila, ulomki unicode in seznamske točke.</p>
+      <p>
+        Choosing a punctuation level of <gui>None</gui> would, as you expect,
+        cause no punctuation to be spoken. Note, however, that special symbols
+        such as subscripted and superscripted numbers, Unicode fractions, and
+        bullets are still spoken at this level, even though some might consider
+        these types of symbols punctuation.
+      </p>
     </section>
-    <section>
+    <section id="punctuation_level_some">
       <title>Nekatera</title>
       <p>Izbira ravni ločil <gui>Nekaj</gui> določi izgovorjavo vseh predhodno omenjenih simbolov. Poleg tega <app>Orka</app> izgovori znane matematične simbole, simbole enot in  "^", "@", "/", "&amp;", "#".</p>
     </section>
-    <section>
+    <section id="punctuation_level_most">
       <title>Večina</title>
       <p>Izbira ravni loči <gui>Večina</gui> izgovori vse predhodno omenjene simbole. Poleg tega bo <app>Orka</app> izgovorila vse druge simbole ločil <em>razen</em>  "!", "'", ",", ".", "?".</p>
     </section>
-    <section>
+    <section id="punctuation_level_all">
       <title>Vsa</title>
       <p>Izbira ravni ločil <gui>Vse</gui> določi, da <app>Orka</app> izgovori vse znane simbole ločil.</p>
     </section>
@@ -56,7 +62,10 @@
       <p>Izbira izbirnega polja določi, da <app>Orka</app> izgovori le besedilo prikazano na zaslonu. Ta možnost je namenjena predvsem za slabovidne uporabnike in uporabnike z nezmožnostjo učenja vida.</p>
       <p>Prikazana vrednost: ni izbrano</p>
       <note style="note">
-        <p>Naslednji predmeti ne bodo na voljo za nastavitev, če je izbirno polje <gui>Izgovori le prikazano besedilo</gui> izbrano.</p>
+        <p>
+          The following items will not be available for configuration if
+          the <gui>Only speak displayed text</gui> checkbox is checked.
+        </p>
       </note>
     </section>
     <section id="speak_blank_lines">

@@ -68,7 +68,7 @@
   <steps>
     <title>Επαναφορά των αρχικών συνδυασμών</title>
     <item>
-      <p>Πηγαίνετε στο διάλογο <link xref="preferences">προτιμήσεις Orca</link> πατώντας τον <keyseq><key>τροποποιητή Orca</key><key>πλήκτρο διαστήματος</key> </keyseq>.</p>
+      <p>Πηγαίνετε στο διάλογο <link xref="preferences">προτιμήσεις Orca</link> πατώντας τον <keyseq><key>τροποποιητή Orca</key><key>πλήκτρο διαστήματος</key></keyseq>.</p>
     </item>
     <item>
       <p>Μετάβαση στη σελίδα <gui>συνδυασμοί πλήκτρων</gui>.</p>
@@ -86,7 +86,7 @@
   <steps>
     <title>Αποσύνδεση εντολών σύνδεσης</title>
     <item>
-      <p>Πηγαίνετε στο διάλογο <link xref="preferences">προτιμήσεις Orca</link> πατώντας τον <keyseq><key>τροποποιητή Orca</key><key>πλήκτρο διαστήματος</key> </keyseq>.</p>
+      <p>Πηγαίνετε στο διάλογο <link xref="preferences">προτιμήσεις Orca</link> πατώντας τον <keyseq><key>τροποποιητή Orca</key><key>πλήκτρο διαστήματος</key></keyseq>.</p>
     </item>
     <item>
       <p>Μετάβαση στη σελίδα <gui>συνδυασμοί πλήκτρων</gui>.</p>

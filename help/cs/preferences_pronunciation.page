@@ -15,7 +15,7 @@
     </license>
   </info>
   <title>Předvolby pro výslovnost</title>
-  <p id="introduction">Občas váš hlasový výstup neříká pro daný řetězec to správné, co by měl. Například můžete chtít slyšet „to jest“ namísto „tj.“ nebo „lokalizace“ namísto „l10n“. Nebo se může jednat o jméno nebo technický výraz, které jsou špatně vyslovovány.</p>
+  <p>Občas váš hlasový výstup neříká pro daný řetězec to správné, co by měl. Například můžete chtít slyšet „to jest“ namísto „tj.“ nebo „lokalizace“ namísto „l10n“. Nebo se může jednat o jméno nebo technický výraz, které jsou špatně vyslovovány.</p>
   <p>Stránka <gui>Výslovnost</gui> v dialogovém okně předvoleb <app>Orca</app> vám umožňuje přidávat, upravovat a mazat položky ve slovníku výslovnosti čtečky <app>Orca</app>.</p>
   <p>Protože stránka <gui>Výslovnost</gui> je rovněž součástí nastavení závislých na konkrétní aplikaci, můžete si přizpůsobit položky zvlášť u každé aplikace, kterou používáte.</p>
   <steps>

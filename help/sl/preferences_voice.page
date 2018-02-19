@@ -19,7 +19,7 @@
   <title>Voice Preferences</title>
   <section id="voice_type_settings">
     <title>Voice Type Settings</title>
-    <section>
+    <section id="voice_type">
       <title>Voice type</title>
       <p>To spustno polje vam omogoča uporabo različnih glasov zato, da lahko lažje ločite velike črke in povezano besedilo od ostalega besedila in besedilo na zaslonu od besedila, ki ga je dodala <app>Orka</app>.</p>
       <note style="tip">
@@ -32,22 +32,22 @@
         </p>
       </note>
     </section>
-    <section>
+    <section id="speech_system">
       <title>Sistem govora</title>
       <p>
         This combo box allows you to select your preferred speech system from
         those you have installed, such as Speech Dispatcher.
       </p>
     </section>
-    <section>
+    <section id="speech_synthesizer">
       <title>Sintetizator govora</title>
       <p>To spustno polje vam omogoča izbiro sintetizatorja govora, ki bo bil uporabljen z izbranim sistemom govora.</p>
     </section>
-    <section>
+    <section id="person">
       <title>Oseba</title>
       <p>To spustno polje vam omogoča izbiro "osebe" ali "govorca" za uporabo z izbranim glasom. Na primer, morda želite da privzeto govori David, vse hiperpovezave pa izgovori Alica. Vsebina spustnega polja <gui>Oseba</gui> je odvisna od nameščenih sintetizatorjev zvoka.</p>
     </section>
-    <section>
+    <section id="capitalization_style">
       <title>Capitalization style</title>
       <p>
        This combo box allows you to choose which Speech Dispatcher capitalization
@@ -72,7 +72,7 @@
       Default value: none
     </p>
     </section>
-    <section>
+    <section id="rate_pitch_and_volume">
       <title>Hitrost, višina in glasnost</title>
       <p>Ti levo-desni drsniki vam omogočajo nadaljnje prilagajanje zvoka pravkar izbrane osebe.</p>
     </section>

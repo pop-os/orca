@@ -68,7 +68,7 @@
   <steps>
     <title>Återställa ursprungliga bindningar</title>
     <item>
-      <p>Gå till dialogen <link xref="preferences">Orca-inställningar</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key> </keyseq>.</p>
+      <p>Gå till dialogen <link xref="preferences">Orca-inställningar</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq>.</p>
     </item>
     <item>
       <p>Flytta till sidan <gui>Tangentbindningar</gui>.</p>
@@ -86,7 +86,7 @@
   <steps>
     <title>Lösgöra bundna kommandon</title>
     <item>
-      <p>Gå till dialogen <link xref="preferences">Orca-inställningar</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key> </keyseq>.</p>
+      <p>Gå till dialogen <link xref="preferences">Orca-inställningar</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq>.</p>
     </item>
     <item>
       <p>Flytta till sidan <gui>Tangentbindningar</gui>.</p>

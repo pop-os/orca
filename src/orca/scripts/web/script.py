@@ -485,6 +485,15 @@ class Script(default.Script):
             if event.source.getRole() == pyatspi.ROLE_LINK:
                 return False
 
+        if event.type.startswith('object:children-changed'):
+            try:
+                role = event.any_data.getRole()
+            except:
+                pass
+            else:
+                if role == pyatspi.ROLE_DIALOG:
+                    return False
+
         return super().skipObjectEvent(event)
 
     def consumesKeyboardEvent(self, keyboardEvent):
@@ -610,11 +619,14 @@ class Script(default.Script):
         if not (text and text.getNSelections()):
             return
 
-        context = self.utilities.getCaretContext(documentFrame=None)
+        document = self.utilities.getDocumentForObject(obj)
+        if not document:
+            return
 
+        context = self.utilities.getCaretContext(documentFrame=document)
         start, end = text.getSelection(0)
         offset = max(offset, start)
-        self.utilities.setCaretContext(obj, offset, documentFrame=None)
+        self.utilities.setCaretContext(obj, offset, documentFrame=document)
         if end - start < _settingsManager.getSetting('findResultsMinimumLength'):
             return
 
@@ -624,7 +636,7 @@ class Script(default.Script):
 
         if self._madeFindAnnouncement \
            and verbosity == settings.FIND_SPEAK_IF_LINE_CHANGED \
-           and not self.utilities.contextsAreOnSameLine(context, (obj, offset)):
+           and self.utilities.contextsAreOnSameLine(context, (obj, offset)):
             return
 
         contents = self.utilities.getLineContentsAtOffset(obj, offset)
@@ -828,11 +840,27 @@ class Script(default.Script):
         if self._lastCommandWasCaretNav or args.get("includeContext"):
             priorObj, priorOffset = self.utilities.getPriorContext()
 
+        if obj.getRole() == pyatspi.ROLE_ENTRY:
+            utterances = self.speechGenerator.generateSpeech(obj, priorObj=priorObj)
+            speech.speak(utterances)
+            self.updateBraille(obj)
+            return
+
         offset = args.get("offset", 0)
         contents = self.utilities.getObjectContentsAtOffset(obj, offset)
         self.displayContents(contents)
         self.speakContents(contents, priorObj=priorObj)
  
+    def updateBrailleForNewCaretPosition(self, obj):
+        """Try to reposition the cursor without having to do a full update."""
+
+        text = self.utilities.queryNonEmptyText(obj)
+        if text and self.EMBEDDED_OBJECT_CHARACTER in text.getText(0, -1):
+            self.updateBraille(obj)
+            return
+
+        super().updateBrailleForNewCaretPosition(obj)
+
     def updateBraille(self, obj, **args):
         """Updates the braille display to show the given object."""
 
@@ -847,10 +875,12 @@ class Script(default.Script):
             super().updateBraille(obj, **args)
             return
 
+        isContentEditable = self.utilities.isContentEditableWithEmbeddedObjects(obj)
+
         if not self._lastCommandWasCaretNav \
            and not self._lastCommandWasStructNav \
+           and not isContentEditable \
            and not self.utilities.isPlainText() \
-           and not self.utilities.isContentEditableWithEmbeddedObjects(obj) \
            and not self.utilities.lastInputEventWasCaretNavWithSelection():
             msg = "WEB: updating braille for unhandled navigation type %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -858,6 +888,11 @@ class Script(default.Script):
             return
 
         obj, offset = self.utilities.getCaretContext(documentFrame=None)
+        if offset > 0 and isContentEditable:
+            text = self.utilities.queryNonEmptyText(obj)
+            if text:
+                offset = min(offset, text.characterCount)
+
         contents = self.utilities.getLineContentsAtOffset(obj, offset)
         self.displayContents(contents)
 
@@ -1092,11 +1127,6 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        if oldFocus and self.utilities.isZombie(oldFocus):
-            msg = "WEB: Old focus is Zombie: %s. Clearing oldFocus." % oldFocus
-            debug.println(debug.LEVEL_INFO, msg, True)
-            oldFocus = None
-
         caretOffset = 0
         if not oldFocus or self.utilities.inFindToolbar(oldFocus):
             contextObj, contextOffset = self.utilities.getCaretContext()
@@ -1115,7 +1145,12 @@ class Script(default.Script):
         self.utilities.setCaretContext(newFocus, caretOffset)
         self.updateBraille(newFocus)
 
-        if self.utilities.isAnchor(newFocus):
+        if self.utilities.isContentEditableWithEmbeddedObjects(newFocus):
+            msg = "WEB: New focus %s content editable. Generating line contents." % newFocus
+            debug.println(debug.LEVEL_INFO, msg, True)
+            contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
+            utterances = self.speechGenerator.generateContents(contents)
+        elif self.utilities.isAnchor(newFocus):
             msg = "WEB: New focus %s is anchor. Generating line contents." % newFocus
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(newFocus, 0)
@@ -1334,18 +1369,15 @@ class Script(default.Script):
             msg = "WEB: Event handled: Last command was mouse button"
             debug.println(debug.LEVEL_INFO, msg, True)
             self.utilities.setCaretContext(event.source, event.detail1)
-            orca.setLocusOfFocus(event, event.source)
+            notify = not self.utilities.isEntryDescendant(event.source)
+            orca.setLocusOfFocus(event, event.source, notify)
             return True
 
         if self.utilities.inFindToolbar():
-            if not self._madeFindAnnouncement:
-                msg = "WEB: Event handled: Presenting find results"
-                debug.println(debug.LEVEL_INFO, msg, True)
-                self.presentFindResults(event.source, event.detail1)
-            else:
-                self.utilities.setCaretContext(event.source, event.detail1)
-                msg = "WEB: Event handled: Setting context to source and offset"
-                debug.println(debug.LEVEL_INFO, msg, True)
+            msg = "WEB: Event handled: Presenting find results"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self.presentFindResults(event.source, event.detail1)
+            self._saveFocusedObjectInfo(orca_state.locusOfFocus)
             return True
 
         if self.utilities.eventIsAutocompleteNoise(event):
@@ -1385,7 +1417,9 @@ class Script(default.Script):
             msg = "WEB: In content editable with embedded objects"
             debug.println(debug.LEVEL_INFO, msg, True)
             self.utilities.setCaretContext(obj, offset)
-            orca.setLocusOfFocus(event, event.source, True)
+            notify = not self.utilities.lastInputEventWasCharNav() \
+                     and not self.utilities.isEntryDescendant(obj)
+            orca.setLocusOfFocus(event, event.source, notify)
             return False
 
         text = self.utilities.queryNonEmptyText(event.source)
@@ -1651,9 +1685,10 @@ class Script(default.Script):
 
             obj, offset = self.utilities.searchForCaretContext(event.source)
             if obj:
+                notify = self.utilities.inFindToolbar(orca_state.locusOfFocus)
                 msg = "WEB: Updating focus and context to %s, %i" % (obj, offset)
                 debug.println(debug.LEVEL_INFO, msg, True)
-                orca.setLocusOfFocus(event, obj, False)
+                orca.setLocusOfFocus(event, obj, notify)
                 self.utilities.setCaretContext(obj, offset)
             else:
                 msg = "WEB: Search for caret context failed"
@@ -1748,8 +1783,10 @@ class Script(default.Script):
             return True
 
         if self.utilities.eventIsChromePageSwitchNoise(event):
-            msg = "WEB: Ignoring event believed to be chrome page switch noise"
+            msg = "WEB: Event believed to be chrome page switch"
             debug.println(debug.LEVEL_INFO, msg, True)
+            if event.detail1:
+                self.presentObject(event.source)
             return True
 
         if not self.utilities.inDocumentContent(event.source):
@@ -1842,6 +1879,11 @@ class Script(default.Script):
 
         obj, offset = self.utilities.getCaretContext(getZombieReplicant=False)
         if self.utilities.isZombie(obj):
+            if self.utilities.isLink(obj):
+                msg = "WEB: Focused link deleted. Taking no further action."
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
+
             obj, offset = self.utilities.getCaretContext(getZombieReplicant=True)
             if obj:
                 orca.setLocusOfFocus(event, obj, notifyScript=False)
@@ -1860,8 +1902,8 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             self.structuralNavigation.clearCache(document)
 
-        state = event.source.getState()
-        if not state.contains(pyatspi.STATE_EDITABLE):
+        if not event.source.getState().contains(pyatspi.STATE_EDITABLE) \
+           and not self.utilities.isContentEditableWithEmbeddedObjects(event.source):
             if self._inMouseOverObject \
                and self.utilities.isZombie(self._lastMouseOverObject):
                 msg = "WEB: Restoring pre-mouseover context"
@@ -1958,13 +2000,6 @@ class Script(default.Script):
             msg = "WEB: Event source is not in document content"
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
-
-        if self.utilities.inFindToolbar():
-            msg = "WEB: Event handled: Presenting find results"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            self.presentFindResults(event.source, -1)
-            self._saveFocusedObjectInfo(orca_state.locusOfFocus)
-            return True
 
         if not self.utilities.inDocumentContent(orca_state.locusOfFocus):
             msg = "WEB: Event ignored: locusOfFocus (%s) is not in document content" \

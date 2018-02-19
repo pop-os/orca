@@ -35,6 +35,16 @@
       <p>Si configura BrlTTY más tarde, deberá reiniciar <app>Orca</app> para poder usar Braille.</p>
     </note>
   </section>
+  <section id="braillewordwrap">
+    <title>Enable word wrap</title>
+    <p>
+      If <gui>Enable word wrap</gui> is checked, <app>Orca</app> will adjust the
+      text so that only full words are shown on the braille display. If it is not
+      checked, <app>Orca</app> will use all of the cells on the display so that
+      more text can be shown at once.
+    </p>
+    <p>Valor predeterminado: no marcado</p>
+  </section>
   <section id="contractedbraille">
     <title>Activar Braille contraído</title>
     <p>Orca suporta Braille contraído a través del proyecto liblouis. Ya que muchas distribuciones incluyen liblouis, probablemente tenga acceso automático de Braille contraído en <app>Orca</app>.</p>
@@ -68,22 +78,22 @@
   <section id="flashMessageSettings">
     <title>Configuración de mensajes temporales</title>
     <p>Los mensajes temporales son similares a las notificaciones o los anuncios: se muestran en su pantalla Braille actualizable durante un breve tiempo, después del cual se restaura el contenido original de la pantalla Braille. <app>Orca</app> tiene varias opciones de configuración que puede usar para controlar la presentación de los mensajes temporales.</p>
-    <section>
+    <section id="flashMessageSettings_enable">
       <title>Activar mensajes temporales</title>
       <p>Si la casilla <gui>Activar mensajes temporales</gui> está marcada <app>Orca</app> mostrará mensajes en braille. Si prefiere que <app>Orca</app> sólo hable los mensajes, debe desmarcar esta casilla.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_detailed">
       <title>Los mensajes son detallados</title>
       <p>Si la opción <gui>Los mensajes son detallados</gui> está activada, <app>Orca</app> presentará menajes detallados en Braille. Por ejemplo, si usa el comando de <app>Orca</app> para cambiar el eco de la tecla, <app>Orca</app> puede mostrar «Eco de teclado establecido a tecla». Si prefiere mensajes más cortos, como simplemente «palabra», debe desmarcar esta casilla.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_persistent">
       <title>Los mensajes son persistentes</title>
       <p>Como se ha indicado antes, los mensajes temporales sólo se muestran durante un breve período de tiempo. Si prefiere que los mensajes se sigan mostrando mientras realiza una acción que hace que se actualice su pantalla, debe marcar la casilla <gui>Los mensajes son persistentes</gui>.</p>
       <p>Valor predeterminado: no marcado</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_duration">
       <title>Duración del mensaje (segs)</title>
       <p>La cantidad de tiempo que <app>Orca</app> esperará antes de eliminar el mensaje y restaurar el contenido original de la pantalla se puede configurar con el botón <gui>Duración del mensaje (segs)</gui>. Tenga en cuenta que el valor de esta opción se ignorará si los mensajes temporales son persistentes.</p>
       <p>Valor predeterminado: 5</p>

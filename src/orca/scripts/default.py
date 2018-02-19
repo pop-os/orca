@@ -1995,10 +1995,28 @@ class Script(script.Script):
         - inputEvent:     The original inputEvent
         """
 
+        if self.spellcheck and self.spellcheck.isActive():
+            self.spellcheck.presentErrorDetails(not basicOnly)
+
         obj = orca_state.locusOfFocus
+        if not obj:
+            return False
+
         self.updateBraille(obj)
 
-        return self.whereAmI.whereAmI(obj, basicOnly)
+        if basicOnly:
+            formatType = 'basicWhereAmI'
+        else:
+            formatType = 'detailedWhereAmI'
+        speech.speak(self.speechGenerator.generateSpeech(
+            self.utilities.realActiveAncestor(obj),
+            alreadyFocused=True,
+            formatType=formatType,
+            forceMnemonic=True,
+            forceList=True,
+            forceTutorial=True))
+
+        return True
 
     def whereAmIBasic(self, inputEvent):
         """Speaks basic information about the current object of interest.
@@ -2171,7 +2189,8 @@ class Script(script.Script):
         if not state.contains(pyatspi.STATE_SHOWING):
             msg = "DEFAULT: Event source is not showing"
             debug.println(debug.LEVEL_INFO, msg, True)
-            return
+            if not self.utilities.presentEventFromNonShowingObject(event):
+                return
 
         if event.source != orca_state.locusOfFocus \
            and state.contains(pyatspi.STATE_FOCUSED):
@@ -2701,6 +2720,9 @@ class Script(script.Script):
             msg = "DEFAULT: Source != locusOfFocus (%s)" % orca_state.locusOfFocus
             debug.println(debug.LEVEL_INFO, msg, True)
             return
+
+        if role == pyatspi.ROLE_SPIN_BUTTON:
+            self._saveFocusedObjectInfo(event.source)
 
         self.pointOfReference["oldValue"] = currentValue
         self.updateBraille(obj, isProgressBarUpdate=isProgressBarUpdate)

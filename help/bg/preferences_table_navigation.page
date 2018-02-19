@@ -29,23 +29,28 @@
     </mal:credit>
   </info>
   <title>Настройки на придвижването в таблици</title>
-  <p>Следните опции ви позволяват да определите как <app>Orca</app> ще се държи при придвижването в таблици в приложения поддържащи <link xref="howto_structural_navigation">придвижване по структура</link>.</p>
-  <section>
+  <p>
+    The following options allow you to customize how <app>Orca</app>
+    behaves when navigating within a table in
+    <link xref="howto_structural_navigation">Structural-Navigation</link>-enabled
+    applications.
+  </p>
+  <section id="speak_cell_coordinates">
     <title>Прочитане на координатите на клетките</title>
     <p>Ако това поле е отметнато, <app>Orca</app> ще ви съобщава координатите на всяка клетка, до която се придвижите.</p>
     <p>Стойност по подразбиране: с отметка</p>
   </section>
-  <section>
+  <section id="speak_multiple_cell_spans">
     <title>Прочитане на обхвата на слетите клетки</title>
     <p>Ако това поле има отметка, <app>Orca</app> ще ви уведомява колко редове и/или колони обхваща дадена клетка, когато обхваща повече от една клетка или един ред.</p>
     <p>Стойност по подразбиране: с отметка</p>
   </section>
-  <section>
+  <section id="announce_cell_header">
     <title>Прочитане на заглавията на клетките</title>
     <p>Ако това поле има отметка, <app>Orca</app> ще ви уведомява за промени във заглавията на клетките, ако могат да бъдат определени заглавията на текущата клетка.</p>
     <p>Стойност по подразбиране: с отметка</p>
   </section>
-  <section>
+  <section id="skip_blank_cells">
     <title>Прескачане на празните клетки</title>
     <p>Ако това поле има отметка, <app>Orca</app> ще прескача празните клетки, когато използвате командите за придвижване по структура на <app>Orca</app> за да си взаимодействате с таблицата.</p>
     <p>Стойност по подразбиране: без отметка</p>

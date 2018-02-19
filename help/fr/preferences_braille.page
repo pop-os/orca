@@ -53,6 +53,16 @@
       <p>Si vous configurez BrlTTY plus tard, vous devrez redémarrer <app>Orca</app> pour pouvoir utiliser le braille.</p>
     </note>
   </section>
+  <section id="braillewordwrap">
+    <title>Enable word wrap</title>
+    <p>
+      If <gui>Enable word wrap</gui> is checked, <app>Orca</app> will adjust the
+      text so that only full words are shown on the braille display. If it is not
+      checked, <app>Orca</app> will use all of the cells on the display so that
+      more text can be shown at once.
+    </p>
+    <p>Valeur par défaut : non cochée</p>
+  </section>
   <section id="contractedbraille">
     <title>Activer le braille abrégé</title>
     <p>Orca prend en charge le braille abrégé via le projet liblouis. Comme de nombreuses distributions incluent liblouis, vous avez automatiquement accès à la prise en charge du braille abrégé dans <app>Orca</app>.</p>
@@ -86,22 +96,22 @@
   <section id="flashMessageSettings">
     <title>Paramètres des messages flash</title>
     <p>Les messages flash sont de nature semblable aux notifications ou aux annonces : ils apparaissent brièvement sur votre plage braille, après quoi le contenu précédent de la plage réapparaît. <app>Orca</app> offre plusieurs réglages permettant de contrôler la présentation des messages flash.</p>
-    <section>
+    <section id="flashMessageSettings_enable">
       <title>Activer les messages flash</title>
       <p>Si <gui>Activer les messages flash</gui> est coché, <app>Orca</app> présentera les messages en braille. Si vous préférez que <app>Orca</app> se limite à lire les messages, vous devriez décocher cette case.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_detailed">
       <title>Les messages sont détaillés</title>
       <p>Si <gui>Les messages sont détaillés</gui> est coché, <app>Orca</app> présentera des messages détaillés en braille. Par exemple, si vous utilisez la commande d'<app>Orca</app> pour modifier l'écho des touches, <app>Orca</app> pourrait afficher « écho de touche défini par mot. » Si vous préférez des messages plus courts, comme par exemple « mot », vous devriez décocher cette case.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_persistent">
       <title>Les messages sont persistants</title>
       <p>Comme expliqué précédemment, les messages flash n'apparaissent que brièvement. Si vous préférez que les messages restent affichés jusqu'au moment où vous effectuez une action qui mettra à jour l'affichage, vous devriez cocher la case <gui>Les messages sont persistants</gui>.</p>
       <p>Valeur par défaut : non cochée</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_duration">
       <title>Durée des messages (sec)</title>
       <p>Le temps que <app>Orca</app> attendra avant de supprimer le message et de restaurer le contenu original de l'affichage peut être défini par le bouton compteur <gui>Durée des messages (sec)</gui>. Notez que la valeur de ce réglage sera ignorée si vous avez activé l'affichage persistant des messages flash.</p>
       <p>Valeur par défaut : 5</p>

@@ -103,27 +103,27 @@
   </section>
   <section id="progress_bar_updates">
     <title>Aktualizace ukazatele průběhu</title>
-    <section>
+    <section id="progress_bar_updates_speak">
       <title>Číst průběh</title>
       <p>Když je zaškrtávací políčko <gui>Číst průběh</gui> zaškrtnuté, bude <app>Orca</app> pravidelně číst stav ukazatele průběhu.</p>
       <p>Výchozí hodnota: zaškrtnuto</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_braille">
       <title>Zobrazovat průběh na braillském řádku</title>
       <p>Když je zaškrtávací políčko <gui>Zobrazovat průběh na braillském řádku</gui> zaškrtnuté, bude <app>Orca</app> pravidelně zobrazovat stav ukazatele průběhu na braillském řádku.</p>
       <p>Výchozí hodnota: nezaškrtnuto</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_beep">
       <title>Pípat průběh</title>
       <p>Když je zaškrtávací políčko <gui>Pípat průběh</gui> zaškrtnuté, bude <app>Orca</app> pravidelně vydávat pípnutí, které bude zvyšovat tón podle hodnoty, které ukazatel průběhu dosáhl.</p>
       <p>Výchozí hodnota: nezaškrtnuto</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_frequency">
       <title>Četnost (v sekundách)</title>
       <p>Tento číselník určuje, jak často je postup prezentován.</p>
       <p>Výchozí hodnota: 10</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_restrict">
       <title>Omezit na</title>
       <p>Tento rozbalovací seznam vám umožňuje řídit, které ukazatele průběhu by měly být prezentovány, což předpokládá, že prezentování aktualizace ukazatele průběhu je zapnuto. Na výběr je <gui>Vše</gui>, <gui>Aplikace</gui> a <gui>Okno</gui>.</p>
       <p>Výsledkem volby <gui>Vše</gui> je, že <app>Orca</app> bude prezentovat aktualizace všech ukazatelů průběhu, bez ohledu na to, kde se nachází.</p>

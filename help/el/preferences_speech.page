@@ -35,19 +35,25 @@
     <title>Επίπεδο σημείου στίξης</title>
     <p>Η ομάδα ραδιοπλήκτρων <gui>επιπέδου στίξης</gui> χρησιμοποιείται για ρύθμιση της ποσότητας της ομιλούμενης στίξης από τον συνθέτη. Τα διαθέσιμα επίπεδα είναι <gui>κανένα</gui>, <gui>μερικό</gui>, <gui>υψηλό</gui> και <gui>όλα</gui>.</p>
     <p>Προεπιλεγμένη τιμή: <gui>υψηλό</gui></p>
-    <section>
+    <section id="punctuation_level_none">
       <title>Κανένα</title>
-      <p>Επιλέγοντας ένα επίπεδο στίξης <gui>κανένα</gui>, όπως θα περιμένατε, προκαλεί την μη εκφώνηση καμιάς στίξης. Σημειώστε, όμως, ότι ειδικά σύμβολα όπως αριθμοί ως δείκτες και εκθέτες, κλάσματα unicode και bullets εκφωνούνται σε αυτό το επίπεδο, αν και μερικοί μπορεί να θεωρήσουν αυτούς τους τύπους ως σύμβολα στίξης.</p>
+      <p>
+        Choosing a punctuation level of <gui>None</gui> would, as you expect,
+        cause no punctuation to be spoken. Note, however, that special symbols
+        such as subscripted and superscripted numbers, Unicode fractions, and
+        bullets are still spoken at this level, even though some might consider
+        these types of symbols punctuation.
+      </p>
     </section>
-    <section>
+    <section id="punctuation_level_some">
       <title>Μερικό</title>
       <p>Επιλέγοντας ένα επίπεδο στίξης του <gui>μερικό</gui> προκαλεί όλα τα προμνημονευμένα σύμβολα να εκφωνούνται. Επιπλέον, το <app>Orca</app> θα εκφωνήσει γνωστά μαθηματικά σύμβολα, σύμβολα νομισμάτων, και τα "^", "@", "/", "&amp;", "#".</p>
     </section>
-    <section>
+    <section id="punctuation_level_most">
       <title>Υψηλό</title>
       <p>Επιλέγοντας ένα επίπεδο στίξης του <gui>υψηλό</gui> προκαλεί όλα τα προμνημονευμένα σύμβολα να εκφωνούνται. Επιπλέον, το <app>Orca</app> θα εκφωνήσει όλα τα άλλα γνωστά σύμβολα στίξης, <em>πέρα από τα</em> "!", "'", ",", ".", "?".</p>
     </section>
-    <section>
+    <section id="punctuation_level_all">
       <title>Όλα</title>
       <p>Επιλέγοντας ένα επίπεδο στίξης του <gui>όλα</gui>, όπως αναμένεται, προκαλεί το <app>Orca</app> να εκφωνήσει όλα τα γνωστά σύμβολα στίξης.</p>
     </section>
@@ -60,7 +66,10 @@
       <p>Σημειώνοντας αυτό το πλαίσιο ελέγχου προκαλεί στο <app>Orca</app> να εκφωνεί μόνο το ενεργό εμφανιζόμενο κείμενο στην οθόνη. Αυτή η επιλογή απευθύνεται κυρίως για χρήστες χαμηλής όρασης και χρήστες με δυσκολία οπτικής μάθησης.</p>
       <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
       <note style="note">
-        <p>Τα επόμενα στοιχεία δεν θα είναι διαθέσιμα για ρύθμιση εάν το πλαίσιο ελέγχου <gui>εκφώνηση μόνο του εμφανιζόμενου κειμένου</gui> σημειωθεί.</p>
+        <p>
+          The following items will not be available for configuration if
+          the <gui>Only speak displayed text</gui> checkbox is checked.
+        </p>
       </note>
     </section>
     <section id="speak_blank_lines">

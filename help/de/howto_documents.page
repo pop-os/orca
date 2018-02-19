@@ -52,5 +52,10 @@
     <p>Nicht alle Anwendungen haben eine Mauszeigernavigation in der Voreinstellung eingeschaltet. Für viele GNOME Anwendungen kann die Mauszeigernavigation durch Drücken der Taste <key>F7</key> ein- und ausgeschaltet werden.</p>
   </note>
   <p>Zusätzlich zum Lesen eines Dokumentes mittels Mauszeigernavigation könnten Sie es nützlich finden, den Unicode-Wert im aktuellen Text zu lesen und auszugeben. Sie können dies durch <app>Orca</app>'s <link xref="howto_flat_review">Übersicht</link> tun.</p>
-  <p>Abschließend verwenden Sie den Befehl »Alles vorlesen«, damit <app>Orca</app> das gesamte aktuelle Dokument vorliest. Eine vollständigere Liste der <app>Orca</app>-Befehle zum Zugriff auf den Dokumententext finden Sie in den <link xref="commands_reading">Lesebefehlen</link>.</p>
+  <p>
+    Finally, in order to have <app>Orca</app> speak the entire document from your
+    present location, use the Say All command. It, along with a more complete
+    listing of <app>Orca</app>'s commands for accessing document text, can
+    be found in the <link xref="commands_reading">Reading Commands</link> guide.
+  </p>
 </page>

@@ -119,14 +119,6 @@ class Script(Gecko.Script):
 
         return prefs
 
-    def doWhereAmI(self, inputEvent, basicOnly):
-        """Performs the whereAmI operation."""
-
-        if self.spellcheck.isActive():
-            self.spellcheck.presentErrorDetails(not basicOnly)
-
-        super().doWhereAmI(inputEvent, basicOnly)
-
     def locusOfFocusChanged(self, event, oldFocus, newFocus):
         """Handles changes of focus of interest to the script."""
 
@@ -388,17 +380,6 @@ class Script(Gecko.Script):
             msg = "THUNDERBIRD: SayAllOnLoad is True and speech is enabled"
             debug.println(debug.LEVEL_INFO, msg, True)
             self.sayAll(None)
-
-    def sayCharacter(self, obj):
-        """Speaks the character at the current caret position."""
-
-        if self.utilities.isEditableMessage(obj):
-            text = self.utilities.queryNonEmptyText(obj)
-            if text and text.caretOffset + 1 >= text.characterCount:
-                default.Script.sayCharacter(self, obj)
-                return
-
-        super().sayCharacter(obj)
 
     def sayWord(self, obj):
         """Speaks the word at the current caret position."""

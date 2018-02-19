@@ -26,7 +26,7 @@
     </mal:credit>
   </info>
   <title>Introducción a las preferencias de <app>Orca</app></title>
-  <section>
+  <section id="orca">
     <title>Preferencias de Orca</title>
     <p>Las preferencias de Orca le permiten personalizar la funcionalidad de <app>Orca</app> que se usa en todas las aplicaciones. Un ejemplo de preferencia de Orca es el eco de teclas, ya que es algo que se usa en todas las aplicaciones.</p>
     <p>Note que las preferencias de Orca se pueden personalizar para cada aplicación. Por ejemplo, puede establecer el eco predeterminado por palabras y después, no establecer ningún eco para Pidgin. Habiendo hecho esto, <app>Orca</app> siempre leerá las palabras que escriba, a menos que use Pidgin.</p>
@@ -42,7 +42,7 @@
       </list>
     </note>
   </section>
-  <section>
+  <section id="application_unique">
     <title>Preferencias únicas de la aplicación</title>
       <p>En contraste con las preferencias de Orca, existen preferencias únicas para cada aplicación. Estas preferencias le permiten personalizar la funcionalidad de <app>Orca</app> que solo se aplica en ciertos entornos, tales como en páginas web o en aplicaciones de chat. Como resultado, encontrará solamente estas opciones disponibles en los diálogos de preferencias específicas para la aplicación y únicamente para aquellas aplicaciones en las que estas opciones se aplican.</p>
   </section>

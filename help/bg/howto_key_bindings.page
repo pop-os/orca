@@ -74,7 +74,7 @@
   <steps>
     <title>Възстановяване на оригиналните функции на клавишите</title>
     <item>
-      <p>Отидете в <link xref="preferences">Настройки на Orca</link> с натискане на <keyseq><key>Модификатор на Orca</key><key>Интервал</key> </keyseq>.</p>
+      <p>Отидете в <link xref="preferences">Настройки на Orca</link> като натиснете <keyseq><key>Модификатор на Orca</key><key>Интервал</key></keyseq>.</p>
     </item>
     <item>
       <p>Придвижете се до страницата <gui>Функции на клавишите</gui>.</p>
@@ -92,7 +92,7 @@
   <steps>
     <title>Премахване на присвоени команди</title>
     <item>
-      <p>Отидете в <link xref="preferences">Настройки на Orca</link> с натискане на <keyseq><key>Модификатор на Orca</key><key>Интервал</key> </keyseq>.</p>
+      <p>Отидете в <link xref="preferences">Настройки на Orca</link> като натиснете <keyseq><key>Модификатор на Orca</key><key>Интервал</key></keyseq>.</p>
     </item>
     <item>
       <p>Придвижете се до страницата <gui>Функции на клавишите</gui>.</p>

@@ -41,7 +41,12 @@
     <p>В допълнение, <app>Orca</app> предоставя <link xref="preferences_table_navigation">настройки на представянето</link>, които работят в допълнение на придвижването по структура и ви позволява да контролирате дали да се съобщават координатите на клетките, да се съобщава когато една клетка заема повече редове или колони, както и заглавията на редовете и колоните.</p>
     <note style="tip">
       <title>Не забравяйте да включите придвижването по структура!</title>
-      <p>В зависимост от това къде се намирате, може да се наложи да включите изрично придвижване по структура, преди да можете да я използвате. За да научите повече, прочетете <link type="seealso" xref="howto_structural_navigation#toggling_required">Кога се налага ръчно да превключваме придвижване по структура.</link></p>
+      <p>
+        Depending on where you are, it may be necessary for you to explicitly
+        toggle Structural Navigation on before you can use it. To learn more, read
+        <link xref="howto_structural_navigation#toggling_required">
+        when toggling Structural Navigation on is required.</link>
+      </p>
     </note>
   </section>
   <section id="dynamic_headers">
@@ -57,7 +62,7 @@
       </item>
     </steps>
     <steps>
-      <title>Задаване на заглавия на редовете</title>
+      <title>Setting Row Headers</title>
       <item>
         <p>Придвижете се до колоната, която съдържа всички заглавия на редовете.</p>
       </item>

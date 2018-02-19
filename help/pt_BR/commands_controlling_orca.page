@@ -32,7 +32,7 @@
       <mal:years>2013.</mal:years>
     </mal:credit>
   </info>
-  <title type="link">Controlando e aprendendo a usar o Orca</title>
+  <title>Controlando e aprendendo a usar o Orca</title>
   <section id="controlling">
     <title>Comandos para controlar o <app>Orca</app></title>
     <p>Os comandos a seguir podem ser usados para entrar nas preferências do <app>Orca</app>, sair do <app>Orca</app> e ignorar comandos do <app>Orca</app> para evitar conflito de atalhos com o aplicativo que está sendo acessado.</p>

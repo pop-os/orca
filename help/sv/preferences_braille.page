@@ -29,6 +29,16 @@
       <p>Om du konfigurerar BrlTTY senare kommer du behöva starta om <app>Orca</app> för att använda punktskrift.</p>
     </note>
   </section>
+  <section id="braillewordwrap">
+    <title>Enable word wrap</title>
+    <p>
+      If <gui>Enable word wrap</gui> is checked, <app>Orca</app> will adjust the
+      text so that only full words are shown on the braille display. If it is not
+      checked, <app>Orca</app> will use all of the cells on the display so that
+      more text can be shown at once.
+    </p>
+    <p>Standardvärde: inte ikryssad</p>
+  </section>
   <section id="contractedbraille">
     <title>Aktivera litterär punktskrift</title>
     <p>Orca stöder litterär punktskrift via liblouis-projektet. Eftersom många distributioner inkluderar liblouis så har du troligen automatiskt åtkomst till stöd för litterär punktskrift i <app>Orca</app>.</p>
@@ -62,22 +72,22 @@
   <section id="flashMessageSettings">
     <title>Inställningar för blixtmeddelanden</title>
     <p>Blixtmeddelanden liknar aviseringar eller annonseringar: De visas på din uppdateringsbara punktskriftsskärm en kort tid, efter vilken det ursprungliga innehållet på punktskriftsskärmen återställs. <app>Orca</app> har flera inställningar du kan använda för att styra presentation av blixtmeddelanden.</p>
-    <section>
+    <section id="flashMessageSettings_enable">
       <title>Aktivera blixtmeddelanden</title>
       <p>Om <gui>Aktivera blixtmeddelanden</gui> är ikryssad kommer <app>Orca</app> presentera meddelanden till dig i punktskrift. Om du föredrar att bara få <app>Orca</app>s meddelanden upplästa ska du avmarkera denna kryssruta.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_detailed">
       <title>Meddelanden är detaljerade</title>
       <p>Om <gui>Meddelanden är detaljerade</gui> är ikryssad kommer <app>Orca</app> presentera detaljerade meddelanden till dig i punktskrift. Till exempel, om du använder <app>Orca</app>s kommando för att ändra tangenteko kan <app>Orca</app> visa ”Tangenteko satt till ord”. Om du föredrar kortare meddelanden, som exempelvis bara ”ord”, ska du avmarkera denna kryssruta.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_persistent">
       <title>Meddelanden är beständiga</title>
       <p>Som nämnts ovan visas blixtmeddelanden bara en kort tid. Om du skulle föredra att meddelanden kvarstår tills du utför en åtgärd som får din skärm att uppdateras ska du kryssa i kryssrutan <gui>Meddelanden är beständiga</gui>.</p>
       <p>Standardvärde: inte ikryssad</p>
     </section>
-    <section>
+    <section id="flashMessageSettings_duration">
       <title>Meddelandelängd (sek)</title>
       <p>Tidsperioden som <app>Orca</app> kommer vänta innan meddelandet tas bort och det ursprungliga innehållet på din skärm återställs kan ställas in i snurrknappen <gui>Meddelandelängd (sek)</gui>. Notera att värdet på denna inställning kommer ignoreras om du har aktiverat beständiga blixtmeddelanden.</p>
       <p>Standardvärde: 5</p>

@@ -44,7 +44,7 @@
       <mal:years>2016</mal:years>
     </mal:credit>
   </info>
-  <title type="link">Contrôler et apprendre à utiliser Orca</title>
+  <title>Contrôler et apprendre à utiliser Orca</title>
   <section id="controlling">
     <title>Commandes pour contrôler <app>Orca</app></title>
     <p>Les commandes suivantes peuvent être utilisées pour aller dans la boîte de dialogue des préférences d'<app>Orca</app>, pour activer/désactiver <app>Orca</app>, et contourner des commandes d'<app>Orca</app> afin d' éviter les conflits de raccourcis dans l'application en cours d'accès.</p>

@@ -99,7 +99,7 @@
         </list>
       </item>
       <item>
-        <p>Az aktuális karakter unicode kódjának kimondatása:</p>
+        <p>Speak the Unicode value of current character:</p>
         <list>
           <item>
             <p>Asztali kiosztás: <keyseq><key>Numpad 2</key></keyseq> (háromszor gyorsan megnyomva)</p>

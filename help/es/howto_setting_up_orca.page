@@ -28,7 +28,6 @@
     </mal:credit>
   </info>
   <title>Configuración de Orca</title>
-    <section id="configuring_orca">
+
       <p>Si quiere configurar <app>Orca</app>, vaya al diálogo de <link xref="preferences">Preferencias</link> pulsando <keyseq><key>Modificador de Orca</key><key>Espacio</key></keyseq> desde cualquier aplicación accesible. Alternativamente, puede escribir <cmd>orca</cmd> seguido de <cmd>-s</cmd> o <cmd>--setup</cmd> en una ventana de la terminal o en el diálogo <gui>Ejecutar</gui> y pulse <key>Intro</key>.</p>
-    </section>
 </page>

@@ -5,7 +5,9 @@
     <link type="next" xref="preferences_spellcheck"/>
     <title type="sort">3. Chat</title>
     <title type="link">Chat</title>
-    <desc>Configurar el soporte de <app>Orca</app> IM e IRC</desc>
+    <desc>
+      Configuring <app>Orca</app>'s support for IM and IRC
+    </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -28,22 +30,22 @@
   </info>
   <title>Preferencias del chat</title>
   <p>Las siguientes opciones le permiten personalizar cómo se comporta <app>Orca</app> cuando proporciona acceso a la mensajería instantánea y a clientes de IRC.</p>
-  <section>
+  <section id="speak_name">
     <title>Leer el nombre de la sala de chat</title>
     <p>Si está casilla está marcada, <app>Orca</app> antepondrá a los mensajes entrantes el nombre de la sala o del amigo del que provienen, a menos que provengan de la conversación que tiene el foco actualmente.</p>
     <p>Valor predeterminado: no marcado</p>
   </section>
-  <section>
+  <section id="announce_typing">
     <title>Anunciar cuando sus amigos están tecleando</title>
     <p>Si esta casilla está marcada, y <app>Orca</app> tiene suficiente información para identificar que su amigo está escribiendo, <app>Orca</app> anunciará su estado de escritura.</p>
     <p>Valor predeterminado: no marcado</p>
   </section>
-  <section>
+  <section id="message_histories">
     <title>Proporcionar históricos de mensajes específicos de cada sala de chat</title>
     <p>Si esta casilla está marcada, los comandos de <app>Orca</app> para revisar mensajes recientes sólo se aplicarán a la conversación que actualmente tiene el foco. Si no, el histórico contendrá los mensajes más recientes, independientemente de qué conversación provienen.</p>
     <p>Valor predeterminado: no marcado</p>
   </section>
-  <section>
+  <section id="speak_messages_from">
     <title>Leer los mensajes de</title>
     <p>Este grupo de botones de radio le permite controlar bajo qué circunstancias <app>Orca</app> le presenta un mensaje. Sus opciones son:</p>
     <list>

@@ -43,7 +43,11 @@
         <p><gui>Nome do Atributo</gui>: O nome do atributo de texto.</p>
       </item>
       <item>
-        <p><gui>Fala</gui>: Marque essa caixa de seleção para o <app>Orca</app> falar este atributo quando você pressionar <keyseq><key>Orca</key><key>F</key></keyseq>.</p>
+        <p>
+          <gui>Speak</gui>: Check this checkbox if you would like
+          <app>Orca</app> to speak this attribute when you press
+          <keyseq><key>Orca Modifier</key><key>F</key></keyseq>.
+        </p>
       </item>
       <item>
         <p><gui>Marcar em braille</gui>: Marque esta caixa de seleção se você deseja que o <app>Orca</app> "sublinhe" este atributo em seu monitor braille.</p>

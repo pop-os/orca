@@ -28,7 +28,7 @@ __license__   = "LGPL"
 
 # $ORCA_MAJOR_VERSION.$ORCA_MINOR_VERSION.$ORCA_MICRO_VERSION
 #
-version     = "3.26.0"
+version     = "3.27.91"
 
 # "--prefix" parameter used when configuring the build.
 #
@@ -44,4 +44,4 @@ datadir = "${prefix}/share".replace('${prefix}', '/home/jd/checkout/orca/bld')
 
 # The directory where we could find liblouis translation tables.
 #
-tablesdir = "/usr/share/liblouis/tables"
+tablesdir = ""

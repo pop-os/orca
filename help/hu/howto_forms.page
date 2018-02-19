@@ -21,7 +21,7 @@
   </info>
   <title>Űrlapok kitöltése</title>
   <p>Amikor az <app>Orka</app> segítségével dolgozik egy weboldallal vagy dokumentummal, Ön a dokumentumon hajt végre minden feladatot, nem pedig a dokumentum egy átmeneti pufferbe töltött másolatán. Az <app>Orka</app> böngésző- és fókuszmódja lehetőséget nyújt az olvasási és űrlapkitöltési mód közötti váltásra.</p>
-  <section>
+  <section id="navigating_amongst_form_fields">
     <title>Navigálás az űrlapmezők között</title>
     <p>Az űrlapmezők közötti navigációhoz számos lehetőség áll rendelkezésére:</p>
     <list>
@@ -39,7 +39,7 @@
      <p>Függetlenül attól, hogy az <app>Orka</app> mutatónavigációját vagy strukturált navigációs parancsait használja egy űrlapmezőre navigáláshoz, böngészőmódban kell lennie. Ha éppen fókuszmódban van, böngészőmódba tud váltani az <keyseq><key>Orka módosító</key><key>A</key></keyseq> billentyűkombinációval.</p>
    </note>
   </section>
-  <section>
+  <section id="exiting_form_fields">
     <title>Kilépés az űrlapmezőkből</title>
     <p>Ha egy űrlapmezőből ki szeretne lépni, számos lehetőség áll rendelkezésére:</p>
     <list>

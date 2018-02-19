@@ -113,15 +113,19 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         return []
 
     def _generateDescription(self, obj, **args):
-        if self._script.utilities.isZombie(obj) \
-           or obj != orca_state.locusOfFocus:
+        if self._script.utilities.isZombie(obj):
+            return []
+
+        role = args.get('role', obj.getRole())
+        if obj != orca_state.locusOfFocus:
+            if role in [pyatspi.ROLE_ALERT, pyatspi.ROLE_DIALOG]:
+                return super()._generateDescription(obj, **args)
             return []
 
         formatType = args.get('formatType')
         if formatType == 'basicWhereAmI' and self._script.utilities.isLiveRegion(obj):
             return self._script.liveRegionManager.generateLiveRegionDescription(obj, **args)
 
-        role = args.get('role', obj.getRole())
         if role == pyatspi.ROLE_TEXT and formatType != 'basicWhereAmI':
             return []
 
@@ -311,8 +315,14 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                 text = self._script.utilities.queryNonEmptyText(obj)
                 if text and end not in [None, text.characterCount]:
                     return []
-            if role not in doNotSpeak:
+            if role in [pyatspi.ROLE_ENTRY, pyatspi.ROLE_PASSWORD_TEXT]:
                 result.append(self.getLocalizedRoleName(obj, **args))
+            elif obj.parent and not obj.parent.getState().contains(pyatspi.STATE_EDITABLE):
+                if lastKey not in ["Home", "End", "Up", "Down", "Left", "Right", "Page_Up", "Page_Down"]:
+                    result.append(object_properties.ROLE_EDITABLE_CONTENT)
+            elif role not in doNotSpeak:
+                result.append(self.getLocalizedRoleName(obj, **args))
+            if result:
                 result.extend(acss)
 
         elif role == pyatspi.ROLE_HEADING:

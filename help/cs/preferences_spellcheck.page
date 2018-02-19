@@ -4,7 +4,9 @@
     <link type="guide" xref="preferences#application"/>
     <title type="sort">4. Kontrola pravopisu</title>
     <title type="link">Kontrola pravopisu</title>
-    <desc>Jak nastavit podporu pro kontrolu pravopisu ve čtečce <app>Orca</app></desc>
+    <desc>
+      Configuring <app>Orca</app>'s support for Spell Check
+    </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -19,17 +21,17 @@
     <title>Při kontrole pravopisu můžete mít stručné a podrobné informace</title>
     <p>Pokud normálně chcete jen málo podrobností při používání kontroly pravopisu, ale příložitostně se jich potřebujete dozvědět o dané chybě více, můžete tuto volbu vypnout. Když budete potřebovat více podrobností, stačí použít příkaz čtečky <app>Orca</app> <link xref="howto_whereami">Kde se nacházím</link> a bude vám prezentována aktuální chyba v podobě, jako by tato volba byla zapnutá.</p>
   </note>
-  <section>
+  <section id="spell_error">
     <title>Hláskovat chyby</title>
     <p>Když je toto políčko zaškrtnuté, bude <app>Orca</app> hláskovat pravopisně chybné slovo po té, co jej přečte.</p>
     <p>Výchozí hodnota: zaškrtnuto</p>
   </section>
-  <section>
+  <section id="spell_suggestion">
     <title>Hláskovat doporučení</title>
     <p>Když je toto políčko zaškrtnuté, bude <app>Orca</app> hláskovat doporučení na opravu slova po té, co jej přečte.</p>
     <p>Výchozí hodnota: zaškrtnuto</p>
   </section>
-  <section>
+  <section id="error_context">
     <title>Prezentovat kontext chyby</title>
     <p>Když je toto políčko zaškrtnuté, bude <app>Orca</app> číst z dokumentu větu nebo řádek, ve kterých byla chyba nalezena.</p>
     <p>Výchozí hodnota: zaškrtnuto</p>

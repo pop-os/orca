@@ -31,7 +31,11 @@
         <p><gui>Attribútumnév</gui>: A szöveges attribútum neve.</p>
       </item>
       <item>
-        <p><gui>Felolvasás</gui>: Jelölje be ezt a jelölőnégyzetet, ha azt szeretné, hogy az <app>Orka</app> az <keyseq><key>Orka</key><key>F</key></keyseq> billentyűkombináció lenyomásakor felolvassa ezt a szöveges attribútumot.</p>
+        <p>
+          <gui>Speak</gui>: Check this checkbox if you would like
+          <app>Orca</app> to speak this attribute when you press
+          <keyseq><key>Orca Modifier</key><key>F</key></keyseq>.
+        </p>
       </item>
       <item>
         <p><gui>Braille jelölés</gui>: Jelölje be ezt a jelölőnégyzetet, ha azt szeretné, hogy az <app>Orka</app> „aláhúzza” ezt az attribútumot a Braille kijelzőjén.</p>

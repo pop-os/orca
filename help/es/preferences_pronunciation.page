@@ -27,7 +27,7 @@
     </mal:credit>
   </info>
   <title>Preferencias de pronunciación</title>
-  <p id="introduction">A veces su sintetizador de voz simplemente no dice lo correcto para una cadena dada. Puede que prefiera escuchar «Riendo en voz alta» en lugar de «LOL,» o «Accesibilidad» en lugar de «a11y». O puede que haya un término técnico o un nombre que el sintetizador no pronuncie correctamente.</p>
+  <p>A veces su sintetizador de voz simplemente no dice lo correcto para una cadena dada. Puede que prefiera escuchar «Riendo en voz alta» en lugar de «LOL,» o «Accesibilidad» en lugar de «a11y». O puede que haya un término técnico o un nombre que el sintetizador no pronuncie correctamente.</p>
   <p>La página <gui>Pronunciación</gui> del diálogo de preferencias de <app>Orca</app> le permite añadir, editar y eliminar entradas en el diccionario de pronunciación de <app>Orca</app>.</p>
   <p>Gracias a que la página <gui>Pronunciación</gui> es parte de la configuración específica de la aplicación, podrá personalizar sus entradas según las necesidades para cada aplicación que utilice.</p>
   <steps>

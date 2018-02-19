@@ -205,7 +205,7 @@
   </section>
   <section id="progress_bar_updates">
     <title>Aktualisierungen von Fortschrittsanzeigen</title>
-    <section>
+    <section id="progress_bar_updates_speak">
       <title>Aktualisierungen vorlesen</title>
       <p>
         If the <gui>Speak updates</gui> checkbox is checked <app>Orca</app> will
@@ -213,7 +213,7 @@
       </p>
       <p>Standardwert: aktiviert</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_braille">
       <title>Braille-Aktualisierungen</title>
       <p>
         If the <gui>Braille updates</gui> checkbox is checked <app>Orca</app> will
@@ -222,7 +222,7 @@
       </p>
       <p>Standardwert: nicht aktiviert</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_beep">
       <title>Beep updates</title>
       <p>
         If the <gui>Beep updates</gui> checkbox is checked <app>Orca</app> will
@@ -231,14 +231,14 @@
       </p>
       <p>Standardwert: nicht aktiviert</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_frequency">
       <title>Frequenz (Sekunden)</title>
       <p>
         This spin button determines how often updates are presented.
       </p>
       <p>Standardwert: 10</p>
     </section>
-    <section>
+    <section id="progress_bar_updates_restrict">
       <title>Beschränken auf</title>
       <p>
          This combo box allows you to control which progress bars should be

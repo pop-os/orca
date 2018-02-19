@@ -75,9 +75,17 @@ class Script(default.Script):
         if self.utilities.isLayoutOnly(event.source):
             return
 
+        if self.utilities.isTypeahead(orca_state.locusOfFocus) \
+           and "Table" in pyatspi.listInterfaces(event.source) \
+           and not event.source.getState().contains(pyatspi.STATE_FOCUSED):
+            return
+
         ancestor = pyatspi.findAncestor(orca_state.locusOfFocus, lambda x: x == event.source)
         if not ancestor:
             orca.setLocusOfFocus(event, event.source)
+            return
+
+        if ancestor and "Table" in pyatspi.listInterfaces(ancestor):
             return
 
         isMenu = lambda x: x and x.getRole() == pyatspi.ROLE_MENU

@@ -4,7 +4,9 @@
     <link type="guide" xref="preferences#application"/>
     <title type="sort">4. Rechtschreibprüfung</title>
     <title type="link">Rechtschreibung</title>
-    <desc>Einstellungen der <app>Orca</app>-Unterstützung für Rechtschreibprüfung</desc>
+    <desc>
+      Configuring <app>Orca</app>'s support for Spell Check
+    </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -49,7 +51,7 @@
       options were enabled.
     </p>
   </note>
-  <section>
+  <section id="spell_error">
     <title>Rechtschreibfehler</title>
     <p>
       If this checkbox is checked, <app>Orca</app> will spell out the misspelled
@@ -57,7 +59,7 @@
     </p>
     <p>Standardwert: aktiviert</p>
   </section>
-  <section>
+  <section id="spell_suggestion">
     <title>Rechtschreibvorschlag</title>
     <p>
       If this checkbox is checked, <app>Orca</app> will spell out the suggested
@@ -65,7 +67,7 @@
     </p>
     <p>Standardwert: aktiviert</p>
   </section>
-  <section>
+  <section id="error_context">
     <title>Fehlerkontex darstellen</title>
     <p>
       If this checkbox is checked, <app>Orca</app> will speak the sentence or

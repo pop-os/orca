@@ -37,7 +37,7 @@
   <title>Voice Preferences</title>
   <section id="voice_type_settings">
     <title>Voice Type Settings</title>
-    <section>
+    <section id="voice_type">
       <title>Voice type</title>
       <p>Esta caixa de combinação lhe permite utilizar diferentes vozes já que vocêpode melhor distinguir textos com maiúsculas ou vinculados de outros textos, etextos na tela de textos adicionados pelo <app>Orca</app>.</p>
       <note style="tip">
@@ -50,22 +50,22 @@
         </p>
       </note>
     </section>
-    <section>
+    <section id="speech_system">
       <title>Sistema de fala</title>
       <p>
         This combo box allows you to select your preferred speech system from
         those you have installed, such as Speech Dispatcher.
       </p>
     </section>
-    <section>
+    <section id="speech_synthesizer">
       <title>Sintetizador de voz</title>
       <p>Esta caixa de combinação permite a você selecionar o sintetizador de voz para ser usado comcom o seu sistema de fala preferido.</p>
     </section>
-    <section>
+    <section id="person">
       <title>Personagem</title>
       <p>Esta caixa de combinação permite-lhe definir que "personagem" ou "orador" deve ser utilizado com a voz selecionada. Por exemplo, você pode querer ter a voz David por padrão, mas possuir vínculos dinãmicos (hyperlinks) falados pela Alice. Observe que o que você localiza na caixa de combinação <gui>Personagem</gui> dependerá de quais sintetizadores de fala estiverem instalados.</p>
     </section>
-    <section>
+    <section id="capitalization_style">
       <title>Capitalization style</title>
       <p>
        This combo box allows you to choose which Speech Dispatcher capitalization
@@ -90,7 +90,7 @@
       Default value: none
     </p>
     </section>
-    <section>
+    <section id="rate_pitch_and_volume">
       <title>Velocidade, tonalidade e volume</title>
       <p>Estes três controles deslizantes para a direita e para a esquerda permite-lhe adicionalmente personalizar o som dapersonagem que você acabou de selecionar.</p>
     </section>

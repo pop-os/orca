@@ -55,7 +55,11 @@
         <p><gui>Nom d'attribut</gui> : le nom de l'attribut de texte.</p>
       </item>
       <item>
-        <p><gui>À lire</gui> : cochez cette case si vous souhaitez que <app>Orca</app> prononce cet attribut quand vous appuyez sur <keyseq><key>Touche de modification d'Orca</key><key>F</key></keyseq>.</p>
+        <p>
+          <gui>Speak</gui>: Check this checkbox if you would like
+          <app>Orca</app> to speak this attribute when you press
+          <keyseq><key>Orca Modifier</key><key>F</key></keyseq>.
+        </p>
       </item>
       <item>
         <p><gui>Marquer en braille</gui> : cochez cette case si vous souhaitez que <app>Orca</app> « souligne » cet attribut sur l'afficheur braille.</p>

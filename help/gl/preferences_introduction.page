@@ -14,7 +14,7 @@
     </license>
   </info>
   <title>Introdución ás preferencias de <app>Orca</app></title>
-  <section>
+  <section id="orca">
     <title>Preferencias de Orca</title>
     <p>
       Orca preferences allow you to customize functionality in <app>Orca</app>
@@ -46,7 +46,7 @@
       </list>
     </note>
   </section>
-  <section>
+  <section id="application_unique">
     <title>Preferencias únicas do aplicativo</title>
       <p>
         In contrast to Orca preferences, there are application-unique preferences.

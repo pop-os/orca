@@ -113,7 +113,7 @@
         </list>
       </item>
       <item>
-        <p>Den Unicode-Wert des aktuellen Zeichens vorlesen:</p>
+        <p>Speak the Unicode value of current character:</p>
         <list>
           <item>
             <p>Desktop: <keyseq><key>2 (Nmblck)</key></keyseq> (Dreifach-Klick)</p>

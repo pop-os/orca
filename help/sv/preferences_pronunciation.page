@@ -21,7 +21,7 @@
     </mal:credit>
   </info>
   <title>Uttalsinställningar</title>
-  <p id="introduction">Ibland säger din talsyntes helt enkelt inte rätt sak för en sträng. Du kanske föredrar att höra ”asgarvar” snarare än ”asg” eller ”accessibility” snarare än ”a11y”, eller också kan det finnas ett namn eller en teknisk term som syntesen uttalar fel.</p>
+  <p>Ibland säger din talsyntes helt enkelt inte rätt sak för en sträng. Du kanske föredrar att höra ”asgarvar” snarare än ”asg” eller ”accessibility” snarare än ”a11y”, eller också kan det finnas ett namn eller en teknisk term som syntesen uttalar fel.</p>
   <p>Sidan <gui>Uttal</gui> i <app>Orca</app>s inställningsdialog låter dig lägga till, redigera och ta bort poster i <app>Orca</app>s uttalsordlista.</p>
   <p>Eftersom sidan <gui>Uttal</gui> också är en del av de programspecifika inställningarna kan du anpassa dina poster efter behov för varje program som du använder.</p>
   <steps>

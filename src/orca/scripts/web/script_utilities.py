@@ -57,6 +57,7 @@ class Utilities(script_utilities.Utilities):
         self._inTopLevelWebApp = {}
         self._isTextBlockElement = {}
         self._isContentEditableWithEmbeddedObjects = {}
+        self._isEntryDescendant = {}
         self._isGridDescendant = {}
         self._isLabelDescendant = {}
         self._isMenuDescendant = {}
@@ -83,6 +84,7 @@ class Utilities(script_utilities.Utilities):
         self._isNonEntryTextWidget = {}
         self._isImageMap = {}
         self._isUselessImage = {}
+        self._isNonNavigableEmbeddedDocument = {}
         self._isParentOfNullChild = {}
         self._inferredLabels = {}
         self._actualLabels = {}
@@ -121,6 +123,7 @@ class Utilities(script_utilities.Utilities):
         self._inTopLevelWebApp = {}
         self._isTextBlockElement = {}
         self._isContentEditableWithEmbeddedObjects = {}
+        self._isEntryDescendant = {}
         self._isGridDescendant = {}
         self._isLabelDescendant = {}
         self._isMenuDescendant = {}
@@ -147,6 +150,7 @@ class Utilities(script_utilities.Utilities):
         self._isNonEntryTextWidget = {}
         self._isImageMap = {}
         self._isUselessImage = {}
+        self._isNonNavigableEmbeddedDocument = {}
         self._isParentOfNullChild = {}
         self._inferredLabels = {}
         self._actualLabels = {}
@@ -551,10 +555,6 @@ class Utilities(script_utilities.Utilities):
         if self.inDocumentContent(obj):
             return False
 
-        if obj and obj.parent \
-           and obj.parent.getRole() == pyatspi.ROLE_AUTOCOMPLETE:
-            return False
-
         return super().inFindToolbar(obj)
 
     def isEmpty(self, obj):
@@ -852,6 +852,8 @@ class Utilities(script_utilities.Utilities):
                 rv = None
             if rv and (self.isHidden(obj) or self.isOffScreenLabel(obj)):
                 rv = None
+            if rv and self.isNonNavigableEmbeddedDocument(obj):
+                rv = None
             if rv and role == pyatspi.ROLE_LINK \
                and (self.hasExplicitName(obj) or self.hasUselessCanvasDescendant(obj)):
                 rv = None
@@ -883,6 +885,10 @@ class Utilities(script_utilities.Utilities):
         # We can't have nice things.
 
         allText = text.getText(0, -1)
+        if boundary == pyatspi.TEXT_BOUNDARY_CHAR:
+            string = allText[offset]
+            return string, offset, offset + 1
+
         extents = list(text.getRangeExtents(offset, offset + 1, 0))
 
         def _inThisSpan(span):
@@ -952,15 +958,7 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             return '', 0, 1
 
-        if boundary == pyatspi.TEXT_BOUNDARY_CHAR:
-            string, start, end = text.getText(offset, offset + 1), offset, offset + 1
-            s = string.replace(self.EMBEDDED_OBJECT_CHARACTER, "[OBJ]").replace("\n", "\\n")
-            msg = "WEB: Results for text at offset %i for %s using %s:\n" \
-                  "     String: '%s', Start: %i, End: %i." % (offset, obj, boundary, s, start, end)
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return string, start, end
-
-        if not boundary:
+        if boundary is None:
             string, start, end = text.getText(offset, -1), offset, text.characterCount
             s = string.replace(self.EMBEDDED_OBJECT_CHARACTER, "[OBJ]").replace("\n", "\\n")
             msg = "WEB: Results for text at offset %i for %s using %s:\n" \
@@ -1065,8 +1063,7 @@ class Utilities(script_utilities.Utilities):
             return self._getContentsForObj(obj[0], 0, boundary)
 
         string, start, end = self._getTextAtOffset(obj, offset, boundary)
-        # Check for ROLE_SECTION due to https://bugzilla.mozilla.org/show_bug.cgi?id=1210630
-        if not string or (self.isLandmark(obj) and role != pyatspi.ROLE_SECTION):
+        if not string:
             return [[obj, start, end, string]]
 
         stringOffset = offset - start
@@ -1615,6 +1612,9 @@ class Utilities(script_utilities.Utilities):
            or self.isToolBarDescendant(obj):
             return True
 
+        if self.isContentEditableWithEmbeddedObjects(obj):
+            return True
+
         return False
 
     def _textBlockElementRoles(self):
@@ -2131,6 +2131,19 @@ class Utilities(script_utilities.Utilities):
 
         rv = pyatspi.findAncestor(obj, self.supportsSelectionAndTable) is not None
         self._isGridDescendant[hash(obj)] = rv
+        return rv
+
+    def isEntryDescendant(self, obj):
+        if not obj:
+            return False
+
+        rv = self._isEntryDescendant.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        isEntry = lambda x: x and x.getRole() == pyatspi.ROLE_ENTRY
+        rv = pyatspi.findAncestor(obj, isEntry) is not None
+        self._isEntryDescendant[hash(obj)] = rv
         return rv
 
     def isLabelDescendant(self, obj):
@@ -2751,6 +2764,23 @@ class Utilities(script_utilities.Utilities):
         self._isImageMap[hash(obj)] = rv
         return rv
 
+    def isNonNavigableEmbeddedDocument(self, obj):
+        rv = self._isNonNavigableEmbeddedDocument.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        rv = False
+        if self.isDocument(obj) and self.getDocumentForObject(obj):
+            try:
+                name = obj.name
+            except:
+                rv = True
+            else:
+                rv = "doubleclick" in name
+
+        self._isNonNavigableEmbeddedDocument[hash(obj)] = rv
+        return rv
+
     def isUselessImage(self, obj):
         if not (obj and self.inDocumentContent(obj)):
             return False
@@ -3124,8 +3154,12 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             return rv
 
+        isTextBlockRole = role in self._textBlockElementRoles() or self.isLink(obj)
         if state.contains(pyatspi.STATE_EDITABLE):
-            rv = role in self._textBlockElementRoles() or self.isLink(obj)
+            rv = isTextBlockRole
+        elif not self.isDocument(obj):
+            document = self.getDocumentForObject(obj)
+            rv = self.isContentEditableWithEmbeddedObjects(document)
 
         self._isContentEditableWithEmbeddedObjects[hash(obj)] = rv
         return rv
@@ -3275,6 +3309,9 @@ class Utilities(script_utilities.Utilities):
             return True
 
         if self.isHidden(obj) or self.isOffScreenLabel(obj):
+            return True
+
+        if self.isNonNavigableEmbeddedDocument(obj):
             return True
 
         role = obj.getRole()
@@ -3500,13 +3537,20 @@ class Utilities(script_utilities.Utilities):
             return obj, 0
 
         if offset >= text.characterCount:
+            if self.isLink(obj) and self.isContentEditableWithEmbeddedObjects(obj):
+                nextObj, nextOffset = self.nextContext(obj, text.characterCount)
+                if nextObj:
+                    msg = "WEB: First caret context for %s, %i is %s, %i" % (obj, offset, nextObj, nextOffset)
+                    debug.println(debug.LEVEL_INFO, msg, True)
+                    return nextObj, nextOffset
+
             msg = "WEB: First caret context for %s, %i is %s, %i" % (obj, offset, obj, text.characterCount)
             debug.println(debug.LEVEL_INFO, msg, True)
             return obj, text.characterCount
 
         allText = text.getText(0, -1)
         offset = max (0, offset)
-        if allText[offset] != self.EMBEDDED_OBJECT_CHARACTER:
+        if allText[offset] != self.EMBEDDED_OBJECT_CHARACTER or role == pyatspi.ROLE_ENTRY:
             msg = "WEB: First caret context for %s, %i is %s, %i" % (obj, offset, obj, offset)
             debug.println(debug.LEVEL_INFO, msg, True)
             return obj, offset
