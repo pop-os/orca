@@ -1,5 +1,6 @@
-orca (3.26.0-6) UNRELEASED; urgency=medium
+orca (3.27.91-1) UNRELEASED; urgency=medium
 
+  * New upstream development release
   * Update Vcs fields for migration to https://salsa.debian.org/
 
  -- Jeremy Bicha <jbicha@debian.org>  Sun, 21 Jan 2018 10:01:57 -0500
