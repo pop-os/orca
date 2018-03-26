@@ -1,3 +1,10 @@
+orca (3.28.0-1) UNRELEASED; urgency=medium
+
+  * New upstream release
+  * Release to unstable
+
+ -- Jeremy Bicha <jbicha@debian.org>  Mon, 26 Mar 2018 10:46:34 -0400
+
 orca (3.27.91-1) experimental; urgency=medium
 
   * New upstream development release
@@ -407,7 +414,7 @@ gnome-orca (2.30.1-1) unstable; urgency=low
 
 gnome-orca (2.30.0-2) unstable; urgency=low
 
-  * 11_debian_gdm.patch: new patch. The user under which the GDM session 
+  * 11_debian_gdm.patch: new patch. The user under which the GDM session
     is running is Debian-gdm, not gdm. This causes a security issue.
 
  -- Josselin Mouette <joss@debian.org>  Fri, 23 Apr 2010 18:07:51 +0200
