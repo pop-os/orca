@@ -22,7 +22,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,42 +30,32 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Einführung in die Einstellungen von <app>Orca</app></title>
   <section id="orca">
     <title>Orca-Einstellungen</title>
-    <p>
-      Orca preferences allow you to customize functionality in <app>Orca</app>
-      which applies to all applications. An example of an Orca preference is
-      key echo because key echo is something that applies to all applications.
-    </p>
-    <p>
-      Note that Orca preferences can be customized on an application-by-application
-      basis. For instance you can set the default key echo to words and then
-      set the key echo for Pidgin to be none. Having done so, <app>Orca</app>
-      would always echo each word that you typed, unless you were in Pidgin.
-    </p>
+    <p>Orca-Einstellungen erlauben Ihnen, Funktionen in <app>Orca</app> anzupassen, die für alle Anwendungen gelten. Ein Beispiel einer Orca-Einstellung ist das Tastaturecho, da das Tastaturecho für alle Anwendungen gilt.</p>
+    <p>Beachten Sie. dass Orca-Einstellungen von Anwendung zu Anwendung angepasst werden können. Beispielweise können Sie den Vorgabewert für das Tastaturecho auf wortweises Echo setzen, und in Pidgin auf »kein« setzen. In diesem Fall würde <app>Orca</app> jedes eingetippte Wort vorlesen, außer, Sie befänden sich in Pidgin.</p>
     <note style="tip">
-      <title>Keyboard Shortcuts for Getting Into the Preferences Dialogs</title>
+      <title>Tastaturkürzel zum Gelangen in den Orca-Einstellungen-Dialog</title>
       <list>
         <item>
-          <p><keyseq><key>Orca Zusatztaste</key><key>Leertaste</key></keyseq>: Einstellungen von <app>Orca</app></p>
+          <p><keyseq><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq>: Einstellungen von <app>Orca</app></p>
         </item>
         <item>
-          <p><keyseq><key>Strg</key><key>Orca Zusatztaste</key><key>Leertaste</key></keyseq>: Einstellungen von <app>Orca</app> zur aktuellen Anwendung</p>
+          <p><keyseq><key>Strg</key><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq>: Einstellungen von <app>Orca</app> zur aktuellen Anwendung</p>
         </item>
       </list>
     </note>
   </section>
   <section id="application_unique">
     <title>Anwendungsspezifische Einstellungen</title>
-      <p>
-        In contrast to Orca preferences, there are application-unique preferences.
-        These preferences allow you to customize <app>Orca</app> functionality
-        that only applies in certain environments, such as on web pages or in
-        chat applications. As a result, you will only find these options
-        available in the application-specific preferences dialogs and only for
-        those applications to which these options apply.
-      </p>
+      <p>Im Gegensatz zu den Orca-Einstellungen gibt es auch anwendungsspezifische Einstellungen. Diese erlauben Ihnen, Funktionen in <app>Orca</app> anzupassen, die nur in bestimmten Umgebungen, wie etwa Webseiten oder Chat-Anwendungen gelten. Daher finden Sie diese Optionen im anwendungsspezifischen Einstellungen-Dialog in denjenigen Anwendungen, in den diese Optionen gelten.</p>
   </section>
 </page>

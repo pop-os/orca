@@ -44,41 +44,41 @@
     </mal:credit>
   </info>
   <title>Remplir des formulaires</title>
-  <p>Lorsque vous interagissez avec des pages Web et d'autres documents en utilisant <app>Orca</app>, vous interagissez directement avec le document ; pas avec une copie intermédiaire en cache. Les modes navigation et focus d'<app>Orca</app> permettent de basculer entre la lecture et le remplissage de formulaires.</p>
+  <p>Lorsque vous interagissez avec des pages Web et d’autres documents en utilisant <app>Orca</app>, vous interagissez directement avec le document ; pas avec une copie intermédiaire en cache. Les modes navigation et focus d’<app>Orca</app> permettent de basculer entre la lecture et le remplissage de formulaires.</p>
   <section id="navigating_amongst_form_fields">
-    <title>Navigation parmi les champs d'un formulaire</title>
+    <title>Navigation parmi les champs d’un formulaire</title>
     <p>Pour naviguer parmi les champs du formulaire, vous avez plusieurs options :</p>
     <list>
       <item>
         <p>Utilisez <key>Tab</key> et <keyseq><key>Maj</key><key>Tab</key></keyseq> pour parcourir les éléments pouvant avoir le focus, quel que soit leur type.</p>
       </item>
       <item>
-        <p>Utilisez les <link xref="commands_structural_navigation#forms">Commandes de navigation par structure pour formulaires</link> d'<app>Orca</app>.</p>
+        <p>Utilisez les <link xref="commands_structural_navigation#forms">Commandes de navigation par structure pour formulaires</link> d’<app>Orca</app>.</p>
       </item>
       <item>
-        <p>Selon le formulaire et l'application, il peut être possible d'utiliser les touches fléchées pour naviguer vers un champ de formulaire donné.</p>
+        <p>Selon le formulaire et l’application, il peut être possible d’utiliser les touches fléchées pour naviguer vers un champ de formulaire donné.</p>
       </item>
    </list>
    <note style="tip">
-     <p>Afin de pouvoir utiliser les commandes de navigation au curseur ou de navigation par structure d'<app>Orca</app> pour naviguer vers un champ de formulaire, vous devez être en mode navigation. Si vous êtes en mode focus, vous pouvez basculer en mode navigation en pressant sur <keyseq><key>Touche de modification d'Orca</key><key>A</key></keyseq>.</p>
+     <p>Afin de pouvoir utiliser les commandes de navigation au curseur ou de navigation par structure d’<app>Orca</app> pour naviguer vers un champ de formulaire, vous devez être en mode navigation. Si vous êtes en mode focus, vous pouvez basculer en mode navigation en pressant sur <keyseq><key>Touche de modification d’Orca</key><key>A</key></keyseq>.</p>
    </note>
   </section>
   <section id="exiting_form_fields">
     <title>Quitter les champs de formulaire</title>
-    <p>Pour sortir d'un champ du formulaire, vous avez plusieurs options :</p>
+    <p>Pour sortir d’un champ du formulaire, vous avez plusieurs options :</p>
     <list>
       <item>
-        <p>Utilisez <key>Tab</key> ou <keyseq><key>Maj</key><key>Tab</key></keyseq> si vous voulez quitter le champ actuel et aller dans l'objet suivant ou précédent quel que soit son type.</p>
+        <p>Utilisez <key>Tab</key> ou <keyseq><key>Maj</key><key>Tab</key></keyseq> si vous voulez quitter le champ actuel et aller dans l’objet suivant ou précédent quel que soit son type.</p>
       </item>
       <item>
-        <p>Utilisez les <link xref="commands_structural_navigation#forms">Commandes de navigation par structure pour formulaires</link> d'<app>Orca</app> pour passer au champ suivant ou précédent d'un formulaire.</p>
+        <p>Utilisez les <link xref="commands_structural_navigation#forms">Commandes de navigation par structure pour formulaires</link> d’<app>Orca</app> pour passer au champ suivant ou précédent d’un formulaire.</p>
       </item>
       <item>
-        <p>Selon le formulaire et l'application, il peut être possible d'utiliser les touches fléchées pour sortir d'un champ de formulaire donné.</p>
+        <p>Selon le formulaire et l’application, il peut être possible d’utiliser les touches fléchées pour sortir d’un champ de formulaire donné.</p>
       </item>
     </list>
    <note style="tip">
-     <p>Afin de pouvoir utiliser les commandes de navigation au curseur ou de navigation par structure d'<app>Orca</app> pour sortir d'un champ de formulaire, vous devez être en mode navigation. Si vous êtes en mode focus, vous pouvez basculer en mode navigation en pressant sur <keyseq><key>Touche de modification d'Orca</key><key>A</key></keyseq>.</p>
+     <p>Afin de pouvoir utiliser les commandes de navigation au curseur ou de navigation par structure d’<app>Orca</app> pour sortir d’un champ de formulaire, vous devez être en mode navigation. Si vous êtes en mode focus, vous pouvez basculer en mode navigation en pressant sur <keyseq><key>Touche de modification d’Orca</key><key>A</key></keyseq>.</p>
    </note>
   </section>
 </page>

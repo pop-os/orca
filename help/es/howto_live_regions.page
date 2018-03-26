@@ -29,13 +29,7 @@
   <p>Una región activa es una sección de una página web que se actualiza dinámicamente, como una tabla de estadísticas de deportes, una lista de los precios actuales de las acciones, el registro de un chat, o un mensaje de alerta mostrado por la página que está leyendo. Mientras que las regiones activas aparecen con bastante frecuencia, las páginas web completamente accesibles con regiones activas se encuentran con menos frecuencia. Este problema lo están abordando activamente muchas organizaciones.</p>
   <section id="politeness_levels">
     <title>Niveles de comportamiento de las regiones activas</title>
-    <p>
-      Live regions have an associated "politeness" level which is set by the
-      author as a means to convey the importance of the information and to
-      suggest when users should be informed by their assistive technology of
-      updates made within that region. Live regions can be "off", "polite", or
-      "assertive" to the point of being "rude."
-    </p>
+    <p>Las regiones activas tienen un nivel de «comportamiento» asociado establecido por el autor como un medio para transmitir la importancia de la información y para sugerir cuándo las tecnologías de asistencia deberían informar a los usuarios sobre las actualizaciones realizadas en esa región. Las regiones activas pueden ser «desactivada», «cortés» o «agresiva» hasta el punto de ser «grosera».</p>
   </section>
   <section id="orca_support">
     <title>Soporte de <app>Orca</app> para regiones activas</title>

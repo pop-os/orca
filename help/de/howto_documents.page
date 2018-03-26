@@ -22,7 +22,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,9 +30,15 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Dokumente</title>
-  <p>Um die Inhalte eines Dokuments zu lesen, benutzen Sie den eingebauten Mauszeiger-Navigationsmodus. Navigieren Sie zu einem Text des Dokuments, wird <app>Orca</app> den neuen Ort anzeigen. Infolgedessen sind Sie bereits vertraut mit dem Lesen eines Dokumentes mit <app>Orca</app>. Zum Beispiel:</p>
+  <p>Um die Inhalte eines Dokuments zu lesen, benutzen Sie den eingebauten Caret-Navigationsmodus. Navigieren Sie zu einem Text des Dokuments, wird <app>Orca</app> den neuen Ort anzeigen. Infolgedessen sind Sie bereits vertraut mit dem Lesen eines Dokumentes mit <app>Orca</app>. Zum Beispiel:</p>
   <list>
     <item>
       <p>Verwenden Sie <key>Links</key> und <key>Rechts</key> zum Bewegen und zum Vorlesen nach Zeichen.</p>
@@ -41,21 +47,16 @@
       <p>Verwenden Sie <keyseq><key>Strg</key><key>Links</key></keyseq> und <keyseq><key>Strg</key><key>Rechts</key></keyseq>, um wortweise zu lesen und zu navigieren.</p>
     </item>
     <item>
-      <p>Verwenden Sie <key>Auf</key> und <key>Ab</key>, um zeilenweise vorzulesen und zu navigieren.</p>
+      <p>Verwenden Sie <key>Hoch</key> und <key>Runter</key>, um zeilenweise vorzulesen und zu navigieren.</p>
     </item>
     <item>
-      <p>Verwenden Sie die <key>Umschalttaste</key> in Kombination mit den obigen Befehlen, um Text aus- und abzuwählen.</p>
+      <p>Verwenden Sie die <key>Umschalt</key> in Kombination mit den obigen Befehlen, um Text aus- und abzuwählen.</p>
     </item>
   </list>
   <note style="tip">
-    <title>Mauszeigernavigation in der Anwendung einschalten</title>
-    <p>Nicht alle Anwendungen haben eine Mauszeigernavigation in der Voreinstellung eingeschaltet. Für viele GNOME Anwendungen kann die Mauszeigernavigation durch Drücken der Taste <key>F7</key> ein- und ausgeschaltet werden.</p>
+    <title>Caret-Navigation in der Anwendung einschalten</title>
+    <p>Nicht alle Anwendungen haben eine Caret-Navigation in der Voreinstellung eingeschaltet. Für viele GNOME-Anwendungen kann die Caret-Navigation durch Drücken der Taste <key>F7</key> ein- und ausgeschaltet werden.</p>
   </note>
-  <p>Zusätzlich zum Lesen eines Dokumentes mittels Mauszeigernavigation könnten Sie es nützlich finden, den Unicode-Wert im aktuellen Text zu lesen und auszugeben. Sie können dies durch <app>Orca</app>'s <link xref="howto_flat_review">Übersicht</link> tun.</p>
-  <p>
-    Finally, in order to have <app>Orca</app> speak the entire document from your
-    present location, use the Say All command. It, along with a more complete
-    listing of <app>Orca</app>'s commands for accessing document text, can
-    be found in the <link xref="commands_reading">Reading Commands</link> guide.
-  </p>
+  <p>Zusätzlich zum Lesen eines Dokumentes mittels Caret-Navigation könnten Sie es nützlich finden, den Unicode-Wert im aktuellen Text zu lesen und auszugeben. Sie können dies durch <app>Orca</app>'s <link xref="howto_flat_review">Übersicht</link> tun.</p>
+  <p>Abschließend verwenden Sie den Befehl »Alles vorlesen«, damit <app>Orca</app> das gesamte aktuelle Dokument vorliest. Eine vollständigere Liste der <app>Orca</app>-Befehle zum Zugriff auf den Dokumententext finden Sie in den <link xref="commands_reading">Lesebefehlen</link>.</p>
 </page>

@@ -24,7 +24,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -32,24 +32,30 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Befehle zur Tabellennavigation</title>
   <p>Orcas Unterstützung zur Navigation anhand von Tabellenzellen ist ein Teil seiner <link xref="commands_structural_navigation#tables">Strukturellen Navigationsbefehle</link>. Sie können zusätzlich:</p>
   <list>
     <item>
-      <p>Dynamische Zeilenköpfe auf die aktuelle Spalte setzen: <keyseq><key>Orca Zusatztaste</key><key>C</key></keyseq></p>
+      <p>Dynamische Zeilenüberschriften auf die aktuelle Spalte setzen: <keyseq><key>Orca-Zusatztaste</key><key>C</key></keyseq></p>
     </item>
     <item>
-      <p>Dynamische Spaltenköpfe auf die aktuelle Zeile setzen: <keyseq><key>Orca Zusatztaste</key><key>R</key></keyseq></p>
+      <p>Dynamische Spaltenüberschriften auf die aktuelle Zeile setzen: <keyseq><key>Orca-Zusatztaste</key><key>R</key></keyseq></p>
     </item>
     <item>
-      <p>Säubere dynamische Reihenköpfe: <keyseq><key>Orca Zusatztaste</key><key>C</key></keyseq> (Doppelklick)</p>
+      <p>Dynamische Zeilenüberschriften leeren: <keyseq><key>Orca-Zusatztasten</key><key>R</key></keyseq> (Doppelklick)</p>
     </item>
     <item>
-      <p>Dynamische Spaltenköpfe leeren: <keyseq><key>Orca Zusatztasten</key><key>R</key></keyseq> (Doppelklick)</p>
+      <p>Dynamische Spaltenüberschriften leeren: <keyseq><key>Orca-Zusatztaste</key><key>R</key></keyseq> (Doppelklick)</p>
     </item>
     <item>
-      <p>Umschalten zwischen zellen- und zeilenweisem Vorlesen in einer Tabelle: <keyseq><key>Orca Zusatztaste</key><key>F11</key></keyseq></p>
+      <p>Umschalten zwischen zellen- und zeilenweisem Vorlesen in einer Tabelle: <keyseq><key>Orca-Zusatztaste</key><key>F11</key></keyseq></p>
     </item>
   </list>
 </page>

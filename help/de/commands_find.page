@@ -4,8 +4,8 @@
     <link type="next" xref="commands_mouse"/>
     <link type="guide" xref="commands#reviewing_screen_contents"/>
     <link type="seealso" xref="howto_orca_find"/>
-    <title type="sort">2. Orca Suchdialog</title>
-    <title type="link">Orca Suchdialog</title>
+    <title type="sort">2. Orca-Suchdialog</title>
+    <title type="link">Orca-Suchdialog</title>
     <desc>Befehle zum Durchsuchen von Fensterinhalten</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -24,13 +24,19 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Sascha Manns</mal:name>
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
     </mal:credit>
   </info>
   <title>Orca-Suchbefehle</title>
@@ -43,7 +49,7 @@
           <p>Desktop: <keyseq><key>Entf (Nmblck)</key></keyseq></p>
         </item>
         <item>
-          <p>Laptop: <keyseq><key>Orca Zusatztaste</key><key>Linke eckige Klammer</key></keyseq></p>
+          <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>Linke eckige Klammer</key></keyseq></p>
         </item>
       </list>
     </item>
@@ -51,10 +57,10 @@
       <p>Die Übersicht zur nächsten Instanz einer Zeichenkette bewegen:</p>
       <list>
         <item>
-          <p>Desktop: <keyseq><key>Orca Zusatztaste</key><key>Entf (Nmblck)</key></keyseq></p>
+          <p>Desktop: <keyseq><key>Orca-Zusatztaste</key><key>Entf (Nmblck)</key></keyseq></p>
         </item>
         <item>
-          <p>Laptop: <keyseq><key>Orca Zusatztaste</key><key>Rechte eckige Klammer</key></keyseq></p>
+          <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>Rechte eckige Klammer</key></keyseq></p>
         </item>
       </list>
     </item>
@@ -62,10 +68,10 @@
       <p>Die Übersicht zur vorigen Instanz einer Zeichenkette bewegen:</p>
       <list>
         <item>
-          <p>Desktop: <keyseq><key>Orca Zusatztaste</key><key>Umschalttaste</key><key>Minustaste (Nummernblock)</key></keyseq></p>
+          <p>Desktop: <keyseq><key>Orca-Zusatztaste</key><key>Umschalt</key><key>Minustaste (Nummernblock)</key></keyseq></p>
         </item>
         <item>
-          <p>Laptop: <keyseq><key>Orca Zusatztaste</key><key>Strg</key><key>Rechte eckige Klammer</key></keyseq></p>
+          <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>Strg</key><key>Rechte eckige Klammer</key></keyseq></p>
         </item>
       </list>
     </item>

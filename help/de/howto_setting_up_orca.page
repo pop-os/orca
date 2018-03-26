@@ -24,7 +24,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -32,16 +32,14 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Orca-Konfiguration</title>
 
-      <p>
-        If you want to configure <app>Orca</app>, get into the
-        <link xref="preferences">Preferences</link> dialog by pressing
-        <keyseq><key>Orca Modifier</key><key>Space</key></keyseq> from
-        within any accessible application. Alternatively, you can type
-        <cmd>orca</cmd> followed by either <cmd>-s</cmd> or <cmd>--setup</cmd>
-        in a terminal window or within the <gui>Run</gui> dialog and then press
-        <key>Return</key>.
-      </p>
+      <p>Falls Sie <app>Orca</app> einrichten wollen, gelangen Sie in den Dialog <link xref="preferences">Einstellungen</link>, indem Sie <keyseq><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq> in einer beliebigen barrierefreien Anwendung drücken. Alternativ können Sie <cmd>orca</cmd>, gefolgt entweder von <cmd>-s</cmd> oder <cmd>--setup</cmd> in ein Terminal-Fenster oder einen <gui>Ausführen</gui>-Dialog eintippen und anschließend <key>Eingabetaste</key> drücken.</p>
 </page>

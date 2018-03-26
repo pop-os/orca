@@ -5,9 +5,7 @@
     <link type="next" xref="preferences_spellcheck"/>
     <title type="sort">3. Discussion</title>
     <title type="link">Discussion</title>
-    <desc>
-      Configuring <app>Orca</app>'s support for IM and IRC
-    </desc>
+    <desc>Configurer la prise en charge de la messagerie instantanée et de l’IRC par <app>Orca</app></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -47,10 +45,10 @@
     </mal:credit>
   </info>
   <title>Préférences de discussion</title>
-  <p>Les options suivantes vous permettent de personnaliser le comportement d'<app>Orca</app> pendant l'utilisation de messagerie instantanée et de clients IRC (discussion relayée par internet).</p>
+  <p>Les options suivantes vous permettent de personnaliser le comportement d’<app>Orca</app> pendant l’utilisation de messagerie instantanée et de clients IRC (discussion relayée par internet).</p>
   <section id="speak_name">
     <title>Lire le nom du salon de discussion</title>
-    <p>Si cette case est cochée, <app>Orca</app> préfixe les messages entrants avec le nom du salon ou du contact émetteur, sauf s'ils proviennent de la conversation actuellement utilisée.</p>
+    <p>Si cette case est cochée, <app>Orca</app> préfixe les messages entrants avec le nom du salon ou du contact émetteur, sauf s’ils proviennent de la conversation actuellement utilisée.</p>
     <p>Valeur par défaut : non cochée</p>
   </section>
   <section id="announce_typing">
@@ -60,7 +58,7 @@
   </section>
   <section id="message_histories">
     <title>Donner les historiques de messages par salon de discussion.</title>
-    <p>Si cette case est cochée, <app>Orca</app> relit les messages récents de la conversation actuelle. Autrement, l'historique des conversations les plus récentes est lue indépendamment de l'origine des conversations.</p>
+    <p>Si cette case est cochée, <app>Orca</app> relit les messages récents de la conversation actuelle. Autrement, l’historique des conversations les plus récentes est lue indépendamment de l’origine des conversations.</p>
     <p>Valeur par défaut : non cochée</p>
   </section>
   <section id="speak_messages_from">
@@ -74,7 +72,7 @@
         <p><gui>Un canal uniquement si sa fenêtre est active</gui></p>
       </item>
       <item>
-        <p><gui>Tous les canaux quand n'importe quelle fenêtre est active</gui></p>
+        <p><gui>Tous les canaux quand n’importe quelle fenêtre est active</gui></p>
       </item>
     </list>
     <p>Valeur par défaut : tous les canaux</p>

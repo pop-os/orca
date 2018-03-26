@@ -5,9 +5,7 @@
     <link type="next" xref="preferences_spellcheck"/>
     <title type="sort">3. Csevegés</title>
     <title type="link">Csevegés</title>
-    <desc>
-      Configuring <app>Orca</app>'s support for IM and IRC
-    </desc>
+    <desc>Az <app>Orka</app> azonnaliüzenő- és IRC-támogatásának konfigurálása</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>

@@ -42,9 +42,9 @@
       <mal:years>2016</mal:years>
     </mal:credit>
   </info>
-  <title>Boîte de dialogue Préférences d'<app>Orca</app></title>
+  <title>Boîte de dialogue Préférences d’<app>Orca</app></title>
   <section id="orca" style="2column">
-    <title>Préférences d'Orca</title>
+    <title>Préférences d’Orca</title>
   </section>
   <section id="application" style="2column">
     <title>Préférences spécifiques aux applications</title>

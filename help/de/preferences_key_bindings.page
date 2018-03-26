@@ -24,7 +24,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -32,20 +32,20 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Einstellungen für Tastenkürzel</title>
   <section id="orca_modifier_keys">
-    <title>Orca Zusatztasten</title>
-    <p>
-      The <gui>Screen Reader Modifier Keys</gui> combo box allows you to select which
-      key or keys will serve as the Orca Modifier. The available options are:
-    </p>
+    <title>Orca Modustasten</title>
+    <p>Das Auswahlfeld <gui>Bildschirmleser-Modustasten</gui> erlaubt Ihnen einzustellen, welche Taste/Tasten als Orca-Zusatztaste verwendet wird/werden. Die verfügbaren Optionen sind:</p>
     <list>
       <item>
-        <p>
-          <gui>KP_Insert</gui> (the same key as the <key>0</key> on the
-          numeric keypad)
-      </p></item>
+        <p><gui>Einf (Nmblck)</gui> (dieselbe Taste wie die <key>0</key> auf dem Nummernblock)</p></item>
       <item><p><gui>Einfg</gui></p></item>
       <item><p><gui>Einfügen,Einf (Nmblck)</gui></p></item>
       <item><p><gui>Feststelltaste</gui></p></item>
@@ -59,28 +59,12 @@
         <p>Die Spalte <gui>Funktion</gui> beschreibt die von <app>Orca</app> auszuführende Operation.</p>
       </item>
       <item>
-        <p>
-          The <gui>Key Binding</gui> column contains the keyboard shortcut currently
-          assigned to the <app>Orca</app> command. You can modify the value of
-          this column by pressing <key>Return</key>, pressing the keys for the
-          new binding, and pressing <key>Return</key> again.
-        </p>
+        <p>Die Spalte <gui>Tastenkombination</gui> enthält die derzeit zu <app>Orca</app>-Befehlen zugewiesenen Tastenkürzel. Sie können den Wert dieser Spalte bearbeiten, indem Sie <key>Eingabetaste</key> drücken, die Tasten der neuen Kombination drücken, und erneut <key>Eingabetaste</key> drücken.</p>
       </item>
       <item>
-        <p>
-          The <gui>Modified</gui> column serves both as an indicator to what
-          has been changed and as a way to restore the default bindings
-          associated with that function.
-        </p>
+        <p>Die Spalte <gui>Geändert</gui> dient sowohl als Hinweis darauf, was geändert wurde, als auch als Möglichkeit, die vorgegebene Kombination für diese Funktion wiederherzustellen.</p>
       </item>
     </list>
-    <p>
-      Beneath the list of <app>Orca</app> keybindings, you will find a group
-      of "unbound" commands. These are commands which we feel will be very
-      useful for some users, but not needed by most users. Rather than "use
-      up" a keystroke for such commands, we have left them unassigned by
-      default. At the end of the list are the braille bindings, for use with
-      a refreshable braille display.
-    </p>
+    <p>Unterhalb der Liste an <app>Orca</app>-Tastenkombinationen befindet sich eine Gruppe an »nicht zugeordneten« Befehlen. Dies sind Befehle, die wir als sehr nützlich für einige Benutzer erachten, aber von den meisten Nutzern nicht benötigt werden. Statt Tasten durch solche Befehle zu »verbrauchen«, haben wir sie standardmäßig nicht zugewiesen. Am Ende der Liste befinden sich Braille-Belegungen zur Nutzung mit einer Braillezeile.</p>
   </section>
 </page>

@@ -336,6 +336,10 @@ class Utilities(script_utilities.Utilities):
         if role == pyatspi.ROLE_ENTRY:
             return False
 
+        if role == pyatspi.ROLE_IMAGE:
+            isLink = lambda x: x and x.getRole() == pyatspi.ROLE_LINK
+            return pyatspi.utils.findAncestor(obj, isLink) is not None
+
         return state.contains(pyatspi.STATE_FOCUSABLE)
 
     def grabFocus(self, obj):
@@ -352,13 +356,15 @@ class Utilities(script_utilities.Utilities):
         if self._script.flatReviewContext:
             self._script.toggleFlatReviewMode()
 
+        grabFocus = self.grabFocusWhenSettingCaret(obj)
+
         obj, offset = self.findFirstCaretContext(obj, offset)
         self.setCaretContext(obj, offset, documentFrame)
         if self._script.focusModeIsSticky():
             return
 
         orca.setLocusOfFocus(None, obj, notifyScript=False)
-        if self.grabFocusWhenSettingCaret(obj):
+        if grabFocus:
             self.grabFocus(obj)
 
         text = self.queryNonEmptyText(obj)

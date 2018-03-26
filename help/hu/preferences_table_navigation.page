@@ -23,12 +23,7 @@
     </mal:credit>
   </info>
   <title>A táblázatnavigáció beállításai</title>
-  <p>
-    The following options allow you to customize how <app>Orca</app>
-    behaves when navigating within a table in
-    <link xref="howto_structural_navigation">Structural-Navigation</link>-enabled
-    applications.
-  </p>
+  <p>A következő beállításokkal személyre szabhatja az <app>Orka</app> táblázatnavigációval kapcsolatos beállításait a <link xref="howto_structural_navigation">strukturált Orka navigációt</link> támogató alkalmazásokban.</p>
   <section id="speak_cell_coordinates">
     <title>Cellakoordináták felolvasása</title>
     <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> ki fogja mondani annak a táblázatcellának a cellakoordinátáját, amelyre éppen navigált.</p>

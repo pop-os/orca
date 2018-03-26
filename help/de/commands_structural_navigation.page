@@ -24,7 +24,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -32,55 +32,61 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Befehle der Strukturennavigation</title>
   <p>Die folgenden Befehle können zur Navigation nach Überschriften, Internetlinks und anderen Elementen verwendet werden, die in <app>Orcas</app> struktureller Navigation unterstützt werden.</p>
   <list>
     <item>
-      <p>Strukturelle Navigationstasten ein/ausschalten: <keyseq><key>Orca Zusatztaste</key><key>Z</key></keyseq></p>
+      <p>Strukturelle Navigationstasten ein/ausschalten: <keyseq><key>Orca-Zusatztaste</key><key>Z</key></keyseq></p>
     </item>
   </list>
   <section id="headings">
     <title>Überschriften</title>
       <list>
         <item>
-          <p>Nächste und vorhergehende Überschrift: <keyseq><key>H</key></keyseq> und <keyseq><key>Umschalttaste</key><key>H</key></keyseq></p>
+          <p>Nächste und vorhergehende Überschrift: <keyseq><key>H</key></keyseq> und <keyseq><key>Umschalt</key><key>H</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste der Überschriften anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>H</key></keyseq></p>
         </item>
         <item>
-          <p>Nächste und vorhergehende Überschrift oberster Ebene: <keyseq><key>1</key></keyseq> und <keyseq><key>Umschalttaste</key><key>1</key></keyseq></p>
+          <p>Nächste und vorhergehende Überschrift oberster Ebene: <keyseq><key>1</key></keyseq> und <keyseq><key>Umschalt</key><key>1</key></keyseq></p>
         </item>
         <item>
           <p>Eine Liste der Überschriften der Ebene 1 anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>1</key></keyseq></p>
         </item>
         <item>
-          <p>Nächste und vorhergehende Überschrift zweiter Ebene: <keyseq><key>2</key></keyseq> und <keyseq><key>Umschalttaste</key><key>2</key></keyseq></p>
+          <p>Nächste und vorhergehende Überschrift zweiter Ebene: <keyseq><key>2</key></keyseq> und <keyseq><key>Umschalt</key><key>2</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste der Überschriften der Ebene 2 anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>2</key></keyseq></p>
         </item>
         <item>
-          <p>Nächste und vorhergehende Überschrift dritter Ebene: <keyseq><key>3</key></keyseq> und <keyseq><key>Umschalttaste</key><key>3</key></keyseq></p>
+          <p>Nächste und vorhergehende Überschrift dritter Ebene: <keyseq><key>3</key></keyseq> und <keyseq><key>Umschalt</key><key>3</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste der Überschriften der Ebene 3 anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>3</key></keyseq></p>
         </item>
         <item>
-          <p>Nächste und vorhergehende Überschrift vierter Ebene: <keyseq><key>4</key></keyseq> und <keyseq><key>Umschalttaste</key><key>4</key></keyseq></p>
+          <p>Nächste und vorhergehende Überschrift vierter Ebene: <keyseq><key>4</key></keyseq> und <keyseq><key>Umschalt</key><key>4</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste der Überschriften der Ebene 4 anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>4</key></keyseq></p>
         </item>
         <item>
-          <p>Nächste und vorhergehende Überschrift fünfter Ebene: <keyseq><key>5</key></keyseq> und <keyseq><key>Umschalttaste</key><key>5</key></keyseq></p>
+          <p>Nächste und vorhergehende Überschrift fünfter Ebene: <keyseq><key>5</key></keyseq> und <keyseq><key>Umschalt</key><key>5</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste der Überschriften der Ebene 5 anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>5</key></keyseq></p>
         </item>
         <item>
-          <p>Nächste und vorhergehende Überschrift sechster Ebene: <keyseq><key>6</key></keyseq> und <keyseq><key>Umschalttaste</key><key>6</key></keyseq></p>
+          <p>Nächste und vorhergehende Überschrift sechster Ebene: <keyseq><key>6</key></keyseq> und <keyseq><key>Umschalt</key><key>6</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste der Überschriften der Ebene 6 anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>6</key></keyseq></p>
@@ -91,40 +97,37 @@
       <title>Formulare</title>
       <list>
         <item>
-          <p>Nächstes und vorhergehendes Formularfeld: <keyseq><key>Orca Zusatztaste</key><key>Tabulator</key></keyseq> und <keyseq><key>Orca Zusatztaste</key><key>Umschalttaste</key><key>Tabulator</key></keyseq></p>
+          <p>Nächstes und vorhergehendes Formularfeld: <keyseq><key>Orca-Zusatztaste</key><key>Tabulator</key></keyseq> und <keyseq><key>Orca-Zusatztaste</key><key>Umschalt</key><key>Tabulator</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste der Formularfelder anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>F</key></keyseq></p>
         </item>
         <item>
-          <p>Nächster und vorhergehender Knopf: <keyseq><key>B</key></keyseq> und <keyseq><key>Umschalttaste</key><key>B</key></keyseq></p>
+          <p>Nächster und vorhergehender Knopf: <keyseq><key>B</key></keyseq> und <keyseq><key>Umschalt</key><key>B</key></keyseq></p>
         </item> 
         <item>
-          <p>Eine Liste der Knöpfe anzeigen: <keyseq><key>Alt</key><key>Umschalttaste</key><key>B</key></keyseq></p>
+          <p>Eine Liste der Knöpfe anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>B</key></keyseq></p>
         </item>
         <item>
-          <p>Nächstes und vorhergehendes Auswahlfeld: <keyseq><key>C</key></keyseq> und <keyseq><key>Umschalttaste</key><key>C</key></keyseq></p>
+          <p>Nächstes und vorhergehendes Auswahlfeld: <keyseq><key>C</key></keyseq> und <keyseq><key>Umschalt</key><key>C</key></keyseq></p>
         </item> 
         <item>
-          <p>
-            Display a list of combo boxes:
-            <keyseq><key>Alt</key><key>Shift</key><key>C</key></keyseq>
-          </p>
+          <p>Eine Liste der Auswahlfelder anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>C</key></keyseq></p>
         </item>
         <item>
-          <p>Nächster und vorhergehender Eintrag: <keyseq><key>E</key></keyseq> und <keyseq><key>Umschalttaste</key><key>E</key></keyseq></p>
+          <p>Nächster und vorhergehender Eintrag: <keyseq><key>E</key></keyseq> und <keyseq><key>Umschalt</key><key>E</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste der Einträge anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>E</key></keyseq></p>
         </item>
         <item>
-          <p>Nächster und vorhergehender Auswahlknopf: <keyseq><key>R</key></keyseq> und <keyseq><key>Umschalttaste</key><key>R</key></keyseq></p>
+          <p>Nächster und vorhergehender Auswahlknopf: <keyseq><key>R</key></keyseq> und <keyseq><key>Umschalt</key><key>R</key></keyseq></p>
         </item>
         <item>
           <p>Eine Liste der Auswahlknöpfe anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>R</key></keyseq></p>
         </item> 
         <item>
-          <p>Nächstes und vorhergehendes Ankreuzfeld: <keyseq><key>X</key></keyseq> und <keyseq><key>Umschalttaste</key><key>X</key></keyseq></p>
+          <p>Nächstes und vorhergehendes Ankreuzfeld: <keyseq><key>X</key></keyseq> und <keyseq><key>Umschalt</key><key>X</key></keyseq></p>
         </item>
         <item>
           <p>Eine Liste der Ankreuzfelder anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>X</key></keyseq></p>
@@ -135,23 +138,19 @@
     <title>Links</title>
       <list>
         <item>
-          <p>
-            Next and previous link:
-            <keyseq><key>K</key></keyseq> and
-            <keyseq><key>Shift</key><key>K</key></keyseq>
-          </p>
+          <p>Nächster und vorhergehender Link: <keyseq><key>K</key></keyseq> und <keyseq><key>Umschalt</key><key>K</key></keyseq></p>
         </item>
         <item>
           <p>Eine Liste der Links anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>K</key></keyseq></p>
         </item>
         <item>
-          <p>Nächster und vorhergehender nicht besuchter Link: <keyseq><key>U</key></keyseq> und <keyseq><key>Umschalttaste</key><key>U</key></keyseq></p>
+          <p>Nächster und vorhergehender nicht besuchter Link: <keyseq><key>U</key></keyseq> und <keyseq><key>Umschalt</key><key>U</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste der nicht besuchten Links anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>U</key></keyseq></p>
         </item>
         <item>
-          <p>Nächster und vorhergehender besuchter Link: <keyseq><key>V</key></keyseq> und <keyseq><key>Umschalttaste</key><key>V</key></keyseq></p>
+          <p>Nächster und vorhergehender besuchter Link: <keyseq><key>V</key></keyseq> und <keyseq><key>Umschalt</key><key>V</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste der besuchten Links anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>V</key></keyseq></p>
@@ -162,13 +161,13 @@
       <title>Listen</title>
       <list>
         <item>
-          <p>Nächste und vorhergehende Liste: <keyseq><key>L</key></keyseq> und <keyseq><key>Umschalttaste</key><key>L</key></keyseq></p>
+          <p>Nächste und vorhergehende Liste: <keyseq><key>L</key></keyseq> und <keyseq><key>Umschalt</key><key>L</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste aller Listen anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>L</key></keyseq></p>
         </item>
         <item>
-          <p>Nächstes und vorhergehendes Listenelement: <keyseq><key>I</key></keyseq> und <keyseq><key>Umschalttaste</key><key>I</key></keyseq></p>
+          <p>Nächstes und vorhergehendes Listenelement: <keyseq><key>I</key></keyseq> und <keyseq><key>Umschalt</key><key>I</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste der Listenelemente anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>I</key></keyseq></p>
@@ -179,7 +178,7 @@
       <title>Tabellen</title>
       <list>
         <item>
-          <p>Nächste und vorhergehende Tabelle: <keyseq><key>T</key></keyseq> und <keyseq><key>Umschalttaste</key><key>T</key></keyseq></p>
+          <p>Nächste und vorhergehende Tabelle: <keyseq><key>T</key></keyseq> und <keyseq><key>Umschalt</key><key>T</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste der Tabellen anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>T</key></keyseq></p>
@@ -208,31 +207,22 @@
       <title>Textblöcke</title>
       <list>
         <item>
-          <p>Nächster und vorhergehender Paragraf: <keyseq><key>P</key></keyseq> und <keyseq><key>Umschalttaste</key><key>P</key></keyseq></p>
+          <p>Nächster und vorhergehender Absatz: <keyseq><key>P</key></keyseq> und <keyseq><key>Umschalt</key><key>P</key></keyseq></p>
         </item> 
         <item>
-          <p>
-            Display a list of paragraphs:
-            <keyseq><key>Alt</key><key>Shift</key><key>P</key></keyseq>
-          </p>
+          <p>Eine Liste der Absätze anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>P</key></keyseq></p>
         </item>
         <item>
-          <p>Nächstes und vorhergehendes Zitat: <keyseq><key>Q</key></keyseq> und <keyseq><key>Umschalttaste</key><key>Q</key></keyseq></p>
+          <p>Nächstes und vorhergehendes Zitat: <keyseq><key>Q</key></keyseq> und <keyseq><key>Umschalt</key><key>Q</key></keyseq></p>
         </item> 
         <item>
-          <p>
-            Display a list of blockquotes:
-            <keyseq><key>Alt</key><key>Shift</key><key>Q</key></keyseq>
-          </p>
+          <p>Eine Liste der Blockzitate anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>Q</key></keyseq></p>
         </item>
         <item>
-          <p>Nächstes und vorhergehendes »großes Objekt«: <keyseq><key>O</key></keyseq> und <keyseq><key>Umschalttaste</key><key>O</key></keyseq></p>
+          <p>Nächstes und vorhergehendes »großes Objekt«: <keyseq><key>O</key></keyseq> und <keyseq><key>Umschalt</key><key>O</key></keyseq></p>
         </item> 
         <item>
-          <p>
-            Display a list of "large objects":
-            <keyseq><key>Alt</key><key>Shift</key><key>O</key></keyseq>
-          </p>
+          <p>Eine Liste der »großen Objekte« anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>O</key></keyseq></p>
         </item>
        </list>
     </section>
@@ -240,46 +230,28 @@
       <title>Weitere Elemente</title>
       <list>
         <item>
-          <p>
-            Next and previous landmark:
-            <keyseq><key>M</key></keyseq> and
-            <keyseq><key>Shift</key><key>M</key></keyseq>
-          </p>
+          <p>Nächster und vorhergehender Orientierungspunkt: <keyseq><key>M</key></keyseq> und <keyseq><key>Umschalt</key><key>M</key></keyseq></p>
         </item> 
         <item>
-          <p>
-            Display a list of landmarks:
-            <keyseq><key>Alt</key><key>Shift</key><key>M</key></keyseq>
-          </p>
+          <p>Eine Liste der Orientierungspunkte anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>M</key></keyseq></p>
         </item>
         <item>
-          <p>Nächster und vorhergehender Trenner: <keyseq><key>S</key></keyseq> und <keyseq><key>Umschalttaste</key><key>S</key></keyseq></p>
+          <p>Nächster und vorhergehender Trenner: <keyseq><key>S</key></keyseq> und <keyseq><key>Umschalt</key><key>S</key></keyseq></p>
         </item> 
         <item>
-          <p>
-            Next and previous "clickable":
-            <keyseq><key>A</key></keyseq> and
-            <keyseq><key>Shift</key><key>A</key></keyseq>
-          </p>
+          <p>Nächstes und vorhergehendes »anklickbares Objekt«: <keyseq><key>A</key></keyseq> und <keyseq><key>Umschalt</key><key>A</key></keyseq></p>
         </item> 
         <item>
-          <p>
-            Display a list of "clickables":
-            <keyseq><key>Alt</key><key>Shift</key><key>A</key></keyseq>
-          </p>
+          <p>Eine Liste der »anklickbaren Objekte« anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>A</key></keyseq></p>
         </item>
         <item>
-          <p>Nächstes und vorhergehendes Bild: <keyseq><key>G</key></keyseq> und <keyseq><key>Umschalttaste</key><key>G</key></keyseq></p>
+          <p>Nächstes und vorhergehendes Bild: <keyseq><key>G</key></keyseq> und <keyseq><key>Umschalt</key><key>G</key></keyseq></p>
         </item>
         <item>
           <p>Eine Liste der Bilder anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>G</key></keyseq></p>
         </item>
         <item>
-          <p>
-            Start and end of current container:
-            <keyseq><key>Shift</key><key>comma</key></keyseq> and
-            <keyseq><key>comma</key></keyseq>
-          </p>
+          <p>Beginn und Ende des aktuellen Containers: <keyseq><key>Umschalt</key><key>Komma</key></keyseq> und <keyseq><key>Komma</key></keyseq></p>
         </item>
       </list>
     </section>

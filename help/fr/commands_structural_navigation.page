@@ -46,10 +46,10 @@
     </mal:credit>
   </info>
   <title>Commandes de navigation par structure</title>
-  <p>Les commandes suivantes peuvent être utilisées pour parcourir les en-têtes, liens et d'autres éléments trouvés dans les applications pour lesquels <app>Orca</app> prend en charge la navigation structurelle.</p>
+  <p>Les commandes suivantes peuvent être utilisées pour parcourir les en-têtes, liens et d’autres éléments trouvés dans les applications pour lesquels <app>Orca</app> prend en charge la navigation structurelle.</p>
   <list>
     <item>
-      <p>Activer/désactiver les touches de navigation par structure : <keyseq><key>Touche de modification d'Orca</key><key>Z</key></keyseq></p>
+      <p>Activer/désactiver les touches de navigation par structure : <keyseq><key>Touche de modification d’Orca</key><key>Z</key></keyseq></p>
     </item>
   </list>
   <section id="headings">
@@ -59,43 +59,43 @@
           <p>En-tête précédent et suivant : <keyseq><key>H</key></keyseq> et <keyseq><key>Maj</key><key>H</key></keyseq></p>
         </item> 
         <item>
-          <p>Afficher une liste d'en-têtes : <keyseq><key>Alt</key><key>Maj</key><key>H</key></keyseq></p>
+          <p>Afficher une liste d’en-têtes : <keyseq><key>Alt</key><key>Maj</key><key>H</key></keyseq></p>
         </item>
         <item>
           <p>En-tête de niveau 1 précédent et suivant : <keyseq><key>1</key></keyseq> et <keyseq><key>Maj</key><key>1</key></keyseq></p>
         </item>
         <item>
-          <p>Afficher une liste d'en-têtes au niveau 1 : <keyseq><key>Alt</key><key>Maj</key><key>1</key></keyseq></p>
+          <p>Afficher une liste d’en-têtes au niveau 1 : <keyseq><key>Alt</key><key>Maj</key><key>1</key></keyseq></p>
         </item>
         <item>
           <p>En-tête de niveau 2 précédent et suivant : <keyseq><key>2</key></keyseq> et <keyseq><key>Maj</key><key>2</key></keyseq></p>
         </item> 
         <item>
-          <p>Afficher une liste d'en-têtes au niveau 2 : <keyseq><key>Alt</key><key>Maj</key><key>2</key></keyseq></p>
+          <p>Afficher une liste d’en-têtes au niveau 2 : <keyseq><key>Alt</key><key>Maj</key><key>2</key></keyseq></p>
         </item>
         <item>
           <p>En-tête de niveau 3 précédent et suivant : <keyseq><key>3</key></keyseq> et <keyseq><key>Maj</key><key>3</key></keyseq></p>
         </item> 
         <item>
-          <p>Afficher une liste d'en-têtes au niveau 3 : <keyseq><key>Alt</key><key>Maj</key><key>3</key></keyseq></p>
+          <p>Afficher une liste d’en-têtes au niveau 3 : <keyseq><key>Alt</key><key>Maj</key><key>3</key></keyseq></p>
         </item>
         <item>
           <p>En-tête de niveau 4 précédent et suivant : <keyseq><key>4</key></keyseq> et <keyseq><key>Maj</key><key>4</key></keyseq></p>
         </item> 
         <item>
-          <p>Afficher une liste d'en-têtes au niveau 4 : <keyseq><key>Alt</key><key>Maj</key><key>4</key></keyseq></p>
+          <p>Afficher une liste d’en-têtes au niveau 4 : <keyseq><key>Alt</key><key>Maj</key><key>4</key></keyseq></p>
         </item>
         <item>
           <p>En-tête de niveau 5 précédent et suivant : <keyseq><key>5</key></keyseq> et <keyseq><key>Maj</key><key>5</key></keyseq></p>
         </item> 
         <item>
-          <p>Afficher une liste d'en-têtes au niveau 5 : <keyseq><key>Alt</key><key>Maj</key><key>5</key></keyseq></p>
+          <p>Afficher une liste d’en-têtes au niveau 5 : <keyseq><key>Alt</key><key>Maj</key><key>5</key></keyseq></p>
         </item>
         <item>
           <p>En-tête de niveau 6 précédent et suivant : <keyseq><key>6</key></keyseq> et <keyseq><key>Maj</key><key>6</key></keyseq></p>
         </item> 
         <item>
-          <p>Afficher une liste d'en-têtes au niveau 6 : <keyseq><key>Alt</key><key>Maj</key><key>6</key></keyseq></p>
+          <p>Afficher une liste d’en-têtes au niveau 6 : <keyseq><key>Alt</key><key>Maj</key><key>6</key></keyseq></p>
         </item>
       </list>
     </section>
@@ -103,7 +103,7 @@
       <title>Formulaires</title>
       <list>
         <item>
-          <p>Champ de formulaire précédent et suivant : <keyseq><key>Touche de modification d'Orca</key><key>Tab</key></keyseq> et <keyseq><key>Touche de modification d'Orca</key><key>Maj</key><key>Tab</key></keyseq></p>
+          <p>Champ de formulaire précédent et suivant : <keyseq><key>Touche de modification d’Orca</key><key>Tab</key></keyseq> et <keyseq><key>Touche de modification d’Orca</key><key>Maj</key><key>Tab</key></keyseq></p>
         </item> 
         <item>
           <p>Afficher une liste de champs de formulaires : <keyseq><key>Alt</key><key>Maj</key><key>F</key></keyseq></p>
@@ -124,7 +124,7 @@
           <p>Entrée précédente et suivante : <keyseq><key>E</key></keyseq> et <keyseq><key>Maj</key><key>E</key></keyseq></p>
         </item> 
         <item>
-          <p>Afficher une liste d'entrées : <keyseq><key>Alt</key><key>Maj</key><key>E</key></keyseq></p>
+          <p>Afficher une liste d’entrées : <keyseq><key>Alt</key><key>Maj</key><key>E</key></keyseq></p>
         </item>
         <item>
           <p>Bouton radio précédent et suivant : <keyseq><key>R</key></keyseq> et <keyseq><key>Maj</key><key>R</key></keyseq></p>
@@ -176,7 +176,7 @@
           <p>Élément de liste précédent et suivant : <keyseq><key>I</key></keyseq> et <keyseq><key>Maj</key><key>I</key></keyseq></p>
         </item> 
         <item>
-          <p>Afficher une liste d'éléments de liste : <keyseq><key>Alt</key><key>Maj</key><key>I</key></keyseq></p>
+          <p>Afficher une liste d’éléments de liste : <keyseq><key>Alt</key><key>Maj</key><key>I</key></keyseq></p>
         </item>
       </list>
     </section>
@@ -228,7 +228,7 @@
           <p>« Objet important » précédent et suivant : <keyseq><key>O</key></keyseq> et <keyseq><key>Maj</key><key>O</key></keyseq></p>
         </item> 
         <item>
-          <p>Afficher une liste d'« objets importants » : <keyseq><key>Alt</key><key>Maj</key><key>O</key></keyseq></p>
+          <p>Afficher une liste d’« objets importants » : <keyseq><key>Alt</key><key>Maj</key><key>O</key></keyseq></p>
         </item>
        </list>
     </section>
@@ -248,20 +248,16 @@
           <p>Élément « cliquable » précédent et suivant : <keyseq><key>A</key></keyseq> et <keyseq><key>Maj</key><key>A</key></keyseq></p>
         </item> 
         <item>
-          <p>Afficher une liste d'éléments « cliquables » : <keyseq><key>Alt</key><key>Maj</key><key>A</key></keyseq></p>
+          <p>Afficher une liste d’éléments « cliquables » : <keyseq><key>Alt</key><key>Maj</key><key>A</key></keyseq></p>
         </item>
         <item>
           <p>Image précédente et suivante : <keyseq><key>G</key></keyseq> et <keyseq><key>Maj</key><key>G</key></keyseq></p>
         </item>
         <item>
-          <p>Afficher une liste d'images : <keyseq><key>Alt</key><key>Maj</key><key>G</key></keyseq></p>
+          <p>Afficher une liste d’images : <keyseq><key>Alt</key><key>Maj</key><key>G</key></keyseq></p>
         </item>
         <item>
-          <p>
-            Start and end of current container:
-            <keyseq><key>Shift</key><key>comma</key></keyseq> and
-            <keyseq><key>comma</key></keyseq>
-          </p>
+          <p>Début et fin du conteneur actuel : <keyseq><key>Maj</key><key>virgule</key></keyseq> et <keyseq><key>virgule</key></keyseq></p>
         </item>
       </list>
     </section>

@@ -6,7 +6,7 @@
     <link type="seealso" xref="howto_live_regions"/>
     <title type="sort">1. Zone dynamique</title>
     <title type="link">Zones dynamiques</title>
-    <desc>Commandes d'accès aux zones Web dynamiques</desc>
+    <desc>Commandes d’accès aux zones Web dynamiques</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -49,7 +49,7 @@
   <p>Les commandes suivantes peuvent être utilisées pour accéder à du contenu mis à jour dynamiquement sur des pages Web rendues accessibles grâce à ARIA</p>
   <list>
     <item>
-      <p>Surveiller les zones dynamiques : <keyseq><key>Touche de modification d'Orca</key><key>Maj</key><key>Barre oblique inversée</key></keyseq></p>
+      <p>Surveiller les zones dynamiques : <keyseq><key>Touche de modification d’Orca</key><key>Maj</key><key>Barre oblique inversée</key></keyseq></p>
     </item>
     <item>
       <p>Avancer le paramètre de politesse de zone dynamique : <key>Barre oblique inversée</key></p>
@@ -64,7 +64,7 @@
       <p>Aller à la dernière zone dynamique qui a effectué une annonce : <keyseq><key>Y</key></keyseq></p>
     </item>
     <item>
-      <p>Lire les annonces des zones dynamiques : <keyseq><key>Touche de modification d'Orca</key><key>F1</key></keyseq> à <key>F9</key></p>
+      <p>Lire les annonces des zones dynamiques : <keyseq><key>Touche de modification d’Orca</key><key>F1</key></keyseq> à <key>F9</key></p>
     </item>
 </list>
 </page>

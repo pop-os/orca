@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#reviewing"/>
     <link type="next" xref="howto_mouse_review"/>
-    <title type="sort">3. Orca Suchdialog</title>
+    <title type="sort">3. Orca-Suchdialog</title>
     <desc>Ein Fenster nach Objekten durchsuchen</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -22,7 +22,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,95 +30,55 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
-  <title>Orca Suchdialog</title>
-  <p>
-    <app>Orca</app>'s Find feature is a
-    <link xref="howto_flat_review">Flat-Review</link>-based search designed to
-    help you quickly locate objects that are visible on-screen within the
-    current window.
-  </p>
+  <title>Orca-Suchdialog</title>
+  <p>Der <app>Orca</app>-Suchdialog ist eine <link xref="howto_flat_review">Übersicht</link>sbasierte Suche zum schnellen Finden von Objekten, die sichtbar auf dem Bildschirm im aktuellen Fenster sind.</p>
   <note style="tip">
-    <title>Aktivierung des Orca Suchdialogs</title>
-      <p>
-        To open the Orca <gui>Find</gui> dialog, use the following command based
-        on your chosen <link xref="howto_keyboard_layout">keyboard layout</link>:
-      </p>
+    <title>Aktivierung des Orca-Suchdialogs</title>
+      <p>Um den Orca-<gui>Suchdialog</gui> zu öffnen, verwenden Sie, basierend auf Ihrem ausgewählten <link xref="howto_keyboard_layout">Tastaturlayout</link>, den folgenden Befehl:</p>
       <list>
         <item>
           <p>Desktop: <keyseq><key>Entf (Nmblck)</key></keyseq></p>
         </item>
         <item>
-          <p>Laptop: <keyseq><key>Orca Zusatztaste</key><key>Linke eckige Klammer</key></keyseq></p>
+          <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>Linke eckige Klammer</key></keyseq></p>
         </item>
       </list>
-      <p>
-        For a list of additional tasks you can perform, see the
-        <link xref="commands_find">Orca Find commands</link>
-      </p>
+      <p>Für eine zusätzliche Liste an verfügbaren durchführbaren Aufgaben lesen Sie <link xref="commands_find">Orca-Suchbefehle</link></p>
   </note>
-  <p>
-    When you activate Orca Find, you will be placed in a dialog box.
-  </p>
+  <p>Wenn Sie den Orca-Suchdialog aktivieren, werden Sie in eine Dialogbox bewegt.</p>
   <p>Hier können Sie Folgendes angeben:</p>
   <list>
     <item>
       <p>Den zu suchenden Text</p>
     </item>
     <item>
-      <p>Der Ort, an dem mit der Suche begonnen werden soll, wahlweise der aktuelle Ort oder die Oberseite des Fensters</p>
-      <p>
-        Default value of <gui>Start from</gui>: <gui>Current location</gui>
-      </p>
+      <p>Den Ort, an dem mit der Suche begonnen werden soll, wahlweise der aktuelle Ort oder die Oberseite des Fensters</p>
+      <p>Vorgabewert für <gui>Starte von</gui>: <gui>Aktueller Ort</gui></p>
     </item>
     <item>
-      <p>
-        Whether or not capitalization should be taken into account when seeking
-        a match
-     </p>
-      <p>
-        Default value of <gui>Match case</gui>: not checked
-      </p>
+      <p>Ob Groß- oder Kleinschreibung beachtet werden soll, wenn nach Übereinstimmungen gesucht wird</p>
+      <p>Vorgabewert für <gui>Groß-/Kleinschreibung beachten</gui>: nicht angekreuzt</p>
     </item>
     <item>
-      <p>
-        Whether or not to limit matches to those which match the entire word
-        or phrase
-     </p>
-      <p>
-        Default value of <gui>Match entire word only</gui>: not checked
-      </p>
+      <p>Ob nur Übereinstimmungen mit ganzen Wörtern oder Phrasen beachtet werden</p>
+      <p>Vorgabewert für <gui>Übereinstimmung nur mit ganzen Wörtern</gui>: nicht angekreuzt</p>
     </item>
     <item>
-      <p>
-        Whether Find should look down and/or to the right for the next
-        match or up and/or to the left.
-     </p>
-      <p>
-        Default value of <gui>Search backwards</gui>: not checked
-      </p>
+      <p>Ob die Suchfunktion unten und/oder rechts nach weiteren Überstimmungen suchen soll, oder oben und/oder links.</p>
+      <p>Vorgabewert für <gui>Rückwärts suchen</gui>: nicht angekreuzt</p>
     </item>
     <item>
-      <p>
-        Whether or not Find should wrap around to the top/bottom of the window
-        if there is no match found from the starting location in the direction
-        of the search.
-     </p>
-      <p>
-        Default value of <gui>Wrap around</gui>: checked
-      </p>
+      <p>Ob die Suchfunktion zum Start/Ende des Fensters springen soll, wenn ab dem Startort keine Übereinstimmung in Richtung der Suche gefunden wurde.</p>
+      <p>Vorgabewert für <gui>Springen</gui>: angekreuzt</p>
     </item>
   </list>
-  <p>
-    Having performed a search, you can quickly search for the next or previous
-    match without having to return to the Orca Find dialog box.
-  </p>
-  <p>
-    Because it is a <link xref="howto_flat_review">Flat Review</link> feature,
-    when there is a match, Flat Review will automatically be activated and the
-    matching item or text will become the current review item. Note that focus
-    within the application will not be modified, nor will the caret be
-    repositioned. If you need to accomplish either, please see
-    <link xref="commands_mouse">Orca's Mouse/Pointer-Related Commands</link>.
-  </p>
+  <p>Wurde eine Suche durchgeführt, können Sie schnell nach der nächsten oder vorhergehenden Übereinstimmung suchen, ohne zur Orca-Suchdialogbox zurückzukehren.</p>
+  <p>Da es eine <link xref="howto_flat_review">Übersicht</link>s-Funktion ist, wenn eine Übereinstimmung gefunden wurde, wird die Übersicht automatisch aktiviert und das übereinstimmende Objekt wird zur aktuellen Ansicht. Beachten Sie, dass der Fokus innerhalb der Anwendung nicht verändert oder der Textcursor neu positioniert wird. Wollen Sie dies durchführen, lesen Sie bitte <link xref="commands_mouse">Orcas Maus- und Zeigegerät-Befehle</link>.</p>
 </page>

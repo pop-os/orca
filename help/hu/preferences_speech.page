@@ -37,13 +37,7 @@
     <p>Alapbeállítás: <gui>Legtöbb</gui></p>
     <section id="punctuation_level_none">
       <title>Nincs</title>
-      <p>
-        Choosing a punctuation level of <gui>None</gui> would, as you expect,
-        cause no punctuation to be spoken. Note, however, that special symbols
-        such as subscripted and superscripted numbers, Unicode fractions, and
-        bullets are still spoken at this level, even though some might consider
-        these types of symbols punctuation.
-      </p>
+      <p>Ha a <gui>Nincs</gui> központozási szintet választja, semmilyen írásjel kimondása nem történik meg. Kivételt képeznek ez alól a speciális szimbólumok, például a felső és alsó indexben lévő számok, Unicode jelek és felsorolásjelek, noha egyesek ezeket a szimbólumokat is központozási jeleknek tekintik.</p>
     </section>
     <section id="punctuation_level_some">
       <title>Néhány</title>
@@ -66,10 +60,7 @@
       <p>Ha bejelöli ezt a jelölőnégyzetet, az <app>Orka</app> csak a képernyőn megjelenő szövegeket fogja kimondani. Ez a beállítás elsősorban a gyengén látó, vagy vizuális tanulási nehézségekkel küzdő felhasználók számára lehet hasznos.</p>
       <p>Alapbeállítás: nincs bejelölve</p>
       <note style="note">
-        <p>
-          The following items will not be available for configuration if
-          the <gui>Only speak displayed text</gui> checkbox is checked.
-        </p>
+        <p>A következő beállítások nem lesznek elérhetők, ha a <gui>Csak a képernyőn megjelenő szöveg kimondása</gui> jelölőnégyzet be van jelölve.</p>
       </note>
     </section>
     <section id="speak_blank_lines">

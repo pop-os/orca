@@ -4,9 +4,7 @@
     <link type="guide" xref="preferences#application"/>
     <title type="sort">4. Stavningskontroll</title>
     <title type="link">Stavningskontroll</title>
-    <desc>
-      Configuring <app>Orca</app>'s support for Spell Check
-    </desc>
+    <desc>Konfigurera <app>Orcas</app>s stöd för stavningskontroll</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -18,7 +16,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Anders Jonsson</mal:name>
       <mal:email>anders.jonsson@norsjovallen.se</mal:email>
-      <mal:years>2015, 2016, 2017</mal:years>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
     </mal:credit>
   </info>
   <title>Inställningar för stavningskontroll</title>

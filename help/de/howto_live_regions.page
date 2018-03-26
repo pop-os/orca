@@ -22,7 +22,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,40 +30,34 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Dynamische Bereiche</title>
-  <p>Ein dynamischer Bereich ist ein dynamisch aktualisierter Teil einer Webseite, zum Beispiel eine Tabelle mit Spielergebnissen aus dem Sport, eine Liste aktueller Börsenkurse, ein Chat-Protokoll oder Benachrichtigungen einer Seite, die sie gerade lesen. Während dynamische Bereiche recht häufig aktualisiert werden, sind vollständig erfassbare Webseiten mit dynamischen Bereichen eher selten anzutreffen. Dieses Problem wird aktiv von einer Reihe von Organisationen diskutiert.</p>
+  <p>Ein dynamischer Bereich ist ein dynamisch aktualisierter Teil einer Webseite, zum Beispiel eine Tabelle mit Spielergebnissen aus dem Sport, eine Liste aktueller Börsenkurse, ein Chat-Protokoll oder Benachrichtigungen einer Seite, die Sie gerade lesen. Während dynamische Bereiche recht häufig aktualisiert werden, sind vollständig erfassbare Webseiten mit dynamischen Bereichen eher selten anzutreffen. Dieses Problem wird aktiv von einer Reihe von Organisationen diskutiert.</p>
   <section id="politeness_levels">
     <title>Höflichkeitsstufen für dynamische Bereiche</title>
-    <p>
-      Live regions have an associated "politeness" level which is set by the
-      author as a means to convey the importance of the information and to
-      suggest when users should be informed by their assistive technology of
-      updates made within that region. Live regions can be "off", "polite", or
-      "assertive" to the point of being "rude."
-    </p>
+    <p>Dynamische Bereiche besitzen eine zugeordnete »Höflichkeitsstufe«, die vom Autor gesetzt wird, um die Wichtigkeit der Information zu übermitteln und zu empfehlen, wann Benutzer von ihren Hilfsmitteln über Aktualisierungen in diesem Bereich informiert werden sollen. Dynamische Bereiche können sein: »ausgeschaltet«, »höflich«, »bestimmend« bis zu »unhöflich«.</p>
   </section>
   <section id="orca_support">
     <title>Unterstützung für dynamische Bereiche durch <app>Orca</app></title>
-    <p>
-      Because you might not agree with the politeness level specified by the
-      author whose page you are viewing, <app>Orca</app> provides a number of
-      <link xref="commands_live_regions">live region commands</link> which
-      allow you to modify the level of any or all of the regions on a page.
-      In addition, you can:
-    </p>
+    <p>Da Sie eventuell nicht mit der Höflichkeitsstufe zufrieden sein könnten, die der Autor auf der aktuell betrachteten Seite festgelegt hat, bietet <app>Orca</app> eine Anzahl an <link xref="commands_live_regions">Befehlen für den dynamischen Bereich</link> an, mit denen Sie die Stufe von einem oder allen Bereichen einer Seite bearbeiten können. Zusätzlich können Sie:</p>
     <list>
       <item>
         <p>Unterstützung für dynamische Bereiche ein- und ausschalten</p>
       </item>
       <item>
-        <p>Jump to the next and previous live region spatially</p>
+        <p>Zum räumlich nächsten und vorherigen dynamischen Bereich springen</p>
       </item>
       <item>
         <p>Zum letzten dynamischen Bereich springen, der eine Ankündigung ausgab</p>
       </item>
       <item>
-        <p>Review the last nine live region messages which were presented</p>
+        <p>Die letzten neun vorgelesenen dynamischen Bereiche vorlesen</p>
     </item>
     </list>
   </section>

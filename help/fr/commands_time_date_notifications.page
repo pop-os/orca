@@ -6,7 +6,7 @@
     <link type="seealso" xref="howto_notifications"/>
     <title type="sort">4. Heure, date et notification</title>
     <title type="link">Heure, date et notification</title>
-    <desc>Commandes pour obtenir l'heure, la date et les messages de notification</desc>
+    <desc>Commandes pour obtenir l’heure, la date et les messages de notification</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -46,15 +46,15 @@
     </mal:credit>
   </info>
   <title>Commandes heure, date et notifications</title>
-  <p>Les commandes suivantes peuvent être utilisées pour obtenir l'heure et la date actuelle, et pour revoir les messages de notification affichés précédemment :</p>
+  <p>Les commandes suivantes peuvent être utilisées pour obtenir l’heure et la date actuelle, et pour revoir les messages de notification affichés précédemment :</p>
   <section id="time_and_date">
-    <title>Obtention de l'heure et de la date</title>
+    <title>Obtention de l’heure et de la date</title>
     <list>
       <item>
-        <p>Lire l'heure : <keyseq><key>Touche de modification d'Orca</key><key>T</key></keyseq></p>
+        <p>Lire l’heure : <keyseq><key>Touche de modification d’Orca</key><key>T</key></keyseq></p>
       </item>
       <item>
-        <p>Lire la date : <keyseq><key>Touche de modification d'Orca</key><key>T</key></keyseq> (double clic)</p>
+        <p>Lire la date : <keyseq><key>Touche de modification d’Orca</key><key>T</key></keyseq> (double clic)</p>
       </item>
     </list>
   </section>

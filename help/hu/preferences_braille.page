@@ -30,13 +30,8 @@
     </note>
   </section>
   <section id="braillewordwrap">
-    <title>Enable word wrap</title>
-    <p>
-      If <gui>Enable word wrap</gui> is checked, <app>Orca</app> will adjust the
-      text so that only full words are shown on the braille display. If it is not
-      checked, <app>Orca</app> will use all of the cells on the display so that
-      more text can be shown at once.
-    </p>
+    <title>Szótörés engedélyezése</title>
+    <p>Ha a <gui>Szótörés engedélyezése</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> csak teljes szavakat fog megjeleníteni a Braille-kijelzőn. Ha ez a jelölőnégyzet nincs bejelölve, az <app>Orka</app> minden cellát fel fog használni, így egyszerre több szöveg jeleníthető meg.</p>
     <p>Alapbeállítás: nincs bejelölve</p>
   </section>
   <section id="contractedbraille">

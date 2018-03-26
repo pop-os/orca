@@ -44,20 +44,14 @@
     </mal:credit>
   </info>
   <title>Zones dynamiques</title>
-  <p>Une zone dynamique est une portion de page Web mise à jour dynamiquement, comme un tableau de statistiques sportives, une liste d'actions courantes, le journal d'une discussion ou un avertissement affiché par la page que vous lisez. Bien que les zones dynamiques soient assez fréquentes, les pages Web possédant des zones dynamiques complètement accessibles sont rencontrées beaucoup moins souvent. De nombreuses organisations s'occupent activement de ce problème.</p>
+  <p>Une zone dynamique est une portion de page Web mise à jour dynamiquement, comme un tableau de statistiques sportives, une liste d’actions courantes, le journal d’une discussion ou un avertissement affiché par la page que vous lisez. Bien que les zones dynamiques soient assez fréquentes, les pages Web possédant des zones dynamiques complètement accessibles sont rencontrées beaucoup moins souvent. De nombreuses organisations s’occupent activement de ce problème.</p>
   <section id="politeness_levels">
     <title>Niveaux de politesse de zone dynamique</title>
-    <p>
-      Live regions have an associated "politeness" level which is set by the
-      author as a means to convey the importance of the information and to
-      suggest when users should be informed by their assistive technology of
-      updates made within that region. Live regions can be "off", "polite", or
-      "assertive" to the point of being "rude."
-    </p>
+    <p>Les zones dynamiques possèdent un niveau de « politesse » configuré par l’auteur qui permet de transmettre l’importance de l’information et de suggérer quand les utilisateurs doivent être informés par leur technologie d’assistance des nouvelles informations présentes dans cette zone dynamique. Les zones dynamiques peuvent être « désactivées », « polies » ou « affirmatives » jusqu’à être « péremptoires ».</p>
   </section>
   <section id="orca_support">
     <title>Prise en charge des zones dynamiques par <app>Orca</app></title>
-    <p>Comme vous pouvez ne pas être d'accord avec le niveau de politesse spécifié par l'auteur des pages que vous lisez, <app>Orca</app> fournit un certain nombre de <link xref="commands_live_regions">commandes de zone dynamique</link> qui vous permettent de modifier le niveau de politesse d'une ou de toutes les régions d'une page. Vous pouvez aussi :</p>
+    <p>Comme vous pouvez ne pas être d’accord avec le niveau de politesse spécifié par l’auteur des pages que vous lisez, <app>Orca</app> fournit un certain nombre de <link xref="commands_live_regions">commandes de zone dynamique</link> qui vous permettent de modifier le niveau de politesse d’une ou de toutes les régions d’une page. Vous pouvez aussi :</p>
     <list>
       <item>
         <p>activer ou désactiver la prise en charge des zones dynamiques,</p>

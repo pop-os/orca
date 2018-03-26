@@ -4,7 +4,7 @@
     <link type="guide" xref="index#getting_started"/>
     <link type="next" xref="howto_key_bindings"/>
     <title type="sort">7. Die Feststelltaste im Laptop-Layout</title>
-    <desc>Toggling it when it is the <key>Orca Modifier</key></desc>
+    <desc>Ein-/ausschalten, wenn es die <key>Orca-Zusatztaste</key> ist</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -22,7 +22,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,25 +30,22 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Die Feststelltaste im Laptop-Layout</title>
-  <p>
-    Orca has two keyboard layouts: Desktop and Laptop. The layout you choose
-    impacts which key is used as the Orca Modifier. If you are using the Laptop
-    layout, the default Orca Modifier will be <key>CapsLock</key>. If you are
-    using <app>Orca</app>'s Laptop Layout and want to lock or unlock
-    <key>CapsLock</key>, you can do so by performing the following steps:
-  </p>
+  <p>Orca kennt zwei Tastaturlayouts: Desktop und Laptop. Die Wahl des Layouts beeinflusst, welche Taste als Orca-Zusatztaste verwendet wird. Falls Sie das Laptop-Layout verwenden, wird die voreingestellte Orca-Zusatztaste die <key>Feststelltaste</key> sein. Falls Sie <app>Orca</app>s Laptop-Layout verwenden und die <key>Feststelltaste</key> ein-/ausschalten wollen, können Sie das über die folgenden Schritte erreichen:</p>
   <steps>
     <title>Umschalten der Feststelltaste im Laptop-Layout</title>
     <item>
-      <p>
-        Press the Bypass command, <keyseq><key>Orca Modifier</key><key>BackSpace</key>
-        </keyseq>, to tell <app>Orca</app> that the next command should be ignored.
-      </p>
+      <p>Drücken Sie den Befehl zum Übergehen, <keyseq><key>Orca-Zusatztaste</key><key>Rücktaste</key></keyseq>, damit <app>Orca</app> den nächsten Befehl ignoriert.</p>
     </item>
     <item>
-      <p>Press <key>CapsLock</key> to toggle its locked state.</p>
+      <p>Drücken Sie <key>CapsLock</key>, um seinen Status ein- oder auszuschalten.</p>
     </item>
   </steps>
 </page>

@@ -4,9 +4,7 @@
     <link type="guide" xref="preferences#application"/>
     <title type="sort">4. Revisión ortográfica</title>
     <title type="link">Revisión ortográfica</title>
-    <desc>
-      Configuring <app>Orca</app>'s support for Spell Check
-    </desc>
+    <desc>Configurar el soporte de <app>Orca</app>  para la revisión ortográfica</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>

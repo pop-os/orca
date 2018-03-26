@@ -3,8 +3,8 @@
   <info>
     <link type="guide" xref="index#getting_started"/>
     <link type="next" xref="howto_learn_modes"/>
-    <title type="sort">3. Die Orca Zusatztaste</title>
-    <desc>Eine Taste, welche ähnlich funktioniert wie <key>Umschalttaste</key>, <key>Strg</key> und <key>Alt</key></desc>
+    <title type="sort">3. Die Orca-Zusatztaste</title>
+    <desc>Eine Taste, welche ähnlich funktioniert wie <key>Umschalt</key>, <key>Strg</key> und <key>Alt</key></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -22,7 +22,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,46 +30,38 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
-  <title>Die Orca Zusatztaste</title>
-  <p>Orca hat eine spezielle Zusatztaste, welche ähnlich funktioniert wie <key>Umschalttaste</key>, <key>Strg</key> und <key>Alt</key>. Die dient dazu einen bestimmten <app>Orca</app>-Befehl auszuführen, ohne dabei im Konflikt mit den Tastenkombinationen einer Anwendung zu stehen.</p>
-  <p>
-    Which key the "Orca Modifier" is bound to will, by default, depend
-    on whether you are using <app>Orca</app>'s Laptop keyboard layout
-    or its Desktop keyboard layout:
-  </p>
+  <title>Die Orca-Zusatztaste</title>
+  <p>Orca hat eine spezielle Zusatztaste, welche ähnlich funktioniert wie <key>Umschalt</key>, <key>Strg</key> und <key>Alt</key>. Die dient dazu einen bestimmten <app>Orca</app>-Befehl auszuführen, ohne dabei im Konflikt mit den Tastenkombinationen einer Anwendung zu stehen.</p>
+  <p>Welche Taste der »Orca-Zusatztaste« in der Voreinstellung zugewiesen ist, hängt davon ab, ob Sie <app>Orca</app>s Laptop- oder Desktop-Tastaturlayout verwenden:</p>
   <list>
     <item>
-      <p>
-        If you are using the Laptop layout, the default Orca Modifier
-        will be <key>CapsLock</key>
-      </p>
+      <p>Falls Sie das Laptop-Layout verwenden, wird die voreingestellte Orca-Zusatztaste die <key>Feststelltaste</key> sein</p>
     </item>
     <item>
-      <p>
-        If you are using the Desktop layout, the Orca Modifier will
-        be both <key>Insert</key> and <key>KeyPad Insert</key>, the
-        latter being the same key as <key>KeyPad 0</key>.
-      </p>
+      <p>Falls Sie das Desktop-Layout verwenden, wird die Orca-Zusatztaste sowohl <key>Einfügen</key> als auch <key>Einf (Nmblck)</key> sein, wobei letztere die gleiche Taste wie <key>0 (Nmblck)</key> ist.</p>
     </item>
   </list>
-  <p>
-    If you want to maintain your current keyboard layout but select a different
-    modifier key, you can do so by performing the following steps:
-  </p>
+  <p>Falls Sie Ihr aktuelles Tastaturlayout behalten, aber eine andere Modifikationstaste auswählen wollen, können Sie dies über die folgenden Schritte erreichen:</p>
   <steps>
-    <title>Die Orca Zusatztaste ändern</title>
+    <title>Die Orca-Zusatztaste ändern</title>
     <item>
-      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Taste</key><key>Leertaste</key></keyseq> drücken.</p>
+      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq> drücken.</p>
     </item>
     <item>
       <p>Wechseln Sie nun zum Reiter <gui>Tastenbelegung</gui>.</p>
     </item>
     <item>
-      <p>Move to the <gui>Screen Reader Modifier Key(s)</gui> combobox.</p>
+      <p>Gehen Sie zum Auswahlfeld <gui>Modifikationstaste(n) für den Bildschirmleser</gui>.</p>
     </item>
     <item>
-      <p>Arrow to the desired modifier. The available options are:</p>
+      <p>Wählen Sie den gewünschten Modifikator. Vorhandene Optionen sind:</p>
       <list>
         <item><p>Einfügen,Einf (Nummernblock)</p></item>
         <item><p>Einf (Nummernblock)</p></item>

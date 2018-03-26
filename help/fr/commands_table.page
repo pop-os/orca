@@ -6,7 +6,7 @@
     <link type="seealso" xref="howto_tables"/>
     <title type="sort">3. Navigation dans les tableaux</title>
     <title type="link">Parcours de tableau</title>
-    <desc>Commandes d'accès aux informations de tableau</desc>
+    <desc>Commandes d’accès aux informations de tableau</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -46,22 +46,22 @@
     </mal:credit>
   </info>
   <title>Commandes de navigation dans les tableaux</title>
-  <p>La prise en charge de la navigation de cellule en cellule dans les tableaux fait partie des <link xref="commands_structural_navigation#forms">Commandes de navigation par structure</link> d'Orca. De plus, vous pouvez :</p>
+  <p>La prise en charge de la navigation de cellule en cellule dans les tableaux fait partie des <link xref="commands_structural_navigation#tables">Commandes de navigation par structure</link> d’Orca. De plus, vous pouvez :</p>
   <list>
     <item>
-      <p>Définir les en-têtes de ligne dynamiques à la colonne actuelle : <keyseq><key>Touche de modification d'Orca</key><key>C</key></keyseq></p>
+      <p>Définir les en-têtes de ligne dynamiques à la colonne actuelle : <keyseq><key>Touche de modification d’Orca</key><key>C</key></keyseq></p>
     </item>
     <item>
-      <p>Définir les en-têtes de colonne dynamiques à la ligne actuelle : <keyseq><key>Touche de modification d'Orca</key><key>R</key></keyseq></p>
+      <p>Définir les en-têtes de colonne dynamiques à la ligne actuelle : <keyseq><key>Touche de modification d’Orca</key><key>R</key></keyseq></p>
     </item>
     <item>
-      <p>Effacer les en-têtes de ligne dynamiques : <keyseq><key>Touche de modification d'Orca</key><key>C</key></keyseq> (double clic)</p>
+      <p>Effacer les en-têtes de ligne dynamiques : <keyseq><key>Touche de modification d’Orca</key><key>C</key></keyseq> (double clic)</p>
     </item>
     <item>
-      <p>Effacer les en-têtes de colonne dynamiques : <keyseq><key>Touche de modification d'Orca</key><key>R</key></keyseq> (double clic)</p>
+      <p>Effacer les en-têtes de colonne dynamiques : <keyseq><key>Touche de modification d’Orca</key><key>R</key></keyseq> (double clic)</p>
     </item>
     <item>
-      <p>Basculer entre la lecture par ligne et la lecture par cellule dans un tableau : <keyseq><key>Touche de modification d'Orca</key><key>F11</key></keyseq></p>
+      <p>Basculer entre la lecture par ligne et la lecture par cellule dans un tableau : <keyseq><key>Touche de modification d’Orca</key><key>F11</key></keyseq></p>
     </item>
   </list>
 </page>

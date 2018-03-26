@@ -93,7 +93,7 @@
         </list>
       </item>
       <item>
-        <p>Speak the Unicode value of current character:</p>
+        <p>Říct hodnotu Unikódu pro aktuální znak:</p>
         <list>
           <item>
             <p>Stolní počítač: <keyseq><key>KP 2</key></keyseq> (dva na numerické klávesnici, trojité zmáčknutí)</p>

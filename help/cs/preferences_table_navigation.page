@@ -17,12 +17,7 @@
     </license>
   </info>
   <title>Předvolby pro pohyb v tabulkách</title>
-  <p>
-    The following options allow you to customize how <app>Orca</app>
-    behaves when navigating within a table in
-    <link xref="howto_structural_navigation">Structural-Navigation</link>-enabled
-    applications.
-  </p>
+  <p>Následující volby vám umožňují přizpůsobit si, jak se má <app>Orca</app> chovat při pohybu v tabulkách a aplikacích se zapnutou <link xref="howto_structural_navigation">strukturovanou navigací</link>.</p>
   <section id="speak_cell_coordinates">
     <title>Číst souřadnice buňky</title>
     <p>Když je toto políčko zaškrtnuto, bude <app>Orca</app> oznamovat souřadnice každé buňky, do které vstoupíte.</p>

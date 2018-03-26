@@ -24,13 +24,19 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Sascha Manns</mal:name>
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
     </mal:credit>
   </info>
   <title>Befehle zu »Wo bin ich«</title>
@@ -44,7 +50,7 @@
           <p>Desktop: <key>Eingabetaste (Nmblck)</key></p>
         </item>
         <item>
-          <p>Laptop: <keyseq><key>Orca Zusatztaste</key><key>Eingabetaste</key></keyseq></p>
+          <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>Eingabetaste</key></keyseq></p>
         </item>
       </list>
     </item>
@@ -55,7 +61,7 @@
           <p>Desktop: <key>Eingabetaste (Nmblck)</key> (Doppelklick)</p>
         </item>
         <item>
-          <p>Laptop: <keyseq><key>Orca Zusatztaste</key><key>Eingabetaste</key></keyseq> (Doppelklick)</p>
+          <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>Eingabetaste</key></keyseq> (Doppelklick)</p>
         </item>
       </list>
     </item>
@@ -66,10 +72,10 @@
       <p>Die Titelleiste anzeigen:</p>
       <list>
         <item>
-          <p>Desktop: <keyseq><key>Orca Zusatztaste</key><key>Eingabetaste (Nmblck)</key></keyseq></p>
+          <p>Desktop: <keyseq><key>Orca-Zusatztaste</key><key>Eingabetaste (Nmblck)</key></keyseq></p>
         </item>
         <item>
-          <p>Laptop: <keyseq><key>Orca Zusatztaste</key><key>Schrägstrick</key></keyseq></p>
+          <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>Schrägstrich</key></keyseq></p>
         </item>
       </list>
     </item>
@@ -77,10 +83,10 @@
       <p>Die Statusleiste anzeigen:</p>
       <list>
         <item>
-          <p>Desktop: <keyseq><key>Orca Zusatztaste</key><key>Eingabetaste (Nmblck)</key></keyseq> (Doppelklick)</p>
+          <p>Desktop: <keyseq><key>Orca-Zusatztaste</key><key>Eingabetaste (Nmblck)</key></keyseq> (Doppelklick)</p>
         </item>
         <item>
-          <p>Laptop: <keyseq><key>Orca Zusatztaste</key><key>Schrägstrich</key></keyseq> (Doppelklick)</p>
+          <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>Schrägstrich</key></keyseq> (Doppelklick)</p>
         </item>
       </list>
     </item>

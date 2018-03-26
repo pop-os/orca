@@ -31,13 +31,7 @@
     <p>Výchozí hodnota: <gui>Většina</gui></p>
     <section id="punctuation_level_none">
       <title>Žádná</title>
-      <p>
-        Choosing a punctuation level of <gui>None</gui> would, as you expect,
-        cause no punctuation to be spoken. Note, however, that special symbols
-        such as subscripted and superscripted numbers, Unicode fractions, and
-        bullets are still spoken at this level, even though some might consider
-        these types of symbols punctuation.
-      </p>
+      <p>Nastavení úrovně interpunkce na <gui>Žádná</gui> způsobí, jak asi očekáváte, že <app>Orca</app> nebude vyslovovat žádná interpunkční znaménka. Upozorňujeme ale, že speciální symboly, jako jsou horní a dolní indexy, unikódové zlomky a odrážky budou i při této úrovni vyslovovány, i když je někteří mohou považovat za typy symbolů interpunkce.</p>
     </section>
     <section id="punctuation_level_some">
       <title>Některá</title>
@@ -60,10 +54,7 @@
       <p>Zaškrtnutí tohoto políčka způsobí, že <app>Orca</app> bude číst jen aktální text zobrazený na obrazovce. Tato volba je zamířena hlavně na slabozraké uživatele a uživatele se sníženou schopností rozpoznávání.</p>
       <p>Výchozí hodnota: nezaškrtnuto</p>
       <note style="note">
-        <p>
-          The following items will not be available for configuration if
-          the <gui>Only speak displayed text</gui> checkbox is checked.
-        </p>
+        <p>Následující položky nejsou dostupné k nastavení, když je zaškrtnuté políčko <gui>Číst pouze zobrazený text</gui>.</p>
       </note>
     </section>
     <section id="speak_blank_lines">

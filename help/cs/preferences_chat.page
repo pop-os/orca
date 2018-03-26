@@ -5,9 +5,7 @@
     <link type="next" xref="preferences_spellcheck"/>
     <title type="sort">3. Diskuze</title>
     <title type="link">Diskuze</title>
-    <desc>
-      Configuring <app>Orca</app>'s support for IM and IRC
-    </desc>
+    <desc>Jak nastavit čtečku <app>Orca</app> pro podporu rychlé komunikace a IRC</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>

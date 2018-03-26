@@ -22,7 +22,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,40 +30,18 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Maus-Sprachauswertung</title>
-  <p>
-    <app>Orca</app>'s Mouse Review feature causes <app>Orca</app> to present
-    the object under the mouse pointer. Unlike <app>Orca</app>'s
-    <link xref="howto_flat_review">Flat Review</link> feature, Mouse Review
-    is not limited to the active window; instead, <app>Orca</app> will attempt
-    to identify what accessible object, if any, is visually under the pointer
-    as you move the mouse. If you have moved the pointer over an accessible
-    object with information to present, <app>Orca</app> will present that object
-    and its information to you.
-  </p>
-  <p>
-    Because enabling Mouse Review causes <app>Orca</app> to listen for, and then
-    process, all changes in the position of the Mouse Pointer, this feature is
-    disabled by default. To have it always enabled, check the <gui>Speak object
-    under mouse</gui> checkbox found on the
-    <link xref="preferences_general">General page of <app>Orca</app>'s
-    Preferences dialog</link>. In addition, you will find an unbound command
-    named <gui>Toggle mouse review mode</gui> on the
-    <link xref="preferences_key_bindings">Key Bindings page</link> of that same
-    dialog box. By binding this command, as described in the
-    <link xref="howto_key_bindings">Introduction to Key Bindings</link>,
-    you can enable and disable Mouse Review on an as-needed basis.
-  </p>
+  <p><app>Orca</app>s Maus-Sprachauswertung-Funktion lässt <app>Orca</app> die Objekte unterhalb des Mauszeigers vorlesen. Im Gegensatz zu <app>Orca</app>s <link xref="howto_flat_review">Übersicht</link>s-Funktion ist die Maus-Sprachauswertung nicht auf das fokussierte Fenster beschränkt; stattdessen versucht <app>Orca</app> zu identifizieren, welches zugängliche Objekt sich bei einer Mausbewegung visuell unter dem Zeiger befindet. Wenn Sie den Zeiger über ein zugängliches Objekt bewegt haben, das Informationen zum vorlesen enthält, liest Ihnen <app>Orca</app> dieses Objekt und dessen Informationen vor.</p>
+  <p>Da die Aktivierung der Maus-Sprachauswertung dazu führt, dass <app>Orca</app> alle Veränderungen der Position des Mauszeigers verfolgt und verarbeitet, ist diese Funktion standardmäßig deaktiviert. Um sie immer zu aktivieren, aktivieren Sie das Ankreuzfeld <gui>Objekt unter Maus vorlesen</gui> im Dialog <link xref="preferences_general">Allgemeine <app>Orca</app>-Einstellungen</link>. Zusätzlich finden Sie einen nicht zugewiesenen Befehl namens <gui>Maus-Sprachausgabe ein-/ausschalten</gui> auf der <link xref="preferences_key_bindings">Tastenkombinationen-Seite</link> im selben Dialogfeld. Wie unter <link xref="howto_key_bindings">Einführung in Tastenkombinationen</link> beschrieben, können Sie bei Zuweisung dieses Befehls die Maus-Sprachausgabe nach Bedarf ein- und ausschalten.</p>
   <note style="tip">
-    <title>
-      Default Settings and Keybindings Are Independent of One Another
-    </title>
-    <p>
-      Note that you can choose to have Mouse Review always enabled or not and
-      still toggle it on and off by binding and using the <gui>Toggle mouse
-      review mode</gui> command. It is not necessary to enable it in order to
-      toggle it because settings and keybindings are independent of one another.
-    </p>
+    <title>Standardeinstellungen und Tastenkombinationen sind voneinander unabhängig</title>
+    <p>Beachten Sie, dass die Maus-Sprachausgabe immer aktiviert oder deaktiviert sein kann, und dennoch ein- und ausgeschaltet werden kann, indem der Befehl <gui>Maus-Sprachausgabe ein-/ausschalten</gui> zugewiesen und verwendet wird. Es ist nicht notwendig, die Maus-Sprachausgabe zu aktiveren, um sie ein-/ausschalten zu können, da Einstellungen und Tastenkombinationen unabhängig voneinander sind.</p>
   </note>
 </page>

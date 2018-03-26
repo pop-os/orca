@@ -45,11 +45,11 @@
     </mal:credit>
   </info>
   <title>Préférences de prononciation</title>
-  <p>Parfois le synthétiseur vocal ne prononce pas correctement certaines chaînes de caractères. Vous pouvez préférer entendre « mort de rire » plutôt que « mdr » ou « accessibilité » plutôt que « a11y ». Il se peut aussi qu'un nom propre ou un terme technique soit mal prononcé par le synthétiseur.</p>
-  <p>L'onglet <gui>Prononciation</gui> de la boîte de dialogue préférences d'<app>Orca</app> vous permet d'ajouter, de modifier et de supprimer des entrées dans le dictionnaire de prononciation d'<app>Orca</app>.</p>
-  <p>Parce que l'onglet de <gui>Prononciation</gui> fait aussi partie des paramètres spécifiques aux applications, vous pouvez personnaliser les entrées pour chaque application utilisée.</p>
+  <p>Parfois le synthétiseur vocal ne prononce pas correctement certaines chaînes de caractères. Vous pouvez préférer entendre « mort de rire » plutôt que « mdr » ou « accessibilité » plutôt que « a11y ». Il se peut aussi qu’un nom propre ou un terme technique soit mal prononcé par le synthétiseur.</p>
+  <p>L’onglet <gui>Prononciation</gui> de la boîte de dialogue préférences d’<app>Orca</app> vous permet d’ajouter, de modifier et de supprimer des entrées dans le dictionnaire de prononciation d’<app>Orca</app>.</p>
+  <p>Parce que l’onglet de <gui>Prononciation</gui> fait aussi partie des paramètres spécifiques aux applications, vous pouvez personnaliser les entrées pour chaque application utilisée.</p>
   <steps>
-    <title>Ajout d'une nouvelle entrée de dictionnaire</title>
+    <title>Ajout d’une nouvelle entrée de dictionnaire</title>
     <item>
       <p>Cliquez sur le bouton Nouvelle entrée (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
     </item>
@@ -64,7 +64,7 @@
     </item>
   </steps>
   <steps>
-  <title>Modification d'une entrée de dictionnaire existante</title>
+  <title>Modification d’une entrée de dictionnaire existante</title>
     <item>
       <p>Déplacez-vous sur la cellule que vous voulez modifier et appuyez sur <key>Entrée</key> pour commencer à modifier.</p>
     </item>
@@ -73,9 +73,9 @@
     </item>
   </steps>
   <steps>
-    <title>Suppression d'une entrée de dictionnaire existante</title>
+    <title>Suppression d’une entrée de dictionnaire existante</title>
     <item>
-      <p>Placez-vous sur l'entrée que vous souhaitez supprimer.</p>
+      <p>Placez-vous sur l’entrée que vous souhaitez supprimer.</p>
     </item>
     <item>
       <p>Cliquez sur le bouton Supprimer ou appuyez sur <keyseq><key>Alt</key><key>D</key></keyseq>.</p>

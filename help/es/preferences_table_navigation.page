@@ -29,12 +29,7 @@
     </mal:credit>
   </info>
   <title>Preferencias de la navegación por tablas</title>
-  <p>
-    The following options allow you to customize how <app>Orca</app>
-    behaves when navigating within a table in
-    <link xref="howto_structural_navigation">Structural-Navigation</link>-enabled
-    applications.
-  </p>
+  <p>La siguiente opción le permite personalizar cómo se comporta <app>Orca</app> cuando navega dentro de una tabla en aplicaciones habilitadas para <link xref="howto_structural_navigation">navegación-estructural</link>.</p>
   <section id="speak_cell_coordinates">
     <title>Leer las coordenadas de una celda</title>
     <p>Si esta casilla está marcada, <app>Orca</app> anunciará las coordenadas de cada celda a la que navegue.</p>

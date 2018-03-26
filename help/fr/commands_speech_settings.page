@@ -6,7 +6,7 @@
     <link type="seealso" xref="preferences_speech"/>
     <title type="sort">2. Paramètres de la synthèse vocale</title>
     <title type="link">Synthèse vocale</title>
-    <desc>Commandes de personnalisation de la sortie d'<app>Orca</app></desc>
+    <desc>Commandes de personnalisation de la sortie d’<app>Orca</app></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -46,19 +46,19 @@
     </mal:credit>
   </info>
   <title>Commandes pour paramétrer la synthèse vocale</title>
-  <p>Les commandes suivantes peuvent être utilisées pour personnaliser la synthèse vocale d'<app>Orca</app> Vous remarquerez que certaines de ces commandes sont « non liées ». Consultez <link xref="howto_key_bindings">Modifier les raccourcis</link> pour en apprendre plus sur la façon de lier ces commandes à des combinaisons de touches.</p>
+  <p>Les commandes suivantes peuvent être utilisées pour personnaliser la synthèse vocale d’<app>Orca</app> Vous remarquerez que certaines de ces commandes sont « non liées ». Consultez <link xref="howto_key_bindings">Modifier les raccourcis</link> pour en apprendre plus sur la façon de lier ces commandes à des combinaisons de touches.</p>
   <list>
     <item>
-      <p>Activer/désactiver la synthèse vocale : <keyseq><key>Touche de modification d'Orca</key><key>S</key></keyseq></p>
+      <p>Activer/désactiver la synthèse vocale : <keyseq><key>Touche de modification d’Orca</key><key>S</key></keyseq></p>
     </item>
     <item>
-      <p>Basculer entre la lecture par ligne et la lecture par cellule dans un tableau : <keyseq><key>Touche de modification d'Orca</key><key>F11</key></keyseq></p>
+      <p>Basculer entre la lecture par ligne et la lecture par cellule dans un tableau : <keyseq><key>Touche de modification d’Orca</key><key>F11</key></keyseq></p>
     </item>
     <item>
-      <p>Basculer entre les niveaux de verbosité bavard et concis : <keyseq><key>Touche de modification d'Orca</key><key>V</key></keyseq></p>
+      <p>Basculer entre les niveaux de verbosité bavard et concis : <keyseq><key>Touche de modification d’Orca</key><key>V</key></keyseq></p>
     </item>
     <item>
-      <p>Activer/désactiver la lecture de l'indentation et de la justification : (non lié)</p>
+      <p>Activer/désactiver la lecture de l’indentation et de la justification : (non lié)</p>
     </item>
     <item>
       <p>Modifier le style de lecture des nombres : (non lié)</p>
@@ -67,7 +67,7 @@
       <p>Activer le niveau de lecture de ponctuation suivant : (non lié)</p>
     </item>
     <item>
-      <p>Activer le niveau d'écho des touches suivant : (non lié)</p>
+      <p>Activer le niveau d’écho des touches suivant : (non lié)</p>
     </item>
     <item>
       <p>Activer le style de mise en majuscule suivant : (non lié)</p>

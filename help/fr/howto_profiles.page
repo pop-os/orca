@@ -44,17 +44,17 @@
     </mal:credit>
   </info>
   <title>Profils</title>
-  <p>Les profils d'Orca vous permettent d'enregistrer et de charger plusieurs configurations pour que vous puissiez accéder rapidement aux réglages dont vous avez besoin.</p>
+  <p>Les profils d’Orca vous permettent d’enregistrer et de charger plusieurs configurations pour que vous puissiez accéder rapidement aux réglages dont vous avez besoin.</p>
   <steps>
-    <title>Enregistrement d'un nouveau profil</title>
+    <title>Enregistrement d’un nouveau profil</title>
     <item>
-      <p>Allez dans la boîte de dialogue <link xref="preferences">Préférences d'Orca</link>.</p>
+      <p>Allez dans la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
     </item>
     <item>
       <p>Modifier les paramètres que vous souhaitez.</p>
     </item>
     <item>
-      <p>Sur l'onglet <gui>Général</gui>, cliquez sur le bouton <gui>Enregistrer sous</gui>.</p>
+      <p>Sur l’onglet <gui>Général</gui>, cliquez sur le bouton <gui>Enregistrer sous</gui>.</p>
     </item>
     <item>
       <p>Saisissez le nom du nouveau profil dans la boîte de dialogue <gui>Enregistrer le profil sous</gui>.</p>
@@ -64,12 +64,12 @@
     </item>
   </steps>
   <steps>
-    <title>Chargement d'un profil existant</title>
+    <title>Chargement d’un profil existant</title>
     <item>
-      <p>Allez dans la boîte de dialogue <link xref="preferences">Préférences d'Orca</link>.</p>
+      <p>Allez dans la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
     </item>
     <item>
-      <p>Dans l'onglet <gui>Général</gui>, sélectionnez le profil à charger dans la liste déroulante <gui>Profil actif</gui>.</p>
+      <p>Dans l’onglet <gui>Général</gui>, sélectionnez le profil à charger dans la liste déroulante <gui>Profil actif</gui>.</p>
     </item>
     <item>
       <p>Cliquez sur le bouton <gui>Charger</gui>.</p>
@@ -82,7 +82,7 @@
     </item>
   </steps>
   <steps>
-    <title>Modification d'un profil existant</title>
+    <title>Modification d’un profil existant</title>
     <item>
       <p>Suivez les étapes décrites ci-dessus pour charger le profil que vous souhaitez modifier.</p>
     </item>
@@ -90,7 +90,7 @@
       <p>Suivez les étapes décrites ci-dessus pour enregistrer un nouveau profil.</p>
     </item>
     <item>
-      <p>Quand vous êtes invité à saisir le nom du nouveau profil, saisissez le même nom que le profil actuel. Quand vous cliquez sur le bouton <gui>Valider</gui>, vous êtes averti d'un conflit de nom.</p>
+      <p>Quand vous êtes invité à saisir le nom du nouveau profil, saisissez le même nom que le profil actuel. Quand vous cliquez sur le bouton <gui>Valider</gui>, vous êtes averti d’un conflit de nom.</p>
     </item>
     <item>
       <p>Cliquez sur le bouton <gui>Oui</gui> pour confirmer que vous souhaitez écraser le profil existant avec les nouveaux réglages.</p>
@@ -99,10 +99,10 @@
   <steps>
     <title>Modification du <gui>Profil au démarrage</gui></title>
     <item>
-      <p>Allez dans la boîte de dialogue <link xref="preferences">Préférences d'Orca</link>.</p>
+      <p>Allez dans la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
     </item>
     <item>
-      <p>Dans l'onglet <gui>Général</gui>, sélectionnez le profil à charger dans la liste déroulante <gui>Profil au démarrage</gui>.</p>
+      <p>Dans l’onglet <gui>Général</gui>, sélectionnez le profil à charger dans la liste déroulante <gui>Profil au démarrage</gui>.</p>
     </item>
     <item>
       <p>Cliquez sur le bouton <gui>Valider</gui>. La prochaine fois que vous lancez <app>Orca</app>, le profil que vous venez de sélectionner sera utilisé.</p>

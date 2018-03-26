@@ -22,7 +22,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,47 +30,28 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Willkommen bei Orca</title>
-  <p>
-    <app>Orca</app> is a free, open source, flexible, and extensible
-    screen reader that provides access to the graphical desktop via
-    speech and refreshable braille.
-  </p>
-  <p>
-    <app>Orca</app> works with applications and toolkits that support
-    the Assistive Technology Service Provider Interface (AT-SPI), which
-    is the primary assistive technology infrastructure for Linux and
-    Solaris. Applications and toolkits supporting the AT-SPI include the
-    GNOME Gtk+ toolkit, the Java platform's Swing toolkit, LibreOffice,
-    Gecko, and WebKitGtk. AT-SPI support for the KDE Qt toolkit is being
-    pursued.
-  </p>
+  <p><app>Orca</app> ist ein kostenloser, quelloffener, flexibler und erweiterbarer Bildschirmleser, der Zugriff auf die grafische Arbeitsumgebung über Sprache und Braillezeile bietet.</p>
+  <p><app>Orca</app> funktioniert bei Anwendungen und Toolkits, die das »Assistive Technology Service Provider Interface« (AT-SPI) unterstützen, das die wichtigste Infrastruktur für Hilfstechnologien in Linux und Solaris darstellt. Zu den Anwendungen und Toolkits, die das AT-SPI unterstützen, gehören das GNOME GTK-Toolkit, das Swing-Toolkit der Java-Plattform, LibreOffice, Gecko und WebKitGTK. Die Unterstützung von AT-SPI im Qt-Toolkit in KDE wird angestrebt.</p>
   <section id="launching">
     <title><app>Orca</app> starten</title>
     <p>So starten Sie <app>Orca</app>:</p>
     <list>
       <item>
-        <p>
-          The method for configuring <app>Orca</app> to be launched
-          automatically as your preferred screen reader will depend upon
-          which desktop environment you use. For instance, in GNOME 3.x
-          this option can be found in the Universal Access Control Center
-          panel on the <gui>Seeing</gui> page.
-        </p>
+        <p>Die Einstellung, <app>Orca</app> automatisch als Ihren bevorzugten Bildschirmleser zu starten, hängt von der verwendeten Arbeitsumgebung ab. In GNOME 3.x beispielsweise kann diese Option im Kontrollzentrum in der Leiste »Barrierefreiheit« unter <gui>Sehen</gui> gefunden werden.</p>
       </item>
       <item>
-        <p>
-          To toggle <app>Orca</app> on and off in GNOME, press
-          <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.
-        </p>
+        <p>Um <app>Orca</app> in GNOME ein- und auszuschalten, drücken Sie <keyseq><key>Super-Taste</key><key>Alt</key><key>S</key></keyseq>.</p>
       </item>
       <item>
-        <p>
-          Type <cmd>orca</cmd>, along with any optional parameters, in a
-          terminal window or within the <gui>Run</gui> dialog and then press
-          <key>Return</key>.
-        </p>
+        <p>Tippen Sie <cmd>orca</cmd>, und gegebenenfalls optionale Parameter, in ein Terminal-Fenster oder in einen <gui>Ausführen</gui>-Dialog ein und drücken Sie die <key>Eingabetaste</key>.</p>
       </item>
     </list>
   </section>
