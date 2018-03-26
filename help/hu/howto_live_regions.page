@@ -23,13 +23,7 @@
   <p>Az élő régió egy weboldal dinamikusan frissülő része, például a legfrissebb sporteredmények táblázata, az aktuális tőzsdei árfolyamok listája, egy csevegés naplója, vagy az oldalon található információs sáv. Noha élő régiókkal gyakran találkozhat, a teljesen akadálymentesen használható élő régiókat tartalmazó weboldalak ritkábbak. Ezen probléma megoldásán rengeteg szervezet dolgozik.</p>
   <section id="politeness_levels">
     <title>Az élő régiók udvariassági szintjei</title>
-    <p>
-      Live regions have an associated "politeness" level which is set by the
-      author as a means to convey the importance of the information and to
-      suggest when users should be informed by their assistive technology of
-      updates made within that region. Live regions can be "off", "polite", or
-      "assertive" to the point of being "rude."
-    </p>
+    <p>Minden élő régióhoz tartozik egy „udvariassági” szint, ezzel jelzik a szerzők az információ fontosságát, és javaslatot tesznek az akadálymentesítési technológiák számára, hogy mikor értesítsék a felhasználót az élő régiók frissüléséről. Az élő régiók a „kikapcsolva”, „udvarias”, „tolakodó” vagy akár „durva” udvariassági szintekkel rendelkezhetnek.</p>
   </section>
   <section id="orca_support">
     <title>Az <app>Orka</app> élő régió támogatása</title>

@@ -17,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Anders Jonsson</mal:name>
       <mal:email>anders.jonsson@norsjovallen.se</mal:email>
-      <mal:years>2015, 2016, 2017</mal:years>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
     </mal:credit>
   </info>
   <title>Inställningar för Gecko-navigering</title>
@@ -79,11 +79,7 @@
   <section id="table_options">
     <title>Tabellalternativ</title>
     <note>
-      <p>
-        To learn more about <app>Orca</app>'s options for navigating within
-        tables, please see <link xref="preferences_table_navigation">Table
-	Navigation Preferences</link>.
-      </p>
+      <p>För att lära dig mer om <app>Orcas</app> alternativ för att navigera i tabeller, se <link xref="preferences_table_navigation">Inställningar för tabellnavigering</link>.</p>
     </note>
   </section>
   <section id="find_options">
@@ -101,13 +97,7 @@
     </section>
     <section id="find_options_minimum_match_length">
       <title>Minimal längd på matchande text</title>
-      <p>
-        This editable spin button is where you can specify the number of
-        characters which much match before <app>Orca</app> announces the
-        matching line. This option is also designed to prevent "chattiness"
-        as there are many matches when you first begin typing the string
-        for which you are searching.
-      </p>
+      <p>I denna redigerbara snurrknapp kan du ange antalet tecken som måste matcha innan <app>Orca</app> annonserar den matchande raden. Detta alternativ är också designat för att förhindra ”pratsamhet” eftersom det finns många matchningar då du först börjar skriva strängen som du söker efter.</p>
       <p>Standardvärde: 4</p>
     </section>
   </section>

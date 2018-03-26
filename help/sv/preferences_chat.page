@@ -5,9 +5,7 @@
     <link type="next" xref="preferences_spellcheck"/>
     <title type="sort">3. Chatt</title>
     <title type="link">Chatt</title>
-    <desc>
-      Configuring <app>Orca</app>'s support for IM and IRC
-    </desc>
+    <desc>Konfigurera <app>Orca</app>s stöd för snabbmeddelanden och IRC</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -19,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Anders Jonsson</mal:name>
       <mal:email>anders.jonsson@norsjovallen.se</mal:email>
-      <mal:years>2015, 2016, 2017</mal:years>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
     </mal:credit>
   </info>
   <title>Chattinställningar</title>

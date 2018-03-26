@@ -23,7 +23,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -31,169 +31,91 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Einstellungen für Gecko-Navigation</title>
   <section id="page_navigation">
     <title>Seitennavigation</title>
-    <p>
-      The <gui>Page Navigation</gui> group of controls make it possible for you
-      to customize how <app>Orca</app> presents, and allow you to interact with,
-      text and other content.
-    </p>
+    <p>Die Einstellungen zur <gui>Seitennavigation</gui> ermöglichen Ihnen anzupassen, wie <app>Orca</app> Ihnen Text und anderen Inhalt vorliest und erlaubt, damit zu interagieren.</p>
     <section id="page_navigation_control_caret">
-      <title>Caret Navigation verwenden</title>
-      <p>
-        This checkbox toggles <app>Orca</app>'s caret navigation on and off.
-        When it is on, <app>Orca</app> takes control of the caret as you arrow
-        around within a page; when it is off, Gecko's native caret navigation is
-        active.
-      </p>
-      <p>Standardwert: aktiviert</p>
+      <title>Caret-Navigation verwenden</title>
+      <p>Dieses Ankreuzfeld schaltet <app>Orca</app>s Caret-Navigation ein oder aus. Ist sie eingeschaltet, übernimmt <app>Orca</app> die Kontrolle über den Textcursor, während Sie sich auf einer Seite bewegen; ist sie ausgeschaltet, übernimmt Geckos eigene Caret-Navigation.</p>
+      <p>Vorgabewert: aktiviert</p>
       <note style="tip">
-        <title>This setting can be toggled on the fly</title>
-        <p>
-          To toggle this setting on the fly without saving it, use
-          <keyseq><key>Orca Modifier</key><key>F12</key></keyseq>.
-        </p>
+        <title>Diese Einstellung kann im laufenden Betrieb ein-/ausgeschaltet werden</title>
+        <p>Um diese Einstellung im laufenden Betrieb ohne Speichern ein- oder auszuschalten, drücken Sie <keyseq><key>Orca-Zusatztaste</key><key>F12</key></keyseq>.</p>
        </note>
     </section>
     <section id="page_navigation_focus_caret">
-      <title>Automatischer Fokus-Modus während Bildschirmleser-Navigation</title>
-      <p>
-        If this checkbox is checked, <app>Orca</app> will automatically turn on
-        focus mode when you use caret navigation commands to navigate to a form
-        field. For example, pressing <key>Down</key> would allow you to move
-        into an entry but once you had done so, Orca would switch to focus mode
-        and subsequent presses of <key>Down</key> would be controlled by the web
-        browser and not by Orca. If this checkbox is not checked, <app>Orca</app>
-        would continue to control what happens when you press <key>Down</key>,
-        thus making it possible to arrow out of the entry and continue reading.
-      </p>
-      <p>Standardwert: nicht aktiviert</p>
+      <title>Automatischer Fokus-Modus während Caret-Navigation</title>
+      <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> automatisch den Fokus-Modus einschalten, wenn Sie sich mittels Caret-Navigation in ein Formularfeld bewegen. Durch Drücken von <key>Runter</key> könnten Sie beispielsweise einen Eintrag betreten; sobald Sie dies aber getan hätten, würde Orca in den Fokus-Modus wechseln und nachfolgendes Drücken von <key>↓</key> würde nicht mehr von Orca, sondern dem Internet-Browser kontrolliert werden. Ist dieses Feld nicht angekreuzt, würde <app>Orca</app> auch nach Drücken von <key>Runter</key> die Kontrolle behalten, wodurch es möglich ist, den Eintrag zu verlassen und weiterzulesen.</p>
+      <p>Vorgabewert: nicht aktiviert</p>
       <note style="tip">
-        <title>Manually switching between browse mode and focus mode</title>
-        <p>
-          In order to start or stop interacting with the focused form field,
-          use <keyseq><key>Orca Modifier</key><key>A</key></keyseq> to switch
-          between browse mode and focus mode.
-        </p>
+        <title>Manuell zwischen Stöbern-Modus und Fokus-Modus wechseln</title>
+        <p>Um die Interaktion mit dem fokussierten Formularfeld zu beginnen oder zu beenden, verwenden Sie <keyseq><key>Orca-Zusatztaste</key><key>A</key></keyseq>, um zwischen Stöbern-Modus und Fokus-Modus zu wechseln.</p>
        </note>
     </section>
     <section id="page_navigation_structural">
       <title>Strukturierte Navigation verwenden</title>
-      <p>
-        This checkbox toggles <app>Orca</app>'s
-        <link xref="howto_structural_navigation">Structural Navigation</link>
-        on and off. Structural Navigation allows you to navigate by elements
-        such as headings, links, and form fields.
-      </p>
-      <p>Standardwert: aktiviert</p>
+      <p>Dieses Ankreuzfeld schaltet <app>Orca</app>s <link xref="howto_structural_navigation">Strukturennavigation</link> ein/aus. Strukturennavigation erlaubt Ihnen, sich durch Elemente wie Überschriften, Links und Formularfelder zu bewegen.</p>
+      <p>Vorgabewert: aktiviert</p>
       <note style="tip">
-        <title>This setting can be toggled on the fly</title>
-        <p>
-          To toggle this setting on the fly without saving it, use
-          <keyseq><key>Orca Modifier</key><key>Z</key></keyseq>.
-        </p>
+        <title>Diese Einstellung kann im laufenden Betrieb ein-/ausgeschaltet werden</title>
+        <p>Um diese Einstellung im laufenden Betrieb ohne Speichern ein-/auszuschalten, drücken Sie <keyseq><key>Orca-Zusatztaste</key><key>Z</key></keyseq>.</p>
        </note>
     </section>
     <section id="page_navigation_focus_structural">
       <title>Automatischer Fokus-Modus während Strukturnavigation</title>
-      <p>
-        If this checkbox is checked, <app>Orca</app> will automatically turn on
-        focus mode when you use structural navigation commands to navigate to a
-        form field. For example, pressing <key>E</key> to move to the next entry
-        would move focus there and also turn focus mode on so that your next press
-        of <key>E</key> would type an "e" into that entry. If this checkbox is not
-        checked, then <app>Orca</app> will leave you in browse mode and your next
-        press of <key>E</key> would move you to the next entry on the page.
-      </p>
-      <p>Standardwert: nicht aktiviert</p>
+      <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> automatisch den Fokus-Modus einschalten, wenn Sie sich mittels Strukturennavigation in ein Formularfeld bewegen. Durch Drücken von <key>E</key> könnten Sie beispielsweise einen Eintrag betreten und den Fokus dorthin bewegen; dadurch würden Sie in den Fokus-Modus wechseln, sodass nachfolgendes Drücken von <key>E</key> ein »e« in den Eintrag einfügen würde. Ist dieses Feld nicht angekreuzt, würde <app>Orca</app> Sie im Stöbern-Modus verbleiben lassen, und der nächste Druck von <key>E</key> würde Sie zum nächsten Eintrag führen.</p>
+      <p>Vorgabewert: nicht aktiviert</p>
       <note style="tip">
-        <title>Manually switching between browse mode and focus mode</title>
-        <p>
-          In order to start or stop interacting with the focused form field,
-          use <keyseq><key>Orca Modifier</key><key>A</key></keyseq> to switch
-          between browse mode and focus mode.
-        </p>
+        <title>Manuell zwischen Stöbern-Modus und Fokus-Modus wechseln</title>
+        <p>Um die Interaktion mit dem fokussierten Formularfeld zu beginnen oder zu beenden, verwenden Sie <keyseq><key>Orca-Zusatztaste</key><key>A</key></keyseq>, um zwischen Stöbern-Modus und Fokus-Modus zu wechseln.</p>
        </note>
     </section>
     <section id="page_navigation_speak">
       <title>Seite automatisch beim ersten Laden vorlesen</title>
-      <p>
-        If this checkbox is checked, <app>Orca</app> will perform a Say All on
-        the newly opened web page or email.
-      </p>
-      <p>
-        Default value: checked for Firefox; not checked for Thunderbird
-      </p>
+      <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> ein »Alles vorlesen« auf der neu geöffneten Webseite oder E-Mail durchführen.</p>
+      <p>Vorgabewert: für Firefox angekreuzt; für Thunderbird nicht angekreuzt</p>
     </section>
     <section id="page_navigation_summary">
       <title>Eine Zusammenfassung einer Seite automatisch beim ersten Laden vorlesen</title>
-      <p>
-        If this checkbox is checked, <app>Orca</app> will summarize details about the
-        newly opened web page or email, such as the number of headings, landmarks,
-        and links.
-      </p>
-      <p>
-        Default value: checked for Firefox; not checked for Thunderbird
-      </p>
+      <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> Details über die neu geöffnete Webseite oder E-Mail zusammenfassen, wie zum Beispiel die Anzahl an Überschriften, Orientierungspunkten und Links.</p>
+      <p>Vorgabewert: für Firefox angekreuzt; für Thunderbird nicht angekreuzt</p>
     </section>
     <section id="page_navigation_layout_mode">
       <title>Layout-Modus für Inhalt aktivieren</title>
-      <p>
-        If this checkbox is checked, <app>Orca</app>'s caret navigation will respect
-        the on-screen layout of the content and present the full line, including any
-        links or form fields on that line. If this checkbox is not checked, <app>Orca</app>
-        will treat objects such as links and form fields as if they were on separate
-        lines, both for presentation and navigation.
-      </p>
-      <p>Standardwert: aktiviert</p>
+      <p>Ist dieses Feld angekreuzt, wird <app>Orca</app>s Caret-Navigation das Layout des sichtbaren Inhalts berücksichtigen und die ganze Zeile, einschließlich jeglicher Links oder Formularfelder in dieser Zeile vorlesen. Ist dieses Feld nicht angekreuzt, wird <app>Orca</app> Objekte wie Links und Formularfelder beim Vorlesen und Navigieren so behandeln, als wären Sie auf eigenen Zeilen.</p>
+      <p>Vorgabewert: aktiviert</p>
     </section>
   </section>
   <section id="table_options">
     <title>Tabellenoptionen</title>
     <note>
-      <p>
-        To learn more about <app>Orca</app>'s options for navigating within
-        tables, please see <link xref="preferences_table_navigation">Table
-	Navigation Preferences</link>.
-      </p>
+      <p>Um mehr über <app>Orca</app>s Optionen zur Navigation in Tabellen zu erfahren, lesen Sie die <link xref="preferences_table_navigation">Einstellungen für Tabellennavigation</link>.</p>
     </note>
   </section>
   <section id="find_options">
     <title>Suchoptionen</title>
-    <p>
-      The <gui>Find Options</gui> group of controls make it possible for you to
-      customize how <app>Orca</app> presents the results of a search conducted
-      using the application's built-in search functionality.
-    </p>
+    <p>Die Befehle unter <gui>Suchoptionen</gui> erlauben Ihnen anzupassen, wie <app>Orca</app> Suchergebnisse der integrierten Suchfunktion vorliest.</p>
     <section id="find_options_speak_during_find">
       <title>Treffer während der Suche vorlesen</title>
-      <p>
-         If this checkbox is checked, <app>Orca</app> will read the line which
-         matches your current search query.
-      </p>
-      <p>Standardwert: aktiviert</p>
+      <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> die Zeile vorlesen, die Ihren aktuellen Suchbegriff enthält.</p>
+      <p>Vorgabewert: aktiviert</p>
     </section>
     <section id="find_options_speak_changed_lines_during_find">
       <title>Nur veränderte Zeilen während der Suche vorlesen</title>
-      <p>
-          If this checkbox is checked, <app>Orca</app> will not present the
-          matching line if it is the same line as the previous match. This
-          option is designed to prevent "chattiness" on a line with multiple
-          instances of the string for which you are searching.
-      </p>
-      <p>Standardwert: nicht aktiviert</p>
+      <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> eine gefundene Zeile nicht vorlesen, wenn es dieselbe Zeile wie in der vorherigen Übereinstimmung ist. Diese Option ist dafür gedacht, um »nervige« Wiederholungen zu vermeiden, wenn eine Zeile mehrmals die gesuchte Zeichenkette enthält.</p>
+      <p>Vorgabewert: nicht aktiviert</p>
     </section>
     <section id="find_options_minimum_match_length">
       <title>Minimale Länge der Trefferübereinstimmung</title>
-      <p>
-        This editable spin button is where you can specify the number of
-        characters which much match before <app>Orca</app> announces the
-        matching line. This option is also designed to prevent "chattiness"
-        as there are many matches when you first begin typing the string
-        for which you are searching.
-      </p>
+      <p>Über diesen Einstellknopf können Sie die Anzahl an übereinstimmenden Zeichen einstellen, bevor <app>Orca</app> eine Zeile als Übereinstimmung darstellt. Diese Option ist dafür gedacht, um »nervige« Wiederholungen zu vermeiden, da es beim Tippen ihrer Suchanfrage anfangs viele Übereinstimmungen geben wird.</p>
       <p>Vorgabewert: 4</p>
     </section>
   </section>

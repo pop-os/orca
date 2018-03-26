@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#reviewing"/>
     <link type="next" xref="howto_mouse_review"/>
-    <title type="sort">3. Recherche d'Orca</title>
+    <title type="sort">3. Recherche d’Orca</title>
     <desc>Rechercher des objets dans une fenêtre</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -43,33 +43,33 @@
       <mal:years>2016</mal:years>
     </mal:credit>
   </info>
-  <title>Recherche d'Orca</title>
-  <p>La fonction de recherche d'<app>Orca</app> est une recherche basée sur un <link xref="howto_flat_review">examen global</link>, conçue pour vous aider à trouver les objets visibles à l'écran dans la fenêtre actuelle.</p>
+  <title>Recherche d’Orca</title>
+  <p>La fonction de recherche d’<app>Orca</app> est une recherche basée sur un <link xref="howto_flat_review">examen global</link>, conçue pour vous aider à trouver les objets visibles à l’écran dans la fenêtre actuelle.</p>
   <note style="tip">
-    <title>Activation de la recherche d'Orca</title>
-      <p>Pour ouvrir la boîte de dialogue <gui>Recherche</gui> Orca, utilisez la commande suivante en fonction de <link xref="howto_keyboard_layout">l'agencement de votre clavier</link> :</p>
+    <title>Activation de la recherche d’Orca</title>
+      <p>Pour ouvrir la boîte de dialogue <gui>Recherche</gui> Orca, utilisez la commande suivante en fonction de <link xref="howto_keyboard_layout">l’agencement de votre clavier</link> :</p>
       <list>
         <item>
           <p>Ordinateur de bureau : <keyseq><key>PN Suppr</key></keyseq></p>
         </item>
         <item>
-          <p>Ordinateur portable : <keyseq><key>Touche de modification d'Orca</key><key>Crochet gauche</key></keyseq></p>
+          <p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Crochet gauche</key></keyseq></p>
         </item>
       </list>
-      <p>Pour obtenir une liste des autres tâches que vous pouvez réaliser, consultez les <link xref="commands_find">Commandes de recherche d'Orca</link></p>
+      <p>Pour obtenir une liste des autres tâches que vous pouvez réaliser, consultez les <link xref="commands_find">Commandes de recherche d’Orca</link></p>
   </note>
-  <p>Quand vous activez la recherche d'Orca, une boîte de dialogue s'ouvre.</p>
+  <p>Quand vous activez la recherche d’Orca, une boîte de dialogue s’ouvre.</p>
   <p>Vous pouvez y spécifier les éléments suivants :</p>
   <list>
     <item>
       <p>Le texte à rechercher</p>
     </item>
     <item>
-      <p>L'emplacement d'où vous commencez la recherche peut être, soit l'emplacement actuel, soit le haut de la fenêtre</p>
+      <p>L’emplacement d’où vous commencez la recherche peut être, soit l’emplacement actuel, soit le haut de la fenêtre</p>
       <p>Valeur par défaut de <gui>Démarrer depuis</gui> : <gui>Emplacement actuel</gui></p>
     </item>
     <item>
-      <p>Si la casse doit être prise en compte pendant la recherche d'une occurrence</p>
+      <p>Si la casse doit être prise en compte pendant la recherche d’une occurrence</p>
       <p>Valeur par défaut de <gui>Respecter la casse</gui> : non cochée</p>
     </item>
     <item>
@@ -81,10 +81,10 @@
       <p>Valeur par défaut de <gui>Recherche en arrière</gui> : non cochée</p>
     </item>
     <item>
-      <p>Si la recherche doit reprendre par le haut ou par le bas de la fenêtre si aucune correspondance n'a été trouvée depuis l'emplacement de départ dans la direction de la recherche.</p>
+      <p>Si la recherche doit reprendre par le haut ou par le bas de la fenêtre si aucune correspondance n’a été trouvée depuis l’emplacement de départ dans la direction de la recherche.</p>
       <p>Valeur par défaut de <gui>Recherche circulaire</gui> : cochée</p>
     </item>
   </list>
-  <p>Après avoir effectué une recherche, vous pouvez rechercher la correspondance précédente ou suivante rapidement sans retourner à la boîte de dialogue de recherche d'Orca.</p>
-  <p>Comme la fonction est basée sur un <link xref="howto_flat_review">examen global</link>, quand il y a une correspondance, l'examen global est activé et l'élément ou le texte correspondant devient l'élément en cours d'examen. Remarquez que le focus dans l'application n'est pas modifié et que le curseur n'est pas déplacé. Si vous souhaitez accomplir l'une de ces actions, consultez les <link xref="commands_mouse">Commandes relatives à la souris ou au curseur d'Orca</link>.</p>
+  <p>Après avoir effectué une recherche, vous pouvez rechercher la correspondance précédente ou suivante rapidement sans retourner à la boîte de dialogue de recherche d’Orca.</p>
+  <p>Comme la fonction est basée sur un <link xref="howto_flat_review">examen global</link>, quand il y a une correspondance, l’examen global est activé et l’élément ou le texte correspondant devient l’élément en cours d’examen. Remarquez que le focus dans l’application n’est pas modifié et que le curseur n’est pas déplacé. Si vous souhaitez accomplir l’une de ces actions, consultez les <link xref="commands_mouse">Commandes relatives à la souris ou au curseur d’Orca</link>.</p>
 </page>

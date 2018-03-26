@@ -4,9 +4,7 @@
     <link type="guide" xref="preferences#application"/>
     <title type="sort">4. Kontrola pravopisu</title>
     <title type="link">Kontrola pravopisu</title>
-    <desc>
-      Configuring <app>Orca</app>'s support for Spell Check
-    </desc>
+    <desc>Jak nastavit podporu pro kontrolu pravopisu ve čtečce <app>Orca</app></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>

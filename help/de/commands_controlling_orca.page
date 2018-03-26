@@ -23,13 +23,19 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Sascha Manns</mal:name>
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
     </mal:credit>
   </info>
   <title>Steuerung und Bedienung von Orca</title>
@@ -38,33 +44,28 @@
     <p>Die folgenden Befehle können verwendet werden, um in <app>Orcas</app> Einstellungsdialog zu gelangen, um <app>Orca</app> ein- oder auszuschalten und um <app>Orca</app>-Befehle zu übergehen, um Tastaturkürzel-Konflikte mit der Anwendung zu vermeiden.</p>
     <list>
       <item>
-        <p><app>Orca</app> in GNOME ein- und ausschalten: <keyseq><key>Super-Taste</key><key>Alt</key><key>S</key></keyseq></p>
+        <p><app>Orca</app> in GNOME ein- und ausschalten: <keyseq><key>Super-Taste</key><key>Alt</key><key>S</key></keyseq>.</p>
         <note style="tip">
-           <p>Folgende Befehle können zum Erhalt von Informationen über den Sofortnachrichtendienst und IRC unterstützt durch <app>Orca</app> verwendet werden. Sie werden feststellen, dass es sich bei vielen dieser Befehle um nicht zugewiesene Befehle handelt. Bitte klicken Sie auf <link xref="howto_key_bindings">Tastenkombinationen verändern</link>, um Informationen darüber zu erhalten, wie Sie diesen Befehlen Tastenkombinationen zuweisen.</p>
+           <p>Falls Sie <app>Orca</app> in einer anderen Arbeitsumgebung verwenden, in der es keinen Befehl zum Ein- oder Ausschalten von <app>Orca</app> gibt, könnten Sie den Befehl zum Schließen von <app>Orca</app> hilfreich finden. Dieser Befehl ist standardmäßig nicht zugewiesen. Bitte klicken Sie auf <link xref="howto_key_bindings">Tastenkombinationen verändern</link>, um Informationen darüber zu erhalten, wie Sie nicht zugewiesenen Befehlen Tastenkombinationen zuweisen.</p>
         </note>
       </item>
       <item>
-        <p>Orcas <link xref="preferences">Einstellungen</link>-Dialog: <keyseq><key>Orca Zusatztaste</key><key>Leertaste</key></keyseq>.</p>
+        <p>Orcas <link xref="preferences">Einstellungen</link>-Dialog: <keyseq><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq>.</p>
       </item>
       <item>
-        <p>Orcas Einstellungen-Dialog für die fokussierte Anwendung: <keyseq><key>Strg</key><key>Orca Zusatztaste</key><key>Leertaste</key></keyseq>.</p>
+        <p>Orcas Einstellungen-Dialog für die fokussierte Anwendung: <keyseq><key>Strg</key><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq>.</p>
       </item>
       <item>
-        <p>Den nächsten Befehl an die aktuelle Anwendung übergeben: <keyseq><key>Orca Zusatztaste</key><key>Löschtaste</key></keyseq></p>
+        <p>Den nächsten Befehl an die aktuelle Anwendung übergeben: <keyseq><key>Orca-Zusatztaste</key><key>Rücktaste</key></keyseq></p>
       </item>
     </list>
   </section>
   <section id="learning">
     <title>Befehle zum Erlernen der Bedienung von <app>Orca</app></title>
-    <p>
-      In Learn Mode, <app>Orca</app> will announce each keystroke you pressed
-      along with any associated <app>Orca</app> command that keystroke is bound
-      to. In this mode, you can also get a list of shortcuts containing all the
-      <app>Orca</app> commands you can use.
-    </p>
+    <p>Im Lernmodus wird <app>Orca</app> jedes gedrückten Tastenkürzel zusammen mit dem dazugehörigen zugewiesenen <app>Orca</app>-Befehl ankündigen. In diesem Modus können Sie ebenfalls eine Liste mit den Tastenkürzeln aller verwendbaren <app>Orca</app>-Befehle erhalten.</p>
     <list>
       <item>
-        <p>Starten Sie den Lernmodus: <keyseq><key>Orca Zusatztaste</key><key>H</key></keyseq></p>
+        <p>Lernmodus starten: <keyseq><key>Orca-Zusatztaste</key><key>H</key></keyseq></p>
       </item>
       <item>
         <p>Lernmodus beenden: <keyseq><key>Esc</key></keyseq></p>

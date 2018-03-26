@@ -17,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Anders Jonsson</mal:name>
       <mal:email>anders.jonsson@norsjovallen.se</mal:email>
-      <mal:years>2015, 2016, 2017</mal:years>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
     </mal:credit>
   </info>
   <title>Punktskriftsinställningar</title>
@@ -30,13 +30,8 @@
     </note>
   </section>
   <section id="braillewordwrap">
-    <title>Enable word wrap</title>
-    <p>
-      If <gui>Enable word wrap</gui> is checked, <app>Orca</app> will adjust the
-      text so that only full words are shown on the braille display. If it is not
-      checked, <app>Orca</app> will use all of the cells on the display so that
-      more text can be shown at once.
-    </p>
+    <title>Aktivera radbrytning mellan ord</title>
+    <p>Om kryssrutan <gui>Aktivera radbrytning mellan ord</gui> är ikryssad kommer <app>Orca</app> justera texten så att bara hela ord visas på punktskriftsskärmen. Om. Om den inte är ikryssad kommer <app>Orca</app> att använda alla celler på skärmen så att mer text kan visas på en gång.</p>
     <p>Standardvärde: inte ikryssad</p>
   </section>
   <section id="contractedbraille">

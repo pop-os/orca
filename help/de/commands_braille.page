@@ -24,7 +24,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -32,21 +32,27 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Braille-Befehle</title>
   <p>Führen Sie folgende Befehle zur Kontrolle von <app>Orca</app> besser über die Braillezeile anstatt über die Tastatur aus:</p>
   <list>
-    <item><p>Braille-Anzeige nach links schwenken: Zeile links</p></item>
-    <item><p>Braille-Anzeige nach rechts schwenken: Zeile rechts</p></item>
+    <item><p>Braillezeille nach links schwenken: Zeile links</p></item>
+    <item><p>Braillezeile nach rechts schwenken: Zeile rechts</p></item>
     <item><p>Übersichtsmodus ein/ausschalten: Einfrieren</p></item>
-    <item><p>Review the word above: Line Up</p></item>
-    <item><p>Review the word below: Line Down</p></item>
-    <item><p>Review bottom left: Bottom Right</p></item>
-    <item><p>Review the home position: Top Left</p></item>
-    <item><p>Contracted braille: Six Dots</p></item>
+    <item><p>Wort darüber vorlesen: Zeile hoch</p></item>
+    <item><p>Wort darunter vorlesen: Zeile runter</p></item>
+    <item><p>Linkes Ende vorlesen: Ende rechts</p></item>
+    <item><p>Heimposition vorlesen: Oben links</p></item>
+    <item><p>Braille-Kurzschrift: Sechs Punkte</p></item>
     <item><p>Markiert den Beginn einer Textauswahl: Beginn ausschneiden</p></item>
     <item><p>Markiert das Ende einer Textauswahl: Zeile ausschneiden</p></item>
-    <item><p>Processes a cursor routing key: Cursor Routing</p></item>
+    <item><p>Verarbeitet eine Cursorrouting-Taste: Cursorrouting</p></item>
     <item><p>Kehrt den Tastaturfokus zum Objekt zurück: Cursorposition</p></item>
   </list>
 </page>

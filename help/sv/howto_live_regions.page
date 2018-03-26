@@ -16,20 +16,14 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Anders Jonsson</mal:name>
       <mal:email>anders.jonsson@norsjovallen.se</mal:email>
-      <mal:years>2015, 2016, 2017</mal:years>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
     </mal:credit>
   </info>
   <title>Levande regioner</title>
   <p>En levande region är en dynamiskt uppdaterad del av en webbsida, som en tabell med sportstatistik, en lista med aktuella aktiekurser, en logg från en chatt eller en varning som visas av sidan som du läser. Medan levande regioner förekommer rätt ofta så är det mer sällsynt med fullständigt åtkomliga webbsidor med levande regioner. Ett antal organisationer arbetar aktivt med detta problem.</p>
   <section id="politeness_levels">
     <title>Snällhetsnivåer för levande regioner</title>
-    <p>
-      Live regions have an associated "politeness" level which is set by the
-      author as a means to convey the importance of the information and to
-      suggest when users should be informed by their assistive technology of
-      updates made within that region. Live regions can be "off", "polite", or
-      "assertive" to the point of being "rude."
-    </p>
+    <p>Levande regioner har en associerad ”snällhets”-nivå som anges av författaren som ett sätt att uttrycka vikten hos informationen och för att föreslå när användare ska informeras av deras hjälpmedelsteknik om uppdateringar som gjorts i den regionen. En levande region kan vara ”av”, ”snäll” eller ”påträngande” till gränsen att vara ”fräck”.</p>
   </section>
   <section id="orca_support">
     <title><app>Orca</app>s stöd för levande regioner</title>

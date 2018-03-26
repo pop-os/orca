@@ -52,22 +52,16 @@
   </section>
   <section id="verbosity">
     <title>Verbosité</title>
-    <p>Le paramètre <gui>Verbosité</gui> détermine le niveau d'information qui est lu dans différentes situations. Par exemple, s'il est défini à « Verbeux », et que vous pointez sur un mot mal orthographié, <app>Orca</app> annonce alors que ce mot est mal orthographié. Quand ce niveau est défini à « Court », cette annonce ne sera pas faite.</p>
+    <p>Le paramètre <gui>Verbosité</gui> détermine le niveau d’information qui est lu dans différentes situations. Par exemple, s’il est défini à « Verbeux », et que vous pointez sur un mot mal orthographié, <app>Orca</app> annonce alors que ce mot est mal orthographié. Quand ce niveau est défini à « Court », cette annonce ne sera pas faite.</p>
     <p>Valeur par défaut : <gui>Verbeux</gui></p>
   </section>
   <section id="punctuation_level">
     <title>Niveau de ponctuation</title>
-    <p>Le groupement de boutons radio <gui>Niveau de ponctuation</gui> permet d'ajuster le taux de ponctuation lu par le synthétiseur. Les niveaux disponibles sont <gui>Aucun</gui>, <gui>Quelques-uns</gui>, <gui>La plupart</gui> et <gui>Tous</gui>.</p>
+    <p>Le groupement de boutons radio <gui>Niveau de ponctuation</gui> permet d’ajuster le taux de ponctuation lu par le synthétiseur. Les niveaux disponibles sont <gui>Aucun</gui>, <gui>Quelques-uns</gui>, <gui>La plupart</gui> et <gui>Tous</gui>.</p>
     <p>Valeur par défaut : <gui>La plupart</gui></p>
     <section id="punctuation_level_none">
       <title>Aucun</title>
-      <p>
-        Choosing a punctuation level of <gui>None</gui> would, as you expect,
-        cause no punctuation to be spoken. Note, however, that special symbols
-        such as subscripted and superscripted numbers, Unicode fractions, and
-        bullets are still spoken at this level, even though some might consider
-        these types of symbols punctuation.
-      </p>
+      <p>Le choix du niveau de ponctuation <gui>Aucun</gui> va, comme vous l’attendez, faire en sorte que la ponctuation ne soit pas lue. Notez que les symboles spéciaux tels que les chiffres en indice ou en exposant, les fractions Unicode et les puces sont toujours lus à ce niveau, même si certains les considèrent comme des signes de ponctuation.</p>
     </section>
     <section id="punctuation_level_some">
       <title>Quelques-uns</title>
@@ -79,66 +73,58 @@
     </section>
     <section id="punctuation_level_all">
       <title>Tous</title>
-      <p>Le choix du niveau de punctuation <gui>Tous</gui> va, comme vous l'attendez, faire en sorte que <app>Orca</app> prononce tous les signes de ponctuation.</p>
+      <p>Le choix du niveau de punctuation <gui>Tous</gui> va, comme vous l’attendez, faire en sorte que <app>Orca</app> prononce tous les signes de ponctuation.</p>
     </section>
   </section>
   <section id="spoken_context">
     <title>Contexte de lecture à haute voix</title>
-    <p>Les éléments suivants contrôlent la présentation d'un grand nombre d'informations « système » supplémentaires à propos de l'élément qui possède le focus. Comme le texte associé n'apparaît pas à l'écran, celle-ci est lue par le système vocal d'<app>Orca</app>.</p>
+    <p>Les éléments suivants contrôlent la présentation d’un grand nombre d’informations « système » supplémentaires à propos de l’élément qui possède le focus. Comme le texte associé n’apparaît pas à l’écran, celle-ci est lue par le système vocal d’<app>Orca</app>.</p>
     <section id="only_speak_displayed_text">
       <title>Ne lire que le texte affiché</title>
-      <p>Quand cette case est cochée, <app>Orca</app> ne prononce que le texte affiché à l'écran. Cette option est destinée principalement aux utilisateurs malvoyants ou à ceux qui ont des difficultés d'apprentissage visuelles.</p>
+      <p>Quand cette case est cochée, <app>Orca</app> ne prononce que le texte affiché à l’écran. Cette option est destinée principalement aux utilisateurs malvoyants ou à ceux qui ont des difficultés d’apprentissage visuelles.</p>
       <p>Valeur par défaut : non cochée</p>
       <note style="note">
-        <p>
-          The following items will not be available for configuration if
-          the <gui>Only speak displayed text</gui> checkbox is checked.
-        </p>
+        <p>La configuration des éléments suivants n’est pas disponible si la case <gui>Ne lire que le texte affiché</gui> est cochée.</p>
       </note>
     </section>
     <section id="speak_blank_lines">
       <title>Lire les lignes vides</title>
-      <p>Si la case <gui>Lire les lignes vides</gui> est cochée, <app>Orca</app> prononce le mot « vide » chaque fois que vous pointez sur une ligne vide. Si elle n'est pas cochée, <app>Orca</app> ne dit rien quand vous vous déplacez sur une ligne vide.</p>
+      <p>Si la case <gui>Lire les lignes vides</gui> est cochée, <app>Orca</app> prononce le mot « vide » chaque fois que vous pointez sur une ligne vide. Si elle n’est pas cochée, <app>Orca</app> ne dit rien quand vous vous déplacez sur une ligne vide.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="indentation_and_justification">
-      <title>Lire l'indentation et la justification</title>
-      <p>Lorsque vous travaillez sur du code informatique ou avec d'autres documents, il est souvent souhaitable d'être informé sur la justification ou l'indentation. En cochant la case <gui>Lire l'indentation et la justification</gui>, <app>Orca</app> donne cette information.</p>
+      <title>Lire l’indentation et la justification</title>
+      <p>Lorsque vous travaillez sur du code informatique ou avec d’autres documents, il est souvent souhaitable d’être informé sur la justification ou l’indentation. En cochant la case <gui>Lire l’indentation et la justification</gui>, <app>Orca</app> donne cette information.</p>
       <p>Valeur par défaut : non cochée</p>
     </section>
     <section id="speak_misspelled_word_indicator">
-      <title>Lire l'indicateur de mot mal orthographié</title>
-      <p>L'indicateur de mot mal orthographié est la vaguelette rouge qui apparaît au-dessous des mots mal orthographiés dans les champs de texte éditables. Si la case <gui>Lire l'indicateur de mot mal orthographié</gui> est cochée et que vous vous placez sur un mot ayant cet indicateur, ou que vous tapez un mot incorrect faisant apparaître l'indicateur, <app>Orca</app> annoncera « mal orthographié ».</p>
+      <title>Lire l’indicateur de mot mal orthographié</title>
+      <p>L’indicateur de mot mal orthographié est la vaguelette rouge qui apparaît au-dessous des mots mal orthographiés dans les champs de texte éditables. Si la case <gui>Lire l’indicateur de mot mal orthographié</gui> est cochée et que vous vous placez sur un mot ayant cet indicateur, ou que vous tapez un mot incorrect faisant apparaître l’indicateur, <app>Orca</app> annoncera « mal orthographié ».</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="mnemonics">
      <title>Lire le raccourci des objets</title>
-      <p>Si la case <gui>Lire le raccourci des objets</gui> est cochée, <app>Orca</app> prononce le raccourci de l'objet qui possède le focus (par exemple <keyseq><key>Alt</key><key>V</key></keyseq> pour un bouton <gui>Valider</gui>).</p>
+      <p>Si la case <gui>Lire le raccourci des objets</gui> est cochée, <app>Orca</app> prononce le raccourci de l’objet qui possède le focus (par exemple <keyseq><key>Alt</key><key>V</key></keyseq> pour un bouton <gui>Valider</gui>).</p>
       <p>Valeur par défaut : non cochée</p>
     </section>
     <section id="child_position">
       <title>Lire la position fille</title>
-      <p>Lorsque la case <gui>Lire la positon fille</gui> est cochée, <gui>Orca</gui> lit la position de l'objet qui possède le focus dans les menus, les listes et les arborescences (par exemple « neuf sur seize »).</p>
+      <p>Lorsque la case <gui>Lire la positon fille</gui> est cochée, <app>Orca</app> lit la position de l’objet qui possède le focus dans les menus, les listes et les arborescences (par exemple « neuf sur seize »).</p>
       <p>Valeur par défaut : non cochée</p>
     </section>
     <section id="speak_tutorial_messages">
       <title>Lire les messages du tutoriel</title>
-      <p>Si la case <gui>Lire les messages du tutoriel</gui> est cochée, quand vous vous déplacez parmi les objets de l'interface <app>Orca</app> fournit des informations supplémentaires, comme par exemple comment utiliser l'objet qui possède actuellement le focus.</p>
+      <p>Si la case <gui>Lire les messages du tutoriel</gui> est cochée, quand vous vous déplacez parmi les objets de l’interface <app>Orca</app> fournit des informations supplémentaires, comme par exemple comment utiliser l’objet qui possède actuellement le focus.</p>
       <p>Valeur par défaut : non cochée</p>
     </section>
     <section id="speak_description">
-      <title>Speak description</title>
-      <p>
-        If the <gui>Speak description</gui> checkbox is checked, as
-        you move amongst objects in an interface, <app>Orca</app> will
-        speak the accessible description in addition to the accessible
-        name of the object.
-      </p>
+      <title>Lire la description</title>
+      <p>Si la case <gui>Lire la description</gui> est cochée, quand vous vous déplacez parmi les objets de l’interface, <app>Orca</app> lira la description accessible en plus du nom accessible de l’objet.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="system_messages_are_detailed">
       <title>Les messages systèmes sont détaillés</title>
-      <p>Si la case <gui>Les messages systèmes sont détaillés</gui> est cochée, <app>Orca</app> annoncera des messages détaillés en synthèse vocale. Par exemple, si vous utilisez la commande d'<app>Orca</app> pour changer l'écho des touches, <app>Orca</app> pourrait annoncer « écho des touches définit par mot ». Si vous préférez des messages plus courts, tels que simplement « mot », vous devriez décocher cette case.</p>
+      <p>Si la case <gui>Les messages systèmes sont détaillés</gui> est cochée, <app>Orca</app> annoncera des messages détaillés en synthèse vocale. Par exemple, si vous utilisez la commande d’<app>Orca</app> pour changer l’écho des touches, <app>Orca</app> pourrait annoncer « écho des touches définit par mot ». Si vous préférez des messages plus courts, tels que simplement « mot », vous devriez décocher cette case.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="speak_colors_as_names">
@@ -147,93 +133,48 @@
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="announce_blockquotes_during_navigation">
-      <title>Announce blockquotes during navigation</title>
-      <p>
-        If <gui>Announce blockquotes during navigation</gui> is checked,
-        <app>Orca</app> will tell you when you navigate into or out of a
-        blockquote. Note that this setting is independent of whether or not
-        this announcement is made during Say All. See
-        <link xref="preferences_general#say_all_announce_context">Announce
-        Contextual Information in Say All</link> for more information.
-      </p>
+      <title>Annoncer les blocs de citation durant la navigation</title>
+      <p>Si la case <gui>Annoncer les blocs de citation durant la navigation</gui> est cochée, <app>Orca</app> vous dit losrque vous naviguez et entrez ou sortez d’un bloc de citation. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="announce_forms_during_navigation">
-      <title>Announce forms during navigation</title>
-      <p>
-        If <gui>Announce forms during navigation</gui> is checked,
-        <app>Orca</app> will tell you when you navigate into or out of a
-        form. Note that this setting is specific to forms which are not
-        ARIA landmarks. You can configure the presentation of ARIA landmarks
-        through the <gui>Announce landmarks during navigation</gui> checkbox.
-        In addition, note that this setting is independent of whether or not
-        this announcement is made during Say All. See
-        <link xref="preferences_general#say_all_announce_context">Announce
-        Contextual Information in Say All</link> for more information.
-      </p>
+      <title>Annoncer les formulaires durant la navigation</title>
+      <p>Si la case <gui>Annoncer les formulaires durant la navigation</gui> est cochée, <app>Orca</app> vous dit lorsque vous naviguez et entrez ou sortez d’un formulaire. Notez que ce réglage est spécifique aux formulaires qui ne sont pas des points de repère ARIA. Vous pouvez configurer la présentation des points de repère ARIA au moyen de la case à cocher <gui>Annoncer les points de repère durant la navigation</gui>. De plus, ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context"> Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="announce_landmarks_during_navigation">
-      <title>Announce landmarks during navigation</title>
-      <p>
-        If <gui>Announce landmarks during navigation</gui> is checked,
-        <app>Orca</app> will tell you when you navigate into or out of an
-        ARIA landmark. Note that this setting is independent of whether or not
-        this announcement is made during Say All. See
-        <link xref="preferences_general#say_all_announce_context">Announce
-        Contextual Information in Say All</link> for more information.
-      </p>
+      <title>Annoncer les points de repère durant la navigation</title>
+      <p>Si la case <gui>Annoncer les points de repère durant la navigation</gui> est cochée, <app>Orca</app> vous dit lorsque vous naviguez et entrez ou sortez d’un point de repère ARIA. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="announce_lists_during_navigation">
-      <title>Announce lists during navigation</title>
-      <p>
-        If <gui>Announce lists during navigation</gui> is checked,
-        <app>Orca</app> will tell you when you navigate into or out of a
-        list. Note that this setting is independent of whether or not
-        this announcement is made during Say All. See
-        <link xref="preferences_general#say_all_announce_context">Announce
-        Contextual Information in Say All</link> for more information.
-      </p>
+      <title>Annoncer les listes durant la navigation</title>
+      <p>Si la case <gui>Annoncer les listes durant la navigation</gui> est cochée, <app>Orca</app> vous dit lorsque vous naviguez et entrez ou sortez d’une liste. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="announce_panels_during_navigation">
-      <title>Announce panels during navigation</title>
-      <p>
-        If <gui>Announce panels during navigation</gui> is checked,
-        <app>Orca</app> will tell you when you navigate into or out of a
-        panel. Note that this setting is independent of whether or not
-        this announcement is made during Say All. See
-        <link xref="preferences_general#say_all_announce_context">Announce
-        Contextual Information in Say All</link> for more information.
-      </p>
+      <title>Annoncer les panneaux durant la navigation</title>
+      <p>Si la case <gui>Annoncer les panneaux durant la navigation</gui> est cochée, <app>Orca</app> vous dit lorsque vous naviguez et entrez ou sortez d’un panneau. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="announce_tables_during_navigation">
-      <title>Announce tables during navigation</title>
-      <p>
-        If <gui>Announce tables during navigation</gui> is checked,
-        <app>Orca</app> will tell you when you navigate into or out of a
-        table. Note that this setting is independent of whether or not
-        this announcement is made during Say All. See
-        <link xref="preferences_general#say_all_announce_context">Announce
-        Contextual Information in Say All</link> for more information.
-      </p>
+      <title>Annoncer les tableaux durant la navigation</title>
+      <p>Si la case <gui>Annoncer les tableaux durant la navigation</gui> est cochée, <app>Orca</app> vous dit lorsque vous naviguez et entrez ou sortez d’un tableau. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="read_full_row_in_gui_tables">
-      <title>Lire la ligne complète dans les tableaux d'interface</title>
-      <p>Si la case <gui>Lire la ligne complète dans les tableaux d'interface</gui> est cochée, lorsque vous montez et descendez avec les flèches dans les tableaux d'applications tels que la liste des messages entrants, <app>Orca</app> va lire la ligne entière. Si vous préférez n'entendre que la cellule ayant le focus, vous devriez décocher cette case.</p>
+      <title>Lire la ligne complète dans les tableaux d’interface</title>
+      <p>Si la case <gui>Lire la ligne complète dans les tableaux d’interface</gui> est cochée, lorsque vous montez et descendez avec les flèches dans les tableaux d’applications tels que la liste des messages entrants, <app>Orca</app> va lire la ligne entière. Si vous préférez n’entendre que la cellule ayant le focus, vous devriez décocher cette case.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="read_full_row_in_document_tables">
       <title>Lire la ligne complète dans les tableaux de documents</title>
-      <p>Si la case <gui>Lire la ligne complète dans les tableaux de documents</gui> est cochée, lorsque vous montez et descendez avec les flèches dans les tableaux tels que ceux dans le traitement de texte <app>Writer</app> ou dans les documents Web, <app>Orca</app> va lire la ligne entière. Si vous préférez n'entendre que la cellule ayant le focus, vous devriez décocher cette case.</p>
+      <p>Si la case <gui>Lire la ligne complète dans les tableaux de documents</gui> est cochée, lorsque vous montez et descendez avec les flèches dans les tableaux tels que ceux dans le traitement de texte <app>Writer</app> ou dans les documents Web, <app>Orca</app> va lire la ligne entière. Si vous préférez n’entendre que la cellule ayant le focus, vous devriez décocher cette case.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="read_full_row_in_spreadsheets">
       <title>Lire la ligne complète dans les tableurs</title>
-      <p>Si la case <gui>Lire la ligne complète dans les tableurs</gui> est cochée, lorsque vous montez et descendez avec les flèches dans les feuilles de calcul, <app>Orca</app> va lire la ligne entière. Si vous préférez n'entendre que la cellule ayant le focus, vous devriez décocher cette case.</p>
+      <p>Si la case <gui>Lire la ligne complète dans les tableurs</gui> est cochée, lorsque vous montez et descendez avec les flèches dans les feuilles de calcul, <app>Orca</app> va lire la ligne entière. Si vous préférez n’entendre que la cellule ayant le focus, vous devriez décocher cette case.</p>
       <p>Valeur par défaut : non cochée</p>
     </section>
   </section>

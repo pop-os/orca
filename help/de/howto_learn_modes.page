@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#getting_started"/>
     <link type="next" xref="howto_keyboard_layout"/>
-    <title type="sort">5. »Lern«-Modi</title>
+    <title type="sort">5. »Lern«-Modus</title>
     <desc><app>Orca</app>-Befehle entdecken</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -22,7 +22,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,24 +30,22 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
-  <title>»Lern«-Modi</title>
-  <p>
-    In Learn Mode, <app>Orca</app> will announce each keystroke you pressed
-    along with any associated <app>Orca</app> command that keystroke is bound
-    to. In this mode, you can also get a list of shortcuts containing all the
-    <app>Orca</app> commands you can use.
-  </p>
+  <title>»Lern«-Modus</title>
+  <p>Im Lernmodus wird <app>Orca</app> jedes gedrückten Tastenkürzel zusammen mit dem dazugehörigen zugewiesenen <app>Orca</app>-Befehl ankündigen. In diesem Modus können Sie ebenfalls eine Liste mit den Tastenkürzeln aller verwendbaren <app>Orca</app>-Befehle erhalten.</p>
   <steps>
-    <title>Die »Lern«modi verwenden</title>
+    <title>Den Lernmodus verwenden</title>
     <item>
-      <p>Starten Sie den Lernmodus: <keyseq><key>Orca Zusatztaste</key><key>H</key></keyseq></p>
+      <p>Starten Sie den Lernmodus: <keyseq><key>Orca-Zusatztaste</key><key>H</key></keyseq>.</p>
     </item>
     <item>
-      <p>
-        Press any key or keystroke. <app>Orca</app> will announce the keys and
-        any associated command.
-      </p>
+      <p>Drücken Sie eine beliebige Taste oder Tastenkombination. <app>Orca</app> wird die Tasten und ihnen zugewiesene Befehle ansagen.</p>
     </item>
     <item>
       <p>Drücken Sie zum Verlassen des Lernmodus die <key>Esc</key>-Taste.</p>
@@ -56,14 +54,10 @@
   <steps>
     <title>Eine Liste aller Tastenkombinationen erhalten</title>
     <item>
-      <p>Starten Sie den Lernmodus: <keyseq><key>Orca Zusatztaste</key><key>H</key></keyseq></p>
+      <p>Starten Sie den Lernmodus: <keyseq><key>Orca-Zusatztaste</key><key>H</key></keyseq>.</p>
     </item>
     <item>
-      <p>
-        Press <key>F2</key> if you want a list of shortcuts that apply
-        <app>Orca</app>-wide, or press <key>F3</key> if you want a list
-        of shortcuts that are specifically for the application with focus.
-      </p>
+      <p>Drücken Sie <key>F2</key>, um eine Liste der Tastenkombinationen zu erhalten, die überall für <app>Orca</app> gelten. Drücken Sie <key>F3</key>, um eine Liste der Tastenkombinationen für die fokussierte Anwendung zu erhalten.</p>
     </item>
     <item>
       <p>Verwenden Sie <key>Hoch</key> und <key>Runter</key>, um den Inhalt der Liste zu erkunden.</p>

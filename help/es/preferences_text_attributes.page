@@ -37,11 +37,7 @@
         <p><gui>Nombre de atributo</gui>: el nombre del atributo de texto.</p>
       </item>
       <item>
-        <p>
-          <gui>Speak</gui>: Check this checkbox if you would like
-          <app>Orca</app> to speak this attribute when you press
-          <keyseq><key>Orca Modifier</key><key>F</key></keyseq>.
-        </p>
+        <p><gui>Hablar</gui>: marque esta casilla si quiere que <app>Orca</app> hable este atributo cuando pulse <keyseq><key>Modificador de Orca</key><key>F</key></keyseq>.</p>
       </item>
       <item>
         <p><gui>Marcar en braille</gui>: marque esta casilla si quiere que <app>Orca</app> subraye este atributo en su línea braille.</p>

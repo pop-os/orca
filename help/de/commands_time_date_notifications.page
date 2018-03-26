@@ -24,13 +24,19 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Sascha Manns</mal:name>
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
     </mal:credit>
   </info>
   <title>Befehle zu Zeit, Datum und Benachrichtigung</title>
@@ -39,10 +45,10 @@
     <title>Datum und Zeit ermitteln</title>
     <list>
       <item>
-        <p>Die Zeit ausgeben: <keyseq><key>Orca Zusatztaste</key><key>T</key></keyseq></p>
+        <p>Die Zeit ausgeben: <keyseq><key>Orca-Zusatztaste</key><key>T</key></keyseq></p>
       </item>
       <item>
-        <p>Das Datum ausgeben: <keyseq><key>Orca Zusatztaste</key><key>T</key></keyseq> (Doppelklick)</p>
+        <p>Das Datum ausgeben: <keyseq><key>Orca-Zusatztaste</key><key>T</key></keyseq> (Doppelklick)</p>
       </item>
     </list>
   </section>
@@ -51,13 +57,13 @@
     <p>Orca hat drei nicht zugewiesene Befehle zum Zugriff auf zuvor angezeigte <link xref="howto_notifications">Nachrichten</link>. Lesen Sie bitte <link xref="howto_key_bindings">Tastaturkürzel ändern</link> für weiterführende Informationen, wie Sie diese Befehlen zuweisen können.</p>
     <list>
       <item>
-        <p>Die letzte (neueste) Benachrichtigung anzeigen: (Nicht belegt)</p>
+        <p>Die letzte (neueste) Benachrichtigung anzeigen: (Nicht zugewiesen)</p>
       </item>
       <item>
-        <p>Die vorhergehende Benachrichtigung anzeigen: (Nicht belegt)</p>
+        <p>Die vorhergehende Benachrichtigung anzeigen: (Nicht zugewiesen)</p>
       </item>
       <item>
-        <p>Die Liste aller Benachrichtigungen anzeigen: (Nicht belegt)</p>
+        <p>Die Liste aller Benachrichtigungen anzeigen: (Nicht zugewiesen)</p>
       </item>
     </list>
   </section>

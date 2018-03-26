@@ -6,9 +6,7 @@
     <link type="seealso" xref="howto_live_regions"/>
     <title type="sort">1. Dynamischer Bereich</title>
     <title type="link">Dynamische Bereiche</title>
-    <desc>
-      Commands for accessing web live regions
-    </desc>
+    <desc>Befehle zum Zugriff auf dynamische Bereiche im Internet</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -26,7 +24,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -34,17 +32,21 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Befehle für den dynamischen Bereich</title>
   <p>Die folgenden Befehle können benutzt werden, um einen Zugriff auf dynamisch-aktualisierten Inhalt auf Webseiten zu ermöglichen, die durch ARIA verfügbar gemacht wurden.</p>
   <list>
     <item>
-      <p>Dynamische Bereiche überwachen: <keyseq><key>Orca Zusatztaste</key><key>Umschalttaste</key><key>Rückwärtsschrägstrich</key></keyseq></p>
+      <p>Dynamische Bereiche überwachen: <keyseq><key>Orca-Zusatztaste</key><key>Umschalt</key><key>Rückwärtsschrägstrich</key></keyseq></p>
     </item>
     <item>
-      <p>
-        Advance live region politeness setting: <key>Backslash</key>
-      </p>
+      <p>Höflichkeitsstufe des dynamischen Bereiches erhöhen: <key>Rückwärtsschrägstrich</key></p>
     </item>
     <item>
       <p>Die voreingestellte Höflichkeitsstufe ausschalten: <keyseq><key>Umschalt</key><key>Rückwärtsschrägstrich</key></keyseq></p>
@@ -56,7 +58,7 @@
       <p>Zum letzten dynamischen Bereich springen, der eine Meldung erzeugte: <keyseq><key>Y</key></keyseq></p>
     </item>
     <item>
-      <p>Die Meldungen dynamischer Bereiche erneut betrachten: <keyseq><key>Orca Zusatztaste</key><key>F1</key></keyseq> bis <key>F9</key></p>
+      <p>Die Meldungen dynamischer Bereiche erneut betrachten: <keyseq><key>Orca-Zusatztaste</key><key>F1</key></keyseq> bis <key>F9</key></p>
     </item>
 </list>
 </page>

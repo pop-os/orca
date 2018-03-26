@@ -20,7 +20,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Anders Jonsson</mal:name>
       <mal:email>anders.jonsson@norsjovallen.se</mal:email>
-      <mal:years>2015, 2016, 2017</mal:years>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
     </mal:credit>
   </info>
   <title>Läskommandon</title>
@@ -99,7 +99,7 @@
         </list>
       </item>
       <item>
-        <p>Speak the Unicode value of current character:</p>
+        <p>Läs upp Unicode-värdet för aktuellt tecken:</p>
         <list>
           <item>
             <p>Stationär dator: <keyseq><key>KP 2</key></keyseq> (trippelklickat)</p>
@@ -125,7 +125,7 @@
   </section>
   <section id="attributes_and_selection">
     <title>Textattribut och markerad text</title>
-    <p>Orca har ett speciellt avsett kommando för att erhålla attributen hos texten vid markörpositionen. Om du dessutom använder <app>Orca</app>s ”Var är jag”-kommandon inifrån ett textobjekt där text har markerats så kommer <app>Orca</app> annonsera den markerade texten. Om du istället skulle föredra ett speciellt avsett kommando för detta syfte kan du binda <app>Orca</app>s kommando ”Läs upp markerad text” till en tangenttryckning. Se <link xref="howto_key_bindings">Ändra tangentbindningar</link> för information om hur du kan göra det.</p>
+    <p><app>Orca</app> har ett speciellt avsett kommando för att erhålla attributen hos texten vid markörpositionen. Om du dessutom använder <app>Orca</app>s ”Var är jag”-kommandon inifrån ett textobjekt där text har markerats så kommer <app>Orca</app> annonsera den markerade texten. Om du istället skulle föredra ett speciellt avsett kommando för detta syfte kan du binda <app>Orca</app>s kommando ”Läs upp markerad text” till en tangenttryckning. Se <link xref="howto_key_bindings">Ändra tangentbindningar</link> för information om hur du kan göra det.</p>
     <list>
       <item>
         <p>Presentera textattributen: <keyseq><key>Orca-modifierare</key><key>F</key></keyseq></p>

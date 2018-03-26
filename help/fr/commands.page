@@ -3,7 +3,7 @@
   <info>
     <link type="next" xref="commands_controlling_orca"/>
     <link type="guide" xref="index#quick_reference"/>
-    <title type="sort">4. Commandes <app>d'Orca</app></title>
+    <title type="sort">4. Commandes <app>d’Orca</app></title>
     <title type="link">Commandes</title>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -43,7 +43,7 @@
       <mal:years>2016</mal:years>
     </mal:credit>
   </info>
-  <title>Commandes <app>d'Orca</app></title>
+  <title>Commandes <app>d’Orca</app></title>
   <section id="getting_started" style="2column">
     <title>Premier pas</title>
   </section>
@@ -51,10 +51,10 @@
     <title>Synthèse vocale et braille</title>
   </section>
   <section id="reading_documents" style="2column">
-    <title>Lecture de pages Web ou d'autres documents</title>
+    <title>Lecture de pages Web ou d’autres documents</title>
   </section>
   <section id="reviewing_screen_contents" style="2column">
-    <title>Examen et interaction avec le contenu de l'écran</title>
+    <title>Examen et interaction avec le contenu de l’écran</title>
   </section>
   <section id="accessing_dynamic_information" style="2column">
     <title>Accés aux informations dynamiques</title>

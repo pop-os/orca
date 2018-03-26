@@ -22,7 +22,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,44 +30,34 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Tastaturbelegung</title>
-  <p>
-    Orca has two keyboard layouts: Desktop (i.e. with a numeric keypad) and
-    Laptop. The layout you choose impacts which key is used as the Orca Modifier.
-  </p>
+  <p>Orca kennt zwei Tastaturlayouts: Desktop (mit Nummernblock) und Laptop. Die Wahl des Layouts beeinflusst, welche Taste als Orca-Zusatztaste verwendet wird.</p>
   <list>
     <item>
-      <p>
-        If you are using the Laptop layout, the default Orca Modifier will be
-       <key>CapsLock</key>
-      </p>
+      <p>Falls Sie das Laptop-Layout verwenden, wird die voreingestellte Orca-Zusatztaste die <key>Feststelltaste</key> sein</p>
     </item>
     <item>
-      <p>
-        If you are using the Desktop layout, the Orca Modifier will be both
-        <key>Insert</key> and <key>KeyPad Insert</key>, the latter being the
-        same key as <key>KeyPad 0</key>.
-      </p>
+      <p>Falls Sie das Desktop-Layout verwenden, wird die Orca-Zusatztaste sowohl <key>Einfügen</key> als auch <key>Einf (Nmblck)</key> sein, wobei letztere die gleiche Taste wie <key>0 (Nmblck)</key> ist.</p>
     </item>
   </list>
-  <p>
-    The layout also determines the keystrokes associated with a number of
-    <app>Orca</app>'s commands, especially in the areas of Flat Review,
-    Where Am I, and Say All.
-  </p>
+  <p>Das Layout bestimmt auch die Zuweisung einiger Tastenkürzel zu <app>Orca</app>-Befehlen, inbesondere in der Übersicht, »Wo bin ich« und »Alles vorlesen«.</p>
   <steps>
     <title>Ändern Ihres Tastaturtyps</title>
     <item>
-      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Taste</key><key>Leertaste</key></keyseq> drücken.</p>
+      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq> drücken.</p>
     </item>
     <item>
-      <p>
-        Move to the <gui>Keyboard Layout</gui> group of radio buttons.
-      </p>
+      <p>Bewegen Sie sich zu der <gui>Tastaturlayout</gui>-Gruppe von Auswahlknöpfen.</p>
     </item>
     <item>
-      <p>Pfeil zum gewünschten Layout</p>
+      <p>Bewegen Sie sich zum gewünschten Layout.</p>
     </item>
     <item>
       <p>Klicken Sie auf <gui>Anwenden</gui>.</p>

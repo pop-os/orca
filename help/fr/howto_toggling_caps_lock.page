@@ -3,8 +3,8 @@
   <info>
     <link type="guide" xref="index#getting_started"/>
     <link type="next" xref="howto_key_bindings"/>
-    <title type="sort">7. Verr. maj. pour l'agencement ordinateur portable</title>
-    <desc>Comment activer cette touche quand c'est la <key>Touche de modification d'Orca</key></desc>
+    <title type="sort">7. Verr. maj. pour l’agencement ordinateur portable</title>
+    <desc>Comment activer cette touche quand c’est la <key>Touche de modification d’Orca</key></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -43,12 +43,12 @@
       <mal:years>2016</mal:years>
     </mal:credit>
   </info>
-  <title>Verr. maj. pour l'agencement ordinateur portable</title>
-  <p>Orca dispose de deux agencements de clavier : ordinateur de bureau ou portable. L'agencement que vous choisissez modifie la touche utilisée comme Touche de modification d'Orca. Si vous choisissez l'agencement portable, la Touche de modification d'Orca est la touche <key>Verr. maj.</key>. Si vous utilisez l'agencement portable d'<app>Orca</app> et que vous voulez activer ou désactiver la touche <key>Verr. maj.</key>, vous pouvez le faire en suivant les instructions suivantes :</p>
+  <title>Verr. maj. pour l’agencement ordinateur portable</title>
+  <p>Orca dispose de deux agencements de clavier : ordinateur de bureau ou portable. L’agencement que vous choisissez modifie la touche utilisée comme Touche de modification d’Orca. Si vous choisissez l’agencement portable, la Touche de modification d’Orca est la touche <key>Verr. maj.</key>. Si vous utilisez l’agencement portable d’<app>Orca</app> et que vous voulez activer ou désactiver la touche <key>Verr. maj.</key>, vous pouvez le faire en suivant les instructions suivantes :</p>
   <steps>
-    <title>Utilisation de la touche Verr. maj. avec un agencement d'ordinateur portable</title>
+    <title>Utilisation de la touche Verr. maj. avec un agencement d’ordinateur portable</title>
     <item>
-      <p>Exécutez la commande de contournement <keyseq><key>Touche de modification d'Orca</key><key>Retour arrière</key></keyseq> pour indiquer à <app>Orca</app> que la commande suivante doit être ignorée.</p>
+      <p>Exécutez la commande de contournement <keyseq><key>Touche de modification d’Orca</key><key>Retour arrière</key></keyseq> pour indiquer à <app>Orca</app> que la commande suivante doit être ignorée.</p>
     </item>
     <item>
       <p>Appuyez sur <key>Verr. maj.</key> pour modifier son état de verrouillage.</p>

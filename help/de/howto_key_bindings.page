@@ -4,7 +4,7 @@
     <link type="guide" xref="index#getting_started"/>
     <link type="next" xref="howto_profiles"/>
   <title type="sort">8. Tastenkürzel</title>
-  <desc>Binding, rebinding, and unbinding commands</desc>
+  <desc>Befehle zuweisen, ändern und Befehlszuweisungen aufheben</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -22,7 +22,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,13 +30,19 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Tastenkürzel</title>
   <p>Bei <app>Orca</app> gibt es viele Befehle, von denen einige mit Tastenkombinationen ausgelöst werden können, während andere unbelegt sind. Sie können <app>Orca</app>-Befehle auf folgende Weise zuweisen, verändern und löschen.</p>
   <steps>
     <title>Eine Tastenkombination vergeben</title>
     <item>
-      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Taste</key><key>Leertaste</key></keyseq> drücken.</p>
+      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq> drücken.</p>
     </item>
     <item>
       <p>Wechseln Sie nun zum Reiter <gui>Tastenbelegung</gui>.</p>
@@ -50,7 +56,7 @@
     <item>
       <p>Drücken Sie die gewünschte Tastenkombination.</p></item>
     <item>
-      <p>Drücken Sie <key>eingabe</key>, um die neue Tastenkombination zu bestätigen. Die neue Tastenkombination wird gespeichert und das Kontrollkästchen in der letzten Spalte (<gui>Verändert</gui>) zeigt an, dass die Tastenbelegung geändert wurde.</p>
+      <p>Drücken Sie <key>Eingabe</key>, um die neue Tastenkombination zu bestätigen. Die neue Tastenkombination wird gespeichert und das Kontrollkästchen in der letzten Spalte (<gui>Verändert</gui>) zeigt an, dass die Tastenbelegung geändert wurde.</p>
     </item>
     <item>
       <p>Klicken Sie auf <gui>Anwenden</gui>.</p>
@@ -59,7 +65,7 @@
   <steps>
     <title>Änderung vorhandener Tastenkürzel</title>
     <item>
-      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Taste</key><key>Leertaste</key></keyseq> drücken.</p>
+      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq> drücken.</p>
     </item>
     <item>
       <p>Wechseln Sie nun zum Reiter <gui>Tastenbelegung</gui>.</p>
@@ -71,7 +77,7 @@
         <p>Drücken Sie die gewünschte Tastenkombination.</p>
     </item>
     <item>
-      <p>Drücken Sie <key>eingabe</key>, um die neue Tastenkombination zu bestätigen. Die neue Tastenkombination wird gespeichert und das Kontrollkästchen in der letzten Spalte (<gui>Verändert</gui>) zeigt an, dass die Tastenbelegung geändert wurde.</p>
+      <p>Drücken Sie <key>Eingabe</key>, um die neue Tastenkombination zu bestätigen. Die neue Tastenkombination wird gespeichert und das Kontrollkästchen in der letzten Spalte (<gui>Verändert</gui>) zeigt an, dass die Tastenbelegung geändert wurde.</p>
     </item>
     <item>
       <p>Klicken Sie auf <gui>Anwenden</gui>.</p>
@@ -80,7 +86,7 @@
   <steps>
     <title>Originale Tastenkürzel wiederherstellen</title>
     <item>
-      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Taste</key><key>Leertaste</key></keyseq> drücken.</p>
+      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq> drücken.</p>
     </item>
     <item>
       <p>Wechseln Sie nun zum Reiter <gui>Tastenbelegung</gui>.</p>
@@ -98,7 +104,7 @@
   <steps>
     <title>Zugewiesene Befehle freigeben</title>
     <item>
-      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Taste</key><key>Leertaste</key></keyseq> drücken.</p>
+      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq> drücken.</p>
     </item>
     <item>
       <p>Wechseln Sie nun zum Reiter <gui>Tastenbelegung</gui>.</p>
@@ -107,7 +113,7 @@
       <p>Navigieren sie auf die Zelle, welche die Belegung enthält, die Sie löschen wollen, und drücken Sie <key>Eingabe</key>.</p>
     </item>
     <item>
-      <p>Wenn Sie zur Eingabe der neuen Tastenbelegung aufgefordert werden, drücken Sie <key>Entfernen</key> oder die <key>Rückschritttaste</key>. Ihnen wird mitgeteilt, dass die Tastenbelegung gelöscht wurde.</p>
+      <p>Wenn Sie zur Eingabe der neuen Tastenbelegung aufgefordert werden, drücken Sie <key>Entfernen</key> oder die <key>Rücktaste</key>. Ihnen wird mitgeteilt, dass die Tastenbelegung gelöscht wurde.</p>
     </item>
     <item>
       <p>Drücken Sie zur Bestätigung die <key>Eingabetaste</key>.</p>

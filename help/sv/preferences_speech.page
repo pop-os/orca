@@ -17,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Anders Jonsson</mal:name>
       <mal:email>anders.jonsson@norsjovallen.se</mal:email>
-      <mal:years>2015, 2016, 2017</mal:years>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
     </mal:credit>
   </info>
   <title>Uppläsningsinställningar</title>
@@ -37,13 +37,7 @@
     <p>Standardvärde: <gui>Flesta</gui></p>
     <section id="punctuation_level_none">
       <title>Inget</title>
-      <p>
-        Choosing a punctuation level of <gui>None</gui> would, as you expect,
-        cause no punctuation to be spoken. Note, however, that special symbols
-        such as subscripted and superscripted numbers, Unicode fractions, and
-        bullets are still spoken at this level, even though some might consider
-        these types of symbols punctuation.
-      </p>
+      <p>Att välja skiljeteckensnivån <gui>Inget</gui> orsakar, som du förväntar dig, att inget skiljetecken läses upp. Notera dock att specialsymboler som upphöjda och nedsänkta siffror, bråktal i Unicode samt listpunkter fortfarande läses upp på denna nivå, även om vissa skulle kunna anse dessa typer av symboler vara skiljetecken.</p>
     </section>
     <section id="punctuation_level_some">
       <title>Vissa</title>
@@ -66,10 +60,7 @@
       <p>Att kryssa i den här kryssrutan får <app>Orca</app> att bara läsa upp text som faktiskt visas på skärmen. Detta alternativ är tänkt främst för användare med nedsatt syn och användare med visuella inlärningssvårigheter.</p>
       <p>Standardvärde: inte ikryssad</p>
       <note style="note">
-        <p>
-          The following items will not be available for configuration if
-          the <gui>Only speak displayed text</gui> checkbox is checked.
-        </p>
+        <p>Följande poster kommer inte finnas tillgängliga för konfiguration om kryssrutan <gui>Läs endast upp visad text</gui> är ikryssad.</p>
       </note>
     </section>
     <section id="speak_blank_lines">
@@ -84,7 +75,7 @@
     </section>
     <section id="speak_misspelled_word_indicator">
       <title>Läs upp indikator för felstavade ord</title>
-      <p>Indikatorn för felstavade ord är den röda vågiga linjen som visas under felstavade ord i redigerbara textrutor. Om <gui>Läs upp indikator för felstavade ord</gui> är ikryssad kommer orca läsa upp ”felstavat” när du navigerar till ett ord med denna indikator, eller då du stavar ett ord fel så att indikatorn dyker upp.</p>
+      <p>Indikatorn för felstavade ord är den röda vågiga linjen som visas under felstavade ord i redigerbara textrutor. Om <gui>Läs upp indikator för felstavade ord</gui> är ikryssad kommer <app>Orca</app> läsa upp ”felstavat” när du navigerar till ett ord med denna indikator, eller då du stavar ett ord fel så att indikatorn dyker upp.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
     <section id="mnemonics">

@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#getting_started"/>
     <link type="next" xref="howto_learn_modes"/>
-    <title type="sort">4. La touche de modification d'Orca</title>
+    <title type="sort">4. La touche de modification d’Orca</title>
     <desc>Une touche qui fonctionne comme <key>Maj</key>, <key>Ctrl</key> et <key>Alt</key></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -43,28 +43,28 @@
       <mal:years>2016</mal:years>
     </mal:credit>
   </info>
-  <title>La touche de modification d'Orca</title>
-  <p>Orca dispose d'une touche de modification spéciale qui fonctionne comme <key>Maj</key>, <key>Ctrl</key> et <key>Alt</key>. Elle est conçue spécialement pour exécuter des commandes d'<app>Orca</app> sans introduire de conflits avec l'application que vous utilisez.</p>
-  <p>Selon que vous utilisez un agencement de clavier portable ou un agencement de bureau d'<app>Orca</app>, la « Touche de modification d'Orca » sera :</p>
+  <title>La touche de modification d’Orca</title>
+  <p>Orca dispose d’une touche de modification spéciale qui fonctionne comme <key>Maj</key>, <key>Ctrl</key> et <key>Alt</key>. Elle est conçue spécialement pour exécuter des commandes d’<app>Orca</app> sans introduire de conflits avec l’application que vous utilisez.</p>
+  <p>Selon que vous utilisez un agencement de clavier portable ou un agencement de bureau d’<app>Orca</app>, la « Touche de modification d’Orca » sera :</p>
   <list>
     <item>
-      <p>Si vous utilisez l'agencement ordinateur portable, la touche de modification d'Orca par défaut est <key>Verr. maj.</key></p>
+      <p>Si vous utilisez l’agencement ordinateur portable, la touche de modification d’Orca par défaut est <key>Verr. maj.</key></p>
     </item>
     <item>
-      <p>Si vous utilisez l'agencement ordinateur de bureau, les Touches de modifications d'Orca par défaut sont à la fois les touches <key>Inser</key> et <key>Inser du pavé numérique</key>, cette dernière étant la même touche que le <key>0 du pavé numérique</key>.</p>
+      <p>Si vous utilisez l’agencement ordinateur de bureau, les Touches de modifications d’Orca par défaut sont à la fois les touches <key>Inser</key> et <key>Inser du pavé numérique</key>, cette dernière étant la même touche que le <key>0 du pavé numérique</key>.</p>
     </item>
   </list>
   <p>Si vous souhaitez conserver votre agencement de clavier actuel et sélectionner une autre touche de modification, vous pouvez le faire en suivant les étapes ci-dessous :</p>
   <steps>
-    <title>Modification du Touche de modification d'Orca</title>
+    <title>Modification du Touche de modification d’Orca</title>
     <item>
-      <p>Appuyez sur <keyseq><key>Touche de modification d'Orca</key><key>Barre d'espace</key></keyseq> pour accéder à la boîte de dialogue <link xref="preferences">Préférences d'Orca</link>.</p>
+      <p>Appuyez sur <keyseq><key>Touche de modification d’Orca</key><key>Barre d’espace</key></keyseq> pour accéder à la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
     </item>
     <item>
-      <p>Allez dans l'onglet <gui>Raccourcis clavier</gui>.</p>
+      <p>Allez dans l’onglet <gui>Raccourcis clavier</gui>.</p>
     </item>
     <item>
-      <p>Allez dans la liste déroulante <gui>Touche(s) de modification du lecteur d'écran</gui>.</p>
+      <p>Allez dans la liste déroulante <gui>Touche(s) de modification du lecteur d’écran</gui>.</p>
     </item>
     <item>
       <p>Déplacez-vous sur la touche de modification souhaitée. Les options disponibles sont :</p>

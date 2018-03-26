@@ -85,11 +85,7 @@
   <section id="table_options">
     <title>Opciones de tabla</title>
     <note>
-      <p>
-        To learn more about <app>Orca</app>'s options for navigating within
-        tables, please see <link xref="preferences_table_navigation">Table
-	Navigation Preferences</link>.
-      </p>
+      <p>Para aprender más sobre las opciones de <app>Orca</app> para navegar por tablas, consulta las <link xref="preferences_table_navigation">Preferencias de navegación por tablas</link>.</p>
     </note>
   </section>
   <section id="find_options">
@@ -107,13 +103,7 @@
     </section>
     <section id="find_options_minimum_match_length">
       <title>Longitud mínima del texto coincidente</title>
-      <p>
-        This editable spin button is where you can specify the number of
-        characters which much match before <app>Orca</app> announces the
-        matching line. This option is also designed to prevent "chattiness"
-        as there are many matches when you first begin typing the string
-        for which you are searching.
-      </p>
+      <p>Este botón contador editable es donde puede especificar el número de caracteres que deben coincidir al menos antes que <app>Orca</app> anuncie la línea coincidente. Esta opción también está diseñada para prevenir «ruido» ya que al principio cuando comienza a teclear la cadena de búsqueda hay muchas coincidencias.</p>
       <p>Valor predeterminado: 4</p>
     </section>
   </section>

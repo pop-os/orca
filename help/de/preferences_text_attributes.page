@@ -24,13 +24,19 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Sascha Manns</mal:name>
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
     </mal:credit>
   </info>
   <title>Einstellungen für Textattribute</title>
@@ -43,14 +49,10 @@
         <p><gui>Attributname</gui>: Der Name des Textattributs.</p>
       </item>
       <item>
-        <p>
-          <gui>Speak</gui>: Check this checkbox if you would like
-          <app>Orca</app> to speak this attribute when you press
-          <keyseq><key>Orca Modifier</key><key>F</key></keyseq>.
-        </p>
+        <p><gui>Vorlesen</gui>: Wählen Sie dieses Ankreuzfeld aus, wenn <app>Orca</app> dieses Attribut bei Drücken von <keyseq><key>Orca-Zusatztaste</key><key>F</key></keyseq> vorlesen soll.</p>
       </item>
       <item>
-        <p><gui>Markierung in Braille</gui>: Wählen Sie dieses Ankreuzfeld aus, wenn <app>Orca</app> dieses Attribut in der Braille-Anzeige unterstreichen soll.</p>
+        <p><gui>Markierung in Braille</gui>: Wählen Sie dieses Ankreuzfeld aus, wenn <app>Orca</app> dieses Attribut in der Braillezeile unterstreichen soll.</p>
       </item>
       <item>
         <p><gui>Darstellen außer</gui>: Dieses editierbare Feld ermöglicht es Ihnen anzugeben, wann ein aktiviertes Attribut zu ignorieren ist.</p>
@@ -82,11 +84,7 @@
   </section>
   <section id="braille_indicator">
     <title>Optionen zur Konfiguration der Unterstreichung von Formatierungen im Braille</title>
-    <p>
-        Beneath the push buttons is the <gui>Braille Indicator</gui> group
-        of radio buttons. Here you can select the cell or cells to be used
-        to indicate text which has at least one of the specified attributes.
-    </p>
+    <p>Unterhalb der Knöpfe befindet sich eine Gruppe an Auswahlknöpfen für den <gui>Braille-Indikator</gui>. Hier können Sie die Zelle oder Zellen angeben, die zur Anzeige von Text verwendet werden sollen, der mindestens eines der angegebenen Attribute besitzt.</p>
     <list>
       <item>
         <p><gui>Keine</gui>: Keine Textattribute im Braille unterstreichen (Voreinstellung)</p>
@@ -98,7 +96,7 @@
         <p><gui>Punkt 8</gui>: Textattribute nur mit Punkt 8 unterstreichen</p>
       </item>
       <item>
-        <p><gui>Punkte 7 und 8</gui>: Textattribute nur mit jeweils Punkt 7 und 8 unterstreichen</p>
+        <p><gui>Punkte 7 und 8</gui>: Textattribute mit jeweils Punkt 7 und 8 unterstreichen</p>
       </item>
     </list>
   </section>

@@ -22,7 +22,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,43 +30,31 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Ausfüllen von Formularen</title>
-  <p>
-    When interacting with web pages and other documents using <app>Orca</app>,
-    you are interacting with the document itself; not a buffered copy of that
-    document. <app>Orca</app>'s browse and focus modes let you switch between
-    reading and filling out forms.
-  </p>
+  <p>Wenn Sie mit Webseiten und anderen Dokumenten mittels <app>Orca</app> interagieren, interagieren Sie mit dem Dokument selbst; keiner gepufferten Kopie davon. <app>Orca</app>s Stöbern und Fokussieren-Modus lässt Sie zwischen dem Lesen und Ausfüllen von Dokumenten wechseln.</p>
   <section id="navigating_amongst_form_fields">
     <title>So navigieren Sie in Formularen</title>
-    <p>
-      To navigate amongst form fields, you have several options:
-    </p>
+    <p>Um sich zwischen Formularfeldern zu bewegen, haben Sie folgende Möglichkeiten:</p>
     <list>
       <item>
         <p>Verwenden Sie die <key>Tabulatortaste</key> und <keyseq><key>Umschalt</key><key>Tabulator</key></keyseq>, um zwischen fokussierbaren Objekten beliebigen Typs zu navigieren.</p>
       </item>
       <item>
-        <p>
-          Use <app>Orca</app>'s <link xref="commands_structural_navigation#forms">
-          structural navigation commands for forms</link>.
-        </p>
+        <p>Verwenden Sie <app>Orca</app>s <link xref="commands_structural_navigation#forms">Strukturennavigation-Befehle für Formulare</link>.</p>
       </item>
       <item>
-        <p>
-          Depending on the form and the application, you may also be
-          able to use the arrow keys to navigate to a given form field.
-        </p>
+        <p>Abhängig vom Formular und der Anwendung können Sie möglicherweise auch die Pfeiltasten benutzen, um ein Formularfeld anzusteuern.</p>
       </item>
    </list>
    <note style="tip">
-     <p>
-       In order to use <app>Orca</app>'s caret navigation or structural navigation
-       commands to navigate to a form field, you must be in browse mode. If you are
-       in focus mode, you can switch to browse mode by pressing <keyseq><key>Orca
-       Modifier</key><key>A</key></keyseq>.
-     </p>
+     <p>Damit Sie <app>Orca</app>-Befehle für die Caret- oder Strukturennavigation verwenden können, um ein Formularfeld anzusteuern, müssen Sie sich im Stöbern-Modus befinden. Falls Sie sich im Fokussieren-Modus befinden, können Sie in den Stöbern-Modus wechseln, indem Sie <keyseq><key>Orca-Zusatztaste</key><key>A</key></keyseq> drücken.</p>
    </note>
   </section>
   <section id="exiting_form_fields">
@@ -77,26 +65,14 @@
         <p>Verwenden Sie <key>Tabulatortaste</key>/<keyseq><key>Umschalt</key><key>Tabulator</key></keyseq>, um das derzeit fokussierte Eingabefeld zu verlassen und zum nächsten/vorhergehenden fokussierbaren Objekt beliebigen Typs zu navigieren.</p>
       </item>
       <item>
-        <p>
-          Use <app>Orca</app>'s <link xref="commands_structural_navigation#forms">
-          structural navigation commands for forms</link> to move to the next or
-          previous form field.
-        </p>
+        <p>Verwenden Sie <app>Orca</app>s <link xref="commands_structural_navigation#forms">Strukturennavigation-Befehle für Formulare</link>, um sich zum nächsten oder vorhergehenden Formularfeld zu bewegen.</p>
       </item>
       <item>
-        <p>
-          Depending on the form and the application, you may also be
-          able to use the arrow keys to navigate out of a given form field.
-        </p>
+        <p>Abhängig vom Formular und der Anwendung können Sie möglicherweise auch die Pfeiltasten benutzen, um ein Formularfeld zu verlassen.</p>
       </item>
     </list>
    <note style="tip">
-     <p>
-       In order to use <app>Orca</app>'s caret navigation or structural navigation
-       commands to exit a form field, you must be in browse mode. If you are in
-       focus mode, you can switch to browse mode by pressing <keyseq><key>Orca
-       Modifier</key><key>A</key></keyseq>.
-     </p>
+     <p>Damit Sie <app>Orca</app>-Befehle für die Caret- oder Strukturennavigation verwenden können, um ein Formularfeld zu verlassen, müssen Sie sich im Stöbern-Modus befinden. Falls Sie sich im Fokussieren-Modus befinden, können Sie in den Stöbern-Modus wechseln, indem Sie <keyseq><key>Orca-Zusatztaste</key><key>A</key></keyseq> drücken.</p>
    </note>
   </section>
 </page>

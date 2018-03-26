@@ -46,55 +46,51 @@
     </mal:credit>
   </info>
   <title>Préférence des attributs de texte</title>
-  <p>Le terme « attributs de texte » se rapporte à la police, au style, à l'alignement et aux autres types de mise en forme associés à un caractère ou à une série de caractères. L'onglet <gui>Attributs de texte</gui> d'<app>Orca</app> vous permet de personnaliser les attributs de texte lus par <app>Orca</app>, ainsi que l'ordre de la lecture, et ceux qui sont indiqués en braille.</p>
+  <p>Le terme « attributs de texte » se rapporte à la police, au style, à l’alignement et aux autres types de mise en forme associés à un caractère ou à une série de caractères. L’onglet <gui>Attributs de texte</gui> d’<app>Orca</app> vous permet de personnaliser les attributs de texte lus par <app>Orca</app>, ainsi que l’ordre de la lecture, et ceux qui sont indiqués en braille.</p>
   <section id="table">
     <title>Tableau des attributs de texte</title>
-    <p>Le tableau des attributs de texte est l'emplacement où vous spécifiez les attributs qui sont prononcés ou pas et dans quelles conditions. Chaque ligne est constituée de quatre colonnes.</p>
+    <p>Le tableau des attributs de texte est l’emplacement où vous spécifiez les attributs qui sont prononcés ou pas et dans quelles conditions. Chaque ligne est constituée de quatre colonnes.</p>
     <list>
       <item>
-        <p><gui>Nom d'attribut</gui> : le nom de l'attribut de texte.</p>
+        <p><gui>Nom d’attribut</gui> : le nom de l’attribut de texte.</p>
       </item>
       <item>
-        <p>
-          <gui>Speak</gui>: Check this checkbox if you would like
-          <app>Orca</app> to speak this attribute when you press
-          <keyseq><key>Orca Modifier</key><key>F</key></keyseq>.
-        </p>
+        <p><gui>À lire</gui> : cochez cette case si vous souhaitez que <app>Orca</app> prononce cet attribut quand vous appuyez sur <keyseq><key>Touche de modification d’Orca</key><key>F</key></keyseq>.</p>
       </item>
       <item>
-        <p><gui>Marquer en braille</gui> : cochez cette case si vous souhaitez que <app>Orca</app> « souligne » cet attribut sur l'afficheur braille.</p>
+        <p><gui>Marquer en braille</gui> : cochez cette case si vous souhaitez que <app>Orca</app> « souligne » cet attribut sur l’afficheur braille.</p>
       </item>
       <item>
         <p><gui>Prononcé sauf si</gui> : ce champ modifiable vous permet de spécifier quand un attribut activé est sans intérêt.</p>
-        <p>Par exemple, l'attribut de texte « soulignement » possède la valeur « aucun » par défaut. Dans ce cas <app>Orca</app> vous informe de cet attribut de texte uniquement si celui-ci est réellement souligné. Si vous souhaitez que cet attribut soit lu, que le texte soit souligné ou pas, la colonne <gui>Prononcé sauf si</gui> doit être vide pour l'attribut soulignement. De plus, vérifiez que la colonne <app>À lire</app> pour le soulignement est bien cochée.</p>
+        <p>Par exemple, l’attribut de texte « soulignement » possède la valeur « aucun » par défaut. Dans ce cas <app>Orca</app> vous informe de cet attribut de texte uniquement si celui-ci est réellement souligné. Si vous souhaitez que cet attribut soit lu, que le texte soit souligné ou pas, la colonne <gui>Prononcé sauf si</gui> doit être vide pour l’attribut soulignement. De plus, vérifiez que la colonne <gui>À lire</gui> pour le soulignement est bien cochée.</p>
       </item>
     </list>
   </section>
   <section id="reset">
      <title>Annulation des modifications</title>
-     <p>Sous la liste des attributs de texte, il y a un bouton Réinitialiser (<keyseq><key>Alt</key><key>R</key></keyseq>) qui restaure les valeurs du tableau à celles qui étaient en place à l'ouverture de la boîte de dialogue.</p>
+     <p>Sous la liste des attributs de texte, il y a un bouton Réinitialiser (<keyseq><key>Alt</key><key>R</key></keyseq>) qui restaure les valeurs du tableau à celles qui étaient en place à l’ouverture de la boîte de dialogue.</p>
   </section>
   <section id="rearranging">
-     <title>Changement de l'ordre de lecture</title>
-     <p>Quand vous affichez l'onglet des attributs de texte la première fois, tous les attributs activés sont placés en haut du tableau dans l'ordre de la lecture. Quatre boutons peuvent être utilisés pour modifier l'ordre de lecture.</p>
+     <title>Changement de l’ordre de lecture</title>
+     <p>Quand vous affichez l’onglet des attributs de texte la première fois, tous les attributs activés sont placés en haut du tableau dans l’ordre de la lecture. Quatre boutons peuvent être utilisés pour modifier l’ordre de lecture.</p>
     <list>
       <item>
-        <p><gui>Déplacer tout en haut</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>) : déplace l'attribut sélectionné en tête de liste.</p>
+        <p><gui>Déplacer tout en haut</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>) : déplace l’attribut sélectionné en tête de liste.</p>
       </item>
       <item>
-        <p><gui>Déplacer vers le haut</gui> (<keyseq><key>Alt</key><key>H</key></keyseq>) : monte l'attribut sélectionné d'une ligne.</p>
+        <p><gui>Déplacer vers le haut</gui> (<keyseq><key>Alt</key><key>H</key></keyseq>) : monte l’attribut sélectionné d’une ligne.</p>
       </item>
       <item>
-        <p><gui>Déplacer vers le bas</gui> (<keyseq><key>Alt</key><key>B</key></keyseq>) : descend l'attribut sélectionné d'une ligne.</p>
+        <p><gui>Déplacer vers le bas</gui> (<keyseq><key>Alt</key><key>B</key></keyseq>) : descend l’attribut sélectionné d’une ligne.</p>
       </item>
       <item>
-        <p><gui>Déplacer tout en bas</gui> (<keyseq><key>Alt</key><key>S</key></keyseq>) : déplace l'attribut sélectionné en bas de la liste.</p>
+        <p><gui>Déplacer tout en bas</gui> (<keyseq><key>Alt</key><key>S</key></keyseq>) : déplace l’attribut sélectionné en bas de la liste.</p>
       </item>
     </list>
   </section>
   <section id="braille_indicator">
     <title>Option de configuration du format « Soulignement » en braille</title>
-    <p>En dessous des boutons de déplacement, se trouve le groupement de boutons radio « Indicateur de braille ». Vous pouvez sélectionner ici la ou les cellules à utiliser pour indiquer si le texte possède l'un des attributs spécifiés.</p>
+    <p>En dessous des boutons de déplacement se trouve le groupement de boutons radio <gui>Indicateur de braille</gui>. Vous pouvez sélectionner ici la ou les cellules à utiliser pour indiquer si le texte possède l’un des attributs spécifiés.</p>
     <list>
       <item>
         <p><gui>Aucun</gui> : ne souligne pas les attributs de texte en braille (par défaut)</p>

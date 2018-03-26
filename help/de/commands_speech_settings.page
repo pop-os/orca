@@ -24,7 +24,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -32,54 +32,57 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Befehle zu den Spracheinstellungen</title>
   <p>Die folgenden Befehle können zur Anpassung von <app>Orcas</app> Sprachausgabe verwendet werden. Sie werden bemerken, dass einige Befehle nicht zugewiesen sind. Lesen Sie <link xref="howto_key_bindings">Tastaturkürzel anpassen</link>, um mehr über die Zuweisung von Tastenkürzeln zu erfahren.</p>
   <list>
     <item>
-      <p>Sprachausgabe ein-/ausschalten: <keyseq><key>Orca Zusatztaste</key><key>S</key></keyseq></p>
+      <p>Sprachausgabe ein-/ausschalten: <keyseq><key>Orca-Zusatztaste</key><key>S</key></keyseq></p>
     </item>
     <item>
-      <p>Umschalten zwischen zellen- und zeilenweisem Vorlesen in einer Tabelle: <keyseq><key>Orca Zusatztaste</key><key>F11</key></keyseq></p>
+      <p>Umschalten zwischen zellen- und zeilenweisem Vorlesen in einer Tabelle: <keyseq><key>Orca-Zusatztaste</key><key>F11</key></keyseq></p>
     </item>
     <item>
-      <p>
-        Toggle between verbose and brief verbosity levels:
-        <keyseq><key>Orca Modifier</key><key>V</key></keyseq>
-      </p>
+      <p>Umschalten der Ausführlichkeitsstufe zwischen gesprächig und kurz: <keyseq><key>Orca-Zusatztaste</key><key>V</key></keyseq></p>
     </item>
     <item>
       <p>Sprachausgabe der Einrückungen und Textausrichtungen ein/ausschalten: (Nicht zugewiesen)</p>
     </item>
     <item>
-      <p>Ändern des Stils der sprachlichen Nummernausgabe: (Nicht zugewiesen)</p>
+      <p>Die Art und Weise ändern, wie Zahlen vorgelesen werden: (Nicht zugewiesen)</p>
     </item>
     <item>
-      <p>Cycle to the next spoken punctuation level: (Unbound)</p>
+      <p>Zur nächsten Stufe der Sonderzeichenansage wechseln: (Nicht zugewiesen)</p>
     </item>
     <item>
-      <p>Cycle to the next key echo level: (Unbound)</p>
+      <p>Zur nächsten Stufe des Tastaturechos wechseln: (Nicht zugewiesen)</p>
     </item>
     <item>
-      <p>Cycle to the next capitalization style: (Unbound)</p>
+      <p>Zum nächsten Großschreibungsstil wechseln: (Nicht zugewiesen)</p>
     </item>
     <item>
-      <p>Rate senken: (Nicht zugewiesen)</p>
+      <p>Sprechtempo verlangsamen: (Nicht zugewiesen)</p>
     </item>
     <item>
-      <p>Rate erhöhen: (Nicht zugewiesen)</p>
+      <p>Sprechtempo erhöhen: (Nicht zugewiesen)</p>
     </item>
     <item>
-      <p>Tonhöhe senken: (Nicht zugewiesen)</p>
+      <p>Stimmhöhe verringern: (Nicht zugewiesen)</p>
     </item>
     <item>
-      <p>Tonhöhe heben: (Nicht zugewiesen)</p>
+      <p>Stimmhöhe erhöhen: (Nicht zugewiesen)</p>
     </item>
     <item>
-      <p>Die Lautstärke senken: (Nicht belegt)</p>
+      <p>Sprachlautstärke verringern: (Nicht zugewiesen)</p>
     </item>
     <item>
-      <p>Die Lautstärke erhöhen: (Nicht belegt)</p>
+      <p>Sprachlautstärke erhöhen: (Nicht zugewiesen)</p>
     </item>
   </list>
 </page>

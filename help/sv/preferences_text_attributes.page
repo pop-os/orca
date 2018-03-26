@@ -18,7 +18,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Anders Jonsson</mal:name>
       <mal:email>anders.jonsson@norsjovallen.se</mal:email>
-      <mal:years>2015, 2016, 2017</mal:years>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
     </mal:credit>
   </info>
   <title>Inställningar för textattribut</title>
@@ -31,11 +31,7 @@
         <p><gui>Attributnamn</gui>: Namnet på textattributet.</p>
       </item>
       <item>
-        <p>
-          <gui>Speak</gui>: Check this checkbox if you would like
-          <app>Orca</app> to speak this attribute when you press
-          <keyseq><key>Orca Modifier</key><key>F</key></keyseq>.
-        </p>
+        <p><gui>Läs upp</gui>: Kryssa i denna kryssruta om du vill att <app>Orca</app> ska läsa upp detta attribut när du trycker <keyseq><key>Orca-modifierare</key><key>F</key></keyseq>.</p>
       </item>
       <item>
         <p><gui>Markera i punktskrift</gui>: Kryssa i denna kryssruta om du vill att <app>Orca</app> ska ”stryka under” detta attribut på din punktskriftskärm.</p>

@@ -22,7 +22,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,55 +30,25 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Textattribute</title>
   <p>Der Begriff »Textattribute« bezieht sich auf alle Formatierungen von Schrift, Stil, Anordnung und andere im Bezug auf einen Buchstaben oder eine Gruppe von Buchstaben.</p>
   <section id="obtaining">
     <title>Formatierungsinformationen erhalten</title>
-    <p>
-      When you press <keyseq><key>Orca Modifier</key><key>F</key>
-      </keyseq>, <app>Orca</app> will speak known text attribute
-      information about an object. In addition, <app>Orca</app> 
-      will optionally indicate text attributes in braille by
-      "underlining" them as you navigate a document.
-    </p>
-    <p>
-      Because the number of text attributes is large, and not everyone cares
-      about every attribute, the <link xref="preferences_text_attributes">
-      Text Attributes page of the preferences dialog</link> allows you to
-      customize which text attributes <app>Orca</app> will present in speech,
-      along with the order in which they should be presented, and which ones
-      <app>Orca</app> will indicate in braille.
-    </p>
-    <p>
-      Because the <link xref="preferences_text_attributes">Text Attributes
-      page</link> is also part of the application-specific settings, you can
-      customize text attribute presentation on an as-needed basis for each
-      application you use.
-    </p>
+    <p>Wenn Sie <keyseq><key>Orca-Zusatztaste</key><key>F</key></keyseq> drücken, liest <app>Orca</app> bekannte Textattribut-Informationen zu einem Objekt vor. Zusätzlich deutet <app>Orca</app> optional auf Textattribute in Braille hin, indem es sie »understreicht«, während Sie durch ein Dokument navigieren.</p>
+    <p>Da die Anzahl an Textattributen groß ist und nicht jedermann an allen Attributen interessiert ist, erlaubt Ihnen der Dialog <link xref="preferences_text_attributes">Einstellungen für Textattribute</link> zu konfigurieren, welche Textattribute <app>Orca</app> vorlesen wird, in welcher Reihenfolge sie vorgelesen werden und auf welche <app>Orca</app> in Braille hinweisen wird.</p>
+    <p>Da die Seite <link xref="preferences_text_attributes">Einstellungen für Textattribute</link> auch Teil der anwendungsbezogenen Einstellungen ist, können Sie Präsentation von Textattributen für jede Anwendung wie gewünscht anpassen.</p>
   </section>
   <section id="identifying_misspelled_words">
     <title>Identifizierung falsch geschriebener Wörter</title>
-    <p>
-      Most applications and toolkits indicate that a word is misspelled by
-      underlining that word with a red, squiggly line. The presence of this line
-      is typically exposed to assistive technologies as a text attribute. As a
-      result, you will find spelling errors amongst the text attributes you can
-      choose. By default, the spelling error attribute is enabled for both
-      speech and braille and will therefore be presented along with any other
-      attributes whose indication you have enabled.
-    </p>
-    <p>
-      In addition to accessing the presence of spelling errors as a text
-      attribute, if you have key echo and/or word echo enabled and type a
-      word which is misspelled, when the spelling error indication appears,
-      <app>Orca</app> will announce "misspelled" so that you can immediately go
-      back and correct the error.
-    </p>
-    <p>
-      Finally, when you are navigating within a document and the caret moves
-      into a word which is misspelled, <app>Orca</app> will announce the
-      presence of the spelling error.
-    </p>
+    <p>Die meisten Anwendungen und Grafikbibliotheken weisen auf ein falsch geschriebenes Wort hin, indem sie es mit einer roten Linie unterschlängeln. Die Anwesenheit dieser Linie wird Hilfstechnologien für gewöhnlich als ein Textattribut angezeigt. Daher finden Sie Rechtschreibfehler unter den auswählbaren Textattributen. In der Voreinstellung ist das Attribut für Rechtschreibfehler sowohl für Sprache als auch Braille aktiviert und wird daher gemeinsam mit allen anderen aktivierten Attributen präsentiert.</p>
+    <p>Zusätzlich zum Auslesen vorhandener Rechtschreibfehler durch ein Textattribut wird <app>Orca</app>, falls Sie Tastatur- und/oder Wortecho aktiviert und ein Wort falsch geschrieben haben, »falsch geschrieben« vorlesen, damit Sie unmittelbar zurückgehen und den Fehler korrigieren können.</p>
+    <p>Schließlich wird <app>Orca</app>, wenn Sie in einem Dokument navigieren und sich der Textcursor auf ein falsch geschriebenes Wort bewegt, die Anwesenheit des Rechtschreibfehlers ankündigen.</p>
   </section>
 </page>

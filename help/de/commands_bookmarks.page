@@ -24,7 +24,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -32,27 +32,30 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Befehle für Lesezeichen</title>
   <p><app>Orca</app> bietet mehrere Möglichkeiten, ein Lesezeichen für ein Objekt anzulegen, damit später zu diesem navigiert werden kann.</p>
   <list>
     <item>
-      <p>Lesezeichen für die nummerierte Position setzen: <keyseq><key>Orca-Taste</key><key>Alt</key><key>1</key></keyseq>-<key>6</key></p>
+      <p>Lesezeichen für die nummerierte Position setzen: <keyseq><key>Orca-Zusatztaste</key><key>Alt</key><key>1</key></keyseq>-<key>6</key></p>
     </item>
     <item>
-      <p>Definierte Lesezeichen für Anwendung oder Seite speichern: <keyseq><key>Orca-Taste</key><key>Alt</key><key>B</key></keyseq></p>
+      <p>Definierte Lesezeichen für Anwendung oder Seite speichern: <keyseq><key>Orca-Zusatztaste</key><key>Alt</key><key>B</key></keyseq></p>
     </item>
     <item>
-      <p>Zu einem bestimmten, nummerierten Lesezeichen springen: <keyseq><key>Orca-Taste</key> <key>1</key></keyseq>-<key>6</key></p>
+      <p>Zu einem bestimmten, nummerierten Lesezeichen springen: <keyseq><key>Orca-Zusatztaste</key> <key>1</key></keyseq>-<key>6</key></p>
     </item>
     <item>
-      <p>Zum vorherigen Lesezeichen für diese Anwendung oder Seite springen: <keyseq><key>Orca-Taste</key><key>Umschalt</key><key>B</key> </keyseq></p>
+      <p>Zum vorherigen Lesezeichen für diese Anwendung oder Seite springen: <keyseq><key>Orca-Zusatztaste</key><key>Umschalt</key><key>B</key> </keyseq></p>
     </item>
     <item>
-      <p>
-        Go to the next bookmark for the application or page:
-        <keyseq><key>Orca Modifier</key><key>B</key></keyseq>
-      </p>
+      <p>Zum nächsten Lesezeichen für diese Anwendung oder Seite springen: <keyseq><key>Orca-Zusatztaste</key><key>B</key></keyseq></p>
     </item>
   </list>
 </page>

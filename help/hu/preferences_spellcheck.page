@@ -4,9 +4,7 @@
     <link type="guide" xref="preferences#application"/>
     <title type="sort">4. Helyesírás-ellenőrzés</title>
     <title type="link">Helyesírás-ellenőrzés</title>
-    <desc>
-      Configuring <app>Orca</app>'s support for Spell Check
-    </desc>
+    <desc>Az <app>Orka</app> helyesírás-ellenőrzés támogatásának konfigurálása</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>

@@ -23,7 +23,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -31,37 +31,27 @@
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
+    </mal:credit>
   </info>
   <title>Einstellungen für Aussprache</title>
-  <p>
-    Sometimes your speech synthesizer just doesn't say the right thing
-    for a given string. You might prefer to hear "laughing out loud"
-    rather than "LOL," or "accessibility" rather than "a11y". Or there
-    may be a name or a technical term which the synthesizer mispronounces.
-  </p>
-  <p>
-     The <gui>Pronunciation</gui> page of the <app>Orca</app> preferences
-     dialog allows you to add, edit, and delete entries in <app>Orca</app>'s
-     pronunciation dictionary.
-  </p>
-  <p>
-    Because the <gui>Pronunciation</gui> page is also part of the
-    application-specific settings, you can customize your entries on an
-    as-needed basis for each application you use.
-  </p>
+  <p>Manchmal sagt der Sprachsynthesizer einfach nicht das Richtige für einen Ausdruck. Sie könnten bevorzugen, »Lacht laut auf« statt »LOL« zu hören, oder »Barrierefreiheit« statt »a11y«. Oder der Synthesizer könnte einen Namen oder technischen Ausdruck falsch aussprechen.</p>
+  <p>Die <gui>Aussprache</gui>-Seite im Einstellungsdialog von <app>Orca</app> erlaubt Ihnen das Hinzufügen, Bearbeiten und Löschen von Einträgen in <app>Orca</app>s Aussprachewörterbuch.</p>
+  <p>Da die <gui>Aussprache</gui>-Seite auch Teil der anwendungsbezogenen Einstellungen ist, können Sie Ihre Einträge auch nach Bedarf für jede von Ihnen genutzte Anwendung anpassen.</p>
   <steps>
     <title>Hinzufügen eines neuen Eintrags zum Wörterbuch</title>
     <item>
-      <p>Drücken Sie den Knopf »Neuer Eintrag« (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
+      <p>Klicken Sie den Knopf »Neuer Eintrag« (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
     </item>
     <item>
       <p>Geben Sie Text des neuen Eintrags ein und beenden Sie Ihre Eingabe mit der <key>Eingabetaste</key>.</p>
     </item>
     <item>
-      <p>
-        Move to the <gui>Replacement String</gui> column and press <key>Return
-        </key> to begin editing.
-      </p>
+      <p>Navigieren Sie zur Spalte <gui>Ersatzausdruck</gui> und drücken Sie die <key>Eingabetaste</key>, um mit der Bearbeitung anzufangen.</p>
     </item>
     <item>
       <p>Geben Sie den stattdessen zu sprechenden Text ein und beenden Sie Ihre Eingabe mit der <key>Eingabetaste</key>.</p>

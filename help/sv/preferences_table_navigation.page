@@ -19,16 +19,11 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Anders Jonsson</mal:name>
       <mal:email>anders.jonsson@norsjovallen.se</mal:email>
-      <mal:years>2015, 2016, 2017</mal:years>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
     </mal:credit>
   </info>
   <title>Inställningar för tabellnavigering</title>
-  <p>
-    The following options allow you to customize how <app>Orca</app>
-    behaves when navigating within a table in
-    <link xref="howto_structural_navigation">Structural-Navigation</link>-enabled
-    applications.
-  </p>
+  <p>De följande alternativen låter dig anpassa hur <app>Orca</app> beter sig vid navigering i en tabell i program för vilka <link xref="howto_structural_navigation">strukturell navigering</link> är aktiverat.</p>
   <section id="speak_cell_coordinates">
     <title>Läs upp cellkoordinater</title>
     <p>Om denna kryssruta är ikryssad kommer <app>Orca</app> att annonsera koordinaterna för varje cell som du navigerar till.</p>

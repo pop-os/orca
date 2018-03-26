@@ -11,9 +11,7 @@
       <p>Creative Commons Share Alike 3.0</p>
     </license>
 
-    <desc>Orca is a free, open source, flexible, and extensible screen reader
-    that provides access to the graphical desktop via speech and refreshable
-    braille.</desc>
+    <desc>Orca ist ein kostenloser, quelloffener, flexibler und erweiterbarer Bildschirmleser, der Zugriff auf die grafische Arbeitsumgebung über Sprache und Braillezeile bietet.</desc>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Mario Blättermann</mal:name>
@@ -24,13 +22,19 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Christian Kirbach</mal:name>
       <mal:email>Christian.Kirbach@googlemail.com</mal:email>
-      <mal:years>2011, 2016, 2017</mal:years>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Sascha Manns</mal:name>
       <mal:email>Sascha.Manns@mailbox.org</mal:email>
       <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018</mal:years>
     </mal:credit>
   </info>
 

@@ -36,13 +36,8 @@
     </note>
   </section>
   <section id="braillewordwrap">
-    <title>Enable word wrap</title>
-    <p>
-      If <gui>Enable word wrap</gui> is checked, <app>Orca</app> will adjust the
-      text so that only full words are shown on the braille display. If it is not
-      checked, <app>Orca</app> will use all of the cells on the display so that
-      more text can be shown at once.
-    </p>
+    <title>Activar ajuste de palabras</title>
+    <p>Si la casilla <gui>Activar ajuste de palabras</gui>está marcada, <app>Orca</app> ajustará el texto para que sólo se muestren palabras completas en la pantalla braille. Si no está marcada, <app>Orca</app> usará todas las celdas de la pantalla por lo que se podrá mostrar más texto de una sola vez.</p>
     <p>Valor predeterminado: no marcado</p>
   </section>
   <section id="contractedbraille">
