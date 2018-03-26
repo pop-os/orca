@@ -1,9 +1,9 @@
-orca (3.28.0-1) UNRELEASED; urgency=medium
+orca (3.28.0-1) unstable; urgency=medium
 
   * New upstream release
   * Release to unstable
 
- -- Jeremy Bicha <jbicha@debian.org>  Mon, 26 Mar 2018 10:46:34 -0400
+ -- Jeremy Bicha <jbicha@debian.org>  Mon, 26 Mar 2018 10:50:29 -0400
 
 orca (3.27.91-1) experimental; urgency=medium
 
