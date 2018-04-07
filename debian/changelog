@@ -1,8 +1,8 @@
-orca (3.28.0-3) UNRELEASED; urgency=medium
+orca (3.28.0-3) unstable; urgency=medium
 
   * cherry-pick upstream fix to release brlapi when braille is deactivated.
 
- -- Samuel Thibault <sthibault@debian.org>  Sat, 07 Apr 2018 11:07:00 +0200
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 07 Apr 2018 11:08:50 +0200
 
 orca (3.28.0-2) unstable; urgency=medium
 
