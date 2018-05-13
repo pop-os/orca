@@ -54,6 +54,8 @@ except:
     _brlAPIRunning = False
 
 from . import settings
+from . import settings_manager
+_settingsManager = settings_manager.getManager()
 
 try:
     # This can fail due to gtk not being available.  We want to
@@ -1091,6 +1093,19 @@ def refresh(panToCursor=True,
     if stopFlash:
         killFlash(restoreSaved=False)
 
+    if not _settingsManager.getSetting('enableBraille'):
+        if _brlAPIRunning:
+            try:
+                _brlAPI.writeText("", 0)
+            except:
+                debug.println(debug.LEVEL_WARNING,
+                              "BrlTTY seems to have disappeared:")
+                debug.printException(debug.LEVEL_WARNING)
+            # In this case we always shut it down
+            shutdown()
+        _lastTextInfo = (None, 0, 0, 0)
+        return
+
     if len(_lines) == 0:
         if not _brlAPIRunning:
             init(_callback, settings.tty)
@@ -1102,6 +1117,7 @@ def refresh(panToCursor=True,
                               "BrlTTY seems to have disappeared:")
                 debug.printException(debug.LEVEL_WARNING)
                 shutdown()
+            # In this case we just leave the display with empty text
         _lastTextInfo = (None, 0, 0, 0)
         return
 
@@ -1189,6 +1205,10 @@ def refresh(panToCursor=True,
     log.info(logLine)
 
     substring = string[startPos:endPos]
+    if attributeMask:
+        submask = attributeMask[startPos:endPos]
+    else:
+        submask = '\x00' * (endPos - startPos)
     if not _brlAPIRunning:
         init(_callback, settings.tty)
     if _brlAPIRunning:
@@ -1198,7 +1218,7 @@ def refresh(panToCursor=True,
         while writeStruct.regionSize < _displaySize[0]:
             substring += " "
             if attributeMask:
-                attributeMask += '\x00'
+                submask += '\x00'
             writeStruct.regionSize += 1
         writeStruct.text = substring
         writeStruct.cursor = cursorCell
@@ -1219,7 +1239,7 @@ def refresh(panToCursor=True,
         #writeStruct.attrOr = myUnderline
 
         if attributeMask:
-            writeStruct.attrOr = attributeMask[startPos:endPos]
+            writeStruct.attrOr = submask
 
         if not _brlAPIRunning:
             init(_callback, settings.tty)
@@ -1684,6 +1704,7 @@ def shutdown():
     was run.
     """
 
+    global _brlAPI
     global _brlAPIRunning
     global _brlAPISourceId
     global _monitor
@@ -1697,6 +1718,11 @@ def shutdown():
             _brlAPI.leaveTtyMode()
         except:
             pass
+        try:
+            _brlAPI.closeConnection()
+        except:
+            pass
+        _brlAPI = None
         if _monitor:
             _monitor.destroy()
             _monitor = None

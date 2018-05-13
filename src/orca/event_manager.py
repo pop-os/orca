@@ -168,7 +168,15 @@ class EventManager:
 
         if event.type.startswith('object:children-changed:add'):
             if role in [pyatspi.ROLE_MENU,
+                        pyatspi.ROLE_LAYERED_PANE,
                         pyatspi.ROLE_MENU_ITEM]:
+                msg = 'EVENT MANAGER: Ignoring event type due to role'
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
+
+        if event.type.startswith('object:property-change:accessible-name'):
+            if role in [pyatspi.ROLE_CANVAS,
+                        pyatspi.ROLE_ICON]:
                 msg = 'EVENT MANAGER: Ignoring event type due to role'
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
