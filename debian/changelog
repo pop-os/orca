@@ -1,5 +1,9 @@
-orca (3.28.0-4) UNRELEASED; urgency=medium
+orca (3.28.1-1) UNRELEASED; urgency=medium
 
+  [ Jeremy Bicha ]
+  * New upstream release
+
+  [ Samuel Thibault ]
   * Bump Standards-Version to 4.1.4
 
  -- Samuel Thibault <sthibault@debian.org>  Sat, 28 Apr 2018 17:07:24 +0200
