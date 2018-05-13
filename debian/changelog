@@ -2,6 +2,7 @@ orca (3.28.1-1) UNRELEASED; urgency=medium
 
   [ Jeremy Bicha ]
   * New upstream release
+  * Drop all patches: applied in new release
 
   [ Samuel Thibault ]
   * Bump Standards-Version to 4.1.4
