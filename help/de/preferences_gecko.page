@@ -115,7 +115,13 @@
     </section>
     <section id="find_options_minimum_match_length">
       <title>Minimale Länge der Trefferübereinstimmung</title>
-      <p>Über diesen Einstellknopf können Sie die Anzahl an übereinstimmenden Zeichen einstellen, bevor <app>Orca</app> eine Zeile als Übereinstimmung darstellt. Diese Option ist dafür gedacht, um »nervige« Wiederholungen zu vermeiden, da es beim Tippen ihrer Suchanfrage anfangs viele Übereinstimmungen geben wird.</p>
+      <p>
+        This editable spin button is where you can specify the number of
+        characters which must match before <app>Orca</app> announces the
+        matching line. This option is also designed to prevent "chattiness"
+        as there are many matches when you first begin typing the string
+        for which you are searching.
+      </p>
       <p>Vorgabewert: 4</p>
     </section>
   </section>

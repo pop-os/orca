@@ -107,7 +107,7 @@
       <title>Ελάχιστο μήκος του σύμφωνου κειμένου</title>
       <p>
         This editable spin button is where you can specify the number of
-        characters which much match before <app>Orca</app> announces the
+        characters which must match before <app>Orca</app> announces the
         matching line. This option is also designed to prevent "chattiness"
         as there are many matches when you first begin typing the string
         for which you are searching.
