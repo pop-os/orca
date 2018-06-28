@@ -1,9 +1,9 @@
-orca (3.28.1-2) UNRELEASED; urgency=high
+orca (3.28.1-2) unstable; urgency=high
 
   * patches/wordwrap: Fix not mistakenly auto-enabling word wrap option.
   * patches/update: Fix missing braille updates in firefox.
 
- -- Samuel Thibault <sthibault@debian.org>  Fri, 29 Jun 2018 00:39:45 +0200
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 29 Jun 2018 00:41:01 +0200
 
 orca (3.28.1-1) unstable; urgency=medium
 
