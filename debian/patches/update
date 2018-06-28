@@ -1,0 +1,19 @@
+commit f50010921d1d1fe28d7a7b4df328e14aed2fa6d1
+Author: Joanmarie Diggs <jdiggs@igalia.com>
+Date:   Wed Jun 27 15:12:01 2018 -0400
+
+    Update braille when caret moves in web page due to mouse click
+
+diff --git a/src/orca/scripts/web/script.py b/src/orca/scripts/web/script.py
+index ae904d52a..ce022a7b1 100644
+--- a/src/orca/scripts/web/script.py
++++ b/src/orca/scripts/web/script.py
+@@ -1371,6 +1371,8 @@ class Script(default.Script):
+             self.utilities.setCaretContext(event.source, event.detail1)
+             notify = not self.utilities.isEntryDescendant(event.source)
+             orca.setLocusOfFocus(event, event.source, notify)
++            if orca_state.locusOfFocus == event.source:
++                self.updateBraille(event.source)
+             return True
+ 
+         if self.utilities.inFindToolbar():
