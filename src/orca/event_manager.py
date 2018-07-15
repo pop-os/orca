@@ -61,6 +61,7 @@ class EventManager:
         self._ignoredEvents = ['object:bounds-changed',
                                'object:state-changed:defunct',
                                'object:property-change:accessible-parent']
+        self._parentsOfDefunctDescendants = []
         debug.println(debug.LEVEL_INFO, 'Event manager initialized', True)
 
     def activate(self):
@@ -165,31 +166,27 @@ class EventManager:
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-
-        if event.type.startswith('object:children-changed:add'):
-            if role in [pyatspi.ROLE_MENU,
-                        pyatspi.ROLE_LAYERED_PANE,
+        if event.type.startswith('object:property-change:accessible-name'):
+            if role in [pyatspi.ROLE_CANVAS,
+                        pyatspi.ROLE_ICON,
                         pyatspi.ROLE_MENU_ITEM]:
                 msg = 'EVENT MANAGER: Ignoring event type due to role'
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
-
-        if event.type.startswith('object:property-change:accessible-name'):
-            if role in [pyatspi.ROLE_CANVAS,
-                        pyatspi.ROLE_ICON]:
-                msg = 'EVENT MANAGER: Ignoring event type due to role'
+        elif event.type.startswith('object:property-change:accessible-value'):
+            if role == pyatspi.ROLE_SPLIT_PANE and not state.contains(pyatspi.STATE_FOCUSED):
+                msg = 'EVENT MANAGER: Ignoring event type due to role and state'
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
-
-        if event.type.startswith('object:state-changed:sensitive'):
+        elif event.type.startswith('object:state-changed:sensitive'):
             if role in [pyatspi.ROLE_MENU_ITEM,
+                        pyatspi.ROLE_FILLER,
                         pyatspi.ROLE_CHECK_MENU_ITEM,
                         pyatspi.ROLE_RADIO_MENU_ITEM]:
                 msg = 'EVENT MANAGER: Ignoring event type due to role'
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
-
-        if event.type.startswith('object:state-changed:showing'):
+        elif event.type.startswith('object:state-changed:showing'):
             if role not in [pyatspi.ROLE_ALERT,
                             pyatspi.ROLE_ANIMATION,
                             pyatspi.ROLE_INFO_BAR,
@@ -200,31 +197,57 @@ class EventManager:
                 msg = 'EVENT MANAGER: Ignoring event type due to role'
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
+        elif event.type.startswith('object:selection-changed'):
+            if event.source in self._parentsOfDefunctDescendants:
+                msg = 'EVENT MANAGER: Ignoring event from parent of defunct descendants'
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
+
+            try:
+                _name = event.source.name
+            except:
+                msg = 'EVENT MANAGER: Ignoring event from dead source'
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
 
         if event.type.startswith('object:children-changed:add') \
            or event.type.startswith('object:active-descendant-changed'):
+            if role in [pyatspi.ROLE_MENU,
+                        pyatspi.ROLE_LAYERED_PANE,
+                        pyatspi.ROLE_MENU_ITEM]:
+                msg = 'EVENT MANAGER: Ignoring event type due to role'
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
             if not event.any_data:
                 msg = 'ERROR: Event any_data lacks child/descendant'
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
             try:
-                state = event.any_data.getState()
-                role = event.any_data.getRole()
+                childState = event.any_data.getState()
+                childRole = event.any_data.getRole()
             except:
                 msg = 'ERROR: Event any_data contains potentially-defunct child/descendant'
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
-            if state.contains(pyatspi.STATE_DEFUNCT):
+
+            if childState.contains(pyatspi.STATE_DEFUNCT):
+                if state.contains(pyatspi.STATE_MANAGES_DESCENDANTS) \
+                   and event.source not in self._parentsOfDefunctDescendants:
+                    self._parentsOfDefunctDescendants.append(event.source)
+
                 msg = 'ERROR: Event any_data contains defunct child/descendant'
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
+
+            if event.source in self._parentsOfDefunctDescendants:
+                self._parentsOfDefunctDescendants.remove(event.source)
 
             # This should be safe. We do not have a reason to present a newly-added,
             # but not focused image. We do not need to update live regions for images.
             # This is very likely a completely and utterly useless event for us. The
             # reason for ignoring it here rather than quickly processing it is the
             # potential for event floods like we're seeing from matrix.org.
-            if role == pyatspi.ROLE_IMAGE:
+            if childRole == pyatspi.ROLE_IMAGE:
                 msg = 'EVENT MANAGER: Ignoring event type due to role'
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
@@ -384,6 +407,7 @@ class EventManager:
                     fullMessage = messages.NO_FOCUS
                     defaultScript = _scriptManager.getDefaultScript()
                     defaultScript.presentMessage(fullMessage, '')
+                    _scriptManager.setActiveScript(defaultScript, 'No focus')
                 self._gidleId = 0
                 rerun = False # destroy and don't call again
             self._gidleLock.release()
@@ -671,15 +695,6 @@ class EventManager:
                 if role == pyatspi.ROLE_FRAME:
                     _scriptManager.reclaimScripts()
 
-        # Clean up any flat review context so that Orca does not get
-        # confused (see bgo#609633)
-        #
-        if eType.startswith("window:deactivate") \
-           and orca_state.activeScript \
-           and orca_state.activeScript.flatReviewContext \
-           and orca_state.activeScript.app == event.host_application:
-            orca_state.activeScript.flatReviewContext = None
-
         try:
             state = event.source.getState()
         except (LookupError, RuntimeError):
@@ -702,6 +717,12 @@ class EventManager:
 
         if state and state.contains(pyatspi.STATE_ICONIFIED):
             msg = 'EVENT MANAGER: Ignoring iconified object: %s' % event.source
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        if eType.startswith('object:selection-changed') \
+           and event.source in self._parentsOfDefunctDescendants:
+            msg = 'EVENT MANAGER: Ignoring event from parent of defunct descendants'
             debug.println(debug.LEVEL_INFO, msg, True)
             return
 

@@ -769,6 +769,11 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
+        if self._inFocusMode and obj.getRole() == pyatspi.ROLE_RADIO_BUTTON:
+            msg = "WEB: Staying in focus mode due to role of %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
         msg = "WEB: Not using focus mode for %s due to lack of cause" % obj
         debug.println(debug.LEVEL_INFO, msg, True)
         return False
@@ -836,7 +841,11 @@ class Script(default.Script):
         self.speakContents(contents, priorObj=priorObj)
 
     def presentObject(self, obj, **args):
-        priorObj = None
+        if not self.utilities.inDocumentContent(obj):
+            super().presentObject(obj, **args)
+            return
+
+        priorObj = args.get("priorObj")
         if self._lastCommandWasCaretNav or args.get("includeContext"):
             priorObj, priorOffset = self.utilities.getPriorContext()
 
@@ -849,7 +858,7 @@ class Script(default.Script):
         offset = args.get("offset", 0)
         contents = self.utilities.getObjectContentsAtOffset(obj, offset)
         self.displayContents(contents)
-        self.speakContents(contents, priorObj=priorObj)
+        self.speakContents(contents, **args)
  
     def updateBrailleForNewCaretPosition(self, obj):
         """Try to reposition the cursor without having to do a full update."""
@@ -1128,7 +1137,8 @@ class Script(default.Script):
             return False
 
         caretOffset = 0
-        if not oldFocus or self.utilities.inFindToolbar(oldFocus):
+        if not oldFocus or self.utilities.inFindToolbar(oldFocus) \
+           or (self.utilities.isDocument(newFocus) and oldFocus == orca_state.activeWindow):
             contextObj, contextOffset = self.utilities.getCaretContext()
             if contextObj and not self.utilities.isZombie(contextObj):
                 newFocus, caretOffset = contextObj, contextOffset
@@ -1139,7 +1149,7 @@ class Script(default.Script):
             newFocus, offset = self.utilities.findFirstCaretContext(newFocus, 0)
 
         text = self.utilities.queryNonEmptyText(newFocus)
-        if text and (0 <= text.caretOffset < text.characterCount):
+        if text and (0 <= text.caretOffset <= text.characterCount):
             caretOffset = text.caretOffset
 
         self.utilities.setCaretContext(newFocus, caretOffset)
@@ -1371,6 +1381,8 @@ class Script(default.Script):
             self.utilities.setCaretContext(event.source, event.detail1)
             notify = not self.utilities.isEntryDescendant(event.source)
             orca.setLocusOfFocus(event, event.source, notify)
+            if orca_state.locusOfFocus == event.source:
+                self.updateBraille(event.source)
             return True
 
         if self.utilities.inFindToolbar():
@@ -1378,6 +1390,11 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             self.presentFindResults(event.source, event.detail1)
             self._saveFocusedObjectInfo(orca_state.locusOfFocus)
+            return True
+
+        if self.utilities.inContextMenu():
+            msg = "WEB: Event ignored: In context menu"
+            debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
         if self.utilities.eventIsAutocompleteNoise(event):
@@ -1410,7 +1427,7 @@ class Script(default.Script):
             msg = "WEB: Event handled: Caret moved due to scrolling"
             debug.println(debug.LEVEL_INFO, msg, True)
             self.utilities.setCaretContext(obj, offset)
-            orca.setLocusOfFocus(event, obj, force=self.utilities.isPlainText())
+            orca.setLocusOfFocus(event, obj, force=True)
             return True
 
         if self.utilities.isContentEditableWithEmbeddedObjects(event.source):

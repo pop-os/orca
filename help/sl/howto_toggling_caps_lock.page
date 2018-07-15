@@ -14,7 +14,15 @@
     </license>
   </info>
   <title>CapsLock v razporeditvi prenosnika.</title>
-  <p>Orka ima dve razporeditvi tipkovnice: Namizni računalnik in prenosnik. Izbrana razporeditev vpliva na to katera tipka je spremenilna tipka Orka. V primeru da uporabljate razporeditev prenosnika, bo privzeta spremenilna tipka Orka <key>CapsLock</key> V primeru da uporabljate <app>Orkino</app> razporeditev tipkovnice, lahko <key>CapsLock</key> zaklenete ali odklenete z izvedbo naslednjih korakov:</p>
+  <p>
+    Orca has two keyboard layouts: Desktop and Laptop. The layout you choose
+    impacts which key is used as the Orca Modifier. If you are using the Laptop
+    layout, the default Orca Modifier will be <key>CapsLock</key>. If you are
+    using <app>Orca</app>'s Laptop Layout and want to lock or unlock
+    <key>CapsLock</key>, you can do so by either typing <key>CapsLock</key>
+    twice (requires at-spi2 version 2.30 or later), or by performing the
+    following steps:
+  </p>
   <steps>
     <title>Preklapljanje CapsLock v razporeditvi prenosnika.</title>
     <item>

@@ -68,6 +68,11 @@ class KeyboardEvent(InputEvent):
     duplicateCount = 0
     orcaModifierPressed = False
 
+    # Whether last press of the Orca modifier was alone
+    lastOrcaModifierAlone = False
+    # Whether the current press of the Orca modifier is alone
+    currentOrcaModifierAlone = False
+
     TYPE_UNKNOWN          = "unknown"
     TYPE_PRINTABLE        = "printable"
     TYPE_MODIFIER         = "modifier"
@@ -109,6 +114,7 @@ class KeyboardEvent(InputEvent):
         self._consume_reason = None
         self._did_consume = None
         self._result_reason = None
+        self._bypassOrca = None
 
         if self._script:
             self._script.checkKeyboardEventData(self)
@@ -145,6 +151,12 @@ class KeyboardEvent(InputEvent):
             role = None
         _mayEcho = _isPressed or role == pyatspi.ROLE_TERMINAL
 
+        if not self.isOrcaModifier():
+            if KeyboardEvent.orcaModifierPressed:
+                KeyboardEvent.currentOrcaModifierAlone = False
+            else:
+                KeyboardEvent.lastOrcaModifierAlone = False
+
         if self.isNavigationKey():
             self.keyType = KeyboardEvent.TYPE_NAVIGATION
             self.shouldEcho = _mayEcho and settings.enableNavigationKeys
@@ -155,7 +167,17 @@ class KeyboardEvent(InputEvent):
             self.keyType = KeyboardEvent.TYPE_MODIFIER
             self.shouldEcho = _mayEcho and settings.enableModifierKeys
             if self.isOrcaModifier():
-                KeyboardEvent.orcaModifierPressed = _isPressed
+                if KeyboardEvent.lastOrcaModifierAlone:
+                    # double-orca, let the real action happen
+                    self._bypassOrca = True
+                    if not _isPressed:
+                        KeyboardEvent.lastOrcaModifierAlone = False
+                else:
+                    KeyboardEvent.orcaModifierPressed = _isPressed
+                    if _isPressed:
+                        KeyboardEvent.currentOrcaModifierAlone = True
+                    else:
+                        KeyboardEvent.lastOrcaModifierAlone = KeyboardEvent.currentOrcaModifierAlone
         elif self.isFunctionKey():
             self.keyType = KeyboardEvent.TYPE_FUNCTION
             self.shouldEcho = _mayEcho and settings.enableFunctionKeys
@@ -319,7 +341,7 @@ class KeyboardEvent(InputEvent):
         if not self.event_string in lockingKeys:
             return False
 
-        if not orca_state.bypassNextCommand:
+        if not orca_state.bypassNextCommand and not self._bypassOrca:
             return not self.event_string in settings.orcaModifierKeys
 
         return True
@@ -612,6 +634,14 @@ class KeyboardEvent(InputEvent):
     def _process(self):
         """Processes this input event."""
 
+        if self._bypassOrca:
+            if self.event_string == "Caps_Lock" \
+               and self.type == pyatspi.KEY_PRESSED_EVENT:
+                    self._lock_mod()
+                    self.keyType = KeyboardEvent.TYPE_LOCKING
+                    self._present()
+            return False, 'Bypassed orca modifier'
+
         orca_state.lastInputEvent = self
         if not self.isModifierKey():
             orca_state.lastNonModifierKeyEvent = self
@@ -649,6 +679,27 @@ class KeyboardEvent(InputEvent):
             return True, 'Will be consumed'
 
         return False, 'Unaddressed case'
+
+    def _lock_mod(self):
+        def lock_mod(modifiers):
+            def lockit():
+                try:
+                    modifier = (1 << pyatspi.MODIFIER_SHIFTLOCK)
+                    if modifiers & modifier:
+                        lock = pyatspi.KEY_UNLOCKMODIFIERS
+                        debug.println(debug.LEVEL_INFO, "Locking capslock", True)
+                    else:
+                        lock = pyatspi.KEY_LOCKMODIFIERS
+                        debug.println(debug.LEVEL_INFO, "Unlocking capslock", True)
+                    pyatspi.Registry.generateKeyboardEvent(modifier, None, lock)
+                    debug.println(debug.LEVEL_INFO, "Done with capslock", True)
+                except:
+                    debug.println(debug.LEVEL_INFO, "Could not trigger capslock, " \
+                        "at-spi2-core >= 2.30 is needed for triggering capslock", True)
+                    pass
+            return lockit
+        debug.println(debug.LEVEL_INFO, "Scheduling capslock", True)
+        GLib.timeout_add(1, lock_mod(self.modifiers))
 
     def _consume(self):
         startTime = time.time()

@@ -20,7 +20,15 @@
     </mal:credit>
   </info>
   <title>A nagybetűzár az Orka laptop kiosztásnál</title>
-  <p>Az Orka két billentyűzetkiosztással rendelkezik: asztali és laptop. Az Ön által választott billentyűzetkiosztás hatással van az alapértelmezetten használható Orka módosítóbillentyűre. Ha a laptop billentyűzetkiosztást használja, az alapértelmezett Orka módosítóbillentyű a <key>Nagybetűzár</key> lesz. Ha az <app>Orka</app> laptopkiosztását használja, de szeretné változtatni a <key>Nagybetűzár</key> állapotát, tegye a következőket:</p>
+  <p>
+    Orca has two keyboard layouts: Desktop and Laptop. The layout you choose
+    impacts which key is used as the Orca Modifier. If you are using the Laptop
+    layout, the default Orca Modifier will be <key>CapsLock</key>. If you are
+    using <app>Orca</app>'s Laptop Layout and want to lock or unlock
+    <key>CapsLock</key>, you can do so by either typing <key>CapsLock</key>
+    twice (requires at-spi2 version 2.30 or later), or by performing the
+    following steps:
+  </p>
   <steps>
     <title>A nagybetűzár átváltása az Orka laptop kiosztásnál</title>
     <item>

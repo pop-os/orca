@@ -152,6 +152,32 @@ CARET_CONTROL_ORCA = _("The screen reader is controlling the caret.")
 # Translators: this is the name of a cell in a spreadsheet.
 CELL = _("Cell %s")
 
+# Translators: this message is spoken to announce that a table cell just became
+# selected (e.g as a result of navigation via Shift + Arrows). The string
+# substitution is the cell name. In the case of a spreadsheet the cell name
+# will be something like "B3".
+CELL_SELECTED = C_("cell", "%s selected")
+
+# Translators: this message is spoken to announce that multiple table cells just
+# became selected (e.g as a result of navigation via Shift + Arrows). The first
+# string substitution is the name of the first cell in the range. The second string
+# substitution is for the name of the last cell in the range. An example message
+# for Calc would be "A1 through A30 selected".
+CELL_RANGE_SELECTED = C_("cell", "%s through %s selected")
+
+# Translators: this message is spoken to announce that multiple table cells just
+# became unselected (e.g as a result of navigation via Shift + Arrows). The first
+# string substitution is the name of the first cell in the range. The second string
+# substitution is for the name of the last cell in the range. An example message
+# for Calc would be "A1 through A30 unselected".
+CELL_RANGE_UNSELECTED = C_("cell", "%s through %s unselected")
+
+# Translators: this message is spoken to announce that a table cell just became
+# unselected (e.g as a result of navigation via Shift + Arrows). The string
+# substitution is the cell name. In the case of a spreadsheet the cell name
+# will be something like "B3".
+CELL_UNSELECTED = C_("cell", "%s unselected")
+
 # Translators: This is the description of command line option '-d, --disable'
 # which allows the user to specify an option to disable as Orca is started.
 CLI_DISABLE_OPTION = _("Prevent use of option")
@@ -422,6 +448,13 @@ DIGITS_SUPERSCRIPT =  _(" superscript %s")
 # unselected. This message is presented when the user selects the entire
 # document by pressing Ctrl+A.
 DOCUMENT_SELECTED_ALL = _("entire document selected")
+
+# Translators: when the user selects (highlights) or unselects text in a
+# document, Orca will speak information about what they have selected or
+# unselected. This message is presented when the entire document had been
+# selected but the user presses a key (e.g. an arrow key) causing the
+# selection to be completely removed.
+DOCUMENT_UNSELECTED_ALL = _("entire document unselected")
 
 # Translators: when the user selects (highlights) or unselects text in a
 # document, Orca will speak information about what they have selected or
@@ -2134,6 +2167,30 @@ TABLE_COLUMN_BOTTOM = _("Bottom of column.")
 # the cell above the current cell and is already in the first row.
 TABLE_COLUMN_TOP = _("Top of column.")
 
+# Translators: this message is spoken to announce that a table column just became
+# selected (e.g as a result of navigation via Shift + Arrows). The string substitution
+# is the column label (e.g. "B").
+TABLE_COLUMN_SELECTED = _("Column %s selected")
+
+# Translators: this message is spoken to announce that multiple table columns just
+# became selected (e.g as a result of navigation via Shift + Arrows). The first
+# string substitution is the label of the first column in the range. The second string
+# substitution is the label in the last column in the range. An example message for
+# Calc would be "Columns B through F selected".
+TABLE_COLUMN_RANGE_SELECTED = _("Columns %s through %s selected")
+
+# Translators: this message is spoken to announce that multiple table columns just
+# became unselected (e.g as a result of navigation via Shift + Arrows). The first
+# string substitution is the label of the first column in the range. The second string
+# substitution is the label in the last column in the range. An example message for
+# Calc would be "Columns B through F unselected".
+TABLE_COLUMN_RANGE_UNSELECTED = _("Columns %s through %s unselected")
+
+# Translators: this message is spoken to announce that a table column just became
+# unselected (e.g as a result of navigation via Shift + Arrows). The string substitution
+# is the column label (e.g. "B").
+TABLE_COLUMN_UNSELECTED = _("Column %s unselected")
+
 # Translators: this is in reference to a row in a table. The substitution is
 # the index (e.g. the first row is "row 1").
 TABLE_ROW = _("row %d")
@@ -2168,6 +2225,30 @@ TABLE_ROW_INSERTED = _("Row inserted.")
 # inserted a table row at the end of the table. This typically happens when the
 # user presses Tab from within the last cell of the table.
 TABLE_ROW_INSERTED_AT_END = _("Row inserted at the end of the table.")
+
+# Translators: this message is spoken to announce that a table row just became selected
+# (e.g as a result of navigation via Shift + Arrows). The string substitution is the row
+# label (e.g. "2").
+TABLE_ROW_SELECTED = _("Row %s selected")
+
+# Translators: this message is spoken to announce that multiple table rows just
+# became selected (e.g as a result of navigation via Shift + Arrows). The first
+# string substitution is the label of the first row in the range. The second string
+# substitution is the label of the last row in the range. An example message for
+# Calc would be "Rows 2 through 10 selected".
+TABLE_ROW_RANGE_SELECTED = _("Rows %s through %s selected")
+
+# Translators: this message is spoken to announce that multiple table rows just
+# became unselected (e.g as a result of navigation via Shift + Arrows). The first
+# string substitution is the label of the first row in the range. The second string
+# substitution is the label of the last row in the range. An example message for
+# Calc would be "Rows 2 through 10 unselected".
+TABLE_ROW_RANGE_UNSELECTED = _("Rows %s through %s unselected")
+
+# Translators: this message is spoken to announce that a table row just became
+# unselected (e.g as a result of navigation via Shift + Arrows). The string
+# substitution is the row label (e.g. "2").
+TABLE_ROW_UNSELECTED = _("Row %s unselected")
 
 # Translators: when the user selects (highlights) text in a document, Orca lets
 # them know.

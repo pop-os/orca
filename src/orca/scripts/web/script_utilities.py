@@ -726,6 +726,15 @@ class Utilities(script_utilities.Utilities):
 
         return [ext.x, ext.y, ext.width, ext.height]
 
+    def _preserveTree(self, obj):
+        if not (obj and obj.childCount):
+            return False
+
+        if self.isMathTopLevel(obj):
+            return True
+
+        return False
+
     def expandEOCs(self, obj, startOffset=0, endOffset=-1):
         if not self.inDocumentContent(obj):
             return super().expandEOCs(obj, startOffset, endOffset)
@@ -734,8 +743,11 @@ class Utilities(script_utilities.Utilities):
         if not text:
             return ""
 
-        string = text.getText(startOffset, endOffset)
+        if self._preserveTree(obj):
+            utterances = self._script.speechGenerator.generateSpeech(obj)
+            return self._script.speechGenerator.utterancesToString(utterances)
 
+        string = text.getText(startOffset, endOffset)
         if self.EMBEDDED_OBJECT_CHARACTER in string:
             # If we're not getting the full text of this object, but
             # rather a substring, we need to figure out the offset of
@@ -749,15 +761,12 @@ class Utilities(script_utilities.Utilities):
             toBuild = list(string)
             count = toBuild.count(self.EMBEDDED_OBJECT_CHARACTER)
             for i in range(count):
-                index = toBuild.index(self.EMBEDDED_OBJECT_CHARACTER)
                 try:
                     child = obj[i + childOffset]
                 except:
                     continue
-                childText = self.expandEOCs(child)
-                if not childText:
-                    childText = ""
-                toBuild[index] = "%s " % childText
+                index = toBuild.index(self.EMBEDDED_OBJECT_CHARACTER)
+                toBuild[index] = "%s " % self.expandEOCs(child)
 
             string = "".join(toBuild).strip()
 
@@ -783,7 +792,7 @@ class Utilities(script_utilities.Utilities):
 
         return attrs
 
-    def findObjectInContents(self, obj, offset, contents):
+    def findObjectInContents(self, obj, offset, contents, usingCache=False):
         if not obj or not contents:
             return -1
 
@@ -792,6 +801,10 @@ class Utilities(script_utilities.Utilities):
         match = [x for x in matches if x[1] <= offset < x[2]]
         if match and match[0] and match[0] in contents:
             return contents.index(match[0])
+        if not usingCache:
+            match = [x for x in matches if offset == x[2]]
+            if match and match[0] and match[0] in contents:
+                return contents.index(match[0])
 
         if not self.isTextBlockElement(obj):
             return -1
@@ -843,6 +856,9 @@ class Utilities(script_utilities.Utilities):
         else:
             if not characterCount:
                 rv = None
+
+        if self._treatTextObjectAsWhole(obj):
+            rv = None
 
         if not self.isLiveRegion(obj):
             doNotQuery = [pyatspi.ROLE_TABLE_ROW,
@@ -1104,7 +1120,7 @@ class Utilities(script_utilities.Utilities):
         offset = max(0, offset)
 
         if useCache:
-            if self.findObjectInContents(obj, offset, self._currentSentenceContents) != -1:
+            if self.findObjectInContents(obj, offset, self._currentSentenceContents, usingCache=True) != -1:
                 return self._currentSentenceContents
 
         boundary = pyatspi.TEXT_BOUNDARY_SENTENCE_START
@@ -1172,7 +1188,7 @@ class Utilities(script_utilities.Utilities):
         offset = max(0, offset)
 
         if useCache:
-            if self.findObjectInContents(obj, offset, self._currentCharacterContents) != -1:
+            if self.findObjectInContents(obj, offset, self._currentCharacterContents, usingCache=True) != -1:
                 return self._currentCharacterContents
 
         boundary = pyatspi.TEXT_BOUNDARY_CHAR
@@ -1189,7 +1205,7 @@ class Utilities(script_utilities.Utilities):
         offset = max(0, offset)
 
         if useCache:
-            if self.findObjectInContents(obj, offset, self._currentWordContents) != -1:
+            if self.findObjectInContents(obj, offset, self._currentWordContents, usingCache=True) != -1:
                 return self._currentWordContents
 
         boundary = pyatspi.TEXT_BOUNDARY_WORD_START
@@ -1259,7 +1275,7 @@ class Utilities(script_utilities.Utilities):
         offset = max(0, offset)
 
         if useCache:
-            if self.findObjectInContents(obj, offset, self._currentObjectContents) != -1:
+            if self.findObjectInContents(obj, offset, self._currentObjectContents, usingCache=True) != -1:
                 return self._currentObjectContents
 
         objIsLandmark = self.isLandmark(obj)
@@ -1320,7 +1336,7 @@ class Utilities(script_utilities.Utilities):
         offset = max(0, offset)
 
         if useCache:
-            if self.findObjectInContents(obj, offset, self._currentLineContents) != -1:
+            if self.findObjectInContents(obj, offset, self._currentLineContents, usingCache=True) != -1:
                 return self._currentLineContents
 
         if layoutMode is None:
@@ -1656,9 +1672,9 @@ class Utilities(script_utilities.Utilities):
         keys = map(lambda x: x.replace(" ", "+"), map(self.labelFromKeySequence, keys))
         return ["", " ".join(keys), ""]
 
-    def unrelatedLabels(self, root, onlyShowing=True):
+    def unrelatedLabels(self, root, onlyShowing=True, minimumWords=3):
         if not (root and self.inDocumentContent(root)):
-            return super().unrelatedLabels(root, onlyShowing)
+            return super().unrelatedLabels(root, onlyShowing, minimumWords)
 
         return []
 
@@ -1744,6 +1760,9 @@ class Utilities(script_utilities.Utilities):
             string = self.substring(obj, offset, offset + 1)
             if string and string != self.EMBEDDED_OBJECT_CHARACTER:
                 return True
+
+        if role == pyatspi.ROLE_PANEL and not childCount:
+            return True
 
         rv = self._treatAsDiv.get(hash(obj))
         if rv is not None:
@@ -3582,6 +3601,8 @@ class Utilities(script_utilities.Utilities):
                 allText = text.getText(0, -1)
                 for i in range(offset + 1, len(allText)):
                     child = self.getChildAtOffset(obj, i)
+                    if child and self._treatTextObjectAsWhole(child):
+                        return child, 0
                     if child and not self.isZombie(child) and not self.isEmptyAnchor(child) \
                        and not self.isUselessImage(child):
                         return self.findNextCaretInOrder(child, -1)
@@ -3646,6 +3667,8 @@ class Utilities(script_utilities.Utilities):
                     offset = len(allText)
                 for i in range(offset - 1, -1, -1):
                     child = self.getChildAtOffset(obj, i)
+                    if child and self._treatTextObjectAsWhole(child):
+                        return child, 0
                     if child and not self.isZombie(child) and not self.isEmptyAnchor(child) \
                        and not self.isUselessImage(child):
                         return self.findPreviousCaretInOrder(child, -1)
@@ -3699,7 +3722,23 @@ class Utilities(script_utilities.Utilities):
         if not _settingsManager.getSetting('inferLiveRegions'):
             return False
 
-        return self.isLiveRegion(event.source)
+        if not self.isLiveRegion(event.source):
+            return False
+
+        if isinstance(event.any_data, pyatspi.Accessible):
+            try:
+                role = event.any_data.getRole()
+            except:
+                msg = "WEB: Exception getting role for %s" % event.any_data
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
+
+            if role == pyatspi.ROLE_UNKNOWN and not self._getTag(event.any_data):
+                msg = "WEB: Child has unknown role and no tag %s" % event.any_data
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return False
+
+        return True
 
     def getPageObjectCount(self, obj):
         result = {'landmarks': 0,

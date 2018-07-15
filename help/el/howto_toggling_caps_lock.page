@@ -20,7 +20,15 @@
     </mal:credit>
   </info>
   <title>Κεφαλαία στη διάταξη φορητού</title>
-  <p>Το Orca έχει δύο διατάξεις πληκτρολογίου: επιτραπέζια και φορητή. Η επιλεγόμενη διάταξη επιδρά στο ποιο πλήκτρο χρησιμοποιείται ως τροποποιητής Orca. Εάν χρησιμοποιείται τη διάταξη φορητού, η προεπιλογή του τροποποιητή Orca θα είναι <key>CapsLock</key>. Εάν χρησιμοποιείτε τη διάταξη φορητού του <app>Orca</app> και θέλετε να κλειδώσετε ή να ξεκλειδώσετε το <key>CapsLock</key>, μπορείτε να το κάνετε κάνοντας τα επόμενα βήματα:</p>
+  <p>
+    Orca has two keyboard layouts: Desktop and Laptop. The layout you choose
+    impacts which key is used as the Orca Modifier. If you are using the Laptop
+    layout, the default Orca Modifier will be <key>CapsLock</key>. If you are
+    using <app>Orca</app>'s Laptop Layout and want to lock or unlock
+    <key>CapsLock</key>, you can do so by either typing <key>CapsLock</key>
+    twice (requires at-spi2 version 2.30 or later), or by performing the
+    following steps:
+  </p>
   <steps>
     <title>Εναλλαγή CapsLock σε διάταξη φορητού</title>
     <item>

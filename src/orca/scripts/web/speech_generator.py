@@ -169,6 +169,10 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
            and not self._script.utilities.isDPub(obj):
             return []
 
+        if obj.parent and obj.name and obj.name == obj.parent.name \
+           and obj != orca_state.locusOfFocus:
+            return []
+
         # TODO - JD: Once the formatting strings are vastly cleaned up
         # or simply removed, hacks like this won't be needed.
         role = args.get('role', obj.getRole())
@@ -303,6 +307,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                 doNotSpeak.append(pyatspi.ROLE_LIST)
             if (start or end):
                 doNotSpeak.append(pyatspi.ROLE_DOCUMENT_FRAME)
+                doNotSpeak.append(pyatspi.ROLE_DOCUMENT_WEB)
                 doNotSpeak.append(pyatspi.ROLE_ALERT)
             if self._script.utilities.isAnchor(obj):
                 doNotSpeak.append(obj.getRole())
@@ -350,6 +355,9 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         elif role not in doNotSpeak and args.get('priorObj') != obj:
             result.append(self.getLocalizedRoleName(obj, **args))
             result.extend(acss)
+
+        if self._script.utilities.isMath(obj) and not self._script.utilities.isMathTopLevel(obj):
+            return result
 
         index = args.get('index', 0)
         total = args.get('total', 1)
@@ -532,6 +540,9 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             utterance = self.generateSpeech(
                 obj, startOffset=start, endOffset=end, string=string,
                 index=i, total=len(contents), **args)
+            if isinstance(utterance, list):
+                isNotEmptyList = lambda x: not (isinstance(x, list) and not x)
+                utterance = list(filter(isNotEmptyList, utterance))
             if utterance and utterance[0]:
                 result.append(utterance)
                 args['priorObj'] = obj
