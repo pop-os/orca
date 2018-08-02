@@ -41,7 +41,7 @@ Depends: ${misc:Depends},
          python3-speechd (>= 0.8),
          speech-dispatcher (>= 0.8),
          gsettings-desktop-schemas,
-Recommends: xbrlapi
+Recommends: xbrlapi, python3-gst-1.0
 Breaks: gnome-orca (<< 3.26.0-4~)
 Replaces: gnome-orca (<< 3.26.0-4~)
 Description: Scriptable screen reader
