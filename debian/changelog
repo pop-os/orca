@@ -1,6 +1,7 @@
 orca (3.28.1-3) UNRELEASED; urgency=medium
 
   * control: Bump Standards-Version to 4.1.5 (no changes).
+  * control: Add missing libgstreamer1.0-dev Build-Depends for sound support.
 
  -- Samuel Thibault <sthibault@debian.org>  Sun, 08 Jul 2018 16:21:18 +0200
 
