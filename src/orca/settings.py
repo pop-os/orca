@@ -74,7 +74,6 @@ userCustomizableSettings = [
     "playSoundForState",
     "playSoundForPositionInSet",
     "playSoundForValue",
-    "enableBrailleMonitor",
     "verbalizePunctuationStyle",
     "presentToolTips",
     "sayAllStyle",
@@ -97,9 +96,9 @@ userCustomizableSettings = [
     "enableContractedBraille",
     "brailleContractionTable",
     "enableMouseReview",
-    "mouseDwellDelay",
     "speakCellCoordinates",
     "speakSpreadsheetCoordinates",
+    "alwaysSpeakSelectedSpreadsheetRange",
     "speakCellSpan",
     "speakCellHeaders",
     "skipBlankCells",
@@ -229,6 +228,7 @@ speakCellCoordinates         = True
 speakCellSpan                = True
 speakCellHeaders             = True
 speakSpreadsheetCoordinates  = True
+alwaysSpeakSelectedSpreadsheetRange = False
 speakMultiCaseStringsAsWords = False
 speakNumbersAsDigits         = False
 speakMisspelledIndicator     = True

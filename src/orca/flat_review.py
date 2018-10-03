@@ -230,6 +230,10 @@ class Zone:
             if offset >= 0:
                 return word, offset
 
+        if self.length == charOffset and self.words:
+            lastWord = self.words[-1]
+            return lastWord, lastWord.length
+
         return None, -1
 
     def hasCaret(self):
@@ -803,6 +807,15 @@ class Context:
 
         return zones
 
+    def _isOrIsIn(self, child, parent):
+        if not (child and parent):
+            return False
+
+        if child == parent:
+            return True
+
+        return pyatspi.findAncestor(child, lambda x: x == parent)
+
     def getShowingZones(self, root, boundingbox=None):
         """Returns an unsorted list of all the zones under root and the focusZone."""
 
@@ -817,10 +830,15 @@ class Context:
         for o in objs:
             zones = self.getZonesFromAccessible(o, boundingbox)
             if not zones:
+                descendant = self.script.utilities.realActiveDescendant(o)
+                if descendant:
+                    zones = self.getZonesFromAccessible(descendant, boundingbox)
+
+            if not zones:
                 continue
 
             allZones.extend(zones)
-            if not focusZone and zones and (o == self.focusObj or o in self.focusObj):
+            if not focusZone and zones and self.focusObj and self._isOrIsIn(o, self.focusObj):
                 zones = list(filter(lambda z: z.hasCaret(), zones)) or zones
                 focusZone = zones[0]
 
@@ -874,7 +892,10 @@ class Context:
         elif zone.words:
             current = zone.words[self.wordIndex]
             if flatReviewType == Context.CHAR and current.chars:
-                current = current.chars[self.charIndex]
+                try:
+                    current = current.chars[self.charIndex]
+                except:
+                    return None, -1, -1, -1, -1
 
         return current.string, current.x, current.y, current.width, current.height
 
@@ -912,7 +933,7 @@ class Context:
         if x < 0 or y < 0:
             return False
 
-        eventsynthesizer.routeToPoint(x, y, "abs")
+        eventsynthesizer.routeToPoint(x, y)
         return True
 
     def clickCurrent(self, button=1):

@@ -119,7 +119,7 @@
   </section>
   <section id="attributes_and_selection">
     <title>Vlastnosti textu a vybraný text</title>
-    <p><app>Orca</app> má zvláštní příkazy pro získávání vlastností textu v místě kurzoru. Navíc, když použijete příkaz čtečky <app>Orca</app> „Kde se nacházím“ pro textový objekt, ve kterém je vybrán text, oznámí vám <app>Orca</app> tento vybraný text. Pokud byste pro tento účel měli raději vyhrazený příkaz, můžete navázat příkaz „Přečíst vybraný text“ na klávesovou zkratku. Jak to udělat, najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+    <p><app>Orca</app> má zvláštní příkazy pro získávání vlastností textu v místě kurzoru. Navíc, když použijete příkaz čtečky <app>Orca</app> „Kde se nacházím“ pro textový objekt, ve kterém je vybrán text, oznámí vám <app>Orca</app> tento vybraný text. Příkaz pro čtení aktuálního výběru provádí tu samou funkci také na texových objektech.</p>
     <list>
       <item>
         <p>Prezentovat vlastnosti textu: <keyseq><key>Modifikátor Orca</key> <key>F</key></keyseq></p>
@@ -147,7 +147,7 @@
       </list>
     </item>
     <item>
-      <p>Přečíst vybraný text: (bez klávesové zkratky)</p>
+      <p>Číst aktuální býběr: <keyseq><key>Modifikátor Orca</key><key>Shift</key><key>↑</key></keyseq></p>
     </item>
   </list>
   </section>

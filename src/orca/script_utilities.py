@@ -82,6 +82,7 @@ class Utilities:
 
     # generatorCache
     #
+    DISPLAYED_DESCRIPTION = 'displayedDescription'
     DISPLAYED_LABEL = 'displayedLabel'
     DISPLAYED_TEXT = 'displayedText'
     KEY_BINDING = 'keyBinding'
@@ -135,7 +136,7 @@ class Utilities:
 
         return cmdline.replace("\x00", " ")
 
-    def canBeActiveWindow(self, window):
+    def canBeActiveWindow(self, window, clearCache=True):
         if not window:
             return False
 
@@ -147,7 +148,9 @@ class Utilities:
         msg = "INFO: Looking at %s from %s %s" % (window, app, self._getAppCommandLine(app))
         debug.println(debug.LEVEL_INFO, msg, True)
 
-        window.clearCache()
+        if clearCache:
+            window.clearCache()
+
         if not self._isActiveAndShowingAndNotIconified(window):
             msg = "INFO: %s is not active and showing, or is iconified" % window
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -434,6 +437,67 @@ class Utilities:
         self._script.generatorCache[self.DISPLAYED_LABEL][obj] = labelString
         return self._script.generatorCache[self.DISPLAYED_LABEL][obj]
 
+    def descriptionsForObject(self, obj):
+        """Return a list of objects describing obj."""
+
+        try:
+            relations = obj.getRelationSet()
+        except (LookupError, RuntimeError):
+            msg = 'ERROR: Exception getting relationset for %s' % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return []
+
+        describedBy = lambda x: x.getRelationType() == pyatspi.RELATION_DESCRIBED_BY
+        relation = filter(describedBy, relations)
+        return [r.getTarget(i) for r in relation for i in range(r.getNTargets())]
+
+    def detailsContentForObject(self, obj):
+        details = self.detailsForObject(obj)
+        return list(map(self.displayedText, details))
+
+    def detailsForObject(self, obj, textOnly=True):
+        """Return a list of objects containing details for obj."""
+
+        try:
+            relations = obj.getRelationSet()
+            role = obj.getRole()
+            state = obj.getState()
+        except (LookupError, RuntimeError):
+            msg = 'ERROR: Exception getting relationset, role, and state for %s' % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return []
+
+        if not state.contains(pyatspi.STATE_EXPANDED):
+            return []
+
+        hasDetails = lambda x: x.getRelationType() == pyatspi.RELATION_DETAILS
+        relation = filter(hasDetails, relations)
+        details = [r.getTarget(i) for r in relation for i in range(r.getNTargets())]
+        if not details and role == pyatspi.ROLE_TOGGLE_BUTTON:
+            details = [child for child in obj]
+
+        if not textOnly:
+            return details
+
+        textObjects = []
+        for detail in details:
+            textObjects.extend(pyatspi.findAllDescendants(detail, self.queryNonEmptyText))
+
+        return textObjects
+
+    def displayedDescription(self, obj):
+        """Returns the text being displayed for the object describing obj."""
+
+        try:
+            return self._script.generatorCache[self.DISPLAYED_DESCRIPTION][obj]
+        except:
+            if self.DISPLAYED_DESCRIPTION not in self._script.generatorCache:
+                self._script.generatorCache[self.DISPLAYED_DESCRIPTION] = {}
+
+        string = " ".join(map(self.displayedText, self.descriptionsForObject(obj)))
+        self._script.generatorCache[self.DISPLAYED_DESCRIPTION][obj] = string
+        return self._script.generatorCache[self.DISPLAYED_DESCRIPTION][obj]
+
     def displayedText(self, obj):
         """Returns the text being displayed for an object.
 
@@ -480,9 +544,9 @@ class Utilities:
                 pass
 
         if not displayedText and role in [pyatspi.ROLE_PUSH_BUTTON, pyatspi.ROLE_LIST_ITEM]:
-            labels = self.unrelatedLabels(obj)
+            labels = self.unrelatedLabels(obj, minimumWords=1)
             if not labels:
-                labels = self.unrelatedLabels(obj, onlyShowing=False)
+                labels = self.unrelatedLabels(obj, onlyShowing=False, minimumWords=1)
             displayedText = " ".join(map(self.displayedText, labels))
 
         if self.DISPLAYED_TEXT not in self._script.generatorCache:
@@ -554,6 +618,9 @@ class Utilities:
 
         results = [None, None]
 
+        if obj.getRole() == pyatspi.ROLE_FRAME:
+            results[0] = obj
+
         parent = obj.parent
         while parent and (parent.parent != parent):
             if parent.getRole() == pyatspi.ROLE_FRAME:
@@ -566,6 +633,9 @@ class Utilities:
         return results
 
     def presentEventFromNonShowingObject(self, event):
+        if event.source == orca_state.locusOfFocus:
+            return True
+
         return False
 
     def grabFocusBeforeRouting(self, obj, offset):
@@ -652,6 +722,26 @@ class Utilities:
 
     def isAnchor(self, obj):
         return False
+
+    def isDesktop(self, obj):
+        try:
+            role = obj.getRole()
+        except:
+            msg = 'ERROR: Exception getting role of %s' % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if role != pyatspi.ROLE_FRAME:
+            return False
+
+        try:
+            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
+        except:
+            msg = 'ERROR: Exception getting attributes of %s' % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        return attrs.get('is-desktop') == 'true'
 
     def isComboBoxWithToggleDescendant(self, obj):
         return False
@@ -1170,6 +1260,8 @@ class Utilities:
             return False
 
         cellRoles = [pyatspi.ROLE_TABLE_CELL,
+                     pyatspi.ROLE_TABLE_COLUMN_HEADER,
+                     pyatspi.ROLE_TABLE_ROW_HEADER,
                      pyatspi.ROLE_COLUMN_HEADER,
                      pyatspi.ROLE_ROW_HEADER]
         if not role in cellRoles:
@@ -1189,6 +1281,8 @@ class Utilities:
             return False
 
         cellRoles = [pyatspi.ROLE_TABLE_CELL,
+                     pyatspi.ROLE_TABLE_COLUMN_HEADER,
+                     pyatspi.ROLE_TABLE_ROW_HEADER,
                      pyatspi.ROLE_COLUMN_HEADER,
                      pyatspi.ROLE_ROW_HEADER]
         if not role in cellRoles:
@@ -1339,6 +1433,8 @@ class Utilities:
             else:
                 if not (table.nRows and table.nColumns):
                     layoutOnly = not obj.getState().contains(pyatspi.STATE_FOCUSED)
+                elif attrs.get('xml-roles') == 'table':
+                    layoutOnly = False
                 elif not (obj.name or self.displayedLabel(obj)):
                     layoutOnly = not (table.getColumnHeader(0) or table.getRowHeader(0))
         elif role == pyatspi.ROLE_TABLE_CELL and obj.childCount:
@@ -1354,6 +1450,8 @@ class Utilities:
             layoutOnly = True
         elif role == pyatspi.ROLE_SCROLL_PANE:
             layoutOnly = True
+        elif role == pyatspi.ROLE_LAYERED_PANE:
+            layoutOnly = self.isDesktop(self.topLevelObject(obj))
         elif role == pyatspi.ROLE_AUTOCOMPLETE:
             layoutOnly = True
         elif role in [pyatspi.ROLE_TEAROFF_MENU_ITEM, pyatspi.ROLE_SEPARATOR]:
@@ -1930,6 +2028,8 @@ class Utilities:
             return False
 
         isCell = lambda x: x and x.getRole() in [pyatspi.ROLE_TABLE_CELL,
+                                                 pyatspi.ROLE_TABLE_COLUMN_HEADER,
+                                                 pyatspi.ROLE_TABLE_ROW_HEADER,
                                                  pyatspi.ROLE_ROW_HEADER,
                                                  pyatspi.ROLE_COLUMN_HEADER]
         cellChildren = list(filter(isCell, [x for x in obj]))
@@ -1943,6 +2043,8 @@ class Utilities:
             return obj
 
         roles = [pyatspi.ROLE_TABLE_CELL,
+                 pyatspi.ROLE_TABLE_COLUMN_HEADER,
+                 pyatspi.ROLE_TABLE_ROW_HEADER,
                  pyatspi.ROLE_COLUMN_HEADER,
                  pyatspi.ROLE_ROW_HEADER,
                  pyatspi.ROLE_LIST_ITEM]
@@ -2164,6 +2266,9 @@ class Utilities:
         if not obj:
             return False
 
+        if obj.getRole() == pyatspi.ROLE_APPLICATION:
+            return False
+
         try:
             extents = obj.queryComponent().getExtents(pyatspi.DESKTOP_COORDS)
         except:
@@ -2199,7 +2304,7 @@ class Utilities:
 
         return False
 
-    def unrelatedLabels(self, root, onlyShowing=True):
+    def unrelatedLabels(self, root, onlyShowing=True, minimumWords=3):
         """Returns a list containing all the unrelated (i.e., have no
         relations to anything and are not a fundamental element of a
         more atomic component like a combo box) labels under the given
@@ -2218,7 +2323,7 @@ class Utilities:
         if self._script.spellcheck and self._script.spellcheck.isCheckWindow(root):
             return []
 
-        hasRole = lambda x: x and x.getRole() == pyatspi.ROLE_LABEL
+        hasRole = lambda x: x and x.getRole() in [pyatspi.ROLE_LABEL, pyatspi.ROLE_STATIC]
         try:
             allLabels = pyatspi.findAllDescendants(root, hasRole)
         except:
@@ -2230,12 +2335,17 @@ class Utilities:
         except:
             return []
 
-        # Eliminate duplicates
+        rootName = root.name
+
+        # Eliminate duplicates and things suspected to be labels for widgets
         d = {}
         for label in labels:
-            if label.name and label.name in [root.name, label.parent.name]:
+            name = label.name or self.displayedText(label)
+            if name and name in [rootName, label.parent.name]:
                 continue
-            d[label.name] = label
+            if len(name.split()) < minimumWords:
+                continue
+            d[name] = label
         labels = list(d.values())
 
         return sorted(labels, key=functools.cmp_to_key(self.spatialComparison))
@@ -2328,7 +2438,7 @@ class Utilities:
     def findPreviousObject(self, obj):
         """Finds the object before this one."""
 
-        if not obj:
+        if not obj or self.isZombie(obj):
             return None
 
         for relation in obj.getRelationSet():
@@ -2353,7 +2463,7 @@ class Utilities:
     def findNextObject(self, obj):
         """Finds the object after this one."""
 
-        if not obj:
+        if not obj or self.isZombie(obj):
             return None
 
         for relation in obj.getRelationSet():
@@ -2844,7 +2954,6 @@ class Utilities:
         """
 
         from . import punctuation_settings
-        from . import chnames
 
         style = settings.verbalizePunctuationStyle
         isPunctChar = True
@@ -2951,6 +3060,11 @@ class Utilities:
         if settings.speakNumbersAsDigits:
             words = self.WORDS_RE.split(line)
             line = ''.join(map(self._convertWordToDigits, words))
+
+        if len(line) == 1:
+            charname = chnames.getCharacterName(line)
+            if charname != line:
+                return charname
 
         if not settings.usePronunciationDictionary:
             return line
@@ -3497,6 +3611,21 @@ class Utilities:
         debug.println(debug.LEVEL_INFO, msg, True)
         return count
 
+    def firstAndLastSelectedChildren(self, obj):
+        try:
+            selection = obj.querySelection()
+            count = selection.nSelectedChildren
+        except NotImplementedError:
+            msg = "INFO: %s does not implement the selection interface" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return None, None
+        except:
+            msg = "ERROR: Exception querying selection interface for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return None, None
+
+        return selection.getSelectedChild(0), selection.getSelectedChild(count-1)
+
     def focusedChild(self, obj):
         isFocused = lambda x: x and x.getState().contains(pyatspi.STATE_FOCUSED)
         child = pyatspi.findDescendant(obj, isFocused)
@@ -3539,6 +3668,47 @@ class Utilities:
             return False
 
         return self.popupMenuFor(obj) is not None
+
+    def inMenu(self, obj=None):
+        obj = obj or orca_state.locusOfFocus
+        if not obj:
+            return False
+
+        try:
+            role = obj.getRole()
+        except:
+            msg = "ERROR: Exception getting role for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        menuRoles = [pyatspi.ROLE_MENU,
+                     pyatspi.ROLE_MENU_ITEM,
+                     pyatspi.ROLE_CHECK_MENU_ITEM,
+                     pyatspi.ROLE_RADIO_MENU_ITEM,
+                     pyatspi.ROLE_TEAROFF_MENU_ITEM]
+        if role in menuRoles:
+            return True
+
+        if role in [pyatspi.ROLE_PANEL, pyatspi.ROLE_SEPARATOR]:
+            return obj.parent and obj.parent.getRole() in menuRoles
+
+        return False
+
+    def inContextMenu(self, obj=None):
+        obj = obj or orca_state.locusOfFocus
+        if not self.inMenu(obj):
+            return False
+
+        return pyatspi.findAncestor(obj, self.isContextMenu) is not None
+
+    def _contextMenuParentRoles(self):
+        return pyatspi.ROLE_FRAME, pyatspi.ROLE_WINDOW
+
+    def isContextMenu(self, obj):
+        if not (obj and obj.getRole() == pyatspi.ROLE_MENU):
+            return False
+
+        return obj.parent and obj.parent.getRole() in self._contextMenuParentRoles()
 
     def isEntryCompletionPopupItem(self, obj):
         return False
@@ -3722,6 +3892,8 @@ class Utilities:
 
     def coordinatesForCell(self, obj):
         roles = [pyatspi.ROLE_TABLE_CELL,
+                 pyatspi.ROLE_TABLE_COLUMN_HEADER,
+                 pyatspi.ROLE_TABLE_ROW_HEADER,
                  pyatspi.ROLE_COLUMN_HEADER,
                  pyatspi.ROLE_ROW_HEADER]
         if not (obj and obj.getRole() in roles):
@@ -3781,6 +3953,9 @@ class Utilities:
         if not obj:
             return False
 
+        if self.hasNoSize(obj):
+            return False
+
         roles = [pyatspi.ROLE_MENU,
                  pyatspi.ROLE_PAGE_TAB]
 
@@ -3794,7 +3969,9 @@ class Utilities:
             return True
 
         role = obj.getRole()
-        if role == pyatspi.ROLE_TABLE_ROW:
+        roles = [pyatspi.ROLE_AUTOCOMPLETE,
+                 pyatspi.ROLE_TABLE_ROW]
+        if role in roles:
             return False
 
         state = obj.getState()
@@ -3837,11 +4014,22 @@ class Utilities:
                     debug.println(debug.LEVEL_INFO, msg, True)
                     if cell:
                         return cell
+                    return child
 
+        candidates = []
         for child in root:
             obj = self.descendantAtPoint(child, x, y, coordType)
             if obj:
                 return obj
+            if not self.containsPoint(child, x, y, coordType):
+                continue
+            if self.queryNonEmptyText(child):
+                string = child.queryText().getText(0, -1)
+                if re.search("[^\ufffc\s]", string):
+                    candidates.append(child)
+
+        if len(candidates) == 1:
+            return candidates[0]
 
         return None
 
@@ -4356,6 +4544,13 @@ class Utilities:
         keyString, mods = self.lastKeyAndModifiers()
         return mods & keybindings.CTRL_MODIFIER_MASK
 
+    def lastInputEventWasUnmodifiedArrow(self):
+        keyString, mods = self.lastKeyAndModifiers()
+        if not keyString in ["Left", "Right", "Up", "Down"]:
+            return False
+
+        return not mods
+
     def lastInputEventWasCharNav(self):
         keyString, mods = self.lastKeyAndModifiers()
         if not keyString in ["Left", "Right"]:
@@ -4617,6 +4812,9 @@ class Utilities:
         if not event.type.startswith("object:text-changed:delete"):
             return False
 
+        if self.isHidden(event.source):
+            return False
+
         keyString, mods = self.lastKeyAndModifiers()
         if keyString == "BackSpace":
             return True
@@ -4814,6 +5012,46 @@ class Utilities:
             return True
         if self.handlePasteLocusOfFocusChange():
             return True
+        return False
+
+    def allItemsSelected(self, obj):
+        interfaces = pyatspi.listInterfaces(obj)
+        if "Selection" not in interfaces:
+            return False
+
+        state = obj.getState()
+        if state.contains(pyatspi.STATE_EXPANDABLE) \
+           and not state.contains(pyatspi.STATE_EXPANDED):
+            return False
+
+        role = obj.getRole()
+        if role in [pyatspi.ROLE_COMBO_BOX, pyatspi.ROLE_MENU]:
+            return False
+
+        if self.selectedChildCount(obj) == obj.childCount:
+            return True
+
+        if "Table" not in interfaces:
+            return False
+
+        table = obj.queryTable()
+        if table.nSelectedRows == table.nRows or table.nSelectedColumns == table.nColumns:
+            return True
+
+        return False
+
+    def handleContainerSelectionChange(self, obj):
+        allAlreadySelected = self._script.pointOfReference.get('allItemsSelected')
+        allCurrentlySelected = self.allItemsSelected(obj)
+        if allAlreadySelected and allCurrentlySelected:
+            return True
+
+        self._script.pointOfReference['allItemsSelected'] = allCurrentlySelected
+        if self.lastInputEventWasSelectAll() and allCurrentlySelected:
+            self._script.presentMessage(messages.CONTAINER_SELECTED_ALL)
+            orca.setLocusOfFocus(None, obj, False)
+            return True
+
         return False
 
     def handleTextSelectionChange(self, obj):

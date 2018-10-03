@@ -113,6 +113,16 @@ class Utilities(script_utilities.Utilities):
 
         return adjusted
 
+    def insertionEndsAtCaret(self, event):
+        try:
+            text = event.source.queryText()
+        except:
+            msg = "ERROR: Exception querying text for %s" % event.source
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        return text.caretOffset == event.detail1 + event.detail2
+
     def isEditableTextArea(self, obj):
         if obj and obj.getRole() == pyatspi.ROLE_TERMINAL:
             return True
@@ -182,7 +192,9 @@ class Utilities(script_utilities.Utilities):
                 return re.search(r"[^\d\s]", event.any_data)
             if mods & keybindings.ALT_MODIFIER_MASK:
                 return True
-            if len(event.any_data) > 1 and self.lastInputEventWasPrintableKey():
+            if self.lastInputEventWasPrintableKey():
+                return len(event.any_data) > 1
+            if self.insertionEndsAtCaret(event):
                 return True
 
         return False

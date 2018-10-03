@@ -44,7 +44,15 @@
     </mal:credit>
   </info>
   <title>Verr. maj. pour l’agencement ordinateur portable</title>
-  <p>Orca dispose de deux agencements de clavier : ordinateur de bureau ou portable. L’agencement que vous choisissez modifie la touche utilisée comme Touche de modification d’Orca. Si vous choisissez l’agencement portable, la Touche de modification d’Orca est la touche <key>Verr. maj.</key>. Si vous utilisez l’agencement portable d’<app>Orca</app> et que vous voulez activer ou désactiver la touche <key>Verr. maj.</key>, vous pouvez le faire en suivant les instructions suivantes :</p>
+  <p>
+    Orca has two keyboard layouts: Desktop and Laptop. The layout you choose
+    impacts which key is used as the Orca Modifier. If you are using the Laptop
+    layout, the default Orca Modifier will be <key>CapsLock</key>. If you are
+    using <app>Orca</app>'s Laptop Layout and want to lock or unlock
+    <key>CapsLock</key>, you can do so by either typing <key>CapsLock</key>
+    twice (requires at-spi2 version 2.32 or later), or by performing the
+    following steps:
+  </p>
   <steps>
     <title>Utilisation de la touche Verr. maj. avec un agencement d’ordinateur portable</title>
     <item>

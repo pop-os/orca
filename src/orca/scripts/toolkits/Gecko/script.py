@@ -99,18 +99,7 @@ class Script(web.Script):
     def onBusyChanged(self, event):
         """Callback for object:state-changed:busy accessibility events."""
 
-        try:
-            name = event.source.name
-        except:
-            msg = "GECKO: Exception getting name of event source"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return
-
-        # Sadly this document frame claims to be visible and showing and have all
-        # the other characteristics of a real page. Hence the name check.
-        if "self-repair.mozilla.org" in name:
-            msg = "GECKO: Ignoring event because it's not a real (to users) page"
-            debug.println(debug.LEVEL_INFO, msg, True)
+        if self.utilities.isNotRealDocument(event.source):
             return
 
         if super().onBusyChanged(event):
@@ -153,6 +142,9 @@ class Script(web.Script):
     def onDocumentLoadComplete(self, event):
         """Callback for document:load-complete accessibility events."""
 
+        if self.utilities.isNotRealDocument(event.source):
+            return
+
         if super().onDocumentLoadComplete(event):
             return
 
@@ -188,6 +180,11 @@ class Script(web.Script):
             return
 
         if self.utilities.isLayoutOnly(event.source):
+            return
+
+        if event.source == orca_state.activeWindow:
+            msg = "GECKO: Ignoring event for active window."
+            debug.println(debug.LEVEL_INFO, msg, True)
             return
 
         # NOTE: This event type is deprecated and Orca should no longer use it.

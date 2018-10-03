@@ -29,6 +29,7 @@ import pyatspi
 import time
 
 import orca.debug as debug
+import orca.mouse_review as mouse_review
 import orca.orca as orca
 import orca.orca_state as orca_state
 import orca.scripts.default as default
@@ -120,6 +121,11 @@ class Script(default.Script):
         if self.utilities.isLayoutOnly(event.source):
             return
 
+        if event.source == mouse_review.reviewer.getCurrentItem():
+            msg = "GTK: Event source is current mouse review item"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
         if self.utilities.isTypeahead(orca_state.locusOfFocus) \
            and "Table" in pyatspi.listInterfaces(event.source) \
            and not event.source.getState().contains(pyatspi.STATE_FOCUSED):
@@ -159,6 +165,11 @@ class Script(default.Script):
             if orca_state.locusOfFocus == event.source:
                 orca.setLocusOfFocus(event, None)
                 return
+
+        role = event.source.getRole()
+        if role in [pyatspi.ROLE_CANVAS, pyatspi.ROLE_ICON] \
+           and self.utilities.handleContainerSelectionChange(event.source.parent):
+            return
 
         super().onSelectedChanged(event)
 
@@ -206,6 +217,26 @@ class Script(default.Script):
             return
 
         super().onShowingChanged(event)
+
+    def onTextDeleted(self, event):
+        """Callback for object:text-changed:delete accessibility events."""
+
+        if not self.utilities.isShowingAndVisible(event.source):
+            msg = "GTK: %s is not showing and visible" % event.source
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        super().onTextDeleted(event)
+
+    def onTextInserted(self, event):
+        """Callback for object:text-changed:insert accessibility events."""
+
+        if not self.utilities.isShowingAndVisible(event.source):
+            msg = "GTK: %s is not showing and visible" % event.source
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        super().onTextInserted(event)
 
     def onTextSelectionChanged(self, event):
         """Callback for object:text-selection-changed accessibility events."""

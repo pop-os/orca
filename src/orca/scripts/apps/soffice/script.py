@@ -64,6 +64,7 @@ class Script(default.Script):
         default.Script.__init__(self, app)
 
         self.speakSpreadsheetCoordinatesCheckButton = None
+        self.alwaysSpeakSelectedSpreadsheetRangeCheckButton = None
         self.skipBlankCellsCheckButton = None
         self.speakCellCoordinatesCheckButton = None
         self.speakCellHeadersCheckButton = None
@@ -165,6 +166,11 @@ class Script(default.Script):
                 cmdnames.PAN_BRAILLE_RIGHT,
                 False) # Do not enable learn mode for this action
 
+        self.inputEventHandlers["whereAmISelectionHandler"] = \
+            input_event.InputEventHandler(
+                Script.whereAmISelection,
+                cmdnames.WHERE_AM_I_SELECTION)
+
     def getAppKeyBindings(self):
         """Returns the application-specific keybindings for this script."""
 
@@ -229,8 +235,15 @@ class Script(default.Script):
         self.speakSpreadsheetCoordinatesCheckButton.set_active(value)
         grid.attach(self.speakSpreadsheetCoordinatesCheckButton, 0, 0, 1, 1)
 
+        label = guilabels.SPREADSHEET_SPEAK_SELECTED_RANGE
+        value = _settingsManager.getSetting('alwaysSpeakSelectedSpreadsheetRange')
+        self.alwaysSpeakSelectedSpreadsheetRangeCheckButton = \
+            Gtk.CheckButton.new_with_mnemonic(label)
+        self.alwaysSpeakSelectedSpreadsheetRangeCheckButton.set_active(value)
+        grid.attach(self.alwaysSpeakSelectedSpreadsheetRangeCheckButton, 0, 1, 1, 1)
+
         tableFrame = Gtk.Frame()
-        grid.attach(tableFrame, 0, 1, 1, 1)
+        grid.attach(tableFrame, 0, 2, 1, 1)
 
         label = Gtk.Label(label="<b>%s</b>" % guilabels.TABLE_NAVIGATION)
         label.set_use_markup(True)
@@ -285,6 +298,7 @@ class Script(default.Script):
             'skipBlankCells': self.skipBlankCellsCheckButton.get_active(),
             'speakCellCoordinates': self.speakCellCoordinatesCheckButton.get_active(),
             'speakSpreadsheetCoordinates': self.speakSpreadsheetCoordinatesCheckButton.get_active(),
+            'alwaysSpeakSelectedSpreadsheetRange': self.alwaysSpeakSelectedSpreadsheetRangeCheckButton.get_active(),
         }
 
         prefs.update(self.spellcheck.getPreferencesFromGUI())
@@ -427,28 +441,6 @@ class Script(default.Script):
 
         return True
 
-    def columnConvert(self, column):
-        """ Convert a spreadsheet column into it's column label
-
-        Arguments:
-        - column: the column number to convert.
-
-        Returns a string representing the spread sheet column.
-        """
-
-        base26 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-        if column <= len(base26):
-            return base26[column-1]
-
-        res = ""
-        while column > 0:
-            digit = column % len(base26)
-            res = " " + base26[digit-1] + res
-            column /= len(base26)
-
-        return res
-
     def setDynamicRowHeaders(self, inputEvent):
         """Set the column for the dynamic header rows to use when speaking
         calc cell entries. In order to set the column, the user should first
@@ -470,7 +462,7 @@ class Script(default.Script):
         if table:
             self.dynamicRowHeaders[hash(table)] = column
             self.presentMessage(
-                messages.DYNAMIC_ROW_HEADER_SET % self.columnConvert(column+1))
+                messages.DYNAMIC_ROW_HEADER_SET % self.utilities.columnConvert(column+1))
 
         return True
 
@@ -863,6 +855,17 @@ class Script(default.Script):
     def onSelectionChanged(self, event):
         """Callback for object:selection-changed accessibility events."""
 
+        if self.utilities.isSpreadSheetTable(event.source):
+            if _settingsManager.getSetting('onlySpeakDisplayedText'):
+                return
+            if _settingsManager.getSetting('alwaysSpeakSelectedSpreadsheetRange'):
+                self.utilities.speakSelectedCellRange(event.source)
+                return
+            if self.utilities.handleRowAndColumnSelectionChange(event.source):
+                return
+            self.utilities.handleCellSelectionChange(event.source)
+            return
+
         if not self.utilities.isComboBoxSelectionChange(event):
             super().onSelectionChanged(event)
             return
@@ -930,3 +933,10 @@ class Script(default.Script):
 
         super().onWindowDeactivated(event)
         self.spellcheck.deactivate()
+
+    def whereAmISelection(self, inputEvent=None, obj=None):
+        obj = obj or orca_state.locusOfFocus
+        if not self.utilities.isSpreadSheetCell(obj):
+            return super().whereAmISelection(inputEvent, obj)
+
+        return self.utilities.speakSelectedCellRange(self.utilities.getTable(obj))

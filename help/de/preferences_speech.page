@@ -59,12 +59,7 @@
     </section>
     <section id="punctuation_level_some">
       <title>Einige</title>
-      <p>
-        Choosing a punctuation level of <gui>Some</gui> causes all of the
-        previously-mentioned symbols to be spoken. In addition, <app>Orca</app>
-        will speak known mathematical symbols, currency symbols, and "^", "@",
-        "/", "&amp;", "#".
-      </p>
+      <p>Ist die Sonderzeichenansage auf <gui>Einige</gui> gesetzt, werden alle bereits erwähnten Symbole vorgelesen. Zusätzlich wird <app>Orca</app> bekannte mathematische Symbole, Währungssymbole und »^«, »@«, »/«, »&amp;« und »#« ansagen.</p>
     </section>
     <section id="punctuation_level_most">
       <title>Die meisten</title>

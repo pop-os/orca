@@ -143,7 +143,7 @@
   </section>
   <section id="attributes_and_selection">
     <title>Textattribute und ausgewählter Text</title>
-    <p><app>Orca</app> hat einen speziellen Befehl, um sich die Eigenschaften des Textes unter dem Textcursor zu beschaffen. Falls Sie <app>Orcas</app> »Wo bin ich«-Befehl mit einem ausgewählten Text benutzen, wird <app>Orca</app> den ausgewählten Text ausgeben. Möchten Sie einen anderen Befehl für diesen Zweck benutzen, lesen Sie <link xref="howto_key_bindings">Tastenkürzel anpassen</link>.</p>
+    <p><app>Orca</app> hat einen speziellen Befehl, um sich die Eigenschaften des Textes unter dem Textcursor zu beschaffen. Falls Sie <app>Orcas</app> »Wo bin ich«-Befehl mit einem ausgewählten Text benutzen, wird <app>Orca</app> den ausgewählten Text ausgeben. Der <app>Orca</app>-Befehl zum Vorlesen der aktuellen Auswahl hat in einem Textobjekt dieselbe Funktionalität.</p>
     <list>
       <item>
         <p>Die Textattribute ausgeben: <keyseq><key>Orca-Zusatztaste</key><key>F</key></keyseq></p>
@@ -171,7 +171,7 @@
       </list>
     </item>
     <item>
-      <p>Den ausgewählten Text vorlesen: (Nicht zugewiesen)</p>
+      <p>Aktuelle Auswahl vorlesen: <keyseq><key>Orca-Zusatztaste</key><key>Strg</key><key>Hoch</key></keyseq></p>
     </item>
   </list>
   </section>

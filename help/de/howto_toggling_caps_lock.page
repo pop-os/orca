@@ -38,7 +38,7 @@
     </mal:credit>
   </info>
   <title>Die Feststelltaste im Laptop-Layout</title>
-  <p>Orca kennt zwei Tastaturlayouts: Desktop und Laptop. Die Wahl des Layouts beeinflusst, welche Taste als Orca-Zusatztaste verwendet wird. Falls Sie das Laptop-Layout verwenden, wird die voreingestellte Orca-Zusatztaste die <key>Feststelltaste</key> sein. Falls Sie <app>Orca</app>s Laptop-Layout verwenden und die <key>Feststelltaste</key> ein-/ausschalten wollen, können Sie das über die folgenden Schritte erreichen:</p>
+  <p>Orca kennt zwei Tastaturlayouts: Desktop und Laptop. Die Wahl des Layouts beeinflusst, welche Taste als Orca-Zusatztaste verwendet wird. Falls Sie das Laptop-Layout verwenden, wird die voreingestellte Orca-Zusatztaste die <key>Feststelltaste</key> sein. Falls Sie <app>Orca</app>s Laptop-Layout verwenden und die <key>Feststelltaste</key> ein-/ausschalten wollen, können Sie entweder zweimal die <key>Feststelltaste</key> drücken (erfordert mindestens at-spi2-Version 2.32), oder die folgenden Schritte ausführen:</p>
   <steps>
     <title>Umschalten der Feststelltaste im Laptop-Layout</title>
     <item>

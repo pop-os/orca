@@ -357,6 +357,9 @@ class SpeechGenerator(generator.Generator):
         if self._script.utilities.isStatusBarNotification(obj):
             return []
 
+        if self._script.utilities.isDesktop(obj):
+            return []
+
         result = []
         acss = self.voice(SYSTEM)
         role = args.get('role', obj.getRole())
@@ -372,6 +375,9 @@ class SpeechGenerator(generator.Generator):
 
         if role == pyatspi.ROLE_MENU and parentRole == pyatspi.ROLE_COMBO_BOX:
             return self._generateRoleName(obj.parent)
+
+        if role == pyatspi.ROLE_PANEL and obj.getState().contains(pyatspi.STATE_SELECTED):
+            return []
 
         # egg-list-box, e.g. privacy panel in gnome-control-center
         if parentRole == pyatspi.ROLE_LIST_BOX:
@@ -443,9 +449,19 @@ class SpeechGenerator(generator.Generator):
         result = []
         acss = self.voice(DEFAULT)
         visibleOnly = not self._script.utilities.isStatusBarNotification(obj)
-        labels = self._script.utilities.unrelatedLabels(obj, visibleOnly)
+
+        minimumWords = 1
+        role = args.get('role', obj.getRole())
+        if role in [pyatspi.ROLE_DIALOG, pyatspi.ROLE_PANEL]:
+            minimumWords = 3
+
+        labels = self._script.utilities.unrelatedLabels(obj, visibleOnly, minimumWords)
         for label in labels:
             name = self._generateName(label, **args)
+            if name and len(name[0]) == 1:
+                charname = chnames.getCharacterName(name[0])
+                if charname:
+                    name[0] = charname
             result.extend(name)
         if result:
             result.extend(acss)
@@ -820,6 +836,9 @@ class SpeechGenerator(generator.Generator):
         if state.contains(pyatspi.STATE_SELECTED):
             return []
 
+        if obj.getRole() == pyatspi.ROLE_TEXT:
+            return []
+
         parentRole = obj.parent.getRole()
         if parentRole in [pyatspi.ROLE_TREE_TABLE, pyatspi.ROLE_TABLE]:
             lastKey, mods = self._script.utilities.lastKeyAndModifiers()
@@ -979,7 +998,7 @@ class SpeechGenerator(generator.Generator):
         if result:
             string = result[0].strip()
             if len(string) == 1 and self._script.utilities.isMath(obj):
-                charname = chnames.getCharacterName(string)
+                charname = chnames.getCharacterName(string, preferMath=True)
                 if charname != string:
                     result[0] = charname
 
@@ -1479,6 +1498,9 @@ class SpeechGenerator(generator.Generator):
         selectedItems = self._script.utilities.selectedChildren(container)
         return list(map(self._generateLabelAndName, selectedItems))
 
+    def generateSelectedItems(self, obj, **args):
+        return self._generateSelectedItems(obj, **args)
+
     def _generateUnfocusedDialogCount(self, obj,  **args):
         """Returns an array of strings (and possibly voice and audio
         specifications) that says how many unfocused alerts and
@@ -1824,8 +1846,12 @@ class SpeechGenerator(generator.Generator):
         if priorObj == obj:
             return []
 
+        role = args.get('role', obj.getRole())
+        if role in [pyatspi.ROLE_FRAME, pyatspi.ROLE_WINDOW]:
+            return []
+
         result = []
-        if obj.getRole() == pyatspi.ROLE_MENU_ITEM \
+        if role == pyatspi.ROLE_MENU_ITEM \
            and (not priorObj or priorObj.getRole() == pyatspi.ROLE_WINDOW):
             return result
 
@@ -2535,3 +2561,13 @@ class SpeechGenerator(generator.Generator):
                 voice.update(override)
 
         return [voice]
+
+    def utterancesToString(self, utterances):
+        string = ""
+        for u in utterances:
+            if isinstance(u, str):
+                string += " %s" % u
+            elif isinstance(u, Pause) and string and string[-1].isalnum():
+                string += "."
+
+        return string.strip()

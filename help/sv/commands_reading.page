@@ -125,7 +125,7 @@
   </section>
   <section id="attributes_and_selection">
     <title>Textattribut och markerad text</title>
-    <p><app>Orca</app> har ett speciellt avsett kommando för att erhålla attributen hos texten vid markörpositionen. Om du dessutom använder <app>Orca</app>s ”Var är jag”-kommandon inifrån ett textobjekt där text har markerats så kommer <app>Orca</app> annonsera den markerade texten. Om du istället skulle föredra ett speciellt avsett kommando för detta syfte kan du binda <app>Orca</app>s kommando ”Läs upp markerad text” till en tangenttryckning. Se <link xref="howto_key_bindings">Ändra tangentbindningar</link> för information om hur du kan göra det.</p>
+    <p><app>Orca</app> har ett speciellt avsett kommando för att erhålla attributen hos texten vid markörpositionen. Om du dessutom använder <app>Orca</app>s ”Var är jag”-kommandon inifrån ett textobjekt där text har markerats så kommer <app>Orca</app> annonsera den markerade texten. <app>Orca</app>s kommando för att läsa upp den aktuella markeringen kommer också utföra denna funktion i ett textobjekt.</p>
     <list>
       <item>
         <p>Presentera textattributen: <keyseq><key>Orca-modifierare</key><key>F</key></keyseq></p>
@@ -153,7 +153,7 @@
       </list>
     </item>
     <item>
-      <p>Läs upp den markerade texten: (Inte bunden)</p>
+      <p>Läs upp aktuell markering: <keyseq><key>Orca-modifierare</key><key>Skift</key><key>Upp</key></keyseq></p>
     </item>
   </list>
   </section>

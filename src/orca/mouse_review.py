@@ -112,6 +112,7 @@ class _ItemContext:
         self._frame = frame
         self._script = script
         self._string = self._getStringContext()
+        self._time = time.time()
 
     def __eq__(self, other):
         return other is not None \
@@ -119,14 +120,41 @@ class _ItemContext:
             and self._obj == other._obj \
             and self._string == other._string
 
+    def _treatAsDuplicate(self, prior):
+        if self._obj != prior._obj or self._frame != prior._frame:
+            return False
+
+        if self._time - prior._time > 0.1:
+            return False
+
+        msg = "MOUSE REVIEW: Treating as duplicate"
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return True
+
+    def _treatAsSingleObject(self):
+        interfaces = pyatspi.listInterfaces(self._obj)
+        if "Text" not in interfaces:
+            return True
+
+        roles = [pyatspi.ROLE_ENTRY,
+                 pyatspi.ROLE_LABEL,
+                 pyatspi.ROLE_PASSWORD_TEXT]
+
+        if self._obj.getRole() in roles:
+            return True
+
+        if self._obj.name and not "EditableText" in pyatspi.listInterfaces(self._obj):
+            return True
+
+        return False
+
     def _getStringContext(self):
         """Returns the _StringContext associated with the specified point."""
 
         if not (self._script and self._obj):
             return _StringContext(self._obj)
 
-        interfaces = pyatspi.listInterfaces(self._obj)
-        if "Text" not in interfaces:
+        if self._treatAsSingleObject():
             return _StringContext(self._obj, self._script)
 
         state = self._obj.getState()
@@ -142,10 +170,31 @@ class _ItemContext:
 
         return _StringContext(self._obj, self._script, string, start, end)
 
+    def _getContainer(self):
+        roles = [pyatspi.ROLE_DIALOG,
+                 pyatspi.ROLE_FRAME,
+                 pyatspi.ROLE_LAYERED_PANE,
+                 pyatspi.ROLE_MENU,
+                 pyatspi.ROLE_PAGE_TAB,
+                 pyatspi.ROLE_TOOL_BAR,
+                 pyatspi.ROLE_WINDOW]
+        isContainer = lambda x: x and x.getRole() in roles
+        return pyatspi.findAncestor(self._obj, isContainer)
+
+    def getObject(self):
+        """Returns the accessible object associated with this context."""
+
+        return self._obj
+
+    def getTime(self):
+        """Returns the time associated with this context."""
+
+        return self._time
+
     def present(self, prior):
         """Presents this context to the user."""
 
-        if self == prior:
+        if self == prior or self._treatAsDuplicate(prior):
             return False
 
         interrupt = self._obj and self._obj != prior._obj \
@@ -161,7 +210,8 @@ class _ItemContext:
             return True
 
         if self._obj and self._obj != prior._obj:
-            self._script.presentObject(self._obj)
+            priorObj = prior._obj or self._getContainer()
+            self._script.presentObject(self._obj, priorObj=priorObj)
 
         return True
 
@@ -217,6 +267,21 @@ class MouseReviewer:
             value.disconnect(key)
         self._handlerIds = {}
 
+    def getCurrentItem(self):
+        """Returns the accessible object being reviewed."""
+
+        if not _mouseReviewCapable:
+            return None
+
+        obj = self._currentMouseOver.getObject()
+
+        if time.time() - self._currentMouseOver.getTime() > 0.1:
+            msg = "MOUSE REVIEW: Treating %s as stale" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return None
+
+        return obj
+
     def toggle(self, script=None, event=None):
         """Toggle mouse reviewing on or off."""
 
@@ -270,6 +335,9 @@ class MouseReviewer:
 
         window = None
         for w in self._windows:
+            if w.is_minimized():
+                continue
+
             x, y, width, height = w.get_geometry()
             if x <= pX <= x + width and y <= pY <= y + height:
                 window = w
@@ -279,7 +347,11 @@ class MouseReviewer:
             return None
 
         app = None
-        pid = window.get_application().get_pid()
+        windowApp = window.get_application()
+        if not windowApp:
+            return None
+
+        pid = windowApp.get_pid()
         for a in pyatspi.Registry.getDesktop(0):
             if a.get_process_id() == pid:
                 app = a
@@ -318,7 +390,14 @@ class MouseReviewer:
         if not script:
             return
 
-        obj = script.utilities.descendantAtPoint(window, pX, pY)
+        isMenu = lambda x: x and x.getRole() == pyatspi.ROLE_MENU
+        if isMenu(orca_state.locusOfFocus):
+            menu = orca_state.locusOfFocus
+        else:
+            menu = pyatspi.findAncestor(orca_state.locusOfFocus, isMenu)
+
+        obj = script.utilities.descendantAtPoint(menu, pX, pY) \
+            or script.utilities.descendantAtPoint(window, pX, pY)
         msg = "MOUSE REVIEW: Object at (%i, %i) is %s" % (pX, pY, obj)
         debug.println(debug.LEVEL_INFO, msg, True)
 

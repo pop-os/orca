@@ -32,7 +32,15 @@
     </mal:credit>
   </info>
   <title>CapsLock em disposição de teclado de Notebook</title>
-  <p>O Orca possui duas disposições de teclado: Computador de mesa e Notebook. A disposição que você escolhe influencia qual tecla será usada como modificadora do Orca. Se você estiver usando a disposição de notebook, o modificador padrão será o <key>CapsLock</key>. Se você estiver usando a disposição de notebook do <app>Orca</app> e deseja travar ou destravar o <key>CapsLock</key>, pode fazê-lo executando os seguintes passos:</p>
+  <p>
+    Orca has two keyboard layouts: Desktop and Laptop. The layout you choose
+    impacts which key is used as the Orca Modifier. If you are using the Laptop
+    layout, the default Orca Modifier will be <key>CapsLock</key>. If you are
+    using <app>Orca</app>'s Laptop Layout and want to lock or unlock
+    <key>CapsLock</key>, you can do so by either typing <key>CapsLock</key>
+    twice (requires at-spi2 version 2.32 or later), or by performing the
+    following steps:
+  </p>
   <steps>
     <title>Alternando o CapsLock na disposição de teclado de Notebook</title>
     <item>

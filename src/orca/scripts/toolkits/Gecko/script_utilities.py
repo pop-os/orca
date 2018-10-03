@@ -103,7 +103,8 @@ class Utilities(web.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        if not(role1 == role2 == pyatspi.ROLE_FRAME):
+        roles = self._topLevelRoles()
+        if not (role1 in roles and role2 in roles):
             return False
 
         try:
@@ -164,4 +165,20 @@ class Utilities(web.Utilities):
 
         msg = "GECKO: Editable %s not in an editable document" % obj
         debug.println(debug.LEVEL_INFO, msg, True)
+        return False
+
+    def isNotRealDocument(self, obj):
+        try:
+            name = obj.name
+        except:
+            msg = "GECKO: Exception getting name for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if name.startswith("moz-extension"):
+            return True
+
+        if "self-repair.mozilla.org" in name:
+            return True
+
         return False

@@ -32,6 +32,7 @@ import pyatspi
 
 import orca.debug as debug
 import orca.keybindings as keybindings
+import orca.messages as messages
 import orca.orca_state as orca_state
 import orca.script_utilities as script_utilities
 
@@ -51,6 +52,10 @@ class Utilities(script_utilities.Utilities):
         """
 
         script_utilities.Utilities.__init__(self, script)
+
+        self._calcSelectedCells = []
+        self._calcSelectedRows = []
+        self._calcSelectedColumns = []
 
     #########################################################################
     #                                                                       #
@@ -709,8 +714,14 @@ class Utilities(script_utilities.Utilities):
 
         # Things only seem broken for certain tables, e.g. the Paths table.
         # TODO - JD: File the LibreOffice bugs and reference them here.
-        if role != pyatspi.ROLE_TABLE or self.isSpreadSheetTable(obj):
+        if role != pyatspi.ROLE_TABLE:
             return super().selectedChildren(obj)
+
+        # We will need to special case this due to the possibility of there
+        # being lots of children (which may also prove to be zombie objects).
+        # This is why we can't have nice things.
+        if self.isSpreadSheetTable(obj):
+            return []
 
         try:
             selection = obj.querySelection()
@@ -748,3 +759,176 @@ class Utilities(script_utilities.Utilities):
 
     def presentEventFromNonShowingObject(self, event):
         return self.inDocumentContent(event.source)
+
+    def columnConvert(self, column):
+        """ Convert a spreadsheet column into it's column label."""
+
+        base26 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+        if column <= len(base26):
+            return base26[column-1]
+
+        res = ""
+        while column > 0:
+            digit = column % len(base26)
+            res = " " + base26[digit-1] + res
+            column = int(column / len(base26))
+
+        return res
+
+    def _getCellNameForCoordinates(self, obj, row, col, includeContents=False):
+        try:
+            table = obj.queryTable()
+        except:
+            msg = "SOFFICE: Exception querying Table interface of %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        try:
+            cell = table.getAccessibleAt(row, col)
+        except:
+            msg = "SOFFICE: Exception getting cell (%i,%i) of %s" % (row, col, obj)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        name = self.spreadSheetCellName(cell)
+        if includeContents:
+            text = self.displayedText(cell)
+            name = "%s %s" % (text, name)
+
+        return name.strip()
+
+    def _getCoordinatesForSelectedRange(self, obj):
+        interfaces = pyatspi.listInterfaces(obj)
+        if not ("Table" in interfaces and "Selection" in interfaces):
+            return (-1, -1), (-1, -1)
+
+        first, last = self.firstAndLastSelectedChildren(obj)
+        firstCoords = self.coordinatesForCell(first)
+        lastCoords = self.coordinatesForCell(last)
+        return firstCoords, lastCoords
+
+    def speakSelectedCellRange(self, obj):
+        firstCoords, lastCoords = self._getCoordinatesForSelectedRange(obj)
+        if firstCoords == (-1, -1) or lastCoords == (-1, -1):
+            return True
+
+        self._script.presentationInterrupt()
+
+        if firstCoords == lastCoords:
+            cell = self._getCellNameForCoordinates(obj, *firstCoords, True)
+            self._script.speakMessage(messages.CELL_SELECTED % cell)
+            return True
+
+        cell1 = self._getCellNameForCoordinates(obj, *firstCoords, True)
+        cell2 = self._getCellNameForCoordinates(obj, *lastCoords, True)
+        self._script.speakMessage(messages.CELL_RANGE_SELECTED % (cell1, cell2))
+        return True
+
+    def handleCellSelectionChange(self, obj):
+        firstCoords, lastCoords = self._getCoordinatesForSelectedRange(obj)
+        if firstCoords == (-1, -1) or lastCoords == (-1, -1):
+            return True
+
+        current = []
+        for r in range(firstCoords[0], lastCoords[0]+1):
+            current.extend((r, c) for c in range(firstCoords[1], lastCoords[1]+1))
+
+        current = set(current)
+        previous = set(self._calcSelectedCells)
+        current.discard((-1, -1))
+        previous.discard((-1, -1))
+
+        unselected = sorted(previous.difference(current))
+        selected = sorted(current.difference(previous))
+        focusCoords = tuple(self.coordinatesForCell(orca_state.locusOfFocus))
+        if focusCoords in selected:
+            selected.remove(focusCoords)
+
+        self._calcSelectedCells = sorted(current)
+
+        msgs = []
+        if len(unselected) == 1:
+            cell = self._getCellNameForCoordinates(obj, *unselected[0], True)
+            msgs.append(messages.CELL_UNSELECTED % cell)
+        elif len(unselected) > 1:
+            cell1 = self._getCellNameForCoordinates(obj, *unselected[0], True)
+            cell2 = self._getCellNameForCoordinates(obj, *unselected[-1], True)
+            msgs.append(messages.CELL_RANGE_UNSELECTED % (cell1, cell2))
+
+        if len(selected) == 1:
+            cell = self._getCellNameForCoordinates(obj, *selected[0], True)
+            msgs.append(messages.CELL_SELECTED % cell)
+        elif len(selected) > 1:
+            cell1 = self._getCellNameForCoordinates(obj, *selected[0], True)
+            cell2 = self._getCellNameForCoordinates(obj, *selected[-1], True)
+            msgs.append(messages.CELL_RANGE_SELECTED % (cell1, cell2))
+
+        if msgs:
+            self._script.presentationInterrupt()
+
+        for msg in msgs:
+            self._script.speakMessage(msg, interrupt=False)
+
+        return bool(len(msgs))
+
+    def handleRowAndColumnSelectionChange(self, obj):
+        interfaces = pyatspi.listInterfaces(obj)
+        if not ("Table" in interfaces and "Selection" in interfaces):
+            return True
+
+        table = obj.queryTable()
+        cols = set(table.getSelectedColumns())
+        rows = set(table.getSelectedRows())
+
+        selectedCols = sorted(cols.difference(set(self._calcSelectedColumns)))
+        unselectedCols = sorted(set(self._calcSelectedColumns).difference(cols))
+        convert = lambda x: self.columnConvert(x+1)
+        selectedCols = list(map(convert, selectedCols))
+        unselectedCols = list(map(convert, unselectedCols))
+
+        selectedRows = sorted(rows.difference(set(self._calcSelectedRows)))
+        unselectedRows = sorted(set(self._calcSelectedRows).difference(rows))
+        convert = lambda x: x + 1
+        selectedRows = list(map(convert, selectedRows))
+        unselectedRows = list(map(convert, unselectedRows))
+
+        self._calcSelectedColumns = list(cols)
+        self._calcSelectedRows = list(rows)
+
+        if len(cols) == table.nColumns:
+            self._script.speakMessage(messages.DOCUMENT_SELECTED_ALL)
+            return True
+
+        if not len(cols) and len(unselectedCols) == table.nColumns:
+            self._script.speakMessage(messages.DOCUMENT_UNSELECTED_ALL)
+            return True
+
+        msgs = []
+        if len(unselectedCols) == 1:
+            msgs.append(messages.TABLE_COLUMN_UNSELECTED % unselectedCols[0])
+        elif len(unselectedCols) > 1:
+            msgs.append(messages.TABLE_COLUMN_RANGE_UNSELECTED % (unselectedCols[0], unselectedCols[-1]))
+
+        if len(unselectedRows) == 1:
+            msgs.append(messages.TABLE_ROW_UNSELECTED % unselectedRows[0])
+        elif len(unselectedRows) > 1:
+            msgs.append(messages.TABLE_ROW_RANGE_UNSELECTED % (unselectedRows[0], unselectedRows[-1]))
+
+        if len(selectedCols) == 1:
+            msgs.append(messages.TABLE_COLUMN_SELECTED % selectedCols[0])
+        elif len(selectedCols) > 1:
+            msgs.append(messages.TABLE_COLUMN_RANGE_SELECTED % (selectedCols[0], selectedCols[-1]))
+
+        if len(selectedRows) == 1:
+            msgs.append(messages.TABLE_ROW_SELECTED % selectedRows[0])
+        elif len(selectedRows) > 1:
+            msgs.append(messages.TABLE_ROW_RANGE_SELECTED % (selectedRows[0], selectedRows[-1]))
+
+        if msgs:
+            self._script.presentationInterrupt()
+
+        for msg in msgs:
+            self._script.speakMessage(msg, interrupt=False)
+
+        return bool(len(msgs))

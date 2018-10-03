@@ -70,6 +70,7 @@ from . import event_manager
 from . import keybindings
 from . import logger
 from . import messages
+from . import mouse_review
 from . import notification_messages
 from . import orca_state
 from . import orca_platform
@@ -248,11 +249,11 @@ def _setCapsLockAsOrcaModifier(enable):
     interpretCapsLineProg = re.compile(
         r'^\s*interpret\s+Caps[_+]Lock[_+]AnyOfOrNone\s*\(all\)\s*{\s*$', re.I)
     capsModLineProg = re.compile(
-        r'^\s*action\s*=\s*SetMods\s*\(\s*modifiers\s*=\s*Lock\s*,\s*clearLocks\s*\)\s*;\s*$', re.I)
+        r'^\s*action\s*=\s*NoAction\s*\(\s*\)\s*;\s*$', re.I)
     normalCapsLineProg = re.compile(
         r'^\s*action\s*=\s*LockMods\s*\(\s*modifiers\s*=\s*Lock\s*\)\s*;\s*$', re.I)
     normalCapsLine = '        action= LockMods(modifiers=Lock);'
-    capsModLine =    '        action= SetMods(modifiers=Lock,clearLocks);'
+    capsModLine =    '        action= NoAction();'
     lines = _originalXmodmap.decode('UTF-8').split('\n')
     foundCapsInterpretSection = False
     for i, line in enumerate(lines):
@@ -376,6 +377,11 @@ def loadUserSettings(script=None, inputEvent=None, skipReloadMessage=False):
             debug.printException(debug.LEVEL_WARNING)
             msg = 'ORCA: Could not initialize connection to braille.'
             debug.println(debug.LEVEL_WARNING, msg, True)
+
+    if _settingsManager.getSetting('enableMouseReview'):
+        mouse_review.reviewer.activate()
+    else:
+        mouse_review.reviewer.deactivate()
 
     if _settingsManager.getSetting('enableSound'):
         player.init()
@@ -701,7 +707,18 @@ def main(cacheValues=True):
     if script:
         window = script.utilities.activeWindow()
         if window and not orca_state.locusOfFocus:
+            try:
+                app = window.getApplication()
+            except:
+                msg = "ORCA: Exception getting app for %s" % window
+                debug.println(debug.LEVEL_INFO, msg, True)
+            else:
+                script = _scriptManager.getScript(app, window)
+                _scriptManager.setActiveScript(script, "Launching.")
             setLocusOfFocus(None, window)
+            focusedObject = script.utilities.focusedObject(window)
+            if focusedObject:
+                setLocusOfFocus(None, focusedObject)
 
     try:
         start(pyatspi.Registry, cacheValues) # waits until we stop the registry
