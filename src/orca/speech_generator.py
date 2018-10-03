@@ -836,6 +836,9 @@ class SpeechGenerator(generator.Generator):
         if state.contains(pyatspi.STATE_SELECTED):
             return []
 
+        if obj.getRole() == pyatspi.ROLE_TEXT:
+            return []
+
         parentRole = obj.parent.getRole()
         if parentRole in [pyatspi.ROLE_TREE_TABLE, pyatspi.ROLE_TABLE]:
             lastKey, mods = self._script.utilities.lastKeyAndModifiers()
@@ -1494,6 +1497,9 @@ class SpeechGenerator(generator.Generator):
 
         selectedItems = self._script.utilities.selectedChildren(container)
         return list(map(self._generateLabelAndName, selectedItems))
+
+    def generateSelectedItems(self, obj, **args):
+        return self._generateSelectedItems(obj, **args)
 
     def _generateUnfocusedDialogCount(self, obj,  **args):
         """Returns an array of strings (and possibly voice and audio

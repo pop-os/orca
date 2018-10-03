@@ -131,7 +131,14 @@
   </section>
   <section id="attributes_and_selection">
     <title>Атрибути на текста и маркиран текст</title>
-    <p><app>Orca</app> има команда, предназначена за получаване на информация за атрибутите на текста на текущото местоположение на курсора. В допълнение, ако използвате командата на <app>Orca</app> „Къде съм?“ докато сте върху текстов обект, чиито текст е бил маркиран, <app>Orca</app> ще ви съобщи маркирания текст. Ако предпочитате отделна команда за това, трябва да присвоите клавишна комбинация на „Прочитане на избрания текст“. Вижте секцията <link xref="howto_key_bindings">Промяна на функциите на клавишите</link> за повече информация как да присвоите тези команди към клавишни комбинации.</p>
+    <p>
+      <app>Orca</app> has a dedicated command for obtaining the attributes of the
+      text at the caret location. In addition, if you use <app>Orca</app>'s
+      Where Am I commands from within a text object in which text has been
+      selected, <app>Orca</app> will announce the selected text. <app>Orca</app>'s
+      command to speak the current selection will also perform this function in a
+      text object.
+    </p>
     <list>
       <item>
         <p>Прочитане на атрибутите на текста: <keyseq><key>Модификатор на Orca</key><key>F</key></keyseq></p>
@@ -159,7 +166,10 @@
       </list>
     </item>
     <item>
-      <p>Прочитане на избрания текст: (неприсвоена)</p>
+      <p>
+        Speak current selection:
+        <keyseq><key>Orca Modifier</key><key>Shift</key><key>Up</key></keyseq>
+      </p>
     </item>
   </list>
   </section>

@@ -14,15 +14,7 @@
     </license>
   </info>
   <title>CapsLock v rozložení klávesnice Přenosný počítač</title>
-  <p>
-    Orca has two keyboard layouts: Desktop and Laptop. The layout you choose
-    impacts which key is used as the Orca Modifier. If you are using the Laptop
-    layout, the default Orca Modifier will be <key>CapsLock</key>. If you are
-    using <app>Orca</app>'s Laptop Layout and want to lock or unlock
-    <key>CapsLock</key>, you can do so by either typing <key>CapsLock</key>
-    twice (requires at-spi2 version 2.30 or later), or by performing the
-    following steps:
-  </p>
+  <p>Orca má dvě rozložení klávesnice: Stolní počítač a Přenosný počítač. To, které rozložení zvolíte, má vliv na klávesy, které používá Orca jako modifikátory. Pokud používáte rozložení Přenosný počítač, výchozím modifikátorem Orca bude <key>CapsLock</key>. Pokud používáte ve čtečce <app>Orca</app> rozložení Notebook a chcete zamknout nebo odemknout <key>CapsLock</key>, můžete tak učinit buďto zmáčknutím <key>CapsLock</key> dvakrát po sobě (vyžaduje at-spi2 verze 2.32 nebo novější) nebo provedením následujících kroků:</p>
   <steps>
     <title>Přepínání zámku CapsLock v rozložení Přenosný počítač</title>
     <item>

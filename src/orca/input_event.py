@@ -70,8 +70,12 @@ class KeyboardEvent(InputEvent):
 
     # Whether last press of the Orca modifier was alone
     lastOrcaModifierAlone = False
+    lastOrcaModifierAloneTime = None
     # Whether the current press of the Orca modifier is alone
     currentOrcaModifierAlone = False
+    currentOrcaModifierAloneTime = None
+    # When the second orca press happened
+    secondOrcaModifierTime = None
 
     TYPE_UNKNOWN          = "unknown"
     TYPE_PRINTABLE        = "printable"
@@ -154,8 +158,10 @@ class KeyboardEvent(InputEvent):
         if not self.isOrcaModifier():
             if KeyboardEvent.orcaModifierPressed:
                 KeyboardEvent.currentOrcaModifierAlone = False
+                KeyboardEvent.currentOrcaModifierAloneTime = None
             else:
                 KeyboardEvent.lastOrcaModifierAlone = False
+                KeyboardEvent.lastOrcaModifierAloneTime = None
 
         if self.isNavigationKey():
             self.keyType = KeyboardEvent.TYPE_NAVIGATION
@@ -167,17 +173,24 @@ class KeyboardEvent(InputEvent):
             self.keyType = KeyboardEvent.TYPE_MODIFIER
             self.shouldEcho = _mayEcho and settings.enableModifierKeys
             if self.isOrcaModifier():
+                now = time.time()
                 if KeyboardEvent.lastOrcaModifierAlone:
-                    # double-orca, let the real action happen
-                    self._bypassOrca = True
+                    if _isPressed:
+                        KeyboardEvent.secondOrcaModifierTime = now
+                    if KeyboardEvent.secondOrcaModifierTime < KeyboardEvent.lastOrcaModifierAloneTime + 0.5:
+                        # double-orca, let the real action happen
+                        self._bypassOrca = True
                     if not _isPressed:
                         KeyboardEvent.lastOrcaModifierAlone = False
+                        KeyboardEvent.lastOrcaModifierAloneTime = False
                 else:
                     KeyboardEvent.orcaModifierPressed = _isPressed
                     if _isPressed:
                         KeyboardEvent.currentOrcaModifierAlone = True
+                        KeyboardEvent.currentOrcaModifierAloneTime = now
                     else:
                         KeyboardEvent.lastOrcaModifierAlone = KeyboardEvent.currentOrcaModifierAlone
+                        KeyboardEvent.lastOrcaModifierAloneTime = KeyboardEvent.currentOrcaModifierAloneTime
         elif self.isFunctionKey():
             self.keyType = KeyboardEvent.TYPE_FUNCTION
             self.shouldEcho = _mayEcho and settings.enableFunctionKeys
@@ -695,7 +708,7 @@ class KeyboardEvent(InputEvent):
                     debug.println(debug.LEVEL_INFO, "Done with capslock", True)
                 except:
                     debug.println(debug.LEVEL_INFO, "Could not trigger capslock, " \
-                        "at-spi2-core >= 2.30 is needed for triggering capslock", True)
+                        "at-spi2-core >= 2.32 is needed for triggering capslock", True)
                     pass
             return lockit
         debug.println(debug.LEVEL_INFO, "Scheduling capslock", True)
@@ -708,9 +721,16 @@ class KeyboardEvent(InputEvent):
         debug.println(debug.LEVEL_INFO, msg, False)
 
         if self._consumer:
+            msg = 'INFO: Consumer is %s' % self._consumer.__name__
+            debug.println(debug.LEVEL_INFO, msg, True)
             self._consumer(self)
         elif self._handler.function:
+            msg = 'INFO: Handler is %s' % self._handler.description
+            debug.println(debug.LEVEL_INFO, msg, True)
             self._handler.function(self._script, self)
+        else:
+            msg = 'INFO: No handler or consumer'
+            debug.println(debug.LEVEL_INFO, msg, True)
 
         msg = 'TOTAL PROCESSING TIME: %.4f' % (time.time() - startTime)
         debug.println(debug.LEVEL_INFO, msg, True)

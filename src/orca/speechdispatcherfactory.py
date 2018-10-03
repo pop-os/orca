@@ -345,14 +345,29 @@ class SpeechServer(speechserver.SpeechServer):
         if isinstance(text, ACSS):
             text = ''
 
-        # Mark words to get speech progression feedback.
-        # Note: we need to do it before disturbing the text offsets
-        markedtext = ""
+        # Mark beginning of words with U+E000 (private use) and record the
+        # string offsets
+        # Note: we need to do this before disturbing the text offsets
+        # Note2: we assume that text mangling below leave U+E000 untouched
+        marks_offsets = []
+        marked_text = ""
+
         for i in range(len(text)):
-            markedtext += text[i]
-            if text[i] == ' ' or text[i] == '\u00a0':
-                markedtext += '<mark name="%u"/>' % (i+1)
-        text = markedtext
+            c = text[i]
+            if c == '\ue000':
+                # Original text already contains U+E000. But syntheses will not
+                # know what to do of it anyway, so discard it
+                continue
+            marked_text += c
+
+            if (c == ' ' or c == '\u00a0') \
+               and i < len(text) - 1 \
+               and text[i + 1] != ' ' and text[i + 1] != '\u00a0':
+                # Word separation, add a mark
+                marks_offsets.append(i + 1)
+                marked_text += '\ue000'
+
+        text = marked_text
 
         text = self.__addVerbalizedPunctuation(text)
         if orca_state.activeScript:
@@ -369,11 +384,38 @@ class SpeechServer(speechserver.SpeechServer):
         #
         text = text.replace('\n.', '\n')
 
-        text = "<speak>" + text + "</speak>"
+        # Transcribe to SSML, translating U+E000 into marks
+        # Note: we need to do this after all mangling otherwise the ssml markup
+        # would get mangled too
+        ssml = "<speak>"
+        i = 0
+        for c in text:
+            if c == '\ue000':
+                if i >= len(marks_offsets):
+                    # This is really not supposed to happen
+                    msg = "%uth U+E000 does not have corresponding index" % i
+                    debug.println(debug.LEVEL_WARNING, msg, True)
+                else:
+                    ssml += '<mark name="%u"/>' % marks_offsets[i]
+                i += 1
+            # Disable for now, until speech dispatcher properly parses them (version 0.8.9 or later)
+            #elif c == '"':
+            #  ssml += '&quot;'
+            #elif c == "'":
+            #  ssml += '&apos;'
+            elif c == '<':
+              ssml += '&lt;'
+            elif c == '>':
+              ssml += '&gt;'
+            elif c == '&':
+              ssml += '&amp;'
+            else:
+              ssml += c
+        ssml += "</speak>"
 
         self._apply_acss(acss)
-        self._debug_sd_values("Speaking '%s' " % text)
-        self._send_command(self._client.speak, text, **kwargs)
+        self._debug_sd_values("Speaking '%s' " % ssml)
+        self._send_command(self._client.speak, ssml, **kwargs)
 
     def _say_all(self, iterator, orca_callback):
         """Process another sayAll chunk.
@@ -393,7 +435,9 @@ class SpeechServer(speechserver.SpeechServer):
                 t = self._CALLBACK_TYPE_MAP[callbackType]
                 if t == speechserver.SayAllContext.PROGRESS:
                     if index_mark:
-                        context.currentOffset = int(index_mark)
+                        context.currentOffset = context.startOffset + int(index_mark)
+                        msg = "SPEECH DISPATCHER: Got mark %d / %d-%d" % (context.currentOffset, context.startOffset, context.endOffset)
+                        debug.println(debug.LEVEL_INFO, msg, True)
                     else:
                         context.currentOffset = context.startOffset
                 elif t == speechserver.SayAllContext.COMPLETED:

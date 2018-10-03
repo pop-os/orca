@@ -172,10 +172,10 @@ class Script(script.Script):
                 Script.whereAmILink,
                 cmdnames.WHERE_AM_I_LINK)
 
-        self.inputEventHandlers["whereAmISelectedTextHandler"] = \
+        self.inputEventHandlers["whereAmISelectionHandler"] = \
             input_event.InputEventHandler(
-                Script.whereAmISelectedText,
-                cmdnames.WHERE_AM_I_SELECTED_TEXT)
+                Script.whereAmISelection,
+                cmdnames.WHERE_AM_I_SELECTION)
 
         self.inputEventHandlers["getTitleHandler"] = \
             input_event.InputEventHandler(
@@ -2086,14 +2086,35 @@ class Script(script.Script):
             speech.speak(self.speechGenerator.generateLinkInfo(link))
         return True
 
-    def whereAmISelectedText(self, inputEvent=None, obj=None):
-        obj = obj or orca_state.locusOfFocus
+    def _whereAmISelectedText(self, inputEvent, obj):
         text, startOffset, endOffset = self.utilities.allSelectedText(obj)
         if not text:
             msg = messages.NO_SELECTED_TEXT
         else:
             msg = messages.SELECTED_TEXT_IS % text
         self.speakMessage(msg)
+        return True
+
+    def whereAmISelection(self, inputEvent=None, obj=None):
+        obj = obj or orca_state.locusOfFocus
+        if not obj:
+            return True
+
+        container = obj
+        if "Selection" in pyatspi.listInterfaces(container.parent):
+            container = obj.parent
+
+        if "Selection" not in pyatspi.listInterfaces(container):
+            msg = "INFO: %s and %s don't implement selection interface" % (obj, obj.parent)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return self._whereAmISelectedText(inputEvent, obj)
+
+        count = self.utilities.selectedChildCount(container)
+        if not count:
+            return True
+
+        utterances = self.speechGenerator.generateSelectedItems(container)
+        speech.speak(utterances)
         return True
 
     ########################################################################
@@ -2295,6 +2316,10 @@ class Script(script.Script):
         speech.speak(self.speechGenerator.generateSpeech(obj, alreadyFocused=True))
         self.pointOfReference['expandedChange'] = hash(obj), event.detail1
 
+        details = self.utilities.detailsContentForObject(obj)
+        for detail in details:
+            self.speakMessage(detail, interrupt=False)
+
     def onIndeterminateChanged(self, event):
         """Callback for object:state-changed:indeterminate accessibility events."""
 
@@ -2441,6 +2466,8 @@ class Script(script.Script):
 
         if self.utilities.handlePasteLocusOfFocusChange():
             orca.setLocusOfFocus(event, event.source, False)
+        elif self.utilities.handleContainerSelectionChange(event.source):
+            return
         else:
             if state.contains(pyatspi.STATE_MANAGES_DESCENDANTS):
                 return

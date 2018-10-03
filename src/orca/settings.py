@@ -98,6 +98,7 @@ userCustomizableSettings = [
     "enableMouseReview",
     "speakCellCoordinates",
     "speakSpreadsheetCoordinates",
+    "alwaysSpeakSelectedSpreadsheetRange",
     "speakCellSpan",
     "speakCellHeaders",
     "skipBlankCells",
@@ -227,6 +228,7 @@ speakCellCoordinates         = True
 speakCellSpan                = True
 speakCellHeaders             = True
 speakSpreadsheetCoordinates  = True
+alwaysSpeakSelectedSpreadsheetRange = False
 speakMultiCaseStringsAsWords = False
 speakNumbersAsDigits         = False
 speakMisspelledIndicator     = True

@@ -742,9 +742,18 @@ SPELL_CHECK_SPELL_SUGGESTION = _("Spell _suggestion")
 SPELL_CHECK_PRESENT_CONTEXT = _("Present _context of error")
 
 # Translators: This is a label for an option to tell Orca whether or not it
-# should speak the coordinates of the current spread sheet cell. Coordinates are
-# the row and column position within the spread sheet (i.e. A1, B1, C2 ...)
-SPREADSHEET_SPEAK_CELL_COORDINATES = _("Speak spread sheet cell coordinates")
+# should speak the coordinates of the current spreadsheet cell. Coordinates are
+# the row and column position within the spreadsheet (i.e. A1, B1, C2 ...)
+SPREADSHEET_SPEAK_CELL_COORDINATES = _("Speak spreadsheet cell coordinates")
+
+# Translators: This is a label for an option which controls what Orca speaks when
+# presenting selection changes in a spreadsheet. By default, Orca will speak just
+# what changed. For instance, if cells A1 through A8 are already selected, and the
+# user adds A9 to the selection, Orca by default would just say "A9 selected."
+# Some users, however, prefer to have Orca always announce the entire selected range,
+# i.e. in the same scenario say "A1 through A9 selected." Those users should enable
+# this option.
+SPREADSHEET_SPEAK_SELECTED_RANGE = _("Always speak selected spreadsheet range")
 
 # Translators: This is a label for an option for whether or not to speak the
 # header of a table cell in document content.

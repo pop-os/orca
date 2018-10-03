@@ -451,6 +451,40 @@ class Utilities:
         relation = filter(describedBy, relations)
         return [r.getTarget(i) for r in relation for i in range(r.getNTargets())]
 
+    def detailsContentForObject(self, obj):
+        details = self.detailsForObject(obj)
+        return list(map(self.displayedText, details))
+
+    def detailsForObject(self, obj, textOnly=True):
+        """Return a list of objects containing details for obj."""
+
+        try:
+            relations = obj.getRelationSet()
+            role = obj.getRole()
+            state = obj.getState()
+        except (LookupError, RuntimeError):
+            msg = 'ERROR: Exception getting relationset, role, and state for %s' % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return []
+
+        if not state.contains(pyatspi.STATE_EXPANDED):
+            return []
+
+        hasDetails = lambda x: x.getRelationType() == pyatspi.RELATION_DETAILS
+        relation = filter(hasDetails, relations)
+        details = [r.getTarget(i) for r in relation for i in range(r.getNTargets())]
+        if not details and role == pyatspi.ROLE_TOGGLE_BUTTON:
+            details = [child for child in obj]
+
+        if not textOnly:
+            return details
+
+        textObjects = []
+        for detail in details:
+            textObjects.extend(pyatspi.findAllDescendants(detail, self.queryNonEmptyText))
+
+        return textObjects
+
     def displayedDescription(self, obj):
         """Returns the text being displayed for the object describing obj."""
 
@@ -599,6 +633,9 @@ class Utilities:
         return results
 
     def presentEventFromNonShowingObject(self, event):
+        if event.source == orca_state.locusOfFocus:
+            return True
+
         return False
 
     def grabFocusBeforeRouting(self, obj, offset):
@@ -2229,6 +2266,9 @@ class Utilities:
         if not obj:
             return False
 
+        if obj.getRole() == pyatspi.ROLE_APPLICATION:
+            return False
+
         try:
             extents = obj.queryComponent().getExtents(pyatspi.DESKTOP_COORDS)
         except:
@@ -2300,7 +2340,7 @@ class Utilities:
         # Eliminate duplicates and things suspected to be labels for widgets
         d = {}
         for label in labels:
-            name = label.name
+            name = label.name or self.displayedText(label)
             if name and name in [rootName, label.parent.name]:
                 continue
             if len(name.split()) < minimumWords:
@@ -4972,6 +5012,46 @@ class Utilities:
             return True
         if self.handlePasteLocusOfFocusChange():
             return True
+        return False
+
+    def allItemsSelected(self, obj):
+        interfaces = pyatspi.listInterfaces(obj)
+        if "Selection" not in interfaces:
+            return False
+
+        state = obj.getState()
+        if state.contains(pyatspi.STATE_EXPANDABLE) \
+           and not state.contains(pyatspi.STATE_EXPANDED):
+            return False
+
+        role = obj.getRole()
+        if role in [pyatspi.ROLE_COMBO_BOX, pyatspi.ROLE_MENU]:
+            return False
+
+        if self.selectedChildCount(obj) == obj.childCount:
+            return True
+
+        if "Table" not in interfaces:
+            return False
+
+        table = obj.queryTable()
+        if table.nSelectedRows == table.nRows or table.nSelectedColumns == table.nColumns:
+            return True
+
+        return False
+
+    def handleContainerSelectionChange(self, obj):
+        allAlreadySelected = self._script.pointOfReference.get('allItemsSelected')
+        allCurrentlySelected = self.allItemsSelected(obj)
+        if allAlreadySelected and allCurrentlySelected:
+            return True
+
+        self._script.pointOfReference['allItemsSelected'] = allCurrentlySelected
+        if self.lastInputEventWasSelectAll() and allCurrentlySelected:
+            self._script.presentMessage(messages.CONTAINER_SELECTED_ALL)
+            orca.setLocusOfFocus(None, obj, False)
+            return True
+
         return False
 
     def handleTextSelectionChange(self, obj):

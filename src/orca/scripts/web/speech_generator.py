@@ -179,6 +179,10 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if role in [pyatspi.ROLE_COMBO_BOX, pyatspi.ROLE_SPIN_BUTTON]:
             return super()._generateName(obj, **args)
 
+        if self._script.utilities.isLink(obj) \
+           and not self._script.utilities.hasExplicitName(obj):
+            return []
+
         if self._script.utilities.inDocumentContent(obj) and obj.name:
             result = [obj.name]
             result.extend(self.voice(speech_generator.DEFAULT))
@@ -287,6 +291,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         force = args.get('force', False)
         start = args.get('startOffset')
         end = args.get('endOffset')
+        total = args.get('total', 1)
 
         if not force:
             doNotSpeak = [pyatspi.ROLE_FOOTER,
@@ -311,6 +316,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                 doNotSpeak.append(pyatspi.ROLE_ALERT)
             if self._script.utilities.isAnchor(obj):
                 doNotSpeak.append(obj.getRole())
+            if total > 1:
+                doNotSpeak.append(pyatspi.ROLE_ROW_HEADER)
 
         if obj.getState().contains(pyatspi.STATE_EDITABLE):
             lastKey, mods = self._script.utilities.lastKeyAndModifiers()
