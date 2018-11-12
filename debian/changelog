@@ -1,8 +1,8 @@
-orca (3.31.1-1) UNRELEASED; urgency=medium
+orca (3.31.1-1) experimental; urgency=medium
 
   * New upstream unstable release.
 
- -- Samuel Thibault <sthibault@debian.org>  Mon, 12 Nov 2018 20:00:06 +0100
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 12 Nov 2018 20:08:45 +0100
 
 orca (3.30.1-1) unstable; urgency=medium
 
