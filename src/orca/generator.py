@@ -408,15 +408,22 @@ class Generator:
         if role == pyatspi.ROLE_LABEL:
             return []
 
+        try:
+            name = obj.name
+            description = obj.description
+        except:
+            msg = "ERROR: Exception getting name and description for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            name = ""
+            description = ""
+
         if role == pyatspi.ROLE_ICON:
             name = self._script.utilities.displayedText(obj) or ""
-        else:
-            name = obj.name or ""
 
         result = []
-        if obj.description:
+        if description:
             label = self._script.utilities.displayedLabel(obj) or ""
-            desc = obj.description.lower()
+            desc = description.lower()
             if not (desc in name.lower() or desc in label.lower()):
                 result.append(obj.description)
 
@@ -671,11 +678,13 @@ class Generator:
         args['stringType'] = 'expansion'
         indicators = self._script.formatting.getString(**args)
         state = obj.getState()
-        if state.contains(pyatspi.STATE_EXPANDABLE):
-            if state.contains(pyatspi.STATE_EXPANDED):
-                result.append(indicators[1])
-            else:
-                result.append(indicators[0])
+        if state.contains(pyatspi.STATE_COLLAPSED):
+            result.append(indicators[0])
+        elif state.contains(pyatspi.STATE_EXPANDED):
+            result.append(indicators[1])
+        elif state.contains(pyatspi.STATE_EXPANDABLE):
+            result.append(indicators[0])
+
         return result
 
     def _generateMultiselectableState(self, obj, **args):
@@ -1106,7 +1115,7 @@ class Generator:
         if not (rad.getRole() == pyatspi.ROLE_TABLE_CELL and rad.childCount):
             return self._generateDisplayedText(rad, **args)
 
-        content = [self._script.utilities.displayedText(x).strip() for x in rad]
+        content = set([self._script.utilities.displayedText(x).strip() for x in rad])
         return [" ".join(filter(lambda x: x, content))]
 
     def _generateRealActiveDescendantRoleName(self, obj, **args ):

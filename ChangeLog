@@ -6,17 +6,196 @@
 
 M	src/orca/scripts/apps/gnome-shell/script_utilities.py
 
-2018-10-14 13:09:08 +0000 Kjartan Maraas <kmaraas@gnome.org>
+2018-10-18 14:31:38 +0200 Joanmarie Diggs <jdiggs@igalia.com>
 
-        Update Norwegian Bokmål translation
+        Handle yet another object going defunct on us
+
+M	src/orca/scripts/toolkits/gtk/script_utilities.py
+
+2018-10-18 14:10:06 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Include the selected item count when presenting selection
+
+M	src/orca/scripts/default.py
+
+2018-10-18 12:09:48 +0200 Marek Cernocky <marek_cernocky@conel.cz>
+
+        Updated Czech translation
+
+M	po/cs.po
+
+2018-10-18 11:55:51 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Filter out duplicate text when generating real active descendant content
+
+M	src/orca/generator.py
+
+2018-10-18 09:18:43 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Handle another case of objects going defunct during presentation generation
+
+M	src/orca/generator.py
+
+2018-10-18 09:09:02 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Fix reference before assignment error
+
+M	src/orca/generator.py
+
+2018-10-17 19:51:38 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Add means to test if the last input event came from the current application
+
+M	src/orca/input_event.py
+M	src/orca/script_utilities.py
+
+2018-10-17 18:58:55 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Handle another case of objects going defunct during presentation generation
+
+M	src/orca/generator.py
+
+2018-10-17 11:33:48 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Don't insist upon expandable state for presentation of expanded/collapsed
+
+M	src/orca/generator.py
+
+2018-10-16 17:28:30 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Fix copy and paste error
+
+M	src/orca/scripts/web/script_utilities.py
+
+2018-10-16 14:16:30 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Fall back on event source when getting page summary for null caret context
+
+M	src/orca/scripts/web/script.py
+
+2018-10-16 14:03:52 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Handle object going defunct on us during presentation generation
+
+M	src/orca/generator.py
+
+2018-10-16 13:57:31 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Handle exception getting childcount
+
+M	src/orca/script_utilities.py
+
+2018-10-16 12:58:49 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Ignore spurious focus claim from gnome-shell window after switcher use
+
+M	src/orca/scripts/apps/gnome-shell/script.py
+
+2018-10-16 12:28:24 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Have scripts call presentationInterrupt() rather than speech.stop()
+
+M	src/orca/scripts/apps/gtk-window-decorator/script.py
+M	src/orca/scripts/apps/metacity/script.py
+M	src/orca/scripts/apps/soffice/script.py
+M	src/orca/scripts/default.py
+
+2018-10-16 11:46:05 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Fail gracefully when an exception is encountered getting role of parent
+
+M	src/orca/scripts/web/script_utilities.py
+
+2018-10-15 17:58:00 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Treat the redundant-object role like we do the unknown role
+
+M	src/orca/braille_generator.py
+M	src/orca/script_utilities.py
+M	src/orca/scripts/web/braille_generator.py
+M	src/orca/scripts/web/script.py
+M	src/orca/scripts/web/script_utilities.py
+M	src/orca/scripts/web/speech_generator.py
+M	src/orca/speech_generator.py
+
+2018-10-15 17:09:55 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Remove no-longer-needed call to getRole()
+
+M	src/orca/scripts/default.py
+
+2018-10-15 16:59:52 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Gracefully fail when document frame cannot be found during page summary
+
+M	src/orca/scripts/web/script_utilities.py
+
+2018-10-15 16:53:58 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Handle component interface failures in label inference
+
+M	src/orca/label_inference.py
+
+2018-10-15 16:42:55 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Treat expanded events from listboxes as presentable events
+
+M	src/orca/script_utilities.py
+
+2018-10-15 16:06:46 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Sanity-check offsets before calling getRangeExtents()
+
+M	src/orca/scripts/web/script_utilities.py
+
+2018-10-15 15:20:14 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Return an empty list rather than None if _getXMLRoles() fails
+
+M	src/orca/scripts/web/script_utilities.py
+
+2018-10-11 11:59:19 -0400 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Use same braille formatting string for document-web as document-frame
+
+M	src/orca/formatting.py
+
+2018-10-10 15:07:58 -0400 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Ensure we correctly speak the role of edit spin buttons
+
+M	src/orca/scripts/web/speech_generator.py
+
+2018-10-10 14:11:42 -0400 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Present expanded-changed events for push buttons
+
+M	src/orca/script_utilities.py
+M	src/orca/scripts/default.py
+
+2018-10-09 18:32:53 -0400 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Work around Writer killing focused cell during row insertion/deletion
+
+M	src/orca/scripts/apps/soffice/script.py
+
+2018-10-09 16:02:57 -0400 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Ensure we're not silent when a cell gains focus
+
+M	src/orca/speech_generator.py
+
+2018-10-09 14:34:35 -0400 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Don't present ancestors after editing Calc cell
+
+M	src/orca/scripts/apps/soffice/speech_generator.py
+
+2018-10-07 11:20:38 +0200 Kjartan Maraas <kmaraas@gnome.org>
+
+        Updated Norwegian bokmål translation.
 
 M	po/nb.po
-
-2018-10-08 19:30:36 +0000 Stas Solovey <whats_up@tut.by>
-
-        Update Russian translation
-
-M	po/ru.po
 
 2018-10-03 08:35:56 -0400 Joanmarie Diggs <jdiggs@igalia.com>
 
@@ -29,6 +208,18 @@ M	src/orca/script_manager.py
         Update Serbian translation
 
 M	po/sr.po
+
+2018-09-29 12:44:59 -0400 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Add initial support for Smuxi (gnome frontend)
+
+M	configure.ac
+M	src/orca/scripts/apps/Makefile.am
+M	src/orca/scripts/apps/__init__.py
+A	src/orca/scripts/apps/smuxi-frontend-gnome/Makefile.am
+A	src/orca/scripts/apps/smuxi-frontend-gnome/__init__.py
+A	src/orca/scripts/apps/smuxi-frontend-gnome/chat.py
+A	src/orca/scripts/apps/smuxi-frontend-gnome/script.py
 
 2018-09-29 10:19:35 -0400 Joanmarie Diggs <jdiggs@igalia.com>
 
@@ -47,6 +238,30 @@ M	src/orca/scripts/web/speech_generator.py
         Work around Writer docs claiming to implement the selection interface
 
 M	src/orca/scripts/apps/soffice/script.py
+
+2018-09-21 12:16:17 +0000 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Merge branch 'segv' into 'master'
+
+2018-09-21 13:44:49 +0200 Samuel Thibault <samuel.thibault@ens-lyon.org>
+
+        Restore X keyboard layout on orca segfault
+
+M	src/orca/orca.py
+
+2018-09-20 16:51:41 +0000 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Merge branch 'profile-remove' into 'master'
+
+2018-09-20 16:51:41 +0000 Colomban Wendling <hypra@ban.netlib.re>
+
+        Add support for removing user profiles
+
+M	src/orca/backends/json_backend.py
+M	src/orca/guilabels.py
+M	src/orca/orca-setup.ui
+M	src/orca/orca_gui_prefs.py
+M	src/orca/settings_manager.py
 
 2018-09-19 15:30:42 +0000 Joanmarie Diggs <jdiggs@igalia.com>
 

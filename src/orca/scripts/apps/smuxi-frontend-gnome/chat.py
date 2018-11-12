@@ -1,6 +1,8 @@
 # Orca
 #
-# Copyright 2006-2008 Sun Microsystems Inc.
+# Copyright 2018 Igalia, S.L.
+#
+# Author: Joanmarie Diggs <jdiggs@igalia.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -17,31 +19,31 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-"""Holds platform-specific settings.
-"""
+"""Custom chat module for Smuxi."""
 
 __id__        = "$Id$"
 __version__   = "$Revision$"
 __date__      = "$Date$"
-__copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc."
+__copyright__ = "Copyright (c) 2018 Igalia, S.L."
 __license__   = "LGPL"
 
-# $ORCA_MAJOR_VERSION.$ORCA_MINOR_VERSION.$ORCA_MICRO_VERSION
-#
-version     = "3.31.1"
+import pyatspi
 
-# "--prefix" parameter used when configuring the build.
-#
-prefix      = "/home/jd/checkout/orca/bld"
+import orca.chat as chat
 
-# The package name (should be "orca").
-#
-package     = "orca"
 
-# The location of the data directory (usually "share").
-#
-datadir = "${prefix}/share".replace('${prefix}', '/home/jd/checkout/orca/bld')
+class Chat(chat.Chat):
 
-# The directory where we could find liblouis translation tables.
-#
-tablesdir = "/usr/share/liblouis/tables"
+    def __init__(self, script, buddyListAncestries):
+
+        super().__init__(script, buddyListAncestries)
+
+    def isFocusedChat(self, obj):
+        """Returns True if we plan to treat this chat as focused."""
+
+        isPageTab = lambda x: x and x.getRole() == pyatspi.ROLE_PAGE_TAB
+        pageTab = pyatspi.findAncestor(obj, isPageTab)
+        if pageTab is None:
+            return super().isFocusedChat(obj)
+
+        return pageTab.getState().contains(pyatspi.STATE_SHOWING)
