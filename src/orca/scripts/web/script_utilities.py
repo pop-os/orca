@@ -542,13 +542,13 @@ class Utilities(script_utilities.Utilities):
 
     def _getXMLRoles(self, obj):
         rv = self._xmlRoles.get(hash(obj))
-        if rv is not None:
+        if rv:
             return rv
 
         try:
             attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
         except:
-            return None
+            return []
 
         rv = attrs.get('xml-roles', '').split()
         self._xmlRoles[hash(obj)] = rv
@@ -717,7 +717,7 @@ class Utilities(script_utilities.Utilities):
 
         try:
             text = obj.queryText()
-            if text.characterCount:
+            if text.characterCount and 0 <= startOffset < endOffset:
                 return list(text.getRangeExtents(startOffset, endOffset, 0))
         except NotImplementedError:
             pass
@@ -727,7 +727,13 @@ class Utilities(script_utilities.Utilities):
             return [0, 0, 0, 0]
 
         role = obj.getRole()
-        parentRole = obj.parent.getRole()
+        try:
+            parentRole = obj.parent.getRole()
+        except:
+            msg = "WEB: Exception getting role of parent (%s) of %s" % (obj.parent, obj)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            parentRole = None
+
         if role in [pyatspi.ROLE_MENU, pyatspi.ROLE_LIST_ITEM] \
            and parentRole in [pyatspi.ROLE_COMBO_BOX, pyatspi.ROLE_LIST_BOX]:
             try:
@@ -3761,7 +3767,8 @@ class Utilities(script_utilities.Utilities):
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
 
-            if role == pyatspi.ROLE_UNKNOWN and not self._getTag(event.any_data):
+            if role in [pyatspi.ROLE_UNKNOWN, pyatspi.ROLE_REDUNDANT_OBJECT] \
+               and not self._getTag(event.any_data):
                 msg = "WEB: Child has unknown role and no tag %s" % event.any_data
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return False
@@ -3777,6 +3784,9 @@ class Utilities(script_utilities.Utilities):
                   'unvisitedLinks': 0}
 
         docframe = self.documentFrame(obj)
+        msg = "WEB: Could not get document frame for %s" % obj
+        debug.println(debug.LEVEL_INFO, msg, True)
+
         col = docframe.queryCollection()
         stateset = pyatspi.StateSet()
         roles = [pyatspi.ROLE_HEADING,

@@ -1807,7 +1807,8 @@ class Script(script.Script):
 
         Returns True to indicate the input event has been consumed.
         """
-        speech.stop()
+
+        self.presentationInterrupt()
         if _settingsManager.getSetting('silenceSpeech'):
             _settingsManager.setSetting('silenceSpeech', False)
             self.presentMessage(messages.SPEECH_ENABLED)
@@ -2110,6 +2111,7 @@ class Script(script.Script):
             return self._whereAmISelectedText(inputEvent, obj)
 
         count = self.utilities.selectedChildCount(container)
+        self.presentMessage(messages.selectedItemsCount(count, container.childCount))
         if not count:
             return True
 
@@ -2179,7 +2181,7 @@ class Script(script.Script):
             return
 
         if self.stopSpeechOnActiveDescendantChanged(event):
-            speech.stop()
+            self.presentationInterrupt()
 
         orca.setLocusOfFocus(event, event.any_data)
 
@@ -2302,12 +2304,10 @@ class Script(script.Script):
     def onExpandedChanged(self, event):
         """Callback for object:state-changed:expanded accessibility events."""
 
-        obj = event.source
-        role = obj.getRole()
-        if not self.utilities.isSameObject(obj, orca_state.locusOfFocus) \
-           and not role in [pyatspi.ROLE_TABLE_ROW, pyatspi.ROLE_COMBO_BOX]:
+        if not self.utilities.isPresentableExpandedChangedEvent(event):
             return
 
+        obj = event.source
         oldObj, oldState = self.pointOfReference.get('expandedChange', (None, 0))
         if hash(oldObj) == hash(obj) and oldState == event.detail1:
             return
@@ -2356,7 +2356,7 @@ class Script(script.Script):
             orca_state.activeWindow = window
             orca.setLocusOfFocus(None, window, False)
 
-        speech.stop()
+        self.presentationInterrupt()
         obj = mouseEvent.obj
         if obj and obj.getState().contains(pyatspi.STATE_FOCUSED):
             orca.setLocusOfFocus(None, obj, windowChanged)
@@ -2849,9 +2849,8 @@ class Script(script.Script):
         # commands running in gnome-terminal.
         #
         if orca_state.locusOfFocus and \
-          (orca_state.locusOfFocus.getApplication() == \
-             event.source.getApplication()):
-            speech.stop()
+           orca_state.locusOfFocus.getApplication() == event.source.getApplication():
+            self.presentationInterrupt()
 
             # Clear the braille display just in case we are about to give
             # focus to an inaccessible application. See bug #519901 for
@@ -3753,6 +3752,8 @@ class Script(script.Script):
         """Convenience method to interrupt presentation of whatever is being
         presented at the moment."""
 
+        msg = "DEFAULT: Interrupting presentation"
+        debug.println(debug.LEVEL_INFO, msg, True)
         speech.stop()
         braille.killFlash()
 

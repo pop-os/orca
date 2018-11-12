@@ -1143,7 +1143,7 @@ class Script(default.Script):
             if contextObj and not self.utilities.isZombie(contextObj):
                 newFocus, caretOffset = contextObj, contextOffset
 
-        if newFocus.getRole() == pyatspi.ROLE_UNKNOWN:
+        if newFocus.getRole() in [pyatspi.ROLE_UNKNOWN, pyatspi.ROLE_REDUNDANT_OBJECT]:
             msg = "WEB: Event source has bogus role. Likely browser bug."
             debug.println(debug.LEVEL_INFO, msg, True)
             newFocus, offset = self.utilities.findFirstCaretContext(newFocus, 0)
@@ -1269,6 +1269,7 @@ class Script(default.Script):
         self.utilities.clearCachedObjects()
 
         if _settingsManager.getSetting('pageSummaryOnLoad') and shouldPresent:
+            obj = obj or event.source
             msg = "WEB: Getting page summary for obj %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             summary = self.utilities.getPageSummary(obj)

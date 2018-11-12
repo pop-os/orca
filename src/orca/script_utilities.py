@@ -1474,6 +1474,8 @@ class Utilities:
             layoutOnly = False
         elif role == pyatspi.ROLE_LIST_ITEM and parentRole == pyatspi.ROLE_LIST_BOX:
             layoutOnly = False
+        elif role in [pyatspi.ROLE_REDUNDANT_OBJECT, pyatspi.ROLE_UNKNOWN]:
+            layoutOnly = True
         elif self.isTableRow(obj):
             state = obj.getState()
             layoutOnly = not (state.contains(pyatspi.STATE_FOCUSABLE) \
@@ -1980,7 +1982,7 @@ class Utilities:
             if visibleCells:
                 return visibleCells
 
-        nonText = [pyatspi.ROLE_STATUS_BAR, pyatspi.ROLE_UNKNOWN]
+        nonText = [pyatspi.ROLE_STATUS_BAR, pyatspi.ROLE_UNKNOWN, pyatspi.ROLE_REDUNDANT_OBJECT]
         objects = []
         if (role == pyatspi.ROLE_PAGE_TAB and root.name) \
            or (role not in nonText and "Text" in pyatspi.listInterfaces(root)):
@@ -3637,7 +3639,14 @@ class Utilities:
         return child
 
     def popupMenuFor(self, obj):
-        if not obj and obj.childCount:
+        if not obj:
+            return None
+
+        try:
+            childCount = obj.childCount
+        except:
+            msg = "ERROR: Exception getting childCount for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
             return None
 
         menus = [child for child in obj if child.getRole() == pyatspi.ROLE_MENU]
@@ -4533,6 +4542,13 @@ class Utilities:
         text = "%s\n%s" % (text, newText)
         clipboard.set_text(text, -1)
 
+    def lastInputEventCameFromThisApp(self):
+        if not isinstance(orca_state.lastInputEvent, input_event.KeyboardEvent):
+            return False
+
+        event = orca_state.lastNonModifierKeyEvent
+        return event and event.isFromApplication(self._script.app)
+
     def lastInputEventWasPrintableKey(self):
         event = orca_state.lastInputEvent
         if not isinstance(event, input_event.KeyboardEvent):
@@ -4761,6 +4777,26 @@ class Utilities:
                  pyatspi.ROLE_TABLE_ROW_HEADER]
 
         return role in roles
+
+    def isPresentableExpandedChangedEvent(self, event):
+        if self.isSameObject(event.source, orca_state.locusOfFocus):
+            return True
+
+        try:
+            role = event.source.getRole()
+            state = event.source.getState()
+        except:
+            msg = "ERROR: Exception getting role and state of %s" % event.source
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if role in [pyatspi.ROLE_TABLE_ROW, pyatspi.ROLE_COMBO_BOX, pyatspi.ROLE_LIST_BOX]:
+            return True
+
+        if role == pyatspi.ROLE_PUSH_BUTTON:
+            return state.contains(pyatspi.STATE_FOCUSED)
+
+        return False
 
     def isPresentableTextChangedEventForLocusOfFocus(self, event):
         if not event.type.startswith("object:text-changed:") \
