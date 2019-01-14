@@ -1217,7 +1217,9 @@ def refresh(panToCursor=True,
     if attributeMask:
         submask = attributeMask[startPos:endPos]
     else:
-        submask = '\x00' * (endPos - startPos)
+        submask = ""
+
+    submask += '\x00' * (len(substring) - len(submask))
     if not _brlAPIRunning:
         init(_callback, settings.tty)
     if _brlAPIRunning:
@@ -1480,7 +1482,13 @@ def panRight(panAmount=0):
     if panAmount == 0:
         panAmount = _displaySize[0]
 
-    viewport[0] += panAmount
+    if len(_lines) > 0:
+        lineNum = viewport[1]
+        newX = viewport[0] + panAmount
+        string, focusOffset, attributeMask, ranges = _lines[lineNum].getLineInfo()
+        if newX < len(string):
+            viewport[0] = newX
+
     return oldX != viewport[0]
 
 def panToOffset(offset):
@@ -1675,6 +1683,16 @@ def init(callback=None, tty=7):
                 debug.println(
                     debug.LEVEL_CONFIGURATION,
                     "Braille module has been initialized using tty=%d" % tty)
+
+        # [[[TODO: WDW - For some reason, BrlTTY wants to say the height of the
+        # Vario is 40 so we hardcode it to 1 for now.]]]
+        #
+        #_displaySize = (brl.getDisplayWidth(), brl.getDisplayHeight())
+        (x, y) = _brlAPI.displaySize
+        if x == 0:
+            # Braille device not plugged yet
+            raise Exception
+
         _brlAPISourceId = GLib.io_add_watch(_brlAPI.fileDescriptor,
                                             GLib.PRIORITY_DEFAULT,
                                             GLib.IO_IN,
@@ -1686,14 +1704,18 @@ def init(callback=None, tty=7):
         debug.println(debug.LEVEL_CONFIGURATION,
                       "Could not initialize BrlTTY:")
         debug.printException(debug.LEVEL_CONFIGURATION)
+        try:
+            _brlAPI.leaveTtyMode()
+        except:
+            pass
+        try:
+            _brlAPI.closeConnection()
+        except:
+            pass
+        _brlAPI = None
         _brlAPIRunning = False
         return False
 
-    # [[[TODO: WDW - For some reason, BrlTTY wants to say the height of the
-    # Vario is 40 so we hardcode it to 1 for now.]]]
-    #
-    #_displaySize = (brl.getDisplayWidth(), brl.getDisplayHeight())
-    (x, y) = _brlAPI.displaySize
     _displaySize = [x, 1]
 
     # The monitor will be created in refresh if needed.

@@ -85,7 +85,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-subdir = src/orca/scripts/apps/Mozilla
+subdir = src/orca/scripts/toolkits/Chromium
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/intltool.m4 \
 	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/pkg.m4 \
@@ -273,9 +273,12 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 orca_python_PYTHON = \
 	__init__.py \
-	script.py
+	braille_generator.py \
+	script.py \
+	script_utilities.py \
+	speech_generator.py
 
-orca_pythondir = $(pkgpythondir)/scripts/apps/Mozilla
+orca_pythondir = $(pkgpythondir)/scripts/toolkits/Chromium
 all: all-am
 
 .SUFFIXES:
@@ -288,9 +291,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/orca/scripts/apps/Mozilla/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/orca/scripts/toolkits/Chromium/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/orca/scripts/apps/Mozilla/Makefile
+	  $(AUTOMAKE) --gnu src/orca/scripts/toolkits/Chromium/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

@@ -1616,6 +1616,33 @@ MODE_FOCUS_IS_STICKY = _("Focus mode is sticky.")
 # This string is the message presented when Orca switches to sticky browse mode.
 MODE_BROWSE_IS_STICKY = _("Browse mode is sticky.")
 
+# Translators: When presenting the content of a line on a web page, Orca by
+# default presents the full line, including any links or form fields on that
+# line, in order to reflect the on-screen layout as seen by sighted users.
+# Not all users like this presentation, however, and prefer to have objects
+# treated as if they were on individual lines, such as is done by Windows
+# screen readers, so that unrelated objects (e.g. links in a navbar) are not
+# all jumbled together. As a result, this is now configurable. If layout mode
+# is enabled, Orca will present the full line as it appears on the screen; if
+# it is disabled, Orca will treat each object as if it were on a separate line,
+# both for presentation and navigation. This string is presented when the user
+# switches to layout mode via an Orca command.
+MODE_LAYOUT = _("Layout mode.")
+
+# Translators: When presenting the content of a line on a web page, Orca by
+# default presents the full line, including any links or form fields on that
+# line, in order to reflect the on-screen layout as seen by sighted users.
+# Not all users like this presentation, however, and prefer to have objects
+# treated as if they were on individual lines, such as is done by Windows
+# screen readers, so that unrelated objects (e.g. links in a navbar) are not
+# all jumbled together. As a result, this is now configurable. If layout mode
+# is enabled, Orca will present the full line as it appears on the screen; if
+# it is disabled, Orca will treat each object as if it were on a separate line,
+# both for presentation and navigation. This string is presented when the user
+# toggles layout mode off via an Orca command and switches to the aforementioned
+# object-based presentation.
+MODE_OBJECT = _("Object mode.")
+
 # Translators: Hovering the mouse over certain objects on a web page causes a 
 # new object to appear such as a pop-up menu. Orca has a command will move the
 # user to the object which just appeared as a result of the user hovering the
@@ -2032,6 +2059,18 @@ SELECTION_DELETED = _("Selection deleted.")
 # will indicate the restoration rather than presenting the full string
 # which was just inserted.
 SELECTION_RESTORED = _("Selection restored.")
+
+# Translators: Orca has a command which presents the size and position of the
+# current object in pixels. This string refers to the brief/non-verbose output
+# presented in response to the command. The string substitutions are all for
+# quantities (in pixels).
+SIZE_AND_POSITION_BRIEF = _("Size: %d, %d. Location: %d, %d.")
+
+# Translators: Orca has a command which presents the size and position of the
+# current object in pixels. This string refers to the full/verbose output
+# presented in response to the command. The string substitutions are all for
+# quantities (in pixels).
+SIZE_AND_POSITION_FULL = _("Width: %d. Height: %d. %d from left. %d from top.")
 
 # Translators: This message is presented to the user when speech synthesis
 # has been temporarily turned off.

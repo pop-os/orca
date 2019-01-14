@@ -48,7 +48,10 @@
       </list>
     </item>
   </list>
-  <p>A fenti hol vagyok műveletek billentyűparancsain kívül az <app>Orka</app> további két billentyűparanccsal rendelkezik a pillanatnyi objektum azonosításához:</p>
+  <p>
+    In addition to the dedicated Where Am I commands, <app>Orca</app> has
+    additional commands related to obtaining information about your present location:
+  </p>
   <list>
     <item>
       <p>A címsor kimondatása:</p>
@@ -69,6 +72,9 @@
         </item>
         <item>
           <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Per</key></keyseq> (kétszer gyorsan megnyomva)</p>
+        </item>
+        <item>
+          <p>Present size and location of current object in pixels: (Unbound)</p>
         </item>
       </list>
     </item>

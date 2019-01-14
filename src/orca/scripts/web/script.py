@@ -161,6 +161,14 @@ class Script(default.Script):
                 self.inputEventHandlers.get("enableStickyBrowseModeHandler"),
                 3))
 
+        keyBindings.add(
+            keybindings.KeyBinding(
+                "",
+                keybindings.defaultModifierMask,
+                keybindings.NO_MODIFIER_MASK,
+                self.inputEventHandlers.get("toggleLayoutModeHandler")))
+
+
         layout = _settingsManager.getSetting('keyboardLayout')
         if layout == settings.GENERAL_KEYBOARD_LAYOUT_DESKTOP:
             key = "KP_Multiply"
@@ -225,6 +233,11 @@ class Script(default.Script):
             input_event.InputEventHandler(
                 Script.enableStickyBrowseMode,
                 cmdnames.SET_BROWSE_MODE_STICKY)
+
+        self.inputEventHandlers["toggleLayoutModeHandler"] = \
+            input_event.InputEventHandler(
+                Script.toggleLayoutMode,
+                cmdnames.TOGGLE_LAYOUT_MODE)
 
     def getBookmarks(self):
         """Returns the "bookmarks" class for this script."""
@@ -1096,6 +1109,14 @@ class Script(default.Script):
         self._focusModeIsSticky = True
         self._browseModeIsSticky = False
 
+    def toggleLayoutMode(self, inputEvent):
+        layoutMode = not _settingsManager.getSetting('layoutMode')
+        if layoutMode:
+            self.presentMessage(messages.MODE_LAYOUT)
+        else:
+            self.presentMessage(messages.MODE_OBJECT)
+        _settingsManager.setSetting('layoutMode', layoutMode)
+
     def togglePresentationMode(self, inputEvent):
         [obj, characterOffset] = self.utilities.getCaretContext()
         if self._inFocusMode:
@@ -1167,6 +1188,11 @@ class Script(default.Script):
             utterances = self.speechGenerator.generateContents(contents)
         elif self.utilities.lastInputEventWasPageNav():
             msg = "WEB: New focus %s was scrolled to. Generating line contents." % newFocus
+            debug.println(debug.LEVEL_INFO, msg, True)
+            contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
+            utterances = self.speechGenerator.generateContents(contents)
+        elif self.utilities.isFocusedWithMathChild(newFocus):
+            msg = "WEB: New focus %s has math child. Generating line contents." % newFocus
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
             utterances = self.speechGenerator.generateContents(contents)
@@ -1247,8 +1273,6 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        self._loadingDocumentContent = event.detail1
-
         obj, offset = self.utilities.getCaretContext()
         if not obj or self.utilities.isZombie(obj):
             self.utilities.clearCaretContext()
@@ -1263,6 +1287,13 @@ class Script(default.Script):
             else:
                 self.presentMessage(messages.PAGE_LOADING_END)
 
+        activeDocument = self.utilities.activeDocument()
+        if activeDocument and activeDocument != event.source:
+            msg = "WEB: Ignoring: Event source is not active document"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        self._loadingDocumentContent = event.detail1
         if event.detail1:
             return True
 

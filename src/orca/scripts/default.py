@@ -516,6 +516,11 @@ class Script(script.Script):
                 Script.bypassNextCommand,
                 cmdnames.BYPASS_NEXT_COMMAND)
 
+        self.inputEventHandlers["presentSizeAndPositionHandler"] = \
+            input_event.InputEventHandler(
+                Script.presentSizeAndPosition,
+                cmdnames.PRESENT_SIZE_AND_POSITION)
+
         self.inputEventHandlers.update(notification_messages.inputEventHandlers)
 
     def getInputEventHandlerKey(self, inputEventHandler):
@@ -1752,10 +1757,10 @@ class Script(script.Script):
         context.goBegin()
 
         while True:
-            [wordString, x, y, width, height] = context.getCurrent(flat_review.Context.ZONE)
-            if wordString is not None:
-                speech.speak(wordString)
-            moved = context.goNext(flat_review.Context.ZONE, flat_review.Context.WRAP_LINE)
+            [string, x, y, width, height] = context.getCurrent(flat_review.Context.LINE)
+            if string is not None:
+                speech.speak(string)
+            moved = context.goNext(flat_review.Context.LINE, flat_review.Context.WRAP_LINE)
             if not moved:
                 break
 
@@ -2151,6 +2156,11 @@ class Script(script.Script):
             if sourceIsActiveWindow and not event.detail1:
                 if self.utilities.inMenu():
                     msg = "DEFAULT: Ignoring event. In menu."
+                    debug.println(debug.LEVEL_INFO, msg, True)
+                    return
+
+                if not self.utilities.eventIsUserTriggered(event):
+                    msg = "DEFAULT: Not clearing state. Event is not user triggered."
                     debug.println(debug.LEVEL_INFO, msg, True)
                     return
 
@@ -2872,6 +2882,11 @@ class Script(script.Script):
         # an event from the current activeWindow.
         #
         if event.source == orca_state.activeWindow:
+            if not self.utilities.eventIsUserTriggered(event):
+                msg = "DEFAULT: Not clearing state. Event is not user triggered."
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return
+
             orca.setLocusOfFocus(event, None)
             orca_state.activeWindow = None
             orca_state.activeScript = None
@@ -4300,4 +4315,24 @@ class Script(script.Script):
         dateFormat = _settingsManager.getSetting('presentDateFormat')
         message = time.strftime(dateFormat, time.localtime())
         self.presentMessage(message)
+        return True
+
+    def presentSizeAndPosition(self, inputEvent):
+        """ Presents the size and position of the locusOfFocus. """
+
+        if self.flatReviewContext:
+            obj = self.flatReviewContext.getCurrentAccessible()
+        else:
+            obj = orca_state.locusOfFocus
+
+        x, y, width, height = self.utilities.getBoundingBox(obj)
+        if (x, y, width, height) == (-1, -1, 0, 0):
+            full = messages.LOCATION_NOT_FOUND_FULL
+            brief = messages.LOCATION_NOT_FOUND_BRIEF
+            self.presentMessage(full, brief)
+            return True
+
+        full = messages.SIZE_AND_POSITION_FULL % (width, height, x, y)
+        brief = messages.SIZE_AND_POSITION_BRIEF % (width, height, x, y)
+        self.presentMessage(full, brief)
         return True

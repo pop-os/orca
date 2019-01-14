@@ -42,7 +42,10 @@
       </list>
     </item>
   </list>
-  <p>Poleg nameskih ukazov Kje sem ima <app>Orka</app> dva dodatna ukaza povezana s pridobivanjem vašega trenutnega mesta:</p>
+  <p>
+    In addition to the dedicated Where Am I commands, <app>Orca</app> has
+    additional commands related to obtaining information about your present location:
+  </p>
   <list>
     <item>
       <p>Predstavi naslovno vrstico:</p>
@@ -63,6 +66,9 @@
         </item>
         <item>
           <p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Poševnica</key></keyseq> (dvakrat kliknjeno)</p>
+        </item>
+        <item>
+          <p>Present size and location of current object in pixels: (Unbound)</p>
         </item>
       </list>
     </item>
