@@ -775,6 +775,7 @@ class SpeechGenerator(generator.Generator):
         if not self._script.utilities.cellRowChanged(obj):
             return []
 
+        args['newOnly'] = True
         return self._generateRowHeader(obj, **args)
 
     def _generateNewColumnHeader(self, obj, **args):
@@ -794,6 +795,7 @@ class SpeechGenerator(generator.Generator):
         if args.get('readingRow'):
             return []
 
+        args['newOnly'] = True
         return self._generateColumnHeader(obj, **args)
 
     def _generateRealTableCell(self, obj, **args):
@@ -2070,11 +2072,15 @@ class SpeechGenerator(generator.Generator):
         acss = self.voice(DEFAULT)
         frame, dialog = self._script.utilities.frameAndDialog(obj)
         if frame:
-            result.append(self._generateLabelAndName(frame))
+            frameResult = self._generateLabelAndName(frame)
+            if not frameResult:
+                frameResult = self._generateRoleName(frame)
+            result.append(frameResult)
+
         if dialog:
             result.append(self._generateLabelAndName(dialog))
-        alertAndDialogCount = \
-                    self._script.utilities.unfocusedAlertAndDialogCount(obj)
+
+        alertAndDialogCount = self._script.utilities.unfocusedAlertAndDialogCount(obj)
         if alertAndDialogCount > 0:
             dialogs = [messages.dialogCountSpeech(alertAndDialogCount)]
             dialogs.extend(acss)

@@ -65,6 +65,7 @@ class Utilities(script_utilities.Utilities):
         self._isLayoutOnly = {}
         self._isDPub = {}
         self._isMath = {}
+        self._isFocusableWithMathChild = {}
         self._mathNestingLevel = {}
         self._isOffScreenLabel = {}
         self._hasExplicitName = {}
@@ -131,6 +132,7 @@ class Utilities(script_utilities.Utilities):
         self._isLayoutOnly = {}
         self._isDPub = {}
         self._isMath = {}
+        self._isFocusableWithMathChild = {}
         self._mathNestingLevel = {}
         self._isOffScreenLabel = {}
         self._hasExplicitName = {}
@@ -272,13 +274,19 @@ class Utilities(script_utilities.Utilities):
         orca_state.activeWindow = window
         return True
 
+    def activeDocument(self):
+        isShowing = lambda x: x and x.getState().contains(pyatspi.STATE_SHOWING)
+        documents = self._getDocumentsEmbeddedBy(orca_state.activeWindow)
+        documents = list(filter(isShowing, documents))
+        if len(documents) == 1:
+            return documents[0]
+        return None
+
     def documentFrame(self, obj=None):
         if self.sanityCheckActiveWindow():
-            isShowing = lambda x: x and x.getState().contains(pyatspi.STATE_SHOWING)
-            documents = self._getDocumentsEmbeddedBy(orca_state.activeWindow)
-            documents = list(filter(isShowing, documents))
-            if len(documents) == 1:
-                return documents[0]
+            document = self.activeDocument()
+            if document:
+                return document
 
         return self.getDocumentForObject(obj or orca_state.locusOfFocus)
 
@@ -294,7 +302,7 @@ class Utilities(script_utilities.Utilities):
                 msg = "ERROR: Exception querying document interface of %s" % documentFrame
                 debug.println(debug.LEVEL_INFO, msg, True)
             else:
-                return document.getAttributeValue('DocURL')
+                return document.getAttributeValue('DocURL') or document.getAttributeValue('URI')
 
         return None
 
@@ -1182,8 +1190,12 @@ class Utilities(script_utilities.Utilities):
         # Check for things in the same sentence before this object.
         firstObj, firstStart, firstEnd, firstString = objects[0]
         while firstObj and firstString:
-            if firstStart == 0 and self.isTextBlockElement(firstObj):
-                break
+            if self.isTextBlockElement(firstObj):
+                if firstStart == 0:
+                    break
+            elif self.isTextBlockElement(firstObj.parent):
+                if self.characterOffsetInParent(firstObj) == 0:
+                    break
 
             prevObj, pOffset = self.findPreviousCaretInOrder(firstObj, firstStart)
             onLeft = self._getContentsForObj(prevObj, pOffset, boundary)
@@ -1704,13 +1716,55 @@ class Utilities(script_utilities.Utilities):
 
         keys = map(lambda x: x.replace("+", " "), attrs.get("keyshortcuts", "").split(" "))
         keys = map(lambda x: x.replace(" ", "+"), map(self.labelFromKeySequence, keys))
-        return ["", " ".join(keys), ""]
+        rv = ["", " ".join(keys), ""]
+        if list(filter(lambda x: x, rv)):
+            return rv
+
+        return super().mnemonicShortcutAccelerator(obj)
 
     def unrelatedLabels(self, root, onlyShowing=True, minimumWords=3):
         if not (root and self.inDocumentContent(root)):
             return super().unrelatedLabels(root, onlyShowing, minimumWords)
 
         return []
+
+    def isFocusableWithMathChild(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return False
+
+        rv = self._isFocusableWithMathChild.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        try:
+            state = obj.getState()
+        except:
+            msg = "WEB: Exception getting state for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        rv = False
+        if state.contains(pyatspi.STATE_FOCUSABLE) and not self.isDocument(obj):
+            for child in obj:
+                if self.isMathTopLevel(child):
+                    rv = True
+                    break
+
+        self._isFocusableWithMathChild[hash(obj)] = rv
+        return rv
+
+    def isFocusedWithMathChild(self, obj):
+        if not self.isFocusableWithMathChild(obj):
+            return False
+
+        try:
+            state = obj.getState()
+        except:
+            msg = "WEB: Exception getting state for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        return state.contains(pyatspi.STATE_FOCUSED)
 
     def isTextBlockElement(self, obj):
         if not (obj and self.inDocumentContent(obj)):
@@ -2379,7 +2433,13 @@ class Utilities(script_utilities.Utilities):
         rv = False
 
         isLabel = lambda r: r.getRelationType() == pyatspi.RELATION_LABEL_FOR
-        relations = list(filter(isLabel, obj.getRelationSet()))
+        try:
+            relations = list(filter(isLabel, obj.getRelationSet()))
+        except:
+            msg = "WEB: Exception getting relations of %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return []
+
         if not relations:
             return []
 
@@ -2486,6 +2546,10 @@ class Utilities(script_utilities.Utilities):
                 names = [action.getName(i) for i in range(action.nActions)]
             except NotImplementedError:
                 rv = False
+            except:
+                msg = "WEB: Exception getting actions for %s" % obj
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return False
             else:
                 rv = "click" in names
 
