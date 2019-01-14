@@ -1,6 +1,7 @@
 orca (3.31.4-1) experimental; urgency=medium
 
   * New upstream unstable release.
+    - debian/patches/git-braille-garbage: Upstreamed.
 
  -- Samuel Thibault <sthibault@debian.org>  Mon, 14 Jan 2019 20:21:00 +0100
 
