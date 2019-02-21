@@ -820,9 +820,9 @@ class Script(script.Script):
         if self.flatReviewContext:
             self.toggleFlatReviewMode()
 
-        if not orca_state.activeWindow \
-           or (event and event.host_application != orca_state.activeScript.app):
-            orca_state.activeWindow = self.utilities.topLevelObject(newLocusOfFocus)
+        topLevel = self.utilities.topLevelObject(newLocusOfFocus)
+        if orca_state.activeWindow != topLevel:
+            orca_state.activeWindow = topLevel
             self.windowActivateTime = time.time()
 
         self.updateBraille(newLocusOfFocus)
@@ -3546,6 +3546,7 @@ class Script(script.Script):
         #
         done = False
         while not done:
+            eventsynthesizer.scrollIntoView(obj)
             speech.speak(self.speechGenerator.generateContext(obj, priorObj=priorObj))
 
             lastEndOffset = -1

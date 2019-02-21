@@ -43,65 +43,9 @@ class Utilities(web.Utilities):
 
     def __init__(self, script):
         super().__init__(script)
-        self._documentsEmbeddedBy = {} # Needed for HACK
 
     def clearCachedObjects(self):
         super().clearCachedObjects()
-        self._documentsEmbeddedBy = {} # Needed for HACK
-
-    def _getDocumentsEmbeddedBy(self, frame):
-        result = super()._getDocumentsEmbeddedBy(frame)
-        if result:
-            return result
-
-        # HACK: This tree dive is not efficient and should be removed once Chromium
-        # implements support for the embeds/embedded-by relation pair.
-        cached = self._documentsEmbeddedBy.get(hash(frame), [])
-        result = list(filter(self.isShowingAndVisible, cached))
-        if not result:
-            def _include(x):
-                if x and x.getRole() == pyatspi.ROLE_DOCUMENT_WEB:
-                    return self.isShowingAndVisible(x)
-                return False
-
-            def _exclude(x):
-                roles = [pyatspi.ROLE_DOCUMENT_FRAME, pyatspi.ROLE_INTERNAL_FRAME]
-                if not x or x.getRole() in roles:
-                    return True
-                return False
-
-            startTime = time.time()
-            result = self.findAllDescendants(frame, _include, _exclude)
-            msg = "CHROMIUM: NO EMBEDDED RELATION HACK - %.4fs" % (time.time()-startTime)
-            debug.println(debug.LEVEL_INFO, msg, True)
-
-        self._documentsEmbeddedBy[hash(frame)] = result
-        return result
-
-    def isZombie(self, obj):
-        if not super().isZombie(obj):
-            return False
-
-        # Things (so far) seem to work as expected for document content -- except the
-        # document frame itself.
-        if not self.isDocument(obj) and self.inDocumentContent(obj):
-            return True
-
-        # HACK for other items, including (though possibly not limited to) menu items
-        # (e.g. when you press Alt+F and arrow) and the location bar popup.
-        try:
-            index = obj.getIndexInParent()
-        except:
-            msg = "CHROMIUM: Exception getting index in parent for %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return True
-
-        if index == -1 and self.isShowingAndVisible(obj):
-            msg = "CHROMIUM: INDEX IN PARENT OF -1 HACK: Ignoring bad index of %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return False
-
-        return True
 
     def selectedChildCount(self, obj):
         count = super().selectedChildCount(obj)
@@ -261,19 +205,3 @@ class Utilities(web.Utilities):
         msg = "CHROMIUM: HACK: Doing focus grab when setting caret on %s" % obj
         debug.println(debug.LEVEL_INFO, msg, True)
         return True
-
-    def frameAndDialog(self, obj):
-        # HACK: Remove this once we can ascend the ancestry.
-        frame, dialog = super().frameAndDialog(obj)
-        if frame or dialog:
-            return frame, dialog
-
-        frame = self.topLevelObject(obj)
-        if not frame and not self.inDocumentContent(obj) \
-           and self.canBeActiveWindow(orca_state.activeWindow) \
-           and orca_state.activeWindow.getApplication() == self._script.app:
-            frame = orca_state.activeWindow
-
-        msg = "CHROMIUM: CAN'T ASCEND TREE HACK: Returning %s as frame" % frame
-        debug.println(debug.LEVEL_INFO, msg, True)
-        return frame, dialog

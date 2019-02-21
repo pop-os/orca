@@ -437,6 +437,9 @@ class Utilities:
         self._script.generatorCache[self.DISPLAYED_LABEL][obj] = labelString
         return self._script.generatorCache[self.DISPLAYED_LABEL][obj]
 
+    def preferDescriptionOverName(self, obj):
+        return False
+
     def descriptionsForObject(self, obj):
         """Return a list of objects describing obj."""
 
@@ -1859,6 +1862,14 @@ class Utilities:
             box = obj.queryComponent().getExtents(pyatspi.DESKTOP_COORDS)
         except:
             msg = "ERROR: Exception getting extents for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        msg = "INFO: Extents for %s are: %s" % (obj, box)
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        if box.x > 10000 or box.y > 10000:
+            msg = "INFO: %s seems to have bogus coordinates" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 

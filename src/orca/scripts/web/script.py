@@ -596,6 +596,7 @@ class Script(default.Script):
                     continue
 
                 obj, startOffset, endOffset, text = content
+                eventsynthesizer.scrollIntoView(obj)
                 utterances = self.speechGenerator.generateContents(
                     [content], eliminatePauses=True, priorObj=priorObj)
                 priorObj = obj
@@ -782,7 +783,7 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        if self._inFocusMode and obj.getRole() == pyatspi.ROLE_RADIO_BUTTON:
+        if self._inFocusMode and obj and obj.getRole() == pyatspi.ROLE_RADIO_BUTTON:
             msg = "WEB: Staying in focus mode due to role of %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
@@ -840,13 +841,13 @@ class Script(default.Script):
     def sayLine(self, obj):
         """Speaks the line at the current caret position."""
 
-        if not (self._lastCommandWasCaretNav or self._lastCommandWasStructNav) \
-           and not self.utilities.isContentEditableWithEmbeddedObjects(obj):
+        isEditable = self.utilities.isContentEditableWithEmbeddedObjects(obj)
+        if not (self._lastCommandWasCaretNav or self._lastCommandWasStructNav) and not isEditable:
             super().sayLine(obj)
             return
 
         priorObj = None
-        if self._lastCommandWasCaretNav:
+        if self._lastCommandWasCaretNav or isEditable:
             priorObj, priorOffset = self.utilities.getPriorContext()
 
         obj, offset = self.utilities.getCaretContext(documentFrame=None)
@@ -1465,6 +1466,11 @@ class Script(default.Script):
         if self.utilities.isContentEditableWithEmbeddedObjects(event.source):
             msg = "WEB: In content editable with embedded objects"
             debug.println(debug.LEVEL_INFO, msg, True)
+            if not self.utilities.eventIsFromLocusOfFocusDocument(event):
+                msg = "WEB: Event ignored: Not from locus of focus document"
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
+
             self.utilities.setCaretContext(obj, offset)
             notify = not self.utilities.lastInputEventWasCharNav() \
                      and not self.utilities.isEntryDescendant(obj)
@@ -1871,6 +1877,11 @@ class Script(default.Script):
         if not self.utilities.inDocumentContent(orca_state.locusOfFocus):
             msg = "WEB: Event ignored: locusOfFocus (%s) is not in document content" \
                   % orca_state.locusOfFocus
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        if not self.utilities.eventIsFromLocusOfFocusDocument(event):
+            msg = "WEB: Event ignored: Not from locus of focus document"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
