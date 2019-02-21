@@ -182,7 +182,7 @@ class SpeechGenerator(generator.Generator):
             if name:
                 result.append(name)
                 result.extend(acss)
-        if not result and obj.parent.getRole() == pyatspi.ROLE_AUTOCOMPLETE:
+        if not result and obj.parent and obj.parent.getRole() == pyatspi.ROLE_AUTOCOMPLETE:
             result = self._generateLabelOrName(obj.parent, **args)
 
         return result
@@ -365,6 +365,7 @@ class SpeechGenerator(generator.Generator):
         role = args.get('role', obj.getRole())
 
         doNotPresent = [pyatspi.ROLE_UNKNOWN,
+                        pyatspi.ROLE_REDUNDANT_OBJECT,
                         pyatspi.ROLE_FILLER,
                         pyatspi.ROLE_EXTENDED]
 
@@ -774,6 +775,7 @@ class SpeechGenerator(generator.Generator):
         if not self._script.utilities.cellRowChanged(obj):
             return []
 
+        args['newOnly'] = True
         return self._generateRowHeader(obj, **args)
 
     def _generateNewColumnHeader(self, obj, **args):
@@ -793,6 +795,7 @@ class SpeechGenerator(generator.Generator):
         if args.get('readingRow'):
             return []
 
+        args['newOnly'] = True
         return self._generateColumnHeader(obj, **args)
 
     def _generateRealTableCell(self, obj, **args):
@@ -807,7 +810,8 @@ class SpeechGenerator(generator.Generator):
         oldRole = self._overrideRole('REAL_ROLE_TABLE_CELL', args)
         result.extend(self.generate(obj, **args))
         self._restoreRole(oldRole, args)
-        if not result and _settingsManager.getSetting('speakBlankLines') \
+        if not (result and result[0]) \
+           and _settingsManager.getSetting('speakBlankLines') \
            and not args.get('readingRow', False):
             result.append(messages.BLANK)
             if result:
@@ -2068,11 +2072,15 @@ class SpeechGenerator(generator.Generator):
         acss = self.voice(DEFAULT)
         frame, dialog = self._script.utilities.frameAndDialog(obj)
         if frame:
-            result.append(self._generateLabelAndName(frame))
+            frameResult = self._generateLabelAndName(frame)
+            if not frameResult:
+                frameResult = self._generateRoleName(frame)
+            result.append(frameResult)
+
         if dialog:
             result.append(self._generateLabelAndName(dialog))
-        alertAndDialogCount = \
-                    self._script.utilities.unfocusedAlertAndDialogCount(obj)
+
+        alertAndDialogCount = self._script.utilities.unfocusedAlertAndDialogCount(obj)
         if alertAndDialogCount > 0:
             dialogs = [messages.dialogCountSpeech(alertAndDialogCount)]
             dialogs.extend(acss)

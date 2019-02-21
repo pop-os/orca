@@ -331,7 +331,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = GAIL Gecko J2SE-access-bridge Qt WebKitGtk clutter gtk
+SUBDIRS = Chromium GAIL Gecko J2SE-access-bridge Qt WebKitGtk clutter gtk
 orca_python_PYTHON = \
 	__init__.py \
 	VCL.py

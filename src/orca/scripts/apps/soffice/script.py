@@ -434,7 +434,7 @@ class Script(default.Script):
         row, column, table = self.utilities.getRowColumnAndTable(cell)
         try:
             del self.dynamicColumnHeaders[hash(table)]
-            speech.stop()
+            self.presentationInterrupt()
             self.presentMessage(messages.DYNAMIC_COLUMN_HEADER_CLEARED)
         except:
             pass
@@ -480,7 +480,7 @@ class Script(default.Script):
         row, column, table = self.utilities.getRowColumnAndTable(cell)
         try:
             del self.dynamicRowHeaders[hash(table)]
-            speech.stop()
+            self.presentationInterrupt()
             self.presentMessage(messages.DYNAMIC_ROW_HEADER_CLEARED)
         except:
             pass
@@ -654,6 +654,9 @@ class Script(default.Script):
             activeCol = self.pointOfReference.get('lastColumn', -1)
             if activeRow < 0 or activeCol < 0:
                 return
+
+            if self.utilities.isDead(orca_state.locusOfFocus):
+                orca.setLocusOfFocus(event, event.source, False)
 
             self.utilities.handleUndoTextEvent(event)
             rowCount, colCount = self.utilities.rowAndColumnCount(event.source)
@@ -884,7 +887,7 @@ class Script(default.Script):
 
         if event.source != orca_state.locusOfFocus \
            and event.source.getState().contains(pyatspi.STATE_FOCUSED):
-            orca.setLocusOfFocus(event, event.source, True)
+            orca.setLocusOfFocus(event, event.source, False)
 
         super().onTextSelectionChanged(event)
 

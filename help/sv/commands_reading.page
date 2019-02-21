@@ -181,4 +181,14 @@
       </item>
     </list>
   </section>
+  <section id="toggling_layout_mode">
+    <title>Växla layoutläge</title>
+    <p>När layoutläge är aktiverat kommer <app>Orca</app>s markörnavigering respektera innehållets layout på skärmen och presentera hela raden, inkluderande alla länkar och formulärfält på den raden. När layoutläge är inaktiverat kommer <app>Orca</app> behandla objekt som exempelvis länkar och formulärfält som om de var på separata rader, både för presentation och navigering.</p>
+    <p><app>Orca</app> tillhandahåller ett kommando för att växla mellan layoutläge och objektläge. Detta kommando är obundet som standard. Se <link xref="howto_key_bindings">Ändra tangentbindningar</link> för information om hur du kan binda obundna kommandon.</p>
+    <list>
+      <item>
+        <p>Växla mellan layoutläge och objektläge: (Inte bunden)</p>
+      </item>
+    </list>
+  </section>
 </page>

@@ -41,9 +41,11 @@ class OrcaNavListGUI:
         self._gui = self._createNavListDialog(columnHeaders, rows, selectedRow)
         self._gui.set_title(title)
         self._gui.set_modal(True)
+        self._gui.set_keep_above(True)
+        self._gui.set_focus_on_map(True)
+        self._gui.set_accept_focus(True)
         self._script = orca_state.activeScript
         self._document = None
-        self.showGUI()
 
     def _createNavListDialog(self, columnHeaders, rows, selectedRow):
         dialog = Gtk.Dialog()
@@ -109,6 +111,10 @@ class OrcaNavListGUI:
 
     def showGUI(self):
         self._document = self._script.utilities.documentFrame()
+        x, y, width, height = self._script.utilities.getBoundingBox(self._document)
+        if (width and height):
+            self._gui.move(x + 100, y + 100)
+
         self._gui.show_all()
         ts = orca_state.lastInputEvent.timestamp
         if ts == 0:
@@ -144,26 +150,38 @@ class OrcaNavListGUI:
     def _onActivateClicked(self, widget):
         obj, offset = self._getSelectedAccessibleAndOffset()
         self._gui.destroy()
+        if not obj:
+            return
+
         self._script.utilities.setCaretPosition(obj, offset)
         try:
             action = obj.queryAction()
+        except NotImplementedError:
+            msg = "ERROR: Action interface not implemented for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
         except:
-            debug.println(
-                debug.LEVEL_FINE, 'Could not perform action on %s' % obj)
+            msg = "ERROR: Exception getting action interface for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
         else:
             action.doAction(0)
 
     def _getSelectedAccessibleAndOffset(self):
         if not self._tree:
-            return None
+            msg = "ERROR: Could not get navlist tree"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return None, -1
 
         selection = self._tree.get_selection()
         if not selection:
-            return None
+            msg = "ERROR: Could not get selection for navlist tree"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return None, -1
 
         model, paths = selection.get_selected_rows()
         if not paths:
-            return None
+            msg = "ERROR: Could not get paths for navlist tree"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return None, -1
 
         obj = model.get_value(model.get_iter(paths[0]), 0)
         offset = model.get_value(model.get_iter(paths[0]), 1)

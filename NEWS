@@ -1,9 +1,197 @@
+3.31.91 - 21 February 2019
+
+Web:
+
+ * Ensure web contents are scrolled into view during SayAll
+
+ * Scroll the current object to the top edge when using structural
+   navigation
+
+ * Prevent extra context being presented in contenteditable elements
+
+ * Work around YouTube focus issue when navigating by heading
+
+ * Improve presentation of graphical/icon-based push buttons
+
+ * Increase the likelihood that inline list items will be presented as
+   one line
+
+ * Attempt to identify and ignore bogus events from background etherpad
+
+ * Fix issue presenting text with links when using etherpad in object
+   mode
+
+ * Don't do SayAll for URIs starting with "moz-extension"
+
+ * Improve interaction and presentation of focusable trees
+
+LibreOffice:
+
+ * Fix presentation of text selection spanning multiple, partial
+   lines in a list
+
+General:
+
+ * Fix hang resulting from building flat review context from objects
+   claiming a bogus, huge bounding box
+
+ * Handle broken accessibility tree when generating labelOrName
+
+New and updated translations (THANKS EVERYONE!!!):
+
+    cs            Czech                 Marek Cernocky
+    da            Danish                Alan Mortensen
+    de            German                Tim Sabsch
+    gl            Galician              Fran Diéguez
+    hu            Hungarian             Balázs Úr
+    id            Indonesian            Kukuh Syafaat
+    kk            Kazakh                Baurzhan Muftakhidinov
+    lt            Lithuanian            Aurimas Černius
+    po            Polish                Piotr Drąg
+    pt_BR         Brazilian Portuguese  Rafael Fontenelle
+    sl            Slovenian             Matej Urbančič
+    sv            Swedish               Anders Jonsson
+    tr            Turkish               Sabri Ünal
+
+=========
+
+3.31.4 - 14 January 2019
+
+New Commands:
+
+ * Add unbound command to present current object's size and position
+
+ * Add an unbound command to switch between layout mode and object mode
+
+Web:
+
+ * Ignore page loads for non-active documents
+
+ * Fix presentation of focusable text with MathML children
+
+ * Eliminate some chattiness with MathML embedded in links and headings
+
+ * Improve finding sentence start in contents with embedded objects
+
+ * Make toggle buttons and non-focusable buttons reachable via "b"
+
+ * Improve consistency in placement of navlist
+
+ * Fallback on access key when there is no aria-keyshortcuts value
+
+ * Check 'URI' in addition to 'DocURL' when getting URL of document
+
+ * Add initial Chromium script. Please note: ATK support in Chromium
+   needs much work. Until that work has been done, Orca will not be able
+   to provide access to Chromium. The current support is very much a work
+   in progress and not yet ready for end-user testing.
+
+LibreOffice:
+
+ * Ensure we fall back on native headers when dynamic headers aren't set
+
+Braille:
+
+ * Fail initialization if device is not plugged yet
+
+ * On initialization error, make sure to clean BrlAPI connection
+
+ * Ensure we don't pan beyond the length of the line being displayed
+
+ * Make sure the attribute mask is as long as the text string
+
+General:
+
+ * Ignore window deactivations we believe are not user-triggered
+   (Reduces chattiness when using certain window-manager shortcuts)
+
+ * Improve performance searching the accessibility tree for needed
+   information
+
+ * Don't clear the cache of non-Gecko windows by default (improves
+   performance)
+
+ * Don't bother checking the mousereview item when mousereview is not
+   active (improves performance)
+
+ * Fix bug in flat review say all causing us to cut off information
+
+ * Fall back on rolename when presenting title of nameless frames
+
+ * Ensure we use keyval_name when event_string is absent for keyboard
+   events
+
+New and updated translations (THANKS EVERYONE!!!):
+
+    es            Spanish                 Daniel Mustieles
+    fr            French                  Charles Monzat
+    sl            Slovenian               Matej Urbančič
+    sv            Swedish                 Anders Jonsson
+
+=========
+
+3.31.1 - 19 Octoboer 2018
+
+General:
+
+ * Include the selected item count when presenting selection
+
+ * Fix double presentation of items in certain lists
+
+ * Handle various instances of objects going defunct
+
+ * Present expanded state even when state expandable is not
+   exposed
+
+ * Treat expanded events from listboxes and push buttons as
+   presentable events
+
+ * Ignore spurious focus claim from gnome-shell window after
+   switcher use
+
+ * Add handling for objects with role "redundant object"
+
+ * Ensure we're not silent when a cell gains focus
+
+ * Add initial support for Smuxi (gnome frontend)
+
+ * Restore X keyboard layout on orca segfault
+
+ * Add support for removing user profiles
+
+Web:
+
+ * Improve behavior of page summary when caret context is null
+   or the document cannot be found
+
+ * Handle component interface failures in label inference
+
+ * Sanity-check offsets before calling getRangeExtents()
+
+ * Make braille presentation of new document web role consistent
+   with old document frame role
+
+ * Ensure we correctly speak the role of edit spin buttons
+
+LibreOffice:
+
+ * Work around Writer killing focused cell during row insertion
+   and deletion
+
+ * Don't present ancestors after editing Calc cell
+
+New and updated translations (THANKS EVERYONE!!!):
+
+    cs            Czech                 Marek Cernocky
+
+=========
+
 3.30.1 - 19 Octoboer 2018
 
 General:
 
  * Fix presentation of nameless menu items in certain gnome-shell
-   extesions
+   extensions
 
  * Improve presentation of Pluma spell-check dialog
 

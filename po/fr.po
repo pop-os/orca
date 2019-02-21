@@ -12,20 +12,22 @@
 # Julien Hardelin <jhardlin@orange.fr>, 2011, 2015.
 # Frédéric Wang <fred.wang@free.fr>, 2015
 # Alain Lojewski <allomervan@gmail.com>, 2017.
+# Charles Monzat <charles.monzat@numericable.fr>, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: orca master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/orcaorca/issues\n"
-"POT-Creation-Date: 2018-07-26 14:39+0000\n"
-"PO-Revision-Date: 2018-08-10 10:09+0200\n"
-"Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
-"Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
+"POT-Creation-Date: 2018-09-20 16:50+0000\n"
+"PO-Revision-Date: 2018-11-07 21:39+0100\n"
+"Last-Translator: Charles Monzat <charles.monzat@numericable.fr>\n"
+"Language-Team: français <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n>1;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #. Translators: short braille for the rolename of an invalid GUI object.
 #. We strive to keep it under three characters to preserve real estate.
@@ -1722,13 +1724,13 @@ msgstr "égal en indice"
 #.
 #: ../src/orca/chnames.py:771
 msgid "subscript left paren"
-msgstr "parenthèse gauche en indice"
+msgstr "parenthèse gauche en indice"
 
 #. Translators: this is the spoken word for the character '₎' (U+208e)
 #.
 #: ../src/orca/chnames.py:775
 msgid "subscript right paren"
-msgstr "parenthèse droite en indice"
+msgstr "parenthèse droite en indice"
 
 #. Translators:  StarOffice/OOo includes private-use unicode character U+E00A
 #. as a bullet which looks like the black square: ■ (U+25A0).  Therefore,
@@ -2410,7 +2412,7 @@ msgstr "Présente l’heure actuelle."
 #. braille.
 #: ../src/orca/cmdnames.py:532
 msgid "Present current date."
-msgstr "Présente la date actuelle."
+msgstr "Présente la date actuelle."
 
 #. Translators: Orca normally intercepts all keyboard commands and only passes
 #. them along to the current application when they are not Orca commands. This
@@ -2569,7 +2571,7 @@ msgstr "Présente la liste des messages de notification."
 #. notification message.
 #: ../src/orca/cmdnames.py:652
 msgid "Present previous notification message."
-msgstr "Présente le message de notification précédent."
+msgstr "Présente le message de notification précédent."
 
 #. Translators: this is a command related to navigating within a document.
 #: ../src/orca/cmdnames.py:655
@@ -4481,7 +4483,7 @@ msgstr "Tous les ca_naux"
 #: ../src/orca/guilabels.py:153
 #, python-format
 msgid "All channels when an_y %s window is active"
-msgstr "Tous les canaux quand n'im_porte quelle fenêtre %s est active"
+msgstr "Tous les canaux quand n’im_porte quelle fenêtre %s est active"
 
 #. Translators: This is the label of a radio button. If it is selected, Orca will
 #. only speak new chat messages for the currently active channel, irrespective of
@@ -4568,7 +4570,7 @@ msgstr "Chaîne de remplacement"
 #. Translators: When this option is enabled, inserted text of length 1 is spoken.
 #: ../src/orca/guilabels.py:213 ../src/orca/orca-setup.ui.h:174
 msgid "Enable echo by cha_racter"
-msgstr "Active_r l'écho par caractère"
+msgstr "Active_r l’écho par caractère"
 
 #. Translators: Orca has an "echo" feature to present text as it is being written
 #. by the user. This string refers to a "key echo" option. When this option is
@@ -5307,7 +5309,7 @@ msgstr "Hyperlien"
 #: ../src/orca/guilabels.py:712
 msgctxt "VoiceType"
 msgid "System"
-msgstr "Système"
+msgstr "Système"
 
 #. Translators: This refers to the voice used by Orca when presenting one or more
 #. characters which is written in uppercase.
@@ -7898,7 +7900,7 @@ msgstr "Impossible d’obtenir l’affichage de la calculatrice"
 #. to get into a GUI.
 #: ../src/orca/messages.py:97
 msgid "Capitalization style set to icon."
-msgstr "Style de lecture des majuscules défini à icône."
+msgstr "Style de lecture des majuscules défini à icône."
 
 #. Translators: Orca uses Speech Dispatcher to present content to users via
 #. text-to-speech. Speech Dispatcher has a feature to control how capital
@@ -7910,7 +7912,7 @@ msgstr "Style de lecture des majuscules défini à icône."
 #. to get into a GUI.
 #: ../src/orca/messages.py:117
 msgid "Capitalization style set to none."
-msgstr "Style de lecture des majuscules défini à aucun."
+msgstr "Style de lecture des majuscules défini à aucun."
 
 #. Translators: Orca uses Speech Dispatcher to present content to users via
 #. text-to-speech. Speech Dispatcher has a feature to control how capital
@@ -7922,7 +7924,7 @@ msgstr "Style de lecture des majuscules défini à aucun."
 #. to get into a GUI.
 #: ../src/orca/messages.py:137
 msgid "Capitalization style set to spell."
-msgstr "Style de lecture des majuscules défini à annonce."
+msgstr "Style de lecture des majuscules défini à annonce."
 
 #. Translators: Native application caret navigation does not always work as the
 #. Orca user wants. As such, Orca offers the user the ability to toggle between
@@ -8101,7 +8103,7 @@ msgstr "RÉPERTOIRE"
 #. which tells Orca to replace any existing Orca process that might be running.
 #: ../src/orca/messages.py:258
 msgid "Replace a currently running instance of this screen reader"
-msgstr "Remplace une instance actuellement lancée de ce lecteur d'écran"
+msgstr "Remplace une instance actuellement lancée de ce lecteur d’écran"
 
 #. Translators: this is the description of command line option '-h, --help'
 #. which lists all the available command line options.
@@ -8581,7 +8583,7 @@ msgstr "touche"
 #. echo and can cycle through the various levels quickly via a command.
 #: ../src/orca/messages.py:628
 msgid "Key echo set to key."
-msgstr "Écho de touche défini par touche."
+msgstr "Écho de touche défini par touche."
 
 #. Translators: Orca has an "echo" setting which allows the user to configure
 #. what is spoken in response to a key press. Given a user who typed "Hello
@@ -8612,7 +8614,7 @@ msgstr "Aucun"
 #. echo and can cycle through the various levels quickly via a command.
 #: ../src/orca/messages.py:654
 msgid "Key echo set to None."
-msgstr "Écho de touche défini à aucun."
+msgstr "Écho de touche défini à aucun."
 
 #. Translators: Orca has an "echo" setting which allows the user to configure
 #. what is spoken in response to a key press. Given a user who typed "Hello
@@ -8705,7 +8707,7 @@ msgstr "mot"
 #. echo and can cycle through the various levels quickly via a command.
 #: ../src/orca/messages.py:732
 msgid "Key echo set to word."
-msgstr "Écho de touche défini par mot."
+msgstr "Écho de touche défini par mot."
 
 #. Translators: Orca has an "echo" setting which allows the user to configure
 #. what is spoken in response to a key press. Given a user who typed "Hello
@@ -9134,13 +9136,13 @@ msgstr "inaccessible"
 #: ../src/orca/messages.py:1050
 msgctxt "indentation and justification"
 msgid "Disabled"
-msgstr "Désactivée"
+msgstr "Désactivée"
 
 #. Translators: This detailed message indicates that indentation and
 #. justification will not be spoken.
 #: ../src/orca/messages.py:1055
 msgid "Speaking of indentation and justification disabled."
-msgstr "Lecture de l’indentation et de la justification désactivée."
+msgstr "Lecture de l’indentation et de la justification désactivée."
 
 #. Translators: This brief message indicates that indentation and
 #. justification will be spoken.
@@ -10429,7 +10431,7 @@ msgstr "La plupart"
 #. spoken, or Some will be spoken.
 #: ../src/orca/messages.py:1976
 msgid "Punctuation level set to most."
-msgstr "Niveau de ponctuation défini à la plupart."
+msgstr "Niveau de ponctuation défini à la plupart."
 
 #. Translators: This brief message will be presented as the user cycles
 #. through the different levels of spoken punctuation. The options are:
@@ -10446,7 +10448,7 @@ msgstr "Aucun"
 #. spoken, or Some will be spoken.
 #: ../src/orca/messages.py:1988
 msgid "Punctuation level set to none."
-msgstr "Niveau de ponctuation défini à aucun."
+msgstr "Niveau de ponctuation défini à aucun."
 
 #. Translators: This brief message will be presented as the user cycles
 #. through the different levels of spoken punctuation. The options are:
@@ -10463,7 +10465,7 @@ msgstr "Quelques-uns"
 #. spoken, or Some will be spoken.
 #: ../src/orca/messages.py:2000
 msgid "Punctuation level set to some."
-msgstr "Niveau de ponctuation défini à quelques-uns."
+msgstr "Niveau de ponctuation défini à quelques-uns."
 
 #. Translators: This message is presented to indicate that a search has begun
 #. or is still taking place.
@@ -12087,7 +12089,7 @@ msgstr "Hyperlien"
 
 #: ../src/orca/orca-setup.ui.h:4
 msgid "System"
-msgstr "Système"
+msgstr "Système"
 
 #: ../src/orca/orca-setup.ui.h:9
 msgid "Application"

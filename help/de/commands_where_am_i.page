@@ -66,7 +66,10 @@
       </list>
     </item>
   </list>
-  <p>Zusätzlich zu den vorgesehenen »Wo bin ich«-Befehlen hat <app>Orca</app> zwei zusätzliche Befehle, die von der aktuellen Position abhängig sind:</p>
+  <p>
+    In addition to the dedicated Where Am I commands, <app>Orca</app> has
+    additional commands related to obtaining information about your present location:
+  </p>
   <list>
     <item>
       <p>Die Titelleiste anzeigen:</p>
@@ -87,6 +90,9 @@
         </item>
         <item>
           <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>Schrägstrich</key></keyseq> (Doppelklick)</p>
+        </item>
+        <item>
+          <p>Present size and location of current object in pixels: (Unbound)</p>
         </item>
       </list>
     </item>

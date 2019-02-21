@@ -48,7 +48,10 @@
       </list>
     </item>
   </list>
-  <p>Πέρα από τις αποκλειστικές εντολές πού είμαι, το <app>Orca</app> έχει δύο πρόσθετες εντολές που σχετίζονται με την λήψη της παρούσας θέση σας:</p>
+  <p>
+    In addition to the dedicated Where Am I commands, <app>Orca</app> has
+    additional commands related to obtaining information about your present location:
+  </p>
   <list>
     <item>
       <p>Παρουσίαση της γραμμής τίτλου:</p>
@@ -69,6 +72,9 @@
         </item>
         <item>
           <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>πλαγιοκάθετος</key></keyseq> (διπλό κλικ)</p>
+        </item>
+        <item>
+          <p>Present size and location of current object in pixels: (Unbound)</p>
         </item>
       </list>
     </item>
