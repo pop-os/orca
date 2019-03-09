@@ -18,7 +18,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
     </mal:credit>
   </info>
   <title>Billentyűtársítások beállításai</title>
@@ -27,7 +27,7 @@
     <p>A <gui>Képernyőolvasó módosítóbillentyűk</gui> kombinált listamezőben kiválaszthatja, hogy mely billentyűt vagy billentyűket kívánja Orka módosítóbillentyűként használni. Az elérhető lehetőségek:</p>
     <list>
       <item>
-        <p><gui>KP_Insert</gui>: Egyenértékű a numerikus billentyűzet 0 billentyűjével.</p></item>
+        <p><gui>KP_Insert</gui>: Egyenértékű a numerikus billentyűzet <key>0</key> billentyűjével.</p></item>
       <item><p><gui>Insert</gui></p></item>
       <item><p><gui>Insert, KP_Insert</gui></p></item>
       <item><p><gui>Caps_Lock</gui></p></item>

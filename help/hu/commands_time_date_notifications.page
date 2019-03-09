@@ -18,7 +18,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
     </mal:credit>
   </info>
   <title>Idővel, dátummal és értesítésekkel kapcsolatos parancsok</title>
@@ -39,13 +39,13 @@
     <p>Az <app>Orka</app> három nem kiosztott parancsot tartalmaz az előzőleg megjelenített <link xref="howto_notifications">értesítési üzenetekhez</link> való hozzáféréshez. Ha billentyűtársítást szeretne hozzárendelni ezekhez a funkciókhoz, olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
     <list>
       <item>
-        <p>Az utolsó értesítés megjelenítése: nincs előre definiált billentyűtársítás</p>
+        <p>Az utolsó értesítés megjelenítése: nincs előre meghatározott billentyűtársítás</p>
       </item>
       <item>
-        <p>Az előző értesítés megjelenítése: nincs előre definiált billentyűtársítás</p>
+        <p>Az előző értesítés megjelenítése: nincs előre meghatározott billentyűtársítás</p>
       </item>
       <item>
-        <p>Az értesítések listájának megjelenítése: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+        <p>Az értesítések listájának megjelenítése: nincs előre meghatározott billentyűtársítás</p>
       </item>
     </list>
   </section>

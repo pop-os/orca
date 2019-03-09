@@ -16,7 +16,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
     </mal:credit>
   </info>
   <title>Profilok</title>
@@ -36,7 +36,7 @@
       <p>A megjelenő <gui>Profil mentése másként</gui> párbeszédpanelen írja be az új profil nevét a <gui>Profil neve</gui> szerkesztőmezőbe.</p>
     </item>
     <item>
-      <p>Ha végzett, nyomja meg az <gui>OK</gui> gombot.</p>
+      <p>Nyomja meg az <gui>OK</gui> gombot a <gui>Profil mentése másként</gui> párbeszédablakon.</p>
     </item>
   </steps>
   <steps>

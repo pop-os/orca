@@ -20,7 +20,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
     </mal:credit>
   </info>
   <title>Felolvasással kapcsolatos parancsok</title>
@@ -162,7 +162,7 @@
     <p>Ha egy hivatkozáson áll és az <app>Orka</app> egyszerű hol vagyok műveletét használja, információkat kaphat az adott hivatkozásról. Megtudhatja például a hivatkozás típusát, meglátogatta-e már az adott hivatkozást, az oldal leírását és a fájl méretét. Ha erre a célra inkább egy önálló billentyűparancsot szeretne használni, hozzon létre billentyűtársítást a „Kimondja a hivatkozás részleteit” parancshoz. Ha billentyűtársítást szeretne hozzárendelni ehhez a parancshoz, olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
     <list>
       <item>
-        <p>Kimondja a hivatkozás részleteit: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+        <p>Kimondja a hivatkozás részleteit: nincs előre meghatározott billentyűtársítás</p>
       </item>
     </list>
   </section>
@@ -182,24 +182,12 @@
     </list>
   </section>
   <section id="toggling_layout_mode">
-    <title>Toggling Layout Mode</title>
-    <p>
-      When Layout mode is enabled, <app>Orca</app>'s caret navigation will respect
-      the on-screen layout of the content and present the full line, including any
-      links or form fields on that line. When Layout mode is disabled, <app>Orca</app>
-      will treat objects such as links and form fields as if they were on separate
-      lines, both for presentation and navigation.
-    </p>
-    <p>
-      <app>Orca</app> provides a command to switch between Layout mode and Object mode.
-      This command is unbound by default. Please see <link xref="howto_key_bindings">Modifying
-      Keybindings</link> for information on how to bind unbound commands.
-    </p>
+    <title>Elrendezésmód be- és kikapcsolása</title>
+    <p>Ha az elrendezésmód engedélyezve van, az <app>Orka</app> mutatónavigációja a képernyő-elrendezés szerinti teljes sort fogja megjeleníteni, az adott sorban szereplő hivatkozásokkal és űrlapmezőkkel együtt. Ha ez a jelölőnégyzet nincs bejelölve, az <app>Orka</app> különálló sorként fogja kezelni a hivatkozásokat és az űrlapmezőket, a megjelenítéskor és a navigációkor egyaránt.</p>
+    <p>Az <app>Orka</app> parancsot ad az elrendezésmód és az objektummód közötti váltáshoz. Ehhez a parancshoz nincs alapértelmezetten definiált billentyűtársítás. Ha billentyűtársítást szeretne rendelni egy parancshoz, akkor olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
     <list>
       <item>
-        <p>
-          Switch between Layout mode and Object mode: (Unbound)
-        </p>
+        <p>Váltás az elrendezésmód és az objektummód között: nincs előre meghatározott billentyűtársítás</p>
       </item>
     </list>
   </section>

@@ -18,7 +18,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
     </mal:credit>
   </info>
   <title>Beszédbeállításokkal kapcsolatos parancsok</title>
@@ -34,37 +34,37 @@
       <p>Váltás a részletes és tömör részletességi szintek között: <keyseq><key>Orka módosító</key><key>V</key></keyseq></p>
     </item>
     <item>
-      <p>A behúzás és igazítás felolvasásának be- vagy kikapcsolása: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+      <p>A behúzás és igazítás felolvasásának be- vagy kikapcsolása: nincs előre meghatározott billentyűtársítás</p>
     </item>
     <item>
-      <p>Megváltoztatja a kimondott szám stílusát: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+      <p>Megváltoztatja a kimondott szám stílusát: nincs előre meghatározott billentyűtársítás</p>
     </item>
     <item>
-      <p>Váltás a következő központozási szintre: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+      <p>Váltás a következő központozási szintre: nincs előre meghatározott billentyűtársítás</p>
     </item>
     <item>
-      <p>Váltás a következő billentyűvisszhang-szintre: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+      <p>Váltás a következő billentyűvisszhang-szintre: nincs előre meghatározott billentyűtársítás</p>
     </item>
     <item>
-      <p>Váltás a következő nagybetű stílusra: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+      <p>Váltás a következő nagybetű stílusra: nincs előre meghatározott billentyűtársítás</p>
     </item>
     <item>
-      <p>A beszéd sebességének csökkentése: nincs előre definiált billentyűtársítás</p>
+      <p>A beszéd sebességének csökkentése: nincs előre meghatározott billentyűtársítás</p>
     </item>
     <item>
-      <p>A beszéd sebességének növelése: nincs előre definiált billentyűtársítás</p>
+      <p>A beszéd sebességének növelése: nincs előre meghatározott billentyűtársítás</p>
     </item>
     <item>
-      <p>A beszéd hangmagasságának csökkentése: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+      <p>A beszéd hangmagasságának csökkentése: nincs előre meghatározott billentyűtársítás</p>
     </item>
     <item>
-      <p>A beszéd hangmagasságának növelése: nincs előre definiált billentyűtársítás</p>
+      <p>A beszéd hangmagasságának növelése: nincs előre meghatározott billentyűtársítás</p>
     </item>
     <item>
-      <p>A beszéd hangerejének csökkentése: nincs előre definiált billentyűtársítás</p>
+      <p>A beszéd hangerejének csökkentése: nincs előre meghatározott billentyűtársítás</p>
     </item>
     <item>
-      <p>A beszéd hangerejének növelése: nincs előre definiált billentyűtársítás</p>
+      <p>A beszéd hangerejének növelése: nincs előre meghatározott billentyűtársítás</p>
     </item>
   </list>
 </page>

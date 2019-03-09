@@ -331,7 +331,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = apps toolkits terminal web
+SUBDIRS = apps toolkits switcher terminal web
 orca_python_PYTHON = \
 	__init__.py \
 	default.py \

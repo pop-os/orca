@@ -18,7 +18,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
     </mal:credit>
   </info>
   <title>A hol vagyok művelet parancsai</title>
@@ -48,10 +48,7 @@
       </list>
     </item>
   </list>
-  <p>
-    In addition to the dedicated Where Am I commands, <app>Orca</app> has
-    additional commands related to obtaining information about your present location:
-  </p>
+  <p>A fenti hol vagyok műveletek billentyűparancsain kívül az <app>Orka</app> további billentyűparancsokkal rendelkezik a pillanatnyi helyzet információinak beszerzéséhez:</p>
   <list>
     <item>
       <p>A címsor kimondatása:</p>
@@ -74,7 +71,7 @@
           <p>Laptop kiosztás: <keyseq><key>Orka módosító</key><key>Per</key></keyseq> (kétszer gyorsan megnyomva)</p>
         </item>
         <item>
-          <p>Present size and location of current object in pixels: (Unbound)</p>
+          <p>Az aktuális objektum jelenlegi mérete és helye képpontban: nincs előre meghatározott billentyűtársítás</p>
         </item>
       </list>
     </item>
