@@ -18,7 +18,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
     </mal:credit>
   </info>
   <title>Profilokkal kapcsolatos parancsok</title>
@@ -26,7 +26,7 @@
     <p>A következő parancshoz nincs előre definiálva billentyűtársítás. Ha billentyűtársítást szeretne hozzárendelni ehhez a parancshoz, olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
     <list>
       <item>
-        <p>Váltás a következő profilra: Ehhez a parancshoz nincs előre definiált billentyűtársítás</p>
+        <p>Váltás a következő profilra: nincs előre meghatározott billentyűtársítás</p>
       </item>
     </list>
 </page>

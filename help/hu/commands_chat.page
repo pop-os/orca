@@ -18,7 +18,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
     </mal:credit>
   </info>
   <title>Csevegéssel kapcsolatos billentyűparancsok</title>
@@ -28,13 +28,13 @@
       <p>A csevegőszoba korábbi csevegési üzeneteinek megjelenítése: <keyseq><key>Orka módosító</key><key>F1</key></keyseq> és <keyseq><key>Orka módosító</key><key>F9</key></keyseq> között.</p>
     </item>
     <item>
-      <p>A csatorna nevének a csevegőüzenetek elé illesztése be/ki: Ez a funkció nem rendelkezik előre definiált billentyűtársítással</p>
+      <p>A csatorna nevének a csevegőüzenetek elé illesztése be/ki: nincs előre meghatározott billentyűtársítás</p>
     </item>
     <item>
-      <p>Partner gépelési állapotának közlése be/ki: Ez a funkció nem rendelkezik előre definiált billentyűtársítással</p>
+      <p>Partner gépelési állapotának közlése be/ki: nincs előre meghatározott billentyűtársítás</p>
     </item>
     <item>
-      <p>A csevegőszoba üzenetelőzményeinek megjelenítése be/ki: Ez a funkció nem rendelkezik előre definiált billentyűtársítással</p>
+      <p>A csevegőszoba üzenetelőzményeinek megjelenítése be/ki: nincs előre meghatározott billentyűtársítás</p>
     </item>
   </list>
 </page>

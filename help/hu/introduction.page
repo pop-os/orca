@@ -16,7 +16,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016</mal:years>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
     </mal:credit>
   </info>
   <title>Üdvözöljük az Orkában</title>
@@ -39,7 +39,7 @@
   </section>
     <section id="loadtime">
       <title>Betöltéssel kapcsolatos opciók</title>
-      <p>Az <app>Orka</app> elindításakor a következő opciókat használhatja a terminál alkalmazásban és a Futtatás párbeszédablakban:</p>
+      <p>Az <app>Orka</app> elindításakor a következő opciókat használhatja a terminál alkalmazásban és a <gui>Futtatás</gui> párbeszédablakban:</p>
       <list>
         <item>
           <p><cmd>-h</cmd>, <cmd>--help</cmd>: Megjelenít egy súgóüzenetet</p>
