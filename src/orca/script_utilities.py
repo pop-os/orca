@@ -68,6 +68,7 @@ class Utilities:
     _desktop = pyatspi.Registry.getDesktop(0)
 
     EMBEDDED_OBJECT_CHARACTER = '\ufffc'
+    ZERO_WIDTH_NO_BREAK_SPACE = '\ufeff'
     SUPERSCRIPT_DIGITS = \
         ['\u2070', '\u00b9', '\u00b2', '\u00b3', '\u2074',
          '\u2075', '\u2076', '\u2077', '\u2078', '\u2079']
@@ -1436,7 +1437,7 @@ class Utilities:
             else:
                 if not (table.nRows and table.nColumns):
                     layoutOnly = not obj.getState().contains(pyatspi.STATE_FOCUSED)
-                elif attrs.get('xml-roles') == 'table':
+                elif attrs.get('xml-roles') == 'table' or attrs.get('tag') == 'table':
                     layoutOnly = False
                 elif not (obj.name or self.displayedLabel(obj)):
                     layoutOnly = not (table.getColumnHeader(0) or table.getRowHeader(0))
@@ -1954,6 +1955,9 @@ class Utilities:
 
         return pyatspi.findAncestor(obj, inSelectedMenu) is not None
 
+    def isStaticTextLeaf(self, obj):
+        return False
+
     def getOnScreenObjects(self, root, extents=None):
         if not self.isOnScreen(root, extents):
             return []
@@ -2003,7 +2007,8 @@ class Utilities:
             objects.append(root)
 
         for child in root:
-            objects.extend(self.getOnScreenObjects(child, extents))
+            if not self.isStaticTextLeaf(child):
+                objects.extend(self.getOnScreenObjects(child, extents))
 
         if role == pyatspi.ROLE_MENU_BAR:
             self._selectedMenuBarMenu[hash(root)] = None
@@ -2464,7 +2469,7 @@ class Utilities:
         except:
             return
 
-        if not text.getNSelections():
+        if text.getNSelections() <= 0:
             caretOffset = text.caretOffset
             startOffset = min(offset, caretOffset)
             endOffset = max(offset, caretOffset)

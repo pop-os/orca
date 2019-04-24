@@ -62,6 +62,7 @@ class Utilities(script_utilities.Utilities):
         self._isLabelDescendant = {}
         self._isMenuDescendant = {}
         self._isToolBarDescendant = {}
+        self._isWebAppDescendant = {}
         self._isLayoutOnly = {}
         self._isDPub = {}
         self._isMath = {}
@@ -133,6 +134,7 @@ class Utilities(script_utilities.Utilities):
         self._isLabelDescendant = {}
         self._isMenuDescendant = {}
         self._isToolBarDescendant = {}
+        self._isWebAppDescendant = {}
         self._isLayoutOnly = {}
         self._isDPub = {}
         self._isMath = {}
@@ -312,7 +314,7 @@ class Utilities(script_utilities.Utilities):
             else:
                 return document.getAttributeValue('DocURL') or document.getAttributeValue('URI')
 
-        return None
+        return ""
 
     def isPlainText(self, documentFrame=None):
         return self.mimeType(documentFrame) == "text/plain"
@@ -976,7 +978,11 @@ class Utilities(script_utilities.Utilities):
 
         allText = text.getText(0, -1)
         if boundary == pyatspi.TEXT_BOUNDARY_CHAR:
-            string = allText[offset]
+            try:
+                string = allText[offset]
+            except IndexError:
+                string = ""
+
             return string, offset, offset + 1
 
         extents = list(text.getRangeExtents(offset, offset + 1, 0))
@@ -1015,7 +1021,7 @@ class Utilities(script_utilities.Utilities):
         if string and boundary in [pyatspi.TEXT_BOUNDARY_SENTENCE_START, None]:
             return string, rangeStart, rangeEnd
 
-        words = [m.span() for m in re.finditer("[^\\s\\-\ufffc]+", string)]
+        words = [m.span() for m in re.finditer("[^\\s\ufffc]+", string)]
         words = list(map(lambda x: (x[0] + rangeStart, x[1] + rangeStart), words))
         if boundary == pyatspi.TEXT_BOUNDARY_WORD_START:
             spans = list(filter(_inThisSpan, words))
@@ -1120,6 +1126,14 @@ class Utilities(script_utilities.Utilities):
                   "      The bug is that the length of string is less than the text range.\n" \
                   "      This very likely needs to be fixed by the toolkit." \
                   % (offset, obj, boundary, s1, start, end)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            needSadHack = True
+        elif boundary == pyatspi.TEXT_BOUNDARY_CHAR and string == "\ufffd":
+            msg = "FAIL: Bad results for text at offset %i for %s using %s:\n" \
+                  "      String: '%s', Start: %i, End: %i.\n" \
+                  "      The bug is that we didn't seem to get a valid character.\n" \
+                  "      This very likely needs to be fixed by the toolkit." \
+                  % (offset, obj, boundary, string, start, end)
             debug.println(debug.LEVEL_INFO, msg, True)
             needSadHack = True
 
@@ -2232,11 +2246,13 @@ class Utilities(script_utilities.Utilities):
                or self.isErrorForContents(obj, contents) \
                or self.isLabellingContents(obj, contents):
                 rv = False
-
-            widget = self.isInferredLabelForContents(x, contents)
-            alwaysFilter = [pyatspi.ROLE_RADIO_BUTTON, pyatspi.ROLE_CHECK_BOX]
-            if widget and (inferLabels or widget.getRole() in alwaysFilter):
-                rv = False
+            elif obj.getRole() == pyatspi.ROLE_TABLE_ROW:
+                rv = self.hasExplicitName(obj)
+            else:
+                widget = self.isInferredLabelForContents(x, contents)
+                alwaysFilter = [pyatspi.ROLE_RADIO_BUTTON, pyatspi.ROLE_CHECK_BOX]
+                if widget and (inferLabels or widget.getRole() in alwaysFilter):
+                    rv = False
 
             self._shouldFilter[hash(obj)] = rv
             return rv
@@ -2324,9 +2340,22 @@ class Utilities(script_utilities.Utilities):
         if rv is not None:
             return rv
 
-        isMenu = lambda x: x and x.getRole() == pyatspi.ROLE_TOOL_BAR
-        rv = pyatspi.findAncestor(obj, isMenu) is not None
+        isToolBar = lambda x: x and x.getRole() == pyatspi.ROLE_TOOL_BAR
+        rv = pyatspi.findAncestor(obj, isToolBar) is not None
         self._isToolBarDescendant[hash(obj)] = rv
+        return rv
+
+    def isWebAppDescendant(self, obj):
+        if not obj:
+            return False
+
+        rv = self._isWebAppDescendant.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        isEmbedded = lambda x: x and x.getRole() == pyatspi.ROLE_EMBEDDED
+        rv = pyatspi.findAncestor(obj, isEmbedded) is not None
+        self._isWebAppDescendant[hash(obj)] = rv
         return rv
 
     def isLayoutOnly(self, obj):
@@ -3784,7 +3813,7 @@ class Utilities(script_utilities.Utilities):
                     if child and not self.isZombie(child) and not self.isEmptyAnchor(child) \
                        and not self.isUselessImage(child):
                         return self.findNextCaretInOrder(child, -1)
-                    if allText[i] != self.EMBEDDED_OBJECT_CHARACTER:
+                    if allText[i] not in (self.EMBEDDED_OBJECT_CHARACTER, self.ZERO_WIDTH_NO_BREAK_SPACE):
                         return obj, i
             elif not self.doNotDescendForCaret(obj) and obj.childCount:
                 return self.findNextCaretInOrder(obj[0], -1)
@@ -3850,7 +3879,7 @@ class Utilities(script_utilities.Utilities):
                     if child and not self.isZombie(child) and not self.isEmptyAnchor(child) \
                        and not self.isUselessImage(child):
                         return self.findPreviousCaretInOrder(child, -1)
-                    if allText[i] != self.EMBEDDED_OBJECT_CHARACTER:
+                    if allText[i] not in (self.EMBEDDED_OBJECT_CHARACTER, self.ZERO_WIDTH_NO_BREAK_SPACE):
                         return obj, i
             elif not self.doNotDescendForCaret(obj) and obj.childCount:
                 return self.findPreviousCaretInOrder(obj[obj.childCount - 1], -1)

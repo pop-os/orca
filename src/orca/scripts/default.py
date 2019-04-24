@@ -34,7 +34,6 @@ import time
 
 import pyatspi
 import orca.braille as braille
-import orca.chnames as chnames
 import orca.cmdnames as cmdnames
 import orca.debug as debug
 import orca.eventsynthesizer as eventsynthesizer
@@ -2282,7 +2281,7 @@ class Script(script.Script):
             return
 
         self._saveLastCursorPosition(event.source, text.caretOffset)
-        if text.getNSelections():
+        if text.getNSelections() > 0:
             msg = "DEFAULT: Event source has text selections"
             debug.println(debug.LEVEL_INFO, msg, True)
             self.utilities.handleTextSelectionChange(event.source)
@@ -3056,7 +3055,7 @@ class Script(script.Script):
 
         # If there is a selection, clear it. See bug #489504 for more details.
         #
-        if text.getNSelections():
+        if text.getNSelections() > 0:
             text.setSelection(0, context.currentOffset, context.currentOffset)
 
     def inSayAll(self):
@@ -4237,8 +4236,7 @@ class Script(script.Script):
         method rather than calling speech.speakCharacter directly."""
 
         voice = self.speechGenerator.voice(string=character)
-        spokenCharacter = chnames.getCharacterName(character)
-        speech.speakCharacter(spokenCharacter, voice)
+        speech.speakCharacter(character, voice)
 
     def speakMessage(self, string, voice=None, interrupt=True, resetStyles=True):
         """Method to speak a single string. Scripts should use this

@@ -549,12 +549,8 @@ class SpeechServer(speechserver.SpeechServer):
 
     def speakCharacter(self, character, acss=None):
         self._apply_acss(acss)
-        if character == '\n':
-            self._send_command(self._client.sound_icon, 'end-of-line')
-            return
-
         name = chnames.getCharacterName(character)
-        if not name:
+        if not name or name == character:
             self._send_command(self._client.char, character)
             return
 

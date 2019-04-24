@@ -914,12 +914,10 @@ class StructuralNavigation:
         if not newObj:
             document = self._script.utilities.getDocumentForObject(obj)
             newObj = self._script.utilities.getNextObjectInDocument(obj, document)
-        elif pyatspi.findAncestor(container, lambda x: x == newObj):
-            newObj, newOffset = self._script.utilities.nextContext(newObj, newOffset)
 
         newContainer = self.getContainerForObject(newObj)
         if newObj and newContainer != container:
-            structuralNavigationObject.present(newObj)
+            structuralNavigationObject.present(newObj, newOffset)
             return
 
         if obj == container:
@@ -1063,6 +1061,12 @@ class StructuralNavigation:
         isCell = lambda x: x and x.getRole() in cellRoles
         if obj and not isCell(obj):
             obj = pyatspi.utils.findAncestor(obj, isCell)
+
+        while obj and self._script.utilities.isLayoutOnly(self.getTableForCell(obj)):
+            cell = pyatspi.utils.findAncestor(obj, isCell)
+            if not cell:
+                break
+            obj = cell
 
         return obj
 
@@ -3327,4 +3331,4 @@ class StructuralNavigation:
             obj, characterOffset = self._getCaretPosition(obj)
 
         self._setCaretPosition(obj, characterOffset)
-        self._presentObject(obj, characterOffset, True)
+        self._presentLine(obj, characterOffset)
