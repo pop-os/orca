@@ -630,7 +630,7 @@ class Script(default.Script):
         """Updates the context and presents the find results if appropriate."""
 
         text = self.utilities.queryNonEmptyText(obj)
-        if not (text and text.getNSelections()):
+        if not (text and text.getNSelections() > 0):
             return
 
         document = self.utilities.getDocumentForObject(obj)
@@ -785,6 +785,11 @@ class Script(default.Script):
 
         if self._inFocusMode and obj and obj.getRole() == pyatspi.ROLE_RADIO_BUTTON:
             msg = "WEB: Staying in focus mode due to role of %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        if self._inFocusMode and self.utilities.isWebAppDescendant(obj):
+            msg = "WEB: Staying in focus mode because we're inside a web application"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 

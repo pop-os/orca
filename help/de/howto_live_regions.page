@@ -34,7 +34,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018</mal:years>
+      <mal:years>2018-2019</mal:years>
     </mal:credit>
   </info>
   <title>Dynamische Bereiche</title>
