@@ -163,6 +163,16 @@ class Script(web.Script):
     def onCaretMoved(self, event):
         """Callback for object:text-caret-moved accessibility events."""
 
+        if self.utilities.isStaticTextLeaf(event.source, False):
+            msg = "CHROMIUM: Ignoring event from static-text leaf"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        if self.utilities.isRedundantAutocompleteEvent(event):
+            msg = "CHROMIUM: Ignoring redundant autocomplete event"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
         if super().onCaretMoved(event):
             return
 
@@ -182,6 +192,11 @@ class Script(web.Script):
 
     def onChildrenChanged(self, event):
         """Callback for object:children-changed accessibility events."""
+
+        if self.utilities.isStaticTextLeaf(event.any_data, False):
+            msg = "CHROMIUM: Ignoring because child is static text leaf"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
 
         if super().onChildrenChanged(event):
             return
@@ -235,6 +250,16 @@ class Script(web.Script):
         debug.println(debug.LEVEL_INFO, msg, True)
         default.Script.onDocumentReload(self, event)
 
+    def onExpandedChanged(self, event):
+        """Callback for object:state-changed:expanded accessibility events."""
+
+        if super().onExpandedChanged(event):
+            return
+
+        msg = "CHROMIUM: Passing along event to default script"
+        debug.println(debug.LEVEL_INFO, msg, True)
+        default.Script.onExpandedChanged(self, event)
+
     def onFocus(self, event):
         """Callback for focus: accessibility events."""
 
@@ -286,29 +311,6 @@ class Script(web.Script):
 
     def onSelectedChanged(self, event):
         """Callback for object:state-changed:selected accessibility events."""
-
-        if event.source.getRole() == pyatspi.ROLE_PAGE_TAB and event.detail1:
-            oldName = event.source.name
-            event.source.clearCache()
-            newName = event.source.name
-            if oldName != newName:
-                msg = "CHROMIUM: NO NAME CHANGE HACK: (name should be: '%s')" % newName
-                debug.println(debug.LEVEL_INFO, msg, True)
-
-        # Other apps and toolkits implement the selection interface, which is
-        # what we use to present active-descendanty selection changes, leaving
-        # state-changed:selected for notifications related to toggling the
-        # selected state of the currently-focused item (e.g. pressing ctrl+space
-        # in a file explorer). While handling active-descendanty changes here is
-        # not technically a HACK, once Chromium implements the selection interface,
-        # we should remove this code and defer to Orca's default handling.
-        if event.detail1 and not self.utilities.isLayoutOnly(event.source) \
-           and not "Selection" in pyatspi.listInterfaces(event.source.parent) \
-           and self.utilities.canBeActiveWindow(self.utilities.topLevelObject(event.source)):
-            msg = "CHROMIUM: NO SELECTION IFACE HACK: Setting %s to locusOfFocus" % event.source
-            debug.println(debug.LEVEL_INFO, msg, True)
-            orca.setLocusOfFocus(event, event.source)
-            return
 
         if super().onSelectedChanged(event):
             return
@@ -368,6 +370,16 @@ class Script(web.Script):
     def onTextSelectionChanged(self, event):
         """Callback for object:text-selection-changed accessibility events."""
 
+        if self.utilities.isStaticTextLeaf(event.source, False):
+            msg = "CHROMIUM: Ignoring event from static-text leaf"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        if self.utilities.isListItemMarker(event.source):
+            msg = "CHROMIUM: Ignoring event from list item marker"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
         if super().onTextSelectionChanged(event):
             return
 
@@ -422,8 +434,3 @@ class Script(web.Script):
         msg = "CHROMIUM: Passing along event to default script"
         debug.println(debug.LEVEL_INFO, msg, True)
         default.Script.onWindowDeactivated(self, event)
-
-    def sayAll(self, inputEvent, obj=None, offset=None):
-        msg = "CHROMIUM: SayAll not supported yet."
-        debug.println(debug.LEVEL_INFO, msg, True)
-        return True

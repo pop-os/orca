@@ -1268,6 +1268,20 @@ class SpeechGenerator(generator.Generator):
         result.extend(self.voice(SYSTEM))
         return result
 
+    def _generateListItemMarker(self, obj, **args):
+        result = super()._generateListItemMarker(obj, **args)
+        if result:
+            result.extend(self.voice(DEFAULT))
+
+        return result
+
+    def _generateNestingLevel(self, obj, **args):
+        result = super()._generateNestingLevel(obj, **args)
+        if result:
+            result.extend(self.voice(SYSTEM))
+
+        return result
+
     #####################################################################
     #                                                                   #
     # Tree interface information                                        #
@@ -1707,6 +1721,9 @@ class SpeechGenerator(generator.Generator):
         else:
               priorObj = args.get('priorObj')
 
+        if priorObj and self._script.utilities.isDead(priorObj):
+            return []
+
         if priorObj and priorObj.getRole() == pyatspi.ROLE_TOOL_TIP:
             return []
 
@@ -1793,6 +1810,9 @@ class SpeechGenerator(generator.Generator):
 
         priorObj = args.get('priorObj')
         if not priorObj or obj == priorObj:
+            return []
+
+        if obj.getRole() == pyatspi.ROLE_PAGE_TAB:
             return []
 
         if obj.getApplication() != priorObj.getApplication() \
@@ -2098,7 +2118,7 @@ class SpeechGenerator(generator.Generator):
         isWidget = lambda x: x and x.getRole() in widgetRoles
         result = []
         if obj.parent and obj.parent.getRole() == pyatspi.ROLE_LIST_BOX:
-            widgets = pyatspi.findAllDescendants(obj, isWidget)
+            widgets = self._script.utilities.findAllDescendants(obj, isWidget)
             for widget in widgets:
                 if self._script.utilities.isShowingAndVisible(widget):
                     result.append(self.generate(widget, includeContext=False))

@@ -1249,6 +1249,10 @@ class StructuralNavigation:
             return
 
         eventsynthesizer.scrollToTopEdge(obj)
+        if not includeContext:
+            priorObj = obj
+            includeContext = True
+
         self._script.presentObject(obj, offset=offset, includeContext=includeContext)
 
     def _presentWithSayAll(self, obj, offset):
@@ -1298,6 +1302,10 @@ class StructuralNavigation:
         if not text and obj.getRole() == pyatspi.ROLE_LIST:
             children = [x for x in obj if x.getRole() == pyatspi.ROLE_LIST_ITEM]
             text = " ".join(list(map(self._getText, children)))
+        if obj.getRole() == pyatspi.ROLE_LIST_ITEM:
+            marker = self._script.utilities.getListItemMarkerText(obj)
+            if text and marker and not text.startswith(marker):
+                text = "%s %s" % (marker.strip(), text)
 
         return text
 
@@ -2263,7 +2271,6 @@ class StructuralNavigation:
         """
 
         if obj:
-            self._script.speakMessage(self._getRoleName(obj))
             landmark = obj
             [obj, characterOffset] = self._getCaretPosition(obj)
             self._setCaretPosition(obj, characterOffset)
@@ -2844,7 +2851,7 @@ class StructuralNavigation:
                     debug.println(debug.LEVEL_INFO, msg)
 
             self.lastTableCell = [0, 0]
-            self._presentObject(cell, 0)
+            self._presentObject(cell, 0, includeContext=False)
             [cell, characterOffset] = self._getCaretPosition(cell)
             self._setCaretPosition(cell, characterOffset)
         else:
