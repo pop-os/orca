@@ -73,6 +73,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                                pyatspi.ROLE_MENU_BAR,
                                pyatspi.ROLE_TOOL_BAR]
         args['skipRoles'] = [pyatspi.ROLE_PARAGRAPH,
+                             pyatspi.ROLE_HEADING,
                              pyatspi.ROLE_LABEL,
                              pyatspi.ROLE_LINK,
                              pyatspi.ROLE_LIST_ITEM,
@@ -116,6 +117,9 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         return []
 
     def _generateDescription(self, obj, **args):
+        if not self._script.utilities.inDocumentContent(obj):
+            return super()._generateDescription(obj, **args)
+
         if self._script.utilities.isZombie(obj):
             return []
 
@@ -157,12 +161,15 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         return []
 
     def _generateLabelOrName(self, obj, **args):
+        if not self._script.utilities.inDocumentContent(obj):
+            return super()._generateLabelOrName(obj, **args)
+
         if self._script.utilities.isTextBlockElement(obj) \
            and not self._script.utilities.isLandmark(obj) \
            and not self._script.utilities.isDPub(obj):
             return []
 
-        if self._script.utilities.inDocumentContent(obj) and obj.name:
+        if obj.name:
             result = [obj.name]
             result.extend(self.voice(speech_generator.DEFAULT))
             return result
@@ -170,9 +177,15 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         return super()._generateLabelOrName(obj, **args)
 
     def _generateName(self, obj, **args):
+        if not self._script.utilities.inDocumentContent(obj):
+            return super()._generateName(obj, **args)
+
         if self._script.utilities.isTextBlockElement(obj) \
            and not self._script.utilities.isLandmark(obj) \
            and not self._script.utilities.isDPub(obj):
+            return []
+
+        if not self._script.utilities.hasValidName(obj):
             return []
 
         if obj.parent and obj.name and obj.name == obj.parent.name \
@@ -189,7 +202,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
            and not self._script.utilities.hasExplicitName(obj):
             return []
 
-        if self._script.utilities.inDocumentContent(obj) and obj.name:
+        if obj.name:
             if self._script.utilities.preferDescriptionOverName(obj):
                 result = [obj.description]
             else:
@@ -200,6 +213,9 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         return super()._generateName(obj, **args)
 
     def _generateLabel(self, obj, **args):
+        if not self._script.utilities.inDocumentContent(obj):
+            return super()._generateLabel(obj, **args)
+
         if self._script.utilities.isTextBlockElement(obj):
             return []
 
@@ -261,9 +277,6 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
     # TODO - JD: Yet another dumb generator method we should kill.
     def _generateTextRole(self, obj, **args):
-        if self._script.inSayAll():
-            return []
-
         return self._generateRoleName(obj, **args)
 
     def getLocalizedRoleName(self, obj, **args):
@@ -308,6 +321,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         if not force:
             doNotSpeak = [pyatspi.ROLE_FOOTER,
+                          pyatspi.ROLE_FORM,
                           pyatspi.ROLE_LABEL,
                           pyatspi.ROLE_MENU_ITEM,
                           pyatspi.ROLE_PARAGRAPH,
@@ -375,6 +389,11 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                     result.append(self.getLocalizedRoleName(obj, **args))
                     result.extend(acss)
 
+        elif role == pyatspi.ROLE_COMMENT:
+            if index == 0:
+                result.append(self.getLocalizedRoleName(obj, **args))
+                result.extend(acss)
+
         elif role not in doNotSpeak and args.get('priorObj') != obj:
             result.append(self.getLocalizedRoleName(obj, **args))
             result.extend(acss)
@@ -383,12 +402,10 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             return result
 
         ancestorRoles = [pyatspi.ROLE_HEADING, pyatspi.ROLE_LINK]
-        if index == total - 1 \
-           and (role == pyatspi.ROLE_IMAGE or self._script.utilities.queryNonEmptyText(obj)):
-            speakRoles = lambda x: x and x.getRole() in ancestorRoles
-            ancestor = pyatspi.findAncestor(obj, speakRoles)
-            if ancestor and ancestor.getRole() != role:
-                result.extend(self._generateRoleName(ancestor))
+        speakRoles = lambda x: x and x.getRole() in ancestorRoles
+        ancestor = pyatspi.findAncestor(obj, speakRoles)
+        if ancestor and ancestor.getRole() != role and (index == total - 1 or obj.name == ancestor.name):
+            result.extend(self._generateRoleName(ancestor))
 
         return result
 
@@ -461,10 +478,9 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
            and not _settingsManager.getSetting('enablePositionSpeaking'):
             return []
 
-        # TODO - JD: We cannot do this for XUL (or whatever Firefox is
-        # using in its non-webcontent dialogs)
-        #if not self._script.utilities.inDocumentContent(obj):
-        #    return super()._generatePositionInList(obj, **args)
+        if not self._script.utilities.inDocumentContent(obj):
+            return super()._generatePositionInList(obj, **args)
+
         menuRoles = [pyatspi.ROLE_MENU_ITEM,
                      pyatspi.ROLE_TEAROFF_MENU_ITEM,
                      pyatspi.ROLE_CHECK_MENU_ITEM,
@@ -495,6 +511,28 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         result.extend(self.voice(speech_generator.SYSTEM))
         return result
 
+    def _generateRealTableCell(self, obj, **args):
+        result = super()._generateRealTableCell(obj, **args)
+        if not self._script.inFocusMode():
+            return result
+
+        if _settingsManager.getSetting('speakCellCoordinates'):
+            label = self._script.utilities.labelForCellCoordinates(obj)
+            if label:
+                result.append(label)
+                result.extend(self.voice(speech_generator.SYSTEM))
+                return result
+
+            row, col = self._script.utilities.coordinatesForCell(obj)
+            if self._script.utilities.cellRowChanged(obj):
+                result.append(messages.TABLE_ROW % (row + 1))
+                result.extend(self.voice(speech_generator.SYSTEM))
+            if self._script.utilities.cellColumnChanged(obj):
+                result.append(messages.TABLE_COLUMN % (col + 1))
+                result.extend(self.voice(speech_generator.SYSTEM))
+
+        return result
+
     def _generateTableCellRow(self, obj, **args):
         if not self._script.inFocusMode():
             return super()._generateTableCellRow(obj, **args)
@@ -504,7 +542,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         isRow = lambda x: x and x.getRole() == pyatspi.ROLE_TABLE_ROW
         row = pyatspi.findAncestor(obj, isRow)
-        if row and row.name:
+        if row and row.name and not self._script.utilities.isLayoutOnly(row):
             return self.generate(row)
 
         return super()._generateTableCellRow(obj, **args)
@@ -550,7 +588,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             return []
 
         result = []
-        contents = self._script.utilities.filterContentsForPresentation(contents, False)
+        contents = self._script.utilities.filterContentsForPresentation(contents, True)
         msg = "WEB: Generating speech contents (length: %i)" % len(contents)
         debug.println(debug.LEVEL_INFO, msg, True)
         for i, content in enumerate(contents):
