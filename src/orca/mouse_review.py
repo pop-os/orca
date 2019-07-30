@@ -401,16 +401,9 @@ class MouseReviewer:
         if isMenu(orca_state.locusOfFocus):
             menu = orca_state.locusOfFocus
         else:
-            try:
-                menu = pyatspi.findAncestor(orca_state.locusOfFocus, isMenu)
-            except:
-                msg = "ERROR: Exception getting ancestor of %s" % orca_state.locusOfFocus
-                debug.println(debug.LEVEL_INFO, msg, True)
-                menu = None
+            menu = pyatspi.findAncestor(orca_state.locusOfFocus, isMenu)
 
-        document = script.utilities.activeDocument()
         obj = script.utilities.descendantAtPoint(menu, pX, pY) \
-            or script.utilities.descendantAtPoint(document, pX, pY) \
             or script.utilities.descendantAtPoint(window, pX, pY)
         msg = "MOUSE REVIEW: Object at (%i, %i) is %s" % (pX, pY, obj)
         debug.println(debug.LEVEL_INFO, msg, True)

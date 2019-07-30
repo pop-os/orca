@@ -914,10 +914,12 @@ class StructuralNavigation:
         if not newObj:
             document = self._script.utilities.getDocumentForObject(obj)
             newObj = self._script.utilities.getNextObjectInDocument(obj, document)
+        elif pyatspi.findAncestor(container, lambda x: x == newObj):
+            newObj, newOffset = self._script.utilities.nextContext(newObj, newOffset)
 
         newContainer = self.getContainerForObject(newObj)
         if newObj and newContainer != container:
-            structuralNavigationObject.present(newObj, newOffset)
+            structuralNavigationObject.present(newObj)
             return
 
         if obj == container:
@@ -1061,12 +1063,6 @@ class StructuralNavigation:
         isCell = lambda x: x and x.getRole() in cellRoles
         if obj and not isCell(obj):
             obj = pyatspi.utils.findAncestor(obj, isCell)
-
-        while obj and self._script.utilities.isLayoutOnly(self.getTableForCell(obj)):
-            cell = pyatspi.utils.findAncestor(obj, isCell)
-            if not cell:
-                break
-            obj = cell
 
         return obj
 
@@ -1249,10 +1245,6 @@ class StructuralNavigation:
             return
 
         eventsynthesizer.scrollToTopEdge(obj)
-        if not includeContext:
-            priorObj = obj
-            includeContext = True
-
         self._script.presentObject(obj, offset=offset, includeContext=includeContext)
 
     def _presentWithSayAll(self, obj, offset):
@@ -1302,10 +1294,6 @@ class StructuralNavigation:
         if not text and obj.getRole() == pyatspi.ROLE_LIST:
             children = [x for x in obj if x.getRole() == pyatspi.ROLE_LIST_ITEM]
             text = " ".join(list(map(self._getText, children)))
-        if obj.getRole() == pyatspi.ROLE_LIST_ITEM:
-            marker = self._script.utilities.getListItemMarkerText(obj)
-            if text and marker and not text.startswith(marker):
-                text = "%s %s" % (marker.strip(), text)
 
         return text
 
@@ -2271,6 +2259,7 @@ class StructuralNavigation:
         """
 
         if obj:
+            self._script.speakMessage(self._getRoleName(obj))
             landmark = obj
             [obj, characterOffset] = self._getCaretPosition(obj)
             self._setCaretPosition(obj, characterOffset)
@@ -2851,7 +2840,7 @@ class StructuralNavigation:
                     debug.println(debug.LEVEL_INFO, msg)
 
             self.lastTableCell = [0, 0]
-            self._presentObject(cell, 0, includeContext=False)
+            self._presentObject(cell, 0)
             [cell, characterOffset] = self._getCaretPosition(cell)
             self._setCaretPosition(cell, characterOffset)
         else:
@@ -3338,4 +3327,4 @@ class StructuralNavigation:
             obj, characterOffset = self._getCaretPosition(obj)
 
         self._setCaretPosition(obj, characterOffset)
-        self._presentLine(obj, characterOffset)
+        self._presentObject(obj, characterOffset, True)

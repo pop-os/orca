@@ -306,15 +306,9 @@ class Generator:
         name = self._script.utilities.displayedText(obj)
         if obj.getRole() == pyatspi.ROLE_COMBO_BOX:
             children = self._script.utilities.selectedChildren(obj)
-            if not children:
-                try:
-                    children = self._script.utilities.selectedChildren(obj[0])
-                except:
-                    pass
-            try:
-                children = children or [child for child in obj]
-            except:
-                pass
+            if not children and obj.childCount:
+                children = self._script.utilities.selectedChildren(obj[0])
+            children = children or [child for child in obj]
             names = map(self._script.utilities.displayedText, children)
             names = list(filter(lambda x: x, names))
             if len(names) == 1:
@@ -341,7 +335,7 @@ class Generator:
                     link = obj.parent
                 if link:
                     basename = self._script.utilities.linkBasename(link)
-                    if basename and basename.isalpha():
+                    if basename:
                         result.append(basename)
         # To make the unlabeled icons in gnome-panel more accessible.
         try:
@@ -870,11 +864,12 @@ class Generator:
         if self._script.utilities.isLayoutOnly(obj):
             return []
 
-        rows, cols = self._script.utilities.rowAndColumnCount(obj)
-        if rows < 0 or cols < 0:
+        try:
+            table = obj.queryTable()
+        except:
             return []
 
-        return [messages.tableSize(rows, cols)]
+        return [messages.tableSize(table.nRows, table.nColumns)]       
 
     def _generateTableCellRow(self, obj, **args):
         """Orca has a feature to automatically read an entire row of a table
@@ -1000,17 +995,6 @@ class Generator:
             return []
 
         return [displayedText]
-
-    def _generateListItemMarker(self, obj, **args):
-        startOffset = args.get('startOffset', 0)
-        if not (0 <= startOffset <= 1):
-            return []
-
-        listItemMarker = self._script.utilities.getListItemMarkerText(obj)
-        if listItemMarker:
-            return [listItemMarker]
-
-        return []
 
     #####################################################################
     #                                                                   #

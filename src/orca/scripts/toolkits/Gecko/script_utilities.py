@@ -77,7 +77,7 @@ class Utilities(web.Utilities):
         the object attribute 'level'.  To be consistent with the default
         nodeLevel() this value is 0-based (Gecko return is 1-based) """
 
-        if obj is None or self.isDead(obj) or obj.getRole() == pyatspi.ROLE_HEADING \
+        if obj is None or obj.getRole() == pyatspi.ROLE_HEADING \
            or (obj.parent and obj.parent.getRole() == pyatspi.ROLE_MENU):
             return -1
 
@@ -91,15 +91,6 @@ class Utilities(web.Utilities):
             if attr.startswith("level:"):
                 return int(attr[6:]) - 1
         return -1
-
-    def isLayoutOnly(self, obj):
-        if super().isLayoutOnly(obj):
-            return True
-
-        if obj.getRole() == pyatspi.ROLE_TOOL_BAR and obj.childCount:
-            return obj[0] and obj[0].getRole() == pyatspi.ROLE_PAGE_TAB_LIST
-
-        return False
 
     def isSameObject(self, obj1, obj2, comparePaths=False, ignoreNames=False):
         if super().isSameObject(obj1, obj2, comparePaths, ignoreNames):

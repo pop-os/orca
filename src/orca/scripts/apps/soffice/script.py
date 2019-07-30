@@ -874,9 +874,7 @@ class Script(default.Script):
             return
 
         selectedChildren = self.utilities.selectedChildren(event.source)
-        if len(selectedChildren) == 1 \
-           and self.utilities.containingComboBox(event.source) == \
-               self.utilities.containingComboBox(orca_state.locusOfFocus):
+        if len(selectedChildren) == 1:
             orca.setLocusOfFocus(event, selectedChildren[0], True)
 
     def onTextSelectionChanged(self, event):

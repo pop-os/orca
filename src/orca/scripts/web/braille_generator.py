@@ -89,11 +89,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
                 result.append(messages.IMAGE_MAP_LINK)
 
         elif role not in doNotDisplay:
-            label = self._script.utilities.labelForCellCoordinates(obj)
-            if label:
-                result.append(label)
-            else:
-                result = super()._generateRoleName(obj, **args)
+            result = super()._generateRoleName(obj, **args)
 
         index = args.get('index', 0)
         total = args.get('total', 1)
@@ -142,9 +138,6 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         if self._script.utilities.preferDescriptionOverName(obj):
             return [obj.description]
 
-        if not self._script.utilities.hasValidName(obj):
-            return []
-
         return super()._generateName(obj, **args)
 
     def _generateExpandedEOCs(self, obj, **args):
@@ -159,12 +152,6 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
 
         return result
 
-    def _generateRealActiveDescendantDisplayedText(self, obj, **args):
-        if not self._script.utilities.inDocumentContent(obj):
-            return super()._generateRealActiveDescendantDisplayedText(obj, **args)
-
-        return self._generateDisplayedText(obj, **args)
-
     def _generateTableCellRow(self, obj, **args):
         if not self._script.inFocusMode():
             return super()._generateTableCellRow(obj, **args)
@@ -174,7 +161,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
 
         isRow = lambda x: x and x.getRole() == pyatspi.ROLE_TABLE_ROW
         row = pyatspi.findAncestor(obj, isRow)
-        if row and row.name and not self._script.utilities.isLayoutOnly(row):
+        if row and row.name:
             return self.generate(row, includeContext=False)
 
         return super()._generateTableCellRow(obj, **args)
@@ -219,7 +206,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
             return []
 
         result = []
-        contents = self._script.utilities.filterContentsForPresentation(contents, True)
+        contents = self._script.utilities.filterContentsForPresentation(contents, False)
 
         obj, offset = self._script.utilities.getCaretContext(documentFrame=None)
         index = self._script.utilities.findObjectInContents(obj, offset, contents)

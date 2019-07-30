@@ -1,6 +1,6 @@
 m4_define([orca_major_version], [3])
-m4_define([orca_minor_version], [33])
-m4_define([orca_micro_version], [3])
+m4_define([orca_minor_version], [32])
+m4_define([orca_micro_version], [0])
 m4_define([orca_version],
           [orca_major_version.orca_minor_version.orca_micro_version])
 
@@ -19,8 +19,7 @@ AM_INIT_AUTOMAKE([1.11 tar-ustar no-dist-gzip dist-xz])
 AM_MAINTAINER_MODE([enable])
 
 dnl Gettext stuff
-AM_GNU_GETTEXT_VERSION([0.19.8])
-AM_GNU_GETTEXT([external])
+IT_PROG_INTLTOOL([0.50.0])
 
 GETTEXT_PACKAGE=AC_PACKAGE_TARNAME
 AC_SUBST(GETTEXT_PACKAGE)
@@ -78,7 +77,7 @@ case "${PLATFORM}" in
 esac
 AC_SUBST(PLATFORM_PATH)
 
-AC_OUTPUT([
+AC_OUTPUT([ 
 run_pylint.sh
 Makefile
 docs/Makefile
@@ -107,7 +106,6 @@ src/orca/scripts/apps/gnome-screensaver-dialog/Makefile
 src/orca/scripts/apps/gnome-search-tool/Makefile
 src/orca/scripts/apps/gnome-shell/Makefile
 src/orca/scripts/apps/gnome-window-properties/Makefile
-src/orca/scripts/apps/kwin/Makefile
 src/orca/scripts/apps/Instantbird/Makefile
 src/orca/scripts/apps/notification-daemon/Makefile
 src/orca/scripts/apps/notify-osd/Makefile

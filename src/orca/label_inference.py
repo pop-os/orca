@@ -55,30 +55,30 @@ class LabelInference:
         Returns the text which we think is the label, or None.
         """
 
-        debug.println(debug.LEVEL_INFO, "INFER label for: %s" % obj, True)
+        debug.println(debug.LEVEL_FINE, "INFER label for: %s" % obj)
         if not obj:
             return None, []
 
         if focusedOnly and not obj.getState().contains(pyatspi.STATE_FOCUSED):
-            debug.println(debug.LEVEL_INFO, "INFER - object not focused", True)
+            debug.println(debug.LEVEL_FINE, "INFER - object not focused")
             return None, []
 
         result, objects = None, []
         if not result:
             result, objects = self.inferFromTextLeft(obj)
-            debug.println(debug.LEVEL_INFO, "INFER - Text Left: %s" % result, True)
+            debug.println(debug.LEVEL_FINE, "INFER - Text Left: %s" % result)
         if not result or self._preferRight(obj):
             result, objects = self.inferFromTextRight(obj) or result
-            debug.println(debug.LEVEL_INFO, "INFER - Text Right: %s" % result, True)
+            debug.println(debug.LEVEL_FINE, "INFER - Text Right: %s" % result)
         if not result:
             result, objects = self.inferFromTable(obj)
-            debug.println(debug.LEVEL_INFO, "INFER - Table: %s" % result, True)
+            debug.println(debug.LEVEL_FINE, "INFER - Table: %s" % result)
         if not result:
             result, objects = self.inferFromTextAbove(obj)
-            debug.println(debug.LEVEL_INFO, "INFER - Text Above: %s" % result, True)
+            debug.println(debug.LEVEL_FINE, "INFER - Text Above: %s" % result)
         if not result:
             result, objects = self.inferFromTextBelow(obj)
-            debug.println(debug.LEVEL_INFO, "INFER - Text Below: %s" % result, True)
+            debug.println(debug.LEVEL_FINE, "INFER - Text Below: %s" % result)
 
         # TODO - We probably do not wish to "infer" from these. Instead, we
         # should ensure that this content gets presented as part of the widget.
@@ -86,7 +86,7 @@ class LabelInference:
         # are each something other than a label.)
         if not result:
             result, objects = obj.name, []
-            debug.println(debug.LEVEL_INFO, "INFER - Name: %s" % result, True)
+            debug.println(debug.LEVEL_FINE, "INFER - Name: %s" % result)
         if result:
             result = result.strip()
             result = result.replace("\n", " ")
@@ -94,7 +94,7 @@ class LabelInference:
         # Desperate times call for desperate measures....
         if not result:
             result, objects = self.inferFromTextLeft(obj, proximity=200)
-            debug.println(debug.LEVEL_INFO, "INFER - Text Left with proximity of 200: %s" % result, True)
+            debug.println(debug.LEVEL_FINE, "INFER - Text Left with proximity of 200: %s" % result)
 
         self.clearCache()
         return result, objects
@@ -152,7 +152,7 @@ class LabelInference:
         try:
             children = [child for child in obj]
         except (LookupError, RuntimeError):
-            debug.println(debug.LEVEL_INFO, 'Dead Accessible in %s' % obj, True)
+            debug.println(debug.LEVEL_FINE, 'Dead Accessible in %s' % obj)
             return False
 
         children = [x for x in children if x.getRole() != pyatspi.ROLE_LINK]
@@ -229,13 +229,7 @@ class LabelInference:
             skipTextExtents = [pyatspi.ROLE_ENTRY, pyatspi.ROLE_PASSWORD_TEXT]
             if not obj.getRole() in skipTextExtents:
                 if endOffset == -1:
-                    try:
-                        endOffset = text.characterCount
-                    except:
-                        msg = "ERROR: Exception getting character count for %s" % obj
-                        debug.println(debug.LEVEL_INFO, msg, True)
-                        return extents
-
+                    endOffset = text.characterCount
                 extents = text.getRangeExtents(startOffset, endOffset, 0)
 
         if not (extents[2] and extents[3]):

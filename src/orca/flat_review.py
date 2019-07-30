@@ -796,11 +796,7 @@ class Context:
                                   pyatspi.ROLE_PROGRESS_BAR]:
             zones.append(ValueZone(accessible, *extents))
         elif not zones:
-            string = ""
-            redundant = [pyatspi.ROLE_TABLE_ROW]
-            if role not in redundant:
-                string = self.script.speechGenerator.getName(accessible)
-
+            string = self.script.speechGenerator.getName(accessible)
             useless = [pyatspi.ROLE_TABLE_CELL, pyatspi.ROLE_LABEL]
             if not string and role not in useless:
                 string = self.script.speechGenerator.getRoleName(accessible)

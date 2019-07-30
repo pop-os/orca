@@ -596,9 +596,6 @@ class Script(default.Script):
                     continue
 
                 obj, startOffset, endOffset, text = content
-                if self.utilities.isLabellingContents(obj):
-                    continue
-
                 eventsynthesizer.scrollIntoView(obj)
                 utterances = self.speechGenerator.generateContents(
                     [content], eliminatePauses=True, priorObj=priorObj)
@@ -633,7 +630,7 @@ class Script(default.Script):
         """Updates the context and presents the find results if appropriate."""
 
         text = self.utilities.queryNonEmptyText(obj)
-        if not (text and text.getNSelections() > 0):
+        if not (text and text.getNSelections()):
             return
 
         document = self.utilities.getDocumentForObject(obj)
@@ -788,11 +785,6 @@ class Script(default.Script):
 
         if self._inFocusMode and obj and obj.getRole() == pyatspi.ROLE_RADIO_BUTTON:
             msg = "WEB: Staying in focus mode due to role of %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return True
-
-        if self._inFocusMode and self.utilities.isWebAppDescendant(obj):
-            msg = "WEB: Staying in focus mode because we're inside a web application"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -1185,8 +1177,7 @@ class Script(default.Script):
         self.utilities.setCaretContext(newFocus, caretOffset)
         self.updateBraille(newFocus)
 
-        if self.utilities.isContentEditableWithEmbeddedObjects(newFocus) \
-           and not (newFocus.getRole() == pyatspi.ROLE_TABLE_CELL and newFocus.name):
+        if self.utilities.isContentEditableWithEmbeddedObjects(newFocus):
             msg = "WEB: New focus %s content editable. Generating line contents." % newFocus
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
@@ -1196,7 +1187,7 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(newFocus, 0)
             utterances = self.speechGenerator.generateContents(contents)
-        elif self.utilities.lastInputEventWasPageNav() and not self.utilities.getTable(newFocus):
+        elif self.utilities.lastInputEventWasPageNav():
             msg = "WEB: New focus %s was scrolled to. Generating line contents." % newFocus
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
@@ -1465,8 +1456,7 @@ class Script(default.Script):
             return True
 
         if self.utilities.lastInputEventWasPageNav() \
-           and not self.utilities.isLink(event.source) \
-           and not event.source.getRole() == pyatspi.ROLE_COMBO_BOX:
+           and not self.utilities.isLink(event.source):
             msg = "WEB: Event handled: Caret moved due to scrolling"
             debug.println(debug.LEVEL_INFO, msg, True)
             self.utilities.setCaretContext(obj, offset)
@@ -1532,8 +1522,7 @@ class Script(default.Script):
         if not _settingsManager.getSetting('caretNavigationEnabled') \
            or self._inFocusMode or isEditable:
             self.utilities.setCaretContext(event.source, event.detail1)
-            notify = event.source.getState().contains(pyatspi.STATE_FOCUSED)
-            orca.setLocusOfFocus(event, event.source, notify)
+            orca.setLocusOfFocus(event, event.source, False)
             msg = "WEB: Setting locusOfFocus, context to: %s, %i" % \
                   (event.source, event.detail1)
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -1630,13 +1619,6 @@ class Script(default.Script):
         debug.println(debug.LEVEL_INFO, msg, True)
 
         if self.utilities.isZombie(obj):
-            if self.utilities.isSameObject(obj, event.any_data, comparePaths=True, ignoreNames=True):
-                msg = "WEB: Event handled by updating locusOfFocus and context"
-                debug.println(debug.LEVEL_INFO, msg, True)
-                orca.setLocusOfFocus(event, event.any_data, False)
-                self.utilities.setCaretContext(event.any_data, offset)
-                return True
-
             obj, offset = self.utilities.getCaretContext(getZombieReplicant=True)
             if not obj:
                 if self._inFocusMode:
@@ -1657,11 +1639,6 @@ class Script(default.Script):
 
         childRole = event.any_data.getRole()
         if childRole == pyatspi.ROLE_ALERT:
-            if event.any_data == self.utilities.lastQueuedLiveRegion():
-                msg = "WEB: Ignoring %s (is last queued live region)" % event.any_data
-                debug.println(debug.LEVEL_INFO, msg, True)
-                return True
-
             msg = "WEB: Presenting event.any_data"
             debug.println(debug.LEVEL_INFO, msg, True)
             self.presentObject(event.any_data)
@@ -1708,21 +1685,6 @@ class Script(default.Script):
         debug.println(debug.LEVEL_INFO, msg, True)
         self._loadingDocumentContent = True
         return True
-
-    def onExpandedChanged(self, event):
-        """Callback for object:state-changed:expanded accessibility events."""
-
-        if self.utilities.isZombie(event.source):
-            msg = "WEB: Event source is Zombie"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return True
-
-        if not self.utilities.inDocumentContent(event.source):
-            msg = "WEB: Event source is not in document content"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return False
-
-        return False
 
     def onFocusedChanged(self, event):
         """Callback for object:state-changed:focused accessibility events."""
@@ -1778,8 +1740,7 @@ class Script(default.Script):
 
             obj, offset = self.utilities.searchForCaretContext(event.source)
             if obj:
-                notify = self.utilities.inFindToolbar(orca_state.locusOfFocus) \
-                    or self.utilities.isFocusModeWidget(obj)
+                notify = self.utilities.inFindToolbar(orca_state.locusOfFocus)
                 msg = "WEB: Updating focus and context to %s, %i" % (obj, offset)
                 debug.println(debug.LEVEL_INFO, msg, True)
                 orca.setLocusOfFocus(event, obj, notify)
@@ -1861,6 +1822,11 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
+        if event.source.getRole() == pyatspi.ROLE_FRAME:
+            msg = "WEB: Flusing messages from live region manager"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self.liveRegionManager.flushMessages()
+
         return True
 
     def onSelectedChanged(self, event):
@@ -1875,7 +1841,7 @@ class Script(default.Script):
             msg = "WEB: Event believed to be chrome page switch"
             debug.println(debug.LEVEL_INFO, msg, True)
             if event.detail1:
-                self.presentObject(event.source, priorObj=orca_state.locusOfFocus)
+                self.presentObject(event.source)
             return True
 
         if not self.utilities.inDocumentContent(event.source):
@@ -1972,12 +1938,6 @@ class Script(default.Script):
             return True
 
         obj, offset = self.utilities.getCaretContext(getZombieReplicant=False)
-        if obj and obj != event.source \
-           and not pyatspi.findAncestor(obj, lambda x: x == event.source):
-            msg = "WEB: Ignoring event because it isn't %s or its ancestor" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return True
-
         if self.utilities.isZombie(obj):
             if self.utilities.isLink(obj):
                 msg = "WEB: Focused link deleted. Taking no further action."

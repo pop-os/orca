@@ -68,7 +68,6 @@ class Utilities:
     _desktop = pyatspi.Registry.getDesktop(0)
 
     EMBEDDED_OBJECT_CHARACTER = '\ufffc'
-    ZERO_WIDTH_NO_BREAK_SPACE = '\ufeff'
     SUPERSCRIPT_DIGITS = \
         ['\u2070', '\u00b9', '\u00b2', '\u00b3', '\u2074',
          '\u2075', '\u2076', '\u2077', '\u2078', '\u2079']
@@ -485,7 +484,7 @@ class Utilities:
 
         textObjects = []
         for detail in details:
-            textObjects.extend(self.findAllDescendants(detail, self.queryNonEmptyText))
+            textObjects.extend(pyatspi.findAllDescendants(detail, self.queryNonEmptyText))
 
         return textObjects
 
@@ -530,7 +529,7 @@ class Utilities:
             return name
 
         try:
-            text = self.queryNonEmptyText(obj)
+            text = obj.queryText()
             displayedText = text.getText(0, text.characterCount)
         except:
             pass
@@ -1169,9 +1168,6 @@ class Utilities:
         obj = obj or orca_state.locusOfFocus
         return self.getContainingDocument(obj) is not None
 
-    def activeDocument(self):
-        return self.getContainingDocument(orca_state.locusOfFocus)
-
     def getContainingDocument(self, obj):
         if not obj:
             return None
@@ -1440,7 +1436,7 @@ class Utilities:
             else:
                 if not (table.nRows and table.nColumns):
                     layoutOnly = not obj.getState().contains(pyatspi.STATE_FOCUSED)
-                elif attrs.get('xml-roles') == 'table' or attrs.get('tag') == 'table':
+                elif attrs.get('xml-roles') == 'table':
                     layoutOnly = False
                 elif not (obj.name or self.displayedLabel(obj)):
                     layoutOnly = not (table.getColumnHeader(0) or table.getRowHeader(0))
@@ -1489,8 +1485,6 @@ class Utilities:
                               or state.contains(pyatspi.STATE_SELECTABLE))
         elif role == pyatspi.ROLE_PANEL and obj.childCount and firstChild \
              and firstChild.getRole() in ignorePanelParent:
-            layoutOnly = True
-        elif role == pyatspi.ROLE_PANEL and obj.name == obj.getApplication().name:
             layoutOnly = True
         elif obj.childCount == 1 and obj.name and obj.name == firstChild.name:
             layoutOnly = True
@@ -1960,15 +1954,6 @@ class Utilities:
 
         return pyatspi.findAncestor(obj, inSelectedMenu) is not None
 
-    def isStaticTextLeaf(self, obj, checkSiblings=True):
-        return False
-
-    def isListItemMarker(self, obj):
-        return False
-
-    def getListItemMarkerText(self, obj):
-        return ""
-
     def getOnScreenObjects(self, root, extents=None):
         if not self.isOnScreen(root, extents):
             return []
@@ -2018,8 +2003,7 @@ class Utilities:
             objects.append(root)
 
         for child in root:
-            if not self.isStaticTextLeaf(child):
-                objects.extend(self.getOnScreenObjects(child, extents))
+            objects.extend(self.getOnScreenObjects(child, extents))
 
         if role == pyatspi.ROLE_MENU_BAR:
             self._selectedMenuBarMenu[hash(root)] = None
@@ -2480,7 +2464,7 @@ class Utilities:
         except:
             return
 
-        if text.getNSelections() <= 0:
+        if not text.getNSelections():
             caretOffset = text.caretOffset
             startOffset = min(offset, caretOffset)
             endOffset = max(offset, caretOffset)
@@ -2645,7 +2629,8 @@ class Utilities:
 
         return offset
 
-    def clearTextSelection(self, obj):
+    @staticmethod
+    def clearTextSelection(obj):
         """Clears the text selection if the object supports it.
 
         Arguments:
@@ -2658,7 +2643,7 @@ class Utilities:
             return
 
         for i in range(text.getNSelections()):
-            text.removeSelection(i)
+            text.removeSelection(0)
 
     def expandEOCs(self, obj, startOffset=0, endOffset=-1):
         """Expands the current object replacing EMBEDDED_OBJECT_CHARACTERS
@@ -3632,14 +3617,22 @@ class Utilities:
         role = obj.getRole()
         if role == pyatspi.ROLE_MENU and not children:
             pred = lambda x: x and x.getState().contains(pyatspi.STATE_SELECTED)
-            children = self.findAllDescendants(obj, pred)
+            try:
+                children = pyatspi.findAllDescendants(obj, pred)
+            except:
+                msg = "ERROR: Exception calling findAllDescendants on %s" % obj
+                debug.println(debug.LEVEL_INFO, msg, True)
 
         if role == pyatspi.ROLE_COMBO_BOX \
            and children and children[0].getRole() == pyatspi.ROLE_MENU:
             children = self.selectedChildren(children[0])
             if not children and obj.name:
                 pred = lambda x: x and x.name == obj.name
-                children = self.findAllDescendants(obj, pred)
+                try:
+                    children = pyatspi.findAllDescendants(obj, pred)
+                except:
+                    msg = "ERROR: Exception calling findAllDescendants on %s" % obj
+                    debug.println(debug.LEVEL_INFO, msg, True)
 
         return children
 
@@ -4471,11 +4464,6 @@ class Utilities:
             selected = self.selectedChildren(obj)
             if selected:
                 obj = selected[0]
-            else:
-                isMenu = lambda x: x and x.getRole() == pyatspi.ROLE_MENU
-                selected = self.selectedChildren(pyatspi.findDescendant(obj, isMenu))
-                if selected:
-                    obj = selected[0]
 
         parent = self.getFunctionalParent(obj)
         childCount = self.getFunctionalChildCount(parent)
@@ -4842,11 +4830,8 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        if role in [pyatspi.ROLE_TABLE_ROW, pyatspi.ROLE_LIST_BOX]:
+        if role in [pyatspi.ROLE_TABLE_ROW, pyatspi.ROLE_COMBO_BOX, pyatspi.ROLE_LIST_BOX]:
             return True
-
-        if role == pyatspi.ROLE_COMBO_BOX:
-            return state.contains(pyatspi.STATE_FOCUSED)
 
         if role == pyatspi.ROLE_PUSH_BUTTON:
             return state.contains(pyatspi.STATE_FOCUSED)
@@ -5134,22 +5119,13 @@ class Utilities:
             return False
 
         if self.selectedChildCount(obj) == obj.childCount:
-            msg = "INFO: All %i children believed to be selected" % obj.childCount
-            debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
         if "Table" not in interfaces:
             return False
 
         table = obj.queryTable()
-        if table.nSelectedRows == table.nRows:
-            msg = "INFO: All %i rows believed to be selected" % table.nRows
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return True
-
-        if table.nSelectedColumns == table.nColumns:
-            msg = "INFO: All %i columns believed to be selected" % table.nColumns
-            debug.println(debug.LEVEL_INFO, msg, True)
+        if table.nSelectedRows == table.nRows or table.nSelectedColumns == table.nColumns:
             return True
 
         return False

@@ -343,8 +343,7 @@ class LiveRegionManager:
             # look through all the objects on the page and set/add to
             # politeness overrides.  This only adds live regions with good
             # markup.
-            matches = self._script.utilities.findAllDescendants(
-                docframe, self.matchLiveRegion)
+            matches = pyatspi.findAllDescendants(docframe, self.matchLiveRegion)
             for match in matches:
                 objectid = self._getObjectId(match)
                 self._politenessOverrides[(uri, objectid)] = LIVE_OFF
@@ -404,13 +403,6 @@ class LiveRegionManager:
         attrs = self._getAttrDictionary(obj)
         return 'container-live' in attrs
 
-    def _findContainer(self, obj):
-        isContainer = lambda x: self._getAttrDictionary(x).get('atomic')
-        if isContainer(obj):
-            return obj
-
-        return pyatspi.findAncestor(obj, isContainer)
-
     def _getMessage(self, event):
         """Gets the message associated with a given live event."""
         attrs = self._getAttrDictionary(event.source)
@@ -430,8 +422,9 @@ class LiveRegionManager:
             if attrs.get('container-atomic') != 'true':
                 content = event.any_data
             else:
-                container = self._findContainer(event.source)
-                content = self._script.utilities.expandEOCs(container)
+                text = self._script.utilities.queryNonEmptyText(event.source)
+                if text:
+                    content = text.getText(0, -1)
 
         if not content:
             return None
