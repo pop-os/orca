@@ -516,6 +516,11 @@ class Script(script.Script):
                 Script.bypassNextCommand,
                 cmdnames.BYPASS_NEXT_COMMAND)
 
+        self.inputEventHandlers["presentSizeAndPositionHandler"] = \
+            input_event.InputEventHandler(
+                Script.presentSizeAndPosition,
+                cmdnames.PRESENT_SIZE_AND_POSITION)
+
         self.inputEventHandlers.update(notification_messages.inputEventHandlers)
 
     def getInputEventHandlerKey(self, inputEventHandler):
@@ -815,9 +820,9 @@ class Script(script.Script):
         if self.flatReviewContext:
             self.toggleFlatReviewMode()
 
-        if not orca_state.activeWindow \
-           or (event and event.host_application != orca_state.activeScript.app):
-            orca_state.activeWindow = self.utilities.topLevelObject(newLocusOfFocus)
+        topLevel = self.utilities.topLevelObject(newLocusOfFocus)
+        if orca_state.activeWindow != topLevel:
+            orca_state.activeWindow = topLevel
             self.windowActivateTime = time.time()
 
         self.updateBraille(newLocusOfFocus)
@@ -1752,10 +1757,10 @@ class Script(script.Script):
         context.goBegin()
 
         while True:
-            [wordString, x, y, width, height] = context.getCurrent(flat_review.Context.ZONE)
-            if wordString is not None:
-                speech.speak(wordString)
-            moved = context.goNext(flat_review.Context.ZONE, flat_review.Context.WRAP_LINE)
+            [string, x, y, width, height] = context.getCurrent(flat_review.Context.LINE)
+            if string is not None:
+                speech.speak(string)
+            moved = context.goNext(flat_review.Context.LINE, flat_review.Context.WRAP_LINE)
             if not moved:
                 break
 
@@ -1807,7 +1812,8 @@ class Script(script.Script):
 
         Returns True to indicate the input event has been consumed.
         """
-        speech.stop()
+
+        self.presentationInterrupt()
         if _settingsManager.getSetting('silenceSpeech'):
             _settingsManager.setSetting('silenceSpeech', False)
             self.presentMessage(messages.SPEECH_ENABLED)
@@ -2110,6 +2116,7 @@ class Script(script.Script):
             return self._whereAmISelectedText(inputEvent, obj)
 
         count = self.utilities.selectedChildCount(container)
+        self.presentMessage(messages.selectedItemsCount(count, container.childCount))
         if not count:
             return True
 
@@ -2152,6 +2159,11 @@ class Script(script.Script):
                     debug.println(debug.LEVEL_INFO, msg, True)
                     return
 
+                if not self.utilities.eventIsUserTriggered(event):
+                    msg = "DEFAULT: Not clearing state. Event is not user triggered."
+                    debug.println(debug.LEVEL_INFO, msg, True)
+                    return
+
                 msg = "DEFAULT: Event is for active window. Clearing state."
                 debug.println(debug.LEVEL_INFO, msg, True)
                 orca_state.activeWindow = None
@@ -2179,7 +2191,7 @@ class Script(script.Script):
             return
 
         if self.stopSpeechOnActiveDescendantChanged(event):
-            speech.stop()
+            self.presentationInterrupt()
 
         orca.setLocusOfFocus(event, event.any_data)
 
@@ -2302,12 +2314,10 @@ class Script(script.Script):
     def onExpandedChanged(self, event):
         """Callback for object:state-changed:expanded accessibility events."""
 
-        obj = event.source
-        role = obj.getRole()
-        if not self.utilities.isSameObject(obj, orca_state.locusOfFocus) \
-           and not role in [pyatspi.ROLE_TABLE_ROW, pyatspi.ROLE_COMBO_BOX]:
+        if not self.utilities.isPresentableExpandedChangedEvent(event):
             return
 
+        obj = event.source
         oldObj, oldState = self.pointOfReference.get('expandedChange', (None, 0))
         if hash(oldObj) == hash(obj) and oldState == event.detail1:
             return
@@ -2356,7 +2366,7 @@ class Script(script.Script):
             orca_state.activeWindow = window
             orca.setLocusOfFocus(None, window, False)
 
-        speech.stop()
+        self.presentationInterrupt()
         obj = mouseEvent.obj
         if obj and obj.getState().contains(pyatspi.STATE_FOCUSED):
             orca.setLocusOfFocus(None, obj, windowChanged)
@@ -2849,9 +2859,8 @@ class Script(script.Script):
         # commands running in gnome-terminal.
         #
         if orca_state.locusOfFocus and \
-          (orca_state.locusOfFocus.getApplication() == \
-             event.source.getApplication()):
-            speech.stop()
+           orca_state.locusOfFocus.getApplication() == event.source.getApplication():
+            self.presentationInterrupt()
 
             # Clear the braille display just in case we are about to give
             # focus to an inaccessible application. See bug #519901 for
@@ -2873,6 +2882,11 @@ class Script(script.Script):
         # an event from the current activeWindow.
         #
         if event.source == orca_state.activeWindow:
+            if not self.utilities.eventIsUserTriggered(event):
+                msg = "DEFAULT: Not clearing state. Event is not user triggered."
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return
+
             orca.setLocusOfFocus(event, None)
             orca_state.activeWindow = None
             orca_state.activeScript = None
@@ -3532,6 +3546,7 @@ class Script(script.Script):
         #
         done = False
         while not done:
+            eventsynthesizer.scrollIntoView(obj)
             speech.speak(self.speechGenerator.generateContext(obj, priorObj=priorObj))
 
             lastEndOffset = -1
@@ -3753,6 +3768,8 @@ class Script(script.Script):
         """Convenience method to interrupt presentation of whatever is being
         presented at the moment."""
 
+        msg = "DEFAULT: Interrupting presentation"
+        debug.println(debug.LEVEL_INFO, msg, True)
         speech.stop()
         braille.killFlash()
 
@@ -4299,4 +4316,24 @@ class Script(script.Script):
         dateFormat = _settingsManager.getSetting('presentDateFormat')
         message = time.strftime(dateFormat, time.localtime())
         self.presentMessage(message)
+        return True
+
+    def presentSizeAndPosition(self, inputEvent):
+        """ Presents the size and position of the locusOfFocus. """
+
+        if self.flatReviewContext:
+            obj = self.flatReviewContext.getCurrentAccessible()
+        else:
+            obj = orca_state.locusOfFocus
+
+        x, y, width, height = self.utilities.getBoundingBox(obj)
+        if (x, y, width, height) == (-1, -1, 0, 0):
+            full = messages.LOCATION_NOT_FOUND_FULL
+            brief = messages.LOCATION_NOT_FOUND_BRIEF
+            self.presentMessage(full, brief)
+            return True
+
+        full = messages.SIZE_AND_POSITION_FULL % (width, height, x, y)
+        brief = messages.SIZE_AND_POSITION_BRIEF % (width, height, x, y)
+        self.presentMessage(full, brief)
         return True

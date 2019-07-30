@@ -36,7 +36,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018</mal:years>
+      <mal:years>2018-2019</mal:years>
     </mal:credit>
   </info>
   <title>Befehle zu »Wo bin ich«</title>
@@ -66,7 +66,7 @@
       </list>
     </item>
   </list>
-  <p>Zusätzlich zu den vorgesehenen »Wo bin ich«-Befehlen hat <app>Orca</app> zwei zusätzliche Befehle, die von der aktuellen Position abhängig sind:</p>
+  <p>Zusätzlich zu den vorgesehenen »Wo bin ich«-Befehlen hat <app>Orca</app> weitere Befehle, um Informationen zur aktuellen Position zu erhalten:</p>
   <list>
     <item>
       <p>Die Titelleiste anzeigen:</p>
@@ -87,6 +87,9 @@
         </item>
         <item>
           <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>Schrägstrich</key></keyseq> (Doppelklick)</p>
+        </item>
+        <item>
+          <p>Größe und Position des aktuellen Objekts in Pixeln vorlesen: (Nicht zugewiesen)</p>
         </item>
       </list>
     </item>

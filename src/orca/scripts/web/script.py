@@ -161,6 +161,14 @@ class Script(default.Script):
                 self.inputEventHandlers.get("enableStickyBrowseModeHandler"),
                 3))
 
+        keyBindings.add(
+            keybindings.KeyBinding(
+                "",
+                keybindings.defaultModifierMask,
+                keybindings.NO_MODIFIER_MASK,
+                self.inputEventHandlers.get("toggleLayoutModeHandler")))
+
+
         layout = _settingsManager.getSetting('keyboardLayout')
         if layout == settings.GENERAL_KEYBOARD_LAYOUT_DESKTOP:
             key = "KP_Multiply"
@@ -225,6 +233,11 @@ class Script(default.Script):
             input_event.InputEventHandler(
                 Script.enableStickyBrowseMode,
                 cmdnames.SET_BROWSE_MODE_STICKY)
+
+        self.inputEventHandlers["toggleLayoutModeHandler"] = \
+            input_event.InputEventHandler(
+                Script.toggleLayoutMode,
+                cmdnames.TOGGLE_LAYOUT_MODE)
 
     def getBookmarks(self):
         """Returns the "bookmarks" class for this script."""
@@ -583,6 +596,7 @@ class Script(default.Script):
                     continue
 
                 obj, startOffset, endOffset, text = content
+                eventsynthesizer.scrollIntoView(obj)
                 utterances = self.speechGenerator.generateContents(
                     [content], eliminatePauses=True, priorObj=priorObj)
                 priorObj = obj
@@ -769,7 +783,7 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        if self._inFocusMode and obj.getRole() == pyatspi.ROLE_RADIO_BUTTON:
+        if self._inFocusMode and obj and obj.getRole() == pyatspi.ROLE_RADIO_BUTTON:
             msg = "WEB: Staying in focus mode due to role of %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
@@ -827,13 +841,13 @@ class Script(default.Script):
     def sayLine(self, obj):
         """Speaks the line at the current caret position."""
 
-        if not (self._lastCommandWasCaretNav or self._lastCommandWasStructNav) \
-           and not self.utilities.isContentEditableWithEmbeddedObjects(obj):
+        isEditable = self.utilities.isContentEditableWithEmbeddedObjects(obj)
+        if not (self._lastCommandWasCaretNav or self._lastCommandWasStructNav) and not isEditable:
             super().sayLine(obj)
             return
 
         priorObj = None
-        if self._lastCommandWasCaretNav:
+        if self._lastCommandWasCaretNav or isEditable:
             priorObj, priorOffset = self.utilities.getPriorContext()
 
         obj, offset = self.utilities.getCaretContext(documentFrame=None)
@@ -1096,6 +1110,14 @@ class Script(default.Script):
         self._focusModeIsSticky = True
         self._browseModeIsSticky = False
 
+    def toggleLayoutMode(self, inputEvent):
+        layoutMode = not _settingsManager.getSetting('layoutMode')
+        if layoutMode:
+            self.presentMessage(messages.MODE_LAYOUT)
+        else:
+            self.presentMessage(messages.MODE_OBJECT)
+        _settingsManager.setSetting('layoutMode', layoutMode)
+
     def togglePresentationMode(self, inputEvent):
         [obj, characterOffset] = self.utilities.getCaretContext()
         if self._inFocusMode:
@@ -1143,7 +1165,7 @@ class Script(default.Script):
             if contextObj and not self.utilities.isZombie(contextObj):
                 newFocus, caretOffset = contextObj, contextOffset
 
-        if newFocus.getRole() == pyatspi.ROLE_UNKNOWN:
+        if newFocus.getRole() in [pyatspi.ROLE_UNKNOWN, pyatspi.ROLE_REDUNDANT_OBJECT]:
             msg = "WEB: Event source has bogus role. Likely browser bug."
             debug.println(debug.LEVEL_INFO, msg, True)
             newFocus, offset = self.utilities.findFirstCaretContext(newFocus, 0)
@@ -1167,6 +1189,11 @@ class Script(default.Script):
             utterances = self.speechGenerator.generateContents(contents)
         elif self.utilities.lastInputEventWasPageNav():
             msg = "WEB: New focus %s was scrolled to. Generating line contents." % newFocus
+            debug.println(debug.LEVEL_INFO, msg, True)
+            contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
+            utterances = self.speechGenerator.generateContents(contents)
+        elif self.utilities.isFocusedWithMathChild(newFocus):
+            msg = "WEB: New focus %s has math child. Generating line contents." % newFocus
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
             utterances = self.speechGenerator.generateContents(contents)
@@ -1247,8 +1274,6 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        self._loadingDocumentContent = event.detail1
-
         obj, offset = self.utilities.getCaretContext()
         if not obj or self.utilities.isZombie(obj):
             self.utilities.clearCaretContext()
@@ -1263,12 +1288,20 @@ class Script(default.Script):
             else:
                 self.presentMessage(messages.PAGE_LOADING_END)
 
+        activeDocument = self.utilities.activeDocument()
+        if activeDocument and activeDocument != event.source:
+            msg = "WEB: Ignoring: Event source is not active document"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        self._loadingDocumentContent = event.detail1
         if event.detail1:
             return True
 
         self.utilities.clearCachedObjects()
 
         if _settingsManager.getSetting('pageSummaryOnLoad') and shouldPresent:
+            obj = obj or event.source
             msg = "WEB: Getting page summary for obj %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             summary = self.utilities.getPageSummary(obj)
@@ -1433,6 +1466,11 @@ class Script(default.Script):
         if self.utilities.isContentEditableWithEmbeddedObjects(event.source):
             msg = "WEB: In content editable with embedded objects"
             debug.println(debug.LEVEL_INFO, msg, True)
+            if not self.utilities.eventIsFromLocusOfFocusDocument(event):
+                msg = "WEB: Event ignored: Not from locus of focus document"
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
+
             self.utilities.setCaretContext(obj, offset)
             notify = not self.utilities.lastInputEventWasCharNav() \
                      and not self.utilities.isEntryDescendant(obj)
@@ -1839,6 +1877,11 @@ class Script(default.Script):
         if not self.utilities.inDocumentContent(orca_state.locusOfFocus):
             msg = "WEB: Event ignored: locusOfFocus (%s) is not in document content" \
                   % orca_state.locusOfFocus
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        if not self.utilities.eventIsFromLocusOfFocusDocument(event):
+            msg = "WEB: Event ignored: Not from locus of focus document"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 

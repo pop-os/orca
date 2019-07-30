@@ -136,7 +136,7 @@ class Utilities:
 
         return cmdline.replace("\x00", " ")
 
-    def canBeActiveWindow(self, window, clearCache=True):
+    def canBeActiveWindow(self, window, clearCache=False):
         if not window:
             return False
 
@@ -436,6 +436,9 @@ class Utilities:
 
         self._script.generatorCache[self.DISPLAYED_LABEL][obj] = labelString
         return self._script.generatorCache[self.DISPLAYED_LABEL][obj]
+
+    def preferDescriptionOverName(self, obj):
+        return False
 
     def descriptionsForObject(self, obj):
         """Return a list of objects describing obj."""
@@ -1474,6 +1477,8 @@ class Utilities:
             layoutOnly = False
         elif role == pyatspi.ROLE_LIST_ITEM and parentRole == pyatspi.ROLE_LIST_BOX:
             layoutOnly = False
+        elif role in [pyatspi.ROLE_REDUNDANT_OBJECT, pyatspi.ROLE_UNKNOWN]:
+            layoutOnly = True
         elif self.isTableRow(obj):
             state = obj.getState()
             layoutOnly = not (state.contains(pyatspi.STATE_FOCUSABLE) \
@@ -1860,6 +1865,14 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
+        msg = "INFO: Extents for %s are: %s" % (obj, box)
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        if box.x > 10000 or box.y > 10000:
+            msg = "INFO: %s seems to have bogus coordinates" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
         if box.x < 0 and box.y < 0:
             msg = "INFO: %s has negative coordinates" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -1958,6 +1971,9 @@ class Utilities:
         if role == pyatspi.ROLE_COMBO_BOX:
             return [root]
 
+        if role == pyatspi.ROLE_PUSH_BUTTON:
+            return [root]
+
         if role == pyatspi.ROLE_MENU_BAR:
             self._selectedMenuBarMenu[hash(root)] = self.selectedMenuBarMenu(root)
 
@@ -1980,7 +1996,7 @@ class Utilities:
             if visibleCells:
                 return visibleCells
 
-        nonText = [pyatspi.ROLE_STATUS_BAR, pyatspi.ROLE_UNKNOWN]
+        nonText = [pyatspi.ROLE_STATUS_BAR, pyatspi.ROLE_UNKNOWN, pyatspi.ROLE_REDUNDANT_OBJECT]
         objects = []
         if (role == pyatspi.ROLE_PAGE_TAB and root.name) \
            or (role not in nonText and "Text" in pyatspi.listInterfaces(root)):
@@ -2262,6 +2278,16 @@ class Utilities:
 
         return rv
 
+    def getBoundingBox(self, obj):
+        try:
+            extents = obj.queryComponent().getExtents(pyatspi.DESKTOP_COORDS)
+        except:
+            msg = "ERROR: Exception getting extents of %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return -1, -1, 0, 0
+
+        return extents.x, extents.y, extents.width, extents.height
+
     def hasNoSize(self, obj):
         if not obj:
             return False
@@ -2278,31 +2304,32 @@ class Utilities:
 
         return not (extents.width and extents.height)
 
-    def _hasNonDescendableDescendant(self, root):
-        roles = [pyatspi.ROLE_PAGE_TAB_LIST,
-                 pyatspi.ROLE_SPLIT_PANE,
-                 pyatspi.ROLE_TABLE]
-
-        def isMatch(x):
-            if not x:
-                return False
-
-            if x.getRole() in roles:
-                return True
-
-            if 'Table' in pyatspi.listInterfaces(x):
-                return x.childCount > 50
-
-            if 'Document' in pyatspi.listInterfaces(x):
-                return True
-
-        match = pyatspi.findDescendant(root, isMatch)
-        if match:
-            msg = "INFO: %s has descendant %s" % (root, match)
+    def _findAllDescendants(self, root, includeIf, excludeIf, matches):
+        try:
+            childCount = root.childCount
+        except:
+            msg = "ERROR: Exception getting childCount for %s" % root
             debug.println(debug.LEVEL_INFO, msg, True)
-            return True
+            return
 
-        return False
+        for i in range(childCount):
+            try:
+                child = root[i]
+            except:
+                msg = "ERROR: Exception getting %i child for %s" % (i, root)
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return
+
+            if excludeIf and excludeIf(child):
+                continue
+            if includeIf and includeIf(child):
+                matches.append(child)
+            self._findAllDescendants(child, includeIf, excludeIf, matches)
+
+    def findAllDescendants(self, root, includeIf=None, excludeIf=None):
+        matches = []
+        self._findAllDescendants(root, includeIf, excludeIf, matches)
+        return matches
 
     def unrelatedLabels(self, root, onlyShowing=True, minimumWords=3):
         """Returns a list containing all the unrelated (i.e., have no
@@ -2317,23 +2344,38 @@ class Utilities:
         Returns a list of unrelated labels under the given root.
         """
 
-        if self._hasNonDescendableDescendant(root):
-            return []
-
         if self._script.spellcheck and self._script.spellcheck.isCheckWindow(root):
             return []
 
-        hasRole = lambda x: x and x.getRole() in [pyatspi.ROLE_LABEL, pyatspi.ROLE_STATIC]
-        try:
-            allLabels = pyatspi.findAllDescendants(root, hasRole)
-        except:
-            return []
-        try:
-            labels = [x for x in allLabels if not x.getRelationSet()]
-            if onlyShowing:
-                labels = [x for x in labels if x.getState().contains(pyatspi.STATE_SHOWING)]
-        except:
-            return []
+        labelRoles = [pyatspi.ROLE_LABEL, pyatspi.ROLE_STATIC]
+        skipRoles = [pyatspi.ROLE_COMBO_BOX,
+                     pyatspi.ROLE_LIST_BOX,
+                     pyatspi.ROLE_MENU,
+                     pyatspi.ROLE_MENU_BAR,
+                     pyatspi.ROLE_SCROLL_PANE,
+                     pyatspi.ROLE_SPLIT_PANE,
+                     pyatspi.ROLE_TABLE,
+                     pyatspi.ROLE_TREE,
+                     pyatspi.ROLE_TREE_TABLE]
+
+        def _include(x):
+            if not (x and x.getRole() in labelRoles):
+                return False
+            if x.getRelationSet():
+                return False
+            if onlyShowing and not x.getState().contains(pyatspi.STATE_SHOWING):
+                return False
+            return True
+
+        def _exclude(x):
+            if not x or x.getRole() in skipRoles:
+                return True
+            if onlyShowing and not x.getState().contains(pyatspi.STATE_SHOWING):
+                return True
+            return False
+
+        excludeIf = lambda x: x and x.getRole() in skipRoles
+        labels = self.findAllDescendants(root, _include, _exclude)
 
         rootName = root.name
 
@@ -3637,7 +3679,14 @@ class Utilities:
         return child
 
     def popupMenuFor(self, obj):
-        if not obj and obj.childCount:
+        if not obj:
+            return None
+
+        try:
+            childCount = obj.childCount
+        except:
+            msg = "ERROR: Exception getting childCount for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
             return None
 
         menus = [child for child in obj if child.getRole() == pyatspi.ROLE_MENU]
@@ -4533,6 +4582,13 @@ class Utilities:
         text = "%s\n%s" % (text, newText)
         clipboard.set_text(text, -1)
 
+    def lastInputEventCameFromThisApp(self):
+        if not isinstance(orca_state.lastInputEvent, input_event.KeyboardEvent):
+            return False
+
+        event = orca_state.lastNonModifierKeyEvent
+        return event and event.isFromApplication(self._script.app)
+
     def lastInputEventWasPrintableKey(self):
         event = orca_state.lastInputEvent
         if not isinstance(event, input_event.KeyboardEvent):
@@ -4761,6 +4817,26 @@ class Utilities:
                  pyatspi.ROLE_TABLE_ROW_HEADER]
 
         return role in roles
+
+    def isPresentableExpandedChangedEvent(self, event):
+        if self.isSameObject(event.source, orca_state.locusOfFocus):
+            return True
+
+        try:
+            role = event.source.getRole()
+            state = event.source.getState()
+        except:
+            msg = "ERROR: Exception getting role and state of %s" % event.source
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if role in [pyatspi.ROLE_TABLE_ROW, pyatspi.ROLE_COMBO_BOX, pyatspi.ROLE_LIST_BOX]:
+            return True
+
+        if role == pyatspi.ROLE_PUSH_BUTTON:
+            return state.contains(pyatspi.STATE_FOCUSED)
+
+        return False
 
     def isPresentableTextChangedEventForLocusOfFocus(self, event):
         if not event.type.startswith("object:text-changed:") \
@@ -5006,6 +5082,20 @@ class Utilities:
             return True
 
         return False
+
+    def eventIsUserTriggered(self, event):
+        if not orca_state.lastInputEvent:
+            msg = "INFO: Not user triggered: No last input event."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        delta = time.time() - orca_state.lastInputEvent.time
+        if delta > 1:
+            msg = "INFO: Not user triggered: Last input event %.2fs ago." % delta
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        return True
 
     def presentFocusChangeReason(self):
         if self.handleUndoLocusOfFocusChange():

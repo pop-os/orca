@@ -72,7 +72,10 @@
       </list>
     </item>
   </list>
-  <p>En plus des commandes « où suis-je » dédiées, <app>Orca</app> dispose de deux commandes liées supplémentaires pour obtenir votre emplacement actuel :</p>
+  <p>
+    In addition to the dedicated Where Am I commands, <app>Orca</app> has
+    additional commands related to obtaining information about your present location:
+  </p>
   <list>
     <item>
       <p>Lire la barre de titre :</p>
@@ -93,6 +96,9 @@
         </item>
         <item>
           <p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Barre oblique (/)</key></keyseq> (double clic)</p>
+        </item>
+        <item>
+          <p>Present size and location of current object in pixels: (Unbound)</p>
         </item>
       </list>
     </item>

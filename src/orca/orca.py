@@ -158,6 +158,8 @@ def setLocusOfFocus(event, obj, notifyScript=True, force=False):
         return
 
     if orca_state.activeScript:
+        msg = "ORCA: Active script is: %s" % orca_state.activeScript
+        debug.println(debug.LEVEL_INFO, msg, True)
         if orca_state.activeScript.utilities.isZombie(obj):
             msg = "ERROR: New locusOfFocus (%s) is zombie. Not updating." % obj
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -668,6 +670,11 @@ def shutdownOnSignal(signum, frame):
     if not cleanExit:
         die(EXIT_CODE_HANG)
 
+def crashOnSignal(signum, frame):
+    signal.signal(signum, signal.SIG_DFL)
+    _restoreXmodmap(_orcaModifiers)
+    os.kill(os.getpid(), signum)
+
 def main(cacheValues=True):
     """The main entry point for Orca.  The exit codes for Orca will
     loosely be based on signals, where the exit code will be the
@@ -690,6 +697,7 @@ def main(cacheValues=True):
     signal.signal(signal.SIGINT, shutdownOnSignal)
     signal.signal(signal.SIGTERM, shutdownOnSignal)
     signal.signal(signal.SIGQUIT, shutdownOnSignal)
+    signal.signal(signal.SIGSEGV, crashOnSignal)
 
     if not _settingsManager.isAccessibilityEnabled():
         _settingsManager.setAccessibility(True)

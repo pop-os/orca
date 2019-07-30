@@ -190,6 +190,7 @@ class EventManager:
             if role not in [pyatspi.ROLE_ALERT,
                             pyatspi.ROLE_ANIMATION,
                             pyatspi.ROLE_INFO_BAR,
+                            pyatspi.ROLE_MENU,
                             pyatspi.ROLE_NOTIFICATION,
                             pyatspi.ROLE_PANEL,
                             pyatspi.ROLE_STATUS_BAR,
@@ -637,6 +638,9 @@ class EventManager:
 
         if not script.isActivatableEvent(event):
             return False, "The script says not to activate for this event."
+
+        if script.forceScriptActivation(event):
+            return True, "The script insists it should be activated for this event."
 
         eType = event.type
         if eType.startswith('window:activate'):

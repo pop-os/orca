@@ -38,7 +38,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018</mal:years>
+      <mal:years>2018-2019</mal:years>
     </mal:credit>
   </info>
   <title>Lesebefehle</title>
@@ -196,6 +196,16 @@
       </item>
       <item>
         <p>Dauerhaften Stöber-Modus aktivieren: <keyseq><key>Orca-Zusatztaste</key><key>A</key></keyseq> (Dreifachklick)</p>
+      </item>
+    </list>
+  </section>
+  <section id="toggling_layout_mode">
+    <title>Layout-Modus ein-/ausschalten</title>
+    <p>Ist der Layout-Modus eingeschaltet, wird <app>Orca</app>s Caret-Navigation das Layout des sichtbaren Inhalts berücksichtigen und die ganze Zeile, einschließlich jeglicher Links oder Formularfelder in dieser Zeile vorlesen. Ist der Layout-Modus ausgeschaltet, wird <app>Orca</app> Objekte wie Links und Formularfelder beim Vorlesen und Navigieren so behandeln, als wären Sie auf eigenen Zeilen.</p>
+    <p><app>Orca</app> stellt einen Befehl zur Verfügung, um zwischen Layout- und Objektmodus umzuschalten. Dieser Befehl ist standardmäßig nicht zugewiesen. Bitte klicken Sie auf <link xref="howto_key_bindings">Tastenkombinationen verändern</link>, um Informationen darüber zu erhalten, wie Sie nicht zugewiesenen Befehlen Tastenkombinationen zuweisen.</p>
+    <list>
+      <item>
+        <p>Zwischen Layout- und Objektmodus umschalten: (Nicht zugewiesen)</p>
       </item>
     </list>
   </section>

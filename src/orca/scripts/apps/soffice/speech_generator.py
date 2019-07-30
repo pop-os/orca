@@ -293,7 +293,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         rowHeader, columnHeader = \
             self._script.utilities.getDynamicHeadersForCell(obj, newOnly)
         if not rowHeader:
-            return []
+            return super()._generateRowHeader(obj, **args)
 
         result = []
         text = self._script.utilities.displayedText(rowHeader)
@@ -302,10 +302,6 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             result.extend(self.voice(speech_generator.DEFAULT))
 
         return result
-
-    def _generateNewRowHeader(self, obj, **args):
-        args['newOnly'] = True
-        return self._generateRowHeader(obj, **args)
 
     def _generateColumnHeader(self, obj, **args):
         """Returns an array of strings (and possibly voice and audio
@@ -319,7 +315,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         rowHeader, columnHeader = \
             self._script.utilities.getDynamicHeadersForCell(obj, newOnly)
         if not columnHeader:
-            return []
+            return super()._generateColumnHeader(obj, **args)
 
         result = []
         text = self._script.utilities.displayedText(columnHeader)
@@ -328,10 +324,6 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             result.extend(self.voice(speech_generator.DEFAULT))
 
         return result
-
-    def _generateNewColumnHeader(self, obj, **args):
-        args['newOnly'] = True
-        return self._generateColumnHeader(obj, **args)
 
     def _generateTooLong(self, obj, **args):
         """If there is text in this spread sheet cell, compare the size of
@@ -465,6 +457,10 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
     def _generateNewAncestors(self, obj, **args):
         priorObj = args.get('priorObj', None)
         if not priorObj or priorObj.getRoleName() == 'text frame':
+            return []
+
+        if self._script.utilities.isSpreadSheetCell(obj) \
+           and self._script.utilities.isDocumentPanel(priorObj.parent):
             return []
 
         return super()._generateNewAncestors(obj, **args)

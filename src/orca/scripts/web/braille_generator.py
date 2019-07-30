@@ -62,6 +62,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
                         pyatspi.ROLE_PARAGRAPH,
                         pyatspi.ROLE_STATIC,
                         pyatspi.ROLE_SECTION,
+                        pyatspi.ROLE_REDUNDANT_OBJECT,
                         pyatspi.ROLE_UNKNOWN]
 
         state = obj.getState()
@@ -126,6 +127,18 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
             return []
 
         return super()._generateLabelAndName(obj, **args)
+
+    def _generateDescription(self, obj, **args):
+        if self._script.utilities.preferDescriptionOverName(obj):
+            return []
+
+        return super()._generateDescription(obj, **args)
+
+    def _generateName(self, obj, **args):
+        if self._script.utilities.preferDescriptionOverName(obj):
+            return [obj.description]
+
+        return super()._generateName(obj, **args)
 
     def _generateExpandedEOCs(self, obj, **args):
         """Returns the expanded embedded object characters for an object."""

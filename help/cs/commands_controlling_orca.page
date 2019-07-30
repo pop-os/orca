@@ -22,7 +22,7 @@
       <item>
         <p>Zapnout a vypnout čtečku <app>Orca</app> v GNOME: <keyseq><key>Super</key> <key>Alt</key> <key>S</key></keyseq></p>
         <note style="tip">
-           <p>Pokud používáte čtečku <app>Orca</app> v jiném pracovním prostředí, ve kterém není žádný příkaz pro její zapnutí a vypnutí, může se vám hodit příkaz pro její ukončení. Ve výchozím stavu nemá tento příkaz přidělenou žádnou klávesovou zkratku. Jak mu ji přidělit najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+           <p>Pokud používáte čtečku <app>Orca</app> v jiném pracovním prostředí, ve kterém není žádný příkaz pro její zapnutí a vypnutí, může se vám hodit příkaz pro její ukončení. Ve výchozím stavu nemá tento příkaz přidělenou žádnou klávesovou zkratku. Jak mu ji přidělit, najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
         </note>
       </item>
       <item>

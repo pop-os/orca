@@ -42,7 +42,7 @@
       </list>
     </item>
   </list>
-  <p>Mimo příkazů přímo sloužících pro „Kde se nacházím“ má <app>Orca</app> dva doplňující příkazy vztahující se k prezentování vašeho místa:</p>
+  <p>Mimo příkazů přímo sloužících pro „Kde se nacházím“ má <app>Orca</app> dva doplňující příkazy vztahující se k získání informací o prezentování místa, kde se nacházíte:</p>
   <list>
     <item>
       <p>Prezentovat lištu záhlaví:</p>
@@ -63,6 +63,9 @@
         </item>
         <item>
           <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key> <key>/</key></keyseq> (dvojité zmáčknutí)</p>
+        </item>
+        <item>
+          <p>Prezentovat velikost a umístění aktuálního objektu v pixelech: (bez klávesové zkratky)</p>
         </item>
       </list>
     </item>

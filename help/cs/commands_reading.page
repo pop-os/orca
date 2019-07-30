@@ -175,4 +175,14 @@
       </item>
     </list>
   </section>
+  <section id="toggling_layout_mode">
+    <title>Přepínání režimu rozvržení</title>
+    <p>Když je režim rozvržení zapnutý, bude <app>Orca</app> při ovládání kurzoru vždy respektovat rozvržení obsahu na obrazovce a prezentovat celé řádky, včetně případných odkazů nebo formulářových polí na daném řádku. Když režim rozvržení zapnutý není, bude <app>Orca</app> zacházet s objekty, jako jsou odkazy nebo formulářová pole, jak by to byly samostatné řádky, o to jak při prezentování, tak při navigaci.</p>
+    <p><app>Orca</app> poskytuje příkaz pro přepínání mezi režimem rozvržení a objektovým režimem. Tento příkaz ve výchozím stavu nemá přiřazenou klávesovou zkratku. Jak mu ji přidělit, najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+    <list>
+      <item>
+        <p>Přepnout mezi režimem rozvržení a objektovým režimem: (bez klávesové zkratky)</p>
+      </item>
+    </list>
+  </section>
 </page>

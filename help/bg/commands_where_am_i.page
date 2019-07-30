@@ -54,7 +54,10 @@
       </list>
     </item>
   </list>
-  <p>В допълнение към вградените команди „Къде съм?“, <app>Orca</app> има още две команди, свързани с установяване на текущото ви местоположение:</p>
+  <p>
+    In addition to the dedicated Where Am I commands, <app>Orca</app> has
+    additional commands related to obtaining information about your present location:
+  </p>
   <list>
     <item>
       <p>Прочитане на заглавната лента:</p>
@@ -75,6 +78,9 @@
         </item>
         <item>
           <p>Лаптопи: <keyseq><key>Модификатор на Orca</key><key>наклонена черта</key></keyseq> (двукратно)</p>
+        </item>
+        <item>
+          <p>Present size and location of current object in pixels: (Unbound)</p>
         </item>
       </list>
     </item>
