@@ -1,7 +1,9 @@
 orca (3.33.90-1) experimental; urgency=medium
 
   * New upstream unstable release.
-  * control: switch from intltool to gettext dependency.
+  * control:
+    - Switch from intltool to gettext dependency.
+    - Make orca recommend gstreamer1.0-plugins-good.
 
  -- Samuel Thibault <sthibault@debian.org>  Mon, 05 Aug 2019 00:50:25 +0200
 
