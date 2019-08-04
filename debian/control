@@ -11,7 +11,7 @@ Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.o
 Build-Depends: debhelper (>= 11),
                dh-python,
                gnome-pkg-tools (>= 0.10),
-               intltool (>= 0.50.0),
+               gettext (>= 0.19.8~),
                libatk-bridge2.0-dev (>= 2.26),
                libatspi2.0-dev (>= 2.26),
                libgstreamer1.0-dev,
