@@ -79,6 +79,9 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                              pyatspi.ROLE_LIST_ITEM,
                              pyatspi.ROLE_TEXT]
 
+        if self._script.utilities.isEditableDescendantOfComboBox(obj):
+            args['skipRoles'].append(pyatspi.ROLE_COMBO_BOX)
+
         result.extend(super()._generateAncestors(obj, **args))
 
         return result
@@ -170,7 +173,10 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             return []
 
         if obj.name:
-            result = [obj.name]
+            name = obj.name
+            if not self._script.utilities.hasExplicitName(obj):
+                name = name.strip()
+            result = [name]
             result.extend(self.voice(speech_generator.DEFAULT))
             return result
 
@@ -185,16 +191,17 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
            and not self._script.utilities.isDPub(obj):
             return []
 
-        if not self._script.utilities.hasValidName(obj):
+        if obj.name and not self._script.utilities.hasValidName(obj):
             return []
 
+        role = args.get('role', obj.getRole())
+
         if obj.parent and obj.name and obj.name == obj.parent.name \
-           and obj != orca_state.locusOfFocus:
+           and obj != orca_state.locusOfFocus and role != pyatspi.ROLE_IMAGE:
             return []
 
         # TODO - JD: Once the formatting strings are vastly cleaned up
         # or simply removed, hacks like this won't be needed.
-        role = args.get('role', obj.getRole())
         if role in [pyatspi.ROLE_COMBO_BOX, pyatspi.ROLE_SPIN_BUTTON]:
             return super()._generateName(obj, **args)
 
@@ -206,7 +213,11 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             if self._script.utilities.preferDescriptionOverName(obj):
                 result = [obj.description]
             else:
-                result = [obj.name]
+                name = obj.name
+                if not self._script.utilities.hasExplicitName(obj):
+                    name = name.strip()
+                result = [name]
+
             result.extend(self.voice(speech_generator.DEFAULT))
             return result
 
@@ -346,6 +357,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                 doNotSpeak.append(obj.getRole())
             if total > 1:
                 doNotSpeak.append(pyatspi.ROLE_ROW_HEADER)
+            if self._script.utilities.isMenuInCollapsedSelectElement(obj):
+                doNotSpeak.append(pyatspi.ROLE_MENU)
 
         if obj.getState().contains(pyatspi.STATE_EDITABLE):
             lastKey, mods = self._script.utilities.lastKeyAndModifiers()

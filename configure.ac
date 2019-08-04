@@ -1,6 +1,6 @@
 m4_define([orca_major_version], [3])
 m4_define([orca_minor_version], [33])
-m4_define([orca_micro_version], [3])
+m4_define([orca_micro_version], [90])
 m4_define([orca_version],
           [orca_major_version.orca_minor_version.orca_micro_version])
 
@@ -19,7 +19,9 @@ AM_INIT_AUTOMAKE([1.11 tar-ustar no-dist-gzip dist-xz])
 AM_MAINTAINER_MODE([enable])
 
 dnl Gettext stuff
+# FIXME: Remove AM_GNU_GETTEXT_VERSION once autoreconf supports REQUIRE_VERSION
 AM_GNU_GETTEXT_VERSION([0.19.8])
+AM_GNU_GETTEXT_REQUIRE_VERSION([0.19.8])
 AM_GNU_GETTEXT([external])
 
 GETTEXT_PACKAGE=AC_PACKAGE_TARNAME

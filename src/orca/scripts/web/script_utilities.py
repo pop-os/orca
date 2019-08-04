@@ -27,6 +27,7 @@ __license__   = "LGPL"
 
 import pyatspi
 import re
+import time
 import urllib
 
 from orca import debug
@@ -71,6 +72,7 @@ class Utilities(script_utilities.Utilities):
         self._isOffScreenLabel = {}
         self._isOffScreenLink = {}
         self._isOffScreenTextBlockElement = {}
+        self._elementLinesAreSingleChars= {}
         self._hasExplicitName = {}
         self._hasNoSize = {}
         self._hasLongDesc = {}
@@ -108,6 +110,7 @@ class Utilities(script_utilities.Utilities):
         self._tag = {}
         self._xmlRoles = {}
         self._treatAsDiv = {}
+        self._nodeLevel = {}
         self._posinset = {}
         self._setsize = {}
         self._currentObjectContents = None
@@ -116,6 +119,7 @@ class Utilities(script_utilities.Utilities):
         self._currentWordContents = None
         self._currentCharacterContents = None
         self._lastQueuedLiveRegionEvent = None
+        self._findContainer = None
 
         self._validChildRoles = {pyatspi.ROLE_LIST: [pyatspi.ROLE_LIST_ITEM]}
 
@@ -148,6 +152,7 @@ class Utilities(script_utilities.Utilities):
         self._isOffScreenLabel = {}
         self._isOffScreenLink = {}
         self._isOffScreenTextBlockElement = {}
+        self._elementLinesAreSingleChars= {}
         self._hasExplicitName = {}
         self._hasNoSize = {}
         self._hasLongDesc = {}
@@ -184,6 +189,7 @@ class Utilities(script_utilities.Utilities):
         self._tag = {}
         self._xmlRoles = {}
         self._treatAsDiv = {}
+        self._nodeLevel = {}
         self._posinset = {}
         self._setsize = {}
         self._paths = {}
@@ -191,6 +197,7 @@ class Utilities(script_utilities.Utilities):
         self._cleanupContexts()
         self._priorContexts = {}
         self._lastQueuedLiveRegionEvent = None
+        self._findContainer = None
 
     def clearContentCache(self):
         self._currentObjectContents = None
@@ -239,6 +246,9 @@ class Utilities(script_utilities.Utilities):
         return pyatspi.findAncestor(obj, self.isDocument)
 
     def _getDocumentsEmbeddedBy(self, frame):
+        if not frame:
+            return []
+
         isEmbeds = lambda r: r.getRelationType() == pyatspi.RELATION_EMBEDS
         relations = list(filter(isEmbeds, frame.getRelationSet()))
         if not relations:
@@ -400,9 +410,16 @@ class Utilities(script_utilities.Utilities):
         if grabFocus:
             self.grabFocus(obj)
 
-        text = self.queryNonEmptyText(obj)
-        if text:
-            text.setCaretOffset(offset)
+        # Don't use queryNonEmptyText() because we need to try to force-update focus.
+        if "Text" in pyatspi.listInterfaces(obj):
+            try:
+                obj.queryText().setCaretOffset(offset)
+            except:
+                msg = "WEB: Exception setting caret to %i in %s" % (offset, obj)
+                debug.println(debug.LEVEL_INFO, msg, True)
+            else:
+                msg = "WEB: Caret set to %i in %s" % (offset, obj)
+                debug.println(debug.LEVEL_INFO, msg, True)
 
         if self._script.useFocusMode(obj) != self._script.inFocusMode():
             self._script.togglePresentationMode(None)
@@ -513,6 +530,27 @@ class Utilities(script_utilities.Utilities):
         self._roleDescription[hash(obj)] = rv
         return rv
 
+    def nodeLevel(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return super().nodeLevel(obj)
+
+        rv = self._nodeLevel.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        rv = -1
+        if not (self.inMenu(obj) or obj.getRole() == pyatspi.ROLE_HEADING):
+            try:
+                attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
+            except:
+                attrs = {}
+
+            # ARIA levels are 1-based; non-web content is 0-based. Be consistent.
+            rv = int(attrs.get('level', 0)) -1
+
+        self._nodeLevel[hash(obj)] = rv
+        return rv
+
     def getPositionInSet(self, obj):
         rv = self._posinset.get(hash(obj))
         if rv is not None:
@@ -601,14 +639,14 @@ class Utilities(script_utilities.Utilities):
         self._xmlRoles[hash(obj)] = rv
         return rv
 
-    def inFindToolbar(self, obj=None):
+    def inFindContainer(self, obj=None):
         if not obj:
             obj = orca_state.locusOfFocus
 
         if self.inDocumentContent(obj):
             return False
 
-        return super().inFindToolbar(obj)
+        return super().inFindContainer(obj)
 
     def isEmpty(self, obj):
         if not self.isTextBlockElement(obj):
@@ -941,11 +979,12 @@ class Utilities(script_utilities.Utilities):
             if not characterCount:
                 rv = None
 
-        if self._treatObjectAsWhole(obj):
+        if self.isCellWithNameFromHeader(obj):
+            pass
+        elif self._treatObjectAsWhole(obj) and obj.name:
             rv = None
-
-        if not self.isLiveRegion(obj):
-            doNotQuery = [pyatspi.ROLE_TABLE_ROW]
+        elif not self.isLiveRegion(obj):
+            doNotQuery = [pyatspi.ROLE_TABLE_ROW, pyatspi.ROLE_LIST_BOX]
             role = obj.getRole()
             if rv and role in doNotQuery:
                 rv = None
@@ -1223,6 +1262,16 @@ class Utilities(script_utilities.Utilities):
             # Because user agents will give us this text word at a time.
             if self.isOffScreenTextBlockElement(obj) and self.queryNonEmptyText(obj):
                 msg = "WEB: Returning all text as contents for %s (is off-screen)" % obj
+                debug.println(debug.LEVEL_INFO, msg, True)
+                boundary = None
+
+            if self.elementLinesAreSingleChars(obj):
+                if obj.name:
+                    msg = "WEB: Returning name as contents for %s (single-char lines)" % obj
+                    debug.println(debug.LEVEL_INFO, msg, True)
+                    return [[obj, 0, len(obj.name), obj.name]]
+
+                msg = "WEB: Returning all text as contents for %s (single-char lines)" % obj
                 debug.println(debug.LEVEL_INFO, msg, True)
                 boundary = None
 
@@ -1780,6 +1829,10 @@ class Utilities(script_utilities.Utilities):
 
         if role in alwaysFocusModeRoles:
             return True
+
+        if role in [pyatspi.ROLE_TABLE_CELL, pyatspi.ROLE_TABLE] \
+           and self.isLayoutOnly(self.getTable(obj)):
+            return False
 
         focusModeRoles = [pyatspi.ROLE_EMBEDDED,
                           pyatspi.ROLE_LIST_ITEM,
@@ -2397,6 +2450,21 @@ class Utilities(script_utilities.Utilities):
         colindex = attrs.get('colindex', colindex)
         return rowindex, colindex
 
+    def isCellWithNameFromHeader(self, obj):
+        role = obj.getRole()
+        if role != pyatspi.ROLE_TABLE_CELL:
+            return False
+
+        header = self.columnHeaderForCell(obj)
+        if header and header.name and header.name == obj.name:
+            return True
+
+        header = self.rowHeaderForCell(obj)
+        if header and header.name and header.name == obj.name:
+            return True
+
+        return False
+
     def labelForCellCoordinates(self, obj):
         try:
             attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
@@ -2497,6 +2565,9 @@ class Utilities(script_utilities.Utilities):
         self._isLabelDescendant[hash(obj)] = rv
         return rv
 
+    def isMenuInCollapsedSelectElement(self, obj):
+        return False
+
     def isMenuDescendant(self, obj):
         if not obj:
             return False
@@ -2549,8 +2620,9 @@ class Utilities(script_utilities.Utilities):
 
         try:
             role = obj.getRole()
+            state = obj.getState()
         except:
-            msg = "ERROR: Exception getting role for %s" % obj
+            msg = "ERROR: Exception getting role and state for %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
@@ -2566,7 +2638,7 @@ class Utilities(script_utilities.Utilities):
             rv = False
         elif self.isFigure(obj):
             rv = False
-        elif role == pyatspi.ROLE_TABLE_ROW:
+        elif role == pyatspi.ROLE_TABLE_ROW and not state.contains(pyatspi.STATE_EXPANDABLE):
             rv = not self.hasExplicitName(obj)
         else:
             rv = super().isLayoutOnly(obj)
@@ -2622,6 +2694,48 @@ class Utilities(script_utilities.Utilities):
                 rv = True
 
         self._isOffScreenLink[hash(obj)] = rv
+        return rv
+
+    def elementLinesAreSingleChars(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return False
+
+        rv = self._elementLinesAreSingleChars.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        text = self.queryNonEmptyText(obj)
+        if not text:
+            return False
+
+        try:
+            nChars = text.characterCount
+        except:
+            return False
+
+        if not nChars:
+            return False
+
+        try:
+            obj.clearCache()
+            state = obj.getState()
+        except:
+            msg = "ERROR: Exception getting state for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        # Note: We cannot check for the editable-text interface, because Gecko
+        # seems to be exposing that for non-editable things. Thanks Gecko.
+        rv = not state.contains(pyatspi.STATE_EDITABLE)
+        if rv:
+            boundary = pyatspi.TEXT_BOUNDARY_LINE_START
+            for i in range(nChars):
+                string, start, end = text.getTextAtOffset(i, boundary)
+                if len(string) > 1 or string == self.EMBEDDED_OBJECT_CHARACTER:
+                    rv = False
+                    break
+
+        self._elementLinesAreSingleChars[hash(obj)] = rv
         return rv
 
     def isOffScreenLabel(self, obj):
@@ -2737,6 +2851,28 @@ class Utilities(script_utilities.Utilities):
         self._labelTargets[hash(obj)] = rv
         return rv
 
+    def isLinkAncestorOfImageInContents(self, link, contents):
+        if not self.isLink(link):
+            return False
+
+        for obj, start, end, string in contents:
+            if obj.getRole() != pyatspi.ROLE_IMAGE:
+                continue
+            if pyatspi.findAncestor(obj, lambda x: x == link):
+                return True
+
+        return False
+
+    def isListItemMarkerInSimpleItem(self, obj):
+        if not self.isListItemMarker(obj):
+            return False
+
+        for i in range(1, obj.parent.childCount):
+            if not self.isStaticTextLeaf(obj.parent[i]):
+                return False
+
+        return True
+
     def isInferredLabelForContents(self, content, contents):
         obj, start, end, string = content
         objs = list(filter(self.shouldInferLabelFor, [x[0] for x in contents]))
@@ -2789,7 +2925,7 @@ class Utilities(script_utilities.Utilities):
         rv = False
         if obj.getRole() == pyatspi.ROLE_LINK \
            and not obj.getState().contains(pyatspi.STATE_FOCUSABLE) \
-           and not 'Action' in pyatspi.listInterfaces(obj):
+           and not 'jump' in self._getActionNames(obj):
             rv = True
 
         self._isAnchor[hash(obj)] = rv
@@ -2823,7 +2959,7 @@ class Utilities(script_utilities.Utilities):
     def _getActionNames(self, obj):
         try:
             action = obj.queryAction()
-            names = [action.getName(i) for i in range(action.nActions)]
+            names = [action.getName(i).lower() for i in range(action.nActions)]
         except NotImplementedError:
             return []
         except:
@@ -3654,22 +3790,6 @@ class Utilities(script_utilities.Utilities):
         self._isContentEditableWithEmbeddedObjects[hash(obj)] = rv
         return rv
 
-    @staticmethod
-    def getHyperlinkRange(obj):
-        try:
-            hyperlink = obj.queryHyperlink()
-            start, end = hyperlink.startIndex, hyperlink.endIndex
-        except NotImplementedError:
-            msg = "WEB: %s does not implement the hyperlink interface" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return -1, -1
-        except:
-            msg = "WEB: Exception getting hyperlink indices for %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return -1, -1
-
-        return start, end
-
     def characterOffsetInParent(self, obj):
         start, end, length = self._rangeInParentWithLength(obj)
         return start
@@ -3836,8 +3956,8 @@ class Utilities(script_utilities.Utilities):
             msg = "WEB: Static text leaf cannot have caret context %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
-        if self.isListItemMarker(obj):
-            msg = "WEB: List item marker cannot have caret context %s" % obj
+        if self.isListItemMarkerInSimpleItem(obj):
+            msg = "WEB: List item marker in simple item cannot have caret context %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
@@ -4257,7 +4377,7 @@ class Utilities(script_utilities.Utilities):
                   'unvisitedLinks': 0}
 
         docframe = self.documentFrame(obj)
-        msg = "WEB: Could not get document frame for %s" % obj
+        msg = "WEB: Document frame for %s is %s" % (obj, docframe)
         debug.println(debug.LEVEL_INFO, msg, True)
 
         col = docframe.queryCollection()

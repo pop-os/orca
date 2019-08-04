@@ -32,6 +32,7 @@ __copyright__ = "Copyright (c) 2018 Igalia, S.L."
 __license__   = "LGPL"
 
 import pyatspi
+import re
 import time
 
 from orca import debug
@@ -55,35 +56,25 @@ class Utilities(web.Utilities):
         self._isListItemMarker = {}
         self._topLevelObject = {}
 
-    def isStaticTextLeaf(self, obj, checkSiblings=True):
+    def isStaticTextLeaf(self, obj):
         if not (obj and self.inDocumentContent(obj)):
             return super().isStaticTextLeaf(obj)
+
+        if obj.childCount:
+            return False
+
+        if self.isListItemMarker(obj):
+            return False
 
         rv = self._isStaticTextLeaf.get(hash(obj))
         if rv is not None:
             return rv
 
-        rv = obj.getRole() == pyatspi.ROLE_TEXT and self._getTag(obj) in (None, "br")
+        roles = [pyatspi.ROLE_STATIC, pyatspi.ROLE_TEXT]
+        rv = obj.getRole() in roles and self._getTag(obj) in (None, "br")
         if rv:
             msg = "CHROMIUM: %s believed to be static text leaf" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
-
-        if rv and obj.parent:
-            if self.isDocument(obj.parent):
-                msg = "CHROMIUM: %s is direct child of document so ignore leaf finding" % obj
-                debug.println(debug.LEVEL_INFO, msg, True)
-                rv = False
-            elif checkSiblings:
-                i = obj.getIndexInParent()
-                if i > 0 and not self.isStaticTextLeaf(obj.parent[i - 1], False) \
-                   and not self.isListItemMarker(obj.parent[0]):
-                    msg = "CHROMIUM: previous sibling of %s is not leaf so ignore leaf finding" % obj
-                    debug.println(debug.LEVEL_INFO, msg, True)
-                    rv = False
-                elif i + 1 < obj.parent.childCount and not self.isStaticTextLeaf(obj.parent[i + 1], False):
-                    msg = "CHROMIUM: next sibling of %s is not leaf so ignore leaf finding" % obj
-                    debug.println(debug.LEVEL_INFO, msg, True)
-                    rv = False
 
         self._isStaticTextLeaf[hash(obj)] = rv
         return rv
@@ -123,9 +114,9 @@ class Utilities(web.Utilities):
         if obj.getRole() != pyatspi.ROLE_LIST_ITEM:
             return ""
 
-        listItemMarker = pyatspi.findDescendant(obj, self.isListItemMarker)
-        if listItemMarker:
-            return listItemMarker.name
+        for child in obj:
+            if self.isListItemMarkerInSimpleItem(child):
+                return child.name
 
         return ""
 
@@ -182,6 +173,26 @@ class Utilities(web.Utilities):
             return False
 
         return not self.selectedChildCount(obj)
+
+    def isMenuInCollapsedSelectElement(self, obj):
+        try:
+            role = obj.getRole()
+        except:
+            msg = "CHROMIUM: Exception getting role for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if role != pyatspi.ROLE_MENU or self._getTag(obj.parent) != 'select':
+            return False
+
+        try:
+            parentState = obj.parent.getState()
+        except:
+            msg = "CHROMIUM: Exception getting state for %s" % obj.parent
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        return not parentState.contains(pyatspi.STATE_EXPANDED)
 
     def treatAsMenu(self, obj):
         if not obj:
@@ -258,7 +269,12 @@ class Utilities(web.Utilities):
 
         result = super().topLevelObject(obj)
         if result and result.getRole() in self._topLevelRoles():
-            return result
+            if not self.isFindContainer(result):
+                return result
+            else:
+                msg = "CHROMIUM: Top level object for %s is %s" % (obj, result.parent)
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return result.parent
 
         cached = self._topLevelObject.get(hash(obj))
         if cached is not None:
@@ -332,3 +348,105 @@ class Utilities(web.Utilities):
             msg = "CHROMIUM: HACK: Grabbing focus on %s's ancestor %s" % (obj, link)
             debug.println(debug.LEVEL_INFO, msg, True)
             self.grabFocus(link)
+
+    def handleAsLiveRegion(self, event):
+        # At least some of the time, we're getting text insertion events immediately
+        # followed by children-changed events to tell us that the object whose text
+        # changed is now being added to the accessibility tree. Furthermore the
+        # additions are not always coming to us in presentational order, whereas
+        # the text changes appear to be. Since testing thus far suggests we can rely
+        # upon the text insertions, ignore the children-changed events.
+        if event.type.startswith("object:children-changed:add"):
+            msg = "CHROMIUM: Event is believed to be redundant live region notification"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        return super().handleAsLiveRegion(event)
+
+    def getFindResultsCount(self, root=None):
+        root = root or self._findContainer
+        if not root:
+            return ""
+
+        isMatch = lambda x: x and x.getRole() == pyatspi.ROLE_STATUS_BAR
+        statusBars = self.findAllDescendants(root, isMatch)
+        if len(statusBars) != 1:
+            return ""
+
+        bar = statusBars[0]
+        bar.clearCache()
+        if len(re.findall("\d+", bar.name)) == 2:
+            return bar.name
+
+        return ""
+
+    def isFindContainer(self, obj):
+        if not obj or self.inDocumentContent(obj):
+            return False
+
+        if obj == self._findContainer:
+            return True
+
+        if obj.getRole() != pyatspi.ROLE_DIALOG:
+            return False
+
+        result = self.getFindResultsCount(obj)
+        if result:
+            msg = "CHROMIUM: %s believed to be find-in-page container (%s)" % (obj, result)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self._findContainer = obj
+            return True
+
+        # When there are no results due to the absence of a search term, the status
+        # bar lacks a name. When there are no results due to lack of match, the name
+        # of the status bar is "No results" (presumably localized). Therefore fall
+        # back on the widgets. TODO: This would be far easier if Chromium gave us an
+        # object attribute we could look for....
+
+        isEntry = lambda x: x.getRole() == pyatspi.ROLE_ENTRY
+        if len(self.findAllDescendants(obj, isEntry)) != 1:
+            msg = "CHROMIUM: %s not believed to be find-in-page container (entry count)" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        isButton = lambda x: x.getRole() == pyatspi.ROLE_PUSH_BUTTON
+        if len(self.findAllDescendants(obj, isButton)) != 3:
+            msg = "CHROMIUM: %s not believed to be find-in-page container (button count)" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+
+        isSeparator = lambda x: x.getRole() == pyatspi.ROLE_SEPARATOR
+        if len(self.findAllDescendants(obj, isSeparator)) != 1:
+            msg = "CHROMIUM: %s not believed to be find-in-page container (separator count)" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+
+        msg = "CHROMIUM: %s believed to be find-in-page container (accessibility tree)" % obj
+        debug.println(debug.LEVEL_INFO, msg, True)
+        self._findContainer = obj
+        return True
+
+    def inFindContainer(self, obj=None):
+        if not obj:
+            obj = orca_state.locusOfFocus
+
+        if not obj or self.inDocumentContent(obj):
+            return False
+
+        if obj.getRole() not in [pyatspi.ROLE_ENTRY, pyatspi.ROLE_PUSH_BUTTON]:
+            return False
+
+        isDialog = lambda x: x and x.getRole() == pyatspi.ROLE_DIALOG
+        result = self.isFindContainer(pyatspi.findAncestor(obj, isDialog))
+        if result:
+            msg = "CHROMIUM: %s believed to be find-in-page widget" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+
+        return result
+
+    def isHidden(self, obj):
+        if not super().isHidden(obj):
+            return False
+
+        if self.isMenuInCollapsedSelectElement(obj):
+            return False
+
+        return True

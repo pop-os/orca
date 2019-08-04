@@ -1224,18 +1224,18 @@ class Script(script.Script):
         self.lastMouseRoutingTime = time.time()
         if self.flatReviewContext:
             self.flatReviewContext.routeToCurrent()
-        else:
-            try:
-                eventsynthesizer.routeToCharacter(orca_state.locusOfFocus)
-            except:
-                try:
-                    eventsynthesizer.routeToObject(orca_state.locusOfFocus)
-                except:
-                    full = messages.LOCATION_NOT_FOUND_FULL
-                    brief = messages.LOCATION_NOT_FOUND_BRIEF
-                    self.presentMessage(full, brief)
+            return True
 
-        return True
+        if eventsynthesizer.routeToCharacter(orca_state.locusOfFocus):
+            return True
+
+        if eventsynthesizer.routeToObject(orca_state.locusOfFocus):
+            return True
+
+        full = messages.LOCATION_NOT_FOUND_FULL
+        brief = messages.LOCATION_NOT_FOUND_BRIEF
+        self.presentMessage(full, brief)
+        return False
 
     def presentStatusBar(self, inputEvent):
         """Speaks and brailles the contents of the status bar and/or default
@@ -1305,37 +1305,47 @@ class Script(script.Script):
         """Performs a left mouse button click on the current item."""
 
         if self.flatReviewContext:
-            self.flatReviewContext.clickCurrent(1)
-            return True
+            if self.flatReviewContext.clickCurrent(1):
+                return True
+
+            obj = self.flatReviewContext.getCurrentAccessible()
+            if eventsynthesizer.clickActionOn(obj):
+                return True
+            if eventsynthesizer.pressActionOn(obj):
+                return True
+            if eventsynthesizer.grabFocusOn(obj):
+                return True
+            return False
 
         if self.utilities.queryNonEmptyText(orca_state.locusOfFocus):
-            eventsynthesizer.clickCharacter(orca_state.locusOfFocus, 1)
+            if eventsynthesizer.clickCharacter(orca_state.locusOfFocus, 1):
+                return True
+
+        if eventsynthesizer.clickObject(orca_state.locusOfFocus, 1):
             return True
 
-        try:
-            eventsynthesizer.clickObject(orca_state.locusOfFocus, 1)
-        except:
-            self.speakMessage(messages.LOCATION_NOT_FOUND_FULL)
-
-        return True
+        full = messages.LOCATION_NOT_FOUND_FULL
+        brief = messages.LOCATION_NOT_FOUND_BRIEF
+        self.presentMessage(full, brief)
+        return False
 
     def rightClickReviewItem(self, inputEvent=None):
         """Performs a right mouse button click on the current item."""
 
         if self.flatReviewContext:
             self.flatReviewContext.clickCurrent(3)
-        else:
-            try:
-                eventsynthesizer.clickCharacter(orca_state.locusOfFocus, 3)
-            except:
-                try:
-                    eventsynthesizer.clickObject(orca_state.locusOfFocus, 3)
-                except:
-                    full = messages.LOCATION_NOT_FOUND_FULL
-                    brief = messages.LOCATION_NOT_FOUND_BRIEF
-                    self.presentMessage(full, brief)
+            return True
 
-        return True
+        if eventsynthesizer.clickCharacter(orca_state.locusOfFocus, 3):
+            return True
+
+        if eventsynthesizer.clickObject(orca_state.locusOfFocus, 3):
+            return True
+
+        full = messages.LOCATION_NOT_FOUND_FULL
+        brief = messages.LOCATION_NOT_FOUND_BRIEF
+        self.presentMessage(full, brief)
+        return False
 
     def spellCurrentItem(self, itemString):
         """Spell the current flat review word or line.
@@ -2362,11 +2372,10 @@ class Script(script.Script):
         if not mouseEvent.pressed:
             return
 
-        window = self.utilities.activeWindow()
-        windowChanged = orca_state.activeWindow != window
+        windowChanged = orca_state.activeWindow != mouseEvent.window
         if windowChanged:
-            orca_state.activeWindow = window
-            orca.setLocusOfFocus(None, window, False)
+            orca_state.activeWindow = mouseEvent.window
+            orca.setLocusOfFocus(None, mouseEvent.window, False)
 
         self.presentationInterrupt()
         obj = mouseEvent.obj
@@ -3529,7 +3538,6 @@ class Script(script.Script):
         #
         done = False
         while not done:
-            eventsynthesizer.scrollIntoView(obj)
             speech.speak(self.speechGenerator.generateContext(obj, priorObj=priorObj))
 
             lastEndOffset = -1
@@ -3581,6 +3589,7 @@ class Script(script.Script):
                 context = speechserver.SayAllContext(
                     obj, lineString, startOffset, endOffset)
                 self._sayAllContexts.append(context)
+                eventsynthesizer.scrollIntoView(obj, startOffset, endOffset)
                 yield [context, voice]
 
             moreLines = False

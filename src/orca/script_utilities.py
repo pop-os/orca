@@ -701,13 +701,7 @@ class Utilities:
 
         return True
 
-    def inFindToolbar(self, obj=None):
-        """Returns True if the given object is in the Find toolbar.
-
-        Arguments:
-        - obj: an accessible object
-        """
-
+    def inFindContainer(self, obj=None):
         if not obj:
             obj = orca_state.locusOfFocus
 
@@ -723,6 +717,9 @@ class Utilities:
         toolbar = pyatspi.findAncestor(obj, isToolbar)
 
         return toolbar is not None
+
+    def getFindResultsCount(self, root=None):
+        return ""
 
     def isAnchor(self, obj):
         return False
@@ -1255,6 +1252,13 @@ class Utilities:
 
         return False
 
+    def getCellRoles(self):
+        return [pyatspi.ROLE_TABLE_CELL,
+                pyatspi.ROLE_TABLE_COLUMN_HEADER,
+                pyatspi.ROLE_TABLE_ROW_HEADER,
+                pyatspi.ROLE_COLUMN_HEADER,
+                pyatspi.ROLE_ROW_HEADER]
+
     def isTextDocumentCell(self, obj):
         if not obj:
             return False
@@ -1266,12 +1270,7 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        cellRoles = [pyatspi.ROLE_TABLE_CELL,
-                     pyatspi.ROLE_TABLE_COLUMN_HEADER,
-                     pyatspi.ROLE_TABLE_ROW_HEADER,
-                     pyatspi.ROLE_COLUMN_HEADER,
-                     pyatspi.ROLE_ROW_HEADER]
-        if not role in cellRoles:
+        if not role in self.getCellRoles():
             return False
 
         return pyatspi.findAncestor(obj, self.isTextDocumentTable)
@@ -1287,12 +1286,7 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        cellRoles = [pyatspi.ROLE_TABLE_CELL,
-                     pyatspi.ROLE_TABLE_COLUMN_HEADER,
-                     pyatspi.ROLE_TABLE_ROW_HEADER,
-                     pyatspi.ROLE_COLUMN_HEADER,
-                     pyatspi.ROLE_ROW_HEADER]
-        if not role in cellRoles:
+        if not role in self.getCellRoles():
             return False
 
         return pyatspi.findAncestor(obj, self.isSpreadSheetTable)
@@ -1960,7 +1954,7 @@ class Utilities:
 
         return pyatspi.findAncestor(obj, inSelectedMenu) is not None
 
-    def isStaticTextLeaf(self, obj, checkSiblings=True):
+    def isStaticTextLeaf(self, obj):
         return False
 
     def isListItemMarker(self, obj):
@@ -2293,6 +2287,16 @@ class Utilities:
         rv = min(rv, 1)
 
         return rv
+
+    def getTextBoundingBox(self, obj, start, end):
+        try:
+            extents = obj.queryText().getRangeExtents(start, end, pyatspi.DESKTOP_COORDS)
+        except:
+            msg = "ERROR: Exception getting range extents of %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return -1, -1, 0, 0
+
+        return extents
 
     def getBoundingBox(self, obj):
         try:
@@ -2721,7 +2725,7 @@ class Utilities:
             return True
         if attributes.get("text-spelling") == "misspelled":
             return True
-        if attributes.get("underline") == "error":
+        if attributes.get("underline") in ["error", "spelling"]:
             return True
 
         return False
@@ -3595,17 +3599,22 @@ class Utilities:
 
         return root, offset
 
-    @staticmethod
-    def getHyperlinkRange(obj):
-        """Returns the start and end indices associated with the embedded
-        object, obj."""
+    def getHyperlinkRange(self, obj):
+        """Returns the text range in parent associated with obj."""
 
         try:
             hyperlink = obj.queryHyperlink()
+            start, end = hyperlink.startIndex, hyperlink.endIndex
         except NotImplementedError:
-            return 0, 0
+            msg = "INFO: %s does not implement the hyperlink interface" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return -1, -1
+        except:
+            msg = "INFO: Exception getting hyperlink indices for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return -1, -1
 
-        return hyperlink.startIndex, hyperlink.endIndex
+        return start, end
 
     def selectedChildren(self, obj):
         try:
@@ -4017,6 +4026,9 @@ class Utilities:
 
         return obj.getRole() not in roles
 
+    def treatAsEntry(self, obj):
+        return False
+
     def _treatAsLeafNode(self, obj):
         if not obj or self.isDead(obj):
             return False
@@ -4041,6 +4053,9 @@ class Utilities:
 
     def descendantAtPoint(self, root, x, y, coordType=None):
         if not root:
+            return None
+
+        if not self.isShowingAndVisible(root):
             return None
 
         if coordType is None:
@@ -4116,8 +4131,18 @@ class Utilities:
             return "", 0, 0
 
         extents = text.getRangeExtents(start, end, coordType)
-        if not self.containsRegion(extents, (x, y, 1, 1)):
+        if not self.containsRegion(extents, (x, y, 1, 1)) and string != "\n":
             return "", 0, 0
+
+        if not string.endswith("\n") or string == "\n":
+            return string, start, end
+
+        if boundary == pyatspi.TEXT_BOUNDARY_CHAR:
+            return string, start, end
+
+        char = self.textAtPoint(obj, x, y, coordType, pyatspi.TEXT_BOUNDARY_CHAR)
+        if char[0] == "\n" and char[2] - char[1] == 1:
+            return char
 
         return string, start, end
 
