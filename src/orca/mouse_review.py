@@ -71,6 +71,9 @@ class _StringContext:
         self._string = string
         self._start = start
         self._end = end
+        self._boundingBox = 0, 0, 0, 0
+        if script:
+            self._boundingBox = script.utilities.getTextBoundingBox(obj, start, end)
 
     def __eq__(self, other):
         return other is not None \
@@ -79,10 +82,62 @@ class _StringContext:
             and self._start == other._start \
             and self._end == other._end
 
+    def isSubstringOf(self, other):
+        """Returns True if this is a substring of other."""
+
+        if other is None:
+            return False
+
+        if not (self._obj and other._obj):
+            return False
+
+        thisBox = self.getBoundingBox()
+        if thisBox == (0, 0, 0, 0):
+            return False
+
+        otherBox = other.getBoundingBox()
+        if otherBox == (0, 0, 0, 0):
+            return False
+
+        # We get various and sundry results for the bounding box if the implementor
+        # included newline characters as part of the word or line at offset. Try to
+        # detect this and adjust the bounding boxes before getting the intersection.
+        if thisBox[3] != otherBox[3] and self._obj == other._obj:
+            thisNewLineCount = self._string.count("\n")
+            if thisNewLineCount and thisBox[3] / thisNewLineCount == otherBox[3]:
+                thisBox = *thisBox[0:3], otherBox[3]
+
+        if self._script.utilities.intersection(thisBox, otherBox) != thisBox:
+            return False
+
+        if not (self._string and self._string.strip() in other._string):
+            return False
+
+        msg = "MOUSE REVIEW: '%s' is substring of '%s'" % (self._string, other._string)
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return True
+
+    def getBoundingBox(self):
+        """Returns the bounding box associated with this context's range."""
+
+        return self._boundingBox
+
+    def getString(self):
+        """Returns the string associated with this context."""
+
+        return self._string
+
     def present(self):
         """Presents this context to the user."""
 
-        if not (self._script and self._string):
+        if not self._script:
+            msg = "MOUSE REVIEW: Not presenting due to lack of script"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if not self._string:
+            msg = "MOUSE REVIEW: Not presenting due to lack of string"
+            debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
         voice = self._script.speechGenerator.voice(string=self._string)
@@ -95,13 +150,14 @@ class _StringContext:
 class _ItemContext:
     """Holds all the information of the item at a specified point."""
 
-    def __init__(self, x=0, y=0, obj=None, frame=None, script=None):
+    def __init__(self, x=0, y=0, obj=None, boundary=None, frame=None, script=None):
         """Initialize the _ItemContext.
 
         Arguments:
         - x: The X coordinate
         - y: The Y coordinate
         - obj: The accessible object of interest at that coordinate
+        - boundary: The accessible-text boundary type
         - frame: The containing accessible object (often a top-level window)
         - script: The script associated with the accessible object
         """
@@ -109,10 +165,14 @@ class _ItemContext:
         self._x = x
         self._y = y
         self._obj = obj
+        self._boundary = boundary
         self._frame = frame
         self._script = script
         self._string = self._getStringContext()
         self._time = time.time()
+        self._boundingBox = 0, 0, 0, 0
+        if script:
+            self._boundingBox = script.utilities.getBoundingBox(obj)
 
     def __eq__(self, other):
         return other is not None \
@@ -122,9 +182,19 @@ class _ItemContext:
 
     def _treatAsDuplicate(self, prior):
         if self._obj != prior._obj or self._frame != prior._frame:
+            msg = "MOUSE REVIEW: Not a duplicate: different objects"
+            debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        if self._time - prior._time > 0.1:
+        if self.getString() and prior.getString() and not self._isSubstringOf(prior):
+            msg = "MOUSE REVIEW: Not a duplicate: not a substring of"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        interval = self._time - prior._time
+        if interval > 0.5:
+            msg = "MOUSE REVIEW: Not a duplicate: was %.2fs ago" % interval
+            debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
         msg = "MOUSE REVIEW: Treating as duplicate"
@@ -136,14 +206,7 @@ class _ItemContext:
         if "Text" not in interfaces:
             return True
 
-        roles = [pyatspi.ROLE_ENTRY,
-                 pyatspi.ROLE_LABEL,
-                 pyatspi.ROLE_PASSWORD_TEXT]
-
-        if self._obj.getRole() in roles:
-            return True
-
-        if self._obj.name and not "EditableText" in pyatspi.listInterfaces(self._obj):
+        if not self._obj.queryText().characterCount:
             return True
 
         return False
@@ -157,16 +220,10 @@ class _ItemContext:
         if self._treatAsSingleObject():
             return _StringContext(self._obj, self._script)
 
-        state = self._obj.getState()
-        if not state.contains(pyatspi.STATE_SELECTABLE):
-            boundary = pyatspi.TEXT_BOUNDARY_WORD_START
-        else:
-            boundary = pyatspi.TEXT_BOUNDARY_LINE_START
-
         string, start, end = self._script.utilities.textAtPoint(
-            self._obj, self._x, self._y, boundary=boundary)
-        if not string and self._script.utilities.isTextArea(self._obj):
-            string = self._script.speechGenerator.getRoleName(self._obj)
+            self._obj, self._x, self._y, boundary=self._boundary)
+        if string:
+            string = self._script.utilities.expandEOCs(self._obj, start, end)
 
         return _StringContext(self._obj, self._script, string, start, end)
 
@@ -181,10 +238,29 @@ class _ItemContext:
         isContainer = lambda x: x and x.getRole() in roles
         return pyatspi.findAncestor(self._obj, isContainer)
 
+    def _isSubstringOf(self, other):
+        """Returns True if this is a substring of other."""
+
+        return self._string.isSubstringOf(other._string)
+
     def getObject(self):
         """Returns the accessible object associated with this context."""
 
         return self._obj
+
+    def getBoundingBox(self):
+        """Returns the bounding box associated with this context."""
+
+        x, y, width, height = self._string.getBoundingBox()
+        if not (width or height):
+            return self._boundingBox
+
+        return x, y, width, height
+
+    def getString(self):
+        """Returns the string associated with this context."""
+
+        return self._string.getString()
 
     def getTime(self):
         """Returns the time associated with this context."""
@@ -195,6 +271,8 @@ class _ItemContext:
         """Presents this context to the user."""
 
         if self == prior or self._treatAsDuplicate(prior):
+            msg = "MOUSE REVIEW: Not presenting due to no change"
+            debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
         interrupt = self._obj and self._obj != prior._obj \
@@ -204,14 +282,16 @@ class _ItemContext:
             self._script.presentationInterrupt()
 
         if self._frame and self._frame != prior._frame:
-            self._script.presentObject(self._frame, alreadyFocused=True)
-
-        if self._string != prior._string and self._string.present():
-            return True
+            self._script.presentObject(self._frame, alreadyFocused=True, inMouseReview=True)
 
         if self._obj and self._obj != prior._obj:
             priorObj = prior._obj or self._getContainer()
-            self._script.presentObject(self._obj, priorObj=priorObj)
+            self._script.presentObject(self._obj, priorObj=priorObj, inMouseReview=True)
+            if not self._script.utilities.isEditableTextArea(self._obj):
+                return True
+
+        if self._string != prior._string and self._string.present():
+            return True
 
         return True
 
@@ -398,20 +478,63 @@ class MouseReviewer:
             return
 
         isMenu = lambda x: x and x.getRole() == pyatspi.ROLE_MENU
-        if isMenu(orca_state.locusOfFocus):
+        if script.utilities.isDead(orca_state.locusOfFocus):
+            menu = None
+        elif isMenu(orca_state.locusOfFocus):
             menu = orca_state.locusOfFocus
         else:
-            menu = pyatspi.findAncestor(orca_state.locusOfFocus, isMenu)
+            try:
+                menu = pyatspi.findAncestor(orca_state.locusOfFocus, isMenu)
+            except:
+                msg = "ERROR: Exception getting ancestor of %s" % orca_state.locusOfFocus
+                debug.println(debug.LEVEL_INFO, msg, True)
+                menu = None
+
+        document = None
+        if script.utilities.inDocumentContent():
+            document = script.utilities.activeDocument()
 
         obj = script.utilities.descendantAtPoint(menu, pX, pY) \
+            or script.utilities.descendantAtPoint(document, pX, pY) \
             or script.utilities.descendantAtPoint(window, pX, pY)
         msg = "MOUSE REVIEW: Object at (%i, %i) is %s" % (pX, pY, obj)
         debug.println(debug.LEVEL_INFO, msg, True)
 
         script = _scriptManager.getScript(window.getApplication(), obj)
-        new = _ItemContext(pX, pY, obj, window, script)
-        new.present(self._currentMouseOver)
-        self._currentMouseOver = new
+        if menu and obj and not pyatspi.findAncestor(obj, isMenu):
+            if script.utilities.intersectingRegion(obj, menu) != (0, 0, 0, 0):
+                msg = "MOUSE REVIEW: %s believed to be under %s" % (obj, menu)
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return
+
+        if document and obj and document != script.utilities.getContainingDocument(obj):
+            msg = "MOUSE REVIEW: %s is not in active document %s" % (obj, document)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        if obj and obj.getRole() in script.utilities.getCellRoles() \
+           and script.utilities.shouldReadFullRow(obj):
+            isRow = lambda x: x and x.getRole() == pyatspi.ROLE_TABLE_ROW
+            obj = pyatspi.findAncestor(obj, isRow) or obj
+
+        screen, nowX, nowY = self._pointer.get_position()
+        if (pX, pY) != (nowX, nowY):
+            msg = "MOUSE REVIEW: Pointer moved again: (%i, %i)" % (nowX, nowY)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        boundary = None
+        x, y, width, height = self._currentMouseOver.getBoundingBox()
+        if y <= pY <= y + height and self._currentMouseOver.getString():
+            boundary = pyatspi.TEXT_BOUNDARY_WORD_START
+        elif obj == self._currentMouseOver.getObject():
+            boundary = pyatspi.TEXT_BOUNDARY_LINE_START
+        elif obj and obj.getState().contains(pyatspi.STATE_SELECTABLE):
+            boundary = pyatspi.TEXT_BOUNDARY_LINE_START
+
+        new = _ItemContext(pX, pY, obj, boundary, window, script)
+        if new.present(self._currentMouseOver):
+            self._currentMouseOver = new
 
     def _listener(self, event):
         """Generic listener, mainly to output debugging info."""

@@ -1,3 +1,209 @@
+3.33.90 - 2 August 2019
+
+Web:
+
+ * Try to include results count during find in page searches
+
+ * Fix bugs preventing SayAll on page load from working
+
+ * Fix bug in braille presentation of new Firefox location input
+
+ * Work around another instance of CSSed text being exposed as one char
+   per line
+
+ * Improve presentation of treegrids
+
+ * Reduce chattiness with editable comboboxes and with auto-focused
+   descendants
+
+ * Never treat layout-only-table cells as focus-mode widgets
+
+ * Make finding clickables more performant
+
+ * Ensure we present final word in element when navigating by word
+
+ * Present caret-moved events from mouse clicks even if element hasn't
+   changed
+
+ * Ongoing work on Chromium script. Please note: ATK support in Chromium
+   needs much work. Until that work has been done, Orca will not be able
+   to provide access to Chromium. The current support is very much a work
+   in progress and not yet ready for end-user testing.
+
+Mouse Review:
+
+ * Improve overall presentation of units of text under the pointer
+
+ * Improve logic filtering out irrelevant mouse movements during review
+
+ * Apply non-mousereview cell/row presentation preferences for a
+   more consistent experience
+
+ * Don't present description for mouse review if tooltip presentation
+   is off
+
+General:
+
+ * Add support for Shift Lock
+
+ * Add initial support for AtspiText's scrollSubstringTo
+
+ * Add fall backs for click-at-point failures
+
+ * Also check for "underline:spelling" as indication of spelling error
+
+ * Improve response time for mouse input events
+
+ * Allow building with gettext ≥ 0.20
+
+
+New and updated translations (THANKS EVERYONE!!!):
+
+    es            Spanish               Daniel Mustieles
+    hu            Hungarian             Attila Hammer
+    id            Indonesian            Kukuh Syafaat
+    pt_BR         Brazilian Portuguese  Rafael Fontenelle
+    ro            Romanian              Florentina Mușat
+    ru            Russian               Stas Solovey
+    sl            Slovenian             Matej Urbančič
+    sv            Swedish               Anders Jonsson
+
+=========
+
+3.33.3 - 18 June 2019
+
+Web:
+
+ * Improve presentation of Google Sheets when native accessibility
+   support is being used rather than live-region-based support
+
+ * Add support for in-process ARIA feature for alternative text for
+   cell indices
+
+ * Fix bug in live region support causing some information to not be
+   presented
+
+ * Improve presentation of off-screen content (so that it isn't
+   spoken as if each word is on its own line)
+
+ * Ensure we present newly-focused widget when current widget gets
+   destroyed
+
+ * Fix presentation of description-term and description-value roles
+
+ * Fix bug causing basic context information to be missing during
+   structural navigation
+
+ * Improve presentation of Dojo color-chooser buttons
+
+ * Speak the landmark type before the landmark name/content rather
+   than after
+
+ * Don't treat two landmarks as being on the same line
+
+ * Fix issue resulting in some items being skipped during SayAll
+
+ * Ensure we don't filter out links with author-provided names
+
+ * Improve likelihood that we'll speak link role for descendant text
+
+ * Improve behavior of non-interactive web cells with click handlers
+
+ * Ensure we present the newly-focused element after dialog is dismissed
+
+ * Explicitly clear text selection when controlling navigation
+
+ * Work around another issue in Gecko's broken text implementation
+
+ * Ongoing work on Chromium script. Please note: ATK support in Chromium
+   needs much work. Until that work has been done, Orca will not be able
+   to provide access to Chromium. The current support is very much a work
+   in progress and not yet ready for end-user testing.
+
+Mouse Review:
+
+ * Fix bug causing us to present the wrong document when multiple
+   documents are open
+
+General:
+
+ * Fix several issues related to presentation of combo boxes
+
+ * Separate out voice variants in GUI
+
+ * Fix braille traceback when there are no lines to display
+
+ * Add marks at end of line for speech
+
+ * Fix several "chattiness" issues
+
+ * Improve performance searching for objects in accessibility tree
+
+ * Improve flat review of table rows
+
+ * Ignore window deactivate events if the event is not from the active
+   window
+
+New and updated translations (THANKS EVERYONE!!!):
+
+    el            Greek                 Efstathios Iosifidis
+    es            Spanish               Daniel Mustieles
+    eu            Basque                Asier Sarasua Garmendia
+    hu            Hungarian             Balázs Úr, Attila Hammer
+    id            Indonesian            Kukuh Syafaat
+    nl            Dutch                 Nathan Follens
+
+=========
+
+3.33.1 - 18 April 2019
+
+Web:
+
+ * Fix issue navigating to and around multibyte characters
+
+ * Fix issue related to our workaround for broken Gecko text
+
+ * Improve presentation of nameless links with non-meaningful URL
+
+ * Fix bug causing us to get stuck in a nested layout tables when
+   using table navigation on the non-layout parent
+
+ * Don't exit focus mode when navigating among text in a web app
+
+ * Only do the work to filter inferred labels if we have to
+
+ * Eliminate duplicate presentation of table-row content
+
+ * Fix bug in going to the beginning/end of a container via structural
+   navigation
+
+Speech:
+
+ * When we don't have a custom char name, use speech-dispatcher's API
+   to speak characters so that letters are not presented as words
+
+Qt:
+
+ * Ignore events from accelerator labels
+
+LibreOffice:
+
+ * Do not announce selection changes from unfocused combo boxes
+
+General:
+
+ * Handle the reported number of text selections being -1
+
+ * Migrate from intltool to gettext
+
+New and updated translations (THANKS EVERYONE!!!):
+
+    da            Danish                Ask Hjorth Larsen
+    fi            Finnish               Jiri Grönroos
+    fr            French                Guillaume Bernard
+
+=========
+
 3.32.0 - 13 March 2019
 
 New and updated translations (THANKS EVERYONE!!!):

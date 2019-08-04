@@ -68,6 +68,7 @@ class Utilities:
     _desktop = pyatspi.Registry.getDesktop(0)
 
     EMBEDDED_OBJECT_CHARACTER = '\ufffc'
+    ZERO_WIDTH_NO_BREAK_SPACE = '\ufeff'
     SUPERSCRIPT_DIGITS = \
         ['\u2070', '\u00b9', '\u00b2', '\u00b3', '\u2074',
          '\u2075', '\u2076', '\u2077', '\u2078', '\u2079']
@@ -484,7 +485,7 @@ class Utilities:
 
         textObjects = []
         for detail in details:
-            textObjects.extend(pyatspi.findAllDescendants(detail, self.queryNonEmptyText))
+            textObjects.extend(self.findAllDescendants(detail, self.queryNonEmptyText))
 
         return textObjects
 
@@ -529,7 +530,7 @@ class Utilities:
             return name
 
         try:
-            text = obj.queryText()
+            text = self.queryNonEmptyText(obj)
             displayedText = text.getText(0, text.characterCount)
         except:
             pass
@@ -700,13 +701,7 @@ class Utilities:
 
         return True
 
-    def inFindToolbar(self, obj=None):
-        """Returns True if the given object is in the Find toolbar.
-
-        Arguments:
-        - obj: an accessible object
-        """
-
+    def inFindContainer(self, obj=None):
         if not obj:
             obj = orca_state.locusOfFocus
 
@@ -722,6 +717,9 @@ class Utilities:
         toolbar = pyatspi.findAncestor(obj, isToolbar)
 
         return toolbar is not None
+
+    def getFindResultsCount(self, root=None):
+        return ""
 
     def isAnchor(self, obj):
         return False
@@ -1168,6 +1166,9 @@ class Utilities:
         obj = obj or orca_state.locusOfFocus
         return self.getContainingDocument(obj) is not None
 
+    def activeDocument(self):
+        return self.getContainingDocument(orca_state.locusOfFocus)
+
     def getContainingDocument(self, obj):
         if not obj:
             return None
@@ -1251,6 +1252,13 @@ class Utilities:
 
         return False
 
+    def getCellRoles(self):
+        return [pyatspi.ROLE_TABLE_CELL,
+                pyatspi.ROLE_TABLE_COLUMN_HEADER,
+                pyatspi.ROLE_TABLE_ROW_HEADER,
+                pyatspi.ROLE_COLUMN_HEADER,
+                pyatspi.ROLE_ROW_HEADER]
+
     def isTextDocumentCell(self, obj):
         if not obj:
             return False
@@ -1262,12 +1270,7 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        cellRoles = [pyatspi.ROLE_TABLE_CELL,
-                     pyatspi.ROLE_TABLE_COLUMN_HEADER,
-                     pyatspi.ROLE_TABLE_ROW_HEADER,
-                     pyatspi.ROLE_COLUMN_HEADER,
-                     pyatspi.ROLE_ROW_HEADER]
-        if not role in cellRoles:
+        if not role in self.getCellRoles():
             return False
 
         return pyatspi.findAncestor(obj, self.isTextDocumentTable)
@@ -1283,12 +1286,7 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        cellRoles = [pyatspi.ROLE_TABLE_CELL,
-                     pyatspi.ROLE_TABLE_COLUMN_HEADER,
-                     pyatspi.ROLE_TABLE_ROW_HEADER,
-                     pyatspi.ROLE_COLUMN_HEADER,
-                     pyatspi.ROLE_ROW_HEADER]
-        if not role in cellRoles:
+        if not role in self.getCellRoles():
             return False
 
         return pyatspi.findAncestor(obj, self.isSpreadSheetTable)
@@ -1436,7 +1434,7 @@ class Utilities:
             else:
                 if not (table.nRows and table.nColumns):
                     layoutOnly = not obj.getState().contains(pyatspi.STATE_FOCUSED)
-                elif attrs.get('xml-roles') == 'table':
+                elif attrs.get('xml-roles') == 'table' or attrs.get('tag') == 'table':
                     layoutOnly = False
                 elif not (obj.name or self.displayedLabel(obj)):
                     layoutOnly = not (table.getColumnHeader(0) or table.getRowHeader(0))
@@ -1485,6 +1483,8 @@ class Utilities:
                               or state.contains(pyatspi.STATE_SELECTABLE))
         elif role == pyatspi.ROLE_PANEL and obj.childCount and firstChild \
              and firstChild.getRole() in ignorePanelParent:
+            layoutOnly = True
+        elif role == pyatspi.ROLE_PANEL and obj.name == obj.getApplication().name:
             layoutOnly = True
         elif obj.childCount == 1 and obj.name and obj.name == firstChild.name:
             layoutOnly = True
@@ -1954,6 +1954,15 @@ class Utilities:
 
         return pyatspi.findAncestor(obj, inSelectedMenu) is not None
 
+    def isStaticTextLeaf(self, obj):
+        return False
+
+    def isListItemMarker(self, obj):
+        return False
+
+    def getListItemMarkerText(self, obj):
+        return ""
+
     def getOnScreenObjects(self, root, extents=None):
         if not self.isOnScreen(root, extents):
             return []
@@ -2003,7 +2012,8 @@ class Utilities:
             objects.append(root)
 
         for child in root:
-            objects.extend(self.getOnScreenObjects(child, extents))
+            if not self.isStaticTextLeaf(child):
+                objects.extend(self.getOnScreenObjects(child, extents))
 
         if role == pyatspi.ROLE_MENU_BAR:
             self._selectedMenuBarMenu[hash(root)] = None
@@ -2278,6 +2288,16 @@ class Utilities:
 
         return rv
 
+    def getTextBoundingBox(self, obj, start, end):
+        try:
+            extents = obj.queryText().getRangeExtents(start, end, pyatspi.DESKTOP_COORDS)
+        except:
+            msg = "ERROR: Exception getting range extents of %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return -1, -1, 0, 0
+
+        return extents
+
     def getBoundingBox(self, obj):
         try:
             extents = obj.queryComponent().getExtents(pyatspi.DESKTOP_COORDS)
@@ -2464,7 +2484,7 @@ class Utilities:
         except:
             return
 
-        if not text.getNSelections():
+        if text.getNSelections() <= 0:
             caretOffset = text.caretOffset
             startOffset = min(offset, caretOffset)
             endOffset = max(offset, caretOffset)
@@ -2629,8 +2649,7 @@ class Utilities:
 
         return offset
 
-    @staticmethod
-    def clearTextSelection(obj):
+    def clearTextSelection(self, obj):
         """Clears the text selection if the object supports it.
 
         Arguments:
@@ -2643,7 +2662,7 @@ class Utilities:
             return
 
         for i in range(text.getNSelections()):
-            text.removeSelection(0)
+            text.removeSelection(i)
 
     def expandEOCs(self, obj, startOffset=0, endOffset=-1):
         """Expands the current object replacing EMBEDDED_OBJECT_CHARACTERS
@@ -2706,7 +2725,7 @@ class Utilities:
             return True
         if attributes.get("text-spelling") == "misspelled":
             return True
-        if attributes.get("underline") == "error":
+        if attributes.get("underline") in ["error", "spelling"]:
             return True
 
         return False
@@ -3580,17 +3599,22 @@ class Utilities:
 
         return root, offset
 
-    @staticmethod
-    def getHyperlinkRange(obj):
-        """Returns the start and end indices associated with the embedded
-        object, obj."""
+    def getHyperlinkRange(self, obj):
+        """Returns the text range in parent associated with obj."""
 
         try:
             hyperlink = obj.queryHyperlink()
+            start, end = hyperlink.startIndex, hyperlink.endIndex
         except NotImplementedError:
-            return 0, 0
+            msg = "INFO: %s does not implement the hyperlink interface" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return -1, -1
+        except:
+            msg = "INFO: Exception getting hyperlink indices for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return -1, -1
 
-        return hyperlink.startIndex, hyperlink.endIndex
+        return start, end
 
     def selectedChildren(self, obj):
         try:
@@ -3617,22 +3641,14 @@ class Utilities:
         role = obj.getRole()
         if role == pyatspi.ROLE_MENU and not children:
             pred = lambda x: x and x.getState().contains(pyatspi.STATE_SELECTED)
-            try:
-                children = pyatspi.findAllDescendants(obj, pred)
-            except:
-                msg = "ERROR: Exception calling findAllDescendants on %s" % obj
-                debug.println(debug.LEVEL_INFO, msg, True)
+            children = self.findAllDescendants(obj, pred)
 
         if role == pyatspi.ROLE_COMBO_BOX \
            and children and children[0].getRole() == pyatspi.ROLE_MENU:
             children = self.selectedChildren(children[0])
             if not children and obj.name:
                 pred = lambda x: x and x.name == obj.name
-                try:
-                    children = pyatspi.findAllDescendants(obj, pred)
-                except:
-                    msg = "ERROR: Exception calling findAllDescendants on %s" % obj
-                    debug.println(debug.LEVEL_INFO, msg, True)
+                children = self.findAllDescendants(obj, pred)
 
         return children
 
@@ -4010,6 +4026,9 @@ class Utilities:
 
         return obj.getRole() not in roles
 
+    def treatAsEntry(self, obj):
+        return False
+
     def _treatAsLeafNode(self, obj):
         if not obj or self.isDead(obj):
             return False
@@ -4034,6 +4053,9 @@ class Utilities:
 
     def descendantAtPoint(self, root, x, y, coordType=None):
         if not root:
+            return None
+
+        if not self.isShowingAndVisible(root):
             return None
 
         if coordType is None:
@@ -4109,8 +4131,18 @@ class Utilities:
             return "", 0, 0
 
         extents = text.getRangeExtents(start, end, coordType)
-        if not self.containsRegion(extents, (x, y, 1, 1)):
+        if not self.containsRegion(extents, (x, y, 1, 1)) and string != "\n":
             return "", 0, 0
+
+        if not string.endswith("\n") or string == "\n":
+            return string, start, end
+
+        if boundary == pyatspi.TEXT_BOUNDARY_CHAR:
+            return string, start, end
+
+        char = self.textAtPoint(obj, x, y, coordType, pyatspi.TEXT_BOUNDARY_CHAR)
+        if char[0] == "\n" and char[2] - char[1] == 1:
+            return char
 
         return string, start, end
 
@@ -4464,6 +4496,11 @@ class Utilities:
             selected = self.selectedChildren(obj)
             if selected:
                 obj = selected[0]
+            else:
+                isMenu = lambda x: x and x.getRole() == pyatspi.ROLE_MENU
+                selected = self.selectedChildren(pyatspi.findDescendant(obj, isMenu))
+                if selected:
+                    obj = selected[0]
 
         parent = self.getFunctionalParent(obj)
         childCount = self.getFunctionalChildCount(parent)
@@ -4830,8 +4867,11 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        if role in [pyatspi.ROLE_TABLE_ROW, pyatspi.ROLE_COMBO_BOX, pyatspi.ROLE_LIST_BOX]:
+        if role in [pyatspi.ROLE_TABLE_ROW, pyatspi.ROLE_LIST_BOX]:
             return True
+
+        if role == pyatspi.ROLE_COMBO_BOX:
+            return state.contains(pyatspi.STATE_FOCUSED)
 
         if role == pyatspi.ROLE_PUSH_BUTTON:
             return state.contains(pyatspi.STATE_FOCUSED)
@@ -5119,13 +5159,22 @@ class Utilities:
             return False
 
         if self.selectedChildCount(obj) == obj.childCount:
+            msg = "INFO: All %i children believed to be selected" % obj.childCount
+            debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
         if "Table" not in interfaces:
             return False
 
         table = obj.queryTable()
-        if table.nSelectedRows == table.nRows or table.nSelectedColumns == table.nColumns:
+        if table.nSelectedRows == table.nRows:
+            msg = "INFO: All %i rows believed to be selected" % table.nRows
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        if table.nSelectedColumns == table.nColumns:
+            msg = "INFO: All %i columns believed to be selected" % table.nColumns
+            debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
         return False

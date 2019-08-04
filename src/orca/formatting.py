@@ -168,13 +168,19 @@ formatting = {
             'unfocused': '((substring and currentLineText) or labelAndName) + roleName'
             },
         pyatspi.ROLE_COMBO_BOX: {
-            'focused': 'expandableState',
+            'focused': 'labelAndName + roleName + expandableState',
             'unfocused': 'labelAndName + roleName + pause + (currentLineText + anyTextSelection or positionInList) + ' + MNEMONIC + ' + accelerator',
             'basicWhereAmI': 'label + roleName + pause + name + (currentLineText + anyTextSelection or positionInList) + ' + MNEMONIC + ' + accelerator'
             },
         pyatspi.ROLE_COMMENT: {
             'focused': 'labelOrName + roleName',
             'unfocused': 'labelOrName + roleName + pause + currentLineText + allTextSelection',
+            },
+        pyatspi.ROLE_DESCRIPTION_TERM: {
+            'unfocused': '(labelOrName or (displayedText + allTextSelection))',
+            },
+        pyatspi.ROLE_DESCRIPTION_VALUE: {
+            'unfocused': '(labelOrName or (displayedText + allTextSelection))',
             },
         pyatspi.ROLE_DIAL: {
             'focused': 'value',
@@ -254,8 +260,8 @@ formatting = {
             'basicWhereAmI': 'label + displayedText + allTextSelection + roleName'
             },
         pyatspi.ROLE_LANDMARK: {
-            'focused': 'leaving or (labelAndName + roleName)',
-            'unfocused': '((substring and currentLineText) or labelAndName) + roleName + pause + unrelatedLabels'
+            'focused': 'leaving or (roleName + labelAndName)',
+            'unfocused': 'roleName + (labelAndName or (substring and currentLineText)) + pause + unrelatedLabels'
             },
         pyatspi.ROLE_LAYERED_PANE: {
             'focused': '(labelAndName or roleName) + availability + noShowingChildren',
@@ -277,8 +283,8 @@ formatting = {
             },
         pyatspi.ROLE_LIST_ITEM: {
             'focused': 'expandableState',
-            'unfocused': '(labelOrName or (displayedText + allTextSelection)) + pause + expandableState + pause + positionInList + pause + listBoxItemWidgets',
-            'basicWhereAmI': 'label + roleName + pause + (name or displayedText) + pause + positionInList + pause + expandableState + (nodeLevel or nestingLevel) + pause'
+            'unfocused': '(labelOrName or (listItemMarker + displayedText + allTextSelection)) + pause + expandableState + pause + positionInList + pause + listBoxItemWidgets',
+            'basicWhereAmI': 'label + roleName + pause + (name or (listItemMarker + displayedText)) + pause + positionInList + pause + expandableState + (nodeLevel or nestingLevel) + pause'
             },
         pyatspi.ROLE_MATH: {
             'unfocused': 'math',
@@ -392,8 +398,8 @@ formatting = {
             'basicWhereAmI': 'labelOrName + roleName + value + percentage + ' + MNEMONIC + ' + accelerator + required'
             },
         pyatspi.ROLE_SECTION: {
-            'focused': 'labelOrName + currentLineText + allTextSelection + roleName',
-            'unfocused': 'labelOrName + currentLineText + allTextSelection + roleName + ' + MNEMONIC,
+            'focused': '(labelOrName or (currentLineText + allTextSelection)) + roleName',
+            'unfocused': '(labelOrName or (currentLineText + allTextSelection)) + roleName + ' + MNEMONIC,
             },
         pyatspi.ROLE_SLIDER: {
             'focused': 'value',
@@ -640,12 +646,12 @@ formatting = {
                                      asString(label) and (len(asString(label)) + 1) or 0)]'
         },
         pyatspi.ROLE_LIST_ITEM: {
-            'focused':   '((substring and ' + BRAILLE_TEXT + ')\
+            'focused':   '((substring and ([Region(asString(listItemMarker))] + ' + BRAILLE_TEXT + '))\
                           or ([Component(obj,\
                                      asString(label + displayedText + expandableState + roleName + availability) + asString(accelerator))]\
                           + (nestingLevel and [Region(" " + asString(nestingLevel))])\
                           + (listBoxItemWidgets and ([Region(" ")] + listBoxItemWidgets))))',
-            'unfocused': '((substring and ' + BRAILLE_TEXT + ')\
+            'unfocused': '((substring and ([Region(asString(listItemMarker))] + ' + BRAILLE_TEXT + '))\
                           or ([Component(obj, asString(labelOrName + expandableState))]\
                               + (nestingLevel and [Region(" " + asString(nestingLevel))])\
                               + (listBoxItemWidgets and ([Region(" ")] + listBoxItemWidgets))))',

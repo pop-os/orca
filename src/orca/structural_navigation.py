@@ -69,7 +69,7 @@ class MatchCriteria:
                  matchObjAttrs = None,
                  roles = [],
                  matchRoles = None,
-                 interfaces = "",
+                 interfaces = [],
                  matchInterfaces = None,
                  invert = False,
                  applyPredicate = False):
@@ -914,12 +914,10 @@ class StructuralNavigation:
         if not newObj:
             document = self._script.utilities.getDocumentForObject(obj)
             newObj = self._script.utilities.getNextObjectInDocument(obj, document)
-        elif pyatspi.findAncestor(container, lambda x: x == newObj):
-            newObj, newOffset = self._script.utilities.nextContext(newObj, newOffset)
 
         newContainer = self.getContainerForObject(newObj)
         if newObj and newContainer != container:
-            structuralNavigationObject.present(newObj)
+            structuralNavigationObject.present(newObj, newOffset)
             return
 
         if obj == container:
@@ -1063,6 +1061,12 @@ class StructuralNavigation:
         isCell = lambda x: x and x.getRole() in cellRoles
         if obj and not isCell(obj):
             obj = pyatspi.utils.findAncestor(obj, isCell)
+
+        while obj and self._script.utilities.isLayoutOnly(self.getTableForCell(obj)):
+            cell = pyatspi.utils.findAncestor(obj, isCell)
+            if not cell:
+                break
+            obj = cell
 
         return obj
 
@@ -1230,7 +1234,7 @@ class StructuralNavigation:
         self._script.updateBraille(obj)
         self._script.sayLine(obj)
 
-    def _presentObject(self, obj, offset, includeContext=False):
+    def _presentObject(self, obj, offset, includeContext=True):
         """Presents the entire object to the user.
 
         Arguments:
@@ -1245,7 +1249,13 @@ class StructuralNavigation:
             return
 
         eventsynthesizer.scrollToTopEdge(obj)
-        self._script.presentObject(obj, offset=offset, includeContext=includeContext)
+        priorObj = None
+        if not includeContext:
+            priorObj = obj
+            includeContext = True
+
+        self._script.presentObject(
+            obj, offset=offset, includeContext=includeContext, priorObj=priorObj)
 
     def _presentWithSayAll(self, obj, offset):
         if self._script.inSayAll() \
@@ -1294,6 +1304,10 @@ class StructuralNavigation:
         if not text and obj.getRole() == pyatspi.ROLE_LIST:
             children = [x for x in obj if x.getRole() == pyatspi.ROLE_LIST_ITEM]
             text = " ".join(list(map(self._getText, children)))
+        if obj.getRole() == pyatspi.ROLE_LIST_ITEM:
+            marker = self._script.utilities.getListItemMarkerText(obj)
+            if text and marker and not text.startswith(marker):
+                text = "%s %s" % (marker.strip(), text)
 
         return text
 
@@ -2259,7 +2273,6 @@ class StructuralNavigation:
         """
 
         if obj:
-            self._script.speakMessage(self._getRoleName(obj))
             landmark = obj
             [obj, characterOffset] = self._getCaretPosition(obj)
             self._setCaretPosition(obj, characterOffset)
@@ -2840,7 +2853,7 @@ class StructuralNavigation:
                     debug.println(debug.LEVEL_INFO, msg)
 
             self.lastTableCell = [0, 0]
-            self._presentObject(cell, 0)
+            self._presentObject(cell, 0, includeContext=False)
             [cell, characterOffset] = self._getCaretPosition(cell)
             self._setCaretPosition(cell, characterOffset)
         else:
@@ -3247,10 +3260,16 @@ class StructuralNavigation:
           the criteria (e.g. the level of a heading).
         """
 
-        # TODO - JD: At the moment, matching via interface crashes Orca.
-        # Until that's addressed, we'll just use the predicate approach.
-        # See https://bugzilla.gnome.org/show_bug.cgi?id=734805.
+        interfaces = ["action"]
+        interfaceMatch = collection.MATCH_ANY
+        state = [pyatspi.STATE_FOCUSABLE]
+        stateMatch = collection.MATCH_NONE
+
         return MatchCriteria(collection,
+                             states=state,
+                             matchStates=stateMatch,
+                             interfaces=interfaces,
+                             matchInterfaces=interfaceMatch,
                              applyPredicate=True)
 
     def _clickablePredicate(self, obj, arg=None):
@@ -3327,4 +3346,4 @@ class StructuralNavigation:
             obj, characterOffset = self._getCaretPosition(obj)
 
         self._setCaretPosition(obj, characterOffset)
-        self._presentObject(obj, characterOffset, True)
+        self._presentLine(obj, characterOffset)
