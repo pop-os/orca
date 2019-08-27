@@ -1710,6 +1710,8 @@ class SpeechGenerator(generator.Generator):
                 result.append(messages.LEAVING_LANDMARK_SEARCH)
             elif self._script.utilities.isLandmarkForm(obj):
                 result.append(messages.LEAVING_FORM)
+            else:
+                result = ['']
         elif role == pyatspi.ROLE_FORM:
             result.append(messages.LEAVING_FORM)
         else:
@@ -1827,7 +1829,7 @@ class SpeechGenerator(generator.Generator):
             return []
 
         priorObj = args.get('priorObj')
-        if not priorObj or obj == priorObj:
+        if not priorObj or obj == priorObj or self._script.utilities.isZombie(priorObj):
             return []
 
         if obj.getRole() == pyatspi.ROLE_PAGE_TAB:

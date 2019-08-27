@@ -881,7 +881,13 @@ class Utilities:
     def isFigure(self, obj):
         return False
 
+    def supportsLandmarkRole(self):
+        return False
+
     def isLandmark(self, obj):
+        return False
+
+    def isLandmarkWithoutType(self, obj):
         return False
 
     def isLandmarkBanner(self, obj):
@@ -1983,6 +1989,9 @@ class Utilities:
         if role == pyatspi.ROLE_PUSH_BUTTON:
             return [root]
 
+        if role == pyatspi.ROLE_TOGGLE_BUTTON:
+            return [root]
+
         if role == pyatspi.ROLE_MENU_BAR:
             self._selectedMenuBarMenu[hash(root)] = self.selectedMenuBarMenu(root)
 
@@ -2005,10 +2014,10 @@ class Utilities:
             if visibleCells:
                 return visibleCells
 
-        nonText = [pyatspi.ROLE_STATUS_BAR, pyatspi.ROLE_UNKNOWN, pyatspi.ROLE_REDUNDANT_OBJECT]
         objects = []
-        if (role == pyatspi.ROLE_PAGE_TAB and root.name) \
-           or (role not in nonText and "Text" in pyatspi.listInterfaces(root)):
+        if role in [pyatspi.ROLE_PAGE_TAB, pyatspi.ROLE_IMAGE] and root.name:
+            objects.append(root)
+        elif "Text" in pyatspi.listInterfaces(root) and re.findall("\w+", root.queryText().getText(0, -1)):
             objects.append(root)
 
         for child in root:
@@ -2022,8 +2031,10 @@ class Utilities:
             return objects
 
         containers = [pyatspi.ROLE_FILLER,
+                      pyatspi.ROLE_IMAGE,
                       pyatspi.ROLE_LIST_BOX,
                       pyatspi.ROLE_PANEL,
+                      pyatspi.ROLE_SECTION,
                       pyatspi.ROLE_SCROLL_PANE,
                       pyatspi.ROLE_VIEWPORT]
         if role in containers:

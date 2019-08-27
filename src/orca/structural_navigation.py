@@ -586,7 +586,6 @@ class StructuralNavigation:
                   pyatspi.ROLE_RADIO_BUTTON,
                   pyatspi.ROLE_COMBO_BOX,
                   pyatspi.ROLE_DOCUMENT_FRAME, # rich text editing
-                  pyatspi.ROLE_LIST,
                   pyatspi.ROLE_LIST_BOX,
                   pyatspi.ROLE_ENTRY,
                   pyatspi.ROLE_PASSWORD_TEXT,
@@ -1683,10 +1682,10 @@ class StructuralNavigation:
             return False
 
         role = obj.getRole()
-        if role not in self.OBJECT_ROLES:
+        if role not in self.OBJECT_ROLES + self.CONTAINER_ROLES:
             return False
 
-        if role in [pyatspi.ROLE_ARTICLE, pyatspi.ROLE_HEADING]:
+        if role == pyatspi.ROLE_HEADING:
             return True
 
         text = self._script.utilities.queryNonEmptyText(obj)
@@ -2234,6 +2233,9 @@ class StructuralNavigation:
           the criteria (e.g. the level of a heading).
         """
 
+        if self._script.utilities.supportsLandmarkRole():
+            return MatchCriteria(collection, roles=[pyatspi.ROLE_LANDMARK])
+
         # NOTE: there is a limitation in the AT-SPI Collections interface
         # when it comes to an attribute whose value can be a list.  For
         # example, the xml-roles attribute can be a space-separate list
@@ -2273,9 +2275,9 @@ class StructuralNavigation:
         """
 
         if obj:
-            landmark = obj
             [obj, characterOffset] = self._getCaretPosition(obj)
             self._setCaretPosition(obj, characterOffset)
+            self._script.presentMessage(obj.name)
             self._presentLine(obj, characterOffset)
         else:
             full = messages.NO_LANDMARK_FOUND
@@ -2566,8 +2568,12 @@ class StructuralNavigation:
           the criteria (e.g. the level of a heading).
         """
 
-        role = [pyatspi.ROLE_PARAGRAPH]
-        return MatchCriteria(collection, roles=role, applyPredicate=True)
+        # Treat headings as paragraphs so that the user doesn't miss context when
+        # the topic of the paragraph changes. Besides, a heading is paragraphy.
+
+        role = [pyatspi.ROLE_PARAGRAPH, pyatspi.ROLE_HEADING]
+        roleMatch = collection.MATCH_ANY
+        return MatchCriteria(collection, roles=role, matchRoles=roleMatch, applyPredicate=True)
 
     def _paragraphPredicate(self, obj, arg=None):
         """The predicate to be used for verifying that the object
@@ -2579,8 +2585,15 @@ class StructuralNavigation:
           the criteria (e.g. the level of a heading).
         """
 
+        if not obj:
+            return False
+
+        role = obj.getRole()
+        if role == pyatspi.ROLE_HEADING:
+            return True
+
         isMatch = False
-        if obj and obj.getRole() == pyatspi.ROLE_PARAGRAPH:
+        if role == pyatspi.ROLE_PARAGRAPH:
             try:
                 text = obj.queryText()
                 # We're choosing 3 characters as the minimum because some

@@ -1591,8 +1591,8 @@ class Script(default.Script):
     def onChildrenChanged(self, event):
         """Callback for object:children-changed accessibility events."""
 
-        if self.utilities.eventIsChromeNoise(event):
-            msg = "WEB: Ignoring event believed to be chrome noise"
+        if self.utilities.eventIsBrowserUINoise(event):
+            msg = "WEB: Ignoring event believed to be browser UI noise"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -1644,15 +1644,25 @@ class Script(default.Script):
 
         if self.utilities.isZombie(obj):
             if self.utilities.isSameObject(obj, event.any_data, comparePaths=True, ignoreNames=True):
+                path, role, name = self.utilities.getCaretContextPathRoleAndName()
+                notify = event.any_data.name != name
                 msg = "WEB: Event handled by updating locusOfFocus and context"
                 debug.println(debug.LEVEL_INFO, msg, True)
-                orca.setLocusOfFocus(event, event.any_data, False)
+                orca.setLocusOfFocus(event, event.any_data, notify)
                 self.utilities.setCaretContext(event.any_data, offset)
                 return True
 
             obj, offset = self.utilities.getCaretContext(getZombieReplicant=True)
             if not obj:
                 if self._inFocusMode:
+                    if event.source.getState().contains(pyatspi.STATE_FOCUSED) \
+                       and not self.utilities.isTextBlockElement(event.source):
+                        msg = "WEB: Event handled by updating locusOfFocus and context"
+                        debug.println(debug.LEVEL_INFO, msg, True)
+                        orca.setLocusOfFocus(event, event.source, False)
+                        self.utilities.setCaretContext(event.source, 0)
+                        return True
+
                     msg = "WEB: Not looking for replicant due to focus mode."
                     debug.println(debug.LEVEL_INFO, msg, True)
                     return False
@@ -1799,8 +1809,7 @@ class Script(default.Script):
 
             obj, offset = self.utilities.searchForCaretContext(event.source)
             if obj:
-                notify = self.utilities.inFindContainer(orca_state.locusOfFocus) \
-                    or self.utilities.isFocusModeWidget(obj)
+                notify = self.utilities.inFindContainer(orca_state.locusOfFocus)
                 msg = "WEB: Updating focus and context to %s, %i" % (obj, offset)
                 debug.println(debug.LEVEL_INFO, msg, True)
                 orca.setLocusOfFocus(event, obj, notify)
@@ -1877,8 +1886,8 @@ class Script(default.Script):
     def onNameChanged(self, event):
         """Callback for object:property-change:accessible-name events."""
 
-        if self.utilities.eventIsChromeNoise(event):
-            msg = "WEB: Ignoring event believed to be chrome noise"
+        if self.utilities.eventIsBrowserUINoise(event):
+            msg = "WEB: Ignoring event believed to be browser UI noise"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -1887,13 +1896,13 @@ class Script(default.Script):
     def onSelectedChanged(self, event):
         """Callback for object:state-changed:selected accessibility events."""
 
-        if self.utilities.eventIsChromeAutocompleteNoise(event):
-            msg = "WEB: Ignoring event believed to be chrome autocomplete noise"
+        if self.utilities.eventIsBrowserUIAutocompleteNoise(event):
+            msg = "WEB: Ignoring event believed to be browser UI autocomplete noise"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        if self.utilities.eventIsChromePageSwitchNoise(event):
-            msg = "WEB: Event believed to be chrome page switch"
+        if self.utilities.eventIsBrowserUIPageSwitch(event):
+            msg = "WEB: Event believed to be browser UI page switch"
             debug.println(debug.LEVEL_INFO, msg, True)
             if event.detail1:
                 self.presentObject(event.source, priorObj=orca_state.locusOfFocus)
@@ -1914,13 +1923,13 @@ class Script(default.Script):
     def onSelectionChanged(self, event):
         """Callback for object:selection-changed accessibility events."""
 
-        if self.utilities.eventIsChromeAutocompleteNoise(event):
-            msg = "WEB: Ignoring event believed to be chrome autocomplete noise"
+        if self.utilities.eventIsBrowserUIAutocompleteNoise(event):
+            msg = "WEB: Ignoring event believed to be browser UI autocomplete noise"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        if self.utilities.eventIsChromePageSwitchNoise(event):
-            msg = "WEB: Ignoring event believed to be chrome page switch noise"
+        if self.utilities.eventIsBrowserUIPageSwitch(event):
+            msg = "WEB: Ignoring event believed to be browser UI page switch"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -1967,8 +1976,8 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        if self.utilities.eventIsChromeNoise(event):
-            msg = "WEB: Ignoring event believed to be chrome noise"
+        if self.utilities.eventIsBrowserUINoise(event):
+            msg = "WEB: Ignoring event believed to be browser UI noise"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -2045,8 +2054,8 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        if self.utilities.eventIsChromeNoise(event):
-            msg = "WEB: Ignoring event believed to be chrome noise"
+        if self.utilities.eventIsBrowserUINoise(event):
+            msg = "WEB: Ignoring event believed to be browser UI noise"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
