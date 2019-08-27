@@ -70,9 +70,8 @@ class Utilities(script_utilities.Utilities):
         self._isFocusableWithMathChild = {}
         self._mathNestingLevel = {}
         self._isOffScreenLabel = {}
-        self._isOffScreenLink = {}
-        self._isOffScreenTextBlockElement = {}
         self._elementLinesAreSingleChars= {}
+        self._elementLinesAreSingleWords= {}
         self._hasExplicitName = {}
         self._hasNoSize = {}
         self._hasLongDesc = {}
@@ -150,9 +149,8 @@ class Utilities(script_utilities.Utilities):
         self._isFocusableWithMathChild = {}
         self._mathNestingLevel = {}
         self._isOffScreenLabel = {}
-        self._isOffScreenLink = {}
-        self._isOffScreenTextBlockElement = {}
         self._elementLinesAreSingleChars= {}
+        self._elementLinesAreSingleWords= {}
         self._hasExplicitName = {}
         self._hasNoSize = {}
         self._hasLongDesc = {}
@@ -244,6 +242,16 @@ class Utilities(script_utilities.Utilities):
             return obj
 
         return pyatspi.findAncestor(obj, self.isDocument)
+
+    def getTopLevelDocumentForObject(self, obj):
+        document = self.getDocumentForObject(obj)
+        while document:
+            ancestor = pyatspi.findAncestor(document, self.isDocument)
+            if not ancestor or ancestor == document:
+                break
+            document = ancestor
+
+        return document
 
     def _getDocumentsEmbeddedBy(self, frame):
         if not frame:
@@ -973,26 +981,44 @@ class Utilities(script_utilities.Utilities):
         try:
             rv = obj.queryText()
             characterCount = rv.characterCount
+        except NotImplementedError:
+            msg = "WEB: %s doesn't implement text interface" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            rv = None
         except:
+            msg = "WEB: Exception getting character count for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
             rv = None
         else:
             if not characterCount:
+                msg = "WEB: %s reports 0 characters" % obj
+                debug.println(debug.LEVEL_INFO, msg, True)
                 rv = None
 
         if self.isCellWithNameFromHeader(obj):
             pass
         elif self._treatObjectAsWhole(obj) and obj.name:
+            msg = "WEB: Treating %s as non-text: named object treated as whole." % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
             rv = None
         elif not self.isLiveRegion(obj):
             doNotQuery = [pyatspi.ROLE_TABLE_ROW, pyatspi.ROLE_LIST_BOX]
             role = obj.getRole()
             if rv and role in doNotQuery:
+                msg = "WEB: Treating %s as non-text due to role." % obj
+                debug.println(debug.LEVEL_INFO, msg, True)
                 rv = None
             if rv and excludeNonEntryTextWidgets and self.isNonEntryTextWidget(obj):
+                msg = "WEB: Treating %s as non-text: is non-entry text widget." % obj
+                debug.println(debug.LEVEL_INFO, msg, True)
                 rv = None
             if rv and (self.isHidden(obj) or self.isOffScreenLabel(obj)):
+                msg = "WEB: Treating %s as non-text: is hidden or off-screen label." % obj
+                debug.println(debug.LEVEL_INFO, msg, True)
                 rv = None
             if rv and self.isNonNavigableEmbeddedDocument(obj):
+                msg = "WEB: Treating %s as non-text: is non-navigable embedded document." % obj
+                debug.println(debug.LEVEL_INFO, msg, True)
                 rv = None
 
         self._text[hash(obj)] = rv
@@ -1253,25 +1279,25 @@ class Utilities(script_utilities.Utilities):
                     math = self.getMathAncestor(obj)
                 return [[math, 0, 1, '']]
 
-            # Because user agents will give us this text word at a time.
-            if self.isOffScreenLink(obj) and self.queryNonEmptyText(obj) and obj.name:
-                msg = "WEB: Returning name as contents for %s (is off-screen)" % obj
-                debug.println(debug.LEVEL_INFO, msg, True)
-                return [[obj, 0, len(obj.name), obj.name]]
+            text = self.queryNonEmptyText(obj)
 
-            # Because user agents will give us this text word at a time.
-            if self.isOffScreenTextBlockElement(obj) and self.queryNonEmptyText(obj):
-                msg = "WEB: Returning all text as contents for %s (is off-screen)" % obj
+            if self.elementLinesAreSingleChars(obj):
+                if obj.name and text:
+                    msg = "WEB: Returning name as contents for %s (single-char lines)" % obj
+                    debug.println(debug.LEVEL_INFO, msg, True)
+                    return [[obj, 0, text.characterCount, obj.name]]
+
+                msg = "WEB: Returning all text as contents for %s (single-char lines)" % obj
                 debug.println(debug.LEVEL_INFO, msg, True)
                 boundary = None
 
-            if self.elementLinesAreSingleChars(obj):
-                if obj.name:
-                    msg = "WEB: Returning name as contents for %s (single-char lines)" % obj
+            if self.elementLinesAreSingleWords(obj):
+                if obj.name and text:
+                    msg = "WEB: Returning name as contents for %s (single-word lines)" % obj
                     debug.println(debug.LEVEL_INFO, msg, True)
-                    return [[obj, 0, len(obj.name), obj.name]]
+                    return [[obj, 0, text.characterCount, obj.name]]
 
-                msg = "WEB: Returning all text as contents for %s (single-char lines)" % obj
+                msg = "WEB: Returning all text as contents for %s (single-word lines)" % obj
                 debug.println(debug.LEVEL_INFO, msg, True)
                 boundary = None
 
@@ -1564,7 +1590,7 @@ class Utilities(script_utilities.Utilities):
 
         boundary = pyatspi.TEXT_BOUNDARY_LINE_START
         objects = self._getContentsForObj(obj, offset, boundary)
-        if not layoutMode or self.isOffScreenLink(obj):
+        if not layoutMode:
             if useCache:
                 self._currentLineContents = objects
             return objects
@@ -1834,6 +1860,9 @@ class Utilities(script_utilities.Utilities):
            and self.isLayoutOnly(self.getTable(obj)):
             return False
 
+        if role == pyatspi.ROLE_PUSH_BUTTON and state.contains(pyatspi.STATE_HAS_POPUP):
+            return True
+
         focusModeRoles = [pyatspi.ROLE_EMBEDDED,
                           pyatspi.ROLE_LIST_ITEM,
                           pyatspi.ROLE_TABLE_CELL,
@@ -1858,6 +1887,10 @@ class Utilities(script_utilities.Utilities):
         roles = [pyatspi.ROLE_ARTICLE,
                  pyatspi.ROLE_CAPTION,
                  pyatspi.ROLE_COLUMN_HEADER,
+                 pyatspi.ROLE_DEFINITION,
+                 pyatspi.ROLE_DESCRIPTION_LIST,
+                 pyatspi.ROLE_DESCRIPTION_TERM,
+                 pyatspi.ROLE_DESCRIPTION_VALUE,
                  pyatspi.ROLE_DOCUMENT_FRAME,
                  pyatspi.ROLE_DOCUMENT_WEB,
                  pyatspi.ROLE_FOOTER,
@@ -2650,57 +2683,11 @@ class Utilities(script_utilities.Utilities):
         self._isLayoutOnly[hash(obj)] = rv
         return rv
 
-    def isOffScreenTextBlockElement(self, obj):
+    def elementLinesAreSingleWords(self, obj):
         if not (obj and self.inDocumentContent(obj)):
             return False
 
-        rv = self._isOffScreenTextBlockElement.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = False
-        if self.isTextBlockElement(obj):
-            x, y, width, height = self.getExtents(obj, 0, -1)
-            if x < 0 or y < 0:
-                msg = "WEB: %s is off-screen text block (%i, %i)" % (obj, x, y)
-                debug.println(debug.LEVEL_INFO, msg, True)
-                rv = True
-            elif width == 1 or height == 1:
-                msg = "WEB: %s is off-screen text block (%i x %i)" % (obj, width, height)
-                debug.println(debug.LEVEL_INFO, msg, True)
-                rv = True
-
-        self._isOffScreenTextBlockElement[hash(obj)] = rv
-        return rv
-
-    def isOffScreenLink(self, obj):
-        if not (obj and self.inDocumentContent(obj)):
-            return False
-
-        rv = self._isOffScreenLink.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = False
-        if self.isLink(obj):
-            x, y, width, height = self.getExtents(obj, 0, -1)
-            if x < 0 or y < 0:
-                msg = "WEB: %s is off-screen link (%i, %i)" % (obj, x, y)
-                debug.println(debug.LEVEL_INFO, msg, True)
-                rv = True
-            elif width == 1 or height == 1:
-                msg = "WEB: %s is off-screen link (%i x %i)" % (obj, width, height)
-                debug.println(debug.LEVEL_INFO, msg, True)
-                rv = True
-
-        self._isOffScreenLink[hash(obj)] = rv
-        return rv
-
-    def elementLinesAreSingleChars(self, obj):
-        if not (obj and self.inDocumentContent(obj)):
-            return False
-
-        rv = self._elementLinesAreSingleChars.get(hash(obj))
+        rv = self._elementLinesAreSingleWords.get(hash(obj))
         if rv is not None:
             return rv
 
@@ -2726,12 +2713,67 @@ class Utilities(script_utilities.Utilities):
 
         # Note: We cannot check for the editable-text interface, because Gecko
         # seems to be exposing that for non-editable things. Thanks Gecko.
+        rv = not state.contains(pyatspi.STATE_EDITABLE) \
+            and len(text.getText(0, -1).split()) > 1
+        if rv:
+            boundary = pyatspi.TEXT_BOUNDARY_LINE_START
+            i = 0
+            while i < nChars:
+                string, start, end = text.getTextAtOffset(i, boundary)
+                if len(string.split()) != 1:
+                    rv = False
+                    break
+                i = max(i+1, end)
+
+        self._elementLinesAreSingleWords[hash(obj)] = rv
+        return rv
+
+    def elementLinesAreSingleChars(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return False
+
+        rv = self._elementLinesAreSingleChars.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        text = self.queryNonEmptyText(obj)
+        if not text:
+            return False
+
+        try:
+            nChars = text.characterCount
+        except:
+            return False
+
+        if not nChars:
+            return False
+
+        # If we have a series of embedded object characters, there's a reasonable chance
+        # they'll look like the one-char-per-line CSSified text we're trying to detect.
+        # We don't want that false positive. By the same token, the one-char-per-line
+        # CSSified text we're trying to detect can have embedded object characters. So
+        # if we have more than 30% EOCs, don't use this workaround. (The 30% is based on
+        # testing with problematic text.)
+        eocs = re.findall(self.EMBEDDED_OBJECT_CHARACTER, text.getText(0, -1))
+        if len(eocs)/nChars > 0.3:
+            return False
+
+        try:
+            obj.clearCache()
+            state = obj.getState()
+        except:
+            msg = "ERROR: Exception getting state for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        # Note: We cannot check for the editable-text interface, because Gecko
+        # seems to be exposing that for non-editable things. Thanks Gecko.
         rv = not state.contains(pyatspi.STATE_EDITABLE)
         if rv:
             boundary = pyatspi.TEXT_BOUNDARY_LINE_START
             for i in range(nChars):
                 string, start, end = text.getTextAtOffset(i, boundary)
-                if len(string) > 1 or string == self.EMBEDDED_OBJECT_CHARACTER:
+                if len(string) != 1:
                     rv = False
                     break
 
@@ -2937,7 +2979,7 @@ class Utilities(script_utilities.Utilities):
 
         return self.queryNonEmptyText(obj) is None
 
-    def isChromeAlert(self, obj):
+    def isBrowserUIAlert(self, obj):
         if not (obj and obj.getRole() == pyatspi.ROLE_ALERT):
             return False
 
@@ -2946,8 +2988,8 @@ class Utilities(script_utilities.Utilities):
 
         return True
 
-    def isTopLevelChromeAlert(self, obj):
-        if not self.isChromeAlert(obj):
+    def isTopLevelBrowserUIAlert(self, obj):
+        if not self.isBrowserUIAlert(obj):
             return False
 
         parent = obj.parent
@@ -3240,6 +3282,10 @@ class Utilities(script_utilities.Utilities):
         self._isLandmark[hash(obj)] = rv
         return rv
 
+    def isLandmarkWithoutType(self, obj):
+        roles = self._getXMLRoles(obj)
+        return not roles
+
     def isLandmarkBanner(self, obj):
         return 'banner' in self._getXMLRoles(obj)
 
@@ -3362,7 +3408,8 @@ class Utilities(script_utilities.Utilities):
             return rv
 
         rv = True
-        if obj.getRole() not in [pyatspi.ROLE_IMAGE, pyatspi.ROLE_CANVAS]:
+        if obj.getRole() not in [pyatspi.ROLE_IMAGE, pyatspi.ROLE_CANVAS] \
+           and self._getTag(obj) != 'svg':
             rv = False
         if rv and (obj.name or obj.description or obj.childCount):
             rv = False
@@ -3603,7 +3650,7 @@ class Utilities(script_utilities.Utilities):
 
         return False
 
-    def eventIsChromeNoise(self, event):
+    def eventIsBrowserUINoise(self, event):
         if self.inDocumentContent(event.source):
             return False
 
@@ -3643,7 +3690,7 @@ class Utilities(script_utilities.Utilities):
 
         return False
 
-    def eventIsChromeAutocompleteNoise(self, event):
+    def eventIsBrowserUIAutocompleteNoise(self, event):
         if self.inDocumentContent(event.source):
             return False
 
@@ -3675,7 +3722,7 @@ class Utilities(script_utilities.Utilities):
 
         return False
 
-    def eventIsChromePageSwitchNoise(self, event):
+    def eventIsBrowserUIPageSwitch(self, event):
         selection = ["object:selection-changed", "object:state-changed:selected"]
         if not event.type in selection:
             return False
@@ -4008,7 +4055,7 @@ class Utilities(script_utilities.Utilities):
             return self._getCaretContextViaLocusOfFocus()
 
         context = self._caretContexts.get(hash(documentFrame.parent))
-        if not context:
+        if not context or documentFrame != self.getTopLevelDocumentForObject(context[0]):
             obj, offset = self.searchForCaretContext(documentFrame)
         elif not getZombieReplicant:
             return context
@@ -4025,7 +4072,7 @@ class Utilities(script_utilities.Utilities):
 
         return obj, offset
 
-    def _getCaretContextPathRoleAndName(self, documentFrame=None):
+    def getCaretContextPathRoleAndName(self, documentFrame=None):
         documentFrame = documentFrame or self.documentFrame()
         if not documentFrame:
             return [-1], None, None
@@ -4051,17 +4098,6 @@ class Utilities(script_utilities.Utilities):
 
         return rv
 
-    def clearTextSelection(self, obj):
-        super().clearTextSelection(obj)
-        if self.isDocument(obj):
-            return
-
-        try:
-            for child in obj:
-                self.clearTextSelection(child)
-        except:
-            pass
-
     def clearCaretContext(self, documentFrame=None):
         self.clearContentCache()
         documentFrame = documentFrame or self.documentFrame()
@@ -4073,7 +4109,7 @@ class Utilities(script_utilities.Utilities):
         self._priorContexts.pop(hash(parent), None)
 
     def findContextReplicant(self, documentFrame=None, matchRole=True, matchName=True):
-        path, oldRole, oldName = self._getCaretContextPathRoleAndName(documentFrame)
+        path, oldRole, oldName = self.getCaretContextPathRoleAndName(documentFrame)
         obj = self.getObjectFromPath(path)
         if obj and matchRole:
             if obj.getRole() != oldRole:
@@ -4386,8 +4422,11 @@ class Utilities(script_utilities.Utilities):
                  pyatspi.ROLE_LINK,
                  pyatspi.ROLE_TABLE,
                  pyatspi.ROLE_FORM,
-                 pyatspi.ROLE_SECTION, # We can nuke this when Firefox correcly maps landmarks
                  pyatspi.ROLE_LANDMARK]
+
+        if not self.supportsLandmarkRole():
+            roles.append(pyatspi.ROLE_SECTION)
+
         rule = col.createMatchRule(stateset.raw(), col.MATCH_NONE,
                                    "", col.MATCH_NONE,
                                    roles, col.MATCH_ANY,
