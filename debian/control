@@ -23,7 +23,6 @@ Build-Depends: debhelper (>= 11),
                python3-pyatspi (>= 2.26),
                python3-speechd (>= 0.8),
                yelp-tools
-X-Python3-Version: >= 3.3
 Standards-Version: 4.4.0
 Vcs-Browser: https://salsa.debian.org/gnome-team/orca
 Vcs-Git: https://salsa.debian.org/gnome-team/orca.git
