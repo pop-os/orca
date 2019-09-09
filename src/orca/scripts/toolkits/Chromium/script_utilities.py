@@ -1,6 +1,6 @@
 # Orca
 #
-# Copyright 2018 Igalia, S.L.
+# Copyright 2018-2019 Igalia, S.L.
 #
 # Author: Joanmarie Diggs <jdiggs@igalia.com>
 #
@@ -21,14 +21,10 @@
 
 """Custom script utilities for Chromium"""
 
-# Please note: ATK support in Chromium needs much work. Until that work has been
-# done, Orca will not be able to provide access to Chromium. These utilities are
-# a work in progress.
-
 __id__        = "$Id$"
 __version__   = "$Revision$"
 __date__      = "$Date$"
-__copyright__ = "Copyright (c) 2018 Igalia, S.L."
+__copyright__ = "Copyright (c) 2018-2019 Igalia, S.L."
 __license__   = "LGPL"
 
 import pyatspi
@@ -263,6 +259,21 @@ class Utilities(web.Utilities):
         debug.println(debug.LEVEL_INFO, msg, True)
         return menu
 
+    def _getActionNames(self, obj):
+        names = super()._getActionNames(obj)
+
+        # click-ancestor is meant to bubble up to an ancestor which is actually
+        # clickable. But attempting to perform this action doesn't reliably work;
+        # and the clickable ancestor is what we want to click on anyway. Treating
+        # this as a valid action is causing us to include otherwise ignorable
+        # elements such as sections with no semantic meaning.
+        if "click-ancestor" in names:
+            names = list(filter(lambda x: x != "click-ancestor", names))
+            msg = "CHROMIUM: Ignoring 'click-ancestor' action on %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+
+        return names
+
     def topLevelObject(self, obj):
         if not obj:
             return None
@@ -350,18 +361,25 @@ class Utilities(web.Utilities):
             self.grabFocus(link)
 
     def handleAsLiveRegion(self, event):
+        if not super().handleAsLiveRegion(event):
+            return False
+
+        if not event.type.startswith("object:children-changed:add"):
+            return True
+
         # At least some of the time, we're getting text insertion events immediately
         # followed by children-changed events to tell us that the object whose text
         # changed is now being added to the accessibility tree. Furthermore the
         # additions are not always coming to us in presentational order, whereas
-        # the text changes appear to be. Since testing thus far suggests we can rely
-        # upon the text insertions, ignore the children-changed events.
-        if event.type.startswith("object:children-changed:add"):
-            msg = "CHROMIUM: Event is believed to be redundant live region notification"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return False
+        # the text changes appear to be. So most of the time, we can ignore the
+        # children-changed events. Except for when we can't.
 
-        return super().handleAsLiveRegion(event)
+        if event.any_data.getRole() == pyatspi.ROLE_TABLE:
+            return True
+
+        msg = "CHROMIUM: Event is believed to be redundant live region notification"
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return False
 
     def getFindResultsCount(self, root=None):
         root = root or self._findContainer

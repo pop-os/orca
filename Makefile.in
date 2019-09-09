@@ -194,7 +194,7 @@ DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/run_pylint.sh.in \
 	ABOUT-NLS AUTHORS COPYING ChangeLog INSTALL NEWS README TODO \
 	compile config.guess config.rpath config.sub install-sh \
-	missing py-compile
+	missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -397,7 +397,8 @@ EXTRA_DIST = \
 	$(autostart_in_files) \
 	$(icon_DATA)        \
 	ChangeLog           \
-	MAINTAINERS
+	MAINTAINERS         \
+	README.md
 
 all: all-recursive
 
@@ -890,6 +891,9 @@ uninstall-am: uninstall-autostartDATA
 
 .PRECIOUS: Makefile
 
+
+README: README.md
+	cp $< $@
 
 install-data-hook: update-icon-cache
 uninstall-hook: update-icon-cache

@@ -128,7 +128,12 @@ class Utilities:
         if not app:
             return ""
 
-        pid = app.get_process_id()
+        try:
+            pid = app.get_process_id()
+        except:
+            msg = "ERROR: Exception getting process id of %s. May be defunct." % app
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return ""
 
         try:
             cmdline = subprocess.getoutput("cat /proc/%s/cmdline" % pid)
@@ -2109,7 +2114,7 @@ class Utilities:
             return obj
 
         hasContent = [x for x in obj if self.displayedText(x).strip()]
-        if len(hasContent) == 1:
+        if len(hasContent) == 1 and not self.isStaticTextLeaf(hasContent[0]):
             return hasContent[0]
 
         return obj
@@ -3729,6 +3734,20 @@ class Utilities:
 
         return None
 
+    def isButtonWithPopup(self, obj):
+        if not obj:
+            return False
+
+        try:
+            role = obj.getRole()
+            state = obj.getState()
+        except:
+            msg = "ERROR: Exception getting role and state for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        return role == pyatspi.ROLE_PUSH_BUTTON and state.contains(pyatspi.STATE_HAS_POPUP)
+
     def isMenuButton(self, obj):
         if not obj:
             return False
@@ -4098,6 +4117,7 @@ class Utilities:
                         return cell
                     return child
 
+        candidates_showing = []
         candidates = []
         for child in root:
             obj = self.descendantAtPoint(child, x, y, coordType)
@@ -4109,8 +4129,13 @@ class Utilities:
                 string = child.queryText().getText(0, -1)
                 if re.search("[^\ufffc\s]", string):
                     candidates.append(child)
+                    if child.getState().contains(pyatspi.STATE_SHOWING):
+                        candidates_showing.append(child)
 
+        if len(candidates_showing) == 1:
+            return candidates_showing[0]
         if len(candidates) == 1:
+            # It should have had state "showing" actually
             return candidates[0]
 
         return None

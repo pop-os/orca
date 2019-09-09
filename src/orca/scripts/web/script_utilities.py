@@ -1790,6 +1790,10 @@ class Utilities(script_utilities.Utilities):
 
         return handled
 
+    def inPDFViewer(self, obj=None):
+        uri = self.documentFrameURI()
+        return uri.lower().endswith(".pdf")
+
     def inTopLevelWebApp(self, obj=None):
         if not obj:
             obj = orca_state.locusOfFocus
@@ -1860,7 +1864,7 @@ class Utilities(script_utilities.Utilities):
            and self.isLayoutOnly(self.getTable(obj)):
             return False
 
-        if role == pyatspi.ROLE_PUSH_BUTTON and state.contains(pyatspi.STATE_HAS_POPUP):
+        if self.isButtonWithPopup(obj):
             return True
 
         focusModeRoles = [pyatspi.ROLE_EMBEDDED,
@@ -1870,7 +1874,8 @@ class Utilities(script_utilities.Utilities):
 
         if role in focusModeRoles \
            and not self.isTextBlockElement(obj) \
-           and not self.hasNameAndActionAndNoUsefulChildren(obj):
+           and not self.hasNameAndActionAndNoUsefulChildren(obj) \
+           and not self.inPDFViewer(obj):
             return True
 
         if self.isGridDescendant(obj) \
@@ -3623,18 +3628,20 @@ class Utilities(script_utilities.Utilities):
         if not self.inDocumentContent(obj):
             return False
 
-        # TODO - JD: Ideally, things that look and act like spinners (such number inputs)
-        # would look and act like platform native spinners. That's not true for Gecko. And
-        # the only thing that's funkier is what we get from WebKitGtk. Try to at least get
-        # the two engines into alignment before migrating Epiphany support to the web script.
-        if obj.getState().contains(pyatspi.STATE_EDITABLE) \
-           and obj.parent.getRole() == pyatspi.ROLE_SPIN_BUTTON:
+        if not obj.getState().contains(pyatspi.STATE_EDITABLE):
+            return False
+
+        if pyatspi.ROLE_SPIN_BUTTON in [obj.getRole(), obj.parent.getRole()]:
             return True
 
         return False
 
     def eventIsSpinnerNoise(self, event):
-        if event.type.startswith("object:text-changed") and self.isSpinnerEntry(event.source):
+        if not self.isSpinnerEntry(event.source):
+            return False
+
+        if event.type.startswith("object:text-changed") \
+           or event.type.startswith("object:text-selection-changed"):
             lastKey, mods = self.lastKeyAndModifiers()
             if lastKey in ["Down", "Up"]:
                 return True
@@ -4196,44 +4203,59 @@ class Utilities(script_utilities.Utilities):
                and (self.isTextBlockElement(obj) or self.isEmptyAnchor(obj)):
                 nextObj, nextOffset = self.nextContext(obj, offset)
                 if nextObj:
-                    msg = "WEB: First caret context for %s, %i is %s, %i" % (obj, offset, nextObj, nextOffset)
+                    msg = "WEB: First caret context for non-text context %s, %i is next context %s, %i" % \
+                        (obj, offset, nextObj, nextOffset)
                     debug.println(debug.LEVEL_INFO, msg, True)
                     return nextObj, nextOffset
 
-            msg = "WEB: First caret context for %s, %i is %s, %i" % (obj, offset, obj, 0)
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return obj, 0
+            if self._canHaveCaretContext(obj):
+                msg = "WEB: First caret context for non-text context %s, %i is %s, %i" % \
+                    (obj, offset, obj, 0)
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return obj, 0
 
-        if offset >= text.characterCount:
+        if text and offset >= text.characterCount:
             if self.isLink(obj) and self.isContentEditableWithEmbeddedObjects(obj):
                 nextObj, nextOffset = self.nextContext(obj, text.characterCount)
                 if nextObj:
-                    msg = "WEB: First caret context for %s, %i is %s, %i" % (obj, offset, nextObj, nextOffset)
+                    msg = "WEB: First caret context at end of %s, %i is next context %s, %i" % \
+                        (obj, offset, nextObj, nextOffset)
                     debug.println(debug.LEVEL_INFO, msg, True)
                     return nextObj, nextOffset
 
-            msg = "WEB: First caret context for %s, %i is %s, %i" % (obj, offset, obj, text.characterCount)
+            msg = "WEB: First caret context at end of %s, %i is %s, %i" % (obj, offset, obj, text.characterCount)
             debug.println(debug.LEVEL_INFO, msg, True)
             return obj, text.characterCount
 
-        allText = text.getText(0, -1)
         offset = max (0, offset)
-        if allText[offset] != self.EMBEDDED_OBJECT_CHARACTER or role == pyatspi.ROLE_ENTRY:
-            msg = "WEB: First caret context for %s, %i is %s, %i" % (obj, offset, obj, offset)
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return obj, offset
+        if text:
+            allText = text.getText(0, -1)
+            if allText[offset] != self.EMBEDDED_OBJECT_CHARACTER or role == pyatspi.ROLE_ENTRY:
+                msg = "WEB: First caret context for %s, %i is unchanged" % (obj, offset)
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return obj, offset
 
         child = self.getChildAtOffset(obj, offset)
         if not child:
-            msg = "WEB: First caret context for %s, %i is %s, %i" % (obj, offset, None, -1)
+            msg = "WEB: Child at offset is null. Returning %s, %i unchanged." % (obj, offset)
             debug.println(debug.LEVEL_INFO, msg, True)
-            return None, -1
+            return obj, offset
 
         if self.isListItemMarker(child):
-            msg = "WEB: First caret context for %s, %i is %s, %i" % (obj, offset, obj, offset + 1)
+            msg = "WEB: First caret context for %s, %i is %s, %i (skip list item marker child)" % \
+                (obj, offset, obj, offset + 1)
             debug.println(debug.LEVEL_INFO, msg, True)
             return obj, offset + 1
 
+        if not self._canHaveCaretContext(child):
+            nextObj, nextOffset = self.nextContext(obj, offset)
+            msg = "WEB: First caret context for %s, %i is %s, %i (child cannot be context)" % \
+                (obj, offset, nextObj, nextOffset)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return nextObj, nextOffset
+
+        msg = "WEB: Looking in child %s for first caret context for %s, %i" % (child, obj, offset)
+        debug.println(debug.LEVEL_INFO, msg, True)
         return self.findFirstCaretContext(child, 0)
 
     def findNextCaretInOrder(self, obj=None, offset=-1):
