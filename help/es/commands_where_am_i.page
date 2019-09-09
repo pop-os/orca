@@ -77,7 +77,7 @@
           <p>Portátil: <keyseq><key>Modificador de Orca</key><key>/</key></keyseq> (doble pulsación)</p>
         </item>
         <item>
-          <p>Present size and location of current object in pixels: (Unbound)</p>
+          <p>Presentar el tamaño y la ubicación del objeto actual en píxeles: (sin asociar)</p>
         </item>
       </list>
     </item>

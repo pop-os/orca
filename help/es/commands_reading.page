@@ -131,14 +131,7 @@
   </section>
   <section id="attributes_and_selection">
     <title>Atributos del texto y texto seleccionado</title>
-    <p>
-      <app>Orca</app> has a dedicated command for obtaining the attributes of the
-      text at the caret location. In addition, if you use <app>Orca</app>'s
-      Where Am I commands from within a text object in which text has been
-      selected, <app>Orca</app> will announce the selected text. <app>Orca</app>'s
-      command to speak the current selection will also perform this function in a
-      text object.
-    </p>
+    <p><app>Orca</app> tiene un comando dedicado para obtener los atributos del texto en la ubicación del cursor. Además, si usa los comandos «Dónde estoy» de <app>Orca</app> desde un objeto de texto en el que se ha seleccionado texto, <app>Orca</app> hablará el texto seleccionado. El comando para hablar el texto seleccionado de <app>Orca</app> realizará esta función en un objeto de texto.</p>
     <list>
       <item>
         <p>Presentar los atributos del texto: <keyseq><key>Modificador de Orca</key><key>F</key></keyseq></p>
@@ -166,10 +159,7 @@
       </list>
     </item>
     <item>
-      <p>
-        Speak current selection:
-        <keyseq><key>Orca Modifier</key><key>Shift</key><key>Up</key></keyseq>
-      </p>
+      <p>Hablar la selección actual: <keyseq><key>Modificador de Orca</key><key>Mayús</key><key>Arriba</key></keyseq></p>
     </item>
   </list>
   </section>
@@ -198,7 +188,7 @@
     </list>
   </section>
   <section id="toggling_layout_mode">
-    <title>Toggling Layout Mode</title>
+    <title>Cambiar el modo de la disposición</title>
     <p>
       When Layout mode is enabled, <app>Orca</app>'s caret navigation will respect
       the on-screen layout of the content and present the full line, including any
@@ -213,9 +203,7 @@
     </p>
     <list>
       <item>
-        <p>
-          Switch between Layout mode and Object mode: (Unbound)
-        </p>
+        <p>Cambiar entre modo de disposición y modo objeto: (sin asociar)</p>
       </item>
     </list>
   </section>

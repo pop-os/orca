@@ -9,6 +9,9 @@ DISTCHECK_CONFIGURE_FLAGS =     \
 DISTCLEANFILES =                \
 	orca-autostart.desktop
 
+README: README.md
+	cp $< $@
+
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 
 install-data-hook: update-icon-cache
@@ -33,7 +36,8 @@ EXTRA_DIST =                \
 	$(autostart_in_files) \
 	$(icon_DATA)        \
 	ChangeLog           \
-	MAINTAINERS
+	MAINTAINERS         \
+	README.md
 
 dist-hook:
 	@if test -d "$(srcdir)/.git"; \

@@ -1,6 +1,6 @@
 # Orca
 #
-# Copyright 2018 Igalia, S.L.
+# Copyright 2018-2019 Igalia, S.L.
 #
 # Author: Joanmarie Diggs <jdiggs@igalia.com>
 #
@@ -21,14 +21,10 @@
 
 """Custom script for Chromium."""
 
-# Please note: ATK support in Chromium needs much work. Until that work has been
-# done, Orca will not be able to provide access to Chromium. This script is a
-# work in progress.
-
 __id__        = "$Id$"
 __version__   = "$Revision$"
 __date__      = "$Date$"
-__copyright__ = "Copyright (c) 2018 Igalia, S.L."
+__copyright__ = "Copyright (c) 2018-2019 Igalia, S.L."
 __license__   = "LGPL"
 
 import pyatspi
@@ -50,14 +46,6 @@ class Script(web.Script):
         super().__init__(app)
 
         self.presentIfInactive = False
-
-        # Chromium fails to emit notifications when objects are reparented,
-        # leading to dead accessibles in the ancestry.
-        app.setCacheMask(pyatspi.cache.DEFAULT ^
-                         pyatspi.cache.CHILDREN ^
-                         pyatspi.cache.NAME ^
-                         pyatspi.cache.DESCRIPTION ^
-                         pyatspi.cache.PARENT)
 
     def getBrailleGenerator(self):
         """Returns the braille generator for this script."""
