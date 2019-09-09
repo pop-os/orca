@@ -45,7 +45,7 @@ class Utilities(script_utilities.Utilities):
                 return []
 
             isSelected = lambda x: x and x.getState().contains(pyatspi.STATE_SELECTED)
-            children = pyatspi.findAllDescendants(obj, isSelected)
+            children = self.findAllDescendants(obj, isSelected)
         else:
             children = []
             for x in range(selection.nSelectedChildren):
@@ -73,7 +73,6 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
 
         return ""
-
 
     def selectedText(self, obj):
         string, start, end = super().selectedText(obj)
@@ -105,3 +104,16 @@ class Utilities(script_utilities.Utilities):
             return []
 
         return super().unrelatedLabels(root, onlyShowing, minimumWords)
+
+    def isLayoutOnly(self, obj):
+        if super().isLayoutOnly(obj):
+            return True
+
+        if obj.getRole() == pyatspi.ROLE_PANEL and obj.childCount == 1:
+            displayedLabel = self.displayedLabel(obj)
+            if displayedLabel == obj[0].name and obj[0].getRole() != pyatspi.ROLE_LABEL:
+                msg = "GNOME SHELL: %s is deemed to be layout only" % obj
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
+
+        return False

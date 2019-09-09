@@ -34,7 +34,6 @@ import time
 
 import pyatspi
 import orca.braille as braille
-import orca.chnames as chnames
 import orca.cmdnames as cmdnames
 import orca.debug as debug
 import orca.eventsynthesizer as eventsynthesizer
@@ -1225,18 +1224,18 @@ class Script(script.Script):
         self.lastMouseRoutingTime = time.time()
         if self.flatReviewContext:
             self.flatReviewContext.routeToCurrent()
-        else:
-            try:
-                eventsynthesizer.routeToCharacter(orca_state.locusOfFocus)
-            except:
-                try:
-                    eventsynthesizer.routeToObject(orca_state.locusOfFocus)
-                except:
-                    full = messages.LOCATION_NOT_FOUND_FULL
-                    brief = messages.LOCATION_NOT_FOUND_BRIEF
-                    self.presentMessage(full, brief)
+            return True
 
-        return True
+        if eventsynthesizer.routeToCharacter(orca_state.locusOfFocus):
+            return True
+
+        if eventsynthesizer.routeToObject(orca_state.locusOfFocus):
+            return True
+
+        full = messages.LOCATION_NOT_FOUND_FULL
+        brief = messages.LOCATION_NOT_FOUND_BRIEF
+        self.presentMessage(full, brief)
+        return False
 
     def presentStatusBar(self, inputEvent):
         """Speaks and brailles the contents of the status bar and/or default
@@ -1306,34 +1305,47 @@ class Script(script.Script):
         """Performs a left mouse button click on the current item."""
 
         if self.flatReviewContext:
-            self.flatReviewContext.clickCurrent(1)
-        else:
-            try:
-                eventsynthesizer.clickCharacter(orca_state.locusOfFocus, 1)
-            except:
-                try:
-                    eventsynthesizer.clickObject(orca_state.locusOfFocus, 1)
-                except:
-                    self.speakMessage(messages.LOCATION_NOT_FOUND_FULL)
-        return True
+            if self.flatReviewContext.clickCurrent(1):
+                return True
+
+            obj = self.flatReviewContext.getCurrentAccessible()
+            if eventsynthesizer.clickActionOn(obj):
+                return True
+            if eventsynthesizer.pressActionOn(obj):
+                return True
+            if eventsynthesizer.grabFocusOn(obj):
+                return True
+            return False
+
+        if self.utilities.queryNonEmptyText(orca_state.locusOfFocus):
+            if eventsynthesizer.clickCharacter(orca_state.locusOfFocus, 1):
+                return True
+
+        if eventsynthesizer.clickObject(orca_state.locusOfFocus, 1):
+            return True
+
+        full = messages.LOCATION_NOT_FOUND_FULL
+        brief = messages.LOCATION_NOT_FOUND_BRIEF
+        self.presentMessage(full, brief)
+        return False
 
     def rightClickReviewItem(self, inputEvent=None):
         """Performs a right mouse button click on the current item."""
 
         if self.flatReviewContext:
             self.flatReviewContext.clickCurrent(3)
-        else:
-            try:
-                eventsynthesizer.clickCharacter(orca_state.locusOfFocus, 3)
-            except:
-                try:
-                    eventsynthesizer.clickObject(orca_state.locusOfFocus, 3)
-                except:
-                    full = messages.LOCATION_NOT_FOUND_FULL
-                    brief = messages.LOCATION_NOT_FOUND_BRIEF
-                    self.presentMessage(full, brief)
+            return True
 
-        return True
+        if eventsynthesizer.clickCharacter(orca_state.locusOfFocus, 3):
+            return True
+
+        if eventsynthesizer.clickObject(orca_state.locusOfFocus, 3):
+            return True
+
+        full = messages.LOCATION_NOT_FOUND_FULL
+        brief = messages.LOCATION_NOT_FOUND_BRIEF
+        self.presentMessage(full, brief)
+        return False
 
     def spellCurrentItem(self, itemString):
         """Spell the current flat review word or line.
@@ -2282,7 +2294,7 @@ class Script(script.Script):
             return
 
         self._saveLastCursorPosition(event.source, text.caretOffset)
-        if text.getNSelections():
+        if text.getNSelections() > 0:
             msg = "DEFAULT: Event source has text selections"
             debug.println(debug.LEVEL_INFO, msg, True)
             self.utilities.handleTextSelectionChange(event.source)
@@ -2360,11 +2372,10 @@ class Script(script.Script):
         if not mouseEvent.pressed:
             return
 
-        window = self.utilities.activeWindow()
-        windowChanged = orca_state.activeWindow != window
+        windowChanged = orca_state.activeWindow != mouseEvent.window
         if windowChanged:
-            orca_state.activeWindow = window
-            orca.setLocusOfFocus(None, window, False)
+            orca_state.activeWindow = mouseEvent.window
+            orca.setLocusOfFocus(None, mouseEvent.window, False)
 
         self.presentationInterrupt()
         obj = mouseEvent.obj
@@ -2503,6 +2514,7 @@ class Script(script.Script):
             if pyatspi.findAncestor(orca_state.locusOfFocus, lambda x: x == child):
                 msg = "DEFAULT: Child %s is ancestor of locusOfFocus" % child
                 debug.println(debug.LEVEL_INFO, msg, True)
+                self._saveFocusedObjectInfo(orca_state.locusOfFocus)
                 return
 
             if child == mouseReviewItem:
@@ -2846,56 +2858,36 @@ class Script(script.Script):
         - event: the Event
         """
 
-        self.pointOfReference = {}
-
         if self.utilities.inMenu():
             msg = "DEFAULT: Ignoring event. In menu."
             debug.println(debug.LEVEL_INFO, msg, True)
             return
 
-        # If we receive a "window:deactivate" event for the object that
-        # currently has focus, then stop the current speech output.
-        # This is very useful for terminating long speech output from
-        # commands running in gnome-terminal.
-        #
-        if orca_state.locusOfFocus and \
-           orca_state.locusOfFocus.getApplication() == event.source.getApplication():
-            self.presentationInterrupt()
+        if event.source != orca_state.activeWindow:
+            msg = "DEFAULT: Ignoring event. Not for active window."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
 
-            # Clear the braille display just in case we are about to give
-            # focus to an inaccessible application. See bug #519901 for
-            # more details.
-            #
-            self.clearBraille()
+        self.presentationInterrupt()
+        self.clearBraille()
 
-            # Hide the flat review window and reset it so that it will be
-            # recreated.
-            #
-            if self.flatReviewContext:
-                self.flatReviewContext = None
-                self.updateBraille(orca_state.locusOfFocus)
-
-        # Because window activated and deactivated events may be
-        # received in any order when switching from one application to
-        # another, locusOfFocus and activeWindow, we really only change
-        # the locusOfFocus and activeWindow when we are dealing with
-        # an event from the current activeWindow.
-        #
-        if event.source == orca_state.activeWindow:
-            if not self.utilities.eventIsUserTriggered(event):
-                msg = "DEFAULT: Not clearing state. Event is not user triggered."
-                debug.println(debug.LEVEL_INFO, msg, True)
-                return
-
-            orca.setLocusOfFocus(event, None)
-            orca_state.activeWindow = None
-            orca_state.activeScript = None
+        if self.flatReviewContext:
             self.flatReviewContext = None
 
-        # disable list notification  messages mode
-        orca_state.listNotificationsModeEnabled = False
+        self.pointOfReference = {}
 
-        # disable learn mode
+        if not self.utilities.eventIsUserTriggered(event):
+            msg = "DEFAULT: Not clearing state. Event is not user triggered."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        msg = "DEFAULT: Clearing state."
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        orca.setLocusOfFocus(event, None)
+        orca_state.activeWindow = None
+        orca_state.activeScript = None
+        orca_state.listNotificationsModeEnabled = False
         orca_state.learnModeEnabled = False
 
     def onClipboardContentsChanged(self, *args):
@@ -3056,7 +3048,7 @@ class Script(script.Script):
 
         # If there is a selection, clear it. See bug #489504 for more details.
         #
-        if text.getNSelections():
+        if text.getNSelections() > 0:
             text.setSelection(0, context.currentOffset, context.currentOffset)
 
     def inSayAll(self):
@@ -3546,7 +3538,6 @@ class Script(script.Script):
         #
         done = False
         while not done:
-            eventsynthesizer.scrollIntoView(obj)
             speech.speak(self.speechGenerator.generateContext(obj, priorObj=priorObj))
 
             lastEndOffset = -1
@@ -3598,6 +3589,7 @@ class Script(script.Script):
                 context = speechserver.SayAllContext(
                     obj, lineString, startOffset, endOffset)
                 self._sayAllContexts.append(context)
+                eventsynthesizer.scrollIntoView(obj, startOffset, endOffset)
                 yield [context, voice]
 
             moreLines = False
@@ -4237,8 +4229,7 @@ class Script(script.Script):
         method rather than calling speech.speakCharacter directly."""
 
         voice = self.speechGenerator.voice(string=character)
-        spokenCharacter = chnames.getCharacterName(character)
-        speech.speakCharacter(spokenCharacter, voice)
+        speech.speakCharacter(character, voice)
 
     def speakMessage(self, string, voice=None, interrupt=True, resetStyles=True):
         """Method to speak a single string. Scripts should use this

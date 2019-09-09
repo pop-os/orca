@@ -69,7 +69,7 @@ class MatchCriteria:
                  matchObjAttrs = None,
                  roles = [],
                  matchRoles = None,
-                 interfaces = "",
+                 interfaces = [],
                  matchInterfaces = None,
                  invert = False,
                  applyPredicate = False):
@@ -586,7 +586,6 @@ class StructuralNavigation:
                   pyatspi.ROLE_RADIO_BUTTON,
                   pyatspi.ROLE_COMBO_BOX,
                   pyatspi.ROLE_DOCUMENT_FRAME, # rich text editing
-                  pyatspi.ROLE_LIST,
                   pyatspi.ROLE_LIST_BOX,
                   pyatspi.ROLE_ENTRY,
                   pyatspi.ROLE_PASSWORD_TEXT,
@@ -914,12 +913,10 @@ class StructuralNavigation:
         if not newObj:
             document = self._script.utilities.getDocumentForObject(obj)
             newObj = self._script.utilities.getNextObjectInDocument(obj, document)
-        elif pyatspi.findAncestor(container, lambda x: x == newObj):
-            newObj, newOffset = self._script.utilities.nextContext(newObj, newOffset)
 
         newContainer = self.getContainerForObject(newObj)
         if newObj and newContainer != container:
-            structuralNavigationObject.present(newObj)
+            structuralNavigationObject.present(newObj, newOffset)
             return
 
         if obj == container:
@@ -1063,6 +1060,12 @@ class StructuralNavigation:
         isCell = lambda x: x and x.getRole() in cellRoles
         if obj and not isCell(obj):
             obj = pyatspi.utils.findAncestor(obj, isCell)
+
+        while obj and self._script.utilities.isLayoutOnly(self.getTableForCell(obj)):
+            cell = pyatspi.utils.findAncestor(obj, isCell)
+            if not cell:
+                break
+            obj = cell
 
         return obj
 
@@ -1230,7 +1233,7 @@ class StructuralNavigation:
         self._script.updateBraille(obj)
         self._script.sayLine(obj)
 
-    def _presentObject(self, obj, offset, includeContext=False):
+    def _presentObject(self, obj, offset, includeContext=True):
         """Presents the entire object to the user.
 
         Arguments:
@@ -1245,7 +1248,13 @@ class StructuralNavigation:
             return
 
         eventsynthesizer.scrollToTopEdge(obj)
-        self._script.presentObject(obj, offset=offset, includeContext=includeContext)
+        priorObj = None
+        if not includeContext:
+            priorObj = obj
+            includeContext = True
+
+        self._script.presentObject(
+            obj, offset=offset, includeContext=includeContext, priorObj=priorObj)
 
     def _presentWithSayAll(self, obj, offset):
         if self._script.inSayAll() \
@@ -1294,6 +1303,10 @@ class StructuralNavigation:
         if not text and obj.getRole() == pyatspi.ROLE_LIST:
             children = [x for x in obj if x.getRole() == pyatspi.ROLE_LIST_ITEM]
             text = " ".join(list(map(self._getText, children)))
+        if obj.getRole() == pyatspi.ROLE_LIST_ITEM:
+            marker = self._script.utilities.getListItemMarkerText(obj)
+            if text and marker and not text.startswith(marker):
+                text = "%s %s" % (marker.strip(), text)
 
         return text
 
@@ -1669,10 +1682,10 @@ class StructuralNavigation:
             return False
 
         role = obj.getRole()
-        if role not in self.OBJECT_ROLES:
+        if role not in self.OBJECT_ROLES + self.CONTAINER_ROLES:
             return False
 
-        if role in [pyatspi.ROLE_ARTICLE, pyatspi.ROLE_HEADING]:
+        if role == pyatspi.ROLE_HEADING:
             return True
 
         text = self._script.utilities.queryNonEmptyText(obj)
@@ -2220,6 +2233,9 @@ class StructuralNavigation:
           the criteria (e.g. the level of a heading).
         """
 
+        if self._script.utilities.supportsLandmarkRole():
+            return MatchCriteria(collection, roles=[pyatspi.ROLE_LANDMARK])
+
         # NOTE: there is a limitation in the AT-SPI Collections interface
         # when it comes to an attribute whose value can be a list.  For
         # example, the xml-roles attribute can be a space-separate list
@@ -2259,10 +2275,9 @@ class StructuralNavigation:
         """
 
         if obj:
-            self._script.speakMessage(self._getRoleName(obj))
-            landmark = obj
             [obj, characterOffset] = self._getCaretPosition(obj)
             self._setCaretPosition(obj, characterOffset)
+            self._script.presentMessage(obj.name)
             self._presentLine(obj, characterOffset)
         else:
             full = messages.NO_LANDMARK_FOUND
@@ -2553,8 +2568,12 @@ class StructuralNavigation:
           the criteria (e.g. the level of a heading).
         """
 
-        role = [pyatspi.ROLE_PARAGRAPH]
-        return MatchCriteria(collection, roles=role, applyPredicate=True)
+        # Treat headings as paragraphs so that the user doesn't miss context when
+        # the topic of the paragraph changes. Besides, a heading is paragraphy.
+
+        role = [pyatspi.ROLE_PARAGRAPH, pyatspi.ROLE_HEADING]
+        roleMatch = collection.MATCH_ANY
+        return MatchCriteria(collection, roles=role, matchRoles=roleMatch, applyPredicate=True)
 
     def _paragraphPredicate(self, obj, arg=None):
         """The predicate to be used for verifying that the object
@@ -2566,8 +2585,15 @@ class StructuralNavigation:
           the criteria (e.g. the level of a heading).
         """
 
+        if not obj:
+            return False
+
+        role = obj.getRole()
+        if role == pyatspi.ROLE_HEADING:
+            return True
+
         isMatch = False
-        if obj and obj.getRole() == pyatspi.ROLE_PARAGRAPH:
+        if role == pyatspi.ROLE_PARAGRAPH:
             try:
                 text = obj.queryText()
                 # We're choosing 3 characters as the minimum because some
@@ -2840,7 +2866,7 @@ class StructuralNavigation:
                     debug.println(debug.LEVEL_INFO, msg)
 
             self.lastTableCell = [0, 0]
-            self._presentObject(cell, 0)
+            self._presentObject(cell, 0, includeContext=False)
             [cell, characterOffset] = self._getCaretPosition(cell)
             self._setCaretPosition(cell, characterOffset)
         else:
@@ -3247,10 +3273,16 @@ class StructuralNavigation:
           the criteria (e.g. the level of a heading).
         """
 
-        # TODO - JD: At the moment, matching via interface crashes Orca.
-        # Until that's addressed, we'll just use the predicate approach.
-        # See https://bugzilla.gnome.org/show_bug.cgi?id=734805.
+        interfaces = ["action"]
+        interfaceMatch = collection.MATCH_ANY
+        state = [pyatspi.STATE_FOCUSABLE]
+        stateMatch = collection.MATCH_NONE
+
         return MatchCriteria(collection,
+                             states=state,
+                             matchStates=stateMatch,
+                             interfaces=interfaces,
+                             matchInterfaces=interfaceMatch,
                              applyPredicate=True)
 
     def _clickablePredicate(self, obj, arg=None):
@@ -3327,4 +3359,4 @@ class StructuralNavigation:
             obj, characterOffset = self._getCaretPosition(obj)
 
         self._setCaretPosition(obj, characterOffset)
-        self._presentObject(obj, characterOffset, True)
+        self._presentLine(obj, characterOffset)

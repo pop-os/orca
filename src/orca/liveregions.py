@@ -6,6 +6,7 @@ from gi.repository import GLib
 
 from . import cmdnames
 from . import chnames
+from . import debug
 from . import keybindings
 from . import messages
 from . import input_event
@@ -225,6 +226,7 @@ class LiveRegionManager:
         """
 
         if len(self.msg_queue) > 0:
+            debug.println(debug.eventDebugLevel, "\nvvvvv PRESENT LIVE REGION MESSAGE vvvvv")
             self.msg_queue.purgeByKeepAlive()
             politeness, timestamp, message, obj = self.msg_queue.dequeue()
             # Form output message.  No need to repeat labels and content.
@@ -245,6 +247,10 @@ class LiveRegionManager:
         # We still want to maintain our queue if we are not monitoring
         if not self.monitoring:
             self.msg_queue.purgeByKeepAlive()
+
+        msg = 'LIVE REGIONS: messages in queue: %i' % len(self.msg_queue)
+        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.println(debug.eventDebugLevel, "^^^^^ PRESENT LIVE REGION MESSAGE ^^^^^\n")
 
         # See you again soon, stay in event loop if we still have messages.
         return len(self.msg_queue) > 0
@@ -343,7 +349,8 @@ class LiveRegionManager:
             # look through all the objects on the page and set/add to
             # politeness overrides.  This only adds live regions with good
             # markup.
-            matches = pyatspi.findAllDescendants(docframe, self.matchLiveRegion)
+            matches = self._script.utilities.findAllDescendants(
+                docframe, self.matchLiveRegion)
             for match in matches:
                 objectid = self._getObjectId(match)
                 self._politenessOverrides[(uri, objectid)] = LIVE_OFF
@@ -403,6 +410,13 @@ class LiveRegionManager:
         attrs = self._getAttrDictionary(obj)
         return 'container-live' in attrs
 
+    def _findContainer(self, obj):
+        isContainer = lambda x: self._getAttrDictionary(x).get('atomic')
+        if isContainer(obj):
+            return obj
+
+        return pyatspi.findAncestor(obj, isContainer)
+
     def _getMessage(self, event):
         """Gets the message associated with a given live event."""
         attrs = self._getAttrDictionary(event.source)
@@ -422,9 +436,8 @@ class LiveRegionManager:
             if attrs.get('container-atomic') != 'true':
                 content = event.any_data
             else:
-                text = self._script.utilities.queryNonEmptyText(event.source)
-                if text:
-                    content = text.getText(0, -1)
+                container = self._findContainer(event.source)
+                content = self._script.utilities.expandEOCs(container)
 
         if not content:
             return None

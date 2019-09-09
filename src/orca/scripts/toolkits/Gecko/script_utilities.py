@@ -31,6 +31,7 @@ __copyright__ = "Copyright (c) 2010 Joanmarie Diggs." \
 __license__   = "LGPL"
 
 import pyatspi
+import re
 
 from orca import debug
 from orca import orca_state
@@ -72,25 +73,14 @@ class Utilities(web.Utilities):
 
         return True
 
-    def nodeLevel(self, obj):
-        """Determines the level of at which this object is at by using
-        the object attribute 'level'.  To be consistent with the default
-        nodeLevel() this value is 0-based (Gecko return is 1-based) """
+    def isLayoutOnly(self, obj):
+        if super().isLayoutOnly(obj):
+            return True
 
-        if obj is None or obj.getRole() == pyatspi.ROLE_HEADING \
-           or (obj.parent and obj.parent.getRole() == pyatspi.ROLE_MENU):
-            return -1
+        if obj.getRole() == pyatspi.ROLE_TOOL_BAR and obj.childCount:
+            return obj[0] and obj[0].getRole() == pyatspi.ROLE_PAGE_TAB_LIST
 
-        try:
-            attrs = obj.getAttributes()
-        except:
-            msg = "GECKO: Exception getting attributes for %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return -1
-        for attr in attrs:
-            if attr.startswith("level:"):
-                return int(attr[6:]) - 1
-        return -1
+        return False
 
     def isSameObject(self, obj1, obj2, comparePaths=False, ignoreNames=False):
         if super().isSameObject(obj1, obj2, comparePaths, ignoreNames):
@@ -191,3 +181,141 @@ class Utilities(web.Utilities):
         # We apparently having missing events from Gecko requiring
         # we update the cache. This is not performant. :(
         return super().canBeActiveWindow(window, True)
+
+    def treatAsEntry(self, obj):
+        if not obj or self.inDocumentContent(obj):
+            return super().treatAsEntry(obj)
+
+        # Firefox seems to have turned its accessible location widget into a
+        # childless editable combobox.
+
+        try:
+            role = obj.getRole()
+            state = obj.getState()
+            childCount = obj.childCount
+        except:
+            msg = "GECKO: Exception getting role, state, and child count for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if role != pyatspi.ROLE_COMBO_BOX:
+            return False
+
+        if not state.contains(pyatspi.STATE_FOCUSED):
+            return False
+
+        if childCount:
+            return False
+
+        if not "EditableText" in pyatspi.listInterfaces(obj):
+            return False
+
+        msg = "GECKO: Treating %s as entry" % obj
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return True
+
+    def _isQuickFind(self, obj):
+        if not obj or self.inDocumentContent(obj):
+            return False
+
+        if obj == self._findContainer:
+            return True
+
+        if obj.getRole() != pyatspi.ROLE_TOOL_BAR:
+            return False
+
+        # TODO: This would be far easier if Gecko gave us an object attribute to look for....
+
+        isEntry = lambda x: x.getRole() == pyatspi.ROLE_ENTRY
+        if len(self.findAllDescendants(obj, isEntry)) != 1:
+            msg = "GECKO: %s not believed to be quick-find container (entry count)" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        isButton = lambda x: x.getRole() == pyatspi.ROLE_PUSH_BUTTON
+        if len(self.findAllDescendants(obj, isButton)) != 1:
+            msg = "GECKO: %s not believed to be quick-find container (button count)" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        msg = "GECKO: %s believed to be quick-find container (accessibility tree)" % obj
+        debug.println(debug.LEVEL_INFO, msg, True)
+        self._findContainer = obj
+        return True
+
+    def isFindContainer(self, obj):
+        if not obj or self.inDocumentContent(obj):
+            return False
+
+        if obj == self._findContainer:
+            return True
+
+        if obj.getRole() != pyatspi.ROLE_TOOL_BAR:
+            return False
+
+        result = self.getFindResultsCount(obj)
+        if result:
+            msg = "GECKO: %s believed to be find-in-page container (%s)" % (obj, result)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self._findContainer = obj
+            return True
+
+        # TODO: This would be far easier if Gecko gave us an object attribute to look for....
+
+        isEntry = lambda x: x.getRole() == pyatspi.ROLE_ENTRY
+        if len(self.findAllDescendants(obj, isEntry)) != 1:
+            msg = "GECKO: %s not believed to be find-in-page container (entry count)" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        isButton = lambda x: x.getRole() == pyatspi.ROLE_PUSH_BUTTON
+        if len(self.findAllDescendants(obj, isButton)) < 5:
+            msg = "GECKO: %s not believed to be find-in-page container (button count)" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        msg = "GECKO: %s believed to be find-in-page container (accessibility tree)" % obj
+        debug.println(debug.LEVEL_INFO, msg, True)
+        self._findContainer = obj
+        return True
+
+    def inFindContainer(self, obj=None):
+        if not obj:
+            obj = orca_state.locusOfFocus
+
+        if not obj or self.inDocumentContent(obj):
+            return False
+
+        if obj.getRole() not in [pyatspi.ROLE_ENTRY, pyatspi.ROLE_PUSH_BUTTON]:
+            return False
+
+        isToolbar = lambda x: x and x.getRole() == pyatspi.ROLE_TOOL_BAR
+        toolbar = pyatspi.findAncestor(obj, isToolbar)
+        result = self.isFindContainer(toolbar)
+        if result:
+            msg = "GECKO: %s believed to be find-in-page widget (toolbar)" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        if self._isQuickFind(toolbar):
+            msg = "GECKO: %s believed to be find-in-page widget (quick find)" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        return False
+
+    def getFindResultsCount(self, root=None):
+        root = root or self._findContainer
+        if not root:
+            return ""
+
+        isMatch = lambda x: x and x.getRole() == pyatspi.ROLE_LABEL \
+            and len(re.findall("\d+", x.name)) == 2
+
+        labels = self.findAllDescendants(root, isMatch)
+        if len(labels) != 1:
+            return ""
+
+        label = labels[0]
+        label.clearCache()
+        return label.name

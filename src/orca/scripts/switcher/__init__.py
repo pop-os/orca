@@ -20,4 +20,4 @@
 """Custom script for basic switchers like Metacity."""
 
 from .script import Script
-
+from .script_utilities import Utilities

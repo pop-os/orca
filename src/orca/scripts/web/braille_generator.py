@@ -89,7 +89,11 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
                 result.append(messages.IMAGE_MAP_LINK)
 
         elif role not in doNotDisplay:
-            result = super()._generateRoleName(obj, **args)
+            label = self._script.utilities.labelForCellCoordinates(obj)
+            if label:
+                result.append(label)
+            else:
+                result = super()._generateRoleName(obj, **args)
 
         index = args.get('index', 0)
         total = args.get('total', 1)
@@ -107,7 +111,10 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
             return []
 
         if self._script.utilities.inDocumentContent(obj) and obj.name:
-            return [obj.name]
+            name = obj.name
+            if not self._script.utilities.hasExplicitName(obj):
+                name = name.strip()
+            return [name]
 
         return super()._generateLabelOrName(obj, **args)
 
@@ -138,7 +145,14 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         if self._script.utilities.preferDescriptionOverName(obj):
             return [obj.description]
 
-        return super()._generateName(obj, **args)
+        if obj.name and not self._script.utilities.hasValidName(obj):
+            return []
+
+        result = super()._generateName(obj, **args)
+        if result and result[0] and not self._script.utilities.hasExplicitName(obj):
+            result[0] = result[0].strip()
+
+        return result
 
     def _generateExpandedEOCs(self, obj, **args):
         """Returns the expanded embedded object characters for an object."""
@@ -152,6 +166,12 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
 
         return result
 
+    def _generateRealActiveDescendantDisplayedText(self, obj, **args):
+        if not self._script.utilities.inDocumentContent(obj):
+            return super()._generateRealActiveDescendantDisplayedText(obj, **args)
+
+        return self._generateDisplayedText(obj, **args)
+
     def _generateTableCellRow(self, obj, **args):
         if not self._script.inFocusMode():
             return super()._generateTableCellRow(obj, **args)
@@ -161,7 +181,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
 
         isRow = lambda x: x and x.getRole() == pyatspi.ROLE_TABLE_ROW
         row = pyatspi.findAncestor(obj, isRow)
-        if row and row.name:
+        if row and row.name and not self._script.utilities.isLayoutOnly(row):
             return self.generate(row, includeContext=False)
 
         return super()._generateTableCellRow(obj, **args)
@@ -178,6 +198,8 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
             oldRole = self._overrideRole(pyatspi.ROLE_STATIC, args)
         elif self._script.utilities.treatAsDiv(obj, offset=args.get('startOffset')):
             oldRole = self._overrideRole(pyatspi.ROLE_SECTION, args)
+        elif self._script.utilities.treatAsEntry(obj):
+            oldRole = self._overrideRole(pyatspi.ROLE_ENTRY, args)
 
         if obj.getRole() == pyatspi.ROLE_MENU_ITEM:
             comboBox = self._script.utilities.ancestorWithRole(
@@ -206,7 +228,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
             return []
 
         result = []
-        contents = self._script.utilities.filterContentsForPresentation(contents, False)
+        contents = self._script.utilities.filterContentsForPresentation(contents, True)
 
         obj, offset = self._script.utilities.getCaretContext(documentFrame=None)
         index = self._script.utilities.findObjectInContents(obj, offset, contents)
