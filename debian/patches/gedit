@@ -1,0 +1,14 @@
+---
+ src/orca/script_manager.py |    1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/src/orca/script_manager.py
++++ b/src/orca/script_manager.py
+@@ -57,6 +57,7 @@ class ScriptManager:
+              'mate-notification-daemon': 'notification-daemon',
+              'metacity': 'switcher',
+              'pluma': 'gedit',
++             'org.gnome.gedit': 'gedit',
+             }
+ 
+         self.setActiveScript(None, "__init__")
