@@ -28,7 +28,7 @@ __license__   = "LGPL"
 
 # $ORCA_MAJOR_VERSION.$ORCA_MINOR_VERSION.$ORCA_MICRO_VERSION
 #
-version     = "3.34.0"
+version     = "3.34.1"
 
 # "--prefix" parameter used when configuring the build.
 #

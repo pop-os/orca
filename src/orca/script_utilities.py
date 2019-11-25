@@ -66,6 +66,7 @@ _settingsManager = settings_manager.getManager()
 class Utilities:
 
     _desktop = pyatspi.Registry.getDesktop(0)
+    _last_clipboard_update = time.time()
 
     EMBEDDED_OBJECT_CHARACTER = '\ufffc'
     ZERO_WIDTH_NO_BREAK_SPACE = '\ufeff'
@@ -757,6 +758,12 @@ class Utilities:
 
     def isTypeahead(self, obj):
         return False
+
+    def isOrDescendsFrom(self, obj, ancestor):
+        if obj == ancestor:
+            return True
+
+        return pyatspi.findAncestor(obj, lambda x: x and x == ancestor)
 
     def isFunctionalDialog(self, obj):
         """Returns True if the window is a functioning as a dialog.
@@ -2237,12 +2244,16 @@ class Utilities:
         return abs(center1 - center2) <= delta
 
     @staticmethod
-    def pathComparison(path1, path2, treatDescendantAsSame=False):
+    def pathComparison(path1, path2):
         """Compares the two paths and returns -1, 0, or 1 to indicate if path1
         is before, the same, or after path2."""
 
         if path1 == path2:
             return 0
+
+        size = max(len(path1), len(path2))
+        path1 = (path1 + [-1] * size)[:size]
+        path2 = (path2 + [-1] * size)[:size]
 
         for x in range(min(len(path1), len(path2))):
             if path1[x] < path2[x]:
@@ -2250,11 +2261,7 @@ class Utilities:
             if path1[x] > path2[x]:
                 return 1
 
-        if treatDescendantAsSame:
-            return 0
-
-        rv = len(path1) - len(path2)
-        return min(max(rv, -1), 1)
+        return 0
 
     @staticmethod
     def sizeComparison(obj1, obj2):
@@ -2428,6 +2435,9 @@ class Utilities:
 
         return sorted(labels, key=functools.cmp_to_key(self.spatialComparison))
 
+    def _treatAlertsAsDialogs(self):
+        return True
+
     def unfocusedAlertAndDialogCount(self, obj):
         """If the current application has one or more alert or dialog
         windows and the currently focused window is not an alert or a dialog,
@@ -2440,19 +2450,19 @@ class Utilities:
         Returns the alert and dialog count.
         """
 
-        alertAndDialogCount = 0
-        app = obj.getApplication()
-        window = self.topLevelObject(obj)
-        if window and window.getRole() != pyatspi.ROLE_ALERT and \
-           window.getRole() != pyatspi.ROLE_DIALOG and \
-           not self.isFunctionalDialog(window):
-            for child in app:
-                if child.getRole() == pyatspi.ROLE_ALERT or \
-                   child.getRole() == pyatspi.ROLE_DIALOG or \
-                   self.isFunctionalDialog(child):
-                    alertAndDialogCount += 1
+        roles = [pyatspi.ROLE_DIALOG]
+        if self._treatAlertsAsDialogs():
+            roles.append(pyatspi.ROLE_ALERT)
 
-        return alertAndDialogCount
+        isDialog = lambda x: x and x.getRole() in roles or self.isFunctionalDialog(x)
+        dialogs = [x for x in obj.getApplication() if isDialog(x)]
+        dialogs.extend([x for x in self.topLevelObject(obj) if isDialog(x)])
+
+        isPresentable = lambda x: self.isShowingAndVisible(x) and (x.name or x.childCount)
+        presentable = list(filter(isPresentable, set(dialogs)))
+
+        unfocused = list(filter(lambda x: not self.canBeActiveWindow(x), presentable))
+        return len(unfocused)
 
     def uri(self, obj):
         """Return the URI for a given link object.
@@ -2630,6 +2640,33 @@ class Utilities:
 
         return rv
 
+    def getChildAtOffset(self, obj, offset):
+        try:
+            hypertext = obj.queryHypertext()
+        except NotImplementedError:
+            msg = "INFO: %s does not implement the hypertext interface" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return None
+        except:
+            msg = "INFO: Exception querying hypertext interface for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return None
+
+        index = hypertext.getLinkIndex(offset)
+        if index == -1:
+            return None
+
+        hyperlink = hypertext.getLink(index)
+        if not hyperlink:
+            msg = "INFO: No hyperlink object at index %i for %s" % (index, obj)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return None
+
+        child = hyperlink.getObject(0)
+        msg = "INFO: Hyperlink object at index %i for %s is %s" % (index, obj, child)
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return child
+
     def characterOffsetInParent(self, obj):
         """Returns the character offset of the embedded object
         character for this object in its parent's accessible text.
@@ -2697,30 +2734,28 @@ class Utilities:
         except:
             return ""
 
-        if self.EMBEDDED_OBJECT_CHARACTER in string:
-            # If we're not getting the full text of this object, but
-            # rather a substring, we need to figure out the offset of
-            # the first child within this substring.
-            #
-            childOffset = 0
-            for child in obj:
-                if self.characterOffsetInParent(child) >= startOffset:
-                    break
-                childOffset += 1
+        if not self.EMBEDDED_OBJECT_CHARACTER in string:
+            return string
 
-            toBuild = list(string)
-            count = toBuild.count(self.EMBEDDED_OBJECT_CHARACTER)
-            for i in range(count):
-                index = toBuild.index(self.EMBEDDED_OBJECT_CHARACTER)
-                child = obj[i + childOffset]
-                childText = self.expandEOCs(child)
-                if not childText:
-                    childText = ""
-                toBuild[index] = childText
+        blockRoles = [pyatspi.ROLE_HEADING,
+                      pyatspi.ROLE_LIST,
+                      pyatspi.ROLE_LIST_ITEM,
+                      pyatspi.ROLE_PARAGRAPH,
+                      pyatspi.ROLE_SECTION,
+                      pyatspi.ROLE_TABLE,
+                      pyatspi.ROLE_TABLE_CELL,
+                      pyatspi.ROLE_TABLE_ROW]
 
-            string = "".join(toBuild)
+        toBuild = list(string)
+        for i, char in enumerate(toBuild):
+            if char == self.EMBEDDED_OBJECT_CHARACTER:
+                child = self.getChildAtOffset(obj, i + startOffset)
+                result = self.expandEOCs(child)
+                if child.getRole() in blockRoles:
+                    result += " "
+                toBuild[i] = result
 
-        return string
+        return "".join(toBuild)
 
     def isWordMisspelled(self, obj, offset):
         """Identifies if the current word is flagged as misspelled by the
@@ -4523,9 +4558,14 @@ class Utilities:
 
         return result or obj.parent
 
-    def getPositionAndSetSize(self, obj):
+    def getPositionAndSetSize(self, obj, **args):
         if not obj:
             return -1, -1
+
+        if obj.getRole() == pyatspi.ROLE_TABLE_CELL and args.get("readingRow"):
+            row, col = self.coordinatesForCell(obj)
+            rowcount, colcount = self.rowAndColumnCount(self.getTable(obj))
+            return row, rowcount
 
         isComboBox = obj.getRole() == pyatspi.ROLE_COMBO_BOX
         if isComboBox:
@@ -4606,9 +4646,6 @@ class Utilities:
                 start = end = 0
             if start != end:
                 string = text.getText(start, end)
-                while string.endswith(self.EMBEDDED_OBJECT_CHARACTER):
-                    end -= 1
-                    string = string[:-1]
 
         msg = "INFO: New selection for %s is '%s' (%i, %i)" % (obj, string, start, end)
         debug.println(debug.LEVEL_INFO, msg, True)
@@ -4621,6 +4658,12 @@ class Utilities:
         if not script:
             return
 
+        if time.time() - Utilities._last_clipboard_update < 0.05:
+            msg = "INFO: Clipboard contents change notification believed to be duplicate"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        Utilities._last_clipboard_update = time.time()
         script.onClipboardContentsChanged(*args)
 
     def connectToClipboard(self):
@@ -5229,18 +5272,93 @@ class Utilities:
 
         return False
 
-    def handleTextSelectionChange(self, obj):
+    def _findSelectionBoundaryObject(self, root, findStart=True):
+        try:
+            text = root.queryText()
+            childCount = root.childCount
+        except:
+            msg = "ERROR: Exception querying text and getting childCount for %s" % root
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return None
+
+        if not text.getNSelections():
+            return None
+
+        start, end = text.getSelection(0)
+        string = text.getText(start, end)
+        if not string:
+            return None
+
+        if findStart and not string.startswith(self.EMBEDDED_OBJECT_CHARACTER):
+            return root
+
+        if not findStart and not string.endswith(self.EMBEDDED_OBJECT_CHARACTER):
+            return root
+
+        indices = list(range(childCount))
+        if not findStart:
+            indices.reverse()
+
+        for i in indices:
+            result = self._findSelectionBoundaryObject(root[i], findStart)
+            if result:
+                return result
+
+        return None
+
+    def _getSelectionAnchorAndFocus(self, root):
+        # Any scripts which need to make a distinction between the anchor and
+        # the focus should override this method.
+        obj1 = self._findSelectionBoundaryObject(root, True)
+        obj2 = self._findSelectionBoundaryObject(root, False)
+        return obj1, obj2
+
+    def _getSubtree(self, startObj, endObj):
+        if not (startObj and endObj):
+            return []
+
+        subtree = []
+        for i in range(startObj.getIndexInParent(), startObj.parent.childCount):
+            child = startObj.parent[i]
+            subtree.append(child)
+            subtree.extend(self.findAllDescendants(child, lambda x: x))
+            if endObj in subtree:
+                break
+
+        if endObj == startObj:
+            return subtree
+
+        if endObj not in subtree:
+            subtree.append(endObj)
+            subtree.extend(self.findAllDescendants(endObj, lambda x: x))
+
+        try:
+            lastObj = endObj.parent[endObj.getIndexInParent() + 1]
+        except:
+            lastObj = endObj
+
+        try:
+            endIndex = subtree.index(lastObj)
+        except ValueError:
+            pass
+        else:
+            if lastObj == endObj:
+                endIndex += 1
+            subtree = subtree[:endIndex]
+
+        return subtree
+
+    def handleTextSelectionChange(self, obj, speakMessage=True):
         # Note: This guesswork to figure out what actually changed with respect
         # to text selection will get eliminated once the new text-selection API
         # is added to ATK and implemented by the toolkits. (BGO 638378)
 
+        if not (obj and 'Text' in pyatspi.listInterfaces(obj)):
+            return False
+
         oldStart, oldEnd, oldString = self.getCachedTextSelection(obj)
         self.updateCachedTextSelection(obj)
         newStart, newEnd, newString = self.getCachedTextSelection(obj)
-
-        # TODO - JD: This may be (now or soon) obsolete.
-        if self._script.pointOfReference.get('lastAutoComplete') == hash(obj):
-            return False
 
         if self._speakTextSelectionState(len(newString)):
             return True
@@ -5263,14 +5381,34 @@ class Utilities:
             changeStart, changeEnd = change[0], change[-1] + 1
             if oldChars < newChars:
                 changes.append([changeStart, changeEnd, messages.TEXT_SELECTED])
+                if oldString.endswith(self.EMBEDDED_OBJECT_CHARACTER) and oldEnd == changeStart:
+                    # There's a possibility that we have a link spanning multiple lines. If so,
+                    # we want to present the continuation that just became selected.
+                    child = self.getChildAtOffset(obj, oldEnd - 1)
+                    self.handleTextSelectionChange(child, False)
             else:
                 changes.append([changeStart, changeEnd, messages.TEXT_UNSELECTED])
+                if newString.endswith(self.EMBEDDED_OBJECT_CHARACTER):
+                    # There's a possibility that we have a link spanning multiple lines. If so,
+                    # we want to present the continuation that just became unselected.
+                    child = self.getChildAtOffset(obj, newEnd - 1)
+                    self.handleTextSelectionChange(child, False)
 
-        speakMessage = not _settingsManager.getSetting('onlySpeakDisplayedText')
+        speakMessage = speakMessage and not _settingsManager.getSetting('onlySpeakDisplayedText')
+        text = obj.queryText()
         for start, end, message in changes:
+            string = text.getText(start, end)
+            endsWithChild = string.endswith(self.EMBEDDED_OBJECT_CHARACTER)
+            if endsWithChild:
+                end -= 1
+
             self._script.sayPhrase(obj, start, end)
-            if speakMessage:
+            if speakMessage and not endsWithChild:
                 self._script.speakMessage(message, interrupt=False)
+
+            if endsWithChild:
+                child = self.getChildAtOffset(obj, end)
+                self.handleTextSelectionChange(child, speakMessage)
 
         return True
 

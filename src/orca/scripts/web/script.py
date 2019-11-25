@@ -1236,7 +1236,7 @@ class Script(default.Script):
         speech.speak(utterances)
         self._saveFocusedObjectInfo(newFocus)
 
-        if self.utilities.inTopLevelWebApp(newFocus):
+        if self.utilities.inTopLevelWebApp(newFocus) and not self._browseModeIsSticky:
             announce = not self.utilities.inDocumentContent(oldFocus)
             self.enableStickyFocusMode(None, announce)
             return True
@@ -1292,6 +1292,12 @@ class Script(default.Script):
             msg = "WEB: Event source is not in document content"
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
+
+        if event.source.getRole() != pyatspi.ROLE_DOCUMENT_WEB \
+           and not self.utilities.isOrDescendsFrom(orca_state.locusOfFocus, event.source):
+            msg = "WEB: Ignoring: Not document and not something we're in"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
 
         self.structuralNavigation.clearCache()
 

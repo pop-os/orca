@@ -25,6 +25,7 @@ __copyright__ = "Copyright (c) 2010 Joanmarie Diggs." \
                 "Copyright (c) 2014-2015 Igalia, S.L."
 __license__   = "LGPL"
 
+import functools
 import pyatspi
 import re
 import time
@@ -877,30 +878,7 @@ class Utilities(script_utilities.Utilities):
             utterances = self._script.speechGenerator.generateSpeech(obj)
             return self._script.speechGenerator.utterancesToString(utterances)
 
-        string = text.getText(startOffset, endOffset)
-        if self.EMBEDDED_OBJECT_CHARACTER in string:
-            # If we're not getting the full text of this object, but
-            # rather a substring, we need to figure out the offset of
-            # the first child within this substring.
-            childOffset = 0
-            for child in obj:
-                if self.characterOffsetInParent(child) >= startOffset:
-                    break
-                childOffset += 1
-
-            toBuild = list(string)
-            count = toBuild.count(self.EMBEDDED_OBJECT_CHARACTER)
-            for i in range(count):
-                try:
-                    child = obj[i + childOffset]
-                except:
-                    continue
-                index = toBuild.index(self.EMBEDDED_OBJECT_CHARACTER)
-                toBuild[index] = "%s " % self.expandEOCs(child)
-
-            string = "".join(toBuild).strip()
-
-        return string
+        return super().expandEOCs(obj, startOffset, endOffset).strip()
 
     def substring(self, obj, startOffset, endOffset):
         if not self.inDocumentContent(obj):
@@ -1773,22 +1751,31 @@ class Utilities(script_utilities.Utilities):
         if self.hasPresentableText(obj):
             super().updateCachedTextSelection(obj)
 
-    def handleTextSelectionChange(self, obj):
+    def handleTextSelectionChange(self, obj, speakMessage=True):
         if not self.inDocumentContent(obj):
             return super().handleTextSelectionChange(obj)
 
-        if self.hasPresentableText(obj) and super().handleTextSelectionChange(obj):
-            return True
+        oldStart, oldEnd = self._script.pointOfReference.get('selectionAnchorAndFocus', (None, None))
+        start, end = self._getSelectionAnchorAndFocus(obj)
+        self._script.pointOfReference['selectionAnchorAndFocus'] = (start, end)
 
-        handled = False
-        descendants = self.findAllDescendants(obj, self.hasPresentableText)
+        oldSubtree = self._getSubtree(oldStart, oldEnd)
+        newSubtree = self._getSubtree(start, end)
+
+        def _cmp(obj1, obj2):
+            return self.pathComparison(pyatspi.getPath(obj1), pyatspi.getPath(obj2))
+
+        descendants = sorted(set(oldSubtree).union(newSubtree), key=functools.cmp_to_key(_cmp))
         for descendant in descendants:
-            if handled:
+            if self.isStaticTextLeaf(descendant):
+                continue
+            if descendant not in (oldStart, oldEnd, start, end) \
+               and pyatspi.findAncestor(descendant, lambda x: x in descendants):
                 super().updateCachedTextSelection(descendant)
             else:
-                handled = handled or super().handleTextSelectionChange(descendant)
+                super().handleTextSelectionChange(descendant, speakMessage)
 
-        return handled
+        return True
 
     def inPDFViewer(self, obj=None):
         uri = self.documentFrameURI()
@@ -2043,6 +2030,9 @@ class Utilities(script_utilities.Utilities):
                 return self.textAtPoint(child, x, y, coordType, boundary)
 
         return string, start, end
+
+    def _treatAlertsAsDialogs(self):
+        return False
 
     def treatAsDiv(self, obj, offset=None):
         if not (obj and self.inDocumentContent(obj)):
@@ -3859,33 +3849,6 @@ class Utilities(script_utilities.Utilities):
         start, end = self.getHyperlinkRange(obj)
         return start, end, text.characterCount
 
-    def getChildAtOffset(self, obj, offset):
-        try:
-            hypertext = obj.queryHypertext()
-        except NotImplementedError:
-            msg = "WEB: %s does not implement the hypertext interface" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return None
-        except:
-            msg = "WEB: Exception querying hypertext interface for %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return None
-
-        index = hypertext.getLinkIndex(offset)
-        if index == -1:
-            return None
-
-        hyperlink = hypertext.getLink(index)
-        if not hyperlink:
-            msg = "ERROR: No hyperlink object at index %i for %s" % (index, obj)
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return None
-
-        child = hyperlink.getObject(0)
-        msg = "WEB: Hyperlink object at index %i for %s is %s" % (index, obj, child)
-        debug.println(debug.LEVEL_INFO, msg, True)
-        return child
-
     def getError(self, obj):
         if not (obj and self.inDocumentContent(obj)):
             return super().getError(obj)
@@ -4197,6 +4160,13 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             return self.findFirstCaretContext(obj[0], 0)
 
+        if self.isListItemMarker(obj):
+            nextObj, nextOffset = obj, offset
+            while nextObj and self.isListItemMarker(nextObj):
+                nextObj, nextOffset = self.nextContext(nextObj, nextOffset)
+            if nextObj:
+                obj, offset = nextObj, nextOffset
+
         text = self.queryNonEmptyText(obj)
         if not text:
             if self._advanceCaretInEmptyObject(obj) \
@@ -4402,6 +4372,14 @@ class Utilities(script_utilities.Utilities):
 
         if not self.isLiveRegion(event.source):
             return False
+
+        if event.type.startswith("object:text-changed:insert"):
+            isAlert = lambda x: x and x.getRole() == pyatspi.ROLE_ALERT
+            alert = pyatspi.findAncestor(event.source, isAlert)
+            if alert and self.focusedObject(alert) == event.source:
+                msg = "WEB: Focused source will be presented as part of alert"
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return False
 
         if isinstance(event.any_data, pyatspi.Accessible):
             try:
