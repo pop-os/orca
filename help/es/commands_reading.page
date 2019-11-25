@@ -189,18 +189,8 @@
   </section>
   <section id="toggling_layout_mode">
     <title>Cambiar el modo de la disposición</title>
-    <p>
-      When Layout mode is enabled, <app>Orca</app>'s caret navigation will respect
-      the on-screen layout of the content and present the full line, including any
-      links or form fields on that line. When Layout mode is disabled, <app>Orca</app>
-      will treat objects such as links and form fields as if they were on separate
-      lines, both for presentation and navigation.
-    </p>
-    <p>
-      <app>Orca</app> provides a command to switch between Layout mode and Object mode.
-      This command is unbound by default. Please see <link xref="howto_key_bindings">Modifying
-      Keybindings</link> for information on how to bind unbound commands.
-    </p>
+    <p>Cuando el modo de disposición está activado, la navegación del cursor de <app>Orca</app> respetará siempre la distribución del contenido de la pantalla y mostrará la línea completa, incluyendo los enlaces o campos de formulario de esa línea. Cuando el modo de disposición está desactivado, <app>Orca</app> tratará los objetos como enlaces y campos de formulario como si estuvieran en líneas separadas, tanto para presentación como para navegación.</p>
+    <p><app>Orca</app> proporciona un comando para cambiar entre el modo de disposición y el modo objeto. Este comando no está asociado de manera predeterminada. Consulte cómo <link xref="howto_key_bindings">Modificar las asociaciones de teclas</link> para obtener información sobre cómo asociar comandos que no estén asociados.</p>
     <list>
       <item>
         <p>Cambiar entre modo de disposición y modo objeto: (sin asociar)</p>

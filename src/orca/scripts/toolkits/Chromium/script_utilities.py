@@ -431,11 +431,13 @@ class Utilities(web.Utilities):
         if len(self.findAllDescendants(obj, isButton)) != 3:
             msg = "CHROMIUM: %s not believed to be find-in-page container (button count)" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
+            return False
 
         isSeparator = lambda x: x.getRole() == pyatspi.ROLE_SEPARATOR
         if len(self.findAllDescendants(obj, isSeparator)) != 1:
             msg = "CHROMIUM: %s not believed to be find-in-page container (separator count)" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
+            return False
 
         msg = "CHROMIUM: %s believed to be find-in-page container (accessibility tree)" % obj
         debug.println(debug.LEVEL_INFO, msg, True)
@@ -471,3 +473,16 @@ class Utilities(web.Utilities):
 
     def supportsLandmarkRole(self):
         return True
+
+    def findAllDescendants(self, root, includeIf=None, excludeIf=None):
+        if not root:
+            return []
+
+        # Don't bother if the root is a 'pre' or 'code' element. Those often have
+        # nothing but a TON of static text leaf nodes, which we want to ignore.
+        if self._getTag(root) in ('pre', 'code'):
+            msg = "CHROMIUM: Returning 0 descendants for pre/code %s" % root
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return []
+
+        return super().findAllDescendants(root, includeIf, excludeIf)
