@@ -2348,6 +2348,9 @@ class Utilities:
         return not (extents.width and extents.height)
 
     def _findAllDescendants(self, root, includeIf, excludeIf, matches):
+        if not root:
+            return
+
         try:
             childCount = root.childCount
         except:
@@ -3298,6 +3301,20 @@ class Utilities:
 
         return text + delimiter + newText
 
+    def treatAsDuplicateEvent(self, event1, event2):
+        if not (event1 and event2):
+            return False
+
+        # The goal is to find event spam so we can ignore the event.
+        if event1 == event2:
+            return False
+
+        return event1.source == event2.source \
+            and event1.type == event2.type \
+            and event1.detail1 == event2.detail1 \
+            and event1.detail2 == event2.detail2 \
+            and event1.any_data == event2.any_data
+
     def isAutoTextEvent(self, event):
         """Returns True if event is associated with text being autocompleted
         or autoinserted or autocorrected or autosomethingelsed.
@@ -3328,6 +3345,17 @@ class Utilities:
                 return True
             if lastKey in ["Up", "Down", "Page_Up", "Page_Down"]:
                 return self.isEditableDescendantOfComboBox(event.source)
+            if not self.lastInputEventWasPrintableKey():
+                return False
+
+            string = event.source.queryText().getText(0, -1)
+            if string.endswith(event.any_data):
+                selection, start, end = self.selectedText(event.source)
+                if selection == event.any_data:
+                    return True
+                if string == event.any_data and string.endswith(selection):
+                    beginning = string[:string.find(selection)]
+                    return beginning.lower().endswith(lastKey.lower())
 
         return False
 
@@ -3915,6 +3943,9 @@ class Utilities:
     def hasLongDesc(self, obj):
         return False
 
+    def popupType(self, obj):
+        return ''
+
     def headingLevel(self, obj):
         if not (obj and obj.getRole() == pyatspi.ROLE_HEADING):
             return 0
@@ -4062,11 +4093,27 @@ class Utilities:
 
         return table.nRows, table.nColumns
 
+    def _objectBoundsMightBeBogus(self, obj):
+        return False
+
+    def _objectMightBeBogus(self, obj):
+        return False
+
     def containsPoint(self, obj, x, y, coordType, margin=2):
+        if self._objectBoundsMightBeBogus(obj) \
+           and self.textAtPoint(obj, x, y, coordType) == ("", 0, 0):
+            return False
+
+        if self._objectMightBeBogus(obj):
+            return False
+
         try:
             component = obj.queryComponent()
         except:
             return False
+
+        if coordType is None:
+            coordType = pyatspi.DESKTOP_COORDS
 
         if component.contains(x, y, coordType):
             return True
@@ -4107,12 +4154,19 @@ class Utilities:
         if role in roles:
             return False
 
+        if role == pyatspi.ROLE_COMBO_BOX:
+            entry = pyatspi.findDescendant(obj, lambda x: x and x.getRole() == pyatspi.ROLE_ENTRY)
+            return entry is None
+
+        if role == pyatspi.ROLE_LINK and obj.name:
+            return True
+
         state = obj.getState()
         if state.contains(pyatspi.STATE_EXPANDABLE):
             return not state.contains(pyatspi.STATE_EXPANDED)
 
-        roles = [pyatspi.ROLE_COMBO_BOX,
-                 pyatspi.ROLE_PUSH_BUTTON]
+        roles = [pyatspi.ROLE_PUSH_BUTTON,
+                 pyatspi.ROLE_TOGGLE_BUTTON]
 
         return role in roles
 
@@ -4177,6 +4231,18 @@ class Utilities:
 
     def _adjustPointForObj(self, obj, x, y, coordType):
         return x, y
+
+    def isMultiParagraphObject(self, obj):
+        if not obj:
+            return False
+
+        if "Text" not in pyatspi.listInterfaces(obj):
+            return False
+
+        text = obj.queryText()
+        string = text.getText(0, -1)
+        chunks = list(filter(lambda x: x.strip(), string.split("\n\n")))
+        return len(chunks) > 1
 
     def textAtPoint(self, obj, x, y, coordType=None, boundary=None):
         text = self.queryNonEmptyText(obj)
@@ -5071,8 +5137,14 @@ class Utilities:
 
         try:
             role = event.source.getRole()
+            state = event.source.getState()
         except:
-            msg = "ERROR: Exception getting role of %s" % event.source
+            msg = "ERROR: Exception getting role and state of %s" % event.source
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if not state.contains(pyatspi.STATE_FOCUSED):
+            msg = "INFO: Not echoable text insertion event: source is not focused"
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 

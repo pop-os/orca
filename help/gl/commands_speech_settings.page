@@ -4,7 +4,7 @@
     <link type="next" xref="commands_braille"/>
     <link type="guide" xref="commands#speech_braille"/>
     <link type="seealso" xref="preferences_speech"/>
-    <title type="sort">2. Speech Settings</title>
+    <title type="sort">2. Configuración de voz</title>
     <title type="link">Speech</title>
     <desc>
       Commands for customizing <app>Orca</app>'s output

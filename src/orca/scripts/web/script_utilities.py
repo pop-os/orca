@@ -76,6 +76,7 @@ class Utilities(script_utilities.Utilities):
         self._hasExplicitName = {}
         self._hasNoSize = {}
         self._hasLongDesc = {}
+        self._popupType = {}
         self._hasUselessCanvasDescendant = {}
         self._id = {}
         self._displayStyle = {}
@@ -155,6 +156,7 @@ class Utilities(script_utilities.Utilities):
         self._hasExplicitName = {}
         self._hasNoSize = {}
         self._hasLongDesc = {}
+        self._popupType = {}
         self._hasUselessCanvasDescendant = {}
         self._id = {}
         self._displayStyle = {}
@@ -208,6 +210,9 @@ class Utilities(script_utilities.Utilities):
         self._text = {}
 
     def isDocument(self, obj):
+        if not obj:
+            return False
+
         roles = [pyatspi.ROLE_DOCUMENT_FRAME, pyatspi.ROLE_DOCUMENT_WEB, pyatspi.ROLE_EMBEDDED]
 
         try:
@@ -259,7 +264,13 @@ class Utilities(script_utilities.Utilities):
             return []
 
         isEmbeds = lambda r: r.getRelationType() == pyatspi.RELATION_EMBEDS
-        relations = list(filter(isEmbeds, frame.getRelationSet()))
+        try:
+            relations = list(filter(isEmbeds, frame.getRelationSet()))
+        except:
+            msg = "ERROR: Exception getting embeds relation for %s" % frame
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return []
+
         if not relations:
             return []
 
@@ -702,8 +713,29 @@ class Utilities(script_utilities.Utilities):
         return rv
 
     def isTextArea(self, obj):
+        if not self.inDocumentContent(obj):
+            return super().isTextArea(obj)
+
         if self.isLink(obj):
             return False
+
+        try:
+            role = obj.getRole()
+            state = obj.getState()
+        except:
+            msg = "WEB: Exception getting role and state for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if role == pyatspi.ROLE_COMBO_BOX \
+           and state.contains(pyatspi.STATE_EDITABLE) \
+           and not obj.childCount:
+            return True
+
+        if role in self._textBlockElementRoles():
+            document = self.getDocumentForObject(obj)
+            if document and document.getState().contains(pyatspi.STATE_EDITABLE):
+                return True
 
         return super().isTextArea(obj)
 
@@ -2003,19 +2035,6 @@ class Utilities(script_utilities.Utilities):
 
         return True
 
-    def _treatAsLeafNode(self, obj):
-        if super()._treatAsLeafNode(obj):
-            return True
-
-        if not self.isTextBlockElement(obj):
-            return False
-
-        for child in obj:
-            if self.isTextBlockElement(child):
-                return False
-
-        return True
-
     def textAtPoint(self, obj, x, y, coordType=None, boundary=None):
         if coordType is None:
             coordType = pyatspi.DESKTOP_COORDS
@@ -2829,6 +2848,26 @@ class Utilities(script_utilities.Utilities):
 
         return None
 
+    def _objectBoundsMightBeBogus(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return super()._objectBoundsMightBeBogus(obj)
+
+        if obj.getRole() != pyatspi.ROLE_LINK or "Text" not in pyatspi.listInterfaces(obj):
+            return False
+
+        text = obj.queryText()
+        start = list(text.getRangeExtents(0, 1, 0))
+        end = list(text.getRangeExtents(text.characterCount - 1, text.characterCount, 0))
+        if self.extentsAreOnSameLine(start, end):
+            return False
+
+        if not self.hasPresentableText(obj.parent):
+            return False
+
+        msg = "WEB: Objects bounds of %s might be bogus" % obj
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return True
+
     def _isBrokenChildParentTree(self, child, parent):
         if not (child and parent):
             return False
@@ -3019,6 +3058,11 @@ class Utilities(script_utilities.Utilities):
            and not self.isFocusModeWidget(obj):
             names = self._getActionNames(obj)
             rv = "click" in names
+
+        if rv and not obj.name and "Text" in pyatspi.listInterfaces(obj):
+            string = obj.queryText().getText(0, -1)
+            if not string.strip():
+                rv = obj.getRole() not in [pyatspi.ROLE_STATIC, pyatspi.ROLE_LINK]
 
         self._isClickableElement[hash(obj)] = rv
         return rv
@@ -3531,6 +3575,23 @@ class Utilities(script_utilities.Utilities):
         rv = "showlongdesc" in names
 
         self._hasLongDesc[hash(obj)] = rv
+        return rv
+
+    def popupType(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return 'false'
+
+        rv = self._popupType.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        try:
+            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
+        except:
+            attrs = {}
+
+        rv = attrs.get('haspopup', 'false').lower()
+        self._popupType[hash(obj)] = rv
         return rv
 
     def inferLabelFor(self, obj):
@@ -4371,6 +4432,12 @@ class Utilities(script_utilities.Utilities):
             return False
 
         if not self.isLiveRegion(event.source):
+            return False
+
+        if not _settingsManager.getSetting('presentLiveRegionFromInactiveTab') \
+           and self.getDocumentForObject(event.source) != self.activeDocument():
+            msg = "WEB: Live region source is not in active tab."
+            debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
         if event.type.startswith("object:text-changed:insert"):

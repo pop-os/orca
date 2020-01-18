@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_introduction" xml:lang="gl">
   <info>
-    <title type="sort">0. Introduction to <app>Orca</app>'s Preferences</title>
+    <title type="sort">0. Introdución ás preferencias do <app>Orca</app></title>
     <title type="link">Introduction to <app>Orca</app>'s Preferences</title>
     <link type="guide" xref="preferences"/>
     <link type="next" xref="preferences_general"/>
@@ -47,7 +47,7 @@
     </note>
   </section>
   <section id="application_unique">
-    <title>Preferencias únicas do aplicativo</title>
+    <title>Preferencias únicas da aplicación</title>
       <p>
         In contrast to Orca preferences, there are application-unique preferences.
         These preferences allow you to customize <app>Orca</app> functionality

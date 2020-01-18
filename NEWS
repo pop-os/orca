@@ -1,6 +1,17 @@
-3.34.1 - 15 November 2019
+3.35.3 - 3 Janauary 2020
 
 Web:
+
+ * Explicitly announce the popup type when aria-haspopup is used
+
+ * Improve presentation of childless editable comboboxes
+
+ * Ignore a bogus object from the Gecko accessibility tree which was
+   interfering with presentation
+
+ * Improve scrolling to text objects
+
+ * Don't treat nameless, textless links/static text elements as clickables
 
  * Continued improvement of Orca's support for Chromium
 
@@ -12,7 +23,29 @@ Web:
 
  * Improve presentation of selection of links which span multiple lines
 
+ * Add support for detecting and adjusting scrolling for banner overlays
+   (Note: This support requires adjustments in the user agents.)
+
 General:
+
+ * Fix key echo for accented letters for apps which don't give us the
+   event string
+
+ * Filter out mouse-abs event spam to make mouse review more performant
+
+ * Improve reliability of mouse review
+
+ * Improve identification and presentation of autocompleted text in
+   entries
+
+ * Work around missing object:state-changed:focused event from GtkTable
+   which caused Orca to be silent when a table initially gained focus
+
+ * Ensure Orca starts even when there are missing gstreamer components
+
+ * Add support for word-based speech progress
+
+ * Don't treat text insertions from non-focused widgets as echoable
 
  * Ensure we speak selected switcher item even when the user has set
    onlySpeakDisplayedText
@@ -34,9 +67,15 @@ General:
 
 New and updated translations (THANKS EVERYONE!!!):
 
+   ca            Catalan               Jordi Mas
    da            Danish                Ask Hjorth Larsen
+   el            Greek                 Dimitris Maroulidis
    es            Spanish               Daniel Mustieles
+   eu            Basque                Asier Sarasua Garmendia
+   gl            Galician              Fran Dieguez
    nl            Dutch                 Nathan Follens
+   pt_BR         Brazilian Portuguese  Rafael Fontenelle
+   sv            Swedish               Anders Jonsson
 
 =========
 

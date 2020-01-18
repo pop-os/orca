@@ -94,20 +94,6 @@ class Script(default.Script):
         self.updateBraille(obj)
         speech.speak(self.speechGenerator.generateSpeech(obj, alreadyFocused=True))
 
-    def onNameChanged(self, event):
-        """Callback for object:property-change:accessible-name events."""
-
-        role = event.source.getRole()
-        try:
-            focusRole = orca_state.locusOfFocus.getRole()
-        except:
-            focusRole = None
-
-        if role == pyatspi.ROLE_FRAME and focusRole == pyatspi.ROLE_TABLE_CELL:
-            return
-
-        default.Script.onNameChanged(self, event)
-
     def onFocus(self, event):
         """Callback for focus: accessibility events."""
 
@@ -130,6 +116,12 @@ class Script(default.Script):
            and "Table" in pyatspi.listInterfaces(event.source) \
            and not event.source.getState().contains(pyatspi.STATE_FOCUSED):
             return
+
+        if "Table" in pyatspi.listInterfaces(event.source):
+            selectedChildren = self.utilities.selectedChildren(event.source)
+            if selectedChildren:
+                orca.setLocusOfFocus(event, selectedChildren[0])
+                return
 
         ancestor = pyatspi.findAncestor(orca_state.locusOfFocus, lambda x: x == event.source)
         if not ancestor:
