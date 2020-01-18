@@ -116,9 +116,9 @@ formatting = {
             },
         'suffix': {
             'focused': '[]',
-            'unfocused': 'newNodeLevel + unselectedCell + clickable + hasLongDesc + ' + TUTORIAL + ' + description',
-            'basicWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description',
-            'detailedWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description'
+            'unfocused': 'newNodeLevel + unselectedCell + clickable + hasLongDesc + ' + TUTORIAL + ' + description + pause + hasPopup',
+            'basicWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description + pause + hasPopup',
+            'detailedWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description + pause + hasPopup'
             },
         'default': {
             'focused': '[]',
@@ -230,7 +230,7 @@ formatting = {
             'unfocused': '((substring and currentLineText) or labelAndName) + roleName'
             },
         pyatspi.ROLE_FRAME: {
-            'focused': 'labelOrName + roleName',
+            'focused': 'labelOrName',
             'unfocused': 'labelOrName + roleName + unfocusedDialogCount + availability'
             },
         pyatspi.ROLE_HEADER: {

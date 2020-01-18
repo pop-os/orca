@@ -191,6 +191,11 @@ class _ItemContext:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
+        if self._x == prior._x and self._y == prior._y:
+            msg = "MOUSE REVIEW: Treating as duplicate: mouse didn't move"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
         interval = self._time - prior._time
         if interval > 0.5:
             msg = "MOUSE REVIEW: Not a duplicate: was %.2fs ago" % interval
@@ -473,7 +478,7 @@ class MouseReviewer:
         if not window:
             return
 
-        script = orca_state.activeScript
+        script = _scriptManager.getScript(window.getApplication())
         if not script:
             return
 
@@ -490,12 +495,13 @@ class MouseReviewer:
                 debug.println(debug.LEVEL_INFO, msg, True)
                 menu = None
 
-        document = None
-        if script.utilities.inDocumentContent():
-            document = script.utilities.activeDocument()
+        screen, nowX, nowY = self._pointer.get_position()
+        if (pX, pY) != (nowX, nowY):
+            msg = "MOUSE REVIEW: Pointer moved again: (%i, %i)" % (nowX, nowY)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
 
         obj = script.utilities.descendantAtPoint(menu, pX, pY) \
-            or script.utilities.descendantAtPoint(document, pX, pY) \
             or script.utilities.descendantAtPoint(window, pX, pY)
         msg = "MOUSE REVIEW: Object at (%i, %i) is %s" % (pX, pY, obj)
         debug.println(debug.LEVEL_INFO, msg, True)
@@ -507,10 +513,13 @@ class MouseReviewer:
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return
 
-        if document and obj and document != script.utilities.getContainingDocument(obj):
-            msg = "MOUSE REVIEW: %s is not in active document %s" % (obj, document)
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return
+        objDocument = script.utilities.getContainingDocument(obj)
+        if objDocument and script.utilities.inDocumentContent():
+            document = script.utilities.activeDocument()
+            if document != objDocument:
+                msg = "MOUSE REVIEW: %s is not in active document %s" % (obj, document)
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return
 
         if obj and obj.getRole() in script.utilities.getCellRoles() \
            and script.utilities.shouldReadFullRow(obj):
@@ -530,6 +539,8 @@ class MouseReviewer:
         elif obj == self._currentMouseOver.getObject():
             boundary = pyatspi.TEXT_BOUNDARY_LINE_START
         elif obj and obj.getState().contains(pyatspi.STATE_SELECTABLE):
+            boundary = pyatspi.TEXT_BOUNDARY_LINE_START
+        elif script.utilities.isMultiParagraphObject(obj):
             boundary = pyatspi.TEXT_BOUNDARY_LINE_START
 
         new = _ItemContext(pX, pY, obj, boundary, window, script)

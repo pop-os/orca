@@ -90,6 +90,119 @@ class KeyboardEvent(InputEvent):
     TYPE_PUNCTUATION      = "punctuation"
     TYPE_SPACE            = "space"
 
+    GDK_PUNCTUATION_KEYS = [Gdk.KEY_acute,
+                            Gdk.KEY_ampersand,
+                            Gdk.KEY_apostrophe,
+                            Gdk.KEY_asciicircum,
+                            Gdk.KEY_asciitilde,
+                            Gdk.KEY_asterisk,
+                            Gdk.KEY_at,
+                            Gdk.KEY_backslash,
+                            Gdk.KEY_bar,
+                            Gdk.KEY_braceleft,
+                            Gdk.KEY_braceright,
+                            Gdk.KEY_bracketleft,
+                            Gdk.KEY_bracketright,
+                            Gdk.KEY_brokenbar,
+                            Gdk.KEY_cedilla,
+                            Gdk.KEY_cent,
+                            Gdk.KEY_colon,
+                            Gdk.KEY_comma,
+                            Gdk.KEY_copyright,
+                            Gdk.KEY_currency,
+                            Gdk.KEY_degree,
+                            Gdk.KEY_diaeresis,
+                            Gdk.KEY_dollar,
+                            Gdk.KEY_EuroSign,
+                            Gdk.KEY_equal,
+                            Gdk.KEY_exclam,
+                            Gdk.KEY_exclamdown,
+                            Gdk.KEY_grave,
+                            Gdk.KEY_greater,
+                            Gdk.KEY_guillemotleft,
+                            Gdk.KEY_guillemotright,
+                            Gdk.KEY_hyphen,
+                            Gdk.KEY_less,
+                            Gdk.KEY_macron,
+                            Gdk.KEY_minus,
+                            Gdk.KEY_notsign,
+                            Gdk.KEY_numbersign,
+                            Gdk.KEY_paragraph,
+                            Gdk.KEY_parenleft,
+                            Gdk.KEY_parenright,
+                            Gdk.KEY_percent,
+                            Gdk.KEY_period,
+                            Gdk.KEY_periodcentered,
+                            Gdk.KEY_plus,
+                            Gdk.KEY_plusminus,
+                            Gdk.KEY_question,
+                            Gdk.KEY_questiondown,
+                            Gdk.KEY_quotedbl,
+                            Gdk.KEY_quoteleft,
+                            Gdk.KEY_quoteright,
+                            Gdk.KEY_registered,
+                            Gdk.KEY_section,
+                            Gdk.KEY_semicolon,
+                            Gdk.KEY_slash,
+                            Gdk.KEY_sterling,
+                            Gdk.KEY_underscore,
+                            Gdk.KEY_yen]
+
+    GDK_ACCENTED_LETTER_KEYS = [Gdk.KEY_Aacute,
+                                Gdk.KEY_aacute,
+                                Gdk.KEY_Acircumflex,
+                                Gdk.KEY_acircumflex,
+                                Gdk.KEY_Adiaeresis,
+                                Gdk.KEY_adiaeresis,
+                                Gdk.KEY_Agrave,
+                                Gdk.KEY_agrave,
+                                Gdk.KEY_Aring,
+                                Gdk.KEY_aring,
+                                Gdk.KEY_Atilde,
+                                Gdk.KEY_atilde,
+                                Gdk.KEY_Ccedilla,
+                                Gdk.KEY_ccedilla,
+                                Gdk.KEY_Eacute,
+                                Gdk.KEY_eacute,
+                                Gdk.KEY_Ecircumflex,
+                                Gdk.KEY_ecircumflex,
+                                Gdk.KEY_Ediaeresis,
+                                Gdk.KEY_ediaeresis,
+                                Gdk.KEY_Egrave,
+                                Gdk.KEY_egrave,
+                                Gdk.KEY_Iacute,
+                                Gdk.KEY_iacute,
+                                Gdk.KEY_Icircumflex,
+                                Gdk.KEY_icircumflex,
+                                Gdk.KEY_Idiaeresis,
+                                Gdk.KEY_idiaeresis,
+                                Gdk.KEY_Igrave,
+                                Gdk.KEY_igrave,
+                                Gdk.KEY_Ntilde,
+                                Gdk.KEY_ntilde,
+                                Gdk.KEY_Oacute,
+                                Gdk.KEY_oacute,
+                                Gdk.KEY_Ocircumflex,
+                                Gdk.KEY_ocircumflex,
+                                Gdk.KEY_Odiaeresis,
+                                Gdk.KEY_odiaeresis,
+                                Gdk.KEY_Ograve,
+                                Gdk.KEY_ograve,
+                                Gdk.KEY_Ooblique,
+                                Gdk.KEY_ooblique,
+                                Gdk.KEY_Otilde,
+                                Gdk.KEY_otilde,
+                                Gdk.KEY_Uacute,
+                                Gdk.KEY_uacute,
+                                Gdk.KEY_Ucircumflex,
+                                Gdk.KEY_ucircumflex,
+                                Gdk.KEY_Udiaeresis,
+                                Gdk.KEY_udiaeresis,
+                                Gdk.KEY_Ugrave,
+                                Gdk.KEY_ugrave,
+                                Gdk.KEY_Yacute,
+                                Gdk.KEY_yacute]
+
     def __init__(self, event):
         """Creates a new InputEvent of type KEYBOARD_EVENT.
 
@@ -103,8 +216,7 @@ class KeyboardEvent(InputEvent):
         self.hw_code = event.hw_code
         self.modifiers = event.modifiers
         self.event_string = event.event_string
-        self.keyval_name = ""
-        self.is_text = event.is_text
+        self.keyval_name = Gdk.keyval_name(event.id)
         self.timestamp = event.timestamp
         self.is_duplicate = self in [orca_state.lastInputEvent,
                                      orca_state.lastNonModifierKeyEvent]
@@ -120,25 +232,22 @@ class KeyboardEvent(InputEvent):
         self._result_reason = None
         self._bypassOrca = None
 
+        # Some implementors don't populate this field at all. More often than not,
+        # the event_string and the keyval_name coincide for input events.
+        if not self.event_string:
+            self.event_string = self.keyval_name
+
+        # Some implementors do populate the field, but with the keyname rather than
+        # the printable character. This messes us up with punctuation and other symbols.
+        if len(self.event_string) > 1 \
+           and (self.id in KeyboardEvent.GDK_PUNCTUATION_KEYS or \
+                self.id in KeyboardEvent.GDK_ACCENTED_LETTER_KEYS):
+            self.event_string = chr(self.id)
+
         if self._script:
-            self._script.checkKeyboardEventData(self)
             self._app = self._script.app
             if not self._window:
                 self._window = self._script.utilities.activeWindow()
-
-        # Control characters come through as control characters, so we
-        # just turn them into their ASCII equivalent.  NOTE that the
-        # upper case ASCII characters will be used (e.g., ctrl+a will
-        # be turned into the string "A").  All these checks here are
-        # to just do some sanity checking before doing the
-        # conversion. [[[WDW - this is making assumptions about
-        # mapping ASCII control characters to UTF-8.]]]
-        #
-        if (self.modifiers & keybindings.CTRL_MODIFIER_MASK) \
-            and (not self.is_text) and (len(self.event_string) == 1):
-            value = ord(self.event_string[0])
-            if value < 32:
-                self.event_string = chr(value + 0x40)
 
         if self.is_duplicate:
             KeyboardEvent.duplicateCount += 1
@@ -276,7 +385,6 @@ class KeyboardEvent(InputEvent):
              + ("                 modifiers=%d\n" % self.modifiers) \
              + ("                 event_string=(%s)\n" % self.event_string) \
              + ("                 keyval_name=(%s)\n" % self.keyval_name) \
-             + ("                 is_text=%s\n" % self.is_text) \
              + ("                 timestamp=%d\n" % self.timestamp) \
              + ("                 time=%f\n" % time.time()) \
              + ("                 keyType=%s\n" % self.keyType) \
@@ -295,6 +403,23 @@ class KeyboardEvent(InputEvent):
             return self.modifiers == last.modifiers
 
         return False
+
+    def isReleaseFor(self, other):
+        """Return True if this is the release event for other."""
+
+        if not other:
+            return False
+
+        if not other.isPressedKey() or self.isPressedKey():
+            return False
+
+        return self.id == other.id \
+            and self.hw_code == other.hw_code \
+            and self.modifiers == other.modifiers \
+            and self.event_string == other.event_string \
+            and self.keyval_name == other.keyval_name \
+            and self.keyType == other.keyType \
+            and self._clickCount == other._clickCount
 
     def isNavigationKey(self):
         """Return True if this is a navigation key."""
