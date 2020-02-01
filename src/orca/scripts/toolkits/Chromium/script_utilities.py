@@ -99,22 +99,13 @@ class Utilities(web.Utilities):
         if rv is not None:
             return rv
 
-        rv = obj.getRole() == pyatspi.ROLE_STATIC and not self._getTag(obj) \
+        rv = not self._getTag(obj) \
             and obj.parent.getRole() == pyatspi.ROLE_LIST_ITEM \
-            and obj.getIndexInParent() == 0
+            and obj.getIndexInParent() == 0 \
+            and obj.parent.queryText().getText(0, 1) == self.EMBEDDED_OBJECT_CHARACTER
 
         self._isListItemMarker[hash(obj)] = rv
         return rv
-
-    def getListItemMarkerText(self, obj):
-        if obj.getRole() != pyatspi.ROLE_LIST_ITEM:
-            return ""
-
-        for child in obj:
-            if self.isListItemMarkerInSimpleItem(child):
-                return child.name
-
-        return ""
 
     def selectedChildCount(self, obj):
         count = super().selectedChildCount(obj)
@@ -486,3 +477,10 @@ class Utilities(web.Utilities):
             return []
 
         return super().findAllDescendants(root, includeIf, excludeIf)
+
+    def descendantAtPoint(self, root, x, y, coordType=None):
+        result = super().descendantAtPoint(root, x, y, coordType)
+        if self.isListItemMarker(result) or self.isStaticTextLeaf(result):
+            return result.parent
+
+        return result
