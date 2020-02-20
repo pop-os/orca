@@ -50,7 +50,8 @@ class Utilities(script_utilities.Utilities):
     def __init__(self, script):
         super().__init__(script)
 
-        self._currentAttrs = {}
+        self._objectAttributes = {}
+        self._currentTextAttrs = {}
         self._caretContexts = {}
         self._priorContexts = {}
         self._contextPathsRolesAndNames = {}
@@ -66,30 +67,27 @@ class Utilities(script_utilities.Utilities):
         self._isToolBarDescendant = {}
         self._isWebAppDescendant = {}
         self._isLayoutOnly = {}
-        self._isDPub = {}
-        self._isMath = {}
         self._isFocusableWithMathChild = {}
         self._mathNestingLevel = {}
         self._isOffScreenLabel = {}
         self._elementLinesAreSingleChars= {}
         self._elementLinesAreSingleWords= {}
-        self._hasExplicitName = {}
         self._hasNoSize = {}
         self._hasLongDesc = {}
-        self._popupType = {}
+        self._hasDetails = {}
+        self._isDetails = {}
         self._hasUselessCanvasDescendant = {}
-        self._id = {}
-        self._displayStyle = {}
         self._isClickableElement = {}
         self._isAnchor = {}
         self._isEditableComboBox = {}
         self._isEditableDescendantOfComboBox = {}
         self._isErrorMessage = {}
+        self._isInlineIframeDescendant = {}
         self._isInlineListItem = {}
         self._isInlineListDescendant = {}
         self._isLandmark = {}
-        self._isLiveRegion = {}
         self._isLink = {}
+        self._isListDescendant = {}
         self._isNonNavigablePopup = {}
         self._isNonEntryTextWidget = {}
         self._isUselessImage = {}
@@ -102,18 +100,11 @@ class Utilities(script_utilities.Utilities):
         self._labelTargets = {}
         self._displayedLabelText = {}
         self._mimeType = {}
-        self._roleDescription = {}
         self._preferDescriptionOverName = {}
         self._shouldFilter = {}
         self._shouldInferLabelFor = {}
-        self._shouldReadFullRow = {}
         self._text = {}
-        self._tag = {}
-        self._xmlRoles = {}
         self._treatAsDiv = {}
-        self._nodeLevel = {}
-        self._posinset = {}
-        self._setsize = {}
         self._currentObjectContents = None
         self._currentSentenceContents = None
         self._currentLineContents = None
@@ -135,6 +126,7 @@ class Utilities(script_utilities.Utilities):
 
     def clearCachedObjects(self):
         debug.println(debug.LEVEL_INFO, "WEB: cleaning up cached objects", True)
+        self._objectAttributes = {}
         self._inDocumentContent = {}
         self._inTopLevelWebApp = {}
         self._isTextBlockElement = {}
@@ -146,30 +138,27 @@ class Utilities(script_utilities.Utilities):
         self._isToolBarDescendant = {}
         self._isWebAppDescendant = {}
         self._isLayoutOnly = {}
-        self._isDPub = {}
-        self._isMath = {}
         self._isFocusableWithMathChild = {}
         self._mathNestingLevel = {}
         self._isOffScreenLabel = {}
         self._elementLinesAreSingleChars= {}
         self._elementLinesAreSingleWords= {}
-        self._hasExplicitName = {}
         self._hasNoSize = {}
         self._hasLongDesc = {}
-        self._popupType = {}
+        self._hasDetails = {}
+        self._isDetails = {}
         self._hasUselessCanvasDescendant = {}
-        self._id = {}
-        self._displayStyle = {}
         self._isClickableElement = {}
         self._isAnchor = {}
         self._isEditableComboBox = {}
         self._isEditableDescendantOfComboBox = {}
         self._isErrorMessage = {}
+        self._isInlineIframeDescendant = {}
         self._isInlineListItem = {}
         self._isInlineListDescendant = {}
         self._isLandmark = {}
-        self._isLiveRegion = {}
         self._isLink = {}
+        self._isListDescendant = {}
         self._isNonNavigablePopup = {}
         self._isNonEntryTextWidget = {}
         self._isUselessImage = {}
@@ -182,17 +171,10 @@ class Utilities(script_utilities.Utilities):
         self._labelTargets = {}
         self._displayedLabelText = {}
         self._mimeType = {}
-        self._roleDescription = {}
         self._preferDescriptionOverName = {}
         self._shouldFilter = {}
         self._shouldInferLabelFor = {}
-        self._shouldReadFullRow = {}
-        self._tag = {}
-        self._xmlRoles = {}
         self._treatAsDiv = {}
-        self._nodeLevel = {}
-        self._posinset = {}
-        self._setsize = {}
         self._paths = {}
         self._contextPathsRolesAndNames = {}
         self._cleanupContexts()
@@ -206,7 +188,7 @@ class Utilities(script_utilities.Utilities):
         self._currentLineContents = None
         self._currentWordContents = None
         self._currentCharacterContents = None
-        self._currentAttrs = {}
+        self._currentTextAttrs = {}
         self._text = {}
 
     def isDocument(self, obj):
@@ -324,9 +306,9 @@ class Utilities(script_utilities.Utilities):
         orca_state.activeWindow = window
         return True
 
-    def activeDocument(self):
+    def activeDocument(self, window=None):
         isShowing = lambda x: x and x.getState().contains(pyatspi.STATE_SHOWING)
-        documents = self._getDocumentsEmbeddedBy(orca_state.activeWindow)
+        documents = self._getDocumentsEmbeddedBy(window or orca_state.activeWindow)
         documents = list(filter(isShowing, documents))
         if len(documents) == 1:
             return documents[0]
@@ -536,128 +518,70 @@ class Utilities(script_utilities.Utilities):
 
         return lastChild
 
-    def getRoleDescription(self, obj):
-        rv = self._roleDescription.get(hash(obj))
-        if rv is not None:
-            return rv
+    def objectAttributes(self, obj, useCache=True):
+        if not (obj and self.inDocumentContent(obj)):
+            return super().objectAttributes(obj)
+
+        if useCache:
+            rv = self._objectAttributes.get(hash(obj))
+            if rv is not None:
+                return rv
 
         try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
+            rv = dict([attr.split(':', 1) for attr in obj.getAttributes()])
         except:
-            attrs = {}
+            rv = {}
 
-        rv = attrs.get('roledescription', '')
-        self._roleDescription[hash(obj)] = rv
+        self._objectAttributes[hash(obj)] = rv
         return rv
+
+    def getRoleDescription(self, obj):
+        attrs = self.objectAttributes(obj)
+        return attrs.get('roledescription', '')
 
     def nodeLevel(self, obj):
         if not (obj and self.inDocumentContent(obj)):
             return super().nodeLevel(obj)
 
-        rv = self._nodeLevel.get(hash(obj))
-        if rv is not None:
-            return rv
-
         rv = -1
         if not (self.inMenu(obj) or obj.getRole() == pyatspi.ROLE_HEADING):
-            try:
-                attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-            except:
-                attrs = {}
-
+            attrs = self.objectAttributes(obj)
             # ARIA levels are 1-based; non-web content is 0-based. Be consistent.
             rv = int(attrs.get('level', 0)) -1
 
-        self._nodeLevel[hash(obj)] = rv
         return rv
 
     def getPositionInSet(self, obj):
-        rv = self._posinset.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            attrs = {}
-
+        attrs = self.objectAttributes(obj, False)
         position = attrs.get('posinset')
         if position is not None:
-            rv = int(position)
+            return int(position)
 
-        self._posinset[hash(obj)] = rv
-        return rv
+        return None
 
     def getSetSize(self, obj):
-        rv = self._setsize.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            attrs = {}
-
+        attrs = self.objectAttributes(obj, False)
         setsize = attrs.get('setsize')
         if setsize is not None:
-            rv = int(setsize)
+            return int(setsize)
 
-        self._setsize[hash(obj)] = rv
-        return rv
+        return None
 
     def _getID(self, obj):
-        if hash(obj) in self._id:
-            return self._id.get(hash(obj))
-
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            return None
-
-        rv = attrs.get('id')
-        self._id[hash(obj)] = rv
-        return rv
+        attrs = self.objectAttributes(obj)
+        return attrs.get('id')
 
     def _getDisplayStyle(self, obj):
-        if hash(obj) in self._displayStyle:
-            return self._displayStyle.get(hash(obj))
-
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            return None
-
-        rv = attrs.get('display')
-        self._displayStyle[hash(obj)] = rv
-        return rv
+        attrs = self.objectAttributes(obj)
+        return attrs.get('display')
 
     def _getTag(self, obj):
-        rv = self._tag.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            return None
-
-        rv = attrs.get('tag')
-        self._tag[hash(obj)] = rv
-        return rv
+        attrs = self.objectAttributes(obj)
+        return attrs.get('tag')
 
     def _getXMLRoles(self, obj):
-        rv = self._xmlRoles.get(hash(obj))
-        if rv:
-            return rv
-
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            return []
-
-        rv = attrs.get('xml-roles', '').split()
-        self._xmlRoles[hash(obj)] = rv
-        return rv
+        attrs = self.objectAttributes(obj)
+        return attrs.get('xml-roles', '').split()
 
     def inFindContainer(self, obj=None):
         if not obj:
@@ -678,10 +602,7 @@ class Utilities(script_utilities.Utilities):
         return self.queryNonEmptyText(obj, False) is None
 
     def isHidden(self, obj):
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            return False
+        attrs = self.objectAttributes(obj)
         return attrs.get('hidden', False)
 
     def _isOrIsIn(self, child, parent):
@@ -844,16 +765,25 @@ class Utilities(script_utilities.Utilities):
         if not obj:
             return [0, 0, 0, 0]
 
+        result = [0, 0, 0, 0]
         try:
             text = obj.queryText()
             if text.characterCount and 0 <= startOffset < endOffset:
-                return list(text.getRangeExtents(startOffset, endOffset, 0))
+                result = list(text.getRangeExtents(startOffset, endOffset, 0))
         except NotImplementedError:
             pass
         except:
             msg = "WEB: Exception getting range extents for %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return [0, 0, 0, 0]
+        else:
+            if result[0] and result[1] and result[2] == 0 and result[3] == 0 \
+               and text.getText(startOffset, endOffset).strip():
+                msg = "WEB: Suspected bogus range extents for %s (chars: %i, %i): %s" % \
+                    (obj, startOffset, endOffset, result)
+                debug.println(debug.LEVEL_INFO, msg, True)
+            else:
+                return result
 
         role = obj.getRole()
         try:
@@ -923,12 +853,12 @@ class Utilities(script_utilities.Utilities):
         return ""
 
     def textAttributes(self, acc, offset, get_defaults=False):
-        attrsForObj = self._currentAttrs.get(hash(acc)) or {}
+        attrsForObj = self._currentTextAttrs.get(hash(acc)) or {}
         if offset in attrsForObj:
             return attrsForObj.get(offset)
 
         attrs = super().textAttributes(acc, offset, get_defaults)
-        self._currentAttrs[hash(acc)] = {offset:attrs}
+        self._currentTextAttrs[hash(acc)] = {offset:attrs}
 
         return attrs
 
@@ -1012,7 +942,7 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             rv = None
         elif not self.isLiveRegion(obj):
-            doNotQuery = [pyatspi.ROLE_TABLE_ROW, pyatspi.ROLE_LIST_BOX]
+            doNotQuery = [pyatspi.ROLE_LIST_BOX]
             role = obj.getRole()
             if rv and role in doNotQuery:
                 msg = "WEB: Treating %s as non-text due to role." % obj
@@ -1028,6 +958,10 @@ class Utilities(script_utilities.Utilities):
                 rv = None
             if rv and self.isNonNavigableEmbeddedDocument(obj):
                 msg = "WEB: Treating %s as non-text: is non-navigable embedded document." % obj
+                debug.println(debug.LEVEL_INFO, msg, True)
+                rv = None
+            if rv and self.isFakePlaceholderForEntry(obj):
+                msg = "WEB: Treating %s as non-text: is fake placeholder for entry." % obj
                 debug.println(debug.LEVEL_INFO, msg, True)
                 rv = None
 
@@ -1083,6 +1017,10 @@ class Utilities(script_utilities.Utilities):
             if self.hasNameAndActionAndNoUsefulChildren(obj):
                 return True
 
+        if role in [pyatspi.ROLE_COLUMN_HEADER, pyatspi.ROLE_ROW_HEADER] \
+           and self.hasExplicitName(obj):
+            return True
+
         if role == pyatspi.ROLE_COMBO_BOX:
             return not self.isEditableComboBox(obj)
 
@@ -1093,6 +1031,9 @@ class Utilities(script_utilities.Utilities):
             return self.hasExplicitName(obj) or self.hasUselessCanvasDescendant(obj)
 
         if self.isNonNavigableEmbeddedDocument(obj):
+            return True
+
+        if self.isFakePlaceholderForEntry(obj):
             return True
 
         return False
@@ -1559,6 +1500,25 @@ class Utilities(script_utilities.Utilities):
 
         return False
 
+    def _debugContentsInfo(self, obj, offset, contents, contentsMsg=""):
+        if debug.LEVEL_INFO < debug.debugLevel:
+            return
+
+        msg = "WEB: %s for %s at offset %i:" % (contentsMsg, obj, offset)
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        for i, (acc, start, end, string) in enumerate(contents):
+            indent = " " * 8
+            try:
+                extents = self.getExtents(acc, start, end)
+            except:
+                extents = "(exception)"
+            states = debug.statesToString(acc, indent)
+            attrs = debug.attributesToString(acc, indent)
+            msg = "     %i. %s (chars: %i-%i) '%s' extents=%s\n%s\n%s" % \
+                (i, acc, start, end, string, extents, states, attrs)
+            debug.println(debug.LEVEL_INFO, msg, True)
+
     def getLineContentsAtOffset(self, obj, offset, layoutMode=None, useCache=True):
         if not obj:
             return []
@@ -1568,6 +1528,7 @@ class Utilities(script_utilities.Utilities):
 
         if useCache:
             if self.findObjectInContents(obj, offset, self._currentLineContents, usingCache=True) != -1:
+                self._debugContentsInfo(obj, offset, self._currentLineContents, "Line (cached)")
                 return self._currentLineContents
 
         if layoutMode is None:
@@ -1580,6 +1541,8 @@ class Utilities(script_utilities.Utilities):
             if container:
                 extents = self.getExtents(container, 0, 1)
 
+        objBanner = pyatspi.findAncestor(obj, self.isLandmarkBanner)
+
         def _include(x):
             if x in objects:
                 return False
@@ -1588,10 +1551,21 @@ class Utilities(script_utilities.Utilities):
             if xStart == xEnd:
                 return False
 
-            if self.isLandmark(obj) and self.isLandmark(xObj) and obj != xObj:
-                return False
-
             xExtents = self.getExtents(xObj, xStart, xStart + 1)
+
+            if obj != xObj:
+                if self.isLandmark(obj) and self.isLandmark(xObj):
+                    return False
+                if self.isLink(obj) and self.isLink(xObj):
+                    xObjBanner =  pyatspi.findAncestor(xObj, self.isLandmarkBanner)
+                    if (objBanner or xObjBanner) and objBanner != xObjBanner:
+                        return False
+                    if abs(extents[0] - xExtents[0]) <= 1 and abs(extents[1] - xExtents[1]) <= 1:
+                        # This happens with dynamic skip links such as found on Wikipedia.
+                        return False
+                elif self.isBlockListDescendant(obj) != self.isBlockListDescendant(xObj):
+                    return False
+
             if self.isMathTopLevel(xObj) or self.isMath(obj):
                 onSameLine = self.extentsAreOnSameLine(extents, xExtents, extents[3])
             else:
@@ -1603,6 +1577,8 @@ class Utilities(script_utilities.Utilities):
         if not layoutMode:
             if useCache:
                 self._currentLineContents = objects
+
+            self._debugContentsInfo(obj, offset, objects, "Line (not layout mode)")
             return objects
 
         firstObj, firstStart, firstEnd, firstString = objects[0]
@@ -1658,9 +1634,14 @@ class Utilities(script_utilities.Utilities):
 
             nextObj, nOffset = self.findNextCaretInOrder(lastObj, lastEnd - 1)
 
+        firstObj, firstStart, firstEnd, firstString = objects[0]
+        if firstString == "\n" and len(objects) > 1:
+            objects.pop(0)
+
         if useCache:
             self._currentLineContents = objects
 
+        self._debugContentsInfo(obj, offset, objects, "Line (layout mode)")
         return objects
 
     def getPreviousLineContents(self, obj=None, offset=-1, layoutMode=None, useCache=True):
@@ -1681,9 +1662,6 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
 
         line = self.getLineContentsAtOffset(obj, offset, layoutMode, useCache)
-        msg = "WEB: Line contents for %s, %i: %s" % (obj, offset, line)
-        debug.println(debug.LEVEL_INFO, msg, True)
-
         if not (line and line[0]):
             return []
 
@@ -1727,9 +1705,6 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
 
         line = self.getLineContentsAtOffset(obj, offset, layoutMode, useCache)
-        msg = "WEB: Line contents for %s, %i: %s" % (obj, offset, line)
-        debug.println(debug.LEVEL_INFO, msg, True)
-
         if not (line and line[0]):
             return []
 
@@ -1855,8 +1830,14 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        if state.contains(pyatspi.STATE_EDITABLE) \
-           or state.contains(pyatspi.STATE_EXPANDABLE):
+        if state.contains(pyatspi.STATE_EDITABLE):
+            msg = "WEB: %s is focus mode widget because it's editable" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        if state.contains(pyatspi.STATE_EXPANDABLE) and state.contains(pyatspi.STATE_FOCUSABLE):
+            msg = "WEB: %s is focus mode widget because it's expandable and focusable" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
         alwaysFocusModeRoles = [pyatspi.ROLE_COMBO_BOX,
@@ -1877,13 +1858,19 @@ class Utilities(script_utilities.Utilities):
                                 pyatspi.ROLE_TREE]
 
         if role in alwaysFocusModeRoles:
+            msg = "WEB: %s is focus mode widget due to its role" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
         if role in [pyatspi.ROLE_TABLE_CELL, pyatspi.ROLE_TABLE] \
            and self.isLayoutOnly(self.getTable(obj)):
+            msg = "WEB: %s is not focus mode widget because it's layout only" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
         if self.isButtonWithPopup(obj):
+            msg = "WEB: %s is focus mode widget because it's a button with popup" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
         focusModeRoles = [pyatspi.ROLE_EMBEDDED,
@@ -1895,14 +1882,28 @@ class Utilities(script_utilities.Utilities):
            and not self.isTextBlockElement(obj) \
            and not self.hasNameAndActionAndNoUsefulChildren(obj) \
            and not self.inPDFViewer(obj):
+            msg = "WEB: %s is focus mode widget based on presumed functionality" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        if self.isGridDescendant(obj) \
-           or self.isMenuDescendant(obj) \
-           or self.isToolBarDescendant(obj):
+        if self.isGridDescendant(obj):
+            msg = "WEB: %s is focus mode widget because it's a grid descendant" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        if self.isMenuDescendant(obj):
+            msg = "WEB: %s is focus mode widget because it's a menu descendant" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        if self.isToolBarDescendant(obj):
+            msg = "WEB: %s is focus mode widget because it's a toolbar descendant" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
         if self.isContentEditableWithEmbeddedObjects(obj):
+            msg = "WEB: %s is focus mode widget because it's content editable" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
         return False
@@ -1935,11 +1936,7 @@ class Utilities(script_utilities.Utilities):
         if not (obj and self.inDocumentContent(obj)):
             return super().mnemonicShortcutAccelerator(obj)
 
-        try:
-            attrs = dict([attr.split(":", 1) for attr in obj.getAttributes()])
-        except:
-            return ["", "", ""]
-
+        attrs = self.objectAttributes(obj)
         keys = map(lambda x: x.replace("+", " "), attrs.get("keyshortcuts", "").split(" "))
         keys = map(lambda x: x.replace(" ", "+"), map(self.labelFromKeySequence, keys))
         rv = ["", " ".join(keys), ""]
@@ -2098,6 +2095,95 @@ class Utilities(script_utilities.Utilities):
 
         return self._getTag(obj) == 'blockquote'
 
+    def isContentDeletion(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return super().isContentDeletion(obj)
+
+        # Remove this check when we bump dependencies to 2.34
+        try:
+            if obj.getRole() == pyatspi.ROLE_CONTENT_DELETION:
+                return True
+        except:
+            pass
+
+        return 'deletion' in self._getXMLRoles(obj) or 'del' == self._getTag(obj)
+
+    def isContentInsertion(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return super().isContentInsertion(obj)
+
+        # Remove this check when we bump dependencies to 2.34
+        try:
+            if obj.getRole() == pyatspi.ROLE_CONTENT_INSERTION:
+                return True
+        except:
+            pass
+
+        return 'insertion' in self._getXMLRoles(obj) or 'ins' == self._getTag(obj)
+
+    def isContentMarked(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return super().isContentMarked(obj)
+
+        # Remove this check when we bump dependencies to 2.36
+        try:
+            if obj.getRole() == pyatspi.ROLE_MARK:
+                return True
+        except:
+            pass
+
+        return 'mark' in self._getXMLRoles(obj) or 'mark' == self._getTag(obj)
+
+    def isContentSuggestion(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return super().isContentSuggestion(obj)
+
+        # Remove this check when we bump dependencies to 2.36
+        try:
+            if obj.getRole() == pyatspi.ROLE_SUGGESTION:
+                return True
+        except:
+            pass
+
+        return 'suggestion' in self._getXMLRoles(obj)
+
+    def isInlineIframe(self, obj):
+        if not (obj and obj.getRole() == pyatspi.ROLE_INTERNAL_FRAME):
+            return False
+
+        displayStyle = self._getDisplayStyle(obj)
+        if "inline" not in displayStyle:
+            return False
+
+        return self.documentForObject(obj) is not None
+
+    def isInlineIframeDescendant(self, obj):
+        if not obj:
+            return False
+
+        rv = self._isInlineIframeDescendant.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        ancestor = pyatspi.findAncestor(obj, self.isInlineIframe)
+        rv = ancestor is not None
+        self._isInlineIframeDescendant[hash(obj)] = rv
+        return rv
+
+    def isInlineSuggestion(self, obj):
+        if not self.isContentSuggestion(obj):
+            return False
+
+        displayStyle = self._getDisplayStyle(obj)
+        return "inline" in displayStyle
+
+    def isLastItemInInlineContentSuggestion(self, obj):
+        suggestion = pyatspi.findAncestor(obj, self.isInlineSuggestion)
+        if not (suggestion and suggestion.childCount):
+            return False
+
+        return suggestion[-1] == obj
+
     def speakMathSymbolNames(self, obj=None):
         obj = obj or orca_state.locusOfFocus
         return self.isMath(obj)
@@ -2106,10 +2192,6 @@ class Utilities(script_utilities.Utilities):
         return self.isMath(orca_state.locusOfFocus)
 
     def isMath(self, obj):
-        rv = self._isMath.get(hash(obj))
-        if rv is not None:
-            return rv
-
         tag = self._getTag(obj)
         rv = tag in ['math',
                      'maction',
@@ -2152,7 +2234,6 @@ class Utilities(script_utilities.Utilities):
                      'munder',
                      'munderover']
 
-        self._isMath[hash(obj)] = rv
         return rv
 
     def isNoneElement(self, obj):
@@ -2180,11 +2261,7 @@ class Utilities(script_utilities.Utilities):
         if role != pyatspi.ROLE_MATH_FRACTION:
             return False
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            return False
-
+        attrs = self.objectAttributes(obj)
         linethickness = attrs.get('linethickness')
         if not linethickness:
             return False
@@ -2356,33 +2433,21 @@ class Utilities(script_utilities.Utilities):
         if not self.isMathEnclose(obj):
             return []
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            return []
-
+        attrs = self.objectAttributes(obj)
         return attrs.get('notation', 'longdiv').split()
 
     def getMathFencedSeparators(self, obj):
         if not self.isMathFenced(obj):
             return ['']
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            return ['']
-
+        attrs = self.objectAttributes(obj)
         return list(attrs.get('separators', ','))
 
     def getMathFences(self, obj):
         if not self.isMathFenced(obj):
             return ['', '']
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            return ['', '']
-
+        attrs = self.objectAttributes(obj)
         return [attrs.get('open', '('), attrs.get('close', ')')]
 
     def getMathNestingLevel(self, obj, test=None):
@@ -2473,11 +2538,7 @@ class Utilities(script_utilities.Utilities):
     def _rowAndColumnIndices(self, obj):
         rowindex = colindex = None
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            attrs = {}
-
+        attrs = self.objectAttributes(obj)
         rowindex = attrs.get('rowindex')
         colindex = attrs.get('colindex')
         if rowindex is not None and colindex is not None:
@@ -2488,11 +2549,7 @@ class Utilities(script_utilities.Utilities):
         if not row:
             return rowindex, colindex
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in row.getAttributes()])
-        except:
-            attrs = {}
-
+        attrs = self.objectAttributes(row)
         rowindex = attrs.get('rowindex', rowindex)
         colindex = attrs.get('colindex', colindex)
         return rowindex, colindex
@@ -2513,10 +2570,7 @@ class Utilities(script_utilities.Utilities):
         return False
 
     def labelForCellCoordinates(self, obj):
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            attrs = {}
+        attrs = self.objectAttributes(obj)
 
         # The ARIA feature is still in the process of being discussed.
         collabel = attrs.get('colindextext', attrs.get('coltext'))
@@ -2529,11 +2583,7 @@ class Utilities(script_utilities.Utilities):
         if not row:
             return ''
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in row.getAttributes()])
-        except:
-            attrs = {}
-
+        attrs = self.objectAttributes(row)
         collabel = attrs.get('colindextext', attrs.get('coltext', collabel))
         rowlabel = attrs.get('rowindextext', attrs.get('rowtext', rowlabel))
         if collabel is not None and rowlabel is not None:
@@ -2542,6 +2592,14 @@ class Utilities(script_utilities.Utilities):
         return ''
 
     def coordinatesForCell(self, obj):
+        roles = [pyatspi.ROLE_TABLE_CELL,
+                 pyatspi.ROLE_TABLE_COLUMN_HEADER,
+                 pyatspi.ROLE_TABLE_ROW_HEADER,
+                 pyatspi.ROLE_COLUMN_HEADER,
+                 pyatspi.ROLE_ROW_HEADER]
+        if not (obj and obj.getRole() in roles):
+            return -1, -1
+
         rowindex, colindex = self._rowAndColumnIndices(obj)
         if rowindex is not None and colindex is not None:
             return int(rowindex) - 1, int(colindex) - 1
@@ -2550,12 +2608,7 @@ class Utilities(script_utilities.Utilities):
 
     def rowAndColumnCount(self, obj):
         rows, cols = super().rowAndColumnCount(obj)
-
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            attrs = {}
-
+        attrs = self.objectAttributes(obj)
         rows = attrs.get('rowcount', rows)
         cols = attrs.get('colcount', cols)
         return int(rows), int(cols)
@@ -2564,27 +2617,17 @@ class Utilities(script_utilities.Utilities):
         if not (obj and self.inDocumentContent(obj)):
             return super().shouldReadFullRow(obj)
 
-        rv = self._shouldReadFullRow.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        try:
-            role = obj.getRole()
-            state = obj.getState()
-        except:
-            msg = "ERROR: Exception getting role and state for %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
+        if not super().shouldReadFullRow(obj):
             return False
 
-        if role == pyatspi.ROLE_TABLE_CELL and state.contains(pyatspi.STATE_FOCUSABLE):
-            msg = "WEB: Should not read full row: focusable cell %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            rv = False
-        else:
-            rv = super().shouldReadFullRow(obj)
+        if self.isGridDescendant(obj):
+            return not self._script.inFocusMode()
 
-        self._shouldReadFullRow[hash(obj)] = rv
-        return rv
+        # TODO - JD: This is private.
+        if self._script._lastCommandWasCaretNav:
+            return False
+
+        return True
 
     def isEntryDescendant(self, obj):
         if not obj:
@@ -2679,6 +2722,14 @@ class Utilities(script_utilities.Utilities):
             rv = False
         elif self.isLandmark(obj):
             rv = False
+        elif self.isContentDeletion(obj):
+            rv = False
+        elif self.isContentInsertion(obj):
+            rv = False
+        elif self.isContentMarked(obj):
+            rv = False
+        elif self.isContentSuggestion(obj):
+            rv = False
         elif self.isDPub(obj):
             rv = False
         elif self.isFeed(obj):
@@ -2697,8 +2748,20 @@ class Utilities(script_utilities.Utilities):
         self._isLayoutOnly[hash(obj)] = rv
         return rv
 
+    def elementIsPreformattedText(self, obj):
+        if self._getTag(obj) in ["pre", "code"]:
+            return True
+
+        if "code" in self._getXMLRoles(obj):
+            return True
+
+        return False
+
     def elementLinesAreSingleWords(self, obj):
         if not (obj and self.inDocumentContent(obj)):
+            return False
+
+        if self.elementIsPreformattedText(obj):
             return False
 
         rv = self._elementLinesAreSingleWords.get(hash(obj))
@@ -2725,10 +2788,11 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
+        tokens = list(filter(lambda x: x, re.split(r"[\s\ufffc]", text.getText(0, -1))))
+
         # Note: We cannot check for the editable-text interface, because Gecko
         # seems to be exposing that for non-editable things. Thanks Gecko.
-        rv = not state.contains(pyatspi.STATE_EDITABLE) \
-            and len(text.getText(0, -1).split()) > 1
+        rv = not state.contains(pyatspi.STATE_EDITABLE) and len(tokens) > 1
         if rv:
             boundary = pyatspi.TEXT_BOUNDARY_LINE_START
             i = 0
@@ -2939,16 +3003,6 @@ class Utilities(script_utilities.Utilities):
 
         return False
 
-    def isListItemMarkerInSimpleItem(self, obj):
-        if not self.isListItemMarker(obj):
-            return False
-
-        for i in range(1, obj.parent.childCount):
-            if not self.isStaticTextLeaf(obj.parent[i]):
-                return False
-
-        return True
-
     def isInferredLabelForContents(self, content, contents):
         obj, start, end, string = content
         objs = list(filter(self.shouldInferLabelFor, [x[0] for x in contents]))
@@ -3118,13 +3172,8 @@ class Utilities(script_utilities.Utilities):
         if not (obj and self.inDocumentContent(obj)):
             return False
 
-        rv = self._isDPub.get(hash(obj))
-        if rv is not None:
-            return rv
-
         roles = self._getXMLRoles(obj)
         rv = bool(list(filter(lambda x: x.startswith("doc-"), roles)))
-        self._isDPub[hash(obj)] = rv
         return rv
 
     def isDPubAbstract(self, obj):
@@ -3255,6 +3304,26 @@ class Utilities(script_utilities.Utilities):
         self._isErrorMessage[hash(obj)] = rv
         return rv
 
+    def isFakePlaceholderForEntry(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return False
+
+        if not (obj.parent.getRole() == pyatspi.ROLE_ENTRY and obj.parent.name):
+            return False
+
+        def _isMatch(x):
+            try:
+                role = x.getRole()
+                string = x.queryText().getText(0, -1).strip()
+            except:
+                return False
+            return role in [pyatspi.ROLE_SECTION, pyatspi.ROLE_STATIC] and obj.parent.name == string
+
+        if _isMatch(obj):
+            return True
+
+        return pyatspi.findDescendant(obj, _isMatch) is not None
+
     def isInlineListItem(self, obj):
         if not (obj and self.inDocumentContent(obj)):
             return False
@@ -3270,6 +3339,27 @@ class Utilities(script_utilities.Utilities):
             rv = displayStyle and "inline" in displayStyle
 
         self._isInlineListItem[hash(obj)] = rv
+        return rv
+
+    def isBlockListDescendant(self, obj):
+        if not self.isListDescendant(obj):
+            return False
+
+        return not self.isInlineListDescendant(obj)
+
+    def isListDescendant(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return False
+
+        rv = self._isListDescendant.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        isList = lambda x: x and x.getRole() == pyatspi.ROLE_LIST
+        ancestor = pyatspi.findAncestor(obj, isList)
+        rv = ancestor is not None
+
+        self._isListDescendant[hash(obj)] = rv
         return rv
 
     def isInlineListDescendant(self, obj):
@@ -3353,18 +3443,8 @@ class Utilities(script_utilities.Utilities):
         if not (obj and self.inDocumentContent(obj)):
             return False
 
-        rv = self._isLiveRegion.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            attrs = {}
-
-        rv = 'container-live' in attrs
-        self._isLiveRegion[hash(obj)] = rv
-        return rv
+        attrs = self.objectAttributes(obj)
+        return 'container-live' in attrs
 
     def isLink(self, obj):
         if not obj:
@@ -3485,6 +3565,11 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
+        if len(obj.name) == 1 and ord(obj.name) in range(0xe000, 0xf8ff):
+            msg = "WEB: name of %s is in unicode private use area" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
         return True
 
     def isUselessEmptyElement(self, obj):
@@ -3504,7 +3589,12 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        if role not in [pyatspi.ROLE_SECTION, pyatspi.ROLE_STATIC, pyatspi.ROLE_TABLE_ROW]:
+        roles = [pyatspi.ROLE_PARAGRAPH,
+                 pyatspi.ROLE_SECTION,
+                 pyatspi.ROLE_STATIC,
+                 pyatspi.ROLE_TABLE_ROW]
+
+        if role not in roles:
             rv = False
         elif state.contains(pyatspi.STATE_FOCUSABLE) or state.contains(pyatspi.STATE_FOCUSED):
             rv = False
@@ -3550,18 +3640,8 @@ class Utilities(script_utilities.Utilities):
         if not (obj and self.inDocumentContent(obj)):
             return False
 
-        rv = self._hasExplicitName.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            attrs = {}
-
-        rv = attrs.get('explicit-name') == 'true'
-        self._hasExplicitName[hash(obj)] = rv
-        return rv
+        attrs = self.objectAttributes(obj)
+        return attrs.get('explicit-name') == 'true'
 
     def hasLongDesc(self, obj):
         if not (obj and self.inDocumentContent(obj)):
@@ -3577,22 +3657,100 @@ class Utilities(script_utilities.Utilities):
         self._hasLongDesc[hash(obj)] = rv
         return rv
 
-    def popupType(self, obj):
+    def hasDetails(self, obj):
         if not (obj and self.inDocumentContent(obj)):
-            return 'false'
+            return super().hasDetails(obj)
 
-        rv = self._popupType.get(hash(obj))
+        rv = self._hasDetails.get(hash(obj))
         if rv is not None:
             return rv
 
         try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
+            relations = obj.getRelationSet()
         except:
-            attrs = {}
+            msg = 'ERROR: Exception getting relationset for %s' % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
 
-        rv = attrs.get('haspopup', 'false').lower()
-        self._popupType[hash(obj)] = rv
+        rv = False
+        relation = filter(lambda x: x.getRelationType() == pyatspi.RELATION_DETAILS, relations)
+        for r in relation:
+            if r.getNTargets() > 0:
+                rv = True
+                break
+
+        self._hasDetails[hash(obj)] = rv
         return rv
+
+    def detailsIn(self, obj):
+        if not self.hasDetails(obj):
+            return []
+
+        try:
+            relations = obj.getRelationSet()
+        except:
+            msg = 'ERROR: Exception getting relationset for %s' % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return []
+
+        rv = []
+        relation = filter(lambda x: x.getRelationType() == pyatspi.RELATION_DETAILS, relations)
+        for r in relation:
+            for i in range(r.getNTargets()):
+                rv.append(r.getTarget(i))
+
+        return rv
+
+    def isDetails(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return super().isDetails(obj)
+
+        rv = self._isDetails.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        try:
+            relations = obj.getRelationSet()
+        except:
+            msg = 'ERROR: Exception getting relationset for %s' % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        rv = False
+        relation = filter(lambda x: x.getRelationType() == pyatspi.RELATION_DETAILS_FOR, relations)
+        for r in relation:
+            if r.getNTargets() > 0:
+                rv = True
+                break
+
+        self._isDetails[hash(obj)] = rv
+        return rv
+
+    def detailsFor(self, obj):
+        if not self.isDetails(obj):
+            return []
+
+        try:
+            relations = obj.getRelationSet()
+        except:
+            msg = 'ERROR: Exception getting relationset for %s' % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return []
+
+        rv = []
+        relation = filter(lambda x: x.getRelationType() == pyatspi.RELATION_DETAILS_FOR, relations)
+        for r in relation:
+            for i in range(r.getNTargets()):
+                rv.append(r.getTarget(i))
+
+        return rv
+
+    def popupType(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return 'false'
+
+        attrs = self.objectAttributes(obj)
+        return attrs.get('haspopup', 'false').lower()
 
     def inferLabelFor(self, obj):
         if not self.shouldInferLabelFor(obj):
@@ -3837,14 +3995,15 @@ class Utilities(script_utilities.Utilities):
 
         return False
 
-    def caretMovedToSamePageFragment(self, event):
-        if not event.type.startswith("object:text-caret-moved"):
+    def caretMovedToSamePageFragment(self, event, oldFocus=None):
+        if not (event and event.type.startswith("object:text-caret-moved")):
             return False
 
         if event.source.getState().contains(pyatspi.STATE_EDITABLE):
             return False
 
-        linkURI = self.uri(orca_state.locusOfFocus)
+        oldFocus = oldFocus or orca_state.locusOfFocus
+        linkURI = self.uri(oldFocus)
         docURI = self.documentFrameURI()
         if linkURI == docURI:
             return True
@@ -3925,7 +4084,7 @@ class Utilities(script_utilities.Utilities):
             return False
 
         try:
-            self._currentAttrs.pop(hash(obj))
+            self._currentTextAttrs.pop(hash(obj))
         except:
             pass
 
@@ -4034,8 +4193,8 @@ class Utilities(script_utilities.Utilities):
             msg = "WEB: Static text leaf cannot have caret context %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
-        if self.isListItemMarkerInSimpleItem(obj):
-            msg = "WEB: List item marker in simple item cannot have caret context %s" % obj
+        if self.isFakePlaceholderForEntry(obj):
+            msg = "WEB: Fake placeholder for entry cannot have caret context %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
@@ -4139,6 +4298,28 @@ class Utilities(script_utilities.Utilities):
         self._caretContexts.pop(hash(parent), None)
         self._priorContexts.pop(hash(parent), None)
 
+    def handleEventFromContextReplicant(self, event, replicant):
+        if self.isDead(replicant):
+            return False
+
+        if not self.isDead(orca_state.locusOfFocus):
+            return False
+
+        path, role, name = self.getCaretContextPathRoleAndName()
+        if path != pyatspi.getPath(replicant):
+            return False
+
+        if role != replicant.getRole():
+            return False
+
+        notify = replicant.name != name
+        documentFrame = self.documentFrame()
+        obj, offset = self._caretContexts.get(hash(documentFrame.parent))
+
+        orca.setLocusOfFocus(event, replicant, notify)
+        self.setCaretContext(replicant, offset, documentFrame)
+        return True
+
     def findContextReplicant(self, documentFrame=None, matchRole=True, matchName=True):
         path, oldRole, oldName = self.getCaretContextPathRoleAndName(documentFrame)
         obj = self.getObjectFromPath(path)
@@ -4220,13 +4401,6 @@ class Utilities(script_utilities.Utilities):
             msg = "WEB: First caret context for %s, %i will look in child %s" % (obj, offset, obj[0])
             debug.println(debug.LEVEL_INFO, msg, True)
             return self.findFirstCaretContext(obj[0], 0)
-
-        if self.isListItemMarker(obj):
-            nextObj, nextOffset = obj, offset
-            while nextObj and self.isListItemMarker(nextObj):
-                nextObj, nextOffset = self.nextContext(nextObj, nextOffset)
-            if nextObj:
-                obj, offset = nextObj, nextOffset
 
         text = self.queryNonEmptyText(obj)
         if not text:
@@ -4435,7 +4609,7 @@ class Utilities(script_utilities.Utilities):
             return False
 
         if not _settingsManager.getSetting('presentLiveRegionFromInactiveTab') \
-           and self.getDocumentForObject(event.source) != self.activeDocument():
+           and self.getTopLevelDocumentForObject(event.source) != self.activeDocument():
             msg = "WEB: Live region source is not in active tab."
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
@@ -4457,7 +4631,7 @@ class Utilities(script_utilities.Utilities):
                 return False
 
             if role in [pyatspi.ROLE_UNKNOWN, pyatspi.ROLE_REDUNDANT_OBJECT] \
-               and not self._getTag(event.any_data):
+               and self._getTag(event.any_data) in ["", None, "br"]:
                 msg = "WEB: Child has unknown role and no tag %s" % event.any_data
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return False
@@ -4553,8 +4727,13 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             rv = False
         else:
-            roles = [pyatspi.ROLE_PUSH_BUTTON]
-            rv = role in roles and len(name) == 1 and description
+            if len(obj.name) == 1 and ord(obj.name) in range(0xe000, 0xf8ff):
+                msg = "WEB: name of %s is in unicode private use area" % obj
+                debug.println(debug.LEVEL_INFO, msg, True)
+                rv = True
+            else:
+                roles = [pyatspi.ROLE_PUSH_BUTTON]
+                rv = role in roles and len(name) == 1 and description
 
         self._preferDescriptionOverName[hash(obj)] = rv
         return rv

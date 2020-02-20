@@ -412,6 +412,43 @@ DATE_FORMAT_ABBREVIATED_DMY = "%a, %-d %b, %Y"
 DATE_FORMAT_ABBREVIATED_MDY = "%a, %b %-d, %Y"
 DATE_FORMAT_ABBREVIATED_YMD = "%Y. %b %-d, %a."
 
+# Translators: This phrase is spoken to inform the user that what is about to
+# be said is content marked for deletion in a document, such as content which
+# is inside an HTML 'del' element, or the removed code in a diff.
+CONTENT_DELETION_START = C_("content", "deletion start")
+
+# Translators: This phrase is spoken to inform the user that they have reached
+# the end of content marked for deletion in a document, such as content which
+# is inside an HTML 'del' element, or the removed code in a diff.
+CONTENT_DELETION_END = C_("content", "deletion end")
+
+# Translators: This phrase is spoken to inform the user that what is about to
+# be said is content marked for insertion in a document, such as content which
+# is inside an HTML 'ins' element, or the added code in a diff.
+CONTENT_INSERTION_START = C_("content", "insertion start")
+
+# Translators: This phrase is spoken to inform the user that they have reached
+# the end of content marked for deletion in a document, such as content which
+# is inside an HTML 'ins' element, or the added code in a diff.
+CONTENT_INSERTION_END = C_("content", "insertion end")
+
+# Translators: This phrase is spoken to inform the user that what is about to
+# be said is content marked/highlighted in a document, such as content which
+# is inside an HTML 'mark' element.
+CONTENT_MARK_START = C_("content", "highlight start")
+
+# Translators: This phrase is spoken to inform the user that they have reached
+# the end of content marked/highlighted in a document, such as content which
+# is inside an HTML 'mark' element.
+CONTENT_MARK_END = C_("content", "highlight end")
+
+# Translators: This phrase is spoken to inform the user that the content being
+# presented is the end of an inline suggestion a document. A "suggestion" is a
+# proposed change. This change can include the insertion and/or deletion
+# of content, and would typically be seen in a collaborative editor, such as
+# in Google Docs.
+CONTENT_SUGGESTION_END = C_("content", "suggestion end")
+
 # Translators: This is for navigating document content by moving to the start
 # or end of a container. Examples of containers include tables, lists, and
 # blockquotes. When moving to the end of a container, Orca attempts to place
@@ -1112,6 +1149,17 @@ LEARN_MODE_START_SPEECH = \
 # blockquote and then navigates out of it.
 LEAVING_BLOCKQUOTE = _("leaving blockquote.")
 
+# Translators: In web content, authors can identify an element which contains
+# detailed information about another element. For instance, for a password
+# field, there may be a list of requirements (number of characters, number of
+# special symbols, etc.). For an image, there may be an extended description
+# before or after the image. Often there are visual clues connecting the
+# detailed information to its related object. We need to convey this non-visually.
+# This message is presented when a user just navigated out of a container holding
+# detailed information about another object.
+# See https://w3c.github.io/aria/#aria-details
+LEAVING_DETAILS = _("leaving details.")
+
 # Translators: This message is presented when a user is navigating within
 # an object and then navigates out of it. The word or phrase that follows
 # "leaving" should be consistent with the translation provided for the
@@ -1338,6 +1386,13 @@ LEAVING_PULLQUOTE = C_("role", "leaving pullquote.")
 # that follows "leaving" should be consistent with the translation provided
 # for the corresponding term with context "role" found in object_properties.py
 LEAVING_QNA = C_("role", "leaving QNA.")
+
+# Translators: This message is presented when a user is navigating within a
+# suggestion and then navigates out of it. A "suggestion" is a container with
+# a proposed change. This change can include the insertion and/or deletion
+# of content, and would typically be seen in a collaborative editor, such as
+# in Google Docs.
+LEAVING_SUGGESTION = C_("role", "leaving suggestion.")
 
 # Translators: This message is presented when a user is navigating within
 # a document container and then navigates out of it. The word or phrase

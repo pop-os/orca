@@ -34,6 +34,7 @@ from orca import debug
 from orca import messages
 from orca import object_properties
 from orca import orca_state
+from orca import settings
 from orca import settings_manager
 from orca import speech_generator
 
@@ -44,6 +45,26 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
     def __init__(self, script):
         super().__init__(script)
+
+    def _generateOldAncestors(self, obj, **args):
+        if args.get('index', 0) > 0:
+            return []
+
+        priorObj = args.get('priorObj')
+        if self._script.utilities.isInlineIframeDescendant(priorObj):
+            return []
+
+        return super()._generateOldAncestors(obj, **args)
+
+    def _generateNewAncestors(self, obj, **args):
+        if args.get('index', 0) > 0 \
+           and not self._script.utilities.isListDescendant(obj):
+            return []
+
+        if self._script.utilities.isInlineIframeDescendant(obj):
+            return []
+
+        return super()._generateNewAncestors(obj, **args)
 
     def _generateAncestors(self, obj, **args):
         if not self._script.utilities.inDocumentContent(obj):
@@ -198,13 +219,55 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         return []
 
+    def _generateHasDetails(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        if not self._script.utilities.inDocumentContent(obj):
+            return super()._generateHasDetails(obj, **args)
+
+        objs = self._script.utilities.detailsIn(obj)
+        if not objs:
+            return []
+
+        objString = lambda x: "%s %s" % (x.name, self.getLocalizedRoleName(x))
+        toPresent = ", ".join(list(map(objString, objs)))
+
+        args['stringType'] = 'hasdetails'
+        result = [self._script.formatting.getString(**args) % toPresent]
+        result.extend(self.voice(speech_generator.SYSTEM))
+        return result
+
+    def _generateDetailsFor(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        if not self._script.utilities.inDocumentContent(obj):
+            return super()._generateDetailsFor(obj, **args)
+
+        objs = self._script.utilities.detailsFor(obj)
+        if not objs:
+            return []
+
+        if args.get('leaving'):
+            return []
+
+        objString = lambda x: "%s %s" % (x.name, self.getLocalizedRoleName(x))
+        toPresent = ", ".join(list(map(objString, objs)))
+
+        args['stringType'] = 'detailsfor'
+        result = [self._script.formatting.getString(**args) % toPresent]
+        result.extend(self.voice(speech_generator.SYSTEM))
+        return result
+
     def _generateLabelOrName(self, obj, **args):
         if not self._script.utilities.inDocumentContent(obj):
             return super()._generateLabelOrName(obj, **args)
 
         if self._script.utilities.isTextBlockElement(obj) \
            and not self._script.utilities.isLandmark(obj) \
-           and not self._script.utilities.isDPub(obj):
+           and not self._script.utilities.isDPub(obj) \
+           and not self._script.utilities.isContentSuggestion(obj):
             return []
 
         if obj.name:
@@ -226,9 +289,6 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
            and not self._script.utilities.isDPub(obj):
             return []
 
-        if obj.name and not self._script.utilities.hasValidName(obj):
-            return []
-
         role = args.get('role', obj.getRole())
         alwaysPresent = [pyatspi.ROLE_PUSH_BUTTON,
                          pyatspi.ROLE_IMAGE]
@@ -242,13 +302,12 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if role in [pyatspi.ROLE_COMBO_BOX, pyatspi.ROLE_SPIN_BUTTON]:
             return super()._generateName(obj, **args)
 
-        if self._script.utilities.isLink(obj) \
-           and not self._script.utilities.hasExplicitName(obj):
-            return []
-
         if obj.name:
             if self._script.utilities.preferDescriptionOverName(obj):
                 result = [obj.description]
+            elif self._script.utilities.isLink(obj) \
+                 and not self._script.utilities.hasExplicitName(obj):
+                return []
             else:
                 name = obj.name
                 if not self._script.utilities.hasExplicitName(obj):
@@ -307,7 +366,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         return []
 
     def _generateNumberOfChildren(self, obj, **args):
-        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+        if _settingsManager.getSetting('onlySpeakDisplayedText') \
+           or _settingsManager.getSetting('speechVerbosityLevel') == settings.VERBOSITY_LEVEL_BRIEF:
             return []
 
         # We handle things even for non-document content due to issues in
@@ -392,6 +452,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             doNotSpeak.append(pyatspi.ROLE_TABLE_CELL)
             doNotSpeak.append(pyatspi.ROLE_TEXT)
             doNotSpeak.append(pyatspi.ROLE_STATIC)
+            if args.get('string'):
+                doNotSpeak.append("ROLE_CONTENT_SUGGESTION")
             if args.get('formatType', 'unfocused') != 'basicWhereAmI':
                 doNotSpeak.append(pyatspi.ROLE_LIST_ITEM)
                 doNotSpeak.append(pyatspi.ROLE_LIST)
@@ -593,7 +655,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         return result
 
     def _generateTableCellRow(self, obj, **args):
-        if not self._script.inFocusMode():
+        if not self._script.utilities.inDocumentContent(obj):
             return super()._generateTableCellRow(obj, **args)
 
         if not self._script.utilities.shouldReadFullRow(obj):
@@ -605,6 +667,14 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             return self.generate(row)
 
         return super()._generateTableCellRow(obj, **args)
+
+    def _generateRowHeader(self, obj, **args):
+        # TODO - JD: _lastCommandWasCaretNav is private.
+        if self._script.utilities.lastInputEventWasLineNav() \
+           and self._script._lastCommandWasCaretNav:
+            return []
+
+        return super()._generateRowHeader(obj)
 
     def generateSpeech(self, obj, **args):
         if not self._script.utilities.inDocumentContent(obj):
@@ -636,9 +706,9 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         self._restoreRole(oldRole, args)
         msg = "WEB: Speech generation for document object %s complete:" % obj
-        debug.println(debug.LEVEL_INFO, msg)
+        debug.println(debug.LEVEL_INFO, msg, True)
         for element in result:
-            debug.println(debug.LEVEL_ALL, "           %s" % element)
+            debug.println(debug.LEVEL_ALL, "%s%s" % (' ' * 18, element))
 
         return result
 

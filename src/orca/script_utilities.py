@@ -241,6 +241,14 @@ class Utilities:
 
         return ancestor
 
+    def objectAttributes(self, obj):
+        try:
+            rv = dict([attr.split(':', 1) for attr in obj.getAttributes()])
+        except:
+            rv = {}
+
+        return rv
+
     def cellIndex(self, obj):
         """Returns the index of the cell which should be used with the
         table interface.  This is necessary because in some apps we
@@ -250,11 +258,7 @@ class Utilities:
         -obj: the table cell whose index we need.
         """
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            attrs = {}
-
+        attrs = self.objectAttributes(obj)
         index = attrs.get('table-cell-index')
         if index:
             return int(index)
@@ -477,13 +481,10 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return []
 
-        if not state.contains(pyatspi.STATE_EXPANDED):
-            return []
-
         hasDetails = lambda x: x.getRelationType() == pyatspi.RELATION_DETAILS
         relation = filter(hasDetails, relations)
         details = [r.getTarget(i) for r in relation for i in range(r.getNTargets())]
-        if not details and role == pyatspi.ROLE_TOGGLE_BUTTON:
+        if not details and role == pyatspi.ROLE_TOGGLE_BUTTON and state.contains(pyatspi.STATE_EXPANDED):
             details = [child for child in obj]
 
         if not textOnly:
@@ -532,7 +533,7 @@ class Utilities:
             role = None
             name = ''
 
-        if role == pyatspi.ROLE_PUSH_BUTTON and name:
+        if role in [pyatspi.ROLE_PUSH_BUTTON, pyatspi.ROLE_LABEL] and name:
             return name
 
         try:
@@ -741,13 +742,7 @@ class Utilities:
         if role != pyatspi.ROLE_FRAME:
             return False
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            msg = 'ERROR: Exception getting attributes of %s' % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return False
-
+        attrs = self.objectAttributes(obj)
         return attrs.get('is-desktop') == 'true'
 
     def isComboBoxWithToggleDescendant(self, obj):
@@ -771,6 +766,24 @@ class Utilities:
         needed.
         """
 
+        return False
+
+    def isContentDeletion(self, obj):
+        return False
+
+    def isContentInsertion(self, obj):
+        return False
+
+    def isContentMarked(self, obj):
+        return False
+
+    def isContentSuggestion(self, obj):
+        return False
+
+    def isInlineSuggestion(self, obj):
+        return False
+
+    def isLastItemInInlineContentSuggestion(self, obj):
         return False
 
     def isEmpty(self, obj):
@@ -1184,7 +1197,7 @@ class Utilities:
         obj = obj or orca_state.locusOfFocus
         return self.getContainingDocument(obj) is not None
 
-    def activeDocument(self):
+    def activeDocument(self, window=None):
         return self.getContainingDocument(orca_state.locusOfFocus)
 
     def getContainingDocument(self, obj):
@@ -1206,8 +1219,8 @@ class Utilities:
         if not obj:
             return None
 
-        tableRoles = [pyatspi.ROLE_TABLE, pyatspi.ROLE_TREE_TABLE]
-        isTable = lambda x: x and x.getRole() in tableRoles
+        tableRoles = [pyatspi.ROLE_TABLE, pyatspi.ROLE_TREE_TABLE, pyatspi.ROLE_TREE]
+        isTable = lambda x: x and x.getRole() in tableRoles and "Table" in pyatspi.listInterfaces(x)
         if isTable(obj):
             return obj
 
@@ -1329,6 +1342,9 @@ class Utilities:
         if self._script.inSayAll():
             return False
 
+        if not self.cellRowChanged(obj):
+            return False
+
         table = self.getTable(obj)
         if not table:
             return False
@@ -1413,10 +1429,8 @@ class Utilities:
         if self.isDead(obj) or self.isZombie(obj):
             return True
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            attrs = {}
+        attrs = self.objectAttributes(obj)
+
         try:
             role = obj.getRole()
         except:
@@ -1465,6 +1479,8 @@ class Utilities:
                 layoutOnly = self.isLayoutOnly(obj.parent)
         elif role == pyatspi.ROLE_SECTION:
             layoutOnly = not self.isBlockquote(obj)
+        elif role == pyatspi.ROLE_BLOCK_QUOTE:
+            layoutOnly = False
         elif role == pyatspi.ROLE_FILLER:
             layoutOnly = True
         elif role == pyatspi.ROLE_SCROLL_PANE:
@@ -1978,9 +1994,6 @@ class Utilities:
     def isListItemMarker(self, obj):
         return False
 
-    def getListItemMarkerText(self, obj):
-        return ""
-
     def getOnScreenObjects(self, root, extents=None):
         if not self.isOnScreen(root, extents):
             return []
@@ -2120,8 +2133,9 @@ class Utilities:
         if obj.getRole() != pyatspi.ROLE_TABLE_CELL:
             return obj
 
-        hasContent = [x for x in obj if self.displayedText(x).strip()]
-        if len(hasContent) == 1 and not self.isStaticTextLeaf(hasContent[0]):
+        children = [x for x in obj if not self.isStaticTextLeaf(x)]
+        hasContent = [x for x in children if self.displayedText(x).strip()]
+        if len(hasContent) == 1:
             return hasContent[0]
 
         return obj
@@ -3584,16 +3598,10 @@ class Utilities:
         Returns a string representing the value.
         """
 
-        # Use ARIA "valuetext" attribute if present.  See
-        # http://bugzilla.gnome.org/show_bug.cgi?id=552965
-        #
-        try:
-            attributes = obj.getAttributes()
-        except:
-            return ""
-        for attribute in attributes:
-            if attribute.startswith("valuetext"):
-                return attribute[10:]
+        attrs = self.objectAttributes(obj)
+        valuetext = attrs.get("valuetext")
+        if valuetext:
+            return valuetext
 
         try:
             value = obj.queryValue()
@@ -3943,6 +3951,15 @@ class Utilities:
     def hasLongDesc(self, obj):
         return False
 
+    def hasDetails(self, obj):
+        return False
+
+    def isDetails(self, obj):
+        return False
+
+    def detailsFor(self, obj):
+        return []
+
     def popupType(self, obj):
         return ''
 
@@ -3950,12 +3967,7 @@ class Utilities:
         if not (obj and obj.getRole() == pyatspi.ROLE_HEADING):
             return 0
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            msg = "ERROR: Exception getting attributes for %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return 0
+        attrs = self.objectAttributes(obj)
 
         try:
             value = int(attrs.get('level', '0'))
@@ -4391,7 +4403,7 @@ class Utilities:
 
         return startIndex, endIndex
 
-    def getShowingCellsInSameRow(self, obj):
+    def getShowingCellsInSameRow(self, obj, forceFullRow=False):
         parent = self.getTable(obj)
         try:
             table = parent.queryTable()
@@ -4404,7 +4416,10 @@ class Utilities:
         if row == -1:
             return []
 
-        startIndex, endIndex = self._getTableRowRange(obj)
+        if forceFullRow:
+            startIndex, endIndex = 0, table.nColumns
+        else:
+            startIndex, endIndex = self._getTableRowRange(obj)
         if startIndex == endIndex:
             return []
 
@@ -4759,9 +4774,9 @@ class Utilities:
         clipboard = Gtk.Clipboard.get(Gdk.Atom.intern("CLIPBOARD", False))
         clipboard.request_text(self._appendTextToClipboardCallback, text)
 
-    def _appendTextToClipboardCallback(self, clipboard, text, newText):
+    def _appendTextToClipboardCallback(self, clipboard, text, newText, separator="\n"):
         text = text.rstrip("\n")
-        text = "%s\n%s" % (text, newText)
+        text = "%s%s%s" % (text, separator, newText)
         clipboard.set_text(text, -1)
 
     def lastInputEventCameFromThisApp(self):
