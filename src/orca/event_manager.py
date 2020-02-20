@@ -194,6 +194,7 @@ class EventManager:
                             pyatspi.ROLE_INFO_BAR,
                             pyatspi.ROLE_MENU,
                             pyatspi.ROLE_NOTIFICATION,
+                            pyatspi.ROLE_DIALOG,
                             pyatspi.ROLE_PANEL,
                             pyatspi.ROLE_STATUS_BAR,
                             pyatspi.ROLE_TOOL_TIP]:
@@ -734,7 +735,7 @@ class EventManager:
 
         if not debug.eventDebugFilter or debug.eventDebugFilter.match(eType) \
            and not eType.startswith("mouse:"):
-            debug.printDetails(debug.LEVEL_INFO, ' ' * 11, event.source)
+            debug.printDetails(debug.LEVEL_INFO, ' ' * 18, event.source)
 
         script = self._getScriptForEvent(event)
         if not script:

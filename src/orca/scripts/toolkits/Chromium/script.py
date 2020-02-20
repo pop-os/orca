@@ -47,6 +47,16 @@ class Script(web.Script):
 
         self.presentIfInactive = False
 
+        # Chromium doesn't always emit parent-change events. While we don't listen
+        # for those ourselves, those events tell AT-SPI2 to update the cached parent.
+        # If we cache the parent, then we can wind up getting stuck. Example page is
+        # the Github issue page when the issue search field gets focus.
+        app.setCacheMask(pyatspi.cache.DEFAULT ^
+                         pyatspi.cache.CHILDREN ^
+                         pyatspi.cache.PARENT ^
+                         pyatspi.cache.NAME ^
+                         pyatspi.cache.DESCRIPTION)
+
     def getBrailleGenerator(self):
         """Returns the braille generator for this script."""
 
@@ -379,6 +389,13 @@ class Script(web.Script):
         msg = "CHROMIUM: Passing along event to default script"
         debug.println(debug.LEVEL_INFO, msg, True)
         default.Script.onWindowActivated(self, event)
+
+        # Right now we don't get accessibility events for alerts which are
+        # already showing at the time of window activation. If that changes,
+        # we should store presented alerts so we don't double-present them.
+        for child in event.source:
+            if child.getRole() == pyatspi.ROLE_ALERT:
+                self.presentObject(child)
 
     def onWindowDeactivated(self, event):
         """Callback for window:deactivate accessibility events."""

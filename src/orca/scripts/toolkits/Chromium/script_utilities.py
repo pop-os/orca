@@ -99,22 +99,9 @@ class Utilities(web.Utilities):
         if rv is not None:
             return rv
 
-        rv = obj.getRole() == pyatspi.ROLE_STATIC and not self._getTag(obj) \
-            and obj.parent.getRole() == pyatspi.ROLE_LIST_ITEM \
-            and obj.getIndexInParent() == 0
-
+        rv = self._getTag(obj) == "::marker" and obj.parent.getRole() == pyatspi.ROLE_LIST_ITEM
         self._isListItemMarker[hash(obj)] = rv
         return rv
-
-    def getListItemMarkerText(self, obj):
-        if obj.getRole() != pyatspi.ROLE_LIST_ITEM:
-            return ""
-
-        for child in obj:
-            if self.isListItemMarkerInSimpleItem(child):
-                return child.name
-
-        return ""
 
     def selectedChildCount(self, obj):
         count = super().selectedChildCount(obj)
@@ -487,7 +474,39 @@ class Utilities(web.Utilities):
 
         return super().findAllDescendants(root, includeIf, excludeIf)
 
+    def _accessibleAtPoint(self, root, x, y, coordType=None):
+        if self.isHidden(root):
+            return None
+
+        try:
+            component = root.queryComponent()
+        except:
+            msg = "CHROMIUM: Exception querying component of %s" % root
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return None
+
+        result = component.getAccessibleAtPoint(x, y, coordType)
+
+        # Chromium cannot do a hit test of web content synchronously. So what it
+        # does is return a guess, then fire off an async hit test. The next time
+        # one calls it, Chromium returns the previous async hit test result if
+        # the point is still within its bounds. Therefore, we need to call
+        # getAccessibleAtPoint() twice to be safe.
+        result = component.getAccessibleAtPoint(x, y, coordType)
+
+        msg = "CHROMIUM: %s is descendant of %s at (%i, %i)" % (result, root, x, y)
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return result
+
     def descendantAtPoint(self, root, x, y, coordType=None):
+        if coordType is None:
+            coordType = pyatspi.DESKTOP_COORDS
+
+        result = None
+        if self.isDocument(root):
+            result = self._accessibleAtPoint(root, x, y, coordType)
+
+        root = result or root
         result = super().descendantAtPoint(root, x, y, coordType)
         if self.isListItemMarker(result) or self.isStaticTextLeaf(result):
             return result.parent

@@ -596,6 +596,9 @@ class Script(default.Script):
                     continue
 
                 obj, startOffset, endOffset, text = content
+                if startOffset == endOffset:
+                    continue
+
                 if self.utilities.isLabellingContents(obj):
                     continue
 
@@ -1233,6 +1236,11 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getObjectContentsAtOffset(newFocus, 0)
             utterances = self.speechGenerator.generateContents(contents)
+        elif self.utilities.caretMovedToSamePageFragment(event, oldFocus):
+            msg = "WEB: Event source %s is same page fragment. Generating line contents." % event.source
+            debug.println(debug.LEVEL_INFO, msg, True)
+            contents = self.utilities.getLineContentsAtOffset(newFocus, 0)
+            utterances = self.speechGenerator.generateContents(contents)
         else:
             msg = "WEB: New focus %s is not a special case. Generating speech." % newFocus
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -1442,6 +1450,11 @@ class Script(default.Script):
             return True
 
         if self._lastCommandWasMouseButton:
+            if (event.source, event.detail1) == self.utilities.getCaretContext():
+                msg = "WEB: Event is for current caret context."
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
+
             msg = "WEB: Event handled: Last command was mouse button"
             debug.println(debug.LEVEL_INFO, msg, True)
             self.utilities.setCaretContext(event.source, event.detail1)
@@ -1468,11 +1481,6 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        if self.utilities.textEventIsForNonNavigableTextObject(event):
-            msg = "WEB: Event ignored: Event source is non-navigable text object"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return True
-
         if self.utilities.textEventIsDueToInsertion(event):
             msg = "WEB: Event handled: Updating position due to insertion"
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -1486,6 +1494,13 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             self.utilities.setCaretContext(obj, offset)
             orca.setLocusOfFocus(event, obj)
+            return True
+
+        # We want to do this check after the same-page-fragment check because some
+        # fragments start with non-navigable text objects.
+        if self.utilities.textEventIsForNonNavigableTextObject(event):
+            msg = "WEB: Event ignored: Event source is non-navigable text object"
+            debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
         if self.utilities.lastInputEventWasPageNav() \
@@ -1649,20 +1664,16 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
+        if self.utilities.handleEventFromContextReplicant(event, event.any_data):
+            msg = "WEB: Event handled by updating locusOfFocus and context to child."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
         obj, offset = self.utilities.getCaretContext(getZombieReplicant=False)
         msg = "WEB: Context: %s, %i (focus: %s)" % (obj, offset, orca_state.locusOfFocus)
         debug.println(debug.LEVEL_INFO, msg, True)
 
         if self.utilities.isZombie(obj):
-            if self.utilities.isSameObject(obj, event.any_data, comparePaths=True, ignoreNames=True):
-                path, role, name = self.utilities.getCaretContextPathRoleAndName()
-                notify = event.any_data.name != name
-                msg = "WEB: Event handled by updating locusOfFocus and context"
-                debug.println(debug.LEVEL_INFO, msg, True)
-                orca.setLocusOfFocus(event, event.any_data, notify)
-                self.utilities.setCaretContext(event.any_data, offset)
-                return True
-
             obj, offset = self.utilities.getCaretContext(getZombieReplicant=True)
             if not obj:
                 if self._inFocusMode:
@@ -1766,6 +1777,17 @@ class Script(default.Script):
 
         return False
 
+    def onFocus(self, event):
+        """Callback for focus: accessibility events."""
+
+        # We should get proper state-changed events for these.
+        if self.utilities.inDocumentContent(event.source):
+            msg = "WEB: Ignoring because object:state-changed-focused expected."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        return False
+
     def onFocusedChanged(self, event):
         """Callback for object:state-changed:focused accessibility events."""
 
@@ -1806,6 +1828,11 @@ class Script(default.Script):
             msg = "WEB: Event handled: Setting locusOfFocus to event source"
             debug.println(debug.LEVEL_INFO, msg, True)
             orca.setLocusOfFocus(event, event.source)
+            return True
+
+        if self.utilities.handleEventFromContextReplicant(event, event.source):
+            msg = "WEB: Event handled by updating locusOfFocus and context to source."
+            debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
         obj, offset = self.utilities.getCaretContext()
@@ -1971,6 +1998,12 @@ class Script(default.Script):
 
     def onShowingChanged(self, event):
         """Callback for object:state-changed:showing accessibility events."""
+
+        if event.detail1 and self.utilities.isTopLevelBrowserUIAlert(event.source):
+            msg = "WEB: Event handled: Presenting event source"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self.presentObject(event.source)
+            return True
 
         if not self.utilities.inDocumentContent(event.source):
             msg = "WEB: Event source is not in document content"
@@ -2188,10 +2221,9 @@ class Script(default.Script):
     def onWindowActivated(self, event):
         """Callback for window:activate accessibility events."""
 
-        msg = "WEB: Calling default onWindowActivated"
+        msg = "WEB: Deferring to app/toolkit script"
         debug.println(debug.LEVEL_INFO, msg, True)
-        super().onWindowActivated(event)
-        return True
+        return False
 
     def onWindowDeactivated(self, event):
         """Callback for window:deactivate accessibility events."""

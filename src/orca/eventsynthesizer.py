@@ -40,6 +40,8 @@ try:
 except:
     _canScrollTo = False
 
+_banner = None
+
 def _getMouseCoordinates():
     """Returns the current mouse coordinates."""
 
@@ -283,6 +285,51 @@ def _scrollToLocation(obj, location, startOffset=None, endOffset=None):
           (before[0], before[1], after[0], after[1])
     debug.println(debug.LEVEL_INFO, msg, True)
 
+def _scrollSubstringToPoint(obj, x, y, startOffset, endOffset):
+    """Attemps to scroll the given substring to the specified location."""
+
+    try:
+        text = obj.queryText()
+        if not text.characterCount:
+            return False
+        if startOffset is None:
+            startOffset = 0
+        if endOffset is None:
+            endOffset = text.characterCount - 1
+        result = text.scrollSubstringToPoint(startOffset, endOffset, pyatspi.DESKTOP_COORDS, x, y)
+    except NotImplementedError:
+        msg = "ERROR: Text interface not implemented for %s" % obj
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return False
+    except:
+        msg = "ERROR: Exception scrolling %s (%i,%i) to %i,%i." % \
+            (obj, startOffset, endOffset, x, y)
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return False
+
+    msg = "EVENT SYNTHESIZER: scrolled %s (%i,%i) to %i,%i: %s" % \
+        (obj, startOffset, endOffset, x, y, result)
+    debug.println(debug.LEVEL_INFO, msg, True)
+    return result
+
+def _scrollObjectToPoint(obj, x, y):
+    """Attemps to scroll obj to the specified point."""
+
+    try:
+        result = obj.queryComponent().scrollToPoint(pyatspi.DESKTOP_COORDS, x, y)
+    except NotImplementedError:
+        msg = "ERROR: Component interface not implemented for %s" % obj
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return False
+    except:
+        msg = "ERROR: Exception scrolling %s to %i,%i." % (obj, x, y)
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return False
+
+    msg = "EVENT SYNTHESIZER: scrolled %s to %i,%i: %s" % (obj, x, y, result)
+    debug.println(debug.LEVEL_INFO, msg, True)
+    return result
+
 def _scrollToPoint(obj, x, y, startOffset=None, endOffset=None):
     """Attemps to scroll obj to the specified point."""
 
@@ -294,14 +341,9 @@ def _scrollToPoint(obj, x, y, startOffset=None, endOffset=None):
         return
 
     before = component.getExtents(pyatspi.DESKTOP_COORDS)
-    try:
-        component.scrollToPoint(pyatspi.DESKTOP_COORDS, x, y)
-    except:
-        msg = "ERROR: Exception scrolling %s to %i,%i." % (obj, x, y)
-        debug.println(debug.LEVEL_INFO, msg, True)
-    else:
-        msg = "INFO: Attemped to scroll %s to %i,%i" % (obj, x, y)
-        debug.println(debug.LEVEL_INFO, msg, True)
+
+    if not _scrollSubstringToPoint(obj, x, y, startOffset, endOffset):
+        _scrollObjectToPoint(obj, x, y)
 
     after = component.getExtents(pyatspi.DESKTOP_COORDS)
     msg = "EVENT SYNTHESIZER: Before scroll: %i,%i. After scroll: %i,%i." % \
@@ -332,6 +374,14 @@ def _containingDocument(obj):
         document = ancestor
 
     return document
+
+def _isDead(obj):
+    try:
+        obj.name
+    except:
+        return True
+
+    return False
 
 def _getAccessibleAtPoint(root, x, y):
     try:
@@ -368,25 +418,34 @@ def _obscuringBanner(obj):
     debug.println(debug.LEVEL_INFO, msg, True)
     return left
 
+def _scrollBelowBanner(obj, banner, startOffset, endOffset, margin=25):
+    objX, objY, objWidth, objHeight = _objectExtents(obj)
+    bannerX, bannerY, bannerWidth, bannerHeight = _objectExtents(banner)
+    msg = "EVENT SYNTHESIZER: Extents of banner: (%i, %i, %i, %i)" % \
+        (bannerX, bannerY, bannerWidth, bannerHeight)
+    debug.println(debug.LEVEL_INFO, msg, True)
+    _scrollToPoint(obj, objX, bannerY + bannerHeight + margin, startOffset, endOffset)
+
 def scrollToTopEdge(obj, startOffset=None, endOffset=None):
     if not _canScrollTo:
         msg = "INFO: Installed version of AT-SPI2 doesn't support scrolling."
         debug.println(debug.LEVEL_INFO, msg, True)
         return
 
-    _scrollToLocation(obj, pyatspi.SCROLL_TOP_EDGE, startOffset, endOffset)
-
-    banner = _obscuringBanner(obj)
-    if not banner:
+    global _banner
+    if _banner and not _isDead(_banner):
+        msg = "EVENT SYNTHESIZER: Suspected existing banner found: %s" % _banner
+        debug.println(debug.LEVEL_INFO, msg, True)
+        _scrollBelowBanner(obj, _banner, startOffset, endOffset)
         return
 
-    objX, objY, objWidth, objHeight = _objectExtents(obj)
-    bannerX, bannerY, bannerWidth, bannerHeight = _objectExtents(banner)
-    msg = "EVENT SYNTHESIZER: Extents of banner: (%i, %i, %i, %i)" % \
-        (bannerX, bannerY, bannerWidth, bannerHeight)
-    debug.println(debug.LEVEL_INFO, msg, True)
+    _scrollToLocation(obj, pyatspi.SCROLL_TOP_EDGE, startOffset, endOffset)
 
-    _scrollToPoint(obj, objX, bannerY + bannerHeight + 25, startOffset, endOffset)
+    _banner = _obscuringBanner(obj)
+    if _banner:
+        msg = "EVENT SYNTHESIZER: Rescrolling %s due to banner" % obj
+        _scrollBelowBanner(obj, _banner, startOffset, endOffset)
+        debug.println(debug.LEVEL_INFO, msg, True)
 
 def scrollToTopLeft(obj, startOffset=None, endOffset=None):
     if not _canScrollTo:
