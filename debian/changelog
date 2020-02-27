@@ -1,3 +1,16 @@
+orca (3.35.3-1ubuntu1) focal; urgency=medium
+
+  * Update and resynchronize on Debian, remaining Ubuntu changes
+  * debian/patches/unity-a11y.patch: add hacks to better work with Unity
+  * debian/control.in: build with gstreamer now but lower the python3-gst-1.0
+    recommends to suggests while that component is still in universe
+  * Removed Ubuntu delta
+  * debian/patches/0001-Add-GSettings-backend-to-Orca.patch:
+      remove the gsettings backend, it's unmaintained and buggy
+      (lp: #1783641)
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 27 Feb 2020 21:00:37 +0100
+
 orca (3.35.3-1) experimental; urgency=medium
 
   * New upstream release.
