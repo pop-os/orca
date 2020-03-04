@@ -306,6 +306,16 @@ class SpeechGenerator(generator.Generator):
             result.extend(acss)
         return result
 
+    def _generateAllDetails(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        acss = self.voice(SYSTEM)
+        result = generator.Generator._generateAllDetails(self, obj, **args)
+        if result:
+            result.extend(acss)
+        return result
+
     def _generateDeletionStart(self, obj, **args):
         if _settingsManager.getSetting('onlySpeakDisplayedText'):
             return []
@@ -314,7 +324,13 @@ class SpeechGenerator(generator.Generator):
         if startOffset != 0:
             return []
 
-        result = [messages.CONTENT_DELETION_START]
+        result = []
+        if self._script.utilities.isFirstItemInInlineContentSuggestion(obj):
+            result.extend([object_properties.ROLE_CONTENT_SUGGESTION])
+            result.extend(self.voice(SYSTEM))
+            result.extend(self._generatePause(obj, **args))
+
+        result.extend([messages.CONTENT_DELETION_START])
         result.extend(self.voice(SYSTEM))
         return result
 
@@ -336,6 +352,11 @@ class SpeechGenerator(generator.Generator):
             result.extend([messages.CONTENT_SUGGESTION_END])
             result.extend(self.voice(SYSTEM))
 
+            container = pyatspi.findAncestor(obj, self._script.utilities.hasDetails)
+            if self._script.utilities.isContentSuggestion(container):
+                result.extend(self._generatePause(obj, **args))
+                result.extend(self._generateHasDetails(container, mode=args.get('mode')))
+
         return result
 
     def _generateInsertionStart(self, obj, **args):
@@ -346,7 +367,13 @@ class SpeechGenerator(generator.Generator):
         if startOffset != 0:
             return []
 
-        result = [messages.CONTENT_INSERTION_START]
+        result = []
+        if self._script.utilities.isFirstItemInInlineContentSuggestion(obj):
+            result.extend([object_properties.ROLE_CONTENT_SUGGESTION])
+            result.extend(self.voice(SYSTEM))
+            result.extend(self._generatePause(obj, **args))
+
+        result.extend([messages.CONTENT_INSERTION_START])
         result.extend(self.voice(SYSTEM))
         return result
 
@@ -368,6 +395,11 @@ class SpeechGenerator(generator.Generator):
             result.extend([messages.CONTENT_SUGGESTION_END])
             result.extend(self.voice(SYSTEM))
 
+            container = pyatspi.findAncestor(obj, self._script.utilities.hasDetails)
+            if self._script.utilities.isContentSuggestion(container):
+                result.extend(self._generatePause(obj, **args))
+                result.extend(self._generateHasDetails(container, mode=args.get('mode')))
+
         return result
 
     def _generateMarkStart(self, obj, **args):
@@ -378,7 +410,14 @@ class SpeechGenerator(generator.Generator):
         if startOffset != 0:
             return []
 
-        result = [messages.CONTENT_MARK_START]
+        result = []
+        roledescription = self._script.utilities.getRoleDescription(obj)
+        if roledescription:
+            result.append(roledescription)
+            result.extend(self.voice(SYSTEM))
+            result.extend(self._generatePause(obj, **args))
+
+        result.append(messages.CONTENT_MARK_START)
         result.extend(self.voice(SYSTEM))
         return result
 
@@ -513,6 +552,7 @@ class SpeechGenerator(generator.Generator):
         if role == pyatspi.ROLE_ENTRY \
            and obj.getState().contains(pyatspi.STATE_SUPPORTS_AUTOCOMPLETION):
             result.append(self.getLocalizedRoleName(obj, role=pyatspi.ROLE_AUTOCOMPLETE))
+            result.extend(acss)
 
         if role == pyatspi.ROLE_PANEL and obj.getState().contains(pyatspi.STATE_SELECTED):
             return []
