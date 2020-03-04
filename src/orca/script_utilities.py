@@ -768,7 +768,13 @@ class Utilities:
 
         return False
 
+    def isComment(self, obj):
+        return False
+
     def isContentDeletion(self, obj):
+        return False
+
+    def isContentError(self, obj):
         return False
 
     def isContentInsertion(self, obj):
@@ -781,6 +787,9 @@ class Utilities:
         return False
 
     def isInlineSuggestion(self, obj):
+        return False
+
+    def isFirstItemInInlineContentSuggestion(self, obj):
         return False
 
     def isLastItemInInlineContentSuggestion(self, obj):
@@ -4680,6 +4689,9 @@ class Utilities:
         position = siblings.index(obj)
         setSize = len(siblings)
         return position, setSize
+
+    def getRoleDescription(self, obj):
+        return ""
 
     def getCachedTextSelection(self, obj):
         textSelections = self._script.pointOfReference.get('textSelections', {})

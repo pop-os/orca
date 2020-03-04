@@ -119,8 +119,8 @@ formatting = {
         'suffix': {
             'focused': '[]',
             'unfocused': 'newNodeLevel + unselectedCell + clickable + pause + hasLongDesc + hasDetails + detailsFor +' + TUTORIAL + ' + description + pause + hasPopup',
-            'basicWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description + pause + hasPopup',
-            'detailedWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description + pause + hasPopup'
+            'basicWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description + pause + hasPopup + pause + detailsFor + pause + allDetails',
+            'detailedWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description + pause + hasPopup + detailsFor + pause + allDetails'
             },
         'default': {
             'focused': '[]',
@@ -183,6 +183,9 @@ formatting = {
             'focused': 'leaving or deletionStart',
             'unfocused': 'deletionStart + pause + displayedText + pause + deletionEnd',
             },
+        'ROLE_CONTENT_ERROR': {
+            'unfocused': 'displayedText + pause + invalid',
+            },
         # TODO - JD: When we bump dependencies to 2.34, remove this fake role and use the real one.
         'ROLE_CONTENT_INSERTION': {
             'focused': 'leaving or insertionStart',
@@ -240,7 +243,7 @@ formatting = {
             'basicWhereAmI': 'labelOrName + readOnly + textRole + (textContent or placeholderText) + anyTextSelection + required + pause + invalid + ' + MNEMONIC,
             'detailedWhereAmI': 'labelOrName + readOnly + textRole + (textContentWithAttributes or placeholderText) + anyTextSelection + required + pause + invalid + ' + MNEMONIC,
             },
-        'ROLE_FOOTNOTE': {
+        pyatspi.ROLE_FOOTNOTE: {
             'unfocused': 'labelOrName + roleName + pause + currentLineText + allTextSelection',
             },
         pyatspi.ROLE_FOOTER: {

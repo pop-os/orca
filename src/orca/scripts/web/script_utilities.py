@@ -91,6 +91,7 @@ class Utilities(script_utilities.Utilities):
         self._isNonNavigablePopup = {}
         self._isNonEntryTextWidget = {}
         self._isUselessImage = {}
+        self._isRedundantSVG = {}
         self._isUselessEmptyElement = {}
         self._hasNameAndActionAndNoUsefulChildren = {}
         self._isNonNavigableEmbeddedDocument = {}
@@ -162,6 +163,7 @@ class Utilities(script_utilities.Utilities):
         self._isNonNavigablePopup = {}
         self._isNonEntryTextWidget = {}
         self._isUselessImage = {}
+        self._isRedundantSVG = {}
         self._isUselessEmptyElement = {}
         self._hasNameAndActionAndNoUsefulChildren = {}
         self._isNonNavigableEmbeddedDocument = {}
@@ -557,6 +559,16 @@ class Utilities(script_utilities.Utilities):
         if position is not None:
             return int(position)
 
+        if obj.getRole() == pyatspi.ROLE_TABLE_ROW:
+            rowindex = attrs.get('rowindex')
+            if rowindex is None and obj.childCount:
+                roles = self._cellRoles()
+                cell = pyatspi.findDescendant(obj, lambda x: x and x.getRole() in roles)
+                rowindex = self.objectAttributes(cell, False).get('rowindex')
+
+            if rowindex is not None:
+                return int(rowindex)
+
         return None
 
     def getSetSize(self, obj):
@@ -564,6 +576,11 @@ class Utilities(script_utilities.Utilities):
         setsize = attrs.get('setsize')
         if setsize is not None:
             return int(setsize)
+
+        if obj.getRole() == pyatspi.ROLE_TABLE_ROW:
+            rows, cols = self.rowAndColumnCount(self.getTable(obj))
+            if rows != -1:
+                return rows
 
         return None
 
@@ -905,7 +922,9 @@ class Utilities(script_utilities.Utilities):
         role = obj.getRole()
         if role in roles:
             rv = True
-        elif role in [pyatspi.ROLE_LIST_ITEM, pyatspi.ROLE_TABLE_CELL]:
+        elif role == pyatspi.ROLE_LIST_ITEM:
+            rv = obj.parent.getRole() != pyatspi.ROLE_LIST
+        elif role == pyatspi.ROLE_TABLE_CELL:
             rv = not self.isTextBlockElement(obj)
 
         self._isNonEntryTextWidget[hash(obj)] = rv
@@ -1908,10 +1927,20 @@ class Utilities(script_utilities.Utilities):
 
         return False
 
+    def _cellRoles(self):
+        roles = [pyatspi.ROLE_TABLE_CELL,
+                 pyatspi.ROLE_TABLE_COLUMN_HEADER,
+                 pyatspi.ROLE_TABLE_ROW_HEADER,
+                 pyatspi.ROLE_ROW_HEADER,
+                 pyatspi.ROLE_COLUMN_HEADER]
+
+        return roles
+
     def _textBlockElementRoles(self):
         roles = [pyatspi.ROLE_ARTICLE,
                  pyatspi.ROLE_CAPTION,
                  pyatspi.ROLE_COLUMN_HEADER,
+                 pyatspi.ROLE_COMMENT,
                  pyatspi.ROLE_DEFINITION,
                  pyatspi.ROLE_DESCRIPTION_LIST,
                  pyatspi.ROLE_DESCRIPTION_TERM,
@@ -1929,6 +1958,20 @@ class Utilities(script_utilities.Utilities):
                  pyatspi.ROLE_STATIC,
                  pyatspi.ROLE_TEXT,
                  pyatspi.ROLE_TABLE_CELL]
+
+        # Remove this check when we bump dependencies to 2.34
+        try:
+            roles.append(pyatspi.ROLE_CONTENT_DELETION)
+            roles.append(pyatspi.ROLE_CONTENT_INSERTION)
+        except:
+            pass
+
+        # Remove this check when we bump dependencies to 2.36
+        try:
+            roles.append(pyatspi.ROLE_MARK)
+            roles.append(pyatspi.ROLE_SUGGESTION)
+        except:
+            pass
 
         return roles
 
@@ -2095,6 +2138,15 @@ class Utilities(script_utilities.Utilities):
 
         return self._getTag(obj) == 'blockquote'
 
+    def isComment(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return super().isComment(obj)
+
+        if obj.getRole() == pyatspi.ROLE_COMMENT:
+            return True
+
+        return 'comment' in self._getXMLRoles(obj)
+
     def isContentDeletion(self, obj):
         if not (obj and self.inDocumentContent(obj)):
             return super().isContentDeletion(obj)
@@ -2107,6 +2159,15 @@ class Utilities(script_utilities.Utilities):
             pass
 
         return 'deletion' in self._getXMLRoles(obj) or 'del' == self._getTag(obj)
+
+    def isContentError(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return super().isContentError(obj)
+
+        if obj.getRole() not in self._textBlockElementRoles():
+            return False
+
+        return obj.getState().contains(pyatspi.STATE_INVALID_ENTRY)
 
     def isContentInsertion(self, obj):
         if not (obj and self.inDocumentContent(obj)):
@@ -2176,6 +2237,13 @@ class Utilities(script_utilities.Utilities):
 
         displayStyle = self._getDisplayStyle(obj)
         return "inline" in displayStyle
+
+    def isFirstItemInInlineContentSuggestion(self, obj):
+        suggestion = pyatspi.findAncestor(obj, self.isInlineSuggestion)
+        if not (suggestion and suggestion.childCount):
+            return False
+
+        return suggestion[0] == obj
 
     def isLastItemInInlineContentSuggestion(self, obj):
         suggestion = pyatspi.findAncestor(obj, self.isInlineSuggestion)
@@ -2480,6 +2548,7 @@ class Utilities(script_utilities.Utilities):
             displayedText = string or obj.name
             rv = True
             if ((self.isTextBlockElement(obj) or self.isLink(obj)) and not displayedText) \
+               or (self.isContentEditableWithEmbeddedObjects(obj) and not string.strip()) \
                or self.isEmptyAnchor(obj) \
                or (self.hasNoSize(obj) and not displayedText) \
                or self.isHidden(obj) \
@@ -3055,7 +3124,8 @@ class Utilities(script_utilities.Utilities):
         rv = False
         if obj.getRole() == pyatspi.ROLE_LINK \
            and not obj.getState().contains(pyatspi.STATE_FOCUSABLE) \
-           and not 'jump' in self._getActionNames(obj):
+           and not 'jump' in self._getActionNames(obj) \
+           and not self._getXMLRoles(obj):
             rv = True
 
         self._isAnchor[hash(obj)] = rv
@@ -3518,6 +3588,26 @@ class Utilities(script_utilities.Utilities):
         self._isNonNavigableEmbeddedDocument[hash(obj)] = rv
         return rv
 
+    def isRedundantSVG(self, obj):
+        if self._getTag(obj) != 'svg' or obj.parent.childCount == 1:
+            return False
+
+        rv = self._isRedundantSVG.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        rv = False
+        children = [x for x in obj.parent if self._getTag(x) == 'svg']
+        if len(children) == obj.parent.childCount:
+            sortedChildren = sorted(children, key=functools.cmp_to_key(self.sizeComparison))
+            if obj != sortedChildren[-1]:
+                objExtents = self.getExtents(obj, 0, -1)
+                largestExtents = self.getExtents(sortedChildren[-1], 0, -1)
+                rv = self.intersection(objExtents, largestExtents) == tuple(objExtents)
+
+        self._isRedundantSVG[hash(obj)] = rv
+        return rv
+
     def isUselessImage(self, obj):
         if not (obj and self.inDocumentContent(obj)):
             return False
@@ -3534,6 +3624,8 @@ class Utilities(script_utilities.Utilities):
             rv = False
         if rv and (self.isClickableElement(obj) or self.hasLongDesc(obj)):
             rv = False
+        if rv and obj.getState().contains(pyatspi.STATE_FOCUSABLE):
+            rv = False
         if rv and obj.parent.getRole() == pyatspi.ROLE_LINK:
             uri = self.uri(obj.parent)
             if uri and not uri.startswith('javascript'):
@@ -3542,7 +3634,7 @@ class Utilities(script_utilities.Utilities):
             image = obj.queryImage()
             if image.imageDescription:
                 rv = False
-            elif not self.hasExplicitName(obj):
+            elif not self.hasExplicitName(obj) and not self.isRedundantSVG(obj):
                 width, height = image.getImageSize()
                 if width > 25 and height > 25:
                     rv = False
@@ -3962,6 +4054,17 @@ class Utilities(script_utilities.Utilities):
         msg = "WEB: Event doc %s is same as focus doc %s: %s" % (source, focus, rv)
         debug.println(debug.LEVEL_INFO, msg, True)
         return rv
+
+    def textEventIsDueToDeletion(self, event):
+        if not self.inDocumentContent(event.source) \
+           or not event.source.getState().contains(pyatspi.STATE_EDITABLE):
+            return False
+
+        if self.isDeleteCommandTextDeletionEvent(event) \
+           or self.isBackSpaceCommandTextDeletionEvent(event):
+            return True
+
+        return False
 
     def textEventIsDueToInsertion(self, event):
         if not event.type.startswith("object:text-"):
@@ -4420,7 +4523,7 @@ class Utilities(script_utilities.Utilities):
                 return obj, 0
 
         if text and offset >= text.characterCount:
-            if self.isLink(obj) and self.isContentEditableWithEmbeddedObjects(obj):
+            if self.isContentEditableWithEmbeddedObjects(obj) and not self.lastInputEventWasLineNav():
                 nextObj, nextOffset = self.nextContext(obj, text.characterCount)
                 if nextObj:
                     msg = "WEB: First caret context at end of %s, %i is next context %s, %i" % \

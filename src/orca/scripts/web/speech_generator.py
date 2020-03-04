@@ -230,12 +230,43 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if not objs:
             return []
 
-        objString = lambda x: "%s %s" % (x.name, self.getLocalizedRoleName(x))
-        toPresent = ", ".join(list(map(objString, objs)))
+        objString = lambda x: str.strip("%s %s" % (x.name, self.getLocalizedRoleName(x)))
+        toPresent = ", ".join(set(map(objString, objs)))
 
         args['stringType'] = 'hasdetails'
         result = [self._script.formatting.getString(**args) % toPresent]
         result.extend(self.voice(speech_generator.SYSTEM))
+        return result
+
+    def _generateAllDetails(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        objs = self._script.utilities.detailsIn(obj)
+        if not objs:
+            container = pyatspi.findAncestor(obj, self._script.utilities.hasDetails)
+            objs = self._script.utilities.detailsIn(container)
+
+        if not objs:
+            return []
+
+        args['stringType'] = 'hasdetails'
+        result = [self._script.formatting.getString(**args) % ""]
+        result.extend(self.voice(speech_generator.SYSTEM))
+
+        result = []
+        for o in objs:
+            result.append(self.getLocalizedRoleName(o))
+            result.extend(self.voice(speech_generator.SYSTEM))
+
+            string = self._script.utilities.expandEOCs(o)
+            if not string.strip():
+                continue
+
+            result.append(string)
+            result.extend(self.voice(speech_generator.DEFAULT))
+            result.extend(self._generatePause(o))
+
         return result
 
     def _generateDetailsFor(self, obj, **args):
@@ -252,12 +283,26 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if args.get('leaving'):
             return []
 
-        objString = lambda x: "%s %s" % (x.name, self.getLocalizedRoleName(x))
-        toPresent = ", ".join(list(map(objString, objs)))
+        lastKey, mods = self._script.utilities.lastKeyAndModifiers()
+        if (lastKey in ['Down', 'Right'] or self._script.inSayAll()) and args.get('startOffset'):
+            return []
+        if lastKey in ['Up', 'Left']:
+            text = self._script.utilities.queryNonEmptyText(obj)
+            if text and args.get('endOffset') not in [None, text.characterCount]:
+                return []
 
-        args['stringType'] = 'detailsfor'
-        result = [self._script.formatting.getString(**args) % toPresent]
-        result.extend(self.voice(speech_generator.SYSTEM))
+        result = []
+        objArgs = {'stringType': 'detailsfor', 'mode': args.get('mode')}
+        for o in objs:
+            string = self._script.utilities.displayedText(o) or self.getLocalizedRoleName(o)
+            words = string.split()
+            if len(words) > 5:
+                words = words[0:5] + ['...']
+
+            result.append(self._script.formatting.getString(**objArgs) % " ".join(words))
+            result.extend(self.voice(speech_generator.SYSTEM))
+            result.extend(self._generatePause(o, **objArgs))
+
         return result
 
     def _generateLabelOrName(self, obj, **args):
@@ -468,22 +513,24 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             if self._script.utilities.isMenuInCollapsedSelectElement(obj):
                 doNotSpeak.append(pyatspi.ROLE_MENU)
 
-        if obj.getState().contains(pyatspi.STATE_EDITABLE):
-            lastKey, mods = self._script.utilities.lastKeyAndModifiers()
+        lastKey, mods = self._script.utilities.lastKeyAndModifiers()
+        isEditable = obj.getState().contains(pyatspi.STATE_EDITABLE)
+
+        if isEditable and not self._script.utilities.isContentEditableWithEmbeddedObjects(obj):
             if ((lastKey in ["Down", "Right"] and not mods) or self._script.inSayAll()) and start:
                 return []
             if lastKey in ["Up", "Left"] and not mods:
                 text = self._script.utilities.queryNonEmptyText(obj)
                 if text and end not in [None, text.characterCount]:
                     return []
-            if role in [pyatspi.ROLE_ENTRY, pyatspi.ROLE_PASSWORD_TEXT, pyatspi.ROLE_SPIN_BUTTON]:
+            if role not in doNotSpeak:
                 result.append(self.getLocalizedRoleName(obj, **args))
-            elif obj.parent and not obj.parent.getState().contains(pyatspi.STATE_EDITABLE):
-                if lastKey not in ["Home", "End", "Up", "Down", "Left", "Right", "Page_Up", "Page_Down"]:
-                    result.append(object_properties.ROLE_EDITABLE_CONTENT)
-            elif role not in doNotSpeak:
-                result.append(self.getLocalizedRoleName(obj, **args))
-            if result:
+                result.extend(acss)
+
+        elif isEditable and self._script.utilities.isDocument(obj):
+            if obj.parent and not obj.parent.getState().contains(pyatspi.STATE_EDITABLE) \
+               and lastKey not in ["Home", "End", "Up", "Down", "Left", "Right", "Page_Up", "Page_Down"]:
+                result.append(object_properties.ROLE_EDITABLE_CONTENT)
                 result.extend(acss)
 
         elif role == pyatspi.ROLE_HEADING:

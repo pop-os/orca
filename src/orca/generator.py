@@ -497,6 +497,9 @@ class Generator:
     def _generateDetailsFor(self, obj, **args):
         return []
 
+    def _generateAllDetails(self, obj, **args):
+        return []
+
     def _generateHasPopup(self, obj, **args):
         return []
 
@@ -1217,8 +1220,6 @@ class Generator:
             if self._script.utilities.isMathTableRow(obj):
                 return 'ROLE_MATH_TABLE_ROW'
         if self._script.utilities.isDPub(obj):
-            if self._script.utilities.isDPubFootnote(obj):
-                return 'ROLE_FOOTNOTE'
             if self._script.utilities.isLandmark(obj):
                 return 'ROLE_DPUB_LANDMARK'
             if obj.getRole() == pyatspi.ROLE_SECTION:
@@ -1229,8 +1230,12 @@ class Generator:
             return pyatspi.ROLE_STATIC
         if self._script.utilities.isBlockquote(obj):
             return pyatspi.ROLE_BLOCK_QUOTE
+        if self._script.utilities.isComment(obj):
+            return pyatspi.ROLE_COMMENT
         if self._script.utilities.isContentDeletion(obj):
             return 'ROLE_CONTENT_DELETION'
+        if self._script.utilities.isContentError(obj):
+            return 'ROLE_CONTENT_ERROR'
         if self._script.utilities.isContentInsertion(obj):
             return 'ROLE_CONTENT_INSERTION'
         if self._script.utilities.isContentMarked(obj):
@@ -1241,6 +1246,8 @@ class Generator:
             return pyatspi.ROLE_LANDMARK
         if self._script.utilities.isFocusableLabel(obj):
             return pyatspi.ROLE_LIST_ITEM
+        if self._script.utilities.isDocument(obj) and 'Image' in pyatspi.listInterfaces(obj):
+            return pyatspi.ROLE_IMAGE
 
         return args.get('role', obj.getRole())
 
@@ -1356,8 +1363,6 @@ class Generator:
             else:
                 if self._script.utilities.isDPubCover(obj):
                     return object_properties.ROLE_COVER
-                if self._script.utilities.isDPubFootnote(obj):
-                    return object_properties.ROLE_FOOTNOTE
                 if self._script.utilities.isDPubPagebreak(obj):
                     return object_properties.ROLE_PAGEBREAK
                 if self._script.utilities.isDPubSubtitle(obj):
@@ -1382,6 +1387,8 @@ class Generator:
                 return object_properties.ROLE_LANDMARK_SEARCH
             if self._script.utilities.isLandmarkForm(obj):
                 role = pyatspi.ROLE_FORM
+        elif self._script.utilities.isComment(obj):
+            role = pyatspi.ROLE_COMMENT
 
         if not isinstance(role, (pyatspi.Role, Atspi.Role)):
             try:
