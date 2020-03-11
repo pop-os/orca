@@ -1,35 +1,217 @@
-3.34.2 - 28 January 2020
-
-Chromium:
-
- * Present alerts upon window activation
-
- * Improve presentation of list items with markers, including handling
-   a change in the accessibility tree
+3.36.1 - 11 March 2020
 
 Web:
 
- * Prevent repetition of lines during SayAll for web content
+ * Flush live region messages when interrupting presentation
 
-Mouse Review:
+ * Support checkable list items and present unchecked state when item
+   has checkable state and menu item role
 
- * Ensure we present tooltip for non-focused objects
+ * Handle extraneous elements inside containers which support selection
 
-General:
-
- * Fix regression in binding commands with the Orca modifier plus Shift
-
- * Work around missing object:state-changed:focused event from GtkTable
-
-New and updated translations (THANKS EVERYONE!!!):
-
-   ms            Malay                Umarzuki Bin Mochlis Moktar
+ * Improve handling of live region messages with embedded object chars
+   and filter out some duplicate messages
 
 =========
 
-3.34.1 - 15 November 2019
+3.36.0 - 11 March 2020
+
+New and updated translations (THANKS EVERYONE!!!):
+
+   nl            Dutch                 Nathan Follens
+   ro            Romanian              Daniel Șerbănescu
+   uk            Ukrainian             Daniel Korostil
+
+=========
+
+3.35.92 - 4 March 2020
+
+Chromium:
+
+ * Fix presentation of child position for files in Google Drive
+
+ * Handle list item markers which lack "::marker" tag
 
 Web:
+
+ * Fix presentation of list items in GMail composition window
+
+ * Eliminate chattiness from redundant SVG images which lack accessible
+   information.
+
+ * Present SVG documents using the image role
+
+ * Several improvements to presentation of contenteditable content
+
+ * Several improvements to presentation of aria-details information
+
+ * Present aria-invalid info for non-widget elements
+
+ * Present aria-roledescription value before mark/highlight start
+   message
+
+ * Ensure ARIA links are not treated like anchors
+
+LibreOffice:
+
+ * Calc: Eliminate chattiness from spreadsheet reclaiming focus after
+   editing cell
+
+General:
+
+ * Ensure we use the right voice when presenting autocomplete role
+
+ * Improve handling for window switchers which fail to emit needed
+   accessibility events
+
+New and updated translations (THANKS EVERYONE!!!):
+
+   da            Danish                Alan Mortensen
+   fr            French                Julien Humbert
+   id            Indonesian            Kukuh Syafaat
+   it            Italian               Milo Casagrande
+   pt_BR         Brazilian Portuguese  Tiago Casal
+   sl            Slovenian             Matej Urbančič
+
+=========
+
+3.35.91 - 20 February 2020
+
+Chromium:
+
+ * Remove some unwanted noise from frame name when there is no URL
+
+ * Ensure we present alert-style dialog name and static text
+
+ * Fix issue with live region presentation in embedded web apps
+
+ * Improve accuracy getting the accessible object under the pointer
+
+ * Work around issue causing us to get stuck when the focused object
+   gets reparented by the author
+
+ * Present alerts on application window activation
+
+Web:
+
+ * Improve handling and presentation of dynamic skip links
+
+ * Fix bug causing certain code/preformatted text being treated as if
+   it were on a single line
+
+ * Improve handling of the focused object being replaced while focused
+
+ * Fix bug causing us to re-announce context inappropriately
+
+ * Treat block lists on the same line as other block elements (e.g.
+   headings) as if they are on a separate line
+
+ * Skip over empty paragraphs during caret navigation in web content
+
+ * Fix bug causing certain blockquotes to not be announced
+
+ * Fix chattiness and performance issue related to line navigation
+   amongst table rows
+
+ * Improve performance by caching object attributes
+
+ * Improve performance by skipping pointless ancestor generation
+   during line navigation
+
+ * Improve presentation when caret moves to same-page link
+
+ * Fall back on description so we present font-icon-based sharing
+   links
+
+ * Add support for suggestion, insertion, deletion, and mark roles
+   and elements
+
+ * Fix braille presentation of certain browser/app UI elements
+
+ * Attempt to identify elements serving as placeholders for entries
+
+ * Fix chattiness issue presenting column/row headers with author-
+   provided names
+
+ * Eliminate double-presentation of Table details during structural
+   navigation
+
+ * Improve navigation and presentation in grids in browse mode
+
+ * Eliminate double-presentation of caret-moved events from mouse
+   clicks
+
+ * Only treat expandable elements as focus mode widgets if focusable
+
+ * Prevent repetition of lines during SayAll for web content
+
+ * Announce when an object has aria-details on it, and when entering
+   or exiting a details container via caret navigation
+
+Terminal:
+
+ * Fix double-echoing of key when character echo is enabled
+
+General:
+
+ * Don't speak number of children when verbosity is set to brief
+
+ * Fix bug causing the Orca modifier to get unbound when a keyboard
+   is plugged in or removed
+
+ * Fix pauses being spoken as period/dot when punctuation is set to all
+
+ * Handle setting focused region when accessible objects get recreated
+   on us during braille generation
+
+ * Fix bug causing us to not present certain Qt tables as tables
+
+ * Fix bug causing us to not always use the system voice
+
+ * Improve filtering out of redundant names when there is a similar
+   label
+
+ * Prefer the name over the displayed text for interactive objects
+
+ * Fix bug prevening rebinding of commands with Orca+Shift
+
+ * Remove newline char from copied/appended flat review content
+
+New and updated translations (THANKS EVERYONE!!!):
+
+   ca            Catalan               Jordi Mas
+   cs            Czech                 Marek Černocký
+   es            Spanish               Daniel Mustieles
+   eu            Basque                Asier Sarasua Garmendia
+   fr            French                Claude Paroz
+   gb            British English       Bruce Cowan
+   gl            Galician              Fran Dieguez
+   hu            Hungarian             Balázs Úr
+   id            Indonesian            Sucipto
+   lt            Lithuanian            Aurimas Černius
+   ms            Malay                 Umarzuki Bin Mochlis Moktar
+   pl            Polish                Piotr Drąg
+   pt_BR         Brazilian Portuguese  Rafael Fontenelle
+   sr            Serbian               Марко Костић
+   sv            Swedish               Anders Jonsson
+   tr            Turkish               Sabri Ünal
+
+=========
+
+3.35.3 - 3 Janauary 2020
+
+Web:
+
+ * Explicitly announce the popup type when aria-haspopup is used
+
+ * Improve presentation of childless editable comboboxes
+
+ * Ignore a bogus object from the Gecko accessibility tree which was
+   interfering with presentation
+
+ * Improve scrolling to text objects
+
+ * Don't treat nameless, textless links/static text elements as clickables
 
  * Continued improvement of Orca's support for Chromium
 
@@ -41,7 +223,29 @@ Web:
 
  * Improve presentation of selection of links which span multiple lines
 
+ * Add support for detecting and adjusting scrolling for banner overlays
+   (Note: This support requires adjustments in the user agents.)
+
 General:
+
+ * Fix key echo for accented letters for apps which don't give us the
+   event string
+
+ * Filter out mouse-abs event spam to make mouse review more performant
+
+ * Improve reliability of mouse review
+
+ * Improve identification and presentation of autocompleted text in
+   entries
+
+ * Work around missing object:state-changed:focused event from GtkTable
+   which caused Orca to be silent when a table initially gained focus
+
+ * Ensure Orca starts even when there are missing gstreamer components
+
+ * Add support for word-based speech progress
+
+ * Don't treat text insertions from non-focused widgets as echoable
 
  * Ensure we speak selected switcher item even when the user has set
    onlySpeakDisplayedText
@@ -63,9 +267,15 @@ General:
 
 New and updated translations (THANKS EVERYONE!!!):
 
+   ca            Catalan               Jordi Mas
    da            Danish                Ask Hjorth Larsen
+   el            Greek                 Dimitris Maroulidis
    es            Spanish               Daniel Mustieles
+   eu            Basque                Asier Sarasua Garmendia
+   gl            Galician              Fran Dieguez
    nl            Dutch                 Nathan Follens
+   pt_BR         Brazilian Portuguese  Rafael Fontenelle
+   sv            Swedish               Anders Jonsson
 
 =========
 

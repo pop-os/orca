@@ -241,6 +241,14 @@ class Utilities:
 
         return ancestor
 
+    def objectAttributes(self, obj):
+        try:
+            rv = dict([attr.split(':', 1) for attr in obj.getAttributes()])
+        except:
+            rv = {}
+
+        return rv
+
     def cellIndex(self, obj):
         """Returns the index of the cell which should be used with the
         table interface.  This is necessary because in some apps we
@@ -250,11 +258,7 @@ class Utilities:
         -obj: the table cell whose index we need.
         """
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            attrs = {}
-
+        attrs = self.objectAttributes(obj)
         index = attrs.get('table-cell-index')
         if index:
             return int(index)
@@ -477,13 +481,10 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return []
 
-        if not state.contains(pyatspi.STATE_EXPANDED):
-            return []
-
         hasDetails = lambda x: x.getRelationType() == pyatspi.RELATION_DETAILS
         relation = filter(hasDetails, relations)
         details = [r.getTarget(i) for r in relation for i in range(r.getNTargets())]
-        if not details and role == pyatspi.ROLE_TOGGLE_BUTTON:
+        if not details and role == pyatspi.ROLE_TOGGLE_BUTTON and state.contains(pyatspi.STATE_EXPANDED):
             details = [child for child in obj]
 
         if not textOnly:
@@ -532,7 +533,7 @@ class Utilities:
             role = None
             name = ''
 
-        if role == pyatspi.ROLE_PUSH_BUTTON and name:
+        if role in [pyatspi.ROLE_PUSH_BUTTON, pyatspi.ROLE_LABEL] and name:
             return name
 
         try:
@@ -741,13 +742,7 @@ class Utilities:
         if role != pyatspi.ROLE_FRAME:
             return False
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            msg = 'ERROR: Exception getting attributes of %s' % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return False
-
+        attrs = self.objectAttributes(obj)
         return attrs.get('is-desktop') == 'true'
 
     def isComboBoxWithToggleDescendant(self, obj):
@@ -771,6 +766,33 @@ class Utilities:
         needed.
         """
 
+        return False
+
+    def isComment(self, obj):
+        return False
+
+    def isContentDeletion(self, obj):
+        return False
+
+    def isContentError(self, obj):
+        return False
+
+    def isContentInsertion(self, obj):
+        return False
+
+    def isContentMarked(self, obj):
+        return False
+
+    def isContentSuggestion(self, obj):
+        return False
+
+    def isInlineSuggestion(self, obj):
+        return False
+
+    def isFirstItemInInlineContentSuggestion(self, obj):
+        return False
+
+    def isLastItemInInlineContentSuggestion(self, obj):
         return False
 
     def isEmpty(self, obj):
@@ -1184,7 +1206,7 @@ class Utilities:
         obj = obj or orca_state.locusOfFocus
         return self.getContainingDocument(obj) is not None
 
-    def activeDocument(self):
+    def activeDocument(self, window=None):
         return self.getContainingDocument(orca_state.locusOfFocus)
 
     def getContainingDocument(self, obj):
@@ -1206,8 +1228,8 @@ class Utilities:
         if not obj:
             return None
 
-        tableRoles = [pyatspi.ROLE_TABLE, pyatspi.ROLE_TREE_TABLE]
-        isTable = lambda x: x and x.getRole() in tableRoles
+        tableRoles = [pyatspi.ROLE_TABLE, pyatspi.ROLE_TREE_TABLE, pyatspi.ROLE_TREE]
+        isTable = lambda x: x and x.getRole() in tableRoles and "Table" in pyatspi.listInterfaces(x)
         if isTable(obj):
             return obj
 
@@ -1329,6 +1351,9 @@ class Utilities:
         if self._script.inSayAll():
             return False
 
+        if not self.cellRowChanged(obj):
+            return False
+
         table = self.getTable(obj)
         if not table:
             return False
@@ -1413,10 +1438,8 @@ class Utilities:
         if self.isDead(obj) or self.isZombie(obj):
             return True
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            attrs = {}
+        attrs = self.objectAttributes(obj)
+
         try:
             role = obj.getRole()
         except:
@@ -1465,6 +1488,8 @@ class Utilities:
                 layoutOnly = self.isLayoutOnly(obj.parent)
         elif role == pyatspi.ROLE_SECTION:
             layoutOnly = not self.isBlockquote(obj)
+        elif role == pyatspi.ROLE_BLOCK_QUOTE:
+            layoutOnly = False
         elif role == pyatspi.ROLE_FILLER:
             layoutOnly = True
         elif role == pyatspi.ROLE_SCROLL_PANE:
@@ -2117,8 +2142,9 @@ class Utilities:
         if obj.getRole() != pyatspi.ROLE_TABLE_CELL:
             return obj
 
-        hasContent = [x for x in obj if self.displayedText(x).strip()]
-        if len(hasContent) == 1 and not self.isStaticTextLeaf(hasContent[0]):
+        children = [x for x in obj if not self.isStaticTextLeaf(x)]
+        hasContent = [x for x in children if self.displayedText(x).strip()]
+        if len(hasContent) == 1:
             return hasContent[0]
 
         return obj
@@ -2345,6 +2371,9 @@ class Utilities:
         return not (extents.width and extents.height)
 
     def _findAllDescendants(self, root, includeIf, excludeIf, matches):
+        if not root:
+            return
+
         try:
             childCount = root.childCount
         except:
@@ -3295,6 +3324,20 @@ class Utilities:
 
         return text + delimiter + newText
 
+    def treatAsDuplicateEvent(self, event1, event2):
+        if not (event1 and event2):
+            return False
+
+        # The goal is to find event spam so we can ignore the event.
+        if event1 == event2:
+            return False
+
+        return event1.source == event2.source \
+            and event1.type == event2.type \
+            and event1.detail1 == event2.detail1 \
+            and event1.detail2 == event2.detail2 \
+            and event1.any_data == event2.any_data
+
     def isAutoTextEvent(self, event):
         """Returns True if event is associated with text being autocompleted
         or autoinserted or autocorrected or autosomethingelsed.
@@ -3325,6 +3368,17 @@ class Utilities:
                 return True
             if lastKey in ["Up", "Down", "Page_Up", "Page_Down"]:
                 return self.isEditableDescendantOfComboBox(event.source)
+            if not self.lastInputEventWasPrintableKey():
+                return False
+
+            string = event.source.queryText().getText(0, -1)
+            if string.endswith(event.any_data):
+                selection, start, end = self.selectedText(event.source)
+                if selection == event.any_data:
+                    return True
+                if string == event.any_data and string.endswith(selection):
+                    beginning = string[:string.find(selection)]
+                    return beginning.lower().endswith(lastKey.lower())
 
         return False
 
@@ -3553,16 +3607,10 @@ class Utilities:
         Returns a string representing the value.
         """
 
-        # Use ARIA "valuetext" attribute if present.  See
-        # http://bugzilla.gnome.org/show_bug.cgi?id=552965
-        #
-        try:
-            attributes = obj.getAttributes()
-        except:
-            return ""
-        for attribute in attributes:
-            if attribute.startswith("valuetext"):
-                return attribute[10:]
+        attrs = self.objectAttributes(obj)
+        valuetext = attrs.get("valuetext")
+        if valuetext:
+            return valuetext
 
         try:
             value = obj.queryValue()
@@ -3700,7 +3748,51 @@ class Utilities:
 
         return children
 
+    def getSelectionContainer(self, obj):
+        if not obj:
+            return None
+
+        isSelection = lambda x: x and "Selection" in pyatspi.listInterfaces(x)
+        if isSelection(obj):
+            return obj
+
+        rolemap = {
+            pyatspi.ROLE_LIST_ITEM: [pyatspi.ROLE_LIST_BOX],
+            pyatspi.ROLE_TREE_ITEM: [pyatspi.ROLE_TREE, pyatspi.ROLE_TREE_TABLE],
+            pyatspi.ROLE_TABLE_CELL: [pyatspi.ROLE_TABLE, pyatspi.ROLE_TREE_TABLE],
+            pyatspi.ROLE_TABLE_ROW: [pyatspi.ROLE_TABLE, pyatspi.ROLE_TREE_TABLE],
+        }
+
+        role = obj.getRole()
+        isMatch = lambda x: isSelection(x) and x.getRole() in rolemap.get(role)
+        return pyatspi.findAncestor(obj, isMatch)
+
+    def selectableChildCount(self, obj):
+        if not (obj and "Selection" in pyatspi.listInterfaces(obj)):
+            return 0
+
+        if "Table" in pyatspi.listInterfaces(obj):
+            rows, cols = self.rowAndColumnCount(obj)
+            return max(0, rows)
+
+        rolemap = {
+            pyatspi.ROLE_LIST_BOX: [pyatspi.ROLE_LIST_ITEM],
+            pyatspi.ROLE_TREE: [pyatspi.ROLE_TREE_ITEM],
+        }
+
+        role = obj.getRole()
+        if role not in rolemap:
+            return obj.childCount
+
+        isMatch = lambda x: x.getRole() in rolemap.get(role)
+        return len(self.findAllDescendants(obj, isMatch))
+
     def selectedChildCount(self, obj):
+        if "Table" in pyatspi.listInterfaces(obj):
+            table = obj.queryTable()
+            if table.nSelectedRows:
+                return table.nSelectedRows
+
         try:
             selection = obj.querySelection()
             count = selection.nSelectedChildren
@@ -3912,16 +4004,23 @@ class Utilities:
     def hasLongDesc(self, obj):
         return False
 
+    def hasDetails(self, obj):
+        return False
+
+    def isDetails(self, obj):
+        return False
+
+    def detailsFor(self, obj):
+        return []
+
+    def popupType(self, obj):
+        return ''
+
     def headingLevel(self, obj):
         if not (obj and obj.getRole() == pyatspi.ROLE_HEADING):
             return 0
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            msg = "ERROR: Exception getting attributes for %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return 0
+        attrs = self.objectAttributes(obj)
 
         try:
             value = int(attrs.get('level', '0'))
@@ -4059,11 +4158,27 @@ class Utilities:
 
         return table.nRows, table.nColumns
 
+    def _objectBoundsMightBeBogus(self, obj):
+        return False
+
+    def _objectMightBeBogus(self, obj):
+        return False
+
     def containsPoint(self, obj, x, y, coordType, margin=2):
+        if self._objectBoundsMightBeBogus(obj) \
+           and self.textAtPoint(obj, x, y, coordType) == ("", 0, 0):
+            return False
+
+        if self._objectMightBeBogus(obj):
+            return False
+
         try:
             component = obj.queryComponent()
         except:
             return False
+
+        if coordType is None:
+            coordType = pyatspi.DESKTOP_COORDS
 
         if component.contains(x, y, coordType):
             return True
@@ -4104,12 +4219,19 @@ class Utilities:
         if role in roles:
             return False
 
+        if role == pyatspi.ROLE_COMBO_BOX:
+            entry = pyatspi.findDescendant(obj, lambda x: x and x.getRole() == pyatspi.ROLE_ENTRY)
+            return entry is None
+
+        if role == pyatspi.ROLE_LINK and obj.name:
+            return True
+
         state = obj.getState()
         if state.contains(pyatspi.STATE_EXPANDABLE):
             return not state.contains(pyatspi.STATE_EXPANDED)
 
-        roles = [pyatspi.ROLE_COMBO_BOX,
-                 pyatspi.ROLE_PUSH_BUTTON]
+        roles = [pyatspi.ROLE_PUSH_BUTTON,
+                 pyatspi.ROLE_TOGGLE_BUTTON]
 
         return role in roles
 
@@ -4174,6 +4296,18 @@ class Utilities:
 
     def _adjustPointForObj(self, obj, x, y, coordType):
         return x, y
+
+    def isMultiParagraphObject(self, obj):
+        if not obj:
+            return False
+
+        if "Text" not in pyatspi.listInterfaces(obj):
+            return False
+
+        text = obj.queryText()
+        string = text.getText(0, -1)
+        chunks = list(filter(lambda x: x.strip(), string.split("\n\n")))
+        return len(chunks) > 1
 
     def textAtPoint(self, obj, x, y, coordType=None, boundary=None):
         text = self.queryNonEmptyText(obj)
@@ -4322,7 +4456,7 @@ class Utilities:
 
         return startIndex, endIndex
 
-    def getShowingCellsInSameRow(self, obj):
+    def getShowingCellsInSameRow(self, obj, forceFullRow=False):
         parent = self.getTable(obj)
         try:
             table = parent.queryTable()
@@ -4335,7 +4469,10 @@ class Utilities:
         if row == -1:
             return []
 
-        startIndex, endIndex = self._getTableRowRange(obj)
+        if forceFullRow:
+            startIndex, endIndex = 0, table.nColumns
+        else:
+            startIndex, endIndex = self._getTableRowRange(obj)
         if startIndex == endIndex:
             return []
 
@@ -4597,6 +4734,9 @@ class Utilities:
         setSize = len(siblings)
         return position, setSize
 
+    def getRoleDescription(self, obj):
+        return ""
+
     def getCachedTextSelection(self, obj):
         textSelections = self._script.pointOfReference.get('textSelections', {})
         start, end, string = textSelections.get(hash(obj), (0, 0, ''))
@@ -4690,9 +4830,9 @@ class Utilities:
         clipboard = Gtk.Clipboard.get(Gdk.Atom.intern("CLIPBOARD", False))
         clipboard.request_text(self._appendTextToClipboardCallback, text)
 
-    def _appendTextToClipboardCallback(self, clipboard, text, newText):
+    def _appendTextToClipboardCallback(self, clipboard, text, newText, separator="\n"):
         text = text.rstrip("\n")
-        text = "%s\n%s" % (text, newText)
+        text = "%s%s%s" % (text, separator, newText)
         clipboard.set_text(text, -1)
 
     def lastInputEventCameFromThisApp(self):
@@ -5068,8 +5208,14 @@ class Utilities:
 
         try:
             role = event.source.getRole()
+            state = event.source.getState()
         except:
-            msg = "ERROR: Exception getting role of %s" % event.source
+            msg = "ERROR: Exception getting role and state of %s" % event.source
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if not state.contains(pyatspi.STATE_FOCUSED):
+            msg = "INFO: Not echoable text insertion event: source is not focused"
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 

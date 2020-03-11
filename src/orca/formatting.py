@@ -69,6 +69,8 @@ formatting = {
             'groupindex': object_properties.GROUP_INDEX_SPEECH,
             'clickable': object_properties.STATE_CLICKABLE,
             'haslongdesc': object_properties.STATE_HAS_LONGDESC,
+            'hasdetails': object_properties.RELATION_HAS_DETAILS,
+            'detailsfor': object_properties.RELATION_DETAILS_FOR
         },
         'braille': {
             'eol': object_properties.EOL_INDICATOR_BRAILLE,
@@ -109,16 +111,16 @@ formatting = {
 
     'speech': {
         'prefix': {
-            'focused': '[]',
+            'focused': 'detailsFor',
             'unfocused': 'oldAncestors + newAncestors',
             'basicWhereAmI': 'toolbar',
             'detailedWhereAmI' : '[]'
             },
         'suffix': {
             'focused': '[]',
-            'unfocused': 'newNodeLevel + unselectedCell + clickable + hasLongDesc + ' + TUTORIAL + ' + description',
-            'basicWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description',
-            'detailedWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description'
+            'unfocused': 'newNodeLevel + unselectedCell + clickable + pause + hasLongDesc + hasDetails + detailsFor +' + TUTORIAL + ' + description + pause + hasPopup',
+            'basicWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description + pause + hasPopup + pause + detailsFor + pause + allDetails',
+            'detailedWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description + pause + hasPopup + detailsFor + pause + allDetails'
             },
         'default': {
             'focused': '[]',
@@ -176,6 +178,28 @@ formatting = {
             'focused': 'labelOrName + roleName',
             'unfocused': 'labelOrName + roleName + pause + currentLineText + allTextSelection',
             },
+        # TODO - JD: When we bump dependencies to 2.34, remove this fake role and use the real one.
+        'ROLE_CONTENT_DELETION': {
+            'focused': 'leaving or deletionStart',
+            'unfocused': 'deletionStart + pause + displayedText + pause + deletionEnd',
+            },
+        'ROLE_CONTENT_ERROR': {
+            'unfocused': 'displayedText + pause + invalid',
+            },
+        # TODO - JD: When we bump dependencies to 2.34, remove this fake role and use the real one.
+        'ROLE_CONTENT_INSERTION': {
+            'focused': 'leaving or insertionStart',
+            'unfocused': 'insertionStart + pause + displayedText + pause + insertionEnd',
+            },
+        # TODO - JD: When we bump dependencies to 2.36, remove this fake role and use the real one.
+        'ROLE_CONTENT_MARK': {
+            'focused': 'leaving or markStart',
+            'unfocused': 'markStart + pause + displayedText + pause + markEnd',
+            },
+        # TODO - JD: When we bump dependencies to 2.36, remove this fake role and use the real one.
+        'ROLE_CONTENT_SUGGESTION': {
+            'focused': 'leaving or roleName',
+            },
         pyatspi.ROLE_DESCRIPTION_TERM: {
             'unfocused': '(labelOrName or (displayedText + allTextSelection))',
             },
@@ -189,7 +213,7 @@ formatting = {
             },
         pyatspi.ROLE_DIALOG: {
             'focused': 'labelOrName + roleName + (unrelatedLabels or description)',
-            'unfocused': 'expandedEOCs or (labelOrName + (unrelatedLabels or description))'
+            'unfocused': '(expandedEOCs or (labelOrName + roleName + (unrelatedLabels or description)))'
             },
         pyatspi.ROLE_DOCUMENT_FRAME: {
             'unfocused': 'label + readOnly + textRole + currentLineText + anyTextSelection + ' + MNEMONIC,
@@ -219,7 +243,7 @@ formatting = {
             'basicWhereAmI': 'labelOrName + readOnly + textRole + (textContent or placeholderText) + anyTextSelection + required + pause + invalid + ' + MNEMONIC,
             'detailedWhereAmI': 'labelOrName + readOnly + textRole + (textContentWithAttributes or placeholderText) + anyTextSelection + required + pause + invalid + ' + MNEMONIC,
             },
-        'ROLE_FOOTNOTE': {
+        pyatspi.ROLE_FOOTNOTE: {
             'unfocused': 'labelOrName + roleName + pause + currentLineText + allTextSelection',
             },
         pyatspi.ROLE_FOOTER: {
@@ -230,7 +254,7 @@ formatting = {
             'unfocused': '((substring and currentLineText) or labelAndName) + roleName'
             },
         pyatspi.ROLE_FRAME: {
-            'focused': 'labelOrName + roleName',
+            'focused': 'labelOrName',
             'unfocused': 'labelOrName + roleName + unfocusedDialogCount + availability'
             },
         pyatspi.ROLE_HEADER: {
@@ -274,17 +298,17 @@ formatting = {
             'basicWhereAmI': 'linkInfo + pause + siteDescription + pause + fileSize + pause + ' + MNEMONIC
             },
         pyatspi.ROLE_LIST: {
-            'focused' : 'leaving or (labelOrName + pause + numberOfChildren + pause + nestingLevel)',
-            'unfocused': 'labelOrName + pause + focusedItem + pause + multiselectableState + numberOfChildren + pause'
+            'focused' : 'leaving or (labelOrName + pause + (numberOfChildren or roleName) + pause + nestingLevel)',
+            'unfocused': 'labelOrName + pause + focusedItem + pause + multiselectableState + (numberOfChildren or roleName) + pause'
             },
         pyatspi.ROLE_LIST_BOX: {
-            'focused': 'labelOrName + multiselectableState + numberOfChildren',
-            'unfocused': 'labelOrName + pause + focusedItem + pause + multiselectableState + numberOfChildren + pause'
+            'focused': 'labelOrName + multiselectableState + (numberOfChildren or roleName)',
+            'unfocused': 'labelOrName + pause + focusedItem + pause + multiselectableState + (numberOfChildren or roleName) + pause'
             },
         pyatspi.ROLE_LIST_ITEM: {
             'focused': 'expandableState',
-            'unfocused': '(labelOrName or (displayedText + allTextSelection)) + pause + expandableState + pause + positionInList + pause + listBoxItemWidgets',
-            'basicWhereAmI': 'label + roleName + pause + (name or displayedText) + pause + positionInList + pause + expandableState + (nodeLevel or nestingLevel) + pause'
+            'unfocused': '(labelOrName or (displayedText + allTextSelection)) + checkedStateIfCheckable + pause + expandableState + pause + positionInList + pause + listBoxItemWidgets',
+            'basicWhereAmI': 'label + roleName + pause + (name or displayedText) + checkedStateIfCheckable + pause + positionInList + pause + expandableState + (nodeLevel or nestingLevel) + pause'
             },
         pyatspi.ROLE_MATH: {
             'unfocused': 'math',
@@ -330,8 +354,8 @@ formatting = {
             },
         pyatspi.ROLE_MENU_ITEM: {
             'focused': 'expandableState',
-            'unfocused': 'labelOrName + menuItemCheckedState + expandableState + availability + ' + MNEMONIC + ' + accelerator + pause + positionInList',
-            'basicWhereAmI': 'ancestors + pause + labelOrName + pause + accelerator + pause + positionInList + ' + MNEMONIC
+            'unfocused': 'labelOrName + checkedStateIfCheckable + expandableState + availability + ' + MNEMONIC + ' + accelerator + pause + positionInList',
+            'basicWhereAmI': 'ancestors + pause + labelOrName + checkedStateIfCheckable + pause + accelerator + pause + positionInList + ' + MNEMONIC
             },
         pyatspi.ROLE_NOTIFICATION: {
             'unfocused': 'roleName + unrelatedLabels'
@@ -407,9 +431,9 @@ formatting = {
             'basicWhereAmI': 'labelOrName + roleName + value + percentage + ' + MNEMONIC + ' + accelerator + required + pause + invalid'
             },
         pyatspi.ROLE_SPIN_BUTTON: {
-            'focused': 'name',
-            'unfocused': 'labelAndName + allTextSelection + roleName + required + pause + invalid + availability + ' + MNEMONIC,
-            'basicWhereAmI': 'label + roleName + name + allTextSelection + ' + MNEMONIC + ' + accelerator + required + pause + invalid'
+            'focused': '(displayedText or value)',
+            'unfocused': 'labelAndName + (displayedText or value) + roleName + required + pause + invalid + availability + ' + MNEMONIC,
+            'basicWhereAmI': 'label + roleName + name + (displayedText or value) + ' + MNEMONIC + ' + accelerator + required + pause + invalid'
             },
         pyatspi.ROLE_SPLIT_PANE: {
             'focused': 'value',
@@ -627,6 +651,7 @@ formatting = {
                                      asString(labelAndName + value + roleName + required))]',
             },
         pyatspi.ROLE_LABEL: {
+            'focused': '[Text(obj, asString(labelAndName))]',
             'unfocused': '[Text(obj, asString(labelAndName))]'
             },
         pyatspi.ROLE_LINK: {
@@ -648,7 +673,7 @@ formatting = {
         pyatspi.ROLE_LIST_ITEM: {
             'focused':   '((substring and ' + BRAILLE_TEXT + ')\
                           or ([Component(obj,\
-                                     asString(label + displayedText + expandableState + roleName + availability) + asString(accelerator))]\
+                                     asString(label + displayedText + expandableState + roleName + availability) + asString(accelerator), indicator=asString(checkedStateIfCheckable))] \
                           + (nestingLevel and [Region(" " + asString(nestingLevel))])\
                           + (listBoxItemWidgets and ([Region(" ")] + listBoxItemWidgets))))',
             'unfocused': '((substring and ' + BRAILLE_TEXT + ')\
@@ -666,7 +691,7 @@ formatting = {
         pyatspi.ROLE_MENU_ITEM: {
             'unfocused': '[Component(obj,\
                                      asString(labelOrName + expandableState + availability) + asString(accelerator),\
-                                     indicator=asString(menuItemCheckedState))]'
+                                     indicator=asString(checkedStateIfCheckable))]'
             },
         pyatspi.ROLE_PAGE: {
             'unfocused': BRAILLE_TEXT

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_general" xml:lang="gl">
   <info>
-    <title type="sort">1. General</title>
+    <title type="sort">1. Xeral</title>
     <title type="link">General</title>
     <desc>Configurar os comportamentos fundamentais de <app>Orca</app></desc>
     <link type="guide" xref="preferences#orca"/>
@@ -252,7 +252,7 @@
          Choosing <gui>Window</gui> will result in <app>Orca</app> only
          presenting updates for progress bars in the active window.
       </p>
-      <p>Valor predeterminado: <gui>Aplicativo</gui></p>
+      <p>Valor predeterminado: <gui>Application</gui></p>
     </section>
   </section>
 </page>
