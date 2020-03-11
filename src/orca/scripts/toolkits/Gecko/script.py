@@ -189,8 +189,10 @@ class Script(web.Script):
     def onFocus(self, event):
         """Callback for focus: accessibility events."""
 
-        # We should get proper state-changed events for these.
-        if self.utilities.inDocumentContent(event.source):
+        # This event is deprecated. We should get object:state-changed:focused
+        # events instead.
+
+        if super().onFocus(event):
             return
 
         if self.utilities.isLayoutOnly(event.source):
@@ -268,12 +270,6 @@ class Script(web.Script):
 
         if super().onShowingChanged(event):
             return
-
-        if event.detail1 and self.utilities.isTopLevelBrowserUIAlert(event.source):
-            msg = "GECKO: Event handled: Presenting event source"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            self.presentObject(event.source)
-            return True
 
         msg = "GECKO: Passing along event to default script"
         debug.println(debug.LEVEL_INFO, msg, True)

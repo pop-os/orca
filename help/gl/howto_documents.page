@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#reading"/>
     <link type="next" xref="howto_text_attributes"/>
-    <title type="sort">1. Documents</title>
+    <title type="sort">1. Documentos</title>
     <desc>Ler contido</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -13,7 +13,7 @@
       <p>Creative Commons Compartir Igual 3.0</p>
     </license>
   </info>
-  <title>Documents</title>
+  <title>Documentos</title>
   <p>
     To read the contents of any document, use the application's built-in caret
     navigation mode. As you navigate within the text of the document, <app>Orca</app>

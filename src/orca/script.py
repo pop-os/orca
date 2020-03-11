@@ -373,36 +373,11 @@ class Script:
             reason = "appears to be duplicate state-changed event"
 
         if skip:
-            eventDetails = '           %s' % str(cachedEvent).replace('\t', ' ' * 11)
+            eventDetails = '        %s' % str(cachedEvent).replace('\t', ' ' * 8)
             msg = 'SCRIPT: Skipping object event due to %s\n%s' % (reason, eventDetails)
             debug.println(debug.LEVEL_INFO, msg, True)
 
         return skip
-
-    def checkKeyboardEventData(self, keyboardEvent):
-        """Checks the data on the keyboard event.
-
-        Some toolkits don't fill all the key event fields, and/or fills
-        them out with unexpected data. This method tries to fill in the
-        missing fields and validate/standardize the data we've been given.
-        While any script can override this method, it is expected that
-        this will only be done at the toolkit script level.
-
-        Arguments:
-        - keyboardEvent: an instance of input_event.KeyboardEvent
-        """
-
-        try:
-            from gi.repository import Gdk
-            keyboardEvent.keyval_name = Gdk.keyval_name(keyboardEvent.id)
-        except:
-            msg = 'ERROR: Exception getting keyval_name for id: %d' % keyboardEvent.id
-            debug.println(debug.LEVEL_INFO, msg, True)
-        else:
-            if keyboardEvent.event_string == '':
-                msg = 'INFO: Setting event_string to: %s' % keyboardEvent.keyval_name
-                debug.println(debug.LEVEL_INFO, msg, True)
-                keyboardEvent.event_string = keyboardEvent.keyval_name
 
     def consumesKeyboardEvent(self, keyboardEvent):
         """Called when a key is pressed on the keyboard.

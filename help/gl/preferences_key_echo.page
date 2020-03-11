@@ -2,7 +2,7 @@
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="gl">
   <info>
     <title type="link">Key Echo</title>
-    <title type="sort">4. Key Echo</title>
+    <title type="sort">4. Eco de teclas</title>
     <desc>Configurar o que se fala ao escribir</desc>
     <link type="guide" xref="preferences#orca"/>
     <link type="next" xref="preferences_key_bindings"/>

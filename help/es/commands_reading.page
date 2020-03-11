@@ -20,7 +20,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Daniel Mustieles</mal:name>
       <mal:email>daniel.mustieles@gmail.com</mal:email>
-      <mal:years>2012 - 2019</mal:years>
+      <mal:years>2012 - 2020</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -189,8 +189,8 @@
   </section>
   <section id="toggling_layout_mode">
     <title>Cambiar el modo de la disposición</title>
-    <p>Cuando el modo de disposición está activado, la navegación del cursor de <app>Orca</app> respetará siempre la distribución del contenido de la pantalla y mostrará la línea completa, incluyendo los enlaces o campos de formulario de esa línea. Cuando el modo de disposición está desactivado, <app>Orca</app> tratará los objetos como enlaces y campos de formulario como si estuvieran en líneas separadas, tanto para presentación como para navegación.</p>
-    <p><app>Orca</app> proporciona un comando para cambiar entre el modo de disposición y el modo objeto. Este comando no está asociado de manera predeterminada. Consulte cómo <link xref="howto_key_bindings">Modificar las asociaciones de teclas</link> para obtener información sobre cómo asociar comandos que no estén asociados.</p>
+    <p>Cuando el modo de disposición está activado el modo de navegación del cursor de <app>Orca</app> respetará siempre la distribución del contenido de la pantalla y mostrará la línea completa, incluyendo los enlaces o campos de formulario de esa línea. Si el modo de disposición no está activado, <app>Orca</app> tratará los objetos como enlaces y campos de formulario como si estuvieran en líneas separadas, tanto para presentación como para navegación.</p>
+    <p><app>Orca</app> proporciona un comando para cambia entre modo de disposición y modo objeto. Este comando no está asociado de manera predeterminada. Consulte cómo <link xref="howto_key_bindings">Modificar las asociaciones de teclas</link> para obtener información sobre cómo asociar comandos que no estén asociados.</p>
     <list>
       <item>
         <p>Cambiar entre modo de disposición y modo objeto: (sin asociar)</p>

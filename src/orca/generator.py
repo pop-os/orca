@@ -254,18 +254,18 @@ class Generator:
                     globalsDict[arg] = self._methodsDict[arg](obj, **args)
                     duration = "%.4f" % (time.time() - currentTime)
                     debug.println(debug.LEVEL_ALL,
-                                  "           GENERATION TIME: %s  ---->  %s=%s" \
-                                  % (duration, arg, repr(globalsDict[arg])))
+                                  "%sGENERATION TIME: %s  ---->  %s=%s" \
+                                  % (' ' * 18, duration, arg, repr(globalsDict[arg])))
 
         except:
             debug.printException(debug.LEVEL_SEVERE)
             result = []
 
         duration = "%.4f" % (time.time() - startTime)
-        debug.println(debug.LEVEL_ALL, "           COMPLETION TIME: %s" % duration)
+        debug.println(debug.LEVEL_ALL, "%sCOMPLETION TIME: %s" % (' ' * 18, duration))
         debug.println(debug.LEVEL_ALL, "%s GENERATOR: Results:" % self._mode.upper(), True)
         for element in result:
-            debug.println(debug.LEVEL_ALL, "           %s" % element)
+            debug.println(debug.LEVEL_ALL, "%s%s" % (' ' * 18, element))
 
         if args.get('isProgressBarUpdate') and result:
             self.setProgressBarUpdateTimeAndValue(obj)
@@ -303,7 +303,7 @@ class Generator:
         """
         result = []
         self._script.pointOfReference['usedDescriptionForName'] = False
-        name = self._script.utilities.displayedText(obj)
+        name = obj.name
         if obj.getRole() == pyatspi.ROLE_COMBO_BOX:
             children = self._script.utilities.selectedChildren(obj)
             if not children:
@@ -362,8 +362,12 @@ class Generator:
         the assumption being that the user was able to see the text prior
         to giving the widget focus.
         """
-        result = [x for x in obj.getAttributes() if x.startswith('placeholder-text:')]
-        return [x.replace('placeholder-text:', '') for x in result]
+        attrs = self._script.utilities.objectAttributes(obj)
+        placeholder = attrs.get('placeholder-text')
+        if placeholder:
+            return [placeholder]
+
+        return []
 
     def _generateLabelAndName(self, obj, **args):
         """Returns the label and the name as an array of strings for speech
@@ -381,7 +385,8 @@ class Generator:
         result.extend(label)
         if not len(label):
             result.extend(name)
-        elif len(name) and name[0].split() != label[0].split():
+        elif len(name) and name[0].split() != label[0].split() \
+             and not label[0].startswith(name[0]):
             result.extend(name)
         return result
 
@@ -484,6 +489,18 @@ class Generator:
         return []
 
     def _generateHasLongDesc(self, obj, **args):
+        return []
+
+    def _generateHasDetails(self, obj, **args):
+        return []
+
+    def _generateDetailsFor(self, obj, **args):
+        return []
+
+    def _generateAllDetails(self, obj, **args):
+        return []
+
+    def _generateHasPopup(self, obj, **args):
         return []
 
     def _generateAvailability(self, obj, **args):
@@ -658,6 +675,13 @@ class Generator:
             result.append(indicators[0])
         return result
 
+    def _generateCheckedStateIfCheckable(self, obj, **args):
+        if obj.getState().contains(pyatspi.STATE_CHECKABLE) \
+           or obj.getRole() == pyatspi.ROLE_CHECK_MENU_ITEM:
+            return self._generateCheckedState(obj, **args)
+
+        return []
+
     def _generateMenuItemCheckedState(self, obj, **args):
         """Returns an array of strings for use by speech and braille that
         represent the checked state of the menu item, only if it is
@@ -720,6 +744,10 @@ class Generator:
         represent the row header for an object that is in a table, if
         it exists.  Otherwise, an empty array is returned.
         """
+
+        if args.get('readingRow'):
+            return []
+
         result = []
         header = self._script.utilities.rowHeaderForCell(obj)
         if not header:
@@ -885,64 +913,35 @@ class Generator:
         has changed.  Otherwise, it will return an array for just the
         current cell.
         """
+
+        presentAll = args.get('readingRow') == True \
+            or args.get('formatType') == 'detailedWhereAmI' \
+            or self._mode == 'braille' \
+            or self._script.utilities.shouldReadFullRow(obj)
+
+        if not presentAll:
+            return self._generateRealTableCell(obj, **args)
+
+        args['readingRow'] = True
         result = []
+        cells = self._script.utilities.getShowingCellsInSameRow(obj, forceFullRow=True)
 
-        try:
-            parentTable = obj.parent.queryTable()
-        except:
-            parentTable = None
-        isDetailedWhereAmI = args.get('formatType', None) == 'detailedWhereAmI'
-        readFullRow = self._script.utilities.shouldReadFullRow(obj)
-        if (readFullRow or isDetailedWhereAmI) and parentTable \
-           and (not self._script.utilities.isLayoutOnly(obj.parent)):
-            parent = obj.parent
-            index = self._script.utilities.cellIndex(obj)
-            row = parentTable.getRowAtIndex(index)
-            column = parentTable.getColumnAtIndex(index)
+        # Remove any pre-calcuated values which only apply to obj and not row cells.
+        doNotInclude = ['startOffset', 'endOffset', 'string']
+        otherCellArgs = args.copy()
+        for arg in doNotInclude:
+            otherCellArgs.pop(arg, None)
 
-            # This is an indication of whether we should speak all the
-            # table cells (the user has moved focus up or down a row),
-            # or just the current one (focus has moved left or right in
-            # the same row).
-            #
-            presentAll = True
-            if isDetailedWhereAmI:
-                if parentTable.nColumns <= 1:
-                    return result
-            elif "lastRow" in self._script.pointOfReference \
-               and "lastColumn" in self._script.pointOfReference:
-                pointOfReference = self._script.pointOfReference
-                presentAll = \
-                    (self._mode == 'braille') \
-                    or \
-                    ((pointOfReference["lastRow"] != row) \
-                     or ((row == 0 or row == parentTable.nRows-1) \
-                         and pointOfReference["lastColumn"] == column))
-            if presentAll:
-                args['readingRow'] = True
-                if self._script.utilities.isTableRow(obj):
-                    cells = [x for x in obj]
-                else:
-                    cells = [parentTable.getAccessibleAt(row, i) \
-                                 for i in range(parentTable.nColumns)]
-
-                for cell in cells:
-                    if not cell:
-                        continue
-                    state = cell.getState()
-                    showing = state.contains(pyatspi.STATE_SHOWING)
-                    if showing:
-                        cellResult = self._generateRealTableCell(cell, **args)
-                        if cellResult and result and self._mode == 'braille':
-                            result.append(braille.Region(
-                                object_properties.TABLE_CELL_DELIMITER_BRAILLE))
-                        result.extend(cellResult)
-
-                result.extend(self._generatePositionInList(obj, **args))
+        for cell in cells:
+            if cell == obj:
+                cellResult = self._generateRealTableCell(cell, **args)
             else:
-                result.extend(self._generateRealTableCell(obj, **args))
-        else:
-            result.extend(self._generateRealTableCell(obj, **args))
+                cellResult = self._generateRealTableCell(cell, **otherCellArgs)
+            if cellResult and result and self._mode == 'braille':
+                result.append(braille.Region(object_properties.TABLE_CELL_DELIMITER_BRAILLE))
+            result.extend(cellResult)
+
+        result.extend(self._generatePositionInList(obj, **args))
         return result
 
     #####################################################################
@@ -1228,8 +1227,6 @@ class Generator:
             if self._script.utilities.isMathTableRow(obj):
                 return 'ROLE_MATH_TABLE_ROW'
         if self._script.utilities.isDPub(obj):
-            if self._script.utilities.isDPubFootnote(obj):
-                return 'ROLE_FOOTNOTE'
             if self._script.utilities.isLandmark(obj):
                 return 'ROLE_DPUB_LANDMARK'
             if obj.getRole() == pyatspi.ROLE_SECTION:
@@ -1240,10 +1237,24 @@ class Generator:
             return pyatspi.ROLE_STATIC
         if self._script.utilities.isBlockquote(obj):
             return pyatspi.ROLE_BLOCK_QUOTE
+        if self._script.utilities.isComment(obj):
+            return pyatspi.ROLE_COMMENT
+        if self._script.utilities.isContentDeletion(obj):
+            return 'ROLE_CONTENT_DELETION'
+        if self._script.utilities.isContentError(obj):
+            return 'ROLE_CONTENT_ERROR'
+        if self._script.utilities.isContentInsertion(obj):
+            return 'ROLE_CONTENT_INSERTION'
+        if self._script.utilities.isContentMarked(obj):
+            return 'ROLE_CONTENT_MARK'
+        if self._script.utilities.isContentSuggestion(obj):
+            return 'ROLE_CONTENT_SUGGESTION'
         if self._script.utilities.isLandmark(obj):
             return pyatspi.ROLE_LANDMARK
         if self._script.utilities.isFocusableLabel(obj):
             return pyatspi.ROLE_LIST_ITEM
+        if self._script.utilities.isDocument(obj) and 'Image' in pyatspi.listInterfaces(obj):
+            return pyatspi.ROLE_IMAGE
 
         return args.get('role', obj.getRole())
 
@@ -1278,6 +1289,9 @@ class Generator:
                     return object_properties.ROLE_SPLITTER_VERTICAL
                 if isVertical:
                     return object_properties.ROLE_SPLITTER_HORIZONTAL
+
+        if self._script.utilities.isContentSuggestion(obj):
+            return object_properties.ROLE_CONTENT_SUGGESTION
 
         if self._script.utilities.isFeed(obj):
             return object_properties.ROLE_FEED
@@ -1356,8 +1370,6 @@ class Generator:
             else:
                 if self._script.utilities.isDPubCover(obj):
                     return object_properties.ROLE_COVER
-                if self._script.utilities.isDPubFootnote(obj):
-                    return object_properties.ROLE_FOOTNOTE
                 if self._script.utilities.isDPubPagebreak(obj):
                     return object_properties.ROLE_PAGEBREAK
                 if self._script.utilities.isDPubSubtitle(obj):
@@ -1382,6 +1394,8 @@ class Generator:
                 return object_properties.ROLE_LANDMARK_SEARCH
             if self._script.utilities.isLandmarkForm(obj):
                 role = pyatspi.ROLE_FORM
+        elif self._script.utilities.isComment(obj):
+            role = pyatspi.ROLE_COMMENT
 
         if not isinstance(role, (pyatspi.Role, Atspi.Role)):
             try:

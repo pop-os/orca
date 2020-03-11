@@ -98,13 +98,13 @@ class BrailleGenerator(generator.Generator):
             focusedRegion = result[0]
         except:
             focusedRegion = None
+        try:
+            role = obj.getRole()
+        except:
+            role = None
         for region in result:
-            try:
-                role = obj.getRole()
-            except:
-                role = None
             if isinstance(region, (braille.Component, braille.Text)) \
-               and region.accessible == obj:
+               and self._script.utilities.isSameObject(region.accessible, obj, True):
                 focusedRegion = region
                 break
             elif isinstance(region, braille.Text) \

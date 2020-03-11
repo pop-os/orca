@@ -2,7 +2,7 @@
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_bookmarks" xml:lang="gl">
   <info>
     <link type="guide" xref="index#reviewing"/>
-    <title type="sort">6. Bookmarks</title>
+    <title type="sort">6. Marcadores</title>
     <desc>Almacenando e obtendo obxectos</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
