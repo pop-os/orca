@@ -601,6 +601,8 @@ class Script(script.Script):
             self.onWindowDeactivated
         listeners["window:create"]                          = \
             self.onWindowCreated
+        listeners["window:destroy"]                          = \
+            self.onWindowDestroyed
 
         return listeners
 
@@ -1745,7 +1747,7 @@ class Script(script.Script):
         them in the clipboard."""
 
         if self.flatReviewContext:
-            self.utilities.setClipboardText(self.currentReviewContents)
+            self.utilities.setClipboardText(self.currentReviewContents.rstrip("\n"))
             self.presentMessage(messages.FLAT_REVIEW_COPIED)
         else:
             self.presentMessage(messages.FLAT_REVIEW_NOT_IN)
@@ -1757,7 +1759,7 @@ class Script(script.Script):
         the clipboard."""
 
         if self.flatReviewContext:
-            self.utilities.appendTextToClipboard(self.currentReviewContents)
+            self.utilities.appendTextToClipboard(self.currentReviewContents.rstrip("\n"))
             self.presentMessage(messages.FLAT_REVIEW_APPENDED)
         else:
             self.presentMessage(messages.FLAT_REVIEW_NOT_IN)
@@ -2118,17 +2120,15 @@ class Script(script.Script):
         if not obj:
             return True
 
-        container = obj
-        if "Selection" in pyatspi.listInterfaces(container.parent):
-            container = obj.parent
-
-        if "Selection" not in pyatspi.listInterfaces(container):
-            msg = "INFO: %s and %s don't implement selection interface" % (obj, obj.parent)
+        container = self.utilities.getSelectionContainer(obj)
+        if not container:
+            msg = "INFO: Selection container not found for %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return self._whereAmISelectedText(inputEvent, obj)
 
         count = self.utilities.selectedChildCount(container)
-        self.presentMessage(messages.selectedItemsCount(count, container.childCount))
+        childCount = self.utilities.selectableChildCount(container)
+        self.presentMessage(messages.selectedItemsCount(count, childCount))
         if not count:
             return True
 
@@ -2849,6 +2849,11 @@ class Script(script.Script):
 
         pass
 
+    def onWindowDestroyed(self, event):
+        """Callback for window:destroy accessibility events."""
+
+        pass
+
     def onWindowDeactivated(self, event):
         """Called whenever a toplevel window is deactivated.
 
@@ -2862,7 +2867,7 @@ class Script(script.Script):
             return
 
         if event.source != orca_state.activeWindow:
-            msg = "DEFAULT: Ignoring event. Not for active window."
+            msg = "DEFAULT: Ignoring event. Not for active window %s." % orca_state.activeWindow
             debug.println(debug.LEVEL_INFO, msg, True)
             return
 

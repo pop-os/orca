@@ -1,3 +1,9 @@
+orca (3.36.1-0ubuntu1) focal; urgency=medium
+
+  * New upstream version
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Thu, 26 Mar 2020 23:10:03 +0100
+
 orca (3.35.3-1ubuntu1) focal; urgency=medium
 
   * Update and resynchronize on Debian, remaining Ubuntu changes

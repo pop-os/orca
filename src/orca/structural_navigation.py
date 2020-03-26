@@ -1233,7 +1233,7 @@ class StructuralNavigation:
         self._script.updateBraille(obj)
         self._script.sayLine(obj)
 
-    def _presentObject(self, obj, offset, includeContext=True):
+    def _presentObject(self, obj, offset, priorObj=None):
         """Presents the entire object to the user.
 
         Arguments:
@@ -1248,13 +1248,7 @@ class StructuralNavigation:
             return
 
         eventsynthesizer.scrollToTopEdge(obj)
-        priorObj = None
-        if not includeContext:
-            priorObj = obj
-            includeContext = True
-
-        self._script.presentObject(
-            obj, offset=offset, includeContext=includeContext, priorObj=priorObj)
+        self._script.presentObject(obj, offset=offset, priorObj=priorObj)
 
     def _presentWithSayAll(self, obj, offset):
         if self._script.inSayAll() \
@@ -1303,10 +1297,6 @@ class StructuralNavigation:
         if not text and obj.getRole() == pyatspi.ROLE_LIST:
             children = [x for x in obj if x.getRole() == pyatspi.ROLE_LIST_ITEM]
             text = " ".join(list(map(self._getText, children)))
-        if obj.getRole() == pyatspi.ROLE_LIST_ITEM:
-            marker = self._script.utilities.getListItemMarkerText(obj)
-            if text and marker and not text.startswith(marker):
-                text = "%s %s" % (marker.strip(), text)
 
         return text
 
@@ -2828,10 +2818,7 @@ class StructuralNavigation:
         if not (obj and obj.childCount and obj.getRole() == pyatspi.ROLE_TABLE):
             return False
 
-        try:
-            attrs = dict([attr.split(':', 1) for attr in obj.getAttributes()])
-        except:
-            return False
+        attrs = self._script.utilities.objectAttributes(obj)
         if attrs.get('layout-guess') == 'true':
             return False
 
@@ -2866,7 +2853,7 @@ class StructuralNavigation:
                     debug.println(debug.LEVEL_INFO, msg)
 
             self.lastTableCell = [0, 0]
-            self._presentObject(cell, 0, includeContext=False)
+            self._presentObject(cell, 0, priorObj=obj)
             [cell, characterOffset] = self._getCaretPosition(cell)
             self._setCaretPosition(cell, characterOffset)
         else:

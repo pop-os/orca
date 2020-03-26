@@ -194,6 +194,7 @@ class EventManager:
                             pyatspi.ROLE_INFO_BAR,
                             pyatspi.ROLE_MENU,
                             pyatspi.ROLE_NOTIFICATION,
+                            pyatspi.ROLE_DIALOG,
                             pyatspi.ROLE_PANEL,
                             pyatspi.ROLE_STATUS_BAR,
                             pyatspi.ROLE_TOOL_TIP]:
@@ -703,22 +704,23 @@ class EventManager:
 
         try:
             state = event.source.getState()
-        except (LookupError, RuntimeError):
-            msg = 'ERROR: Could not process event: %s' % eType
-            debug.println(debug.LEVEL_WARNING, msg, True)
-            if eType.startswith("window:deactivate"):
-                orca_state.locusOfFocus = None
-                orca_state.activeWindow = None
-            return
         except:
-            return
+            isDefunct = True
+            msg = 'ERROR: Exception getting state for event source'
+            debug.println(debug.LEVEL_WARNING, msg, True)
+        else:
+            isDefunct = state.contains(pyatspi.STATE_DEFUNCT)
 
-        if state and state.contains(pyatspi.STATE_DEFUNCT):
+        if isDefunct:
             msg = 'EVENT MANAGER: Ignoring defunct object: %s' % event.source
             debug.println(debug.LEVEL_INFO, msg, True)
-            if eType.startswith("window:deactivate"):
+            if eType.startswith("window:deactivate") or eType.startswith("window:destroy") \
+               and orca_state.activeWindow == event.source:
+                msg = 'EVENT MANAGER: Clearing active window, script, and locus of focus'
+                debug.println(debug.LEVEL_INFO, msg, True)
                 orca_state.locusOfFocus = None
                 orca_state.activeWindow = None
+                orca_state.activeScript = None
             return
 
         if state and state.contains(pyatspi.STATE_ICONIFIED):
@@ -734,7 +736,7 @@ class EventManager:
 
         if not debug.eventDebugFilter or debug.eventDebugFilter.match(eType) \
            and not eType.startswith("mouse:"):
-            debug.printDetails(debug.LEVEL_INFO, ' ' * 11, event.source)
+            debug.printDetails(debug.LEVEL_INFO, ' ' * 18, event.source)
 
         script = self._getScriptForEvent(event)
         if not script:

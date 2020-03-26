@@ -286,6 +286,163 @@ class SpeechGenerator(generator.Generator):
             result.extend(acss)
         return result
 
+    def _generateHasDetails(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        acss = self.voice(SYSTEM)
+        result = generator.Generator._generateHasDetails(self, obj, **args)
+        if result:
+            result.extend(acss)
+        return result
+
+    def _generateDetailsFor(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        acss = self.voice(SYSTEM)
+        result = generator.Generator._generateDetailsFor(self, obj, **args)
+        if result:
+            result.extend(acss)
+        return result
+
+    def _generateAllDetails(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        acss = self.voice(SYSTEM)
+        result = generator.Generator._generateAllDetails(self, obj, **args)
+        if result:
+            result.extend(acss)
+        return result
+
+    def _generateDeletionStart(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        startOffset = args.get('startOffset', 0)
+        if startOffset != 0:
+            return []
+
+        result = []
+        if self._script.utilities.isFirstItemInInlineContentSuggestion(obj):
+            result.extend([object_properties.ROLE_CONTENT_SUGGESTION])
+            result.extend(self.voice(SYSTEM))
+            result.extend(self._generatePause(obj, **args))
+
+        result.extend([messages.CONTENT_DELETION_START])
+        result.extend(self.voice(SYSTEM))
+        return result
+
+    def _generateDeletionEnd(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        endOffset = args.get('endOffset')
+        if endOffset is not None:
+            text = self._script.utilities.queryNonEmptyText(obj)
+            if text  and text.characterCount != endOffset:
+                return []
+
+        result = [messages.CONTENT_DELETION_END]
+        result.extend(self.voice(SYSTEM))
+
+        if self._script.utilities.isLastItemInInlineContentSuggestion(obj):
+            result.extend(self._generatePause(obj, **args))
+            result.extend([messages.CONTENT_SUGGESTION_END])
+            result.extend(self.voice(SYSTEM))
+
+            container = pyatspi.findAncestor(obj, self._script.utilities.hasDetails)
+            if self._script.utilities.isContentSuggestion(container):
+                result.extend(self._generatePause(obj, **args))
+                result.extend(self._generateHasDetails(container, mode=args.get('mode')))
+
+        return result
+
+    def _generateInsertionStart(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        startOffset = args.get('startOffset', 0)
+        if startOffset != 0:
+            return []
+
+        result = []
+        if self._script.utilities.isFirstItemInInlineContentSuggestion(obj):
+            result.extend([object_properties.ROLE_CONTENT_SUGGESTION])
+            result.extend(self.voice(SYSTEM))
+            result.extend(self._generatePause(obj, **args))
+
+        result.extend([messages.CONTENT_INSERTION_START])
+        result.extend(self.voice(SYSTEM))
+        return result
+
+    def _generateInsertionEnd(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        endOffset = args.get('endOffset')
+        if endOffset is not None:
+            text = self._script.utilities.queryNonEmptyText(obj)
+            if text and text.characterCount != endOffset:
+                return []
+
+        result = [messages.CONTENT_INSERTION_END]
+        result.extend(self.voice(SYSTEM))
+
+        if self._script.utilities.isLastItemInInlineContentSuggestion(obj):
+            result.extend(self._generatePause(obj, **args))
+            result.extend([messages.CONTENT_SUGGESTION_END])
+            result.extend(self.voice(SYSTEM))
+
+            container = pyatspi.findAncestor(obj, self._script.utilities.hasDetails)
+            if self._script.utilities.isContentSuggestion(container):
+                result.extend(self._generatePause(obj, **args))
+                result.extend(self._generateHasDetails(container, mode=args.get('mode')))
+
+        return result
+
+    def _generateMarkStart(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        startOffset = args.get('startOffset', 0)
+        if startOffset != 0:
+            return []
+
+        result = []
+        roledescription = self._script.utilities.getRoleDescription(obj)
+        if roledescription:
+            result.append(roledescription)
+            result.extend(self.voice(SYSTEM))
+            result.extend(self._generatePause(obj, **args))
+
+        result.append(messages.CONTENT_MARK_START)
+        result.extend(self.voice(SYSTEM))
+        return result
+
+    def _generateMarkEnd(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        endOffset = args.get('endOffset')
+        if endOffset is not None:
+            text = self._script.utilities.queryNonEmptyText(obj)
+            if text and text.characterCount != endOffset:
+                return []
+
+        result = [messages.CONTENT_MARK_END]
+        result.extend(self.voice(SYSTEM))
+        return result
+
+    def _generateSuggestionStart(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        result = [messages.CONTENT_SUGGESTION_START]
+        result.extend(self.voice(SYSTEM))
+        return result
+
     def _generateAvailability(self, obj, **args):
         if _settingsManager.getSetting('onlySpeakDisplayedText'):
             return []
@@ -395,6 +552,7 @@ class SpeechGenerator(generator.Generator):
         if role == pyatspi.ROLE_ENTRY \
            and obj.getState().contains(pyatspi.STATE_SUPPORTS_AUTOCOMPLETION):
             result.append(self.getLocalizedRoleName(obj, role=pyatspi.ROLE_AUTOCOMPLETE))
+            result.extend(acss)
 
         if role == pyatspi.ROLE_PANEL and obj.getState().contains(pyatspi.STATE_SELECTED):
             return []
@@ -519,6 +677,16 @@ class SpeechGenerator(generator.Generator):
 
         acss = self.voice(STATE)
         result = generator.Generator._generateExpandableState(self, obj, **args)
+        if result:
+            result.extend(acss)
+        return result
+
+    def _generateCheckedStateIfCheckable(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        acss = self.voice(STATE)
+        result = super()._generateCheckedStateIfCheckable(obj, **args)
         if result:
             result.extend(acss)
         return result
@@ -1297,14 +1465,6 @@ class SpeechGenerator(generator.Generator):
         result.extend(self.voice(SYSTEM))
         return result
 
-    def _generateListItemMarker(self, obj, **args):
-        result = super()._generateListItemMarker(obj, **args)
-        if result and result[0]:
-            result[0] = result[0].strip()
-            result.extend(self.voice(DEFAULT))
-
-        return result
-
     def _generateNestingLevel(self, obj, **args):
         result = super()._generateNestingLevel(obj, **args)
         if result:
@@ -1414,7 +1574,9 @@ class SpeechGenerator(generator.Generator):
         this doesn't apply?]]] [[[WDW - I wonder if this string should
         be moved to settings.py.]]]
         """
-        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+
+        if _settingsManager.getSetting('onlySpeakDisplayedText') \
+           or _settingsManager.getSetting('speechVerbosityLevel') == settings.VERBOSITY_LEVEL_BRIEF:
             return []
 
         result = []
@@ -1577,6 +1739,10 @@ class SpeechGenerator(generator.Generator):
 
     def _getEnabledAndDisabledContextRoles(self):
         allRoles = [pyatspi.ROLE_BLOCK_QUOTE,
+                    'ROLE_CONTENT_DELETION',
+                    'ROLE_CONTENT_INSERTION',
+                    'ROLE_CONTENT_MARK',
+                    'ROLE_CONTENT_SUGGESTION',
                     pyatspi.ROLE_FORM,
                     pyatspi.ROLE_LANDMARK,
                     'ROLE_DPUB_LANDMARK',
@@ -1594,7 +1760,12 @@ class SpeechGenerator(generator.Generator):
             if _settingsManager.getSetting('sayAllContextList'):
                 enabled.append(pyatspi.ROLE_LIST)
             if _settingsManager.getSetting('sayAllContextPanel'):
-                enabled.extend([pyatspi.ROLE_PANEL, 'ROLE_DPUB_SECTION'])
+                enabled.extend([pyatspi.ROLE_PANEL,
+                                'ROLE_CONTENT_DELETION',
+                                'ROLE_CONTENT_INSERTION',
+                                'ROLE_CONTENT_MARK',
+                                'ROLE_CONTENT_SUGGESTION',
+                                'ROLE_DPUB_SECTION'])
             if _settingsManager.getSetting('sayAllContextNonLandmarkForm'):
                 enabled.append(pyatspi.ROLE_FORM)
             if _settingsManager.getSetting('sayAllContextTable'):
@@ -1607,7 +1778,12 @@ class SpeechGenerator(generator.Generator):
             if _settingsManager.getSetting('speakContextList'):
                 enabled.append(pyatspi.ROLE_LIST)
             if _settingsManager.getSetting('speakContextPanel'):
-                enabled.extend([pyatspi.ROLE_PANEL, 'ROLE_DPUB_SECTION'])
+                enabled.extend([pyatspi.ROLE_PANEL,
+                                'ROLE_CONTENT_DELETION',
+                                'ROLE_CONTENT_INSERTION',
+                                'ROLE_CONTENT_MARK',
+                                'ROLE_CONTENT_SUGGESTION',
+                                'ROLE_DPUB_SECTION'])
             if _settingsManager.getSetting('speakContextNonLandmarkForm'):
                 enabled.append(pyatspi.ROLE_FORM)
             if _settingsManager.getSetting('speakContextTable'):
@@ -1622,13 +1798,15 @@ class SpeechGenerator(generator.Generator):
 
         role = args.get('role', obj.getRole())
         enabled, disabled = self._getEnabledAndDisabledContextRoles()
-        if not role in enabled:
+        if not (role in enabled or self._script.utilities.isDetails(obj)):
             return []
 
         count = args.get('count', 1)
 
         result = []
-        if role == pyatspi.ROLE_BLOCK_QUOTE:
+        if self._script.utilities.isDetails(obj):
+            result.append(messages.LEAVING_DETAILS)
+        elif role == pyatspi.ROLE_BLOCK_QUOTE:
             if count > 1:
                 result.append(messages.leavingNBlockquotes(count))
             else:
@@ -1726,6 +1904,15 @@ class SpeechGenerator(generator.Generator):
                 result = ['']
         elif role == pyatspi.ROLE_FORM:
             result.append(messages.LEAVING_FORM)
+        elif role == 'ROLE_CONTENT_DELETION':
+            result.append(messages.CONTENT_DELETION_END)
+        elif role == 'ROLE_CONTENT_INSERTION':
+            result.append(messages.CONTENT_INSERTION_END)
+        elif role == 'ROLE_CONTENT_MARK':
+            result.append(messages.CONTENT_MARK_END)
+        elif role == 'ROLE_CONTENT_SUGGESTION' \
+             and not self._script.utilities.isInlineSuggestion(obj):
+            result.append(messages.LEAVING_SUGGESTION)
         else:
             result = ['']
         if result:
@@ -1861,6 +2048,10 @@ class SpeechGenerator(generator.Generator):
         args['includeOnly'] = [pyatspi.ROLE_BLOCK_QUOTE,
                                pyatspi.ROLE_FORM,
                                pyatspi.ROLE_LANDMARK,
+                               'ROLE_CONTENT_DELETION',
+                               'ROLE_CONTENT_INSERTION',
+                               'ROLE_CONTENT_MARK',
+                               'ROLE_CONTENT_SUGGESTION',
                                'ROLE_DPUB_LANDMARK',
                                'ROLE_DPUB_SECTION',
                                pyatspi.ROLE_LIST,
@@ -2597,6 +2788,11 @@ class SpeechGenerator(generator.Generator):
         if not _settingsManager.getSetting('enablePauseBreaks') \
            or args.get('eliminatePauses', False):
             return []
+
+        if _settingsManager.getSetting('verbalizePunctuationStyle') == \
+           settings.PUNCTUATION_STYLE_ALL:
+            return []
+
         return PAUSE
 
     def _generateLineBreak(self, obj, **args):
