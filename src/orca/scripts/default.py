@@ -559,8 +559,10 @@ class Script(script.Script):
             self.onTextInserted
         listeners["object:active-descendant-changed"]       = \
             self.onActiveDescendantChanged
-        listeners["object:children-changed"]                = \
-            self.onChildrenChanged
+        listeners["object:children-changed:add"]            = \
+            self.onChildrenAdded
+        listeners["object:children-changed:remove"]         = \
+            self.onChildrenRemoved
         listeners["object:state-changed:active"]            = \
             self.onActiveChanged
         listeners["object:state-changed:busy"]              = \
@@ -2006,7 +2008,7 @@ class Script(script.Script):
             self.presentMessage(messages.TABLE_NOT_IN_A)
             return True
 
-        if not self.utilities.getContainingDocument(table):
+        if not self.utilities.getDocumentForObject(table):
             settingName = 'readFullRowInGUITable'
         elif self.utilities.isSpreadSheetTable(table):
             settingName = 'readFullRowInSpreadSheet'
@@ -2108,6 +2110,9 @@ class Script(script.Script):
 
     def _whereAmISelectedText(self, inputEvent, obj):
         text, startOffset, endOffset = self.utilities.allSelectedText(obj)
+        if self.utilities.shouldVerbalizeAllPunctuation(obj):
+            text = self.utilities.verbalizeAllPunctuation(text)
+
         if not text:
             msg = messages.NO_SELECTED_TEXT
         else:
@@ -2239,12 +2244,14 @@ class Script(script.Script):
         speech.speak(self.speechGenerator.generateSpeech(obj, alreadyFocused=True))
         self.pointOfReference['checkedChange'] = hash(obj), event.detail1
 
-    def onChildrenChanged(self, event):
-        """Called when a child node has changed.
+    def onChildrenAdded(self, event):
+        """Callback for object:children-changed:add accessibility events."""
 
-        Arguments:
-        - event: the Event
-        """
+        pass
+
+    def onChildrenRemoved(self, event):
+        """Callback for object:children-changed:remove accessibility events."""
+
         pass
 
     def onCaretMoved(self, event):
@@ -2302,6 +2309,8 @@ class Script(script.Script):
         else:
             start, end, string = self.utilities.getCachedTextSelection(obj)
             if string and self.utilities.handleTextSelectionChange(obj):
+                msg = "DEFAULT: Event handled as text selection change"
+                debug.println(debug.LEVEL_INFO, msg, True)
                 return
 
         msg = "DEFAULT: Presenting text at new caret position"
@@ -2522,6 +2531,13 @@ class Script(script.Script):
                 debug.println(debug.LEVEL_INFO, msg, True)
                 continue
 
+            if child.getRole() == pyatspi.ROLE_PAGE_TAB and orca_state.locusOfFocus \
+               and child.name == orca_state.locusOfFocus.name \
+               and not state.contains(pyatspi.STATE_FOCUSED):
+                msg = "DEFAULT: %s's selection redundant to %s" % (child, orca_state.locusOfFocus)
+                debug.println(debug.LEVEL_INFO, msg, True)
+                break
+
             if not self.utilities.isLayoutOnly(child):
                 orca.setLocusOfFocus(event, child)
                 break
@@ -2693,7 +2709,11 @@ class Script(script.Script):
         # Because some implementations are broken.
         string = self.utilities.insertedText(event)
 
-        if self.utilities.lastInputEventWasCommand():
+        if self.utilities.lastInputEventWasPageSwitch():
+            msg = "DEFAULT: Insertion is believed to be due to page switch"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            speakString = False
+        elif self.utilities.lastInputEventWasCommand():
             msg = "DEFAULT: Insertion is believed to be due to command"
             debug.println(debug.LEVEL_INFO, msg, True)
         elif self.utilities.isMiddleMouseButtonTextInsertionEvent(event):
@@ -3281,6 +3301,9 @@ class Script(script.Script):
             voice = self.speechGenerator.voice(string=line)
             line = self.utilities.adjustForLinks(obj, line, startOffset)
             line = self.utilities.adjustForRepeats(line)
+            if self.utilities.shouldVerbalizeAllPunctuation(obj):
+                line = self.utilities.verbalizeAllPunctuation(line)
+
             utterance = [line]
             utterance.extend(voice)
             speech.speak(utterance)
@@ -3311,6 +3334,9 @@ class Script(script.Script):
 
             voice = self.speechGenerator.voice(string=phrase)
             phrase = self.utilities.adjustForRepeats(phrase)
+            if self.utilities.shouldVerbalizeAllPunctuation(obj):
+                phrase = self.utilities.verbalizeAllPunctuation(phrase)
+
             utterance = [phrase]
             utterance.extend(voice)
             speech.speak(utterance)
@@ -3334,6 +3360,9 @@ class Script(script.Script):
             text.getTextAtOffset(offset,
                                  pyatspi.TEXT_BOUNDARY_WORD_START)
 
+        msg = "DEFAULT: Word at offset %i is '%s' (%i-%i)" % (offset, word, startOffset, endOffset)
+        debug.println(debug.LEVEL_INFO, msg, True)
+
         if not word:
             self.sayCharacter(obj)
             return
@@ -3356,9 +3385,12 @@ class Script(script.Script):
 
 
         self.speakMisspelledIndicator(obj, startOffset)
-
         voice = self.speechGenerator.voice(string=word)
         word = self.utilities.adjustForRepeats(word)
+
+        msg = "DEFAULT: Word adjusted for repeats: '%s'" % word
+        debug.println(debug.LEVEL_INFO, msg, True)
+
         self._lastWord = word
         speech.speak(word, voice)
 
