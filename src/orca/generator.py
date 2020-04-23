@@ -312,7 +312,8 @@ class Generator:
                 except:
                     pass
             try:
-                children = children or [child for child in obj]
+                include = lambda x: not self._script.utilities.isStaticTextLeaf(x)
+                children = children or [child for child in obj if include(child)]
             except:
                 pass
             names = map(self._script.utilities.displayedText, children)
@@ -674,6 +675,13 @@ class Generator:
         else:
             result.append(indicators[0])
         return result
+
+    def _generateCheckedStateIfCheckable(self, obj, **args):
+        if obj.getState().contains(pyatspi.STATE_CHECKABLE) \
+           or obj.getRole() == pyatspi.ROLE_CHECK_MENU_ITEM:
+            return self._generateCheckedState(obj, **args)
+
+        return []
 
     def _generateMenuItemCheckedState(self, obj, **args):
         """Returns an array of strings for use by speech and braille that

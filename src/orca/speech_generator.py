@@ -681,6 +681,16 @@ class SpeechGenerator(generator.Generator):
             result.extend(acss)
         return result
 
+    def _generateCheckedStateIfCheckable(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        acss = self.voice(STATE)
+        result = super()._generateCheckedStateIfCheckable(obj, **args)
+        if result:
+            result.extend(acss)
+        return result
+
     def _generateMenuItemCheckedState(self, obj, **args):
         """Returns an array of strings for use by speech and braille that
         represent the checked state of the menu item, only if it is
@@ -2183,8 +2193,7 @@ class SpeechGenerator(generator.Generator):
                    or args.get('forceList', False)):
             return []
 
-        if obj.getRole() == pyatspi.ROLE_MENU \
-           and obj.parent == self._script.utilities.topLevelObject(obj):
+        if self._script.utilities.isTopLevelMenu(obj):
             return []
 
         if self._script.utilities.isEditableComboBox(obj):
@@ -2282,7 +2291,7 @@ class SpeechGenerator(generator.Generator):
             return result
 
         for child in statusBar:
-            childResult = self._generateName(child)
+            childResult = self._generateDisplayedText(child)
             if not childResult and child.getRole() != pyatspi.ROLE_LABEL:
                 childResult = self.generate(child, includeContext=False)
             if childResult:

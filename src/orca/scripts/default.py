@@ -2120,17 +2120,15 @@ class Script(script.Script):
         if not obj:
             return True
 
-        container = obj
-        if "Selection" in pyatspi.listInterfaces(container.parent):
-            container = obj.parent
-
-        if "Selection" not in pyatspi.listInterfaces(container):
-            msg = "INFO: %s and %s don't implement selection interface" % (obj, obj.parent)
+        container = self.utilities.getSelectionContainer(obj)
+        if not container:
+            msg = "INFO: Selection container not found for %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return self._whereAmISelectedText(inputEvent, obj)
 
         count = self.utilities.selectedChildCount(container)
-        self.presentMessage(messages.selectedItemsCount(count, container.childCount))
+        childCount = self.utilities.selectableChildCount(container)
+        self.presentMessage(messages.selectedItemsCount(count, childCount))
         if not count:
             return True
 
@@ -3317,7 +3315,7 @@ class Script(script.Script):
             utterance.extend(voice)
             speech.speak(utterance)
         else:
-            self.sayCharacter(obj)
+            self.speakCharacter(phrase)
 
     def sayWord(self, obj):
         """Speaks the word at the caret.

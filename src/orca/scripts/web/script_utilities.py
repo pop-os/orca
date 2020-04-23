@@ -34,6 +34,7 @@ import urllib
 from orca import debug
 from orca import input_event
 from orca import messages
+from orca import mouse_review
 from orca import orca
 from orca import orca_state
 from orca import script_utilities
@@ -636,11 +637,12 @@ class Utilities(script_utilities.Utilities):
         if rv or not self.inDocumentContent(obj):
             return rv
 
-        if not self._isOrIsIn(orca_state.locusOfFocus, obj):
-            return rv
+        if not mouse_review.reviewer.inMouseEvent:
+            if not self._isOrIsIn(orca_state.locusOfFocus, obj):
+                return rv
 
-        msg = "WEB: %s contains locusOfFocus but not showing and visible" % obj
-        debug.println(debug.LEVEL_INFO, msg, True)
+            msg = "WEB: %s contains locusOfFocus but not showing and visible" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
 
         obj.clearCache()
         rv = super().isShowingAndVisible(obj)
@@ -1793,8 +1795,6 @@ class Utilities(script_utilities.Utilities):
 
         descendants = sorted(set(oldSubtree).union(newSubtree), key=functools.cmp_to_key(_cmp))
         for descendant in descendants:
-            if self.isStaticTextLeaf(descendant):
-                continue
             if descendant not in (oldStart, oldEnd, start, end) \
                and pyatspi.findAncestor(descendant, lambda x: x in descendants):
                 super().updateCachedTextSelection(descendant)
@@ -3620,7 +3620,7 @@ class Utilities(script_utilities.Utilities):
         if obj.getRole() not in [pyatspi.ROLE_IMAGE, pyatspi.ROLE_CANVAS] \
            and self._getTag(obj) != 'svg':
             rv = False
-        if rv and (obj.name or obj.description or obj.childCount):
+        if rv and (obj.name or obj.description):
             rv = False
         if rv and (self.isClickableElement(obj) or self.hasLongDesc(obj)):
             rv = False
@@ -3640,6 +3640,11 @@ class Utilities(script_utilities.Utilities):
                     rv = False
         if rv and 'Text' in pyatspi.listInterfaces(obj):
             rv = self.queryNonEmptyText(obj) is None
+        if rv and obj.childCount:
+            for i in range(min(obj.childCount, 50)):
+                if not self.isUselessImage(obj[i]):
+                    rv = False
+                    break
 
         self._isUselessImage[hash(obj)] = rv
         return rv
@@ -4087,14 +4092,13 @@ class Utilities(script_utilities.Utilities):
 
         return self._treatObjectAsWhole(event.source)
 
-    # TODO - JD: As an experiment, we're stopping these at the event manager.
-    # If that works, this can be removed.
     def eventIsEOCAdded(self, event):
         if not self.inDocumentContent(event.source):
             return False
 
-        if event.type.startswith("object:text-changed:insert"):
-            return self.EMBEDDED_OBJECT_CHARACTER in event.any_data
+        if event.type.startswith("object:text-changed:insert") \
+           and self.EMBEDDED_OBJECT_CHARACTER in event.any_data:
+            return not re.match("[^\s\ufffc]", event.any_data)
 
         return False
 
@@ -4722,6 +4726,13 @@ class Utilities(script_utilities.Utilities):
             alert = pyatspi.findAncestor(event.source, isAlert)
             if alert and self.focusedObject(alert) == event.source:
                 msg = "WEB: Focused source will be presented as part of alert"
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return False
+
+            if self._lastQueuedLiveRegionEvent \
+               and self._lastQueuedLiveRegionEvent.type == event.type \
+               and self._lastQueuedLiveRegionEvent.any_data == event.any_data:
+                msg = "WEB: Event is believed to be duplicate message"
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return False
 
