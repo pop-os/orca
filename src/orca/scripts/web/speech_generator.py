@@ -83,7 +83,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         if self._script.utilities.isLink(obj) \
            or self._script.utilities.isLandmark(obj) \
-           or self._script.utilities.isMath(obj):
+           or self._script.utilities.isMath(obj) \
+           or obj.getRole() == pyatspi.ROLE_TOOL_TIP:
             return result
 
         args['stopAtRoles'] = [pyatspi.ROLE_DOCUMENT_FRAME,
@@ -311,8 +312,18 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         if self._script.utilities.isTextBlockElement(obj) \
            and not self._script.utilities.isLandmark(obj) \
+           and not self._script.utilities.isDocument(obj) \
            and not self._script.utilities.isDPub(obj) \
            and not self._script.utilities.isContentSuggestion(obj):
+            return []
+
+        if self._script.utilities.isContentEditableWithEmbeddedObjects(obj):
+            lastKey, mods = self._script.utilities.lastKeyAndModifiers()
+            if lastKey in ["Home", "End", "Up", "Down", "Left", "Right", "Page_Up", "Page_Down"]:
+                return []
+
+        priorObj = args.get("priorObj")
+        if priorObj and priorObj.getRole() == pyatspi.ROLE_PAGE_TAB and priorObj.name == obj.name:
             return []
 
         if obj.name:
@@ -331,16 +342,11 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         if self._script.utilities.isTextBlockElement(obj) \
            and not self._script.utilities.isLandmark(obj) \
-           and not self._script.utilities.isDPub(obj):
+           and not self._script.utilities.isDPub(obj) \
+           and not args.get('inFlatReview'):
             return []
 
         role = args.get('role', obj.getRole())
-        alwaysPresent = [pyatspi.ROLE_PUSH_BUTTON,
-                         pyatspi.ROLE_IMAGE]
-
-        if obj.parent and obj.name and obj.name == obj.parent.name \
-           and obj != orca_state.locusOfFocus and role not in alwaysPresent:
-            return []
 
         # TODO - JD: Once the formatting strings are vastly cleaned up
         # or simply removed, hacks like this won't be needed.
@@ -711,9 +717,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         return super()._generateTableCellRow(obj, **args)
 
     def _generateRowHeader(self, obj, **args):
-        # TODO - JD: _lastCommandWasCaretNav is private.
-        if self._script.utilities.lastInputEventWasLineNav() \
-           and self._script._lastCommandWasCaretNav:
+        if self._script.utilities.lastInputEventWasLineNav():
             return []
 
         return super()._generateRowHeader(obj)

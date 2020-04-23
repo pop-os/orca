@@ -130,7 +130,7 @@ class Script(Gecko.Script):
 
         super().locusOfFocusChanged(event, oldFocus, newFocus)
 
-    def useFocusMode(self, obj):
+    def useFocusMode(self, obj, prevObj=None):
         if self.utilities.isEditableMessage(obj):
             msg = "THUNDERBIRD: Using focus mode for editable message %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -138,7 +138,7 @@ class Script(Gecko.Script):
 
         msg = "THUNDERBIRD: %s is not an editable message." % obj
         debug.println(debug.LEVEL_INFO, msg, True)
-        return super().useFocusMode(obj)
+        return super().useFocusMode(obj, prevObj)
 
     def enableStickyBrowseMode(self, inputEvent, forceMessage=False):
         if self.utilities.isEditableMessage(orca_state.locusOfFocus):
@@ -192,6 +192,9 @@ class Script(Gecko.Script):
         """Callback for object:state-changed:busy accessibility events."""
 
         if self.utilities.isEditableMessage(event.source):
+            return
+
+        if self.inFocusMode():
             return
 
         obj = event.source
