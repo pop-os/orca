@@ -885,7 +885,7 @@ class Script(default.Script):
             priorObj, priorOffset = self.utilities.getPriorContext()
 
         obj, offset = self.utilities.getCaretContext(documentFrame=None)
-        contents = self.utilities.getLineContentsAtOffset(obj, offset)
+        contents = self.utilities.getLineContentsAtOffset(obj, offset, useCache=not isEditable)
         self.speakContents(contents, priorObj=priorObj)
 
     def presentObject(self, obj, **args):
@@ -1063,7 +1063,7 @@ class Script(default.Script):
         """To-be-removed. Returns the string, caretOffset, startOffset."""
 
         if self._inFocusMode or not self.utilities.inDocumentContent(obj) \
-           or obj.getState().contains(pyatspi.STATE_EDITABLE):
+           or self.utilities.isFocusModeWidget(obj):
             return super().getTextLineAtCaret(obj, offset, startOffset, endOffset)
 
         text = self.utilities.queryNonEmptyText(obj)
@@ -1329,7 +1329,20 @@ class Script(default.Script):
         if not obj or self.utilities.isZombie(obj):
             self.utilities.clearCaretContext()
 
-        shouldPresent = self.utilities.isShowingOrVisible(event.source)
+        shouldPresent = True
+        if not self.utilities.isShowingOrVisible(event.source):
+            shouldPresent = False
+            msg = "WEB: Not presenting because source is not showing or visible"
+            debug.println(debug.LEVEL_INFO, msg, True)
+        elif not self.utilities.documentFrameURI(event.source):
+            shouldPresent = False
+            msg = "WEB: Not presenting because source lacks URI"
+            debug.println(debug.LEVEL_INFO, msg, True)
+        elif not event.detail1 and self._inFocusMode and not self.utilities.isZombie(obj):
+            shouldPresent = False
+            msg = "WEB: Not presenting due to focus mode for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+
         if not _settingsManager.getSetting('onlySpeakDisplayedText') and shouldPresent:
             if event.detail1:
                 self.presentMessage(messages.PAGE_LOADING_START)
@@ -1576,12 +1589,11 @@ class Script(default.Script):
 
         if not _settingsManager.getSetting('caretNavigationEnabled') \
            or self._inFocusMode or isEditable:
+            msg = "WEB: Setting locusOfFocus, context to: %s, %i" % (event.source, event.detail1)
+            debug.println(debug.LEVEL_INFO, msg, True)
             self.utilities.setCaretContext(event.source, event.detail1)
             notify = event.source.getState().contains(pyatspi.STATE_FOCUSED)
             orca.setLocusOfFocus(event, event.source, notify)
-            msg = "WEB: Setting locusOfFocus, context to: %s, %i" % \
-                  (event.source, event.detail1)
-            debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
         self.utilities.setCaretContext(obj, offset)
@@ -1746,6 +1758,11 @@ class Script(default.Script):
     def onDocumentLoadComplete(self, event):
         """Callback for document:load-complete accessibility events."""
 
+        if self.utilities.getDocumentForObject(event.source.parent):
+            msg = "WEB: Ignoring: Event source is nested document"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
         msg = "WEB: Updating loading state and resetting live regions"
         debug.println(debug.LEVEL_INFO, msg, True)
         self._loadingDocumentContent = False
@@ -1755,6 +1772,11 @@ class Script(default.Script):
     def onDocumentLoadStopped(self, event):
         """Callback for document:load-stopped accessibility events."""
 
+        if self.utilities.getDocumentForObject(event.source.parent):
+            msg = "WEB: Ignoring: Event source is nested document"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
         msg = "WEB: Updating loading state"
         debug.println(debug.LEVEL_INFO, msg, True)
         self._loadingDocumentContent = False
@@ -1762,6 +1784,11 @@ class Script(default.Script):
 
     def onDocumentReload(self, event):
         """Callback for document:reload accessibility events."""
+
+        if self.utilities.getDocumentForObject(event.source.parent):
+            msg = "WEB: Ignoring: Event source is nested document"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
 
         msg = "WEB: Updating loading state"
         debug.println(debug.LEVEL_INFO, msg, True)
