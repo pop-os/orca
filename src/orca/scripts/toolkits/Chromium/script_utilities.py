@@ -100,7 +100,7 @@ class Utilities(web.Utilities):
             return rv
 
         rv = False
-        if obj.parent.getRole() == pyatspi.ROLE_LIST_ITEM:
+        if obj.parent and obj.parent.getRole() == pyatspi.ROLE_LIST_ITEM:
             rv = self._getTag(obj) in ["::marker", None] and obj.parent[0] == obj
 
         self._isListItemMarker[hash(obj)] = rv
@@ -231,6 +231,12 @@ class Utilities(web.Utilities):
 
         if obj[0].getRole() == pyatspi.ROLE_MENU_BAR:
             return True
+
+        return False
+
+    def isTopLevelMenu(self, obj):
+        if obj.getRole() == pyatspi.ROLE_MENU:
+            return self.isFrameForPopupMenu(self.topLevelObject(obj))
 
         return False
 

@@ -358,7 +358,7 @@ formatting = {
             'basicWhereAmI': 'ancestors + pause + labelOrName + checkedStateIfCheckable + pause + accelerator + pause + positionInList + ' + MNEMONIC
             },
         pyatspi.ROLE_NOTIFICATION: {
-            'unfocused': 'roleName + unrelatedLabels'
+            'unfocused': 'roleName + labelOrName + pause + (expandedEOCs or unrelatedLabels or description)'
             },
         pyatspi.ROLE_PAGE: {
             'focused': 'label + readOnly + currentLineText + anyTextSelection',
@@ -420,6 +420,9 @@ formatting = {
             'focused': 'value',
             'unfocused': 'labelOrName + roleName + value + required + availability + ' + MNEMONIC,
             'basicWhereAmI': 'labelOrName + roleName + value + percentage + ' + MNEMONIC + ' + accelerator + required'
+            },
+        pyatspi.ROLE_SCROLL_PANE: {
+            'unfocused': '(currentLineText + allTextSelection) or (labelOrName + roleName)',
             },
         pyatspi.ROLE_SECTION: {
             'focused': '(labelOrName or (currentLineText + allTextSelection)) + roleName',
