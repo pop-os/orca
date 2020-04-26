@@ -1,6 +1,7 @@
 orca (3.36.2-2) UNRELEASED; urgency=medium
 
   * patches/no-default-tty7: braille: remove fallback on VT 7.
+  * control: Update alioth list domain.
 
  -- Samuel Thibault <sthibault@debian.org>  Sun, 26 Apr 2020 01:32:22 +0200
 
