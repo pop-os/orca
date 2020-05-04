@@ -1,4 +1,4 @@
-orca (3.36.2-1ubuntu1) UNRELEASED; urgency=medium
+orca (3.36.2-1ubuntu1) groovy; urgency=medium
 
   * Merge with Debian. Remaining changes:
     + debian/patches/unity-a11y.patch: add hacks to better work with Unity
@@ -7,7 +7,7 @@ orca (3.36.2-1ubuntu1) UNRELEASED; urgency=medium
       universe
   * control, gbp.conf: Update for ubuntu branches
 
- -- Iain Lane <iain.lane@canonical.com>  Mon, 04 May 2020 11:29:46 +0100
+ -- Iain Lane <iain.lane@canonical.com>  Mon, 04 May 2020 14:41:39 +0100
 
 orca (3.36.2-1) unstable; urgency=medium
 
