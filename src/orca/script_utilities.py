@@ -241,7 +241,7 @@ class Utilities:
 
         return ancestor
 
-    def objectAttributes(self, obj):
+    def objectAttributes(self, obj, useCache=True):
         try:
             rv = dict([attr.split(':', 1) for attr in obj.getAttributes()])
         except:
@@ -628,6 +628,12 @@ class Utilities:
         """Returns the frame and (possibly) the dialog containing obj."""
 
         results = [None, None]
+
+        obj = obj or orca_state.locusOfFocus
+        if not obj:
+            msg = "ERROR: frameAndDialog() called without valid object"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return results
 
         if obj.getRole() == pyatspi.ROLE_FRAME:
             results[0] = obj
@@ -3607,7 +3613,7 @@ class Utilities:
         Returns a string representing the value.
         """
 
-        attrs = self.objectAttributes(obj)
+        attrs = self.objectAttributes(obj, False)
         valuetext = attrs.get("valuetext")
         if valuetext:
             return valuetext
@@ -3928,6 +3934,12 @@ class Utilities:
             return False
 
         return obj.parent and obj.parent.getRole() in self._contextMenuParentRoles()
+
+    def isTopLevelMenu(self, obj):
+        if obj.getRole() == pyatspi.ROLE_MENU:
+            return obj.parent == self.topLevelObject(obj)
+
+        return False
 
     def isEntryCompletionPopupItem(self, obj):
         return False
@@ -4707,10 +4719,12 @@ class Utilities:
             if selected:
                 obj = selected[0]
             else:
-                isMenu = lambda x: x and x.getRole() == pyatspi.ROLE_MENU
+                isMenu = lambda x: x and x.getRole() in [pyatspi.ROLE_MENU, pyatspi.ROLE_LIST_BOX]
                 selected = self.selectedChildren(pyatspi.findDescendant(obj, isMenu))
                 if selected:
                     obj = selected[0]
+                else:
+                    return -1, -1
 
         parent = self.getFunctionalParent(obj)
         childCount = self.getFunctionalChildCount(parent)
@@ -5214,8 +5228,9 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        if not state.contains(pyatspi.STATE_FOCUSED):
-            msg = "INFO: Not echoable text insertion event: source is not focused"
+        if state.contains(pyatspi.STATE_FOCUSABLE) and not state.contains(pyatspi.STATE_FOCUSED) \
+           and event.source != orca_state.locusOfFocus:
+            msg = "INFO: Not echoable text insertion event: focusable source is not focused"
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
@@ -5460,11 +5475,16 @@ class Utilities:
         if not (startObj and endObj):
             return []
 
+        _include = lambda x: x
+        _exclude = self.isStaticTextLeaf
+
         subtree = []
         for i in range(startObj.getIndexInParent(), startObj.parent.childCount):
             child = startObj.parent[i]
+            if self.isStaticTextLeaf(child):
+                continue
             subtree.append(child)
-            subtree.extend(self.findAllDescendants(child, lambda x: x))
+            subtree.extend(self.findAllDescendants(child, _include, _exclude))
             if endObj in subtree:
                 break
 
@@ -5473,7 +5493,7 @@ class Utilities:
 
         if endObj not in subtree:
             subtree.append(endObj)
-            subtree.extend(self.findAllDescendants(endObj, lambda x: x))
+            subtree.extend(self.findAllDescendants(endObj, _include, _exclude))
 
         try:
             lastObj = endObj.parent[endObj.getIndexInParent() + 1]
