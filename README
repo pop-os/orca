@@ -1,4 +1,4 @@
-# Orca v3.37.1
+# Orca v3.37.2
 
 ## Introduction
 
@@ -42,20 +42,6 @@ Orca also has the following dependencies:
 YOU ALSO NEED THE LATEST AT-SPI2, PYATSPI2 AND ATK FOR THE GNOME 3.37.x
 RELEASES.  THEY CONTAIN VERY IMPORTANT BUG FIXES!
 
-> NOTE: If you have multiple versions of the Python interpreter installed
-on your machine, you should set the PYTHON environment variable when
-configuring Orca.  For example:
-
-```sh
-PYTHON=/usr/bin/python3.3 ./autogen.sh
-```
-
-or
-
-```sh
-PYTHON=/usr/bin/python3.3 ./configure
-```
-
 ## NOTE FOR BRLTTY USERS:
 
 Orca depends upon the Python bindings for BrlAPI available in BrlTTY v4.5
@@ -86,5 +72,4 @@ within Orca as well as at: <https://help.gnome.org/users/orca/stable/>
 
 So, you want to write a script for Orca?  The best thing to do is 
 start by looking at other scripts under the src/orca/scripts/ hierarchy
-of the source tree.  Also, the docs/doc-set/internals.html file contains
-detailed information about the internal workings of Orca.
+of the source tree.

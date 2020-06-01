@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_setting_up_orca" xml:lang="uk">
+<info>
+  <link type="seealso" xref="preferences"/>
+  <link type="guide" xref="index#getting_started"/>
+  <link type="next" xref="howto_the_orca_modifier"/>
+  <title type="sort">4. Налаштовування Orca</title>
+  <title type="link">Налаштування</title>
+    <desc>Налаштовування <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Налаштовування Orca</title>
+
+      <p>Якщо ви хочете налаштувати <app>Orca</app>, відкрийте діалогове вікно <link xref="preferences">Параметри</link> натисканням комбінації клавіш <keyseq><key>Модифікатор Orca</key><key>Пробіл</key></keyseq> з будь-якої програми із передбаченими можливостями доступності. Крім того, ви можете ввести команду <cmd>orca</cmd> з параметром <cmd>-s</cmd> або <cmd>--setup</cmd> у вікні термінала або діалоговому вікні <gui>Запустити</gui> і натиснути клавішу <key>Enter</key>.</p>
+</page>

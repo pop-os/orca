@@ -89,6 +89,13 @@ class Word:
         self.height = height
         self.chars = []
 
+    def __str__(self):
+        return "WORD: '%s' (%i-%i) %s" % \
+            (self.string.replace("\n", "\\n"),
+             self.startOffset,
+             self.endOffset,
+             self.zone.accessible)
+
     def __getattribute__(self, attr):
         if attr != "chars":
             return super().__getattribute__(attr)
@@ -145,6 +152,9 @@ class Zone:
         self.height = height
         self.role = role or accessible.getRole()
         self._words = []
+
+    def __str__(self):
+        return "ZONE: '%s' %s" % (self._string.replace("\n", "\\n"), self.accessible)
 
     def __getattribute__(self, attr):
         """To ensure we update the content."""
@@ -225,7 +235,13 @@ class Zone:
         return self._extentsAreOnSameLine(zone)
 
     def getWordAtOffset(self, charOffset):
+        msg = "FLAT REVIEW: Searching for word at offset %i" % charOffset
+        debug.println(debug.LEVEL_INFO, msg, True)
+
         for word in self.words:
+            msg = "FLAT REVIEW: Checking %s" % word
+            debug.println(debug.LEVEL_INFO, msg, True)
+
             offset = word.getRelativeOffset(charOffset)
             if offset >= 0:
                 return word, offset
@@ -885,6 +901,7 @@ class Context:
                 regionWithFocus = zone.brailleRegion
                 regionWithFocus.cursorOffset = 0
                 if zone.words:
+                    regionWithFocus.cursorOffset += zone.words[0].startOffset - zone.startOffset
                     for wordIndex in range(0, self.wordIndex):
                         regionWithFocus.cursorOffset += \
                             len(zone.words[wordIndex].string)
@@ -1146,12 +1163,14 @@ class Context:
                     self.wordIndex = 0
                     self.charIndex = 0
                     moved = True
+                    braille.clear()
                 elif wrap & Context.WRAP_TOP_BOTTOM:
                     self.lineIndex  = 0
                     self.zoneIndex  = 0
                     self.wordIndex = 0
                     self.charIndex = 0
                     moved = True
+                    braille.clear()
         elif flatReviewType == Context.CHAR:
             zone = self.lines[self.lineIndex].zones[self.zoneIndex]
             if zone.words:

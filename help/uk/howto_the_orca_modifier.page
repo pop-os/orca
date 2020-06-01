@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_the_orca_modifier" xml:lang="uk">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_learn_modes"/>
+    <title type="sort">3. Модифікатор Orca</title>
+    <desc>Клавіша, яка працює подібно до <key>Shift</key>, <key>Ctrl</key> та <key>Alt</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Модифікатор Orca</title>
+  <p>У Orca передбачено спеціальну клавішу-модифікатор, яка працює подібно до клавіш <key>Shift</key>, <key>Ctrl</key> і <key>Alt</key>. Її призначено спеціально для виконання команд <app>Orca</app> у такий спосіб, щоб не впроваджувати конфліктів із програмами, з якими ви працюєте.</p>
+  <p>Те, з якою клавішею буде пов'язано «Модифікатор Orca», типово залежить від того, якою розкладкою клавіатури ви користуєтеся в <app>Orca</app> — розкладкою для ноутбука чи розкладкою для робочої станції:</p>
+  <list>
+    <item>
+      <p>Якщо ви користуєтеся розкладкою для ноутбука, типовим модифікатором Orca буде <key>CapsLock</key></p>
+    </item>
+    <item>
+      <p>Якщо ви використовуєте розкладку для робочої станції, модифікатором Orca буде і <key>Insert</key>, і <key>Insert на цифровому блоці</key>, останній варіант є тим самим, що і <key>0 на цифровому блоці</key>.</p>
+    </item>
+  </list>
+  <p>Якщо ви хочете зберегти вашу поточну розкладку клавіатури, але вибрати іншу клавішу-модифікатор, ви можете зробити це за допомогою таких кроків:</p>
+  <steps>
+    <title>Зміна модифікатора Orca</title>
+    <item>
+      <p>Відкрийте вікно <link xref="preferences">Параметри Orca</link> натисканням комбінації клавіш <keyseq><key>Модифікатор Orca</key><key>Пробіл</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Перейдіть на сторінку <gui>Прив'язки клавіш</gui>.</p>
+    </item>
+    <item>
+      <p>Перейдіть до спадного списку <gui>Клавіші-модифікатори екранного читача</gui>.</p>
+    </item>
+    <item>
+      <p>Перейдіть до бажаного модифікатора за допомогою стрілочок. Доступними варіантами є:</p>
+      <list>
+        <item><p>Insert, Insert_на_ЦБ</p></item>
+        <item><p>Insert_на_ЦБ</p></item>
+        <item><p>Insert</p></item>
+        <item><p>Caps_Lock</p></item>
+      </list>
+    </item>
+    <item><p>Натисніть кнопку <gui>Застосувати</gui>.</p></item>
+  </steps>
+</page>

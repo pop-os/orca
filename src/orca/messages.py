@@ -1631,7 +1631,7 @@ MISSPELLED_WORD_CONTEXT = _("Context is %s")
 # you to the next heading. What should happen when you press an "h" in
 # an entry on a web page depends: If you want to resume reading content,
 # "h" should move to the next heading; if you want to enter text, "h"
-# should not not move you to the next heading. Similarly, if you are
+# should not move you to the next heading. Similarly, if you are
 # at the bottom of an entry and press Down arrow, should you leave the
 # entry? Again, it depends on if you want to resume reading content or
 # if you are editing the text in the entry. Because Orca doesn't know
@@ -1646,7 +1646,7 @@ MODE_BROWSE = _("Browse mode")
 # you to the next heading. What should happen when you press an "h" in
 # an entry on a web page depends: If you want to resume reading content,
 # "h" should move to the next heading; if you want to enter text, "h"
-# should not not move you to the next heading. Similarly, if you are
+# should not move you to the next heading. Similarly, if you are
 # at the bottom of an entry and press Down arrow, should you leave the
 # entry? Again, it depends on if you want to resume reading content or
 # if you are editing the text in the entry. Because Orca doesn't know
@@ -1661,7 +1661,7 @@ MODE_FOCUS = _("Focus mode")
 # you to the next heading. What should happen when you press an "h" in
 # an entry on a web page depends: If you want to resume reading content,
 # "h" should move to the next heading; if you want to enter text, "h"
-# should not not move you to the next heading. Similarly, if you are
+# should not move you to the next heading. Similarly, if you are
 # at the bottom of an entry and press Down arrow, should you leave the
 # entry? Again, it depends on if you want to resume reading content or
 # if you are editing the text in the entry. Because Orca doesn't know
@@ -2207,6 +2207,16 @@ STOP_ORCA = _("Screen reader off.")
 
 # Translators: This message means speech synthesis is not installed or working.
 SPEECH_UNAVAILABLE = _("Speech is unavailable.")
+
+# Translators: Orca has a command to present the contents of the status bar.
+# This is a brief message which will be presented if Orca cannot find the
+# status bar (e.g. because there isn't one).
+STATUS_BAR_NOT_FOUND_BRIEF = C_("status bar", "Not found")
+
+# Translators: Orca has a command to present the contents of the status bar.
+# This is a detailed message which will be presented if Orca cannot find the
+# status bar (e.g. because there isn't one).
+STATUS_BAR_NOT_FOUND_FULL = _("Status bar not found")
 
 # Translators: the Orca "Find" dialog allows a user to search for text in a
 # window and then move focus to that text.  For example, they may want to find

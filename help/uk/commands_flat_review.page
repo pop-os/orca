@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_flat_review" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_find"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_flat_review"/>
+    <title type="sort">1. Загальний перегляд</title>
+    <title type="link">Загальний перегляд</title>
+    <desc>Команди для просторового перегляду вікон</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди режиму загального перегляду</title>
+  <p>Команди <link xref="howto_flat_review">режиму загального перегляду</link> Orca розроблено для просторового перегляду елементів, які показано на екрані. Вони також надають доступу до читання поточного рядка, слова або символу при навігації текстом документа. Більшість цих команд пов'язано із комбінаціями клавіш. Будь ласка, ознайомтеся із розділом щодо <link xref="howto_key_bindings">зміни клавіатурних прив'язок</link>, щоб дізнатися про те, як пов'язати непов'язані команди із комбінаціями клавіш.</p>
+  <section id="line">
+    <title>Команди для перегляду рядка</title>
+    <list>
+      <item>
+        <p>Перший рядок (позиція «домівка»):</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>Модифікатор Orca</key><key>7 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>Ctrl</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Попередній рядок:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>7 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Поточний рядок:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>8 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>I</key></keyseq></p></item>
+        </list>
+      </item>
+        <item><p>Вимовити поточний рядок за літерами:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>8 на ЦБ</key></keyseq> (подвійне клацання)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>I</key></keyseq> (подвійне клацання)</p></item>
+        </list>
+      </item>
+      <item><p>Вимовити поточний рядок фонетично:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>8 на ЦБ</key></keyseq> (потрійне клацання)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>I</key></keyseq> (потрійне клацання)</p></item>
+        </list>
+      </item>
+      <item><p>Наступний рядок:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>9 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Останній рядок (позиція «кінець»):</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>Модифікатор Orca</key><key>9 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>Ctrl</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="word">
+    <title>Команди для перегляду за словами</title>
+    <list>
+      <item><p>Слово вище:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>Модифікатор Orca</key><key>4 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>Ctrl</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Попереднє слово:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>4 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Поточне слово:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>5 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Вимовити поточне слово:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>5 на ЦБ</key></keyseq> (подвійне клацання)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>K</key></keyseq> (подвійне клацання)</p></item>
+        </list>
+      </item>
+      <item><p>Фонетично вимовити поточне слово:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>5 на ЦБ</key></keyseq> (потрійне клацання)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>K</key></keyseq> (потрійне клацання)</p></item>
+        </list>
+      </item>
+      <item><p>Наступне слово:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>6 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Слово нижче:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>Модифікатор Orca</key><key>6 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>Ctrl</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="character">
+    <title>Команди для перегляду за символами</title>
+    <list>
+      <item><p>Попередній символ:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>1 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Поточний символ:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>2 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>кома</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Фонетично вимовити поточний символ:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>2 на ЦБ</key></keyseq> (подвійне клацання)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>кома</key></keyseq> (подвійне клацання)</p></item>
+        </list>
+      </item>
+      <item><p>Вимовити значення поточного символу у Юнікоді:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>2 на ЦБ</key></keyseq> (потрійне клацання)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>кома</key></keyseq> (потрійне клацання)</p></item>
+        </list>
+      </item>
+      <item><p>Наступний символ:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>3 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>крапка</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Останній символ у поточному рядку:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>Модифікатор Orca</key><key>1 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>Ctrl</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="other">
+    <title>Додаткові команди</title>
+    <list>
+      <item><p>Увімкнути або вимкнути режим загального перегляду (оновлює контекст загального перегляду):</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>Модифікатор Orca</key><key>мінус на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>P</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Перегляд поточного запису або віджета:</p>
+        <list>
+          <item><p>Робоча станція: <keyseq><key>Модифікатор Orca</key><key>5 на ЦБ</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>Ctrl</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Скористайтеся командою «Вимовляти все», щоб переглянути поточне діалогове чи звичайне вікно:</p>
+        <list>
+          <item><p>Робоча станція: <key>плюс на ЦБ</key> (подвійне клацання)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>крапка з комою</key></keyseq> (подвійне клацання)</p></item>
+        </list>
+      </item>
+      <item>
+      <p>Копіювати вміст у загальному перегляді до буфера обміну даними: (не пов'язано)</p>
+      </item>
+        <item>
+        <p>Дописати вміст у загальному перегляді до буфера обміну даними: (не пов'язано)</p>
+      </item>
+    </list>
+  </section>
+</page>

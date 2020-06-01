@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_profiles" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_speech_settings"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_profiles"/>
+    <title type="sort">5. Профілі</title>
+    <title type="link">Профілі</title>
+    <desc>Команди для доступу до збережених налаштувань</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди для роботи з профілями</title>
+    <p>За допомогою профілів ви можете зберігати і завантажувати налаштування програми, отже, швидко перемикатися між потрібними вам значеннями параметрів.</p>
+    <p>Вказану нижче команду не пов'язано із жодною комбінацією клавіш. Якщо хочете пов'язати її із комбінацією клавіш, будь ласка, скористайтеся порадами з розділу щодо <link xref="howto_key_bindings">зміни клавіатурних прив'язок</link>.</p>
+    <list>
+      <item>
+        <p>Циклічний перехід до наступного профілю: (не пов'язано)</p>
+      </item>
+    </list>
+</page>

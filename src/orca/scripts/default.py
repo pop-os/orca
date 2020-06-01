@@ -551,6 +551,8 @@ class Script(script.Script):
             self.onMouseButton
         listeners["object:property-change:accessible-name"] = \
             self.onNameChanged
+        listeners["object:property-change:accessible-description"] = \
+            self.onDescriptionChanged
         listeners["object:text-caret-moved"]                = \
             self.onCaretMoved
         listeners["object:text-changed:delete"]             = \
@@ -750,6 +752,7 @@ class Script(script.Script):
             role = obj.getRole()
             state = obj.getState()
             name = obj.name
+            description = obj.description
         except:
             return
 
@@ -766,6 +769,10 @@ class Script(script.Script):
                 debug.println(debug.LEVEL_INFO, msg, True)
 
         self.pointOfReference['names'] = names
+
+        descriptions = self.pointOfReference.get('descriptions', {})
+        descriptions[hash(obj)] = description
+        self.pointOfReference['descriptions'] = descriptions
 
         # We want to save the offset for text objects because some apps and
         # toolkits emit caret-moved events immediately after a text object
@@ -838,12 +845,14 @@ class Script(script.Script):
             priorObj=oldLocusOfFocus)
 
         speech.speak(utterances, interrupt=not shouldNotInterrupt)
+        orca.emitRegionChanged(newLocusOfFocus)
         self._saveFocusedObjectInfo(newLocusOfFocus)
 
     def activate(self):
         """Called when this script is activated."""
 
         _settingsManager.loadAppSettings(self)
+        braille.checkBrailleSetting()
         braille.setupKeyRanges(self.brailleBindings.keys())
         speech.updatePunctuationLevel()
         speech.updateCapitalizationStyle()
@@ -1056,13 +1065,7 @@ class Script(script.Script):
             else:
                 self.panBrailleInDirection(panAmount, panToLeft=True)
 
-            # This will update our target cursor cell
-            #
             self._setFlatReviewContextToBeginningOfBrailleDisplay()
-
-            [charString, x, y, width, height] = \
-                self.flatReviewContext.getCurrent(flat_review.Context.CHAR)
-
             self.targetCursorCell = 1
             self.updateBrailleReview(self.targetCursorCell)
         elif self.isBrailleBeginningShowing() and orca_state.locusOfFocus \
@@ -1125,17 +1128,11 @@ class Script(script.Script):
         if self.flatReviewContext:
             if self.isBrailleEndShowing():
                 self.flatReviewContext.goEnd(flat_review.Context.LINE)
+                # Reviewing the next character also updates the braille output and refreshes the display.
                 self.reviewNextCharacter(inputEvent)
-            else:
-                self.panBrailleInDirection(panAmount, panToLeft=False)
-
-            # This will update our target cursor cell
-            #
+                return
+            self.panBrailleInDirection(panAmount, panToLeft=False)
             self._setFlatReviewContextToBeginningOfBrailleDisplay()
-
-            [charString, x, y, width, height] = \
-                self.flatReviewContext.getCurrent(flat_review.Context.CHAR)
-
             self.targetCursorCell = 1
             self.updateBrailleReview(self.targetCursorCell)
         elif self.isBrailleEndShowing() and orca_state.locusOfFocus \
@@ -1251,7 +1248,20 @@ class Script(script.Script):
 
         frame, dialog = self.utilities.frameAndDialog(obj)
         if frame:
-            speech.speak(self.speechGenerator.generateStatusBar(frame))
+            start = time.time()
+            statusbar = self.utilities.statusBar(frame)
+            end = time.time()
+            msg = "DEFAULT: Time searching for status bar: %.4f" % (end - start)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            if statusbar:
+                self.pointOfReference['statusBarItems'] = None
+                self.presentObject(statusbar)
+                self.pointOfReference['statusBarItems'] = None
+            else:
+                full = messages.STATUS_BAR_NOT_FOUND_FULL
+                brief = messages.STATUS_BAR_NOT_FOUND_BRIEF
+                self.presentMessage(full, brief)
+
             infobar = self.utilities.infoBar(frame)
             if infobar:
                 speech.speak(self.speechGenerator.generateSpeech(infobar))
@@ -1915,6 +1925,8 @@ class Script(script.Script):
 
         _settingsManager.setProfile(profileID, updateLocale=True)
 
+        braille.checkBrailleSetting()
+
         speech.shutdown()
         speech.init()
 
@@ -2316,6 +2328,27 @@ class Script(script.Script):
         msg = "DEFAULT: Presenting text at new caret position"
         debug.println(debug.LEVEL_INFO, msg, True)
         self._presentTextAtNewCaretPosition(event)
+
+    def onDescriptionChanged(self, event):
+        """Callback for object:property-change:accessible-description events."""
+
+        obj = event.source
+        descriptions = self.pointOfReference.get('description', {})
+        oldDescription = descriptions.get(hash(obj))
+        if oldDescription == event.any_data:
+            msg = "DEFAULT: Old description (%s) is the same as new one" % oldDescription
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        if obj != orca_state.locusOfFocus:
+            msg = "DEFAULT: Event is for object other than the locusOfFocus"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        descriptions[hash(obj)] = event.any_data
+        self.pointOfReference['descriptions'] = descriptions
+        if event.any_data:
+            self.presentMessage(event.any_data)
 
     def onDocumentReload(self, event):
         """Callback for document:reload accessibility events."""
@@ -3052,8 +3085,11 @@ class Script(script.Script):
             return
 
         if progressType == speechserver.SayAllContext.PROGRESS:
+            orca.emitRegionChanged(
+                context.obj, context.currentOffset, context.currentEndOffset, orca.SAY_ALL)
             return
-        elif progressType == speechserver.SayAllContext.INTERRUPTED:
+
+        if progressType == speechserver.SayAllContext.INTERRUPTED:
             if isinstance(orca_state.lastInputEvent, input_event.KeyboardEvent):
                 self._sayAllIsInterrupted = True
                 lastKey = orca_state.lastInputEvent.event_string
@@ -3064,9 +3100,11 @@ class Script(script.Script):
 
             self._inSayAll = False
             self._sayAllContexts = []
+            orca.emitRegionChanged(context.obj, context.currentOffset)
             text.setCaretOffset(context.currentOffset)
         elif progressType == speechserver.SayAllContext.COMPLETED:
             orca.setLocusOfFocus(None, context.obj, notifyScript=False)
+            orca.emitRegionChanged(context.obj, context.currentOffset, mode=orca.SAY_ALL)
             text.setCaretOffset(context.currentOffset)
 
         # If there is a selection, clear it. See bug #489504 for more details.
@@ -3257,8 +3295,9 @@ class Script(script.Script):
            and eventString in ["Right", "Down"]:
             offset -= 1
 
-        character, startOffset, endOffset = \
-            text.getTextAtOffset(offset, pyatspi.TEXT_BOUNDARY_CHAR)
+        character, startOffset, endOffset = text.getTextAtOffset(offset, pyatspi.TEXT_BOUNDARY_CHAR)
+        orca.emitRegionChanged(obj, startOffset, endOffset, orca.CARET_TRACKING)
+
         if not character or character == '\r':
             character = "\n"
 
@@ -3298,6 +3337,9 @@ class Script(script.Script):
             if result:
                 self.speakMessage(result)
 
+            endOffset = startOffset + len(line)
+            orca.emitRegionChanged(obj, startOffset, endOffset, orca.CARET_TRACKING)
+
             voice = self.speechGenerator.voice(string=line)
             line = self.utilities.adjustForLinks(obj, line, startOffset)
             line = self.utilities.adjustForRepeats(line)
@@ -3331,6 +3373,8 @@ class Script(script.Script):
             result = self.utilities.indentationDescription(phrase)
             if result:
                 self.speakMessage(result)
+
+            orca.emitRegionChanged(obj, startOffset, endOffset, orca.CARET_TRACKING)
 
             voice = self.speechGenerator.voice(string=phrase)
             phrase = self.utilities.adjustForRepeats(phrase)
@@ -3383,6 +3427,7 @@ class Script(script.Script):
             if lastChar == "\n" and lastWord != word:
                 self.speakCharacter("\n")
 
+        orca.emitRegionChanged(obj, startOffset, endOffset, orca.CARET_TRACKING)
 
         self.speakMisspelledIndicator(obj, startOffset)
         voice = self.speechGenerator.voice(string=word)
@@ -3471,9 +3516,11 @@ class Script(script.Script):
         self.addBrailleRegionsToLine(regions, line)
         braille.setLines([line])
         self.setBrailleFocus(regionWithFocus, False)
-        if regionWithFocus:
-            self.panBrailleToOffset(regionWithFocus.brailleOffset \
-                                    + regionWithFocus.cursorOffset)
+        if regionWithFocus and not targetCursorCell:
+            offset = regionWithFocus.brailleOffset + regionWithFocus.cursorOffset
+            msg = "DEFAULT: Update to %i in %s" % (offset, regionWithFocus)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self.panBrailleToOffset(offset)
 
         if self.justEnteredFlatReviewMode:
             self.refreshBraille(True, self.targetCursorCell)
@@ -3487,29 +3534,57 @@ class Script(script.Script):
 
         context = self.getFlatReviewContext()
         [regions, regionWithFocus] = context.getCurrentBrailleRegions()
-        for region in regions:
-            if ((region.brailleOffset + len(region.string)) \
-                   > braille.viewport[0]) \
-                and (isinstance(region, braille.ReviewText) \
-                     or isinstance(region, braille.ReviewComponent)):
-                position = max(region.brailleOffset, braille.viewport[0])
-                offset = position - region.brailleOffset
-                self.targetCursorCell = region.brailleOffset \
-                                        - braille.viewport[0]
-                [word, charOffset] = region.zone.getWordAtOffset(offset)
-                if word:
-                    self.flatReviewContext.setCurrent(
-                        word.zone.line.index,
-                        word.zone.index,
-                        word.index,
-                        charOffset)
-                else:
-                    self.flatReviewContext.setCurrent(
-                        region.zone.line.index,
-                        region.zone.index,
-                        0, # word index
-                        0) # character index
-                break
+
+        # The first character on the flat review line has to be in object with text.
+        isTextOrComponent = lambda x: isinstance(x, (braille.ReviewText, braille.ReviewComponent))
+        regions = list(filter(isTextOrComponent, regions))
+
+        msg = "DEFAULT: Text/Component regions on line:\n%s" % "\n".join(map(str, regions))
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        # TODO - JD: The current code was stopping on the first region which met the
+        # following condition. Is that definitely the right thing to do? Assume so for now.
+        # Also: Should the default script be accessing things like the viewport directly??
+        isMatch = lambda x: x.brailleOffset + len(x.string) > braille.viewport[0]
+        regions = list(filter(isMatch, regions))
+
+        if not regions:
+            msg = "DEFAULT: Could not find review region to move to start of display"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        msg = "DEFAULT: Candidates for start of display:\n%s" % "\n".join(map(str, regions))
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        # TODO - JD: Again, for now we're preserving the original behavior of choosing the first.
+        region = regions[0]
+        position = max(region.brailleOffset, braille.viewport[0])
+        if region.contracted:
+            offset = region.inPos[position - region.brailleOffset]
+        else:
+            offset = position - region.brailleOffset
+        if isinstance(region.zone, flat_review.TextZone):
+            offset += region.zone.startOffset
+        msg = "DEFAULT: Offset for region: %i" % offset
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        [word, charOffset] = region.zone.getWordAtOffset(offset)
+        if word:
+            msg = "DEFAULT: Setting start of display to %s, %i" % (str(word), charOffset)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self.flatReviewContext.setCurrent(
+                word.zone.line.index,
+                word.zone.index,
+                word.index,
+                charOffset)
+        else:
+            msg = "DEFAULT: Setting start of display to %s" % region.zone
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self.flatReviewContext.setCurrent(
+                region.zone.line.index,
+                region.zone.index,
+                0, # word index
+                0) # character index
 
     def find(self, query=None):
         """Searches for the specified query.  If no query is specified,
@@ -3902,6 +3977,12 @@ class Script(script.Script):
 
             braille.displayMessage(message, flashTime=duration)
 
+    def idleMessage(self):
+        """Convenience method to tell speech and braille engines to hand off
+        control to other screen readers."""
+
+        braille.disableBraille()
+
     @staticmethod
     def __play(sounds, interrupt=True):
         if not sounds:
@@ -4235,7 +4316,7 @@ class Script(script.Script):
           position
         - getLinkMask: Whether or not we should take the time to get the
           attributeMask for links. Reasons we might not want to include
-          knowning that we will fail and/or it taking an unreasonable
+          knowing that we will fail and/or it taking an unreasonable
           amount of time (AKA Gecko).
         """
 

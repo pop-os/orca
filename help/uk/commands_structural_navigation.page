@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_structural_navigation" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_table"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_forms"/>
+    <title type="sort">2. Навігація структурою</title>
+    <title type="link">Навігація структурою</title>
+    <desc>Команди для навігації елементами</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди навігації структурою</title>
+  <p>Наведеними нижче командами можна скористатися для навігації заголовками, посиланнями та іншими елементами вікон програм, для яких у <app>Orca</app> передбачено підтримку навігації структурою.</p>
+  <list>
+    <item>
+      <p>Увімкнути або вимкнути клавіші навігації структурою: <keyseq><key>Модифікатор Orca</key><key>Z</key></keyseq></p>
+    </item>
+  </list>
+  <section id="headings">
+    <title>Заголовки</title>
+      <list>
+        <item>
+          <p>Наступний і попередній заголовок: <keyseq><key>H</key></keyseq> і <keyseq><key>Shift</key><key>H</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список заголовків: <keyseq><key>Alt</key><key>Shift</key><key>H</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступний і попередній заголовок на рівні 1: <keyseq><key>1</key></keyseq> і <keyseq><key>Shift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Показати список заголовків на рівні 1: <keyseq><key>Alt</key><key>Shift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступний і попередній заголовок на рівні 2: <keyseq><key>2</key></keyseq> і <keyseq><key>Shift</key><key>2</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список заголовків на рівні 2: <keyseq><key>Alt</key><key>Shift</key><key>2</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступний і попередній заголовок на рівні 3: <keyseq><key>3</key></keyseq> і <keyseq><key>Shift</key><key>3</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список заголовків на рівні 3: <keyseq><key>Alt</key><key>Shift</key><key>3</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступний і попередній заголовок на рівні 4: <keyseq><key>4</key></keyseq> і <keyseq><key>Shift</key><key>4</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список заголовків на рівні 4: <keyseq><key>Alt</key><key>Shift</key><key>4</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступний і попередній заголовок на рівні 5: <keyseq><key>5</key></keyseq> і <keyseq><key>Shift</key><key>5</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список заголовків на рівні 5: <keyseq><key>Alt</key><key>Shift</key><key>5</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступний і попередній заголовок на рівні 6: <keyseq><key>6</key></keyseq> і <keyseq><key>Shift</key><key>6</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список заголовків на рівні 6: <keyseq><key>Alt</key><key>Shift</key><key>6</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="forms">
+      <title>Форми</title>
+      <list>
+        <item>
+          <p>Наступне і попереднє поле форми: <keyseq><key>Модифікатор Orca</key><key>Tab</key></keyseq> і <keyseq><key>Модифікатор Orca</key><key>Shift</key><key>Tab</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список полів форми: <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступна і попередня кнопка: <keyseq><key>B</key></keyseq> і <keyseq><key>Shift</key><key>B</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список кнопок: <keyseq><key>Alt</key><key>Shift</key><key>B</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступний і попередній спадний список: <keyseq><key>C</key></keyseq> і <keyseq><key>Shift</key><key>C</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список спадних списків: <keyseq><key>Alt</key><key>Shift</key><key>C</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступний і попередній пункт: <keyseq><key>E</key></keyseq> і <keyseq><key>Shift</key><key>E</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список пунктів: <keyseq><key>Alt</key><key>Shift</key><key>E</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступний і попередній варіант-перемикач: <keyseq><key>R</key></keyseq> і <keyseq><key>Shift</key><key>R</key></keyseq></p>
+        </item>
+        <item>
+          <p>Показати список варіантів-перемикачів: <keyseq><key>Alt</key><key>Shift</key><key>R</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Наступний і попередній пункт для позначки: <keyseq><key>X</key></keyseq> і <keyseq><key>Shift</key><key>X</key></keyseq></p>
+        </item>
+        <item>
+          <p>Показати список пунктів для позначок: <keyseq><key>Alt</key><key>Shift</key><key>X</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="links">
+    <title>Посилання</title>
+      <list>
+        <item>
+          <p>Наступне і попереднє посилання: <keyseq><key>K</key></keyseq> і <keyseq><key>Shift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Показати список посилань: <keyseq><key>Alt</key><key>Shift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступне і попереднє невідвідане посилання: <keyseq><key>U</key></keyseq> і <keyseq><key>Shift</key><key>U</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список невідвіданих посилань: <keyseq><key>Alt</key><key>Shift</key><key>U</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступне і попереднє відвідане посилання: <keyseq><key>V</key></keyseq> і <keyseq><key>Shift</key><key>V</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список відвіданих посилань: <keyseq><key>Alt</key><key>Shift</key><key>V</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="lists">
+      <title>Списки</title>
+      <list>
+        <item>
+          <p>Наступний і попередній список: <keyseq><key>L</key></keyseq> і <keyseq><key>Shift</key><key>L</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список списків: <keyseq><key>Alt</key><key>Shift</key><key>L</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступний і попередній пункт у списку: <keyseq><key>I</key></keyseq> і <keyseq><key>Shift</key><key>I</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список пунктів списку: <keyseq><key>Alt</key><key>Shift</key><key>I</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="tables">
+      <title>Таблиці</title>
+      <list>
+        <item>
+          <p>Наступна і попередня таблиця: <keyseq><key>T</key></keyseq> і <keyseq><key>Shift</key><key>T</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список таблиць: <keyseq><key>Alt</key><key>Shift</key><key>T</key></keyseq></p>
+        </item>
+        <item>
+          <p>Комірка ліворуч: <keyseq><key>Alt</key><key>Shift</key><key>стрілка ліворуч</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Комірка праворуч: <keyseq><key>Alt</key><key>Shift</key><key>стрілка праворуч</key></keyseq></p>
+        </item> 
+        <item>
+          <p>На комірку вище: <keyseq><key>Alt</key><key>Shift</key><key>стрілка вгору</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Комірка нижче: <keyseq><key>Alt</key><key>Shift</key><key>стрілка вниз</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Перша комірка у таблиці: <keyseq><key>Alt</key><key>Shift</key><key>Home</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Остання комірка у таблиці: <keyseq><key>Alt</key><key>Shift</key><key>End</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="text_blocks">
+      <title>Текстові блоки</title>
+      <list>
+        <item>
+          <p>Наступний і попередній абзац: <keyseq><key>P</key></keyseq> і <keyseq><key>Shift</key><key>P</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список абзаців: <keyseq><key>Alt</key><key>Shift</key><key>P</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступна і попередня цитата: <keyseq><key>Q</key></keyseq> і <keyseq><key>Shift</key><key>Q</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список цитат: <keyseq><key>Alt</key><key>Shift</key><key>Q</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступний і попередній «великий об'єкт»: <keyseq><key>O</key></keyseq> і <keyseq><key>Shift</key><key>O</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список «великих об'єктів»: <keyseq><key>Alt</key><key>Shift</key><key>O</key></keyseq></p>
+        </item>
+       </list>
+    </section>
+    <section id="other">
+      <title>Інші елементи</title>
+      <list>
+        <item>
+          <p>Наступний і попередній орієнтир: <keyseq><key>M</key></keyseq> і <keyseq><key>Shift</key><key>M</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список орієнтирів: <keyseq><key>Alt</key><key>Shift</key><key>M</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступний і попередній роздільник: <keyseq><key>S</key></keyseq> і <keyseq><key>Shift</key><key>S</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Наступний і попередній об'єкт для натискання: <keyseq><key>A</key></keyseq> і <keyseq><key>Shift</key><key>A</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Показати список об'єктів для натискання: <keyseq><key>Alt</key><key>Shift</key><key>A</key></keyseq></p>
+        </item>
+        <item>
+          <p>Наступне і попереднє зображення: <keyseq><key>G</key></keyseq> і <keyseq><key>Shift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Показати список зображень: <keyseq><key>Alt</key><key>Shift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Початок і кінець поточного контейнера: <keyseq><key>Shift</key><key>кома</key></keyseq> і <keyseq><key>кома</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+</page>

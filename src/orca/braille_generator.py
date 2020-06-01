@@ -272,7 +272,7 @@ class BrailleGenerator(generator.Generator):
 
         # Radio button group names are treated separately from the
         # ancestors.  However, they can appear in the ancestry as a
-        # labeled panel.  So, we need to exlude the first one of
+        # labeled panel.  So, we need to exclude the first one of
         # these things we come across.  See also the
         # generator.py:_generateRadioButtonGroup method that is
         # used to find the radio button group name.
@@ -342,6 +342,24 @@ class BrailleGenerator(generator.Generator):
 
         for item in map(self._generateName, items):
             result.extend(item)
+
+        return result
+
+    def _generateStatusBar(self, obj, **args):
+        statusBar = self._script.utilities.statusBar(obj)
+        if not statusBar:
+            return []
+
+        items = self._script.utilities.statusBarItems(obj)
+        if not items or items == [statusBar]:
+            return []
+
+        result = []
+        for child in items:
+            childResult = self.generate(child, includeContext=False)
+            if childResult:
+                result.extend(childResult)
+                result.append(braille.Region(" "))
 
         return result
 

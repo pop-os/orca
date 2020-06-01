@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_bookmarks" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_live_regions"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_bookmarks"/>
+    <title type="sort">4. Закладки</title>
+    <title type="link">Закладки</title>
+    <desc>Команди для встановлення закладок і отримання об'єктів</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди встановлення закладок</title>
+  <p>У <app>Orca</app> передбачено декілька команд, якими можна скористатися для створення «закладки» на заданому об'єкті для полегшення наступного повернення до нього пізніше.</p>
+  <list>
+    <item>
+      <p>Зберегти закладку до нумерованого буфера: <keyseq><key>Модифікатор Orca</key> <key>Alt</key><key>1</key></keyseq>-<key>6</key></p>
+    </item>
+    <item>
+      <p>Зберегти визначені закладки для програми або сторінки: <keyseq><key>Модифікатор Orca</key><key>Alt</key><key>B</key></keyseq></p>
+    </item>
+    <item>
+      <p>Перейти до вказаної за номером закладки: <keyseq><key>Модифікатор Orca</key> <key>1</key></keyseq>-<key>6</key></p>
+    </item>
+    <item>
+      <p>Перейти до попередньої закладки для програми або сторінки: <keyseq><key>Модифікатор Orca</key><key>Shift</key><key>B</key> </keyseq></p>
+    </item>
+    <item>
+      <p>Перейти до наступної закладки для програми або сторінки: <keyseq><key>Модифікатор Orca</key><key>B</key> </keyseq></p>
+    </item>
+  </list>
+</page>
