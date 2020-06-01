@@ -165,20 +165,20 @@ class Script(web.Script):
         debug.println(debug.LEVEL_INFO, msg, True)
         default.Script.onCheckedChanged(self, event)
 
-    def onChildrenAdded(self, event):
-        """Callback for object:children-changed:add accessibility events."""
+    def onChildrenChanged(self, event):
+        """Callback for object:children-changed accessibility events."""
 
         if self.utilities.isStaticTextLeaf(event.any_data):
             msg = "CHROMIUM: Ignoring because child is static text leaf"
             debug.println(debug.LEVEL_INFO, msg, True)
             return
 
-        if super().onChildrenAdded(event):
+        if super().onChildrenChanged(event):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
         debug.println(debug.LEVEL_INFO, msg, True)
-        default.Script.onChildrenAdded(self, event)
+        default.Script.onChildrenChanged(self, event)
 
     def onDocumentLoadComplete(self, event):
         """Callback for document:load-complete accessibility events."""

@@ -518,37 +518,80 @@ class Context:
         - startOffset: the starting character offset of the string
         - cliprect: the extents that the Zones must fit inside.
 
-        Returns a list of Zones for the visible text.
+        Returns a list of Zones for the visible text or None if nothing is
+        visible.
         """
 
+        # We convert the string to unicode and walk through it.  While doing
+        # this, we keep two sets of offsets:
+        #
+        # substring{Start,End}Offset: where in the accessible text 
+        # implementation we are
+        #
+        # unicodeStartOffset: where we are in the unicodeString
+        #
+        anyVisible = False
         zones = []
-        substrings = [(*m.span(), m.group(0))  for m in re.finditer(r"[^\ufffc]+", string)]
-        substrings = list(map(lambda x: (x[0] + startOffset, x[1] + startOffset, x[2]), substrings))
-        for (start, end, substring) in substrings:
-            extents = accessible.queryText().getRangeExtents(start, end, pyatspi.DESKTOP_COORDS)
-            if self.script.utilities.containsRegion(extents, cliprect):
-                clipping = self.script.utilities.intersection(extents, cliprect)
-                zones.append(TextZone(accessible, start, substring, *clipping))
+        text = accessible.queryText()
+        substringStartOffset = startOffset
+        substringEndOffset   = startOffset
+        unicodeStartOffset   = 0
+        unicodeString = string
+        #print "LOOKING AT '%s'" % unicodeString
+        for i in range(0, len(unicodeString) + 1):
+            if (i != len(unicodeString)) \
+               and (unicodeString[i] != EMBEDDED_OBJECT_CHARACTER):
+                substringEndOffset += 1
+            elif (substringEndOffset == substringStartOffset):
+                substringStartOffset += 1
+                substringEndOffset   = substringStartOffset
+                unicodeStartOffset   = i + 1
+            else:
+                extents = text.getRangeExtents(
+                    substringStartOffset, substringEndOffset, 0)
+                if self.script.utilities.containsRegion(extents, cliprect):
+                    anyVisible = True
+                    clipping = self.script.utilities.intersection(extents, cliprect)
 
-        return zones
 
-    def _getLines(self, accessible, startOffset, endOffset):
-        # TODO - JD: Move this into the script utilities so we can better handle
-        # app and toolkit quirks and also reuse this (e.g. for SayAll).
-        try:
-            text = accessible.queryText()
-        except NotImplementedError:
-            return []
+                    # [[[TODO: WDW - HACK it would be nice to clip the
+                    # the text by what is really showing on the screen,
+                    # but this seems to hang Orca and the client. Logged
+                    # as bugzilla bug 319770.]]]
+                    #
+                    #ranges = text.getBoundedRanges(\
+                    #    clipping[0],
+                    #    clipping[1],
+                    #    clipping[2],
+                    #    clipping[3],
+                    #    0,
+                    #    pyatspi.TEXT_CLIP_BOTH,
+                    #    pyatspi.TEXT_CLIP_BOTH)
+                    #
+                    #print
+                    #print "HERE!"
+                    #for range in ranges:
+                    #    print range.startOffset
+                    #    print range.endOffset
+                    #    print range.content
 
-        lines = []
-        offset = startOffset
-        while offset < min(endOffset, text.characterCount):
-            result = text.getTextAtOffset(offset, pyatspi.TEXT_BOUNDARY_LINE_START)
-            if result[0] and result not in lines:
-                lines.append(result)
-            offset = max(result[2], offset + 1)
+                    substring = unicodeString[unicodeStartOffset:i]
+                    #print " SUBSTRING '%s'" % substring
+                    zones.append(TextZone(accessible,
+                                          substringStartOffset,
+                                          substring,
+                                          clipping[0],
+                                          clipping[1],
+                                          clipping[2],
+                                          clipping[3]))
+                    substringStartOffset = substringEndOffset + 1
+                    substringEndOffset   = substringStartOffset
+                    unicodeStartOffset   = i + 1
 
-        return lines
+        if anyVisible:
+            return zones
+        else:
+            return None
 
     def getZonesFromText(self, accessible, cliprect):
         """Gets a list of Zones from an object that implements the
@@ -561,18 +604,25 @@ class Context:
         Returns a list of Zones.
         """
 
-        if not self.script.utilities.hasPresentableText(accessible):
+        try:
+            text = accessible.queryText()
+        except NotImplementedError:
             return []
-
-        zones = []
-        text = accessible.queryText()
+        else:
+            zones = []
 
         # TODO - JD: This is here temporarily whilst I sort out the rest
         # of the text-related mess.
+        if not re.search("[^\ufffc]", text.getText(0, -1)):
+            return []
+
+        # TODO - JD: Ditto.
         if "EditableText" in pyatspi.listInterfaces(accessible) \
            and accessible.getState().contains(pyatspi.STATE_SINGLE_LINE):
             extents = accessible.queryComponent().getExtents(0)
             return [TextZone(accessible, 0, text.getText(0, -1), *extents)]
+
+        debug.println(debug.LEVEL_FINEST, "  looking at text:")
 
         offset = 0
         lastEndOffset = -1
@@ -610,15 +660,72 @@ class Context:
                 lowerMin = lowerMid
             lowerMid = int((lowerMax - lowerMin) / 2) + lowerMin
 
-        msg = "FLAT REVIEW: Getting lines for %s offsets %i-%i" % (accessible, upperMin, lowerMax)
-        debug.println(debug.LEVEL_INFO, msg, True)
+        # finding out the zones
+        offset = upperMin
+        length = lowerMax
+        while offset < length:
 
-        lines = self._getLines(accessible, upperMin, lowerMax)
-        msg = "FLAT REVIEW: %i lines found for %s" % (len(lines), accessible)
-        debug.println(debug.LEVEL_INFO, msg, True)
+            [string, startOffset, endOffset] = text.getTextAtOffset(
+                offset,
+                pyatspi.TEXT_BOUNDARY_LINE_START)
 
-        for string, startOffset, endOffset in lines:
-            zones.extend(self.splitTextIntoZones(accessible, string, startOffset, cliprect))
+            debug.println(debug.LEVEL_FINEST,
+                          "    line at %d is (start=%d end=%d): '%s'" \
+                          % (offset, startOffset, endOffset, string))
+
+            # [[[WDW - HACK: well...gnome-terminal sometimes wants to
+            # give us outrageous values back from getTextAtOffset
+            # (see http://bugzilla.gnome.org/show_bug.cgi?id=343133),
+            # so we try to handle it.  Evolution does similar things.]]]
+            #
+            if (startOffset < 0) \
+               or (endOffset < 0) \
+               or (startOffset > offset) \
+               or (endOffset < offset) \
+               or (startOffset > endOffset) \
+               or (abs(endOffset - startOffset) > 666e3):
+                debug.println(debug.LEVEL_WARNING,
+                              "flat_review:getZonesFromText detected "\
+                              "garbage from getTextAtOffset for accessible "\
+                              "name='%s' role'='%s': offset used=%d, "\
+                              "start/end offset returned=(%d,%d), string='%s'"\
+                              % (accessible.name, accessible.getRoleName(),
+                                 offset, startOffset, endOffset, string))
+                break
+
+            # [[[WDW - HACK: this is here because getTextAtOffset
+            # tends not to be implemented consistently across toolkits.
+            # Sometimes it behaves properly (i.e., giving us an endOffset
+            # that is the beginning of the next line), sometimes it
+            # doesn't (e.g., giving us an endOffset that is the end of
+            # the current line).  So...we hack.  The whole 'max' deal
+            # is to account for lines that might be a brazillion lines
+            # long.]]]
+            #
+            if endOffset == lastEndOffset:
+                offset = max(offset + 1, lastEndOffset + 1)
+                lastEndOffset = endOffset
+                continue
+            else:
+                offset = endOffset
+                lastEndOffset = endOffset
+
+            textZones = self.splitTextIntoZones(
+                accessible, string, startOffset, cliprect)
+
+            if textZones:
+                zones.extend(textZones)
+            elif len(zones):
+                # We'll break out of searching all the text - the idea
+                # here is that we'll at least try to optimize for when
+                # we gone below the visible clipping area.
+                #
+                # [[[TODO: WDW - would be nice to optimize this better.
+                # for example, perhaps we can assume the caret will always
+                # be visible, and we can start our text search from there.
+                # Logged as bugzilla bug 319771.]]]
+                #
+                break
 
         return zones
 
@@ -692,7 +799,7 @@ class Context:
             string = ""
             redundant = [pyatspi.ROLE_TABLE_ROW]
             if role not in redundant:
-                string = self.script.speechGenerator.getName(accessible, inFlatReview=True)
+                string = self.script.speechGenerator.getName(accessible)
 
             useless = [pyatspi.ROLE_TABLE_CELL, pyatspi.ROLE_LABEL]
             if not string and role not in useless:

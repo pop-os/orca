@@ -219,9 +219,6 @@ class SpeechGenerator(generator.Generator):
         if priorObj and priorObj.getRole() == pyatspi.ROLE_TOOL_TIP:
             return []
 
-        if priorObj == obj:
-            return []
-
         acss = self.voice(SYSTEM)
         result = generator.Generator._generateDescription(self, obj, **args)
         if result:
@@ -1175,6 +1172,10 @@ class SpeechGenerator(generator.Generator):
         if args.get('inMouseReview') and obj.getState().contains(pyatspi.STATE_EDITABLE):
             return []
 
+        result = self._generateSubstring(obj, **args)
+        if result and result[0]:
+            return result
+
         acss = self.voice(DEFAULT)
         result = generator.Generator._generateCurrentLineText(self, obj, **args)
         if not (result and result[0]):
@@ -1184,14 +1185,7 @@ class SpeechGenerator(generator.Generator):
            and not self._script.inSayAll() and args.get('total', 1) == 1:
             result = [messages.BLANK]
 
-        result[0] = self._script.utilities.adjustForRepeats(result[0])
-
-        if self._script.utilities.shouldVerbalizeAllPunctuation(obj):
-            result[0] = self._script.utilities.verbalizeAllPunctuation(result[0])
-
-        if len(result) == 1:
-            result.extend(acss)
-
+        result.extend(acss)
         return result
 
     def _generateDisplayedText(self, obj, **args):
@@ -1305,9 +1299,6 @@ class SpeechGenerator(generator.Generator):
                     pyatspi.TEXT_BOUNDARY_CHAR)
                 if char[0] == "\n" and startOffset == caretOffset:
                     textContents = char[0]
-
-        if self._script.utilities.shouldVerbalizeAllPunctuation(obj):
-            textContents = self._script.utilities.verbalizeAllPunctuation(textContents)
 
         self._script.generatorCache['textInformation'] = \
             [textContents, startOffset, endOffset, selected]
@@ -1452,9 +1443,6 @@ class SpeechGenerator(generator.Generator):
            and not self._script.inSayAll() and args.get('total', 1) == 1:
             result[0] = messages.BLANK
 
-        if self._script.utilities.shouldVerbalizeAllPunctuation(obj):
-            result[0] = self._script.utilities.verbalizeAllPunctuation(result[0])
-
         return result
 
     def _generateTextIndentation(self, obj, **args):
@@ -1516,13 +1504,6 @@ class SpeechGenerator(generator.Generator):
     # Value interface information                                       #
     #                                                                   #
     #####################################################################
-
-    def _generateValue(self, obj, **args):
-        result = super()._generateValue(obj, **args)
-        if result:
-            result.extend(self.voice(DEFAULT))
-
-        return result
 
     def _generatePercentage(self, obj, **args ):
         """Returns an array of strings (and possibly voice and audio
@@ -1762,14 +1743,13 @@ class SpeechGenerator(generator.Generator):
                     'ROLE_CONTENT_INSERTION',
                     'ROLE_CONTENT_MARK',
                     'ROLE_CONTENT_SUGGESTION',
-                    'ROLE_DPUB_LANDMARK',
-                    'ROLE_DPUB_SECTION',
                     pyatspi.ROLE_FORM,
                     pyatspi.ROLE_LANDMARK,
+                    'ROLE_DPUB_LANDMARK',
+                    'ROLE_DPUB_SECTION',
                     pyatspi.ROLE_LIST,
                     pyatspi.ROLE_PANEL,
-                    pyatspi.ROLE_TABLE,
-                    pyatspi.ROLE_TOOL_TIP]
+                    pyatspi.ROLE_TABLE]
 
         enabled, disabled = [], []
         if self._script.inSayAll():
@@ -1781,7 +1761,6 @@ class SpeechGenerator(generator.Generator):
                 enabled.append(pyatspi.ROLE_LIST)
             if _settingsManager.getSetting('sayAllContextPanel'):
                 enabled.extend([pyatspi.ROLE_PANEL,
-                                pyatspi.ROLE_TOOL_TIP,
                                 'ROLE_CONTENT_DELETION',
                                 'ROLE_CONTENT_INSERTION',
                                 'ROLE_CONTENT_MARK',
@@ -1800,7 +1779,6 @@ class SpeechGenerator(generator.Generator):
                 enabled.append(pyatspi.ROLE_LIST)
             if _settingsManager.getSetting('speakContextPanel'):
                 enabled.extend([pyatspi.ROLE_PANEL,
-                                pyatspi.ROLE_TOOL_TIP,
                                 'ROLE_CONTENT_DELETION',
                                 'ROLE_CONTENT_INSERTION',
                                 'ROLE_CONTENT_MARK',
@@ -1926,8 +1904,6 @@ class SpeechGenerator(generator.Generator):
                 result = ['']
         elif role == pyatspi.ROLE_FORM:
             result.append(messages.LEAVING_FORM)
-        elif role == pyatspi.ROLE_TOOL_TIP:
-            result.append(messages.LEAVING_TOOL_TIP)
         elif role == 'ROLE_CONTENT_DELETION':
             result.append(messages.CONTENT_DELETION_END)
         elif role == 'ROLE_CONTENT_INSERTION':
@@ -1990,9 +1966,6 @@ class SpeechGenerator(generator.Generator):
         stopAtRoles = args.get('stopAtRoles', [])
         stopAtRoles.extend([pyatspi.ROLE_APPLICATION, pyatspi.ROLE_MENU_BAR])
 
-        stopAfterRoles = args.get('stopAfterRoles', [])
-        stopAfterRoles.extend([pyatspi.ROLE_TOOL_TIP])
-
         presentOnce = [pyatspi.ROLE_BLOCK_QUOTE, pyatspi.ROLE_LIST]
 
         presentCommonAncestor = False
@@ -2024,7 +1997,7 @@ class SpeechGenerator(generator.Generator):
                 ancestors.append(parent)
                 ancestorRoles.append(parentRole)
 
-            if parent == commonAncestor or parentRole in stopAfterRoles:
+            if parent == commonAncestor:
                 break
 
             parent = parent.parent
@@ -2083,8 +2056,7 @@ class SpeechGenerator(generator.Generator):
                                'ROLE_DPUB_SECTION',
                                pyatspi.ROLE_LIST,
                                pyatspi.ROLE_PANEL,
-                               pyatspi.ROLE_TABLE,
-                               pyatspi.ROLE_TOOL_TIP]
+                               pyatspi.ROLE_TABLE]
 
         result = []
         if self._script.utilities.isBlockquote(priorObj):

@@ -270,12 +270,8 @@ def printObjectEvent(level, event, sourceInfo=None, timestamp=False):
 
     level = max(level, eventDebugLevel)
 
-    anydata = event.any_data
-    if isinstance(anydata, str) and len(anydata) > 100:
-        anydata = "%s (...)" % anydata[0:100]
-
     text = "OBJECT EVENT: %s (%d, %d, %s)" \
-           % (event.type, event.detail1, event.detail2, anydata)
+           % (event.type, event.detail1, event.detail2, event.any_data)
     println(level, text, timestamp)
 
     if sourceInfo:

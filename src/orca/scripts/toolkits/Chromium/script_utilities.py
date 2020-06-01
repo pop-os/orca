@@ -56,14 +56,7 @@ class Utilities(web.Utilities):
         if not (obj and self.inDocumentContent(obj)):
             return super().isStaticTextLeaf(obj)
 
-        try:
-            childCount = obj.childCount
-        except:
-            msg = "CHROMIUM: Exception getting child count of %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return False
-
-        if childCount:
+        if obj.childCount:
             return False
 
         if self.isListItemMarker(obj):
@@ -108,23 +101,12 @@ class Utilities(web.Utilities):
 
         rv = False
         if obj.parent and obj.parent.getRole() == pyatspi.ROLE_LIST_ITEM:
-            tag = self._getTag(obj)
-            if tag == "::marker":
-                rv = True
-            elif tag is not None:
-                rv = False
-            elif obj.parent.childCount > 1:
-                rv = obj.parent[0] == obj
-            else:
-                rv = obj.name != self.displayedText(obj.parent)
+            rv = self._getTag(obj) in ["::marker", None] and obj.parent[0] == obj
 
         self._isListItemMarker[hash(obj)] = rv
         return rv
 
     def selectedChildCount(self, obj):
-        if not obj:
-            return []
-
         count = super().selectedChildCount(obj)
         if count or "Selection" in pyatspi.listInterfaces(obj):
             return count
@@ -141,9 +123,6 @@ class Utilities(web.Utilities):
         return count
 
     def selectedChildren(self, obj):
-        if not obj:
-            return []
-
         result = super().selectedChildren(obj)
         if result or "Selection" in pyatspi.listInterfaces(obj):
             return result
@@ -542,30 +521,3 @@ class Utilities(web.Utilities):
             return result.parent
 
         return result
-
-    def _isActiveAndShowingAndNotIconified(self, obj):
-        if super()._isActiveAndShowingAndNotIconified(obj):
-            return True
-
-        if obj and obj.getApplication() != self._script.app:
-            return False
-
-        # FIXME: This can potentially be non-performant because AT-SPI2 will recursively
-        # clear the cache of all descendants. This is an attempt to work around what may
-        # be a lack of window:activate and object:state-changed events from Chromium
-        # windows in at least some environments.
-        try:
-            msg = "CHROMIUM: Clearing cache for %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            obj.clearCache()
-        except:
-            msg = "CHROMIUM: Exception clearing cache for %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return False
-
-        if super()._isActiveAndShowingAndNotIconified(obj):
-            msg = "CHROMIUM: %s deemed to be active and showing after cache clear" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return True
-
-        return False

@@ -106,8 +106,12 @@ class Script(GAIL.Script):
 
         return self.chat.getPreferencesFromGUI()
 
-    def onChildrenAdded(self, event):
-        """Callback for object:children-changed:add accessibility events."""
+    def onChildrenChanged(self, event):
+        """Called whenever a child object changes in some way.
+
+        Arguments:
+        - event: the text inserted Event
+        """
 
         # Check to see if a new chat room tab has been created and if it
         # has, then announce its name. See bug #469098 for more details.

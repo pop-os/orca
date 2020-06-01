@@ -146,7 +146,12 @@ class Utilities(web.Utilities):
         if not obj.getState().contains(pyatspi.STATE_EDITABLE):
             return False
 
-        document = self.getDocumentForObject(obj)
+        if self.isDocument(obj):
+            msg = "GECKO: %s is believed to be an editable message" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        document = self.getContainingDocument(obj)
         if document and document.getState().contains(pyatspi.STATE_EDITABLE):
             msg = "GECKO: %s is in an editable document: %s" % (obj, document)
             debug.println(debug.LEVEL_INFO, msg, True)

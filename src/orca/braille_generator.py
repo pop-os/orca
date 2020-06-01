@@ -74,20 +74,6 @@ class BrailleGenerator(generator.Generator):
         globalsDict['Link'] = braille.Link
         globalsDict['asString'] = self.asString
 
-    def _isCandidateFocusedRegion(self, obj, region):
-        if not isinstance(region, (braille.Component, braille.Text)):
-            return False
-
-        try:
-            sameRole = obj.getRole() == region.accessible.getRole()
-            sameName = obj.name == region.accessible.name
-        except:
-            msg = 'ERROR: Could not get names, roles for %s, %s' % (obj, region.accessible)
-            debug.println(debug.LEVEL_INFO, msg)
-            return False
-
-        return sameRole and sameName
-
     def generateBraille(self, obj, **args):
         if not _settingsManager.getSetting('enableBraille') \
            and not _settingsManager.getSetting('enableBrailleMonitor'):
@@ -131,12 +117,6 @@ class BrailleGenerator(generator.Generator):
                  and region.accessible.parent == obj:
                 focusedRegion = region
                 break
-        else:
-            candidates = list(filter(lambda x: self._isCandidateFocusedRegion(obj, x), result))
-            msg = 'INFO: Could not determine focused region. Candidates: %i' % len(candidates)
-            debug.println(debug.LEVEL_INFO, msg)
-            if len(candidates) == 1:
-                focusedRegion = candidates[0]
 
         return [result, focusedRegion]
 
@@ -432,6 +412,24 @@ class BrailleGenerator(generator.Generator):
             oldRole = self._overrideRole('REAL_ROLE_SCROLL_PANE', args)
             result.extend(self.generate(obj, **args))
             self._restoreRole(oldRole, args)
+        return result
+
+    def _generateComboBoxTextObj(self, obj, **args):
+        """For a combo box, we check to see if the text is editable. If so,
+        then we want to show the text attributes (such as selection --
+        see bug 496846 for more details).  This will return an array
+        containing a single object, which is the accessible for the
+        text object. Note that this is different from the rest of the
+        generators, which all return an array of strings.  Yes, this
+        is a hack.
+        """
+        result = []
+        textObj = None
+        for child in obj:
+            if child and child.getRole() == pyatspi.ROLE_TEXT:
+                textObj = child
+        if textObj and textObj.getState().contains(pyatspi.STATE_EDITABLE):
+            result.append(textObj)
         return result
 
     def _generateIncludeContext(self, obj, **args):

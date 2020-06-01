@@ -917,9 +917,6 @@ class Chat:
         - event: the accessible event being examined
         """
 
-        if event.source.getRole() != pyatspi.ROLE_TEXT:
-            return False
-
         lastKey, mods = self._script.utilities.lastKeyAndModifiers()
         if lastKey == "Tab" and event.any_data and event.any_data != "\t":
             return True

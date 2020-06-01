@@ -308,9 +308,7 @@ class MouseReviewer:
         self._active = _settingsManager.getSetting("enableMouseReview")
         self._currentMouseOver = _ItemContext()
         self._pointer = None
-        self._workspace = None
         self._windows = []
-        self._all_windows = []
         self._handlerIds = {}
 
         self.inMouseEvent = False
@@ -342,35 +340,10 @@ class MouseReviewer:
     def activate(self):
         """Activates mouse review."""
 
-        # Set up the initial object as the one with the focus to avoid
-        # presenting irrelevant info the first time.
-        obj = orca_state.locusOfFocus
-        script = None
-        frame = None
-        if obj:
-            script = _scriptManager.getScript(obj.getApplication(), obj)
-        if script:
-            frame = script.utilities.topLevelObject(obj)
-        self._currentMouseOver = _ItemContext(obj=obj, frame=frame, script=script)
-
         _eventManager.registerModuleListeners(self._get_listeners())
         screen = Wnck.Screen.get_default()
         if screen:
-            # On first startup windows and workspace are likely to be None,
-            # but the signals we connect to will get emitted when proper values
-            # become available;  but in case we got disabled and re-enabled we
-            # have to get the initial values manually.
-            stacked = screen.get_windows_stacked()
-            if stacked:
-                stacked.reverse()
-                self._all_windows = stacked
-            self._workspace = screen.get_active_workspace()
-            if self._workspace:
-                self._update_workspace_windows()
-
             i = screen.connect("window-stacking-changed", self._on_stacking_changed)
-            self._handlerIds[i] = screen
-            i = screen.connect("active-workspace-changed", self._on_workspace_changed)
             self._handlerIds[i] = screen
 
         self._active = True
@@ -382,9 +355,6 @@ class MouseReviewer:
         for key, value in self._handlerIds.items():
             value.disconnect(key)
         self._handlerIds = {}
-        self._workspace = None
-        self._windows = []
-        self._all_windows = []
 
         self._active = False
 
@@ -425,24 +395,12 @@ class MouseReviewer:
         if orca_state.activeScript:
             orca_state.activeScript.presentMessage(msg)
 
-    def _update_workspace_windows(self):
-        self._windows = [w for w in self._all_windows
-                         if w.is_on_workspace(self._workspace)]
-
     def _on_stacking_changed(self, screen):
         """Callback for Wnck's window-stacking-changed signal."""
 
         stacked = screen.get_windows_stacked()
         stacked.reverse()
-        self._all_windows = stacked
-        if self._workspace:
-            self._update_workspace_windows()
-
-    def _on_workspace_changed(self, screen, prev_ws=None):
-        """Callback for Wnck's active-workspace-changed signal."""
-
-        self._workspace = screen.get_active_workspace()
-        self._update_workspace_windows()
+        self._windows = stacked
 
     def _contains_point(self, obj, x, y, coordType=None):
         if coordType is None:
@@ -557,7 +515,7 @@ class MouseReviewer:
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return
 
-        objDocument = script.utilities.getTopLevelDocumentForObject(obj)
+        objDocument = script.utilities.getContainingDocument(obj)
         if objDocument and script.utilities.inDocumentContent():
             document = script.utilities.activeDocument()
             if document != objDocument:
