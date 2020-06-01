@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its" type="guide" id="index" xml:lang="uk">
+  <info>
+    <title type="text">Інструмент читання з екрана «Orca»</title>
+    <title type="link">Вступ до інструмента читання з екрана <app>Orca</app></title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+
+    <desc>Orca є вільною програмою з відкритим кодом, гнучкими налаштуваннями та можливістю розширення для читання з екрана. Програма надає доступ до графічної стільниці за допомогою технологій озвучування тексту та дисплея брайля.</desc>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+
+  <title><media type="image" mime="image/png" src="figures/orca-logo.png" its:translate="no">
+      <span its:translate="yes">Логотип <app>Orca</app></span>
+    </media> Інструмент читання з екрана <app>Orca</app></title>
+  <note style="important">
+    <title>Передмова</title>
+    <p>Якщо ви ще не знайомі із навігаційними командами, які передбачено у вашому стільничному середовищі, вам варто спочатку прочитати цю документацію.</p>
+  </note>
+  <section id="getting_started" style="2column">
+    <title>Початкові зауваження</title>
+  </section>
+  <section id="reading" style="2column">
+    <title>Читання документів та вебсторінок</title>
+  </section>
+  <section id="reviewing" style="2column">
+    <title>Перегляд і взаємодія із вмістом екрана</title>
+  </section>
+  <section id="quick_reference" style="2column">
+    <title>Короткий довідник</title>
+  </section>
+</page>

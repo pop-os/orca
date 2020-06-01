@@ -273,6 +273,8 @@ class Utilities:
         if index:
             return int(index)
 
+        isCell = lambda x: x and x.getRole() in self.getCellRoles()
+        obj = pyatspi.findAncestor(obj, isCell) or obj
         return obj.getIndexInParent()
 
     def childNodes(self, obj):
@@ -1397,6 +1399,12 @@ class Utilities:
 
         return _settingsManager.getSetting('readFullRowInDocumentTable')
 
+    def isAscending(self, obj):
+        return False
+
+    def isDescending(self, obj):
+        return False
+
     def isFocusableLabel(self, obj):
         try:
             role = obj.getRole()
@@ -1707,42 +1715,27 @@ class Utilities:
         return [x for x in Utilities._desktop if x is not None]
 
     def labelsForObject(self, obj):
-        """Return a list of the objects that are labelling this object.
+        """Return a list of the labels for this object."""
 
-        Argument:
-        - obj: the object in question
-
-        Returns a list of the objects that are labelling this object.
-        """
-
-        # For some reason, some objects are labelled by the same thing
-        # more than once.  Go figure, but we need to check for this.
-        #
-        label = []
         try:
             relations = obj.getRelationSet()
         except (LookupError, RuntimeError):
             msg = 'ERROR: Exception getting relationset for %s' % obj
             debug.println(debug.LEVEL_INFO, msg, True)
-            return label
+            return []
 
-        allTargets = []
-        for relation in relations:
-            if relation.getRelationType() == pyatspi.RELATION_LABELLED_BY:
+        pred = lambda r: r.getRelationType() == pyatspi.RELATION_LABELLED_BY
+        relations = list(filter(pred, obj.getRelationSet()))
+        if not relations:
+            return []
 
-                # The object can be labelled by more than one thing, so we just
-                # get all the labels (from unique objects) and append them
-                # together.  An example of such objects live in the "Basic"
-                # page of the gnome-accessibility-keyboard-properties app.
-                # The "Delay" and "Speed" objects are labelled both by
-                # their names and units.
-                #
-                for i in range(0, relation.getNTargets()):
-                    target = relation.getTarget(i)
-                    if not target in allTargets:
-                        allTargets.append(target)
-                        label.append(target)
-        return label
+        r = relations[0]
+        result = set([r.getTarget(i) for i in range(r.getNTargets())])
+
+        def isNotAncestor(acc):
+            return not pyatspi.findAncestor(obj, lambda x: x == acc)
+
+        return list(filter(isNotAncestor, result))
 
     @staticmethod
     def linkBasename(obj):
@@ -2111,6 +2104,9 @@ class Utilities:
         if objects:
             return objects
 
+        if role == pyatspi.ROLE_LABEL and not (root.name or self.queryNonEmptyText(root)):
+            return []
+
         containers = [pyatspi.ROLE_CANVAS,
                       pyatspi.ROLE_FILLER,
                       pyatspi.ROLE_IMAGE,
@@ -2198,6 +2194,29 @@ class Utilities:
 
         return obj
 
+    def isStatusBarDescendant(self, obj):
+        if not obj:
+            return False
+
+        isStatusBar = lambda x: x and x.getRole() == pyatspi.ROLE_STATUS_BAR
+        return pyatspi.findAncestor(obj, isStatusBar) is not None
+
+    def statusBarItems(self, obj):
+        if not (obj and obj.getRole() == pyatspi.ROLE_STATUS_BAR):
+            return []
+
+        start = time.time()
+        items = self._script.pointOfReference.get('statusBarItems')
+        if not items:
+            items = self.getOnScreenObjects(obj)
+            self._script.pointOfReference['statusBarItems'] = items
+
+        end = time.time()
+        msg = "INFO: Time getting status bar items: %.4f" % (end - start)
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        return items
+
     def statusBar(self, obj):
         """Returns the status bar in the window which contains obj.
 
@@ -2205,6 +2224,9 @@ class Utilities:
         - obj: the top-level object (e.g. window, frame, dialog) for which
           the status bar is sought.
         """
+
+        if obj.getRole() == pyatspi.ROLE_STATUS_BAR:
+            return obj
 
         # There are some objects which are not worth descending.
         #
@@ -2611,7 +2633,7 @@ class Utilities:
                 return relation.getTarget(0)
 
         index = obj.getIndexInParent() - 1
-        if obj.parent and not (0 <= index < obj.parent.childCount - 1):
+        while obj.parent and not (0 <= index < obj.parent.childCount - 1):
             obj = obj.parent
             index = obj.getIndexInParent() - 1
 
@@ -2636,7 +2658,7 @@ class Utilities:
                 return relation.getTarget(0)
 
         index = obj.getIndexInParent() + 1
-        if obj.parent and not (0 < index < obj.parent.childCount):
+        while obj.parent and not (0 < index < obj.parent.childCount):
             obj = obj.parent
             index = obj.getIndexInParent() + 1
 
@@ -2794,6 +2816,14 @@ class Utilities:
         for i in range(text.getNSelections()):
             text.removeSelection(i)
 
+    def containsOnlyEOCs(self, obj):
+        try:
+            string = obj.queryText().getText(0, -1)
+        except:
+            return False
+
+        return string and not re.search(r"[^\ufffc]", string)
+
     def expandEOCs(self, obj, startOffset=0, endOffset=-1):
         """Expands the current object replacing EMBEDDED_OBJECT_CHARACTERS
         with their text.
@@ -2828,7 +2858,7 @@ class Utilities:
             if char == self.EMBEDDED_OBJECT_CHARACTER:
                 child = self.getChildAtOffset(obj, i + startOffset)
                 result = self.expandEOCs(child)
-                if child.getRole() in blockRoles:
+                if child and child.getRole() in blockRoles:
                     result += " "
                 toBuild[i] = result
 
@@ -2886,10 +2916,14 @@ class Utilities:
 
         try:
             text = obj.queryText()
-        except:
+            charCount = text.characterCount
+        except NotImplementedError:
             pass
+        except:
+            msg = "ERROR: Exception getting character count of %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
         else:
-            if text.characterCount:
+            if charCount:
                 return text
 
         return None
@@ -4007,6 +4041,21 @@ class Utilities:
 
         return False
 
+    def isSingleLineAutocompleteEntry(self, obj):
+        try:
+            role = obj.getRole()
+            state = obj.getState()
+        except:
+            msg = "ERROR: Exception getting role and state for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if role != pyatspi.ROLE_ENTRY:
+            return False
+
+        return state.contains(pyatspi.STATE_SUPPORTS_AUTOCOMPLETION) \
+            and state.contains(pyatspi.STATE_SINGLE_LINE)
+
     def isEntryCompletionPopupItem(self, obj):
         return False
 
@@ -4209,7 +4258,7 @@ class Utilities:
         rowIndex = table.getRowAtIndex(index)
         return table.getRowHeader(rowIndex)
 
-    def coordinatesForCell(self, obj):
+    def coordinatesForCell(self, obj, preferAttribute=True):
         roles = [pyatspi.ROLE_TABLE_CELL,
                  pyatspi.ROLE_TABLE_COLUMN_HEADER,
                  pyatspi.ROLE_TABLE_ROW_HEADER,
@@ -4243,7 +4292,7 @@ class Utilities:
         row, col = table.getRowAtIndex(index), table.getColumnAtIndex(index)
         return table.getRowExtentAt(row, col), table.getColumnExtentAt(row, col)
 
-    def rowAndColumnCount(self, obj):
+    def rowAndColumnCount(self, obj, preferAttribute=True):
         try:
             table = obj.queryTable()
         except:
@@ -4328,6 +4377,22 @@ class Utilities:
 
         return role in roles
 
+    def accessibleAtPoint(self, root, x, y, coordType=None):
+        if self.isHidden(root):
+            return None
+
+        try:
+            component = root.queryComponent()
+        except:
+            msg = "INFO: Exception querying component of %s" % root
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return None
+
+        result = component.getAccessibleAtPoint(x, y, coordType)
+        msg = "INFO: %s is descendant of %s at (%i, %i)" % (result, root, x, y)
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return result
+
     def descendantAtPoint(self, root, x, y, coordType=None):
         if not root:
             return None
@@ -4345,24 +4410,12 @@ class Utilities:
             return None
 
         if "Table" in pyatspi.listInterfaces(root):
-            try:
-                component = root.queryComponent()
-            except:
-                msg = "ERROR: Exception querying component of %s" % root
-                debug.println(debug.LEVEL_INFO, msg, True)
-                child = None
-            else:
-                child = component.getAccessibleAtPoint(x, y, coordType)
-                msg = "INFO: %s is at (%s, %s) in %s" % (child, x, y, root)
-                debug.println(debug.LEVEL_INFO, msg, True)
-
-                if child and child != root:
-                    cell = self.descendantAtPoint(child, x, y, coordType)
-                    msg = "INFO: %s is at (%s, %s) in %s" % (cell, x, y, child)
-                    debug.println(debug.LEVEL_INFO, msg, True)
-                    if cell:
-                        return cell
-                    return child
+            child = self.accessibleAtPoint(root, x, y, coordType)
+            if child and child != root:
+                cell = self.descendantAtPoint(child, x, y, coordType)
+                if cell:
+                    return cell
+                return child
 
         candidates_showing = []
         candidates = []
@@ -4558,7 +4611,7 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return []
 
-        row, column = self.coordinatesForCell(obj)
+        row, column = self.coordinatesForCell(obj, False)
         if row == -1:
             return []
 

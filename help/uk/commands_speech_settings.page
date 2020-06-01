@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_speech_settings" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_braille"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_speech"/>
+    <title type="sort">2. Параметри озвучення</title>
+    <title type="link">Озвучення</title>
+    <desc>Команди для налаштовування виведення даних <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди параметрів озвучення</title>
+  <p>Наведеними нижче командами можна скористатися для налаштовування озвучування у <app>Orca</app>. Ви можете помітити, що деякі з цих команд «не пов'язано» із комбінаціями клавіш. Будь ласка, ознайомтеся із розділом щодо <link xref="howto_key_bindings">зміни клавіатурних скорочень</link>, щоб дізнатися про те, як можна визначити комбінації клавіш для непов'язаних команд.</p>
+  <list>
+    <item>
+      <p>Вмикання або вимикання озвучення: <keyseq><key>Модифікатор Orca</key><key>S</key></keyseq></p>
+    </item>
+    <item>
+      <p>Перемкнути озвучування між коміркою і рядком під час читання таблиці: <keyseq><key>Модифікатор Orca</key><key>F11</key></keyseq></p>
+    </item>
+    <item>
+      <p>Перемкнутися між рівнями докладного і скороченого інформування: <keyseq><key>Модифікатор Orca</key><key>V</key></keyseq></p>
+    </item>
+    <item>
+      <p>Увімкнути або вимкнути вимовляння відступів та вирівнювання тексту: (не пов'язано)</p>
+    </item>
+    <item>
+      <p>Змінити стиль вимовляння чисел: (не пов'язано)</p>
+    </item>
+    <item>
+      <p>Циклічний рівень переходу до наступного рівня озвучування пунктуації: (не пов'язано)</p>
+    </item>
+    <item>
+      <p>Циклічний перехід на наступний рівень супроводу натискання клавіш: (не пов'язано)</p>
+    </item>
+    <item>
+      <p>Циклічно перемикнути на наступний стиль прописних літер: (не пов'язано)</p>
+    </item>
+    <item>
+      <p>Зменшити швидкість: (не пов'язано)</p>
+    </item>
+    <item>
+      <p>Збільшити швидкість: (не пов'язано)</p>
+    </item>
+    <item>
+      <p>Знизити тон голосу: (не пов'язано)</p>
+    </item>
+    <item>
+      <p>Підвищити тон голосу: (не пов'язано)</p>
+    </item>
+    <item>
+      <p>Зменшити гучність: (не пов'язано)</p>
+    </item>
+    <item>
+      <p>Збільшити гучність: (не пов'язано)</p>
+    </item>
+  </list>
+</page>

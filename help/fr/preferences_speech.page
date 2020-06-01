@@ -162,19 +162,34 @@
       <p>Si la case <gui>Annoncer les tableaux durant la navigation</gui> est cochée, <app>Orca</app> vous dit lorsque vous naviguez et entrez ou sortez d’un tableau. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
-    <section id="read_full_row_in_gui_tables">
-      <title>Lire la ligne complète dans les tableaux d’interface</title>
-      <p>Si la case <gui>Lire la ligne complète dans les tableaux d’interface</gui> est cochée, lorsque vous montez et descendez avec les flèches dans les tableaux d’applications tels que la liste des messages entrants, <app>Orca</app> va lire la ligne entière. Si vous préférez n’entendre que la cellule ayant le focus, vous devriez décocher cette case.</p>
+    <section id="speak_full_row_in_gui_tables">
+      <title>Speak full row in GUI tables</title>
+      <p>
+        If <gui>Speak full row in GUI tables</gui> is checked, as you arrow up
+        and down in application tables such as the list of messages in your
+        Inbox, <app>Orca</app> will speak the entire row. If you would prefer
+        to hear only the cell with focus, you should uncheck this checkbox.
+      </p>
       <p>Valeur par défaut : cochée</p>
     </section>
-    <section id="read_full_row_in_document_tables">
-      <title>Lire la ligne complète dans les tableaux de documents</title>
-      <p>Si la case <gui>Lire la ligne complète dans les tableaux de documents</gui> est cochée, lorsque vous montez et descendez avec les flèches dans les tableaux tels que ceux dans le traitement de texte <app>Writer</app> ou dans les documents Web, <app>Orca</app> va lire la ligne entière. Si vous préférez n’entendre que la cellule ayant le focus, vous devriez décocher cette case.</p>
+    <section id="speak_full_row_in_document_tables">
+      <title>Speak full row in document tables</title>
+      <p>
+        If <gui>Speak full row in document tables</gui> is checked, as you arrow
+        up and down in tables such as those found in <app>Writer</app> and web
+        documents, <app>Orca</app> will speak the entire row. If you would prefer
+        to hear only the cell with focus, you should uncheck this checkbox.
+      </p>
       <p>Valeur par défaut : cochée</p>
     </section>
-    <section id="read_full_row_in_spreadsheets">
-      <title>Lire la ligne complète dans les tableurs</title>
-      <p>Si la case <gui>Lire la ligne complète dans les tableurs</gui> est cochée, lorsque vous montez et descendez avec les flèches dans les feuilles de calcul, <app>Orca</app> va lire la ligne entière. Si vous préférez n’entendre que la cellule ayant le focus, vous devriez décocher cette case.</p>
+    <section id="speak_full_row_in_spreadsheets">
+      <title>Speak full row in spreadsheets</title>
+      <p>
+        If <gui>Speak full row in spreadsheets</gui> is checked, as you arrow
+        up and down in spreadsheets, <app>Orca</app> will speak the entire
+        row. If you would prefer to hear only the cell with focus, you should
+        uncheck this checkbox.
+      </p>
       <p>Valeur par défaut : non cochée</p>
     </section>
   </section>

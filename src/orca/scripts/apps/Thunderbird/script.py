@@ -124,6 +124,7 @@ class Script(Gecko.Script):
 
         if self.spellcheck.isSuggestionsItem(newFocus):
             includeLabel = not self.spellcheck.isSuggestionsItem(oldFocus)
+            orca.emitRegionChanged(newFocus)
             self.updateBraille(newFocus)
             self.spellcheck.presentSuggestionListItem(includeLabel=includeLabel)
             return
@@ -258,7 +259,7 @@ class Script(Gecko.Script):
         default.Script.onShowingChanged(self, event)
 
     def onTextDeleted(self, event):
-        """Called whenever text is from an an object.
+        """Called whenever text is from an object.
 
         Arguments:
         - event: the Event

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_table" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_flat_review"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_tables"/>
+    <title type="sort">3. Переміщення у таблицях</title>
+    <title type="link">Переміщення у таблицях</title>
+    <desc>Команди для доступу до табличних даних</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди навігації у таблиці</title>
+  <p>У Orca передбачено підтримку навігації комірками таблиці як частину її <link xref="commands_structural_navigation#tables">команд для навігації структурою</link>. Крім того, ви можете:</p>
+  <list>
+    <item>
+      <p>Встановити динамічні заголовки рядків для поточного стовпчика: <keyseq><key>Модифікатор Orca</key><key>C</key></keyseq></p>
+    </item>
+    <item>
+      <p>Встановити динамічні заголовки стовпчиків для поточного рядка: <keyseq><key>Модифікатор Orca</key><key>R</key></keyseq></p>
+    </item>
+    <item>
+      <p>Спорожнити динамічні заголовки рядків: <keyseq><key>Модифікатор Orca</key><key>C</key></keyseq> (подвійне клацання)</p>
+    </item>
+    <item>
+      <p>Встановити динамічні заголовки стовпчиків: <keyseq><key>Модифікатор Orca</key><key>R</key></keyseq> (подвійне клацання)</p>
+    </item>
+    <item>
+      <p>Перемкнути озвучування між коміркою і рядком під час читання таблиці: <keyseq><key>Модифікатор Orca</key><key>F11</key></keyseq></p>
+    </item>
+  </list>
+</page>

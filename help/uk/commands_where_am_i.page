@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_where_am_i" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_time_date_notifications"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">3. Де я</title>
+    <title type="link">Де я</title>
+    <desc>Команди для визначення позиції</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди «Де я»</title>
+  <p>За допомогою можливості «Де я» <app>Orca</app> ви зможете отримувати пов'язані із контекстом подробиці щодо поточної позиції. Наприклад, у таблицях «Де я» надасть вам подробиці щодо комірки таблиці, у якій ви перебуваєте, а у тексті повідомить про поточний рядок та позначений текст. Із повним списком того, що може вимовляти <app>Orca</app>, можна ознайомитися у розділі <link xref="howto_whereami">Вступ до «Де я»</link>.</p>
+  <p>У <app>Orca</app> передбачено такі команди «Де я»:</p>
+  <list>
+    <item>
+      <p>Повідомити про поточну позицію:</p>
+      <list>
+        <item>
+          <p>Робоча станція: <key>Enter на ЦБ</key></p>
+        </item>
+        <item>
+          <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>Enter</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Докладне повідомлення про поточну позицію:</p>
+      <list>
+        <item>
+          <p>Робоча станція: <key>Enter на ЦБ</key> (подвійне клацання)</p>
+        </item>
+        <item>
+          <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>Enter</key></keyseq> (подвійне клацання)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+  <p>Окрім спеціалізованих команд «Де я», у <app>Orca</app> передбачено додаткові команди, які пов'язано із отриманням даних щодо вашої поточно позиції:</p>
+  <list>
+    <item>
+      <p>Вимовити заголовок вікна:</p>
+      <list>
+        <item>
+          <p>Робоча станція: <keyseq><key>Модифікатор Orca</key><key>Enter на ЦБ</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>похила риска</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Вимовити вміст смужки стану:</p>
+      <list>
+        <item>
+          <p>Робоча станція: <keyseq><key>Модифікатор Orca</key><key>Enter на ЦБ</key></keyseq> (подвійне клацання)</p>
+        </item>
+        <item>
+          <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>похила риска</key></keyseq> (подвійне клацання)</p>
+        </item>
+        <item>
+          <p>Повідомити дані щодо розміру і розташування поточного об'єкта у пікселях: (не пов'язано)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

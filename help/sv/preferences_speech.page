@@ -138,19 +138,34 @@
       <p>Om <gui>Annonsera tabeller under navigering</gui> är ikryssad kommer <app>Orca</app> att säga till när du navigerar in i eller ut ur en tabell. Observera att denna inställning är oberoende av huruvida denna annonsering görs under Läs upp allt. Se <link xref="preferences_general#say_all_announce_context">Annonsera sammanhangsberoende information i Läs upp allt</link> för mer information.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
-    <section id="read_full_row_in_gui_tables">
-      <title>Läs upp hel rad i gränssnittstabeller</title>
-      <p>Om <gui>Läs upp hel rad i gränssnittstabeller</gui> är ikryssad kommer <app>Orca</app> läsa upp hela raden då du pilar upp och ner i programtabeller som meddelandelistan i din inkorg. Om du föredrar att endast höra cellen som har fokus bör du avmarkera denna kryssruta.</p>
+    <section id="speak_full_row_in_gui_tables">
+      <title>Speak full row in GUI tables</title>
+      <p>
+        If <gui>Speak full row in GUI tables</gui> is checked, as you arrow up
+        and down in application tables such as the list of messages in your
+        Inbox, <app>Orca</app> will speak the entire row. If you would prefer
+        to hear only the cell with focus, you should uncheck this checkbox.
+      </p>
       <p>Standardvärde: ikryssad</p>
     </section>
-    <section id="read_full_row_in_document_tables">
-      <title>Läs upp hel rad i dokumenttabeller</title>
-      <p>Om <gui>Läs upp hel rad i dokumenttabeller</gui> är ikryssad kommer <app>Orca</app> läsa upp hela raden då du pilar upp och ner i tabeller som de i <app>Writer</app> och webbdokument. Om du föredrar att endast höra cellen som har fokus bör du avmarkera denna kryssruta.</p>
+    <section id="speak_full_row_in_document_tables">
+      <title>Speak full row in document tables</title>
+      <p>
+        If <gui>Speak full row in document tables</gui> is checked, as you arrow
+        up and down in tables such as those found in <app>Writer</app> and web
+        documents, <app>Orca</app> will speak the entire row. If you would prefer
+        to hear only the cell with focus, you should uncheck this checkbox.
+      </p>
       <p>Standardvärde: ikryssad</p>
     </section>
-    <section id="read_full_row_in_spreadsheets">
-      <title>Läs upp hel rad i kalkylblad</title>
-      <p>Om <gui>Läs upp hel rad i kalkylblad</gui> är ikryssad kommer <app>Orca</app> läsa upp hela raden då du pilar upp och ner i kalkylblad. Om du föredrar att endast höra cellen som har fokus bör du avmarkera denna kryssruta.</p>
+    <section id="speak_full_row_in_spreadsheets">
+      <title>Speak full row in spreadsheets</title>
+      <p>
+        If <gui>Speak full row in spreadsheets</gui> is checked, as you arrow
+        up and down in spreadsheets, <app>Orca</app> will speak the entire
+        row. If you would prefer to hear only the cell with focus, you should
+        uncheck this checkbox.
+      </p>
       <p>Standardvärde: inte ikryssad</p>
     </section>
   </section>

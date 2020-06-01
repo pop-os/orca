@@ -125,6 +125,11 @@ class EventManager:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
+        if event.type.startswith('mouse:button'):
+            msg = 'EVENT MANAGER: Not ignoring because event type is never ignored'
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
         script = orca_state.activeScript
         if event.type.startswith('object:children-changed'):
             if not script:
@@ -361,7 +366,8 @@ class EventManager:
             except:
                 toolkitName = None
             if toolkitName in self._synchronousToolkits \
-               or isinstance(e, input_event.MouseButtonEvent):
+               or isinstance(e, input_event.MouseButtonEvent) \
+               or e.type.startswith("object:children-changed"):
                 asyncMode = False
             script = _scriptManager.getScript(app, e.source)
             script.eventCache[e.type] = (e, time.time())
@@ -387,6 +393,7 @@ class EventManager:
 
         defaultScript = _scriptManager.getDefaultScript()
         _scriptManager.setActiveScript(defaultScript, 'No focus')
+        defaultScript.idleMessage()
         return False
 
     def _dequeue(self):

@@ -44,6 +44,9 @@ class Pause:
     def __init__(self):
         pass
 
+    def __str__(self):
+        return "PAUSE"
+
 PAUSE = [Pause()]
 
 class LineBreak:
@@ -112,6 +115,27 @@ class SpeechGenerator(generator.Generator):
 
     def generateSpeech(self, obj, **args):
         return self.generate(obj, **args)
+
+    def _resultElementToString(self, element, includeAll=True):
+        if debug.LEVEL_ALL < debug.debugLevel:
+            return str(element)
+
+        if isinstance(element, str):
+            return super()._resultElementToString(element, includeAll)
+
+        if not isinstance(element, acss.ACSS):
+            return str(element)
+
+        if not includeAll:
+            return ""
+
+        voices = {"default": self.voice(DEFAULT)[0],
+                  "system": self.voice(SYSTEM)[0],
+                  "hyperlink": self.voice(HYPERLINK)[0],
+                  "uppercase": self.voice(UPPERCASE)[0]}
+
+        voicetypes = [k for k in voices if voices.get(k) == element]
+        return "Voice(s): (%s)" % ", ".join(voicetypes)
 
     #####################################################################
     #                                                                   #
@@ -552,10 +576,10 @@ class SpeechGenerator(generator.Generator):
         if role == pyatspi.ROLE_MENU and parentRole == pyatspi.ROLE_COMBO_BOX:
             return self._generateRoleName(obj.parent)
 
-        if role == pyatspi.ROLE_ENTRY \
-           and obj.getState().contains(pyatspi.STATE_SUPPORTS_AUTOCOMPLETION):
+        if self._script.utilities.isSingleLineAutocompleteEntry(obj):
             result.append(self.getLocalizedRoleName(obj, role=pyatspi.ROLE_AUTOCOMPLETE))
             result.extend(acss)
+            return result
 
         if role == pyatspi.ROLE_PANEL and obj.getState().contains(pyatspi.STATE_SELECTED):
             return []
@@ -563,6 +587,9 @@ class SpeechGenerator(generator.Generator):
         # egg-list-box, e.g. privacy panel in gnome-control-center
         if parentRole == pyatspi.ROLE_LIST_BOX:
             doNotPresent.append(obj.getRole())
+
+        if self._script.utilities.isStatusBarDescendant(obj):
+            doNotPresent.append(pyatspi.ROLE_LABEL)
 
         if _settingsManager.getSetting('speechVerbosityLevel') \
                 == settings.VERBOSITY_LEVEL_BRIEF:
@@ -910,7 +937,7 @@ class SpeechGenerator(generator.Generator):
 
     def _generateImage(self, obj, **args):
         """Returns an array of strings (and possibly voice and audio
-        specifications) that represent the image on the the object, if
+        specifications) that represent the image on the object, if
         it exists.  Otherwise, an empty array is returned.
         """
         result = []
@@ -951,6 +978,13 @@ class SpeechGenerator(generator.Generator):
 
         return result
 
+    def _generateSortOrder(self, obj, **args):
+        result = super()._generateSortOrder(obj, **args)
+        if result:
+            result.extend(self.voice(SYSTEM))
+
+        return result
+
     def _generateNewRowHeader(self, obj, **args):
         """Returns an array of strings (and possibly voice and audio
         specifications) that represent the row header for an object
@@ -964,6 +998,15 @@ class SpeechGenerator(generator.Generator):
 
         if not self._script.utilities.cellRowChanged(obj):
             return []
+
+        if args.get('readingRow'):
+            return []
+
+        if args.get('inMouseReview') and args.get('priorObj'):
+            thisrow, thiscol = self._script.utilities.coordinatesForCell(obj)
+            lastrow, lastcol = self._script.utilities.coordinatesForCell(args.get('priorObj'))
+            if thisrow == lastrow:
+                return []
 
         args['newOnly'] = True
         return self._generateRowHeader(obj, **args)
@@ -984,6 +1027,12 @@ class SpeechGenerator(generator.Generator):
 
         if args.get('readingRow'):
             return []
+
+        if args.get('inMouseReview') and args.get('priorObj'):
+            thisrow, thiscol = self._script.utilities.coordinatesForCell(obj)
+            lastrow, lastcol = self._script.utilities.coordinatesForCell(args.get('priorObj'))
+            if thiscol == lastcol:
+                return []
 
         args['newOnly'] = True
         return self._generateColumnHeader(obj, **args)
@@ -2307,32 +2356,25 @@ class SpeechGenerator(generator.Generator):
     def _generateStatusBar(self, obj, **args):
         """Returns an array of strings (and possibly voice and audio
         specifications) that represent the status bar of a window.
-        This method should initially be called with a top-level window.
         """
 
         statusBar = self._script.utilities.statusBar(obj)
         if not statusBar:
             return []
 
-        result = self._generateName(statusBar)
-        if result:
-            return result
+        items = self._script.utilities.statusBarItems(statusBar)
+        if not items or items == [statusBar]:
+            return []
 
-        for child in statusBar:
-            childResult = self._generateDisplayedText(child)
-            if not childResult and child.getRole() != pyatspi.ROLE_LABEL:
-                childResult = self.generate(child, includeContext=False)
+        result = []
+        for child in items:
+            childResult = self.generate(child, includeContext=False)
             if childResult:
                 result.extend(childResult)
+                if not isinstance(childResult[-1], Pause):
+                    result.extend(self._generatePause(child, **args))
 
         return result
-
-    def generateStatusBar(self, obj, **args):
-        """Returns an array of strings (and possibly voice and audio
-        specifications) that represent the status bar of the window
-        containing the object.
-        """
-        return self._generateStatusBar(obj, **args)
 
     def generateTitle(self, obj, **args):
         """Returns an array of strings (and possibly voice and audio

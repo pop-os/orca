@@ -132,19 +132,34 @@
       <p>Když je zaškrtnuté <gui>Při pohybu v dokumentu oznamovat citace</gui>, bude vám <app>Orca</app> říkat, když se dostanete do tabulky, nebo ji opustíte. Upozorňujeme, že toto nastavení je nezávislé na tom, jestli to je, či není, oznamováno při čtení všeho. Více informací viz <link xref="preferences_general#say_all_announce_context">Při čtení všeho oznamovat kontextové informace</link>.</p>
       <p>Výchozí hodnota: zaškrtnuto</p>
     </section>
-    <section id="read_full_row_in_gui_tables">
-      <title>Číst celé řádky tabulek v uživatelském rozhraní</title>
-      <p>Když je zaškrtnuto <gui>Číst celé řádky tabulek v uživatelském rozhraní</gui> a budete se pohybovat šipkami nahoru nebo dolů v tabulce v nějaké aplikaci, třeba v seznam zpráv v příchozí poště, bude <app>Orca</app> číst celé řádky. Jestli dáváte přednost čtení jen jediné buňky, která je právě zaměřená, neměli byste mít toto políčko zaškrtnuté.</p>
+    <section id="speak_full_row_in_gui_tables">
+      <title>Speak full row in GUI tables</title>
+      <p>
+        If <gui>Speak full row in GUI tables</gui> is checked, as you arrow up
+        and down in application tables such as the list of messages in your
+        Inbox, <app>Orca</app> will speak the entire row. If you would prefer
+        to hear only the cell with focus, you should uncheck this checkbox.
+      </p>
       <p>Výchozí hodnota: zaškrtnuto</p>
     </section>
-    <section id="read_full_row_in_document_tables">
-      <title>Číst celé řádky tabulek v dokumentech</title>
-      <p>Když je zaškrtnuto <gui>Číst celé řádky tabulek v dokumentech</gui> a budete se pohybovat šipkami nahoru nebo dolů v nějaké tabulce, kterou najdete třeba ve <app>Writeru</app> nebo ve webových dokumentech, bude <app>Orca</app> číst celé řádky. Jestli dáváte přednost čtení jen jediné buňky, která je právě zaměřená, neměli byste mít toto políčko zaškrtnuté.</p>
+    <section id="speak_full_row_in_document_tables">
+      <title>Speak full row in document tables</title>
+      <p>
+        If <gui>Speak full row in document tables</gui> is checked, as you arrow
+        up and down in tables such as those found in <app>Writer</app> and web
+        documents, <app>Orca</app> will speak the entire row. If you would prefer
+        to hear only the cell with focus, you should uncheck this checkbox.
+      </p>
       <p>Výchozí hodnota: zaškrtnuto</p>
     </section>
-    <section id="read_full_row_in_spreadsheets">
-      <title>Číst celé řádky tabulek v tabulkových kalkulátorech</title>
-      <p>Když je zaškrtnuto <gui>Číst celé řádky tabulek v tabulkových kalkulátorech</gui> a budete se pohybovat šipkami nahoru nebo dolů v tabulkovém kalkulátoru, bude <app>Orca</app> číst celé řádky. Jestli dáváte přednost čtení jen jediné buňky, která je právě zaměřená, neměli byste mít toto políčko zaškrtnuté.</p>
+    <section id="speak_full_row_in_spreadsheets">
+      <title>Speak full row in spreadsheets</title>
+      <p>
+        If <gui>Speak full row in spreadsheets</gui> is checked, as you arrow
+        up and down in spreadsheets, <app>Orca</app> will speak the entire
+        row. If you would prefer to hear only the cell with focus, you should
+        uncheck this checkbox.
+      </p>
       <p>Výchozí hodnota: nezaškrtnuto</p>
     </section>
   </section>

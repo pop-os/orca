@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_controlling_orca" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_where_am_i"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <title type="sort">1. Керування і навчання користуванню Orca</title>
+    <title type="link">Керування і навчання користуванню Orca</title>
+    <desc>Команди для взаємодії із <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Керування і навчання користуванню Orca</title>
+  <section id="controlling">
+    <title>Команди для керування <app>Orca</app></title>
+    <p>Наведеними нижче командами можна скористатися для відкриття діалогових вікон налаштувань <app>Orca</app>, вмикання і вимикання <app>Orca</app> та обходу команд <app>Orca</app>, щоб уникнути конфліктів клавіатурних скорочень із клавіатурними скороченнями програми, якою ви користуєтеся.</p>
+    <list>
+      <item>
+        <p>Вмикання і вимикання <app>Orca</app> у GNOME: <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>
+        <note style="tip">
+           <p>Якщо ви користуєтеся <app>Orca</app> в іншому стільничному середовищі, у якому немає команди для вмикання і вимикання <app>Orca</app>, вам може бути корисною команда, яка завершує роботу <app>Orca</app>. Типово, цю команду не пов'язано із клавіатурним скорочення. Будь ласка, ознайомтеся із вмістом розділу <link xref="howto_key_bindings">Зміна клавіатурних скорочень</link>, щоб ознайомитися із тим, які пов'язати із клавіатурними скороченнями, команди, які ще не пов'язано із клавіатурними скороченнями.</p>
+        </note>
+      </item>
+      <item>
+        <p>Діалогове вікно <link xref="preferences">Параметри Orca</link>: <keyseq><key>Модифікатор Orca</key><key>Пробіл</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Діалогове вікно параметрів Orca для фокусованої програми: <keyseq><key>Ctrl</key><key>Модифікатор Orca</key><key>Пробіл</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Передати наступну команду поточній програмі: <keyseq><key>Модифікатор Orca</key><key>BackSpace</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="learning">
+    <title>Команди для навчання користуванню <app>Orca</app></title>
+    <p>У режимі навчання <app>Orca</app> буде озвучувати будь-яке натискання комбінації клавіш разом із пов'язаною із ним командою <app>Orca</app>. У цьому режимі ви також можете отримати список клавіатурних скорочень, що містить усі команди <app>Orca</app>, якими ви можете скористатися.</p>
+    <list>
+      <item>
+        <p>Вхід до режиму навчання: <keyseq><key>Модифікатор Orca</key><key>H</key></keyseq></p>
+      </item>
+      <item>
+        <p>Вихід з режиму навчання: <keyseq><key>Esc</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+</page>
