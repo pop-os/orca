@@ -1,6 +1,10 @@
 orca (3.36.3-2) UNRELEASED; urgency=medium
 
+  [ Samuel Thibault ]
   * rules: Drop now-default -Wl,--as-needed option
+
+  [ Dmitry Shachnev ]
+  * rules: Also drop -Wl,-z,defs and hardening=+all.
 
  -- Samuel Thibault <sthibault@debian.org>  Fri, 24 Jul 2020 12:41:26 +0200
 
