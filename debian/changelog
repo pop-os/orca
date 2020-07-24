@@ -1,3 +1,9 @@
+orca (3.36.3-2) UNRELEASED; urgency=medium
+
+  * rules: Drop now-default -Wl,--as-needed option
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 24 Jul 2020 12:41:26 +0200
+
 orca (3.36.3-1) unstable; urgency=medium
 
   * New upstream release.
