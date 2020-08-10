@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_introduction" xml:lang="cs">
+  <info>
+    <title type="sort">0. Úvod do předvoleb čtečky <app>Orca</app></title>
+    <title type="link">Úvod do předvoleb čtečky <app>Orca</app></title>
+    <link type="guide" xref="preferences"/>
+    <link type="next" xref="preferences_general"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Úvod do předvoleb čtečky <app>Orca</app></title>
+  <section id="orca">
+    <title>Předvolby Orca</title>
+    <p>Předvolby Orca vám umožňují přizpůsobit si funkcionalitu čtečky <app>Orca</app>, která se použije pro všechny aplikace. Příkladem předvolby je oznamování kláves, protože to se použije u všech aplikací.</p>
+    <p>Všimněte si, že předvolby Orca lze přizpůsobit i pro jednotlivé aplikace. Například můžete nastavit odezvu pro oznamování kláves na celá slova a pro aplikaci Pidgin pak oznamování kláves vypnout. Když tak učiníte, bude <app>Orca</app> vždy po dopsání slova hlásit jednotlivé klávesy, vyjma situace, kdy budete v komunikátoru Pidgin.</p>
+    <note style="tip">
+      <title>Klávesové zkratky pro získání dialogového okna s předvolbami</title>
+      <list>
+        <item>
+          <p><keyseq><key>Modifikátor Orca</key> <key>mezerník</key></keyseq>: Předvolby čtečky <app>Orca</app></p>
+        </item>
+        <item>
+          <p><keyseq><key>Ctrl</key> <key>Modifikátor Orca</key> <key>mezerník</key> </keyseq>: Předvolby čtečky <app>Orca</app> pro aktuální aplikaci</p>
+        </item>
+      </list>
+    </note>
+  </section>
+  <section id="application_unique">
+    <title>Předvolby jedinečné pro aplikaci</title>
+      <p>Jako opak předvoleb Orca existují předvolby jedinečné pro aplikace. Pomocí nich si můžete přizpůsobit funkce <app>Orca</app>, které se používají jen v konkrétním prostředí, například na webových stránkách nebo v diskuzních aplikacích. Následkem toho tyto volby najdete dostupné jen v dialogovém okně předvoleb pro konkrétní aplikaci a jen pro tuto aplikaci se tyto volby použijí.</p>
+  </section>
+</page>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_general" xml:lang="bg">
+  <info>
+    <title type="sort">1. Общи</title>
+    <title type="link">Общи</title>
+    <desc>Настройка на основното поведение на <app>Orca</app></desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_voice"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Общи настройки</title>
+  <section id="keyboardlayout">
+    <info>
+      <desc>Група от радио бутони за настройка на клавиатурната подредба, използвана от <app>Orca</app> - за настолни компютри или за лаптопи.</desc>
+    </info>
+    <title>Клавиатурна подредба</title>
+    <p>
+      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
+      you will be working on a desktop (i.e. with a numeric keypad) or laptop
+      keyboard. Which layout you choose will determine both the <key>Orca
+      Modifier</key> as well as a number of keyboard shortcuts for performing
+      <app>Orca</app> commands.</p>
+    <p>Стойност по подразбиране: <gui>Настолен компютър</gui></p>
+  </section>
+  <section id="presenttooltips">
+    <info>
+      <desc>Поле за отметка за превключване на прочитането на подсказките, чието появяване е в резултат от заставането на показалеца на мишката върху даден елемент.</desc>
+    </info>
+    <title>Прочитане на подсказките</title>
+    <p>Когато това поле е отметнато, това ще укаже на <app>Orca</app> да ви представя информация за подсказките, когато такива се появят в резултат от заставане на показалеца на мишката върху елемент. Конкретни действия за принуждаване на подсказките да се покажат, като натискане на <keyseq> <key>Ctrl</key><key>F1</key></keyseq>, когато даден обект е на фокус, ще доведат до непрекъснато появяване на подсказките, без значение от тази настройка.</p>
+    <p>Стойност по подразбиране: без отметка</p>
+  </section>
+  <section id="objectundermouse">
+    <info>
+      <desc>Поле за отметка за превключване на прочитането на обекта под показалеца на мишката.</desc>
+    </info>
+    <title>Изговаряне на обекта под курсора на мишката</title>
+    <p>Когато има отметка, тази опция ще укаже на <app>Orca</app> да представя информация за обекта под показалеца на мишката, когато го премествате по екрана с използване на възможността на <app>Orca</app> за <link xref="howto_mouse_review">преглед с мишката</link>.</p>
+    <p>Стойност по подразбиране: без отметка</p>
+  </section>
+  <section id="timeanddate">
+    <info>
+      <desc>Падащи списъци за определяне на форма̀та на часа и датата използвани от <app>Orca</app>.</desc>
+    </info>
+    <title>Формат на часа и датата</title>
+    <p>Падащите списъци <gui>Формат на часа</gui> и <gui>Формат на датата</gui> ви позволяват да определите как <app>Orca</app> ще изговаря и изобразява часа и датата на брайл.</p>
+    <p>Стойност по подразбиране: използва се системният формат за текущата локализация</p>
+  </section>
+  <section id="navigation_in_say_all">
+    <info>
+      <desc>Прозорец за включването на превъртането напред и назад и придвижването по структурата при „Прочитане на всичко“</desc>
+    </info>
+    <title>Придвижване при „Прочитане на всичко“</title>
+    <p>Действието „Прочитане на всичко“ кара <app>Orca</app> да прочете всичко от текущото местоположение до края на документа. Стандартно, натискането на произволен клавиш ще прекъсне действието „Прочитане на всичко“. Ако отметнете <gui>Включване на клавишите за превъртане при „Прочитане на всичко“</gui>, клавишите <key>Up</key> и <key>Down</key> могат да се използват за бързо прескачане в документа, за да чуете нещо отново или да прескочите част, която не ви интересува, без да се налага да стартиране „Прочитане на всичко“ отново.</p>
+    <p>Ако <app>Orca</app> чете документ в програма с поддръжка на придвижване по структурата, а <gui>Включване на клавишите за придвижване по структурата при „Прочитане на всичко“</gui> е отметнато, ще можете да използвате поддържаните команди за придвижване по структурата по следния начин: <key>H</key>/<keyseq><key>Shift</key> <key>H</key></keyseq> продължава четенето от следващото/предишното заглавие, <key>P</key>/<keyseq><key>Shift</key><key>P</key></keyseq> продължава четенето от следващия/предишния абзац, <key>T</key>/<keyseq><key>Shift</key> <key>T</key></keyseq> продължава четенето от следващата/предишната таблица и т.н.</p>
+    <p>Стойност по подразбиране: без отметка</p>
+  </section>
+  <section id="say_all_announce_context">
+    <title>Announce Contextual Information in Say All</title>
+    <p>
+      <app>Orca</app> can optionally provide more information about the document
+      content being spoken, such as announcing when you are entering and leaving
+      a blockquote, list, table, or other container. Whether or not these
+      announcements are made can be configured independently through the following
+      checkboxes:
+    </p>
+    <list>
+      <item><p>Announce blockquotes in Say All</p></item>
+      <item><p>Announce forms in Say All</p></item>
+      <item><p>Announce landmarks in Say All</p></item>
+      <item><p>Announce lists in Say All</p></item>
+      <item><p>Announce panels in Say All</p></item>
+      <item><p>Announce tables in Say All</p></item>
+    </list>
+    <p>Стойност по подразбиране: с отметка</p>
+    <note style="note">
+      <p>
+        Whether or not <app>Orca</app> makes these announcements during
+        navigation is also configurable. You will find similar checkboxes
+        on the <gui>Speech</gui> page. For more information, see
+        <link xref="preferences_speech#spoken_context">Spoken Context</link>.
+      </p>
+    </note>
+  </section>
+  <section id="say_all_by">
+   <info>
+      <desc>Прозорец с настройки за „Прочитане на всичко“ от <app>Orca</app>.</desc>
+   </info>
+   <title>Прочитане на всичко по</title>
+   <p>Падащият списък <gui>Прочитане на всичко по</gui> ви позволява да определите дали <app>Orca</app> ще изговаря изречение след изречение или ред след ред при изпълнение на командата „Прочитане на всичко“ в даден документ.</p>
+    <p>Стойност по подразбиране: <gui>Изречение</gui></p>
+  </section>
+  <section id="profiles">
+    <info>
+      <desc>Настройки за управление на профилите от настройки.</desc>
+    </info>
+    <title>Профили</title>
+    <p>Групата графични обекти <gui>Профили</gui>, която се намира в долния край на страницата <gui>Общи</gui>, позволява поддържането и използването на множество конфигурации.</p>
+   <list>
+      <item>
+        <p>Падащият списък <gui>Активен профил</gui> показва текущият профил и ви позволява да заредите различен профил.</p>
+      </item>
+      <item>
+        <p>Бутонът <gui>Зареждане</gui> ще накара <app>Orca</app> да зареди профила избран в падащия списък <gui>Активен профил</gui>.</p>
+      </item>
+      <item>
+        <p>Бутонът <gui>Запазване като</gui> ви позволява да запазите текущият набор от настройки от прозореца за настройка в именуван профил.</p>
+      </item>
+      <item>
+        <p>Падащият списък <gui>Начален профил</gui> ви позволява да изберете профила, който трябва автоматично да бъде зареждан всеки път, когато стартирате <app>Orca</app>.</p>
+      </item>
+    </list>
+  </section>
+  <section id="progress_bar_updates">
+    <title>Промени по лентите на напредъка</title>
+    <section id="progress_bar_updates_speak">
+      <title>Прочитане на напредъка</title>
+      <p>Ако <gui>Прочитане на напредъка</gui> е отметнато, <app>Orca</app> ще ви съобщава периодично състоянието на лентите на напредъка.</p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="progress_bar_updates_braille">
+      <title>Напредък през брайл</title>
+      <p>Ако <gui>Напредък през брайл</gui> е отметнато, <app>Orca</app> ще извежда състоянието на лентите на напредъка на брайловия дисплей.</p>
+      <p>Стойност по подразбиране: без отметка</p>
+    </section>
+    <section id="progress_bar_updates_beep">
+      <title>Звук при напредък</title>
+      <p>Ако <gui>Звук при напредък</gui> е отметнато, <app>Orca</app> ще издава звук при увеличаването на напредъка.</p>
+      <p>Стойност по подразбиране: без отметка</p>
+    </section>
+    <section id="progress_bar_updates_frequency">
+      <title>Честота (секунди)</title>
+      <p>Този въртелив бутон определя колко често да се представят уведомленията.</p>
+      <p>Стойност по подразбиране: 10</p>
+    </section>
+    <section id="progress_bar_updates_restrict">
+      <title>Applies to</title>
+      <p>Този падащ списък ви позволява да определите кои ленти на напредъка трябва да бъдат следени, в случай че наблюдението на промените в лентите на напредъка е включено. Възможностите са <gui>Всички</gui>, <gui>Програмата</gui> и <gui>Прозореца</gui>.</p>
+      <p>Избирането на <gui>Всички</gui> ще накара <app>Orca</app> да ви уведомява за промените във всички ленти на напредъка, без значение къде се намират.</p>
+      <p>Избирането на <gui>Програмата</gui> ще накара <app>Orca</app> да ви уведомява за промени в лентите на напредъка в текущото приложение, дори и те да не са в текущия прозорец.</p>
+      <p>Избирането на <gui>Прозорец</gui> ще накара <app>Orca</app> да ви уведомява само за промени в лентите на напредъка в текущия прозорец.</p>
+      <p>Стойност по подразбиране: <gui>Програмата</gui></p>
+    </section>
+  </section>
+</page>

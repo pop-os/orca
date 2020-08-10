@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: orca master\n"
-"POT-Creation-Date: 2020-05-07 15:40+0000\n"
-"PO-Revision-Date: 2020-05-07 19:10+0300\n"
+"POT-Creation-Date: 2020-07-07 09:02+0000\n"
+"PO-Revision-Date: 2020-07-07 20:58+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -430,14 +430,14 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/commands_controlling_orca.page:73
-msgid "Enter learn mode: <keyseq><key>Orca Modifier</key><key>H</key></keyseq>"
+msgid "Enter Learn Mode: <keyseq><key>Orca Modifier</key><key>H</key></keyseq>"
 msgstr ""
 "Вхід до режиму навчання: <keyseq><key>Модифікатор Orca</key><key>H</key></"
 "keyseq>"
 
 #. (itstool) path: item/p
 #: C/commands_controlling_orca.page:79
-msgid "Exit learn mode: <keyseq><key>Esc</key></keyseq>"
+msgid "Exit Learn Mode: <keyseq><key>Esc</key></keyseq>"
 msgstr "Вихід з режиму навчання: <keyseq><key>Esc</key></keyseq>"
 
 #. (itstool) path: info/title
@@ -1066,8 +1066,8 @@ msgstr ""
 #. (itstool) path: info/title
 #: C/commands_live_regions.page:6
 msgctxt "sort"
-msgid "1. Live Region"
-msgstr "1. Інтерактивна область"
+msgid "1. Live Regions"
+msgstr "1. Інтерактивні області"
 
 #. (itstool) path: info/title
 #: C/commands_live_regions.page:7
@@ -1186,23 +1186,22 @@ msgstr ""
 "непов'язані команди із комбінаціями клавіш."
 
 #. (itstool) path: note/p
-#: C/commands_mouse.page:29
+#: C/commands_mouse.page:29 C/commands_reading.page:28
 msgid ""
-"In the list that follows, you will see several references to \"KP\". All \"KP"
-"\" keys are located on the numeric keypad. You will also notice that there "
-"are different keystrokes depending upon whether you are using a desktop or a "
-"laptop -- or more accurately, whether you are using <app>Orca</app>'s "
-"Desktop keyboard layout or its Laptop keyboard layout. For additional "
-"information, please see the <link xref=\"howto_keyboard_layout\">Keyboard "
-"Layout</link> topic."
+"Below you will see several references to \"KP\". All \"KP\" keys are located "
+"on the numeric keypad. You will also notice that there are different "
+"keystrokes depending upon whether you are using a desktop or a laptop -- or "
+"more accurately, whether you are using <app>Orca</app>'s Desktop keyboard "
+"layout or its Laptop keyboard layout. For additional information, please see "
+"the <link xref=\"howto_keyboard_layout\">Keyboard Layout</link> topic."
 msgstr ""
-"У наведеному нижче списку ви побачите декілька посилань на «ЦБ». Усі клавіші "
-"із позначкою «ЦБ» розташовано на цифровому блоці клавіатури. Ви також "
-"побачите, що клавіатурні скорочення залежать від того, користуєтеся "
-"стаціонарним комп'ютером (робочою станцією) чи ноутбуком — або, точніше, "
-"користуєтеся клавіатурною розкладкою <app>Orca</app> для робочої станції чи "
-"розкладкою клавіатури для ноутбука. Докладніші відомості можна знайти у "
-"розділі <link xref=\"howto_keyboard_layout\">Розкладка клавіатури</link>."
+"Нижче ви побачите декілька посилань на «ЦБ». Усі клавіші із позначкою «ЦБ» "
+"розташовано на цифровому блоці клавіатури. Ви також побачите, що клавіатурні "
+"скорочення залежать від того, користуєтеся стаціонарним комп'ютером (робочою "
+"станцією) чи ноутбуком — або, точніше, користуєтеся клавіатурною розкладкою "
+"<app>Orca</app> для робочої станції чи розкладкою клавіатури для ноутбука. "
+"Докладніші відомості можна знайти у розділі <link xref="
+"\"howto_keyboard_layout\">Розкладка клавіатури</link>."
 
 #. (itstool) path: item/p
 #: C/commands_mouse.page:41
@@ -1406,25 +1405,6 @@ msgstr ""
 "<app>Orca</app> передбачено декілька команд, якими ви можете скористатися "
 "для читання документа."
 
-#. (itstool) path: note/p
-#: C/commands_reading.page:28
-msgid ""
-"In the lists that follow, you will see several references to \"KP\". All \"KP"
-"\" keys are located on the numeric keypad. You will also notice that there "
-"are different keystrokes depending upon whether you are using a desktop or a "
-"laptop -- or more accurately, whether you are using <app>Orca</app>'s "
-"Desktop keyboard layout or its Laptop keyboard layout. For additional "
-"information, please see the <link xref=\"howto_keyboard_layout\">Keyboard "
-"Layout</link> topic."
-msgstr ""
-"У наведених ниже списках ви побачите декілька посилань на «ЦБ». Усі клавіші "
-"із позначкою «ЦБ» розташовано на цифровому блоці клавіатури. Ви також "
-"побачите, що клавіатурні скорочення залежать від того, користуєтеся "
-"стаціонарним комп'ютером (робочою станцією) чи ноутбуком — або, точніше, "
-"користуєтеся клавіатурною розкладкою <app>Orca</app> для робочої станції чи "
-"розкладкою клавіатури для ноутбука. Докладніші відомості можна знайти у "
-"розділі <link xref=\"howto_keyboard_layout\">Розкладка клавіатури</link>."
-
 #. (itstool) path: section/title
 #: C/commands_reading.page:39
 msgid "Reading Your Current Location"
@@ -1534,7 +1514,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/commands_reading.page:191 C/commands_where_am_i.page:31
-msgid "Perform basic where am I:"
+msgid "Perform basic Where Am I:"
 msgstr "Повідомити про поточну позицію:"
 
 #. (itstool) path: item/p
@@ -1549,7 +1529,7 @@ msgstr "Ноутбук: <keyseq><key>Модифікатор Orca</key><key>Enter
 
 #. (itstool) path: item/p
 #: C/commands_reading.page:206 C/commands_where_am_i.page:42
-msgid "Perform detailed where am I:"
+msgid "Perform detailed Where Am I:"
 msgstr "Докладне повідомлення про поточну позицію:"
 
 #. (itstool) path: item/p
@@ -1587,7 +1567,7 @@ msgid ""
 "to announce the details associated with the link such as the link type, if "
 "the link is visited, the site description, and file size. If you would "
 "instead prefer dedicated command for this purpose, you can bind <app>Orca</"
-"app>'s Speak Link Details command to a keystroke. Please see <link xref="
+"app>'s Speaks Link Details command to a keystroke. Please see <link xref="
 "\"howto_key_bindings\"> Modifying Keybindings</link> for information on how "
 "to do so."
 msgstr ""
@@ -1631,7 +1611,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/commands_reading.page:259
 msgid ""
-"Enable \"sticky\" focus mode: <keyseq><key>Orca Modifier</key><key>A</key></"
+"Enable sticky focus mode: <keyseq><key>Orca Modifier</key><key>A</key></"
 "keyseq> (double-clicked)"
 msgstr ""
 "Увімкнути режим «липкого» фокусування: <keyseq><key>Модифікатор Orca</"
@@ -1640,7 +1620,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/commands_reading.page:265
 msgid ""
-"Enable \"sticky\" browse mode: <keyseq><key>Orca Modifier</key><key>A</key></"
+"Enable sticky browse mode: <keyseq><key>Orca Modifier</key><key>A</key></"
 "keyseq> (triple-clicked)"
 msgstr ""
 "Увімкнути режим «липкої» навігації: <keyseq><key>Модифікатор Orca</"
@@ -2406,8 +2386,8 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/commands_structural_navigation.page:435
 msgid ""
-"Start and end of current container: <keyseq><key>Shift</key><key>comma</"
-"key></keyseq> and <keyseq><key>comma</key></keyseq>"
+"Start and end of current container: <keyseq><key>Shift</key><key>Comma</"
+"key></keyseq> and <keyseq><key>Comma</key></keyseq>"
 msgstr ""
 "Початок і кінець поточного контейнера: <keyseq><key>Shift</key><key>кома</"
 "key></keyseq> і <keyseq><key>кома</key></keyseq>"
@@ -3271,8 +3251,8 @@ msgstr ""
 #: C/howto_keyboard_layout.page:28 C/howto_the_orca_modifier.page:39
 msgid ""
 "If you are using the Desktop layout, the Orca Modifier will be both "
-"<key>Insert</key> and <key>KeyPad Insert</key>, the latter being the same "
-"key as <key>KeyPad 0</key>."
+"<key>Insert</key> and <key>KP_Insert</key>, the latter being the same key as "
+"<key>KP_0</key>."
 msgstr ""
 "Якщо ви використовуєте розкладку для робочої станції, модифікатором Orca "
 "буде і <key>Insert</key>, і <key>Insert на цифровому блоці</key>, останній "
@@ -3307,8 +3287,8 @@ msgstr "Виберіть за допомогою стрілочок бажану
 #. (itstool) path: info/title
 #: C/howto_learn_modes.page:5
 msgctxt "sort"
-msgid "5. \"Learn\" Mode"
-msgstr "5. Режим «Навчання»"
+msgid "5. Learn Mode"
+msgstr "5. Режим навчання"
 
 #. (itstool) path: info/desc
 #: C/howto_learn_modes.page:6
@@ -3317,8 +3297,8 @@ msgstr "Вивчення команд <app>Orca</app>"
 
 #. (itstool) path: page/title
 #: C/howto_learn_modes.page:17
-msgid "\"Learn\" Mode"
-msgstr "Режим «Навчання»"
+msgid "Learn Mode"
+msgstr "Режим навчання"
 
 #. (itstool) path: steps/title
 #: C/howto_learn_modes.page:25
@@ -4745,7 +4725,7 @@ msgid ""
 "impacts which key is used as the Orca Modifier. If you are using the Laptop "
 "layout, the default Orca Modifier will be <key>CapsLock</key>. If you are "
 "using <app>Orca</app>'s Laptop Layout and want to lock or unlock "
-"<key>CapsLock</key>, you can do so by either typing <key>CapsLock</key> "
+"<key>CapsLock</key>, you can do so by either pressing <key>CapsLock</key> "
 "twice (requires at-spi2 version 2.32 or later), or by performing the "
 "following steps:"
 msgstr ""
@@ -4782,7 +4762,7 @@ msgstr "Натисніть клавішу <key>CapsLock</key>, щоб перем
 #. (itstool) path: info/title
 #: C/howto_whereami.page:5
 msgctxt "sort"
-msgid "1. WhereAmI"
+msgid "1. Where Am I"
 msgstr "1. Де я"
 
 #. (itstool) path: info/desc
@@ -4792,7 +4772,7 @@ msgstr "Визначення поточної позиції"
 
 #. (itstool) path: page/title
 #: C/howto_whereami.page:17
-msgid "WhereAmI"
+msgid "Where Am I"
 msgstr "Де я"
 
 #. (itstool) path: page/p
@@ -5066,19 +5046,23 @@ msgstr "Щоб запустити <app>Orca</app>, виконайте такі �
 
 #. (itstool) path: item/p
 #: C/introduction.page:37
+#| msgid ""
+#| "The method for configuring <app>Orca</app> to be launched automatically "
+#| "as your preferred screen reader will depend upon which desktop "
+#| "environment you use. For instance, in GNOME 3.x this option can be found "
+#| "in the Universal Access Control Center panel on the <gui>Seeing</gui> "
+#| "page."
 msgid ""
 "The method for configuring <app>Orca</app> to be launched automatically as "
 "your preferred screen reader will depend upon which desktop environment you "
-"use. For instance, in GNOME 3.x this option can be found in the Universal "
-"Access Control Center panel on the <gui>Seeing</gui> page."
+"use."
 msgstr ""
 "Метод налаштовування <app>Orca</app> на автоматичний запуск як основного "
 "засобу для читання з екрана залежить від того, яким стільничним середовищем "
-"ви користуєтеся. Наприклад, у GNOME 3.x відповідний пункт можна знайти на "
-"панелі «Універсальний доступ» Центру керування, сторінка <gui>Бачення</gui>."
+"ви користуєтеся."
 
 #. (itstool) path: item/p
-#: C/introduction.page:46
+#: C/introduction.page:44
 msgid ""
 "To toggle <app>Orca</app> on and off in GNOME, press <keyseq><key>Super</"
 "key><key>Alt</key><key>S</key></keyseq>."
@@ -5087,7 +5071,7 @@ msgstr ""
 "клавіш <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>."
 
 #. (itstool) path: item/p
-#: C/introduction.page:52
+#: C/introduction.page:50
 msgid ""
 "Type <cmd>orca</cmd>, along with any optional parameters, in a terminal "
 "window or within the <gui>Run</gui> dialog and then press <key>Return</key>."
@@ -5097,12 +5081,12 @@ msgstr ""
 "<key>Enter</key>."
 
 #. (itstool) path: section/title
-#: C/introduction.page:61
+#: C/introduction.page:59
 msgid "Load-Time Options"
 msgstr "Параметри завантаження"
 
 #. (itstool) path: section/p
-#: C/introduction.page:62
+#: C/introduction.page:60
 msgid ""
 "The following options can be specified when launching <app>Orca</app> in a "
 "terminal window or within the <gui>Run</gui> dialog:"
@@ -5111,24 +5095,24 @@ msgstr ""
 "термінала або у діалоговому вікні <gui>Запустити</gui>:"
 
 #. (itstool) path: item/p
-#: C/introduction.page:68
+#: C/introduction.page:66
 msgid "<cmd>-h</cmd>, <cmd>--help</cmd>: Show the help message"
 msgstr "<cmd>-h</cmd>, <cmd>--help</cmd>: вивести довідкове повідомлення"
 
 #. (itstool) path: item/p
-#: C/introduction.page:71
+#: C/introduction.page:69
 msgid ""
 "<cmd>-v</cmd>, <cmd>--version</cmd>: Show the version of <app>Orca</app>"
 msgstr ""
 "<cmd>-v</cmd>, <cmd>--version</cmd>: вивести дані щодо версії <app>Orca</app>"
 
 #. (itstool) path: item/p
-#: C/introduction.page:77
+#: C/introduction.page:75
 msgid "<cmd>-s</cmd>, <cmd>--setup</cmd>: Set up user preferences"
 msgstr "<cmd>-s</cmd>, <cmd>--setup</cmd>: встановити налаштування користувача"
 
 #. (itstool) path: item/p
-#: C/introduction.page:82
+#: C/introduction.page:80
 msgid ""
 "<cmd>-u</cmd>, <cmd>--user-prefs=<em>dirname</em></cmd>: Use <em>dirname</"
 "em> as the alternate directory for user preferences"
@@ -5138,7 +5122,7 @@ msgstr ""
 "користувача"
 
 #. (itstool) path: item/p
-#: C/introduction.page:89
+#: C/introduction.page:87
 msgid ""
 "<cmd>-e</cmd>, <cmd>--enable=<em>option</em></cmd>: Force use of option, "
 "where the <em>option</em> can be one of the following:"
@@ -5147,22 +5131,22 @@ msgstr ""
 "параметр, де <em>параметром</em> може бути одне з таких значень:"
 
 #. (itstool) path: item/p
-#: C/introduction.page:94 C/introduction.page:106
+#: C/introduction.page:92 C/introduction.page:104
 msgid "<cmd>speech</cmd>"
 msgstr "<cmd>speech</cmd>"
 
 #. (itstool) path: item/p
-#: C/introduction.page:95 C/introduction.page:107
+#: C/introduction.page:93 C/introduction.page:105
 msgid "<cmd>braille</cmd>"
 msgstr "<cmd>braille</cmd>"
 
 #. (itstool) path: item/p
-#: C/introduction.page:96 C/introduction.page:108
+#: C/introduction.page:94 C/introduction.page:106
 msgid "<cmd>braille-monitor</cmd>"
 msgstr "<cmd>braille-monitor</cmd>"
 
 #. (itstool) path: item/p
-#: C/introduction.page:100
+#: C/introduction.page:98
 msgid ""
 "<cmd>-d</cmd>, <cmd>--disable=<em>option</em></cmd>: Prevent the use of an "
 "option, where the <em>option</em> can be one of the following:"
@@ -5172,7 +5156,7 @@ msgstr ""
 "значень:"
 
 #. (itstool) path: item/p
-#: C/introduction.page:112
+#: C/introduction.page:110
 msgid ""
 "<cmd>-p</cmd>, <cmd>--profile=<em>filename</em></cmd>: Import a profile from "
 "a given <app>Orca</app> profile file"
@@ -5181,7 +5165,7 @@ msgstr ""
 "профіль з вказаного файла профілю <app>Orca</app>"
 
 #. (itstool) path: item/p
-#: C/introduction.page:118
+#: C/introduction.page:116
 msgid ""
 "<cmd>-r</cmd>, <cmd>--replace</cmd>: Replace a currently-running <app>Orca</"
 "app>"
@@ -5189,7 +5173,7 @@ msgstr ""
 "<cmd>-r</cmd>, <cmd>--replace</cmd>: замінити наявний процес <app>Orca</app>"
 
 #. (itstool) path: item/p
-#: C/introduction.page:123
+#: C/introduction.page:121
 msgid ""
 "<cmd>-l</cmd>, <cmd>--list-apps</cmd>: Print the known running applications"
 msgstr ""
@@ -5197,14 +5181,14 @@ msgstr ""
 "програм"
 
 #. (itstool) path: item/p
-#: C/introduction.page:129
+#: C/introduction.page:127
 msgid "<cmd>--debug</cmd>: Send debug output to debug-YYYY-MM-DD-HH:MM:SS.out"
 msgstr ""
 "<cmd>--debug</cmd>: надіслати діагностичні дані до файла debug-РРРР-ММ-ДД-ГГ:"
 "ХХ:СС.out"
 
 #. (itstool) path: item/p
-#: C/introduction.page:134
+#: C/introduction.page:132
 msgid ""
 "<cmd>--debug-file=<em>filename</em></cmd>: Send debug output to the "
 "specified file"
@@ -5524,22 +5508,22 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/preferences_braille.page:171
-msgid "Message duration (secs)"
-msgstr "Тривалість повідомлення (в секундах)"
+msgid "Duration (secs)"
+msgstr "Тривалість (у секундах)"
 
 #. (itstool) path: section/p
 #: C/preferences_braille.page:172
 msgid ""
 "The amount of time <app>Orca</app> will wait before removing the message and "
 "restoring the original contents of your display can be set in the <gui> "
-"Message duration (secs)</gui> spin button. Note that the value of this "
-"setting will be ignored if you have enabled persistent flash messages."
+"Duration (secs)</gui> spin button. Note that the value of this setting will "
+"be ignored if you have enabled persistent flash messages."
 msgstr ""
 "Проміжок часу, протягом якого <app>Orca</app> очікуватиме, перш ніж вилучити "
 "повідомлення і відновити початковий вміст вашого дисплея, можна встановити "
-"за допомогою кнопки-лічильника <gui>Тривалість повідомлення (в секундах)</"
-"gui>. Зауважте, що значення цього параметра буде проігноровано, якщо ви "
-"увімкнете постійний показ вигулькних повідомлень."
+"за допомогою кнопки-лічильника <gui>Тривалість (у секундах)</gui>. Зауважте, "
+"що значення цього параметра буде проігноровано, якщо ви увімкнете постійний "
+"показ вигулькних повідомлень."
 
 #. (itstool) path: section/p
 #: C/preferences_braille.page:178
@@ -6015,7 +5999,7 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/preferences_general.page:27
 msgid ""
-"The <gui>keyboard layout</gui> radio button group allows you to specify if "
+"The <gui>Keyboard Layout</gui> radio button group allows you to specify if "
 "you will be working on a desktop (i.e. with a numeric keypad) or laptop "
 "keyboard. Which layout you choose will determine both the <key>Orca "
 "Modifier</key> as well as a number of keyboard shortcuts for performing "
@@ -6401,8 +6385,8 @@ msgstr "Типове значення: 10"
 
 #. (itstool) path: section/title
 #: C/preferences_general.page:253
-msgid "Restrict to"
-msgstr "Обмежити до"
+msgid "Applies to"
+msgstr "Застосовується до"
 
 #. (itstool) path: section/p
 #: C/preferences_general.page:254
@@ -6574,7 +6558,7 @@ msgstr "Клавіші-модифікатори Orca"
 #. (itstool) path: section/p
 #: C/preferences_key_bindings.page:22
 msgid ""
-"The <gui>Screen Reader Modifier Keys</gui> combo box allows you to select "
+"The <gui>Screen Reader Modifier Key(s)</gui> combo box allows you to select "
 "which key or keys will serve as the Orca Modifier. The available options are:"
 msgstr ""
 "За допомогою спадного списку <gui>Клавіші-модифікатори екранного читача</"
@@ -6621,10 +6605,10 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/preferences_key_bindings.page:45
 msgid ""
-"The <gui>Function</gui> column contains a description of the <app>Orca</app> "
+"The <gui>Command</gui> column contains a description of the <app>Orca</app> "
 "command to be performed."
 msgstr ""
-"У стовпчику <gui>Функція</gui> буде показано опис команди <app>Orca</app>, "
+"У стовпчику <gui>Команда</gui> буде показано опис команди <app>Orca</app>, "
 "яку буде виконано."
 
 #. (itstool) path: item/p
@@ -6645,11 +6629,11 @@ msgstr ""
 msgid ""
 "The <gui>Modified</gui> column serves both as an indicator to what has been "
 "changed and as a way to restore the default bindings associated with that "
-"function."
+"command."
 msgstr ""
 "Стовпчик <gui>Змінено</gui> слугує одночасно індикатором того, чи було "
 "внесено зміни, і способом відновити типову прив'язку, яку використано для "
-"відповідної функції."
+"відповідної команди."
 
 #. (itstool) path: section/p
 #: C/preferences_key_bindings.page:66
@@ -6759,7 +6743,7 @@ msgstr "Увімкнути пробіл"
 #. (itstool) path: section/p
 #: C/preferences_key_echo.page:63
 msgid ""
-"This option controls whether or not <key>space</key> should be spoken when "
+"This option controls whether or not <key>Space</key> should be spoken when "
 "pressed."
 msgstr ""
 "За допомогою цього пункту можна визначити, чи буде озвучено клавішу "
@@ -6803,14 +6787,14 @@ msgstr "Увімкнути клавіші дій"
 #: C/preferences_key_echo.page:93
 msgid ""
 "This option controls whether or not <key>BackSpace</key>, <key>Delete </"
-"key>, <key>Return</key>, <key>Escape</key>, <key>Tab</key>, <key>Page Up</"
-"key>, <key>Page Down</key>, <key>Home</key>, and <key>End</key> should be "
-"spoken when pressed."
+"key>, <key>Return</key>, <key>Esc</key>, <key>Tab</key>, <key>Page Up</key>, "
+"<key>Page Down</key>, <key>Home</key>, and <key>End</key> should be spoken "
+"when pressed."
 msgstr ""
 "За допомогою цього пункту можна визначити, чи буде озвучено клавіші "
-"<key>BackSpace</key>, <key>Delete</key>, <key>Enter</key>, <key>Escape</"
-"key>, <key>Tab</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</"
-"key> і <key>End</key> після натискання."
+"<key>BackSpace</key>, <key>Delete</key>, <key>Enter</key>, <key>Esc</key>, "
+"<key>Tab</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</key> і "
+"<key>End</key> після натискання."
 
 #. (itstool) path: section/title
 #: C/preferences_key_echo.page:104
@@ -7008,9 +6992,11 @@ msgstr "Додавання нового запису словника"
 #. (itstool) path: item/p
 #: C/preferences_pronunciation.page:39
 msgid ""
-"Press the New Entry button (<keyseq><key>Alt</key><key>N</key></keyseq>)"
+"Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></"
+"keyseq>)"
 msgstr ""
-"Натисніть кнопку «Нова стаття» (<keyseq><key>Alt</key><key>N</key></keyseq>)"
+"Натисніть кнопку <gui>Нова стаття</gui> (<keyseq><key>Alt</key><key>N</key></"
+"keyseq>)"
 
 #. (itstool) path: item/p
 #: C/preferences_pronunciation.page:44
@@ -7072,9 +7058,11 @@ msgstr "Перейдіть до запису, який ви хочете вил�
 
 #. (itstool) path: item/p
 #: C/preferences_pronunciation.page:82
-msgid "Press the Delete button or <keyseq><key>Alt</key><key>D</key></keyseq>."
+msgid ""
+"Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></"
+"keyseq>."
 msgstr ""
-"Натисніть кнопку «Вилучити» або комбінацію клавіш <keyseq><key>Alt</"
+"Натисніть кнопку <gui>Вилучити</gui> або комбінацію клавіш <keyseq><key>Alt</"
 "key><key>D</key></keyseq>."
 
 #. (itstool) path: info/title
@@ -7553,17 +7541,11 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/preferences_speech.page:312
-#| msgid "Read full row in GUI tables"
 msgid "Speak full row in GUI tables"
 msgstr "Вимовляти увесь рядок у таблицях граф. інтерфейсу"
 
 #. (itstool) path: section/p
 #: C/preferences_speech.page:313
-#| msgid ""
-#| "If <gui>Read full row in GUI tables</gui> is checked, as you arrow up and "
-#| "down in application tables such as the list of messages in your Inbox, "
-#| "<app>Orca</app> will speak the entire row. If you would prefer to hear "
-#| "only the cell with focus, you should uncheck this checkbox."
 msgid ""
 "If <gui>Speak full row in GUI tables</gui> is checked, as you arrow up and "
 "down in application tables such as the list of messages in your Inbox, "
@@ -7579,17 +7561,11 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/preferences_speech.page:324
-#| msgid "Read full row in document tables"
 msgid "Speak full row in document tables"
 msgstr "Вимовляти увесь рядок у таблицях документа"
 
 #. (itstool) path: section/p
 #: C/preferences_speech.page:325
-#| msgid ""
-#| "If <gui>Read full row in document tables</gui> is checked, as you arrow "
-#| "up and down in tables such as those found in <app>Writer</app> and web "
-#| "documents, <app>Orca</app> will speak the entire row. If you would prefer "
-#| "to hear only the cell with focus, you should uncheck this checkbox."
 msgid ""
 "If <gui>Speak full row in document tables</gui> is checked, as you arrow up "
 "and down in tables such as those found in <app>Writer</app> and web "
@@ -7605,17 +7581,11 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/preferences_speech.page:336
-#| msgid "Read full row in spreadsheets"
 msgid "Speak full row in spreadsheets"
 msgstr "Вимовляти увесь рядок у електронних таблицях"
 
 #. (itstool) path: section/p
 #: C/preferences_speech.page:337
-#| msgid ""
-#| "If <gui>Read full row in spreadsheets</gui> is checked, as you arrow up "
-#| "and down in spreadsheets, <app>Orca</app> will speak the entire row. If "
-#| "you would prefer to hear only the cell with focus, you should uncheck "
-#| "this checkbox."
 msgid ""
 "If <gui>Speak full row in spreadsheets</gui> is checked, as you arrow up and "
 "down in spreadsheets, <app>Orca</app> will speak the entire row. If you "
@@ -7930,14 +7900,14 @@ msgstr "Скасовування змін"
 #. (itstool) path: section/p
 #: C/preferences_text_attributes.page:75
 msgid ""
-"Beneath the list of text attributes, there is a Reset button "
+"Beneath the list of text attributes, there is a <gui>Reset</gui> button "
 "(<keyseq><key>Alt</key><key>R</key></keyseq>) which will restore the values "
 "of the table to what they were when the dialog was first displayed."
 msgstr ""
 "Під списком атрибутів буде показано кнопку відновлення початкових значень "
-"(«Скинути» або <keyseq><key>Alt</key><key>С</key></keyseq>), яка відновлює у "
-"таблиці значення, які були у ній, коли це діалогове вікно було показано "
-"вперше."
+"(<gui>Скинути</gui> або <keyseq><key>Alt</key><key>С</key></keyseq>), яка "
+"відновлює у таблиці значення, які були у ній, коли це діалогове вікно було "
+"показано вперше."
 
 #. (itstool) path: section/title
 #: C/preferences_text_attributes.page:83
@@ -7947,15 +7917,15 @@ msgstr "Зміна порядку озвучування атрибутів"
 #. (itstool) path: section/p
 #: C/preferences_text_attributes.page:84
 msgid ""
-"When you initially display the text attribute page, all of your enabled "
-"attributes are placed at the top of the table in the order in which they "
-"will be spoken. There are four buttons which can be used to rearrange the "
-"order of presentation."
+"When you initially display the <gui>Text Attributes</gui> page, all of your "
+"enabled attributes are placed at the top of the table in the order in which "
+"they will be spoken. There are four buttons which can be used to rearrange "
+"the order of presentation."
 msgstr ""
-"Під час початкового показу сторінки атрибутів тексту усі увімкнені атрибути "
-"буде розташовано у верхній частині таблиці у порядку, у якому програма їх "
-"озвучуватиме. Передбачено чотири кнопки, за допомогою яких можна змінити "
-"порядок представлення атрибутів."
+"Під час початкового показу сторінки <gui>Атрибути тексту</gui> усі увімкнені "
+"атрибути буде розташовано у верхній частині таблиці у порядку, у якому "
+"програма їх озвучуватиме. Передбачено чотири кнопки, за допомогою яких можна "
+"змінити порядок представлення атрибутів."
 
 #. (itstool) path: item/p
 #: C/preferences_text_attributes.page:92
@@ -7969,8 +7939,8 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/preferences_text_attributes.page:98
 msgid ""
-"<gui>Move up one</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>): moves "
-"the selected attribute up one row."
+"<gui>Move up</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>): moves the "
+"selected attribute up one row."
 msgstr ""
 "<gui>На один вгору</gui> (<keyseq><key>Alt</key><key>Г</key></keyseq>): "
 "пересуває позначений пункт атрибута на один рядок вгору."
@@ -7978,8 +7948,8 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/preferences_text_attributes.page:104
 msgid ""
-"<gui>Move down one</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>): "
-"moves the selected attribute down one row."
+"<gui>Move down</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>): moves "
+"the selected attribute down one row."
 msgstr ""
 "<gui>На один вниз</gui> (<keyseq><key>Alt</key><key>В</key></keyseq>): "
 "пересуває позначений пункт атрибута на один рядок вниз."
@@ -8168,18 +8138,18 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/preferences_voice.page:71
-msgid "<gui>icon</gui>: Plays a tone"
-msgstr "<gui>сигнал</gui>: відтворити сигнал"
+msgid "<gui>Icon</gui>: Plays a tone"
+msgstr "<gui>Піктограма</gui>: відтворити сигнал"
 
 #. (itstool) path: item/p
 #: C/preferences_voice.page:72
-msgid "<gui>spell</gui>: Speaks the word \"capital\""
-msgstr "<gui>вимова</gui>: вимовити слово «велика»"
+msgid "<gui>Spell</gui>: Speaks the word \"capital\""
+msgstr "<gui>Вимова</gui>: вимовити слово «велика»"
 
 #. (itstool) path: item/p
 #: C/preferences_voice.page:73
-msgid "<gui>none</gui>"
-msgstr "<gui>немає</gui>"
+msgid "<gui>None</gui>"
+msgstr "<gui>Немає</gui>"
 
 #. (itstool) path: note/p
 #: C/preferences_voice.page:77

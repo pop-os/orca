@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_text_attributes" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_structural_navigation"/>
+    <title type="sort">2. Textattribut</title>
+    <desc>Undersöka textformatering</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Textattribut</title>
+  <p>Termen ”textattribut” hänvisar till typsnitt, stil, justering och annan formatering som är associerad med ett tecken eller en serie med tecken.</p>
+  <section id="obtaining">
+    <title>Erhålla formateringsinformation</title>
+    <p>När du trycker <keyseq><key>Orca-modifierare</key><key>F</key> </keyseq> kommer <app>Orca</app> läsa upp känd textattributsinformation om ett objekt. <app>Orca</app> kommer dessutom valfritt även indikera textattribut i punktskrift genom att ”stryka under” dem då du navigerar i ett dokument.</p>
+    <p>Eftersom antalet textattribut är stort, och då inte alla bryr sig om varje attribut så låter <link xref="preferences_text_attributes"> textattributsidan i inställningsdialogen</link> dig anpassa vilka textattribut som <app>Orca</app> kommer läsa upp, tillsammans med vilken ordning de ska presenteras i, och vilka som <app>Orca</app> kommer indikera i punktskrift.</p>
+    <p>Eftersom <link xref="preferences_text_attributes">sidan Textattribut</link> också är en del av de programspecifika inställningarna kan du anpassa presentation av textattribut efter behov för varje program som du använder.</p>
+  </section>
+  <section id="identifying_misspelled_words">
+    <title>Upptäcka felstavade ord</title>
+    <p>De flesta program och verktygslådor indikerar att ett ord är felstavat genom att stryka under det ordet med en röd vågig linje. Närvaron av denna linje exponeras typiskt till hjälpmedelstekniker som ett textattribut. Som följd av detta kommer du hitta stavfel bland de textattribut som du kan välja. Som standard är stavfelsattributet aktiverat både för uppläsning och punktskrift och kommer därför presenteras tillsammans med alla andra attribut som du har aktiverat indikationer för.</p>
+    <p>Förutom att komma åt närvaron av stavfel som ett textattribut, så kommer <app>Orca</app> meddela ”felstavat” när stavfelsindikationen dyker upp då du skriver ett ord som är felstavat om du har tangenteko och/eller ordeko aktiverat. Detta gör att du omedelbart kan gå tillbaka och korrigera felet.</p>
+    <p>Slutligen, när du navigerar i ett dokument och markören flyttar till ett ord som är felstavat så kommer <app>Orca</app> annonsera närvaron av stavfelet.</p>
+  </section>
+</page>

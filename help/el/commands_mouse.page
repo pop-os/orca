@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_mouse" xml:lang="el">
+  <info>
+    <link type="next" xref="commands_bookmarks"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <title type="sort">3. Σχετικά με το ποντίκι/δείκτη</title>
+    <title type="link">Σχετικά με το ποντίκι/δείκτη</title>
+    <link type="seealso" xref="howto_flat_review"/>
+    <link type="seealso" xref="howto_mouse_review"/>
+    <desc>Εντολές για χειρισμό του δείκτη</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εντολές σχετικές με το ποντίκι/δείκτη</title>
+  <p>Το <app>Orca</app> παρέχει αρκετές εντολές που μπορούν να χρησιμοποιηθούν στο χειρισμό του δείκτη ποντικιού και την ανάγνωση των περιεχομένων από κάτω του. Όλες οι εντολές είναι "συνδεμένες" με τις πληκτρολογήσεις με μια εξαίρεση: την εναλλαγή της κατάστασης επισκόπησης ποντικιού. Παρακαλώ δείτε <link xref="howto_key_bindings">τροποποίηση συνδυασμών πλήκτρων</link> για πληροφορίες σύνδεσης αυτής της εντολής με μια πληκτρολόγηση.</p>
+  <note style="tip">
+    <p>
+      Below you will see several references to "KP". All
+      "KP" keys are located on the numeric keypad. You will also notice that
+      there are different keystrokes depending upon whether you are using a
+      desktop or a laptop -- or more accurately, whether you are using
+      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
+      For additional information, please see the
+      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
+    </p>
+  </note>
+  <list>
+    <item>
+      <p>Αριστερό κλικ στο τρέχον στοιχείο:</p>
+      <list>
+        <item><p>Επιτραπέζιος: <keyseq><key>KP διαίρεση</key></keyseq></p></item>
+        <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>7</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Δεξιό κλικ στο τρέχον στοιχείο:</p>
+      <list>
+        <item><p>Επιτραπέζιος: <keyseq><key>KP πολλαπλασιασμός</key></keyseq></p></item>
+        <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>8</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Πορεία δείκτη στο τρέχον στοιχείο:</p>
+      <list>
+        <item><p>Επιτραπέζιος: <keyseq><key>τροποποιητής Orca</key><key>KP διαίρεση</key></keyseq></p></item>
+        <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>9</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Εστίαση στο ή μακριά από την τρέχουσα μετεώριση ποντικιού (μόνο ιστός):</p>
+      <list>
+        <item><p>Επιτραπέζιος: <keyseq><key>τροποποιητής Orca</key><key>KP πολλαπλασιασμός</key></keyseq></p></item>
+        <item><p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>0</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Ενεργοποίηση/απενεργοποίηση κατάστασης επισκόπησης ποντικιού: (ασύνδετο)</p>
+    </item>
+  </list>
+</page>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_key_bindings" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_profiles"/>
+  <title type="sort">8. Raccourcis</title>
+  <desc>Lier, modifier le lien, et délier les commandes</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Raccourcis</title>
+  <p>Orca dispose de nombreuses commandes, certaines sont liées à un raccourci clavier, d’autres ne le sont pas. Vous pouvez lier, modifier le lien et délier les commandes d’<app>Orca</app> en suivant les étapes ci-dessous.</p>
+  <steps>
+    <title>Lier une commande non liée</title>
+    <item>
+      <p>Appuyez sur <keyseq><key>Touche de modification d’Orca</key><key>Barre d’espace</key></keyseq> pour accéder à la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
+    </item>
+    <item>
+      <p>Allez dans l’onglet <gui>Raccourcis clavier</gui>.</p>
+    </item>
+    <item>
+      <p>Déplacez-vous à l’aide des flèches sur la cellule qui contient la commande à laquelle vous voulez attribuer une combinaison de touches.</p>
+    </item>
+    <item>
+      <p>Utilisez la flèche droite. Cela donne le focus à la colonne <gui>Raccourci</gui>. Appuyez sur <key>Entrée</key>.</p>
+    </item>
+    <item>
+      <p>Appuyez sur la combinaison de touches.</p></item>
+    <item>
+      <p>Appuyez sur <key>Entrée</key> pour confirmer la nouvelle combinaison. La nouvelle combinaison de touches est enregistrée et la case à cocher de la dernière colonne (la colonne <gui>Modifié</gui>) indique que le raccourci a été modifié.</p>
+    </item>
+    <item>
+      <p>Cliquez sur le bouton <gui>Appliquer</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Modification d’un raccourci existant</title>
+    <item>
+      <p>Appuyez sur <keyseq><key>Touche de modification d’Orca</key><key>Barre d’espace</key></keyseq> pour accéder à la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
+    </item>
+    <item>
+      <p>Allez dans l’onglet <gui>Raccourcis clavier</gui>.</p>
+    </item>
+    <item>
+      <p>Déplacez-vous à l’aide des flèches sur la cellule qui contient la commande pour laquelle vous voulez modifier la combinaison de touches et appuyez sur <key>Entrée</key>.</p>
+    </item>
+    <item>
+        <p>Appuyez sur la combinaison de touches.</p>
+    </item>
+    <item>
+      <p>Appuyez sur <key>Entrée</key> pour confirmer la nouvelle combinaison. La nouvelle combinaison de touches est enregistrée et la case à cocher de la dernière colonne (la colonne <gui>Modifié</gui>) indique que le raccourci a été modifié.</p>
+    </item>
+    <item>
+      <p>Cliquez sur le bouton <gui>Appliquer</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Restauration des raccourcis originaux</title>
+    <item>
+      <p>Appuyez sur <keyseq><key>Touche de modification d’Orca</key><key>Barre d’espace</key></keyseq> pour accéder à la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
+    </item>
+    <item>
+      <p>Allez dans l’onglet <gui>Raccourcis clavier</gui>.</p>
+    </item>
+    <item>
+      <p>Déplacez-vous à l’aide des flèches dans la colonne modifiée associée à la combinaison de touches.</p>
+    </item>
+    <item>
+      <p>Appuyez sur la <key>Barre d’espace</key> pour décocher la case.</p>
+    </item>
+    <item>
+      <p>Cliquez sur le bouton <gui>Appliquer</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Délier des commandes liées</title>
+    <item>
+      <p>Appuyez sur <keyseq><key>Touche de modification d’Orca</key><key>Barre d’espace</key></keyseq> pour accéder à la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
+    </item>
+    <item>
+      <p>Allez dans l’onglet <gui>Raccourcis clavier</gui>.</p>
+    </item>
+    <item>
+      <p>Déplacez-vous à l’aide des flèches sur la cellule qui contient la commande pour laquelle vous voulez supprimer le raccourci et appuyez sur <key>Entrée</key>.</p>
+    </item>
+    <item>
+      <p>À l’invite pour saisir le nouveau raccourci, appuyez sur <key>Suppr</key> ou <key>Retour arrière</key>. Il vous sera notifié que le raccourci a été supprimé.</p>
+    </item>
+    <item>
+      <p>Appuyez sur <key>Entrée</key> pour confirmer.</p>
+    </item>
+    <item>
+      <p>Cliquez sur le bouton <gui>Appliquer</gui>.</p>
+    </item>
+  </steps>
+</page>

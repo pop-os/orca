@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_forms" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#reading"/>
+     <link type="next" xref="howto_live_regions"/>
+    <title type="sort">5. Fylla i formulär</title>
+    <desc>Komma åt komponenter som är inbäddade i dokument</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Fylla i formulär</title>
+  <p>När du interagerar med webbsidor och andra dokument genom <app>Orca</app> så interagerar du med dokumentet självt, inte en buffrad kopia av det dokumentet. <app>Orca</app>s bläddrings- och fokuslägen låter dig växla mellan att läsa och fylla i formulär.</p>
+  <section id="navigating_amongst_form_fields">
+    <title>Navigera mellan formulärfält</title>
+    <p>För att navigera mellan formulärfält har du flera alternativ:</p>
+    <list>
+      <item>
+        <p>Använd <key>Tabb</key> och <keyseq><key>Skift</key><key>Tabb</key></keyseq> för att navigera mellan fokuserbara objekt, oavsett typ.</p>
+      </item>
+      <item>
+        <p>Använd <app>Orca</app>s <link xref="commands_structural_navigation#forms"> strukturella navigeringskommandon för formulär</link>.</p>
+      </item>
+      <item>
+        <p>Beroende på formuläret och programmet kan du kanske också använda piltangenterna för att navigera till ett specifikt formulärfält.</p>
+      </item>
+   </list>
+   <note style="tip">
+     <p>För att använda <app>Orca</app>s kommandon för markörnavigering eller strukturell navigering för att navigera till ett formulärfält måste du vara i bläddringsläge. Om du är i fokusläge kan du växla till bläddringsläge genom att trycka <keyseq><key>Orca-modifierare</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+  <section id="exiting_form_fields">
+    <title>Gå ut ur formulärfält</title>
+    <p>För att gå ut ur ett formulärfält har du flera alternativ:</p>
+    <list>
+      <item>
+        <p>Använd <key>Tabb</key>/<keyseq><key>Skift</key><key>Tabb</key></keyseq> om du vill lämna det aktuellt fokuserade formulärfältet och flytta till nästa/föregående fokuserbara objekt, oavsett typ.</p>
+      </item>
+      <item>
+        <p>Använd <app>Orca</app>s <link xref="commands_structural_navigation#forms"> strukturella navigeringskommandon för formulär</link> för att flytta till nästa eller föregående formulärfält.</p>
+      </item>
+      <item>
+        <p>Beroende på formuläret och programmet kan du kanske också använda piltangenterna för att navigera ut ur ett specifikt formulärfält.</p>
+      </item>
+    </list>
+   <note style="tip">
+     <p>För att använda <app>Orca</app>s kommandon för markörnavigering eller strukturell navigering för att gå ut ur ett formulärfält måste du vara i bläddringsläge. Om du är i fokusläge kan du växla till bläddringsläge genom att trycka <keyseq><key>Orca-modifierare</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+</page>

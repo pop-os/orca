@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_mouse" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_bookmarks"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <title type="sort">3. Пов'язані із мишею та вказівником</title>
+    <title type="link">Пов'язані із мишею та вказівником</title>
+    <link type="seealso" xref="howto_flat_review"/>
+    <link type="seealso" xref="howto_mouse_review"/>
+    <desc>Команди для керування вказівником</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Пов'язані із мишею та вказівником команди</title>
+  <p>У <app>Orca</app> передбачено декілька команд, якими можна скористатися для керування вказівником миші і читання даних під вказівником. Усі команди пов'язано із комбінаціями клавіш, окрім одного виключення: вмикання або вимикання режиму перегляду вмісту під вказівником миші.  Будь ласка, ознайомтеся із розділом щодо <link xref="howto_key_bindings">зміни клавіатурних прив'язок</link>, щоб дізнатися про те, як пов'язати непов'язані команди із комбінаціями клавіш.</p>
+  <note style="tip">
+    <p>Нижче ви побачите декілька посилань на «ЦБ». Усі клавіші із позначкою «ЦБ» розташовано на цифровому блоці клавіатури. Ви також побачите, що клавіатурні скорочення залежать від того, користуєтеся стаціонарним комп'ютером (робочою станцією) чи ноутбуком — або, точніше, користуєтеся клавіатурною розкладкою <app>Orca</app> для робочої станції чи розкладкою клавіатури для ноутбука. Докладніші відомості можна знайти у розділі <link xref="howto_keyboard_layout">Розкладка клавіатури</link>.</p>
+  </note>
+  <list>
+    <item>
+      <p>Клацання лівою кнопкою миші на поточному пункті:</p>
+      <list>
+        <item><p>Робоча станція: <keyseq><key>ділення на ЦБ</key></keyseq></p></item>
+        <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>7</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Клацання правою кнопкою на поточному пункті:</p>
+      <list>
+        <item><p>Робоча станція: <keyseq><key>множення на ЦБ</key></keyseq></p></item>
+        <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>8</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Пересунути вказівник на поточний запис:</p>
+      <list>
+        <item><p>Робоча станція: <keyseq><key>Модифікатор Orca</key><key>ділення на ЦБ</key></keyseq></p></item>
+        <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>9</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Пересунути фокус до запису, над яким перебуває вказівники миші, або з запису, на якому перебуває вказівник миші (лише інтернет):</p>
+      <list>
+        <item><p>Робоча станція: <keyseq><key>Модифікатор Orca</key><key>множення на ЦБ</key></keyseq></p></item>
+        <item><p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>0</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Увімкнути або вимкнути режим озвучування записів під вказівником миші: (не пов'язано)</p>
+    </item>
+  </list>
+</page>

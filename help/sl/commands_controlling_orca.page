@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_controlling_orca" xml:lang="sl">
+  <info>
+    <link type="next" xref="commands_where_am_i"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <title type="sort">1. Nadziranje in učenje uporabe Orke</title>
+    <title type="link">Nadziranje in učenje uporabe Orke</title>
+    <desc>Ukazi za sporazumevanje z <app>Orko</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Nadziranje in učenje uporabe Orke</title>
+  <section id="controlling">
+    <title>Ukazi za nadziranje <app>Orke</app></title>
+    <p>
+      The following commands can be used to get into <app>Orca</app>'s
+      Preferences dialogs, toggle <app>Orca</app> on and off, and bypass
+      <app>Orca</app> commands to avoid shortcut conflicts within the
+      application being accessed.
+    </p>
+    <list>
+      <item>
+        <p>
+          Toggle <app>Orca</app> on and off in GNOME:
+          <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.
+        </p>
+        <note style="tip">
+           <p>
+             If you are using <app>Orca</app> in another desktop environment in which
+             there is no command to toggle <app>Orca</app> on and off, you may find the
+             command to quit <app>Orca</app> helpful. This command is unbound by default.
+             Please see <link xref="howto_key_bindings">Modifying Keybindings</link> for
+             information on how to bind unbound commands.
+           </p>
+        </note>
+      </item>
+      <item>
+        <p>Pogovorno okno <link xref="preferences">Možnosti Orke</link>: <keyseq><key>Pomožna tipka Orka </key><key>Preslednica</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Pogovorno okno možnosti Okre za program v žarišču: <keyseq><key>Ctrl</key><key>Pomožna tipka Orka</key><key>Preslednica</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Podajanje naslednjega ukaza trenutnemu programu:  <keyseq><key>Pomožna tipka Orka</key><key>Vračalka</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="learning">
+    <title>Ukazi za učenje uporabe <app>Orke</app></title>
+    <p>
+      In Learn Mode, <app>Orca</app> will announce each keystroke you pressed
+      along with any associated <app>Orca</app> command that keystroke is bound
+      to. In this mode, you can also get a list of shortcuts containing all the
+      <app>Orca</app> commands you can use.
+    </p>
+    <list>
+      <item>
+        <p>
+          Enter Learn Mode:
+          <keyseq><key>Orca Modifier</key><key>H</key></keyseq>
+        </p>
+      </item>
+      <item>
+        <p>
+          Exit Learn Mode:
+          <keyseq><key>Esc</key></keyseq>
+        </p>
+      </item>
+    </list>
+  </section>
+</page>

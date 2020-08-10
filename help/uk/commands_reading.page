@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_reading" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_structural_navigation"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_documents"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">1. Читання</title>
+    <title type="link">Читання</title>
+    <desc>Команди для доступу до вмісту документа</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди читання</title>
+  <p>Окрім команд навігації за допомогою курсора, які є частиною GNOME, у <app>Orca</app> передбачено декілька команд, якими ви можете скористатися для читання документа.</p>
+  <note style="tip">
+    <p>Нижче ви побачите декілька посилань на «ЦБ». Усі клавіші із позначкою «ЦБ» розташовано на цифровому блоці клавіатури. Ви також побачите, що клавіатурні скорочення залежать від того, користуєтеся стаціонарним комп'ютером (робочою станцією) чи ноутбуком — або, точніше, користуєтеся клавіатурною розкладкою <app>Orca</app> для робочої станції чи розкладкою клавіатури для ноутбука. Докладніші відомості можна знайти у розділі <link xref="howto_keyboard_layout">Розкладка клавіатури</link>.</p>
+  </note>
+  <section id="flat_review">
+    <title>Читання поточної позиції</title>
+    <p>Наведеними нижче командами <app>Orca</app> для <link xref="commands_flat_review">загального перегляду</link> можна скористатися для читання вашої поточної позиції:</p>
+    <list>
+      <item>
+        <p>Читання поточного рядка:</p>
+        <list>
+          <item>
+            <p>Робоча станція: <keyseq><key>8 на ЦБ</key></keyseq></p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>I</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Читання поточного слова:</p>
+        <list>
+          <item>
+            <p>Робоча станція: <keyseq><key>5 на ЦБ</key></keyseq></p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>K</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Вимовити поточне слово:</p>
+        <list>
+          <item>
+            <p>Робоча станція: <keyseq><key>5 на ЦБ</key></keyseq> (подвійне клацання)</p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>K</key></keyseq> (подвійне клацання)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Фонетично вимовити поточне слово:</p>
+        <list>
+          <item>
+            <p>Робоча станція: <keyseq><key>5 на ЦБ</key></keyseq> (потрійне клацання)</p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>K</key></keyseq> (потрійне клацання)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Прочитати поточний символ:</p>
+        <list>
+          <item>
+            <p>Робоча станція: <keyseq><key>2 на ЦБ</key></keyseq></p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>кома</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Фонетично вимовити поточний символ:</p>
+        <list>
+          <item>
+            <p>Робоча станція: <keyseq><key>2 на ЦБ</key></keyseq> (подвійне клацання)</p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>кома</key></keyseq> (подвійне клацання)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Вимовити значення поточного символу у Юнікоді:</p>
+        <list>
+          <item>
+            <p>Робоча станція: <keyseq><key>2 на ЦБ</key></keyseq> (потрійне клацання)</p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>кома</key></keyseq> (потрійне клацання)</p>
+          </item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="say_all">
+    <title>Вимовляти все</title>
+    <p>Команда Orca «Вимовляти все» наказує <app>Orca</app> виконати читання усього документа, починаючи з поточної позиції.</p>
+    <list>
+      <item>
+        <p>Робоча станція: <key>плюс на ЦБ</key></p>
+      </item>
+      <item>
+        <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>крапка з комою</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="attributes_and_selection">
+    <title>Атрибути тексту і позначений текст</title>
+    <p>У <app>Orca</app> передбачено спеціальну команду для отримання атрибутів тексту під курсором. Крім того, якщо ви користуєтеся командами визначення позиції <app>Orca</app> у текстовому об'єкті, де позначено якийсь фрагмент, <app>Orca</app> озвучить позначений текст. Команда <app>Orca</app> для озвучення поточного позначеного фрагмента також має цю функціональну можливість для текстових об'єктів.</p>
+    <list>
+      <item>
+        <p>Озвучити атрибути тексту: <keyseq><key>Модифікатор Orca</key><key>F</key></keyseq></p>
+      </item>
+      <item>
+        <p>Повідомити про поточну позицію:</p>
+        <list>
+          <item>
+            <p>Робоча станція: <key>Enter на ЦБ</key></p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>Enter</key></keyseq></p>
+          </item>
+        </list>
+    </item>
+    <item>
+      <p>Докладне повідомлення про поточну позицію:</p>
+      <list>
+        <item>
+          <p>Робоча станція: <key>Enter на ЦБ</key> (подвійне клацання)</p>
+        </item>
+        <item>
+          <p>Ноутбук: <keyseq><key>Модифікатор Orca</key><key>Enter</key></keyseq> (подвійне клацання)</p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Вимовити поточний позначений фрагмент: <keyseq><key>Модифікатор Orca</key><key>Shift</key><key>стрілка вгору</key></keyseq></p>
+    </item>
+  </list>
+  </section>
+  <section id="link_details">
+    <title>Параметри посилання</title>
+    <p>Якщо курсор перебуває на посиланні, базовою командою визначення позиції <app>Orca</app> можна буде скористатися для озвучення параметрів посилання, зокрема типу, того, чи було відвідано посилання, опису сайта та розміру файла за посиланням. Якщо замість цього ви надаєте перевагу спеціалізованій команді, ви можете пов'язати команду виголошення параметрів посилання <app>Orca</app> із певною комбінацією клавіш. Будь ласка, ознайомтеся із розділом щодо <link xref="howto_key_bindings">зміни клавіатурних скорочень</link>, щоб дізнатися про це більше.</p>
+    <list>
+      <item>
+        <p>Вимовити параметри посилання: (не пов'язано)</p>
+      </item>
+    </list>
+  </section>
+  <section id="browse_and_focus_modes">
+    <title>Режими навігації і фокусування</title>
+    <p>За допомогою режимів навігації і фокусування <app>Orca</app> ви можете перемикатися між читанням і взаємодією із даними сторінок інтернету.</p>
+    <list>
+      <item>
+        <p>Перемикання між режимом навігації і фокусування: <keyseq><key>Модифікатор Orca</key><key>A</key></keyseq></p>
+      </item>
+      <item>
+        <p>Увімкнути режим «липкого» фокусування: <keyseq><key>Модифікатор Orca</key><key>A</key></keyseq> (подвійне клацання)</p>
+      </item>
+      <item>
+        <p>Увімкнути режим «липкої» навігації: <keyseq><key>Модифікатор Orca</key><key>A</key></keyseq> (потрійне клацання)</p>
+      </item>
+    </list>
+  </section>
+  <section id="toggling_layout_mode">
+    <title>Вмикання і вимикання режиму компонування</title>
+    <p>У режимі компонування при використання навігації за допомогою курсора <app>Orca</app> враховуватиме компонування вмісту на екрані і вимовлятиме увесь рядок, включно з будь-якими посиланнями або полями форми у цьому рядку. Якщо режим компонування вимкнено, <app>Orca</app> оброблятиме об'єкти, подібні до посилань або полів форми так, наче вони є окремими рядками у обох режимах, презентації та навігації.</p>
+    <p>У <app>Orca</app> передбачено команду для перемикання між режимом компонування і режимом об'єктів. Типово, цю команду не пов'язано із комбінацією клавіш. Будь ласка, ознайомтеся із розділом щодо <link xref="howto_key_bindings">зміни клавіатурних скорочень</link>, щоб дізнатися про те, як можна визначити комбінації клавіш для непов'язаних команд.</p>
+    <list>
+      <item>
+        <p>Перемкнутися між режимом компонування та режимом об'єктів: (не пов'язано)</p>
+      </item>
+    </list>
+  </section>
+</page>

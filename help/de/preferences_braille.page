@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_braille" xml:lang="de">
+  <info>
+    <title type="sort">3. Braille</title>
+    <title type="link">Braille</title>
+    <desc>Einstellungen der <app>Orca</app>-Unterstützung für Braillezeilen</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_echo"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Braille-Einstellungen</title>
+  <section id="braillesupport">
+    <title>Braille-Unterstützung aktivieren</title>
+    <p>Dieses Ankreuzfeld legt fest, ob <app>Orca</app> die Braillezeile verwendet oder nicht. Falls BrlTTY nicht läuft, wird <app>Orca</app> wiederhergestellt und nicht mit der Braillezeile kommunizieren.</p>
+    <p>Vorgabewert: nicht aktiviert</p>
+    <note style="tip">
+      <p>Falls Sie BrlTTY später einrichten, müssen Sie <app>Orca</app> neu starten, um Braille nutzen zu können.</p>
+    </note>
+  </section>
+  <section id="braillewordwrap">
+    <title>Zeilenumbrüche aktivieren</title>
+    <p>Ist das Feld <gui>Zeilenumbrüche aktiveren</gui> angekreuzt, wird <app>Orca</app> den Text so anpassen, dass nur vollständige Wörter auf der Braille-Zeile angezeigt werden. Ist das Feld nicht angekreuzt, wird <app>Orca</app> alle Zellen auf der Zeile verwenden, sodass mehr Text auf einmal angezeigt werden kann.</p>
+    <p>Vorgabewert: nicht aktiviert</p>
+  </section>
+  <section id="contractedbraille">
+    <title>Braille-Kurzschrift aktivieren</title>
+    <p>Orca unterstützt Braille-Kurzschrift über das liblouis-Projekt. Da viele Distributionen liblouis beinhalten, haben Sie vermutlich automatisch Zugriff auf die Unterstützung von Braille-Kurzschrift in <app>Orca</app>.</p>
+    <p>Um Braille-Kurzschrift in einem System zu aktivieren, in dem liblouis installiert ist, stellen Sie sicher, dass das Ankreuzfeld <gui>Braille-Kurzschrift aktivieren</gui> angekreuzt ist. Wählen Sie dann Ihre gewünschte Übersetzungstabelle aus dem Auswahlfeld <gui>Kurzschrift-Tabelle</gui>.</p>
+    <p>Vorgabewert: nicht aktiviert</p>
+  </section>
+  <section id="rolenames">
+    <title>Abgekürzte Rollennamen</title>
+    <p>Dieses Ankreuzfeld legt die Art fest, in der Rollennamen angezeigt werden und dabei helfen können, Platz auf der Braillezeile zu sparen. Befindet sich zum Beispiel ein Slider (Schieberegler) im Fokus und werden keine abgekürzten Rollennamen verwendet, wird das Word »slider« angezeigt werden; werden abgekürzte Rollennamen verwendet, wird »sldr« angezeigt werden.</p>
+    <p>Vorgabewert: nicht aktiviert</p>
+  </section>
+  <section id="eolindicator">
+    <title>Zeilenende-Symbol nicht anzeigen</title>
+    <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> nicht die Zeichenkette »$l« am Ende einer Textzeile ausgeben.</p>
+    <p>Vorgabewert: nicht aktiviert</p>
+  </section>
+  <section id="verbosity">
+    <title>Ausführlichkeit</title>
+    <p>Diese Gruppe Auswahlknöpfe legt fest, welche Informationen in verschiedenen Situationen auf der Braille-Zeile ausgegeben werden sollen. Zum Beispiel werden bei der Einstellung »Gesprächig« Tastenkombinationen und Rolleninformationen ausgegeben, während diese bei der Auswahl von »Kurz« nicht ausgegeben werden.</p>
+    <p>Vorgabewert: <gui>Gesprächig</gui></p>
+  </section>
+  <section id="selectionandhyperlink">
+    <title>Indikatoren für Auswahlen und Hyperlinks</title>
+    <p>Die Auswahlknöpfe <gui>Auswahlindikator</gui> und <gui>Link-Braillemarkierung</gui> erlauben Ihnen, das Verhalten von <app>Orca</app> einzustellen, wenn ausgewählter Text und Links anzeigt werden. Standardmäßig wird <app>Orca</app> in diesen Fällen den Text auf der Braillezeile mit den Punkten 7 und 8 »unterstreichen«. Falls Sie es wünschen, können Sie den Indikator auf nur Punkt 7 oder nur Punkt 8 setzen, oder insgesamt deaktiveren.</p>
+    <p>Vorgabewert: <gui>Punkte 7 und 8</gui></p>
+    <note style="tip">
+      <title>Indikatoren für Textattribute</title>
+      <p>Sie können optional auch auf Textattribute in Braille hinweisen. Die Aktivierung und Auswahl, welche Attribute von Interesse sind, befindet sich auf der <link xref="preferences_text_attributes">Seite <gui>Textattribute</gui></link> im Einstellungen-Dialog.</p>
+    </note>
+  </section>
+  <section id="flashMessageSettings">
+    <title>Einstellungen für Meldungseinblendung</title>
+    <p>Meldungseinblendungen sind vom Konzept her ähnlich zu Benachrichtigungen oder Ankündigungen: Sie werden für eine kurze Zeit auf Ihrer Braillezeile angezeigt, wonach die ursprünglichen Inhalte der Zeile wiederhergestellt werden. <app>Orca</app> bietet verschiedene Einstellungen, um die Anzeige von Meldungseinblendungen zu konfigurieren.</p>
+    <section id="flashMessageSettings_enable">
+      <title>Meldungseinblendungen aktivieren</title>
+      <p>Ist <gui>Meldungseinblendung aktivieren</gui> angekreuzt, wird <app>Orca</app> Ihnen Meldungen in Braille anzeigen. Sollten Sie bevorzugen, dass <app>orca</app> Meldungen nur vorliest, sollten Sie dieses Feld nicht ankreuzen.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="flashMessageSettings_detailed">
+      <title>Meldungen sind detailliert</title>
+      <p>Ist <gui>Meldungen sind detailliert</gui> angekreuzt, wird <app>Orca</app> Ihnen ausführliche Meldungen in Braille anzeigen. Falls Sie zum Beispiel den <app>Orca</app>-Befehl zur Änderung des Tastaturechos verwendet haben, wird <app>Orca</app> »Tastaturecho auf Taste gesetzt.« anzeigen. Sollten Sie kürzere Meldungen bevorzugen, wie zum Beispiel »Wort«, sollten Sie dieses Feld nicht ankreuzen.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="flashMessageSettings_persistent">
+      <title>Meldungen sind dauerhaft</title>
+      <p>Wie oben beschrieben, werden Meldungseinblendungen nur für eine kurze Zeit angezeigt. Sollten Sie bevorzugen, dass Meldungen angezeigt bleiben, bis Sie eine Aktion zum Aktualisieren der Zeile durchführen, sollten Sie das Feld <gui>Meldungen sind dauerhaft</gui> ankreuzen.</p>
+      <p>Vorgabewert: nicht aktiviert</p>
+    </section>
+    <section id="flashMessageSettings_duration">
+      <title>Duration (secs)</title>
+      <p>
+        The amount of time <app>Orca</app> will wait before removing the message and
+        restoring the original contents of your display can be set in the <gui>
+        Duration (secs)</gui> spin button. Note that the value of this
+        setting will be ignored if you have enabled persistent flash messages.
+      </p>
+      <p>Vorgabewert: 5</p>
+    </section>
+  </section>
+</page>

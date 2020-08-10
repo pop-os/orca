@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_chat" xml:lang="el">
+  <info>
+    <link type="next" xref="commands_debugging"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="preferences_chat"/>
+    <title type="sort">2. Συνομιλία</title>
+    <title type="link">Συνομιλία</title>
+    <desc>Εντολές για χρήση με πελάτες IM και IRC</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εντολές συνομιλίας</title>
+  <p>Οι επόμενες εντολές μπορούν να χρησιμοποιηθούν για πρόσβαση πληροφοριών αμέσων μηνυμάτων και μεταγωγής διαδικτύου πελατών συνομιλίας υποστηριζόμενου από το <app>Orca</app>. Θα σημειώσετε ότι αρκετές από αυτές τις εντολές είναι "ασύνδετες". Παρακαλώ δείτε <link xref="howto_key_bindings">τροποποίηση συνδυασμών πλήκτρων</link> για πληροφορίες σύνδεσης αυτών των εντολών με πληκτρολογήσεις.</p>
+  <list>
+    <item>
+      <p>Παρουσίαση προηγούμενων μηνυμάτων αίθουσας συνομιλίας: <keyseq><key>τροποποιητής Orca</key><key>F1</key></keyseq> μέχρι <key>F9</key></p>
+    </item>
+    <item>
+      <p>Ενεργοποίηση/απενεργοποίηση του ονόματος αίθουσας με μηνύματα: (ασύνδετο)</p>
+    </item>
+    <item>
+      <p>Ενεργοποίηση/απενεργοποίηση αναγγελίας της κατάσταση πληκτρολόγηση ατόμου: (ασύνδετο)</p>
+    </item>
+    <item>
+      <p>Ενεργοποίηση/απενεργοποίηση ιστορικών σχετικών με την αίθουσα : (ασύνδετο)</p>
+    </item>
+  </list>
+</page>

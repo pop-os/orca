@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_reading" xml:lang="de">
+  <info>
+    <link type="next" xref="commands_structural_navigation"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_documents"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">1. Lesen</title>
+    <title type="link">Lesen</title>
+    <desc>Befehle zum Zugriff auf den Inhalt von Dokumenten</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Lesebefehle</title>
+  <p>Zusätzlich zu den Caret-Navigationsbefehlen, welche Bestandteil von GNOME sind, unterstützt <app>Orca</app> einige Befehle zum Lesen eines Dokumentes.</p>
+  <note style="tip">
+    <p>
+      Below you will see several references to "KP". All
+      "KP" keys are located on the numeric keypad. You will also notice that
+      there are different keystrokes depending upon whether you are using a
+      desktop or a laptop -- or more accurately, whether you are using
+      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
+      For additional information, please see the
+      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
+    </p>
+  </note>
+  <section id="flat_review">
+    <title>Ihren aktuellen Standort vorlesen</title>
+    <p>Die folgenden <app>Orca</app> <link xref="commands_flat_review">Übersichtsbefehle</link> können zum Lesen der aktuellen Position benutzt werden:</p>
+    <list>
+      <item>
+        <p>Die aktuelle Zeile lesen:</p>
+        <list>
+          <item>
+            <p>Desktop: <keyseq><key>8 (Nmblck)</key></keyseq></p>
+          </item>
+          <item>
+            <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>I</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Das aktuelle Wort lesen:</p>
+        <list>
+          <item>
+            <p>Desktop: <keyseq><key>5 (Nmblck)</key></keyseq></p>
+          </item>
+          <item>
+            <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>K</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Das aktuelle Wort buchstabieren:</p>
+        <list>
+          <item>
+            <p>Desktop: <keyseq><key>5 (Nmblck)</key></keyseq> (Doppelklick)</p>
+          </item>
+          <item>
+            <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>K</key></keyseq> (Doppelklick)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Das aktuelle Wort phonetisch buchstabieren:</p>
+        <list>
+          <item>
+            <p>Desktop: <keyseq><key>5 (Nmblck)</key></keyseq> (Dreifach-Klick)</p>
+          </item>
+          <item>
+            <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>K</key></keyseq> (Dreifach-Klick)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Das aktuelle Zeichen vorlesen:</p>
+        <list>
+          <item>
+            <p>Desktop: <keyseq><key>2 (Nmblck)</key></keyseq></p>
+          </item>
+          <item>
+            <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>,</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Das aktuelle Zeichen phonetisch vorlesen:</p>
+        <list>
+          <item>
+            <p>Desktop: <keyseq><key>2 (Nmblck)</key></keyseq> (Doppelklick)</p>
+          </item>
+          <item>
+            <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>,</key></keyseq> (Doppelklick)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Den Unicode-Wert des aktuellen Zeichens vorlesen:</p>
+        <list>
+          <item>
+            <p>Desktop: <keyseq><key>2 (Nmblck)</key></keyseq> (Dreifach-Klick)</p>
+          </item>
+          <item>
+            <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>,</key></keyseq> (Dreifach-Klick)</p>
+          </item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="say_all">
+    <title>Alles vorlesen</title>
+    <p>Orcas Befehl »Alles vorlesen« bewirkt, dass <app>Orca</app> das gesamte Dokument ab der aktuellen Position vorliest.</p>
+    <list>
+      <item>
+        <p>Desktop: <key>+ (Nmblck)</key></p>
+      </item>
+      <item>
+        <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>;</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="attributes_and_selection">
+    <title>Textattribute und ausgewählter Text</title>
+    <p><app>Orca</app> hat einen speziellen Befehl, um sich die Eigenschaften des Textes unter dem Textcursor zu beschaffen. Falls Sie <app>Orcas</app> »Wo bin ich«-Befehl mit einem ausgewählten Text benutzen, wird <app>Orca</app> den ausgewählten Text ausgeben. Der <app>Orca</app>-Befehl zum Vorlesen der aktuellen Auswahl hat in einem Textobjekt dieselbe Funktionalität.</p>
+    <list>
+      <item>
+        <p>Die Textattribute ausgeben: <keyseq><key>Orca-Zusatztaste</key><key>F</key></keyseq></p>
+      </item>
+      <item>
+        <p>Perform basic Where Am I:</p>
+        <list>
+          <item>
+            <p>Desktop: <key>Eingabetaste (Nmblck)</key></p>
+          </item>
+          <item>
+            <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>Eingabetaste</key></keyseq></p>
+          </item>
+        </list>
+    </item>
+    <item>
+      <p>Perform detailed Where Am I:</p>
+      <list>
+        <item>
+          <p>Desktop: <key>Eingabetaste (Nmblck)</key> (Doppelklick)</p>
+        </item>
+        <item>
+          <p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>Eingabetaste</key></keyseq> (Doppelklick)</p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Aktuelle Auswahl vorlesen: <keyseq><key>Orca-Zusatztaste</key><key>Strg</key><key>Hoch</key></keyseq></p>
+    </item>
+  </list>
+  </section>
+  <section id="link_details">
+    <title>Details zum Link</title>
+    <p>
+      If you are on a link, <app>Orca</app>'s Basic Where Am I command can be
+      used to announce the details associated with the link such as the link type,
+      if the link is visited, the site description, and file size. If you would
+      instead prefer dedicated command for this purpose, you can bind <app>Orca</app>'s
+      Speaks Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
+      Modifying Keybindings</link> for information on how to do so.
+    </p>
+    <list>
+      <item>
+        <p>Details zum Link vorlesen. (Nicht zugewiesen)</p>
+      </item>
+    </list>
+  </section>
+  <section id="browse_and_focus_modes">
+    <title>Stöbern und fokussieren Modus</title>
+    <p><app>Orca</app>s Stöbern und fokussieren Modus erlaubt das umschalten zwischen dem lesen und interagieren mit Internetinhalten.</p>
+    <list>
+      <item>
+        <p>Zwischen Stöber- und Fokusmodus umschalten: <keyseq><key>Orca-Zusatztaste</key><key>A</key></keyseq></p>
+      </item>
+      <item>
+        <p>
+          Enable sticky focus mode:
+          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (double-clicked)
+        </p>
+      </item>
+      <item>
+        <p>
+          Enable sticky browse mode:
+          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (triple-clicked)
+        </p>
+      </item>
+    </list>
+  </section>
+  <section id="toggling_layout_mode">
+    <title>Layout-Modus ein-/ausschalten</title>
+    <p>Ist der Layout-Modus eingeschaltet, wird <app>Orca</app>s Caret-Navigation das Layout des sichtbaren Inhalts berücksichtigen und die ganze Zeile, einschließlich jeglicher Links oder Formularfelder in dieser Zeile vorlesen. Ist der Layout-Modus ausgeschaltet, wird <app>Orca</app> Objekte wie Links und Formularfelder beim Vorlesen und Navigieren so behandeln, als wären Sie auf eigenen Zeilen.</p>
+    <p><app>Orca</app> stellt einen Befehl zur Verfügung, um zwischen Layout- und Objektmodus umzuschalten. Dieser Befehl ist standardmäßig nicht zugewiesen. Bitte klicken Sie auf <link xref="howto_key_bindings">Tastenkombinationen verändern</link>, um Informationen darüber zu erhalten, wie Sie nicht zugewiesenen Befehlen Tastenkombinationen zuweisen.</p>
+    <list>
+      <item>
+        <p>Zwischen Layout- und Objektmodus umschalten: (Nicht zugewiesen)</p>
+      </item>
+    </list>
+  </section>
+</page>

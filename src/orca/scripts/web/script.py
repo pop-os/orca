@@ -808,6 +808,9 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
+        if prevObj and self.utilities.isDead(prevObj):
+            prevObj = None
+
         if not _settingsManager.getSetting('caretNavTriggersFocusMode') \
            and self._lastCommandWasCaretNav \
            and not self.utilities.isNavigableToolTipDescendant(prevObj):
@@ -884,8 +887,8 @@ class Script(default.Script):
     def sayWord(self, obj):
         """Speaks the word at the current caret position."""
 
-        if not self._lastCommandWasCaretNav \
-           and not self.utilities.isContentEditableWithEmbeddedObjects(obj):
+        isEditable = self.utilities.isContentEditableWithEmbeddedObjects(obj)
+        if not self._lastCommandWasCaretNav and not isEditable:
             super().sayWord(obj)
             return
 
@@ -894,7 +897,7 @@ class Script(default.Script):
         if keyString == "Right":
             offset -= 1
 
-        wordContents = self.utilities.getWordContentsAtOffset(obj, offset)
+        wordContents = self.utilities.getWordContentsAtOffset(obj, offset, useCache=not isEditable)
         textObj, startOffset, endOffset, word = wordContents[0]
         self.speakMisspelledIndicator(textObj, startOffset)
         self.speakContents(wordContents)
@@ -1290,6 +1293,12 @@ class Script(default.Script):
         elif self.utilities.lastInputEventWasLineNav() and event \
              and event.type.startswith("object:children-changed"):
             msg = "WEB: Last input event was line nav and children changed. Generating line contents."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
+            utterances = self.speechGenerator.generateContents(contents)
+        elif self._lastCommandWasMouseButton and event \
+             and event.type.startswith("object:text-caret-moved"):
+            msg = "WEB: Last input event was mouse button. Generating line contents."
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
             utterances = self.speechGenerator.generateContents(contents)
@@ -1741,12 +1750,6 @@ class Script(default.Script):
                 self.utilities.setCaretContext(focused, 0)
             return True
 
-        if childRole == pyatspi.ROLE_DIALOG:
-            msg = "WEB: Setting locusOfFocus to event.any_data"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            orca.setLocusOfFocus(event, event.any_data)
-            return True
-
         if self.lastMouseRoutingTime and 0 < time.time() - self.lastMouseRoutingTime < 1:
             utterances = []
             utterances.append(messages.NEW_ITEM_ADDED)
@@ -1788,6 +1791,27 @@ class Script(default.Script):
             return True
 
         return False
+
+    def onColumnReordered(self, event):
+        """Callback for object:column-reordered accessibility events."""
+
+        if not self.utilities.inDocumentContent(event.source):
+            msg = "WEB: Event source is not in document content"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if event.source != self.utilities.getTable(orca_state.locusOfFocus):
+            msg = "WEB: locusOfFocus (%s) is not in this table" % orca_state.locusOfFocus
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        self.pointOfReference['last-table-sort-time'] = time.time()
+        self.presentMessage(messages.TABLE_REORDERED_COLUMNS)
+        header = self.utilities.containingTableHeader(orca_state.locusOfFocus)
+        if header:
+            self.presentMessage(self.utilities.getSortOrderDescription(header, True))
+
+        return True
 
     def onDocumentLoadComplete(self, event):
         """Callback for document:load-complete accessibility events."""
@@ -2000,6 +2024,27 @@ class Script(default.Script):
             msg = "WEB: Ignoring event believed to be browser UI noise"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
+
+        return True
+
+    def onRowReordered(self, event):
+        """Callback for object:row-reordered accessibility events."""
+
+        if not self.utilities.inDocumentContent(event.source):
+            msg = "WEB: Event source is not in document content"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if event.source != self.utilities.getTable(orca_state.locusOfFocus):
+            msg = "WEB: locusOfFocus (%s) is not in this table" % orca_state.locusOfFocus
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        self.pointOfReference['last-table-sort-time'] = time.time()
+        self.presentMessage(messages.TABLE_REORDERED_ROWS)
+        header = self.utilities.containingTableHeader(orca_state.locusOfFocus)
+        if header:
+            self.presentMessage(self.utilities.getSortOrderDescription(header, True))
 
         return True
 

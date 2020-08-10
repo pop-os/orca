@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_the_orca_modifier" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_learn_modes"/>
+    <title type="sort">3. A tecla modificadora do Orca</title>
+    <desc>Uma tecla que funciona da mesma forma que as teclas <key>Shift</key>, <key>Ctrl</key>, e <key>Alt</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>A Tecla Modificadora do Orca</title>
+  <p>O Orca possui uma tecla modificadora especial que funciona da mesma forma que as teclas <key>Shift</key>, <key>Ctrl</key>, e <key>Alt</key>. Ela é desenhada especificamente para executar comandos <app>Orca</app> sem contudo introduzir conflitos com os comandos dos aplicativos que você está acessando.</p>
+  <p>A tecla "modificadora do Orca" que está associada por padrão dependerá se você está usando a disposição de teclado do <app>Orca</app> para notebook ou computador de mesa:</p>
+  <list>
+    <item>
+      <p>Se você estiver usando a disposição de teclado de notebook, por padrão, a tecla modificadora do Orca será o <key>CapsLock</key></p>
+    </item>
+    <item>
+      <p>
+        If you are using the Desktop layout, the Orca Modifier will
+        be both <key>Insert</key> and <key>KP_Insert</key>, the
+        latter being the same key as <key>KP_0</key>.
+      </p>
+    </item>
+  </list>
+  <p>Se você quiser manter a sua disposição de teclado atual, mas selecionar uma tecla modificadora diferente, você pode fazê-lo executando os seguintes passos:</p>
+  <steps>
+    <title>Alterando uma ou mais teclas modificadoras do Orca</title>
+    <item>
+      <p>Acesse o diálogo <link xref="preferences">Preferências do Orca</link> pressionando <keyseq><key>Tecla modificadora do Orca</key><key>Barra de espaço</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Vá para a aba <gui>Atalhos</gui>.</p>
+    </item>
+    <item>
+      <p>Move to the <gui>Screen Reader Modifier Key(s)</gui> combobox.</p>
+    </item>
+    <item>
+      <p>Seta até o modificador desejado. As opções disponíveis são:</p>
+      <list>
+        <item><p>Insert, KP_Insert</p></item>
+        <item><p>NUM_Insert</p></item>
+        <item><p>Insert</p></item>
+        <item><p>Caps_Lock</p></item>
+      </list>
+    </item>
+    <item><p>Pressione o botão <gui>Aplicar</gui>.</p></item>
+  </steps>
+</page>

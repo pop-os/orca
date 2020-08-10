@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_mouse_review" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_notifications"/>
+    <title type="sort">4. Musgranskning</title>
+    <desc>Använda muspekaren för att undersöka skärmen</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Musgranskning</title>
+  <p><app>Orca</app>s musgranskningsfunktion får <app>Orca</app> att presentera objektet under muspekaren. Till skillnad från <app>Orca</app>s funktion för <link xref="howto_flat_review">platt granskning</link> så är inte musgranskning begränsad till det aktiva fönstret. <app>Orca</app> kommer istället försöka identifiera vad för åtkomligt objekt, om något, som visuellt är under pekaren under tiden du rör musen. Om du har rört pekaren över ett åtkomligt objekt som har information att presentera så kommer <app>Orca</app> presentera det objektet och dess information för dig.</p>
+  <p>Eftersom aktivering av musgranskning får <app>Orca</app> att lyssna efter och sedan behandla alla ändringar i muspekarens position så är denna funktion inaktiverad som standard. För att den alltid ska vara aktiverad kryssar du kryssrutan <gui>Läs upp objekt under muspekare</gui> som hittas på <link xref="preferences_general">sidan Allmänt i <app>Orca</app>s inställningsdialog</link>. Dessutom kommer du hitta ett obundet kommando som heter <gui>Växla musgranskningsläge</gui> på <link xref="preferences_key_bindings">sidan Tangentbindningar</link> i samma dialogruta. Genom att binda detta kommando på det sätt som beskrivs i <link xref="howto_key_bindings">introduktionen till tangentbindningar</link> kan du aktivera och inaktivera musgranskning utifrån när det behövs.</p>
+  <note style="tip">
+    <title>Standardinställningar och tangentbindningar är oberoende av varandra</title>
+    <p>Notera att du kan välja att ha musgranskning alltid aktiverad eller inte och fortfarande växla det mellan på och av genom att binda och använda kommandot <gui>Växla musgranskningsläge</gui>. Det är inte nödvändigt att aktivera det för att kunna växla det eftersom inställningar och tangentbindningar är oberoende av varandra.</p>
+  </note>
+</page>

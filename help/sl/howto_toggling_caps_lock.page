@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_toggling_caps_lock" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_key_bindings"/>
+    <title type="sort">7. CapsLock in Laptop Layout</title>
+    <desc>Preklapljanje ko je <key>Spremenilna tipka Orka</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>CapsLock v razporeditvi prenosnika.</title>
+  <p>
+    Orca has two keyboard layouts: Desktop and Laptop. The layout you choose
+    impacts which key is used as the Orca Modifier. If you are using the Laptop
+    layout, the default Orca Modifier will be <key>CapsLock</key>. If you are
+    using <app>Orca</app>'s Laptop Layout and want to lock or unlock
+    <key>CapsLock</key>, you can do so by either pressing <key>CapsLock</key>
+    twice (requires at-spi2 version 2.32 or later), or by performing the
+    following steps:
+  </p>
+  <steps>
+    <title>Preklapljanje CapsLock v razporeditvi prenosnika.</title>
+    <item>
+      <p>Pritisnite ukaz Obidi, <keyseq><key>Spremenilna tipka Orka</key><key>Vračalka</key></keyseq>, ki bo <app>Orki</app> sporočil, da naj bo naslednji ukaz prezrt.</p>
+    </item>
+    <item>
+      <p>Pritisnite <key>CapsLock</key> za preklop njegovega zaklenjenega stanja.</p>
+    </item>
+  </steps>
+</page>

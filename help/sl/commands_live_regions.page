@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_live_regions" xml:lang="sl">
+  <info>
+    <link type="next" xref="commands_chat"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="howto_live_regions"/>
+    <title type="sort">1. Live Regions</title>
+    <title type="link">Live Regions</title>
+    <desc>Ukazi za dostop do samodejno posodobljenih področij spleta</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Ukazi samodejno posodobljenega predela</title>
+  <p>
+    The following commands can be used to access dynamically-updated
+    content on web pages which have been made accessible through ARIA.
+  </p>
+  <list>
+    <item>
+      <p>Nadziraj samodejno posodobljena področja: <keyseq><key>Spremenilna tipka Orka</key><key>Dvigalka</key><key>Leva poševnica</key></keyseq></p>
+    </item>
+    <item>
+      <p>Naprej v nastavitvah vljudnosti samodejno posodobljenega področja: <key>Leva poševnica</key></p>
+    </item>
+    <item>
+      <p>Nastavi privzeto raven vljudnosti na brez: <keyseq><key>Dvigalka</key><key>Leva poševnica</key></keyseq></p>
+    </item>
+    <item>
+      <p>Pojdi na naslednje/predhodno samodejno posodobljeno področje: <keyseq><key>D</key></keyseq>/<keyseq><key>Dvigalka</key><key>D</key></keyseq></p>
+    </item>
+    <item>
+      <p>Pojdi na zadnjo samodejno posodobljeno področje, ki je zadnje opravilo oznanitev: <keyseq><key>Y</key></keyseq></p>
+    </item>
+    <item>
+      <p>Pregled oznanitev samodejno posodobljenih področij: <keyseq><key>Spremenilna tipka Orka</key><key>F1</key></keyseq> do <key>F9</key></p>
+    </item>
+</list>
+</page>

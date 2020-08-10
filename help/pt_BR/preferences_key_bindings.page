@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_bindings" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_pronunciation"/>
+    <link type="seealso" xref="howto_key_bindings"/>
+    <title type="sort">6. Atalhos</title>
+    <title type="link">Atalhos</title>
+    <desc>Configurando teclas de atalho do <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Preferências de teclas de atalho</title>
+  <section id="orca_modifier_keys">
+    <title>Teclas modificadoras do orca</title>
+    <p>
+      The <gui>Screen Reader Modifier Key(s)</gui> combo box allows you to select which
+      key or keys will serve as the Orca Modifier. The available options are:
+    </p>
+    <list>
+      <item>
+        <p><gui>NUM_Insert</gui> (a mesma tecla que a <key>0</key> no teclado numérico)</p></item>
+      <item><p><gui>Insert</gui></p></item>
+      <item><p><gui>Insert, KP_Insert</gui></p></item>
+      <item><p><gui>Caps_Lock</gui></p></item>
+    </list>
+  </section>
+  <section id="key_bindings_table">
+    <title>A tabela de teclas de atalhos</title>
+    <p>A tabela atalhos de tecla fornece uma lista de operações do <app>Orca</app> e as respectivas teclas associadas.</p>
+    <list>
+      <item>
+        <p>
+          The <gui>Command</gui> column contains a description of the
+          <app>Orca</app> command to be performed.
+        </p>
+      </item>
+      <item>
+        <p>
+          The <gui>Key Binding</gui> column contains the keyboard shortcut currently
+          assigned to the <app>Orca</app> command. You can modify the value of
+          this column by pressing <key>Return</key>, pressing the keys for the
+          new binding, and pressing <key>Return</key> again.
+        </p>
+      </item>
+      <item>
+        <p>
+          The <gui>Modified</gui> column serves both as an indicator to what
+          has been changed and as a way to restore the default bindings
+          associated with that command.
+        </p>
+      </item>
+    </list>
+    <p>Abaixo da lista de teclas de atalho do <app>Orca</app>, você localizará um grupo de comandos "Sem atalho". Estes são comandos que, em nossa opinião, serão de grande utilidade para alguns usuários, mas não necessários para a maioria. Ao invés de atribuir uma tecla de atalho para tais comandos, nós preferimos deixá-los sem teclas de atalho por padrão. No final da lista existem os atalhos de braille, para usar com monitores braille atualizáveis.</p>
+  </section>
+</page>

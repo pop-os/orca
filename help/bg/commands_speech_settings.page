@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_speech_settings" xml:lang="bg">
+  <info>
+    <link type="next" xref="commands_braille"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_speech"/>
+    <title type="sort">2. Настройки на речта</title>
+    <title type="link">Реч</title>
+    <desc>Команди за настройка на обратната връзка на <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди за настройка на речта</title>
+  <p>Следните команди могат да бъдат използвани за настройка на речевата обратна връзка на <app>Orca</app>. Ще забележите, че някои от тези команди са „неприсвоени“. Вижте секцията <link xref="howto_key_bindings">Промяна на функциите на клавишите</link> за повече информация как да присвоите тези команди към клавишни комбинации.</p>
+  <list>
+    <item>
+      <p>Включване/изключване на речта: <keyseq><key>Модификатор на Orca</key><key>S</key></keyseq></p>
+    </item>
+    <item>
+      <p>Превключване между четене по редове и по клетки в таблица: <keyseq><key>Модификатор на Orca</key><key>F11</key></keyseq></p>
+    </item>
+    <item>
+      <p>Превключване между съкратена и подробна информация: <keyseq><key>Модификатор на Orca</key><key>V</key></keyseq></p>
+    </item>
+    <item>
+      <p>Включване/изключване изговарянето на отстъпа и подравняването: (неприсвоена)</p>
+    </item>
+    <item>
+      <p>Превключване на начина на прочитане на числа: (неприсвоена)</p>
+    </item>
+    <item>
+      <p>Превключване към следващото ниво на пунктуацията при четене: (неприсвоена)</p>
+    </item>
+    <item>
+      <p>Превключване към следващото ниво на пунктуацията за клавиши: (неприсвоена)</p>
+    </item>
+    <item>
+      <p>Превключване към следващия стил на индикация на главни букви: (неприсвоена)</p>
+    </item>
+    <item>
+      <p>Намаляване на скоростта: (неприсвоена)</p>
+    </item>
+    <item>
+      <p>Увеличаване на скоростта: (неприсвоена)</p>
+    </item>
+    <item>
+      <p>Намаляване на височината: (неприсвоена)</p>
+    </item>
+    <item>
+      <p>Увеличаване на височината: (неприсвоена)</p>
+    </item>
+    <item>
+      <p>Намаляване на силата: (неприсвоена)</p>
+    </item>
+    <item>
+      <p>Увеличаване на силата: (неприсвоена)</p>
+    </item>
+  </list>
+</page>

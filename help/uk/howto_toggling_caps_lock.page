@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_toggling_caps_lock" xml:lang="uk">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_key_bindings"/>
+    <title type="sort">7. CapsLock у розкладці для ноутбука</title>
+    <desc>Перемикання регістру, якщо ця клавіша є <key>Модифікатором Orca</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>CapsLock у розкладці для ноутбука</title>
+  <p>В Orca передбачено дві розкладки клавіатури: для робочих станцій і для ноутбуків. Вибраний вами варіант розкладки вплине на те, яку клавішу буде використано як клавішу-модифікатор Orca. Якщо ви користуватиметеся розкладкою для ноутбуків, типовою клавішею-модифікатором Orca буде <key>CapsLock</key>. Якщо ви користуєтеся розкладкою <app>Orca</app> для ноутбуків і хочете заблокувати або розблокувати <key>CapsLock</key>, ви можете зробити це подвійним натисканням <key>CapsLock</key> (потребує версії at-spi2 2.32 або новішої) або виконавши такі дії:</p>
+  <steps>
+    <title>Перемикання CapsLock у розкладці для ноутбука</title>
+    <item>
+      <p>Натисніть комбінацію клавіш обходу, <keyseq><key>Модифікатор Orca</key><key>BackSpace</key> </keyseq>, щоб повідомити <app>Orca</app>, що наступну команду слід проігнорувати.</p>
+    </item>
+    <item>
+      <p>Натисніть клавішу <key>CapsLock</key>, щоб перемкнути її стан.</p>
+    </item>
+  </steps>
+</page>

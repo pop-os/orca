@@ -73,7 +73,7 @@
   <section id="reset">
      <title>Undoing changes</title>
      <p>
-       Beneath the list of text attributes, there is a Reset button
+       Beneath the list of text attributes, there is a <gui>Reset</gui> button
        (<keyseq><key>Alt</key><key>R</key></keyseq>) which will restore
        the values of the table to what they were when the dialog was
        first displayed.
@@ -82,7 +82,7 @@
   <section id="rearranging">
      <title>Rearranging the order of presentation</title>
      <p>
-        When you initially display the text attribute page, all of your enabled
+        When you initially display the <gui>Text Attributes</gui> page, all of your enabled
         attributes are placed at the top of the table in the order in which they
         will be spoken. There are four buttons which can be used to rearrange
         the order of presentation.
@@ -96,13 +96,13 @@
       </item>
       <item>
         <p>
-          <gui>Move up one</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>):
+          <gui>Move up</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>):
           moves the selected attribute up one row.
         </p>
       </item>
       <item>
         <p>
-          <gui>Move down one</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>):
+          <gui>Move down</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>):
           moves the selected attribute down one row.
         </p>
       </item>

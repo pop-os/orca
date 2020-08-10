@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_pronunciation" xml:lang="uk">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_text_attributes"/>
+    <title type="sort">7. Вимова</title>
+    <title type="link">Вимова</title>
+    <desc>Визначення вимови окремих слів</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Параметри вимови</title>
+  <p>Іноді, синтезатор мовлення не вимовляє те, що насправді має вимовляти. Вам, ймовірно, захочеться чути «laughing out loud» замість «LOL» або «accessibility» замість «a11y». Крім того, у тексті можуть бути технічні терміни або імена, які синтезатор вимовляє неправильно.</p>
+  <p>За допомогою сторінки <gui>Вимова</gui> діалогового вікна параметрів <app>Orca</app> ви можете додати, змінити або вилучити записи словника вимови <app>Orca</app>.</p>
+  <p>Оскільки сторінка <gui>Вимова</gui> є частиною специфічних для програм параметрів, ви можете налаштувати записи для кожної з програм, якими користуєтеся, окремо.</p>
+  <steps>
+    <title>Додавання нового запису словника</title>
+    <item>
+      <p>Натисніть кнопку <gui>Нова стаття</gui> (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
+    </item>
+    <item>
+      <p>Введіть текст нового запису і натисніть клавішу <key>Enter</key>, щоб завершити редагування рядка.</p>
+    </item>
+    <item>
+      <p>Перейдіть до стовпчика <gui>Рядок заміни</gui> і натисніть клавішу <key>Enter</key>, щоб розпочати редагування.</p>
+    </item>
+    <item>
+      <p>Введіть текст, який має бути вимовлено замість початкового рядка і натисніть клавішу <key>Enter</key>, щоб завершити редагування рядка-замінника.</p>
+    </item>
+  </steps>
+  <steps>
+  <title>Редагування наявного запису словника</title>
+    <item>
+      <p>Перейдіть до комірки, вміст якої ви хочете змінити, і натисніть клавішу <key>Enter</key>, щоб розпочати редагування.</p>
+    </item>
+    <item>
+      <p>Внесіть зміни і натисніть клавішу <key>Enter</key>, щоб завершити редагування.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Вилучення наявного запису словника</title>
+    <item>
+      <p>Перейдіть до запису, який ви хочете вилучити.</p>
+    </item>
+    <item>
+      <p>Натисніть кнопку <gui>Вилучити</gui> або комбінацію клавіш <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
+    </item>
+  </steps>
+</page>

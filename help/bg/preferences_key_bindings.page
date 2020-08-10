@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_bindings" xml:lang="bg">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_pronunciation"/>
+    <link type="seealso" xref="howto_key_bindings"/>
+    <title type="sort">6. Функции на клавишите</title>
+    <title type="link">Функции на клавишите</title>
+    <desc>Настройка на клавишните команди на <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Настройка на функциите на клавишите</title>
+  <section id="orca_modifier_keys">
+    <title>Модификатори на Orca</title>
+    <p>
+      The <gui>Screen Reader Modifier Key(s)</gui> combo box allows you to select which
+      key or keys will serve as the Orca Modifier. The available options are:
+    </p>
+    <list>
+      <item>
+        <p><gui>Insert от цифровия блок</gui> (същият клавиш като <key>0 от цифровия блок</key>)</p></item>
+      <item><p><gui>Insert</gui></p></item>
+      <item><p><gui>Insert, Insert от цифровия блок</gui></p></item>
+      <item><p><gui>Caps_Lock</gui></p></item>
+    </list>
+  </section>
+  <section id="key_bindings_table">
+    <title>Таблицата с функции на клавишите</title>
+    <p>Таблицата с функции на клавишите предоставя списък с команди на <app>Orca</app> и клавишите, които са асоциирани с тях.</p>
+    <list>
+      <item>
+        <p>
+          The <gui>Command</gui> column contains a description of the
+          <app>Orca</app> command to be performed.
+        </p>
+      </item>
+      <item>
+        <p>Колоната <gui>Присвоени клавиши</gui> съдържа текущата клавишна комбинация присвоена на тази команда на <app>Orca</app>. Можете да променяте стойността на тази колона като натиснете <key>Return</key>, натиснете клавишите за новото назначение, и натиснете отново <key>Return</key>.</p>
+      </item>
+      <item>
+        <p>
+          The <gui>Modified</gui> column serves both as an indicator to what
+          has been changed and as a way to restore the default bindings
+          associated with that command.
+        </p>
+      </item>
+    </list>
+    <p>В списъка с функции на клавишите на <app>Orca</app>, ще намерите група с „неприсвоени“ команди. Това са команди, които смятаме че може да са много полезни за някои потребители, но не са нужни на повечето от тях. Вместо да „заемаме“ клавишни комбинации за подобни команди, ние ги оставихме неприсвоени по подразбиране. На края на списъка са клавишните назначения за брайл, за използване с брайлов дисплей.</p>
+  </section>
+</page>

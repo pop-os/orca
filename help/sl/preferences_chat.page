@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_chat" xml:lang="sl">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_spellcheck"/>
+    <title type="sort">3. Klepet</title>
+    <title type="link">Klepet</title>
+    <desc>
+      Configuring <app>Orca</app>'s support for IM and IRC
+    </desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Možnosti klepeta</title>
+  <p>Naslednje možnosti vam omogočajo prilagoditev <app>Orkinegaa</app> obnašanja pri zagotavljanju dostopa do odjemalcev hipnega sporočanja in IRC-a.</p>
+  <section id="speak_name">
+    <title>Izgovori ime klepetalnice</title>
+    <p>V primeru da je ta možnost izbrana, bo <app>Orka</app> pred dohodna sporočila dodala predpono z imenom sobe ali prijatelja od kjer izvirajo, razen če so prišla iz pogovora, ki je trenutno v žarišču.</p>
+    <p>Prikazana vrednost: ni izbrano</p>
+  </section>
+  <section id="announce_typing">
+    <title>Oznani, kadar vaši prijatelji tipkajo</title>
+    <p>V primeru da je to izbirno polje izbrano in ima <app>Orka</app> dovolj podatkov, ki določajo da vaš prijatelj tipka, bo <app>Orka</app> oznanila spremembe v stanju tipkanja.</p>
+    <p>Prikazana vrednost: ni izbrano</p>
+  </section>
+  <section id="message_histories">
+    <title>Zagotovi zgodovine za klepetalnico določenih sporočil</title>
+    <p>V primeru da je to izbirno polje izbrano, bodo <app>Orkini</app> ukazi za pregledovanje nedavnih sporočil uveljavljeni le na pogovor, ki je trenutno v žarišču. V nasprotnem primeru bo zgodovina vsebovala najbolj nedavna sporočila ne glede na to iz katerega pogovora izvirajo.</p>
+    <p>Prikazana vrednost: ni izbrano</p>
+  </section>
+  <section id="speak_messages_from">
+    <title>Izgovori sporočila od</title>
+    <p>Ta skupina izbirnih gumbov vam omogoča nadzor v katerih okoliščinah vam bo <app>Orka</app> predstavila dohodno sporočilo. Vaše izbire so:</p>
+    <list>
+      <item>
+        <p><gui>Vsi kanali</gui></p>
+      </item>
+      <item>
+        <p><gui>Samo kanal, katerega okno je dejavno</gui></p>
+      </item>
+      <item>
+        <p><gui>Vsi kanali, ko je poljubno klepetalno okno dejavno</gui></p>
+      </item>
+    </list>
+    <p>Privzeta vrednost: vsi kanali</p>
+  </section>
+</page>

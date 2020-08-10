@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_structural_navigation" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_tables"/>
+    <title type="sort">3. Navigation par structure</title>
+    <desc>Naviguer par en-tête et par d’autres éléments</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Navigation par structure</title>
+  <p>La navigation par structure d’<app>Orca</app> vous permet de parcourir les différents éléments d’un document. Les types d’éléments que vous pouvez parcourir sont :</p>
+  <list>
+    <item><p>En-têtes et autres blocs de texte</p></item>
+    <item><p>Contrôles de formulaire</p></item>
+    <item><p>Liens</p></item>
+    <item><p>Listes et éléments de liste</p></item>
+    <item><p>Points de repère, séparateurs et ancres</p></item>
+    <item><p>Tableaux et cellules de tableau</p></item>
+  </list>
+  <p>La liste complète des éléments individuels et leur raccourci clavier respectif se trouvent dans les <link xref="commands_structural_navigation">commandes de navigation par structure</link>.</p>
+  <section id="applications">
+      <title>Applications prises en charge</title>
+      <p>Actuellement, la navigation par structure est entièrement fonctionnelle pour les contenus Web, ainsi que l’aide que vous lisez en ce moment. La prise en charge par <app>Orca</app> de la navigation par structure des cellules de tableau est aussi mise en place pour <app>OpenOffice Writer</app> et <app>LibreOffice Writer</app>. La mise en place de la navigation par structure pour les autres objets de ces suites logicielles nécessite des modifications qui doivent être effectuées par leurs développeurs respectifs. La mise en place des fonctionnalités de la navigation par structure dans <app>Evince</app> nécessite un effort similaire de la part de ses développeurs.</p>
+      <note style="tip">
+        <title>N’oubliez pas d’activer la navigation par structure !</title>
+        <p>En fonction de votre emplacement, il peut être nécessaire d’activer explicitement la navigation par structure avant de pouvoir l’utiliser.</p>
+      </note>
+      <section id="toggling_required">
+        <title>Quand est-il nécessaire d’activer la navigation par structure ?</title>
+        <p>Dans les page Web, l’activation de la navigation par structure de façon explicite n’est généralement pas nécessaire car votre interaction avec le document est généralement limitée à de la lecture. Il n’est pas la peine de se poser la question : le « H » que vous venez de saisir est-il une commande d’écriture ou une commande de navigation ?</p>
+        <p>Par contre, dans des documents modifiables tels que ceux trouvés dans <app>OpenOffice</app> et <app>LibreOffice</app>, il est beaucoup plus difficile pour <app>Orca</app> d’interpréter correctement ce qui doit se passer quand vous appuyez sur la touche « H ». Donc, avant de pouvoir utiliser toute commande de navigation par structure dans un document modifiable, vous devez d’abord activer la navigation par structure en appuyant sur <keyseq><key>Touche de modification d’Orca</key><key>Z</key></keyseq>. Quand vous avez fini de parcourir le document et que vous souhaitez reprendre son édition, appuyez sur <keyseq><key>Touche de modification d’Orca</key><key>Z</key></keyseq> de nouveau pour désactiver la navigation par structure.</p>
+      </section>
+  </section>
+  <section id="settings">
+    <title>Paramètres disponibles</title>
+    <p>En plus des commandes mentionnées précédemment, <app>Orca</app> possède un certain nombre d’options configurables disponibles spécialement pour les applications dans lesquelles la navigation par structure est prise en charge.</p>
+    <steps>
+      <title>Configuration de la navigation par structure</title>
+      <item>
+        <p>Donnez le focus à une application pour laquelle <app>Orca</app> prend en charge la navigation par structure.</p>
+      </item>
+      <item>
+        <p>Pour accéder à la boîte de dialogue <link xref="preferences">Préférences d’Orca</link> pour l’application actuelle, appuyez sur <keyseq><key>Ctrl</key><key>Touche de modification d’Orca</key><key>Barre d’espace</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Allez au dernier onglet de la boîte de dialogue qui doit être nommée en fonction du nom de l’application actuelle.</p>
+      </item>
+      <item>
+        <p>Vérifiez et modifiez les paramètres comme vous le souhaitez.</p>
+      </item>
+      <item>
+        <p>Cliquez sur le bouton <gui>Valider</gui>.</p>
+      </item>
+    </steps>
+  </section>
+</page>

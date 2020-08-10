@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_bindings" xml:lang="el">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_pronunciation"/>
+    <link type="seealso" xref="howto_key_bindings"/>
+    <title type="sort">6. Συνδυασμοί πλήκτρων</title>
+    <title type="link">Συνδυασμοί πλήκτρων</title>
+    <desc>Ρύθμιση συντομεύσεων πληκτρολογίου του <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Προτιμήσεις συνδυασμών πλήκτρων</title>
+  <section id="orca_modifier_keys">
+    <title>Πλήκτρα τροποποιητή Orca</title>
+    <p>
+      The <gui>Screen Reader Modifier Key(s)</gui> combo box allows you to select which
+      key or keys will serve as the Orca Modifier. The available options are:
+    </p>
+    <list>
+      <item>
+        <p>Το <gui>εισαγωγή_KP</gui> (το ίδιο πλήκτρο όπως το <key>0</key> στο αριθμητικό πληκτρολόγιο)</p></item>
+      <item><p><gui>Εισαγωγή</gui></p></item>
+      <item><p><gui>Εισαγωγή, εισαγωγή_KP</gui></p></item>
+      <item><p><gui>Caps_Lock</gui></p></item>
+    </list>
+  </section>
+  <section id="key_bindings_table">
+    <title>Ο πίνακας συνδυασμών πλήκτρων</title>
+    <p>Ο πίνακας συνδυασμών πλήκτρων παρέχει μια λίστα των λειτουργιών του <app>Orca</app> και τα πλήκτρα που είναι συνδεμένα με αυτές.</p>
+    <list>
+      <item>
+        <p>
+          The <gui>Command</gui> column contains a description of the
+          <app>Orca</app> command to be performed.
+        </p>
+      </item>
+      <item>
+        <p>Η στήλη <gui>Συνδυασμός πλήκτρων</gui> περιέχει τη συντόμευση πληκτρολογίου που είναι εκχωρημένη προς το παρόν στην εντολή <app>Orca</app>. Μπορείτε να τροποποιήσετε την τιμή αυτής της στήλης πατώντας <key>Return</key>, πατώντας τα πλήκτρα για τον νέο συνδυασμό και πατώντας <key>Return</key> ξανά.</p>
+      </item>
+      <item>
+        <p>
+          The <gui>Modified</gui> column serves both as an indicator to what
+          has been changed and as a way to restore the default bindings
+          associated with that command.
+        </p>
+      </item>
+    </list>
+    <p>Κάτω από τη λίστα των συνδυασμών πλήκτρων του <app>Orca</app>, θα βρείτε μια ομάδα "ασύνδετων" εντολών. Αυτές είναι εντολές που αισθανόμαστε ότι θα είναι πολύ χρήσιμες για μερικούς χρήστες, αλλά δεν χρειάζονται από τους περισσότερους χρήστες. Αντί να "χρησιμοποιήσουμε" ένα keystroke για τέτοιες εντολές, τις αφήσαμε απαραχώρητες από προεπιλογή. Στο τέλος της λίστας είναι οι συνδυασμοί Μπράιγ, για χρήση με μια ανανεώσιμη εμφάνιση Μπράιγ.</p>
+  </section>
+</page>

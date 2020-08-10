@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_chat" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_debugging"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="preferences_chat"/>
+    <title type="sort">2. Chatt</title>
+    <title type="link">Chatt</title>
+    <desc>Kommandon för användning med snabbmeddelande- och IRC-klienter</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Chattkommandon</title>
+  <p>Följande kommandon kan användas för att komma åt information i snabbmeddelande- och IRC-klienterna som stöds av <app>Orca</app>. Du kommer att se att flera av dessa kommandon är ”obundna”. Se <link xref="howto_key_bindings">Ändra tangentbindningar</link> för information om hur dessa kommandon kan bindas till tangenttryckningar.</p>
+  <list>
+    <item>
+      <p>Presentera tidigare chattrumsmeddelanden: <keyseq><key>Orca-modifierare</key><key>F1</key></keyseq> till <key>F9</key></p>
+    </item>
+    <item>
+      <p>Aktivera/inaktivera annonsering av rumsnamn med meddelanden: (Inte bunden)</p>
+    </item>
+    <item>
+      <p>Aktivera/inaktivera annonsering av kompisars skrivstatus: (Inte bunden)</p>
+    </item>
+    <item>
+      <p>Aktivera/inaktivera rumsspecifik historik: (Inte bunden)</p>
+    </item>
+  </list>
+</page>

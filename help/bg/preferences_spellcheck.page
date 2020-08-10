@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_spellcheck" xml:lang="bg">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <title type="sort">4. Правописна проверка</title>
+    <title type="link">Правописна проверка</title>
+    <desc>
+      Configuring <app>Orca</app>'s support for Spell Check
+    </desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Настройки на правописната проверка</title>
+  <p><app>Orca</app> се старае да предостави еднакво преживяване при взаимодействие с правописната проверка на приложенията. За приложения, за които тази разширена поддръжка е била предоставена, ще намерите няколко опции, които може да промените, за да получите нивото на многословност, което най-добре ви пасва.</p>
+  <note style="tip">
+    <title>Може да получите както съкратена, така и подробна информация за правописа</title>
+    <p>Ако обикновено искате много малко информация, когато използвате правописна проверка, но от време на време искате повече информация за дадена грешка, може да изключите тези опции. Когато ви трябва повече информация, просто използвайте разширената команда на <app>Orca</app> <link xref="howto_whereami">Къде съм?</link>, за да накарате <app>Orca</app> да ви прочете текущата грешка така, сякаш тези опции са били включени.</p>
+  </note>
+  <section id="spell_error">
+    <title>Грешка в правописа</title>
+    <p>Ако това поле има отметка, <app>Orca</app> ще прочете буква по буква сгрешената дума, след като я съобщи.</p>
+    <p>Стойност по подразбиране: с отметка</p>
+  </section>
+  <section id="spell_suggestion">
+    <title>Предложение за правопис</title>
+    <p>Ако това поле има отметка, <app>Orca</app> ще прочете буква по буква предложената поправка, след като я съобщи.</p>
+    <p>Стойност по подразбиране: с отметка</p>
+  </section>
+  <section id="error_context">
+    <title>Представяне на контекста на грешката</title>
+    <p>Ако това поле има отметка, <app>Orca</app> ще прочете изречението или реда от документа, в който тази грешка е намерена.</p>
+    <p>Стойност по подразбиране: с отметка</p>
+  </section>
+</page>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_general" xml:lang="sl">
+  <info>
+    <title type="sort">1. Splošno</title>
+    <title type="link">Splošno</title>
+    <desc>Nastavljanje <app>Orkinega</app> osnovnega obnašanja</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_voice"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Splošne možnosti</title>
+  <section id="keyboardlayout">
+    <info>
+      <desc>Možnost za izbiro razporeditve tipkovnice, ki jo bo uporabljala <app>Orka</app>. Na voljo sta razporeditvi namiznega računalnika in prenosnika.</desc>
+    </info>
+    <title>Razporeditev tipkovnice</title>
+    <p>
+      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
+      you will be working on a desktop (i.e. with a numeric keypad) or laptop
+      keyboard. Which layout you choose will determine both the <key>Orca
+      Modifier</key> as well as a number of keyboard shortcuts for performing
+      <app>Orca</app> commands.</p>
+    <p>Privzeta vrednost: <gui>Namizni računalnik</gui></p>
+  </section>
+  <section id="presenttooltips">
+    <info>
+      <desc>Možnost za omogočitev predstavitve orodnih namigov, ki se pojavijo kot posledica miškinega prehoda.</desc>
+    </info>
+    <title>Prisotni orodni namigi</title>
+    <p>Ko je ta možnost izbrana, nastavi <app>Orko</app>, da predstavi podrobnosti o orodnih namigih, ko se pojavijo zaradi prehoda miške. Določena dejanja, kot je npr. pritisk <keyseq><key>krmilka</key><key>F1</key></keyseq>, ko ima predmet pozornost, povzročijo pojavljanje orodnih namigov ne glede na to nastavitev.</p>
+    <p>Prikazana vrednost: ni izbrano</p>
+  </section>
+  <section id="objectundermouse">
+    <info>
+      <desc>Možnost za omogočitev predstavitve predmeta pod miškinim kazalnikom.</desc>
+    </info>
+    <title>Izgovorite predmet pod miško</title>
+    <p>Izbrana možnost določi, da <app>Orka</app> predstavi podatke o predmetu pod miškinim kazalnikom medtem ko ga premikate po zaslonu z <app>Orkino</app> zmožnostjo <link xref="howto_mouse_review">Pregleda miške</link>.</p>
+    <p>Prikazana vrednost: ni izbrano</p>
+  </section>
+  <section id="timeanddate">
+    <info>
+      <desc>Možnosti za prilagajanje prikaza datuma in časa, ki ju uporablja <app>Orka</app>.</desc>
+    </info>
+    <title>Prikaz časa in prikaz datuma</title>
+    <p>Spustni polji <gui>Prikaz časa</gui> in <gui>Prikaz datuma</gui> vam omogočata navedbo ali <app>Orka</app> izgovori in v Braillovi pisavi prikaže čas in datum.</p>
+    <p>Privzeta vrednost: uporabi prikaz sistemskega jezikovnega določila</p>
+  </section>
+  <section id="navigation_in_say_all">
+    <info>
+      <desc>
+        Preferences dialog box options for enabling rewind, fast forward,
+	and structural navigation during Say All.
+      </desc>
+    </info>
+    <title>Navigation in Say All</title>
+    <p>
+        <app>Orca</app>'s Say All feature speaks document content from your
+        present location to the end of the document. By default, pressing any
+        key will interrupt Say All's presentation. However, if you check the
+        <gui>Enable rewind and fast forward in Say All</gui> checkbox,
+        <key>Up</key> and <key>Down</key> can be used during Say All to quickly
+        move within the document in order to re-hear something which was just
+        read or skip past text of no interest without having to restart Say All.
+    </p>
+    <p>
+       If you are reading a document within an application that has structural
+       navigation support, and you have checked the <gui>Enable structural navigation
+       in Say All</gui> checkbox, you can use the supported structural navigation
+       commands in a similar fashion: <key>H</key>/<keyseq><key>Shift</key>
+       <key>H</key></keyseq> continues reading from the next/previous heading,
+       <key>P</key>/<keyseq><key>Shift</key><key>P</key></keyseq> continues reading
+       from the next/previous paragraph, <key>T</key>/<keyseq><key>Shift</key>
+       <key>T</key></keyseq> continues reading from the next/previous table, and
+       so on.
+    </p>
+    <p>Prikazana vrednost: ni izbrano</p>
+  </section>
+  <section id="say_all_announce_context">
+    <title>Announce Contextual Information in Say All</title>
+    <p>
+      <app>Orca</app> can optionally provide more information about the document
+      content being spoken, such as announcing when you are entering and leaving
+      a blockquote, list, table, or other container. Whether or not these
+      announcements are made can be configured independently through the following
+      checkboxes:
+    </p>
+    <list>
+      <item><p>Announce blockquotes in Say All</p></item>
+      <item><p>Announce forms in Say All</p></item>
+      <item><p>Announce landmarks in Say All</p></item>
+      <item><p>Announce lists in Say All</p></item>
+      <item><p>Announce panels in Say All</p></item>
+      <item><p>Announce tables in Say All</p></item>
+    </list>
+    <p>Privzeta vrednost: izbrano</p>
+    <note style="note">
+      <p>
+        Whether or not <app>Orca</app> makes these announcements during
+        navigation is also configurable. You will find similar checkboxes
+        on the <gui>Speech</gui> page. For more information, see
+        <link xref="preferences_speech#spoken_context">Spoken Context</link>.
+      </p>
+    </note>
+  </section>
+  <section id="say_all_by">
+   <info>
+      <desc>
+        Preferences dialog box option for customizing <app>Orca</app>'s
+	Say All presentation.
+      </desc>
+   </info>
+   <title>Reči vse od</title>
+   <p>Spustno polje <gui>Reci vse po</gui> vam omogoča navedbo ali <app>Orka</app> med "Izgovori vse"naenkrat izgovori stavek ali vrstico.</p>
+    <p>
+      Default value: <gui>Sentence</gui>
+    </p>
+  </section>
+  <section id="profiles">
+    <info>
+      <desc>Možnosti za upravljanje profilov nastavitev.</desc>
+    </info>
+    <title>Profili</title>
+    <p>Skupina nadzornikov <gui>Profili</gui>, ki se pojavi na dnu strani <gui>Splošno</gui>, vam omogoča vzdrževanje in uporabo več nastavitev.</p>
+   <list>
+      <item>
+        <p>Spustno polje <gui>Dejaven profil</gui> prikazuje trenutni profil in vam omogoča izbiro drugega profila za nalaganje.</p>
+      </item>
+      <item>
+        <p>Gumb <gui>Naloži</gui> povzroči, da <app>Orka</app> naloži profil nakazan v spustnem polju <gui>Dejaven profil</gui>.</p>
+      </item>
+      <item>
+        <p>Gumb <gui>Shrani kot</gui> vam omogoča shranjevanje trenutnega niza možnosti v profil.</p>
+      </item>
+      <item>
+        <p>Spustno polje <gui>Zagonski profila</gui> vam omogoča izbiro profila, ki bo bil samodejno naložen, vsakič ko zaženete <app>Orko</app>.</p>
+      </item>
+    </list>
+  </section>
+  <section id="progress_bar_updates">
+    <title>Posodobitve kazalnika napredka</title>
+    <section id="progress_bar_updates_speak">
+      <title>Speak updates</title>
+      <p>
+        If the <gui>Speak updates</gui> checkbox is checked <app>Orca</app> will
+        periodically speak the status of progress bars.
+      </p>
+      <p>Privzeta vrednost: izbrano</p>
+    </section>
+    <section id="progress_bar_updates_braille">
+      <title>Braille updates</title>
+      <p>
+        If the <gui>Braille updates</gui> checkbox is checked <app>Orca</app> will
+        periodically display the status of progress bars on your refreshable braille
+        display.
+      </p>
+      <p>Prikazana vrednost: ni izbrano</p>
+    </section>
+    <section id="progress_bar_updates_beep">
+      <title>Beep updates</title>
+      <p>
+        If the <gui>Beep updates</gui> checkbox is checked <app>Orca</app> will
+        periodically emit beeps which increase in pitch as the value of the progress
+        bar increases.
+      </p>
+      <p>Prikazana vrednost: ni izbrano</p>
+    </section>
+    <section id="progress_bar_updates_frequency">
+      <title>Frekvenca (sek):</title>
+      <p>
+        This spin button determines how often updates are presented.
+      </p>
+      <p>Privzeta vrednost: 10</p>
+    </section>
+    <section id="progress_bar_updates_restrict">
+      <title>Applies to</title>
+      <p>To spustno polje vam omogoča nadzor katere vrstice napredka naj bodo predstavljene, če je bilo predstavljanje posodobitev vrstic napredka omogočeno. Izbire so <gui>Vse</gui>, <gui>Program</gui> in <gui>Okno</gui>.</p>
+      <p>Izbira <gui>Vse</gui> določi, da <app>Orka</app> predstavi posodobitve za vse vrstice napredka ne glede na to kje so.</p>
+      <p>Izbira <gui>Program</gui> določi, da <app>Orka</app> predstavi posodobitve iz vrstic napredka v dejavnem programu, tudi če niso v dejavnem oknu.</p>
+      <p>Izbira <gui>Okno</gui> določi, da <app>Orka</app> predstavi le posodobitve vrstic napredka v dejavnem oknu.</p>
+      <p>Privzeta vrednost: <gui>Program</gui></p>
+    </section>
+  </section>
+</page>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_learn_modes" xml:lang="bg">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_keyboard_layout"/>
+    <title type="sort">5. Learn Mode</title>
+    <desc>Откриване на командите на <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Learn Mode</title>
+  <p>В режим на обучение, <app>Orca</app> ще ви съобщава всяка клавишна комбинация която натиснете, заедно с всяка асоциирана с нея команда на <app>Orca</app>. В този режим можете също да получите списък с клавиши за всички команди на <app>Orca</app>, които можете да използвате.</p>
+  <steps>
+    <title>Използване на режима на обучение</title>
+    <item>
+      <p>Влезте в режима на обучение с натискане на <keyseq><key>Модификатор на Orca</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Натиснете кой да е клавиш или клавишна комбинация. <app>Orca</app> ще ви съобщи името на клавишите и всяка асоциирана с тях команда.</p>
+    </item>
+    <item>
+      <p>Натиснете <key>Esc</key>, за да излезете от режима на обучение.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Получаване на списък с бързи клавиши</title>
+    <item>
+      <p>Влезте в режима на обучение с натискане на <keyseq><key>Модификатор на Orca</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Натиснете <key>F2</key>, ако искате списък с бързи клавиши, които са валидни в <app>Orca</app> като цяло, или натиснете <key>F3</key> ако искате списък с бързи клавиши, специфични за приложението на фокус.</p>
+    </item>
+    <item>
+      <p>Натиснете <key>стрелка нагоре</key> или <key>стрелка надолу</key>, за да изследвате съдържанието на списъка.</p>
+    </item>
+    <item>
+      <p>Натиснете <key>Esc</key>, за да излезете от списъка.</p>
+    </item>
+  </steps>
+</page>

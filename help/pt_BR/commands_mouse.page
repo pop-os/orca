@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_mouse" xml:lang="pt-BR">
+  <info>
+    <link type="next" xref="commands_bookmarks"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <title type="sort">3. Ponteiro do mouse</title>
+    <title type="link">Ponteiro do mouse</title>
+    <link type="seealso" xref="howto_flat_review"/>
+    <link type="seealso" xref="howto_mouse_review"/>
+    <desc>Comandos para manipular o ponteiro do mouse</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos relacionados ao ponteiro do mouse</title>
+  <p>O <app>Orca</app> fornece vários comandos que podem ser usados para manipular o ponteiro do mouse e ler o conteúdo sob ele. Todos os comandos possuem teclas de atalho "atribuídas", com uma exceção: Alternar para o modo de revisão do mouse. Por favor veja <link xref="howto_key_bindings">modificando associação de teclas</link> para informações sobre como associar este comando a uma tecla de atalho.</p>
+  <note style="tip">
+    <p>
+      Below you will see several references to "KP". All
+      "KP" keys are located on the numeric keypad. You will also notice that
+      there are different keystrokes depending upon whether you are using a
+      desktop or a laptop -- or more accurately, whether you are using
+      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
+      For additional information, please see the
+      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
+    </p>
+  </note>
+  <list>
+    <item>
+      <p>Clique esquerdo no item atual:</p>
+      <list>
+        <item><p>Computador de mesa: <keyseq><key>num barra</key></keyseq></p></item>
+        <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>7</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Clique direito no item atual:</p>
+      <list>
+        <item><p>Computador de mesa: <keyseq><key>NUM asterisco</key></keyseq></p></item>
+        <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>8</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Envia o ponteiro para o item atual:</p>
+      <list>
+        <item><p>Computador de mesa: <keyseq><key>Tecla modificadora do Orca</key><key>NUM barra</key></keyseq></p></item>
+        <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>9</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Move o foco para dentro ou para fora do objeto sobre o mouse (somente web):</p>
+      <list>
+        <item><p>Computador de mesa: <keyseq><key>Tecla modificadora do Orca</key><key>NUM asterisco</key></keyseq></p></item>
+        <item><p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>0</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Habilita/desabilita o modo de revisão do mouse: (Sem atalho)</p>
+    </item>
+  </list>
+</page>

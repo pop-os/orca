@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_speech_settings" xml:lang="sl">
+  <info>
+    <link type="next" xref="commands_braille"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_speech"/>
+    <title type="sort">2. Nastavitve govora</title>
+    <title type="link">Govor</title>
+    <desc>Ukazi za prilagajanje <app>Orkinega</app> izhoda</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Ukazi nastavitev govora</title>
+  <p>Naslednje ukaze lahko uporabite za prilagajanje izhoda <app>Orkinega</app> govora. Opazili boste, da so številni ukazi "nedoločeni". Za podrobnosti kako tem ukazom dodati tipkovne bližnjice si oglejte <link xref="howto_key_bindings">Spreminjanje tipkovnih bližnjic</link>.</p>
+  <list>
+    <item>
+      <p>Omogoči/onemogoči govor: <keyseq><key>Spremenilna tipka Orka</key><key>S</key></keyseq></p>
+    </item>
+    <item>
+      <p>Preklopite med branjem celice in vrstice v razpredelnici: <keyseq><key>Spremenilna tipka Orka</key><key>F11</key></keyseq>  </p>
+    </item>
+    <item>
+      <p>
+        Toggle between verbose and brief verbosity levels:
+        <keyseq><key>Orca Modifier</key><key>V</key></keyseq>
+      </p>
+    </item>
+    <item>
+      <p>Omogoči/onemogoči izgovarjanje zamika in poravnave: (Nedoločeno)</p>
+    </item>
+    <item>
+      <p>Change the spoken number style: (Unbound)</p>
+    </item>
+    <item>
+      <p>Kroži na naslednjo raven izgovorjenih ločil: (Nedoločeno)</p>
+    </item>
+    <item>
+      <p>Kroži na naslednjo raven odmeva: (Nedoločeno)</p>
+    </item>
+    <item>
+      <p>Cycle to the next capitalization style: (Unbound)</p>
+    </item>
+    <item>
+      <p>Zmanjšaj hitrost: (nedoločeno)</p>
+    </item>
+    <item>
+      <p>Povečaj hitrost: (nedoločeno)</p>
+    </item>
+    <item>
+      <p>Zmanjšaj višino govora: (nedoločeno)</p>
+    </item>
+    <item>
+      <p>Povečaj višino govora: (nedoločeno)</p>
+    </item>
+    <item>
+      <p>Decrease the volume: (Unbound)</p>
+    </item>
+    <item>
+      <p>Increase the volume: (Unbound)</p>
+    </item>
+  </list>
+</page>

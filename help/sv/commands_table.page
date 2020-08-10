@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_table" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_flat_review"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_tables"/>
+    <title type="sort">3. Tabellnavigering</title>
+    <title type="link">Tabellnavigering</title>
+    <desc>Kommandon för att komma åt information i tabeller</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kommandon för tabellnavigering</title>
+  <p>Orcas stöd för navigering per tabellcell är en del av dess <link xref="commands_structural_navigation#tables">kommandon för strukturell navigering</link>. Du kan dessutom:</p>
+  <list>
+    <item>
+      <p>Ställ in dynamiska radhuvuden till aktuell kolumn: <keyseq><key>Orca-modifierare</key><key>C</key></keyseq></p>
+    </item>
+    <item>
+      <p>Ställ in dynamiska kolumnhuvuden till aktuell rad: <keyseq><key>Orca-modifierare</key><key>R</key></keyseq></p>
+    </item>
+    <item>
+      <p>Töm dynamiska radhuvuden: <keyseq><key>Orca-modifierare</key><key>C</key></keyseq> (dubbelklickat)</p>
+    </item>
+    <item>
+      <p>Töm dynamiska kolumnhuvuden: <keyseq><key>Orca-modifierare</key><key>R</key></keyseq> (dubbelklickat)</p>
+    </item>
+    <item>
+      <p>Växla mellan cell- och radläsning i en tabell: <keyseq><key>Orca-modifierare</key><key>F11</key></keyseq></p>
+    </item>
+  </list>
+</page>

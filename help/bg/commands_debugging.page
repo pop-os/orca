@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_debugging" xml:lang="bg">
+  <info>
+    <link type="guide" xref="commands#troubleshooting"/>
+    <title type="sort">1. Отстраняване на грешки</title>
+    <title type="link">Отстраняване на грешки</title>
+    <desc>Команди за откриване и отстраняване на грешки</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди за отстраняване на грешки</title>
+  <p>Разработчиците ви молят да предоставите информация за отстраняването на грешки, така че да им помогнете да определят причината за вашия проблем. Следната команда не е „присвоена“ към клавишна комбинация. Ако трябва да я присвоите, вижте секцията <link xref="howto_key_bindings">Промяна на функциите на клавишите</link>.</p>
+  <list>
+    <item>
+      <p>Превключване към следващо ниво на съобщенията за отстраняване на грешки: (неприсвоена)</p>
+    </item>
+  </list>
+</page>

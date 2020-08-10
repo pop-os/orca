@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_controlling_orca" xml:lang="bg">
+  <info>
+    <link type="next" xref="commands_where_am_i"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <title type="sort">1. Управление и обучение за използване на Orca</title>
+    <title type="link">Управление и обучение за използване на Orca</title>
+    <desc>Команди за управление на <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Управление и обучение за използване на Orca</title>
+  <section id="controlling">
+    <title>Команди за взаимодействие с <app>Orca</app></title>
+    <p>Следните команди могат да бъдат използвани за достигане до настройките на <app>Orca</app>, включване и изключване на <app>Orca</app> и препредаване на командите на <app>Orca</app> към приложението на фокус - за избягване на конфликти.</p>
+    <list>
+      <item>
+        <p>Превключване на <app>Orca</app> в GNOME: <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>
+        <note style="tip">
+           <p>Ако използвате <app>Orca</app> в графична среда, в която няма команда за превключване на <app>Orca</app>, командата за изключване на <app>Orca</app>, която стандартно е неприсвоена, може да ви е полезна. Вижте секцията <link xref="howto_key_bindings">Промяна на функциите на клавишите</link> за повече информация как да присвоите неприсвоени команди.</p>
+        </note>
+      </item>
+      <item>
+        <p>Прозарец <link xref="preferences">Настройки на Orca</link>: <keyseq><key>Модификатор на Orca</key><key>Интервал</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Прозорец „Настройки на Orca за приложението на фокус“: <keyseq><key>Ctrl</key><key>Модификатор на Orca</key><key>Интервал</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Предаване на следващата команда към текущото приложение: <keyseq><key>Модификатор на Orca</key><key>BackSpace</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="learning">
+    <title>Команди за обучение за използване на <app>Orca</app></title>
+    <p>В режим на обучение, <app>Orca</app> ще ви съобщава всяка клавишна комбинация която натиснете, заедно с всяка асоциирана с нея команда на <app>Orca</app>. В този режим можете също да получите списък с клавиши за всички команди на <app>Orca</app>, които можете да използвате.</p>
+    <list>
+      <item>
+        <p>
+          Enter Learn Mode:
+          <keyseq><key>Orca Modifier</key><key>H</key></keyseq>
+        </p>
+      </item>
+      <item>
+        <p>
+          Exit Learn Mode:
+          <keyseq><key>Esc</key></keyseq>
+        </p>
+      </item>
+    </list>
+  </section>
+</page>

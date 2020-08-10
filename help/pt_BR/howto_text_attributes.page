@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_text_attributes" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_structural_navigation"/>
+    <title type="sort">2. Atributos de Texto</title>
+    <desc>Examinando a formatação de texto</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Atributos de Texto</title>
+  <p>O termo "atributos de texto" se refere à todo o tipo de fonte, estilo, alinhamento e outras formatações associadas com um determinado caractere ou uma série de caracteres.</p>
+  <section id="obtaining">
+    <title>Obtendo informações de formatação</title>
+    <p>Quando você pressiona <keyseq><key>Tecla modificadora do Orca</key><key>F</key> </keyseq>, o <app>Orca</app> falará informação de texto e atributo de um objeto. Além disto, o <app>Orca</app> indicará, opcionalmente, atributos de texto "sublinhando" em braille enquanto você navega num documento.</p>
+    <p>Tendo em vista ser grande o número de atributos de texto, e nem todas as pessoas se importarem com todos eles, a <link xref="preferences_text_attributes">aba Atributos de Texto da janela preferências</link> permite personalizar quais atributos de texto o <app>Orca</app> anunciará durante a fala, bem como a ordem na qual eles deverão ser apresentados e quais o <app>Orca</app> indicará em braille.</p>
+    <p>Uma vez que o <link xref="preferences_text_attributes">Página de atributos de texto</link> também é parte das definições específicas do aplicativo, você pode personalizar a apresentação dos atributos de texto com base na necessidade de cada aplicativo.</p>
+  </section>
+  <section id="identifying_misspelled_words">
+    <title>Identificando palavras com erros ortográficos</title>
+    <p>A maioria dos aplicativos e toolkits indicam que uma palavra está grafada incorretamente, sublinhando a palavra com uma linha sinuosa de cor vermelha. A presença desta linha é normalmente exposta para as tecnologias assistivas como um atributo de texto. Como resultado, você vai encontrar o atributo ortografia entre os atributos de texto que você pode escolher. Por padrão, o atributo ortografia está habilitado para fala e braille e, portanto, ser apresentado juntamente com quaisquer outros atributos cuja indicação tiver sido ativada.</p>
+    <p>Além de acessar a presença de erros de ortografia como um atributo de texto, se o eco de tecla ou palavra estiver habilitado e uma palavra com erro de ortografia for digitada, quando a indicação de erro de ortografia aparecer, o <app>Orca</app> anunciará "erro de ortografia" de modo que você pode imediatamente voltar e corrigir o erro.</p>
+    <p>Para finalizar, quando você estiver navegando dentro de um documento e o cursor for movido para uma palavra com a grafia incorreta, o <app>Orca</app> vai anunciar a presença do erro de ortografia.</p>
+  </section>
+</page>

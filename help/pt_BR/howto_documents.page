@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_documents" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_text_attributes"/>
+    <title type="sort">1. Documentos</title>
+    <desc>Lendo conteúdo</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Documentos</title>
+  <p>Para ler os conteúdos de quaisquer documentos, use o cursor de navegação do aplicativo. Assim que você navegar pelo texto do documento, <app>Orca</app> apresentará você a nova localização. É provável que você já esteja acostumado com a forma de ler documentos usando <app>Orca</app>. Por exemplo:</p>
+  <list>
+    <item>
+      <p>Use <key>seta à esquerda</key> e <key>Seta à direita</key> para movimentação e leitura por caractere.</p>
+    </item>
+    <item>
+      <p>Use <keyseq><key>Ctrl</key><key>Seta à esquerda</key></keyseq> e <keyseq><key>Ctrl</key><key>Seta à direita</key></keyseq> para movimentação e leitura por palavras.</p>
+    </item>
+    <item>
+      <p>Use <key>Seta cima</key> e <key>Seta abaixo</key> para movimentação e leitura por linha.</p>
+    </item>
+    <item>
+      <p>Use <key>Shift</key> combinado com os comandos acimapara selecionar e desselecionar texto.</p>
+    </item>
+  </list>
+  <note style="tip">
+    <title>Enabling Caret Navigation in an Application</title>
+    <p>
+      Not all applications have caret navigation enabled by default. For many GNOME
+      applications, caret navigation can be toggled on and off by pressing <key>F7</key>.
+    </p>
+  </note>
+  <p>Além de ler um documento com a navegação do cursor, você pode achar útil ler, soletrar e obter o valor unicode para o texto atual. Você pode fazer isto através do <link xref="howto_flat_review">Recurso da revisão plana</link> do <app>Orca</app>.</p>
+  <p>
+    Finally, in order to have <app>Orca</app> speak the entire document from your
+    present location, use the Say All command. It, along with a more complete
+    listing of <app>Orca</app>'s commands for accessing document text, can
+    be found in the <link xref="commands_reading">Reading Commands</link> guide.
+  </p>
+</page>

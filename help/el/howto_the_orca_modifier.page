@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_the_orca_modifier" xml:lang="el">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_learn_modes"/>
+    <title type="sort">3. Ο τροποποιητής Orca</title>
+    <desc>Ένα πλήκτρο που δουλεύει ως <key>Shift</key>, <key>Ctrl</key> και <key>Alt</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Ο τροποποιητής Orca</title>
+  <p>Το Orca έχει ένα ειδικό πλήκτρο τροποποιητή που δουλεύει ως <key>Shift</key>, <key>Ctrl</key> και <key>Alt</key>. Σχεδιάστηκε ειδικά για εκτέλεση εντολών του <app>Orca</app> και δουλεύοντας έτσι χωρίς εισαγωγή συγκρούσεων με τις εντολές των εφαρμογών που προσπελάζετε.</p>
+  <p>Με ποιο πλήκτρο ο "τροποποιητής Orca" θα δεσμεύεται, από προεπιλογή, εξαρτάται από το εάν χρησιμοποιείτε τη διάταξη πληκτρολογίου του φορητού του <app>Orca</app> ή τη διάταξη πληκτρολογίου του επιτραπέζιου:</p>
+  <list>
+    <item>
+      <p>Εάν χρησιμοποιείτε τη διάταξη φορητού, ο προεπιλεγμένος τροποποιητής του Orca θα είναι <key>CapsLock</key></p>
+    </item>
+    <item>
+      <p>
+        If you are using the Desktop layout, the Orca Modifier will
+        be both <key>Insert</key> and <key>KP_Insert</key>, the
+        latter being the same key as <key>KP_0</key>.
+      </p>
+    </item>
+  </list>
+  <p>Εάν θέλετε να διατηρήσετε την τρέχουσα διάταξη πληκτρολογίου, αλλά να διαλέξετε ένα διαφορετικό πλήκτρο τροποποιητή, μπορείτε να το κάνετε εκτελώντας τα επόμενα βήματα:</p>
+  <steps>
+    <title>Αλλαγή του τροποποιητή Orca</title>
+    <item>
+      <p>Πηγαίνετε στο διάλογο <link xref="preferences">προτιμήσεις Orca</link> πατώντας τον <keyseq><key>τροποποιητή Orca</key><key>πλήκτρο διαστήματος</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Μετάβαση στη σελίδα <gui>συνδυασμοί πλήκτρων</gui>.</p>
+    </item>
+    <item>
+      <p>Μετάβαση στο σύνθετο πλαίσιο <gui>Πλήκτρα τροποποιητή αναγνώστη οθόνης Orca</gui>.</p>
+    </item>
+    <item>
+      <p>Δείξτε τον επιθυμητό τροποποιητή. Οι διαθέσιμες επιλογές είναι:</p>
+      <list>
+        <item><p>Εισαγωγή, εισαγωγή_KP</p></item>
+        <item><p>Eισαγωγή_KP</p></item>
+        <item><p>Εισαγωγή</p></item>
+        <item><p>Caps_Lock</p></item>
+      </list>
+    </item>
+    <item><p>Πάτημα στο κουμπί <gui>εφαρμογή</gui>.</p></item>
+  </steps>
+</page>

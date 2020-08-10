@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_forms" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#reading"/>
+     <link type="next" xref="howto_live_regions"/>
+    <title type="sort">5. Remplir des formulaires</title>
+    <desc>Accéder aux éléments graphiques intégrés dans les documents</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Remplissage des formulaires</title>
+  <p>Lorsque vous interagissez avec des pages Web et d’autres documents en utilisant <app>Orca</app>, vous interagissez directement avec le document ; pas avec une copie intermédiaire en cache. Les modes navigation et focus d’<app>Orca</app> permettent de basculer entre la lecture et le remplissage de formulaires.</p>
+  <section id="navigating_amongst_form_fields">
+    <title>Navigation parmi les champs d’un formulaire</title>
+    <p>Pour naviguer parmi les champs du formulaire, vous avez plusieurs options :</p>
+    <list>
+      <item>
+        <p>Utilisez <key>Tab</key> et <keyseq><key>Maj</key><key>Tab</key></keyseq> pour parcourir les éléments pouvant avoir le focus, quel que soit leur type.</p>
+      </item>
+      <item>
+        <p>Utilisez les <link xref="commands_structural_navigation#forms">Commandes de navigation par structure pour formulaires</link> d’<app>Orca</app>.</p>
+      </item>
+      <item>
+        <p>Selon le formulaire et l’application, il peut être possible d’utiliser les touches fléchées pour naviguer vers un champ de formulaire donné.</p>
+      </item>
+   </list>
+   <note style="tip">
+     <p>Afin de pouvoir utiliser les commandes de navigation au curseur ou de navigation par structure d’<app>Orca</app> pour naviguer vers un champ de formulaire, vous devez être en mode navigation. Si vous êtes en mode focus, vous pouvez basculer en mode navigation en pressant sur <keyseq><key>Touche de modification d’Orca</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+  <section id="exiting_form_fields">
+    <title>Quitter les champs de formulaire</title>
+    <p>Pour sortir d’un champ du formulaire, vous avez plusieurs options :</p>
+    <list>
+      <item>
+        <p>Utilisez <key>Tab</key> ou <keyseq><key>Maj</key><key>Tab</key></keyseq> si vous voulez quitter le champ actuel et aller dans l’objet suivant ou précédent quel que soit son type.</p>
+      </item>
+      <item>
+        <p>Utilisez les <link xref="commands_structural_navigation#forms">Commandes de navigation par structure pour formulaires</link> d’<app>Orca</app> pour passer au champ suivant ou précédent d’un formulaire.</p>
+      </item>
+      <item>
+        <p>Selon le formulaire et l’application, il peut être possible d’utiliser les touches fléchées pour sortir d’un champ de formulaire donné.</p>
+      </item>
+    </list>
+   <note style="tip">
+     <p>Afin de pouvoir utiliser les commandes de navigation au curseur ou de navigation par structure d’<app>Orca</app> pour sortir d’un champ de formulaire, vous devez être en mode navigation. Si vous êtes en mode focus, vous pouvez basculer en mode navigation en pressant sur <keyseq><key>Touche de modification d’Orca</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+</page>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_keyboard_layout" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_toggling_caps_lock"/>
+    <title type="sort">6. Razporeditev tipk</title>
+    <desc>Izbiranje razporeditve namiznega računalnika ali prenosnika</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Razporeditev tipkovnice</title>
+  <p>Orka ima dve razporeditvi tipkovnice: namizni računalnik (s številčno tipkovnico) in prenosnik. Izbrana razporeditev vpliva na to, katera tipka je uporabljena kot spremenilna tipka Orka.</p>
+  <list>
+    <item>
+      <p>V primeru da uporabljate razporeditev prenosnika, bo privzeta spremenilna tipka Orka <key>CapsLock</key></p>
+    </item>
+    <item>
+      <p>
+        If you are using the Desktop layout, the Orca Modifier will be both
+        <key>Insert</key> and <key>KP_Insert</key>, the latter being the
+        same key as <key>KP_0</key>.
+      </p>
+    </item>
+  </list>
+  <p>Razporeditev določi tudi kateri pritiski tipk so povezani s številnimi <app>Orkinimi</app> ukazi, še posebno na področjih ploskega pregleda, Kje sem in Reci vse.</p>
+  <steps>
+    <title>Zaznavanje razporeda tipkovnice</title>
+    <item>
+      <p>Pojdite v pogovorno okno <link xref="preferences">Možnosti Orka</link> s pritiskom na <keyseq><key>Spremenilna tipka Orka</key><key>Preslednica</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Premaknite se na skupino izbirnih gumbov <gui>Razporeditev tipkovnice</gui>.</p>
+    </item>
+    <item>
+      <p>Puščica na želeno razporeditev.</p>
+    </item>
+    <item>
+      <p>Nato pritisnite gumb <gui>Uveljavi</gui>.</p>
+    </item>
+  </steps>
+</page>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_voice" xml:lang="el">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_speech"/>
+    <title type="sort">Φωνή 2.0</title>
+    <title type="link">Φωνή</title>
+    <desc>Ρύθμιση της χρησιμοποιούμενης φωνής από το <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Προτιμήσεις φωνής</title>
+  <section id="voice_type_settings">
+    <title>Ρυθμίσεις τύπου φωνής</title>
+    <section id="voice_type">
+      <title>Τύπος φωνής</title>
+      <p>Αυτό το σύνθετο πλαίσιο κάνει δυνατή τη χρήση διαφορετικών φωνών έτσι ώστε να μπορείτε να ξεχωρίσετε καλύτερα κεφαλαία και συνδεμένο κείμενο από άλλο κείμενο και το κείμενο στην οθόνη από κείμενο που προστέθηκε από το <app>Orca</app>.</p>
+      <note style="tip">
+        <title>Ρύθμιση πολλαπλών φωνών</title>
+        <p>Για κάθε φωνή που θέλετε να ρυθμίσετε, επιλέξτε πρώτα τη φωνή στο σύνθετο πλαίσιο <gui>Τύπος φωνής</gui>. Έπειτα ρυθμίστε το άτομο, ρυθμό, ύψος και ένταση που θα χρησιμοποιηθεί για αυτήν τη φωνή.</p>
+      </note>
+    </section>
+    <section id="speech_system">
+      <title>Σύστημα ομιλίας</title>
+      <p>Αυτό το σύνθετο πλαίσιο επιτρέπει την επιλογή του προτιμώμενου συστήματος ομιλίας από αυτά που έχετε εγκατεστημένα, όπως το Speech Dispatcher.</p>
+    </section>
+    <section id="speech_synthesizer">
+      <title>Συνθέτης ομιλίας</title>
+      <p>Αυτό το σύνθετο πλαίσιο επιτρέπει την επιλογή του συνθέτη ομιλίας που θα χρησιμοποιηθεί με το επιλεγμένο σύστημα ομιλίας.</p>
+    </section>
+    <section id="person">
+      <title>Άτομο</title>
+      <p>Αυτό το σύνθετο πλαίσιο επιτρέπει την επιλογή ποιο "άτομο" ή "εκφωνητής" θα χρησιμοποιηθεί με την επιλεγμένη φωνή. Για παράδειγμα, ίσως επιθυμείτε να έχετε την ομιλία του Δαβίδ από προεπιλογή, αλλά οι υπερσύνδεσμοι να εκφωνούνται από την Αλίκη. Σημειώστε ότι τι βρίσκετε στο σύνθετο πλαίσιο <gui>άτομο</gui> θα εξαρτάται από τους εγκατεστημένους συνθέτες ομιλίας.</p>
+    </section>
+    <section id="capitalization_style">
+      <title>Capitalization style</title>
+      <p>
+       This combo box allows you to choose which Speech Dispatcher capitalization
+       indication styles you wish to use in addition to <app>Orca</app>'s
+       capitalization voice. The options, which are named using Speech Dispatcher's
+       terminology, are:
+     </p>
+     <list>
+       <item><p><gui>Icon</gui>: Plays a tone</p></item>
+       <item><p><gui>Spell</gui>: Speaks the word "capital"</p></item>
+       <item><p><gui>None</gui></p></item>
+    </list>
+    <note style="tip">
+      <title>Αυτή η ρύθμιση μπορεί να εναλλαχθεί άμεσα</title>
+      <p>
+        <app>Orca</app> also has a command to cycle through the available
+        capitalization styles. See <link xref="commands_speech_settings">
+        Speech Settings Commands</link> for more information.
+      </p>
+    </note>
+    <p>
+      Default value: none
+    </p>
+    </section>
+    <section id="rate_pitch_and_volume">
+      <title>Ρυθμός, ύψος και ένταση</title>
+      <p>Αυτοί οι τρεις ολισθητές αριστερά-δεξιά επιτρέπουν την παραπέρα προσαρμογή του ήχου του ατόμου που μόλις επιλέξατε.</p>
+    </section>
+  </section>
+  <section id="global_voice_settings">
+  <title>Καθολικές ρυθμίσεις φωνής</title>
+    <section id="pauses">
+      <title>Διάσπαση ομιλίας σε τμήματα μεταξύ παύσεων</title>
+      <p>Ανάλογα με τις ενεργές ρυθμίσεις ομιλίας, το <app>Orca</app> μπορεί να έχει να πει για ένα συγκεκριμένο αντικείμενο όπως το όνομά του, τον ρόλο του, την κατάστασή του, τη μνημονική του, το μήνυμα μαθήματός του, κλπ. Σημειώνοντας το πλαίσιο ελέγχου <gui>διάσπαση ομιλίας σε τμήματα μεταξύ παύσεων</gui> θα προκαλέσει την εισαγωγή σύντομων παύσεων από το <app>Orca</app> μεταξύ καθενός τμήματος των πληροφοριών.</p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    </section>
+    <section id="multicase_strings">
+      <title>Να εκφωνούνται ως λέξεις οι συμβολοσειρές που περιέχουν πεζά και κεφαλαία μαζί</title>
+      <p>Σε μερικά κείμενα και ειδικά όταν δουλεύετε με κώδικα, συναντά κανείς μια "λέξη" που αποτελείται από πολλές λέξεις με διαφορετικά κεφαλαία/πεζά όπως "MultiCaseString". Οι συνθέτες ομιλίας δεν προφέρουν πάντοτε τέτοιες συμβολοσειρές πεζών/κεφαλαίων σωστά. Σημειώνοντας το πλαίσιο ελέγχου <gui>Εκφώνηση συμβολοσειρών πεζών/κεφαλαίων ως λέξεων</gui> θα προκαλέσει τη διάσπαση από το <app>Orca</app> μιας λέξης όπως "MultiCaseString" σε ξεχωριστές λέξεις ("Multi," "Case," και "String") πριν να την περάσει στον συνθέτη ομιλίας.</p>
+      <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+    </section>
+    <section id="numbers_as_digits">
+      <title>Speak numbers as digits</title>
+      <p>
+        Checking the <gui>Speak numbers as digits</gui> checkbox will cause
+        <app>Orca</app> to break a number like "123" into separate digits
+        ("1," "2," and "3") prior to passing it along to the speech synthesizer.
+      </p>
+      <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+    </section>
+  </section>
+</page>

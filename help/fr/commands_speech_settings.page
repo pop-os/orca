@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_speech_settings" xml:lang="fr">
+  <info>
+    <link type="next" xref="commands_braille"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_speech"/>
+    <title type="sort">2. Paramètres de la synthèse vocale</title>
+    <title type="link">Synthèse vocale</title>
+    <desc>Commandes de personnalisation de la sortie d’<app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Commandes pour paramétrer la synthèse vocale</title>
+  <p>Les commandes suivantes peuvent être utilisées pour personnaliser la synthèse vocale d’<app>Orca</app>. Vous remarquerez que certaines de ces commandes sont « non liées ». Consultez <link xref="howto_key_bindings">Modifier les combinaisons de touches</link> pour en apprendre plus sur la façon de lier ces commandes à des combinaisons de touches.</p>
+  <list>
+    <item>
+      <p>Activer/désactiver la synthèse vocale : <keyseq><key>Touche de modification d’Orca</key><key>S</key></keyseq></p>
+    </item>
+    <item>
+      <p>Basculer entre la lecture par ligne et la lecture par cellule dans un tableau : <keyseq><key>Touche de modification d’Orca</key><key>F11</key></keyseq></p>
+    </item>
+    <item>
+      <p>Basculer entre les niveaux de verbosité bavard et court : <keyseq><key>Touche de modification d’Orca</key><key>V</key></keyseq></p>
+    </item>
+    <item>
+      <p>Activer/désactiver la lecture de l’indentation et de la justification : (non liée)</p>
+    </item>
+    <item>
+      <p>Modifier le style de lecture des nombres : (non liée)</p>
+    </item>
+    <item>
+      <p>Activer le niveau de lecture de ponctuation suivant : (non liée)</p>
+    </item>
+    <item>
+      <p>Activer le niveau d’écho des touches suivant : (non liée)</p>
+    </item>
+    <item>
+      <p>Activer le style de mise en majuscule suivant : (non liée)</p>
+    </item>
+    <item>
+      <p>Diminuer le débit : (non liée)</p>
+    </item>
+    <item>
+      <p>Augmenter le débit : (non liée)</p>
+    </item>
+    <item>
+      <p>Diminuer la hauteur : (non liée)</p>
+    </item>
+    <item>
+      <p>Augmenter la hauteur : (non liée)</p>
+    </item>
+    <item>
+      <p>Diminuer le son : (non liée)</p>
+    </item>
+    <item>
+      <p>Monter le son : (non liée)</p>
+    </item>
+  </list>
+</page>

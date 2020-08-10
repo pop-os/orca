@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_where_am_i" xml:lang="pt-BR">
+  <info>
+    <link type="next" xref="commands_time_date_notifications"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">3. Onde estou</title>
+    <title type="link">Onde estou</title>
+    <desc>Comandos para informar sobre sua localização</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos para onde estou</title>
+  <p>O recurso "Onde Estou" do <app>Orca</app> dá a você detalhes sobre o contexto de sua localização atual. Por exemplo, em tabelas, o recurso "Onde Estou" dará a você detalhes sobre a célula que você estiver, mas em textos ele apresentará a linha atual juntamente com qualquer texto que seja selecionado. A lista completa do que você pode esperar que o <app>Orca</app> apresente pode ser encontrada na <link xref="howto_whereami">Introdução ao Onde Estou</link>.</p>
+  <p>O <app>Orca</app> fornece os seguintes comandos para Onde Estou:</p>
+  <list>
+    <item>
+      <p>Perform basic Where Am I:</p>
+      <list>
+        <item>
+          <p>Computador de mesa: <key>NUM Enter</key></p>
+        </item>
+        <item>
+          <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Enter</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Perform detailed Where Am I:</p>
+      <list>
+        <item>
+          <p>Computador de mesa: <key>NUM Enter</key> (pressionada duas vezes)</p>
+        </item>
+        <item>
+          <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Enter</key></keyseq> (pressionada duas vezes)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+  <p>
+    In addition to the dedicated Where Am I commands, <app>Orca</app> has
+    additional commands related to obtaining information about your present location:
+  </p>
+  <list>
+    <item>
+      <p>Apresenta a barra de título:</p>
+      <list>
+        <item>
+          <p>Computador de mesa: <keyseq><key>Tecla modificadora do Orca</key><key>NUM enter</key></keyseq></p>
+        </item>
+        <item>
+          <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Barra</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Apresenta a barra de estado:</p>
+      <list>
+        <item>
+          <p>Computador de mesa: <keyseq><key>Tecla modificadora do Orca</key><key>NUM enter</key></keyseq> (pressionada duas vezes)</p>
+        </item>
+        <item>
+          <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Barra</key></keyseq> (pressionada duas vezes)</p>
+        </item>
+        <item>
+          <p>Present size and location of current object in pixels: (Unbound)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

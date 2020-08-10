@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_whereami" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_flat_review"/>
+    <title type="sort">1. Where Am I</title>
+    <desc>Aprendendo sobre sua localização</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Where Am I</title>
+  <p>Além dos comandos específicos para a leitura da barra de título e da barra de estado, o Orca fornece dois comandos sensíveis ao contexto do tipo Onde Estou: Onde Estou básico e o Onde Estou detalhado.. O Onde Estou básico é implementado para todos os objetos. O Onde Estou detalhado é implementado somente para aqueles objetos para os quais você deseja saber significativa quantidade de informação, entretanto, provavelmente não deseja saber o tempo todo.</p>
+  <p>A melhor maneira de familiarizar-se com quê o comando "Onde Estou" apresentará é tentar (usar) os <link xref="commands_where_am_i">comandos Onde Estou</link>. No entanto, para lhe proporcionar uma melhor compreensão da natureza sensível ao contexto do recurso "Onde Estou" do <app>Orca</app>, considere o seguinte:</p>
+  <p>Para a maioria dos controles, você será informado ao menos sobre o rótulo e/ou o nome, o tipo ou a regra deles e o mnemônico e/ou a tecla de acesso rápido, se ela existir. E ainda:</p>
+  <list>
+    <item>
+      <p>Se o controle é de texto, e você faz um Onde Estou básico, você será informado sobre a linha atual se não há texto selecionado. Se há texto selecionado, então, um Onde Estou básico lhe dirá qual é o texto selecionado. Um Onde Estou detalhado em um controle de texto também inclui os atributos do texto.</p>
+    </item>
+    <item>
+      <p>Se o controle estiver marcado, como no caso das caixas de seleção e botões de opção, o estado "selecionado" será incluído.</p>
+    </item>
+    <item>
+      <p>Se o controle é uma lista ou objeto assemelhado com lista, como é o caso das caixas combinadas, dos grupos de botões de opção, ou lista de páginas em aba, a posição do item corrente será incluída.</p>
+    </item>
+    <item>
+      <p>Se o controle é uma hierárquia, como uma árvore, e você está em um nó expansível, você será informado se esse nó está expandido ou não. E se ele estiver expandido, você também será informado quantos filhos ele contém. Além disso, o próximo nível também será fornecido.</p>
+    </item>
+    <item>
+      <p>Se o controle é uma barra de progresso ou um controle deslizante, a porcentagem atual será informada.</p>
+    </item>
+    <item>
+      <p>Se o controle é um ícone dentro de um grupo de ícones, um Onde Estou básico incluirá o objeto em que você está, oe item onde você está, e o número de itens selecionados. Em um Onde Estou detalhado, você também será informado quais itens estão selecionados.</p>
+    </item>
+    <item>
+      <p>Se você estiver em um link, o tipo do link (mesmo site, site diferente, link de FTP, etc.) será incluído.</p>
+    </item>
+    <item>
+      <p>Se você estiver em uma célula de uma tabela, as coordenadas dessa célula e os cabeçalhos da célula será incluídos.</p>
+    </item>
+    <item>
+      <p>
+        If you are in the spell checker of an application where <app>Orca</app>
+        provides enhanced support, a basic Where Am I will repeat the error
+        respecting your <link xref="preferences_spellcheck">spell check
+        preferences</link>. A detailed Where Am I will cause <app>Orca</app> to
+        present the full details of the error.
+      </p>
+    </item>
+  </list>
+  <p>E assim por diante. Novamente, o objetivo do recurso "Onde Estou" do <app>Orca</app> é fornecer-lhe detalhes que você provavelmente esteja mais interessado em saber sobre o objeto em foco. Para fazer uma tentativa com o "Onde Estou", veja a lista de <link xref="commands_where_am_i">comandos Onde Estou</link>.</p>
+</page>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_documents" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_text_attributes"/>
+    <title type="sort">1. Dokument</title>
+    <desc>Läsa innehåll</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Dokument</title>
+  <p>För att läsa innehållet i ett dokument används programmets inbyggda markörnavigeringsläge. Medan du navigerar i dokumentets text läser <app>Orca</app> upp din nya plats. Som ett resultat av detta är du troligen redan bekant med hur man kan läsa ett dokument med <app>Orca</app>. Till exempel:</p>
+  <list>
+    <item>
+      <p>Använd <key>Vänster</key> och <key>Höger</key> för att flytta och läsa teckenvis.</p>
+    </item>
+    <item>
+      <p>Använd <keyseq><key>Ctrl</key><key>Vänster</key></keyseq> och <keyseq><key>Ctrl</key><key>Höger</key></keyseq> för att flytta och läsa ordvis.</p>
+    </item>
+    <item>
+      <p>Använd <key>Upp</key> och <key>Ned</key> för att flytta och läsa radvis.</p>
+    </item>
+    <item>
+      <p>Använd <key>Skift</key> i kombination med ovannämnda kommandon för att markera och avmarkera text.</p>
+    </item>
+  </list>
+  <note style="tip">
+    <title>Aktivera markörnavigering i ett program</title>
+    <p>Alla program har inte markörnavigering aktiverad som standard. För många GNOME-program kan markörnavigering aktiveras och inaktiveras genom att trycka <key>F7</key>.</p>
+  </note>
+  <p>Utöver att läsa ett dokument med markörnavigering kan du finna det hjälpsamt att läsa, bokstavera och erhålla Unicode-värdet för den aktuella texten. Du kan göra dessa saker genom <app>Orca</app>s <link xref="howto_flat_review">funktion för platt granskning</link>.</p>
+  <p>Slutligen kan du använda Läs upp allt-kommandot för att <app>Orca</app>ska läsa upp hela dokumentet från och med din aktuella position. Det kommandot kan tillsammans med en mer utförlig lista över <app>Orca</app>s kommandon för att komma åt dokuments text hittas i guiden för <link xref="commands_reading">Läskommandon</link>.</p>
+</page>

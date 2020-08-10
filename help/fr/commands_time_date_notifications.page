@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_time_date_notifications" xml:lang="fr">
+  <info>
+    <link type="next" xref="commands_profiles"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_notifications"/>
+    <title type="sort">4. Heure, date et notification</title>
+    <title type="link">Heure, date et notification</title>
+    <desc>Commandes pour obtenir l’heure, la date et les messages de notification</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Commandes heure, date et notifications</title>
+  <p>Les commandes suivantes peuvent être utilisées pour obtenir l’heure et la date actuelle, et pour revoir les messages de notification affichés précédemment :</p>
+  <section id="time_and_date">
+    <title>Obtention de l’heure et de la date</title>
+    <list>
+      <item>
+        <p>Lire l’heure : <keyseq><key>Touche de modification d’Orca</key><key>T</key></keyseq></p>
+      </item>
+      <item>
+        <p>Lire la date : <keyseq><key>Touche de modification d’Orca</key><key>T</key></keyseq> (double-clic)</p>
+      </item>
+    </list>
+  </section>
+  <section id="notifications">
+    <title>Examen des messages de notification</title>
+    <p>Orca dispose de trois commandes non liées pour accéder aux <link xref="howto_notifications">messages de notification</link> affichés au préalable. Consultez <link xref="howto_key_bindings">Modifier les combinaisons de touches</link> pour en apprendre plus sur la façon de lier ces commandes à des combinaisons de touches.</p>
+    <list>
+      <item>
+        <p>Présenter le dernier (le plus récent) message de notification : (non liée)</p>
+      </item>
+      <item>
+        <p>Présenter le message de notification précédent : (non liée)</p>
+      </item>
+      <item>
+        <p>Présenter la liste de tous les messages de notification : (non liée)</p>
+      </item>
+    </list>
+  </section>
+</page>

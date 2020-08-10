@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_key_bindings" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_profiles"/>
+  <title type="sort">8. Tangentbindningar</title>
+  <desc>Binda, binda om och lösgöra kommandon</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Tangentbindningar</title>
+  <p>Orca har många kommandon, varav vissa är bundna till tangenttryckningar medan andra är obundna. Du kan binda, binda om samt lösgöra <app>Orca</app>s kommandon genom att följa stegen nedan.</p>
+  <steps>
+    <title>Binda ett obundet kommando</title>
+    <item>
+      <p>Gå till dialogen <link xref="preferences">Orca-inställningar</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Flytta till sidan <gui>Tangentbindningar</gui>.</p>
+    </item>
+    <item>
+      <p>Använd pilarna för att flytta till cellen som innehåller kommandot du vill binda en knapptryckning till.</p>
+    </item>
+    <item>
+      <p>Tryck högerpil en gång. Detta placerar fokus i kolumnen <gui>Tangentbindning</gui>. Tryck <key>Retur</key>.</p>
+    </item>
+    <item>
+      <p>Tryck ner den önskade tangentkombinationen.</p></item>
+    <item>
+      <p>Tryck <key>Retur</key> för att bekräfta den nya kombinationen. Den nya tangenttryckningen kommer sparas och kryssrutan i den sista kolumnen (<gui>Ändrad</gui>-kolumnen) kommer indikera att tangentbindningen har ändrats.</p>
+    </item>
+    <item>
+      <p>Tryck på <gui>Verkställ</gui>-knappen.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Ändra befintliga bindningar</title>
+    <item>
+      <p>Gå till dialogen <link xref="preferences">Orca-inställningar</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Flytta till sidan <gui>Tangentbindningar</gui>.</p>
+    </item>
+    <item>
+      <p>Använd pilarna för att flytta till cellen som innehåller bindningen du vill ändra och tryck <key>Retur</key>.</p>
+    </item>
+    <item>
+        <p>Tryck ner den önskade tangentkombinationen.</p>
+    </item>
+    <item>
+      <p>Tryck <key>Retur</key> för att bekräfta den nya kombinationen. Den nya tangenttryckningen kommer sparas och kryssrutan i den sista kolumnen (<gui>Ändrad</gui>-kolumnen) kommer indikera att tangentbindningen har ändrats.</p>
+    </item>
+    <item>
+      <p>Tryck på <gui>Verkställ</gui>-knappen.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Återställa ursprungliga bindningar</title>
+    <item>
+      <p>Gå till dialogen <link xref="preferences">Orca-inställningar</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Flytta till sidan <gui>Tangentbindningar</gui>.</p>
+    </item>
+    <item>
+      <p>Använd pilarna för att flytta till ändrad-kolumnen associerad med tangentbindningen.</p>
+    </item>
+    <item>
+      <p>Avmarkera kryssrutan genom att trycka <key>Blanksteg</key>.</p>
+    </item>
+    <item>
+      <p>Tryck på <gui>Verkställ</gui>-knappen.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Lösgöra bundna kommandon</title>
+    <item>
+      <p>Gå till dialogen <link xref="preferences">Orca-inställningar</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Flytta till sidan <gui>Tangentbindningar</gui>.</p>
+    </item>
+    <item>
+      <p>Använd pilarna för att flytta till cellen som innehåller bindningen du vill ta bort och tryck <key>Retur</key>.</p>
+    </item>
+    <item>
+      <p>När du efterfrågas den nya tangentbindningen trycker du <key>Delete</key> eller <key>Backsteg</key>. Du får nu meddelandet att tangentbindningen har tagits bort.</p>
+    </item>
+    <item>
+      <p>Tryck <key>Retur</key> för att bekräfta.</p>
+    </item>
+    <item>
+      <p>Tryck på <gui>Verkställ</gui>-knappen.</p>
+    </item>
+  </steps>
+</page>

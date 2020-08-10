@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_notifications" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_bookmarks"/>
+    <title type="sort">5. Aviseringar</title>
+    <desc>Läsa tidigare mottagna meddelanden</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Aviseringar</title>
+  <p>GNOME-skrivbordet inkluderar en ”aviseringsyta” som kan användas av program för att presentera information till användaren. Aviseringar finns exempelvis för inkommande chattmeddelanden, detaljer om låten din mediaspelare börjar spela upp och varningar att din batterinivå börjar vara låg.</p>
+  <p>Eftersom aviseringar är tänkta att presentera information till användare utan att störa vad användaren gör så har dessa meddelanden en tendens att dyka upp och försvinna relativt snabbt. De är inte heller fokuserbara. Även om <app>Orca</app> kommer presentera dessa meddelanden för dig då de kommer in, så är det alltför lätt att avbryta <app>Orca</app>s uppläsning av misstag genom att fortsätta skriva eller ändra fokus. På grund av detta har <app>Orca</app> tre kommandon som du kan använda för att komma åt tidigare visade aviseringsmeddelanden:</p>
+  <list>
+    <item>
+      <p>Presentera det senaste aviseringsmeddelandet</p>
+    </item>
+    <item>
+      <p>Presentera föregående aviseringsmeddelande</p>
+    </item>
+    <item>
+      <p>Presentera lista över alla aviseringsmeddelanden</p>
+    </item>
+  </list>
+  <p>De första två kommandona är främst designade för snabb åtkomst till ett meddelande du just mottagit. Det sista kommandot är det mest kraftfulla eftersom det lagrar din aviseringsmeddelandehistorik.</p>
+  <p>Då du går in i listan över aviseringsmeddelanden kommer du få höra listans storlek och ombes göra följande val:</p>
+  <list>
+    <item><p>Tryck H för hjälp.</p></item>
+    <item><p>Använd upp, ner, Home eller End för att navigera i listan.</p></item>
+    <item><p>Tryck Escape för att avsluta.</p></item>
+    <item><p>Tryck blanksteg för att upprepa det senast upplästa meddelandet.</p></item>
+    <item><p>Tryck en siffra för att läsa ett specifikt meddelande.</p></item>
+  </list>
+  <p>Notera att det senast mottagna meddelandet är högst upp i listan.</p>
+  <p>Vart och ett av <app>Orca</app>s aviseringsgranskningskommandon är obundet som standard. Du kan binda något eller alla av dem till den genväg eller de genvägar som du väljer. Hur du gör detta beskrivs i <link xref="howto_key_bindings">Introduktion till tangentbindningar</link>.</p>
+</page>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_tables" xml:lang="de">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_forms"/>
+    <title type="sort">4. Tabellen</title>
+    <desc>Navigieren und Einstellen von dynamischen Überschriften</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Tabellen</title>
+  <p><app>Orca</app> bietet mehrere Funktionen, die speziell entwickelt wurden, um den Zugriff auf Tabellen in Webseiten und anderen Dokumenten zu verbessern: Konfigurierbares Lesen von Zellen versus Zeilen, <link xref="howto_structural_navigation">Strukturennavigation</link> und dynamische Überschriften.</p>
+  <section id="cell_row">
+    <title>Lesen von Zellen versus Zeilen</title>
+    <p>Betrachten Sie den Prozess des Durchlesens der Nachrichten in Ihrem Posteingang. Damit Orca den Absender, Betreff, das Datum und die Präsenz von Anhängen angeben kann, müsste <app>Orca</app> die Zeile vorlesen. Auf der anderen Seite ist es beim Navigieren durch die Zeilen eines Tabellenblatts eventuell nicht erwünscht, die ganze Zeile vorzulesen, da sich sehr viele Zellen in einer Zeile befinden können. In diesem Fall sollte <app>Orca</app> nur die fokussierte Zelle vorlesen. Ähnliche Situationen treten in Dokumenttabellen auf.</p>
+    <p><app>Orca</app> erlaubt Ihnen für Tabellen in grafischen Anwendungen, Dokumenttabellen und Tabellenblättern anzupassen, ob einzelne Zellen oder die ganze Zeile vorgelesen werden sollen. Da diese Einstellungen unabhängig voneinander sind, müssen Sie sich nicht auf nur einen Tabellen-Vorlesemodus für verschiedene Tabellenarten festlegen.</p>
+    <p>Sie können alle Einstellungen zum Vorlesen von Tabellen <app>Orca</app>-weit sowieso anwendungsbezogen vornehmen. Dies ist in der Anleitung zu <link xref="preferences"><app>Orca</app>s Einstellungen-Dialog</link> beschrieben. Die Einstellungen finden Sie auf der <link xref="preferences_speech">Seite <gui>Einstellungen für Sprache</gui></link>.</p>
+    <p>Schließlich gibt es ebenfalls einen <app>Orca</app>-Befehl, der Ihnen für die aktuell aktive Tabelle erlaubt, zwischen dem Vorlesen von Zellen oder Zeilen umzuschalten: <keyseq><key>Orca-Zusatztaste</key><key>F11</key></keyseq>.</p>
+  </section>
+  <section id="structural_navigation">
+    <title>Strukturennavigation</title>
+    <p><app>Orca</app>s <link xref="commands_structural_navigation#tables">Befehle zur Strukturennavigation in Tabellen</link> erlauben Ihnen, schnell Tabellen zu finden, zur ersten/letzten Zelle einer Tabelle zu springen und sich zur nächsten Zelle in jeder Richtung zu bewegen.</p>
+    <p>Während Sie sich mit der Strukturennavigation zwischen und in Tabellen bewegen, bietet Ihnen <app>Orca</app> zur Orientierung zusätzliche Details an. Dazu gehören die Ausmaße der betretenen Tabelle oder die Tatsache, dass Sie das Ende der Tabelle in der Richtung erreicht haben, in der Sie sich bewegen.</p>
+    <p>Zusätzlich bietet <app>Orca</app> <link xref="preferences_table_navigation">Einstellungen zur Tabellennavigation</link>, die in Verbindung mit der Strukturennavigation stehen und Ihnen die Kontrolle darüber erlauben, ob Zellenkoordinaten vorgelesen, auf Zellenausdehnungen hingewiesen und Zellenüberschriften genannt werden sollen.</p>
+    <note style="tip">
+      <title>Vergessen Sie nicht, die Strukturennavigation einzuschalten!</title>
+      <p>Abhängig davon, wo Sie sich befinden, könnte es notwendig sein, die Strukturennavigation ausdrücklich einzuschalten, bevor Sie sie nutzen können. Um mehr zu erfahren, lesen Sie, <link xref="howto_structural_navigation#toggling_required">wann es nötig ist, die Strukturennavigation einzuschalten</link>.</p>
+    </note>
+  </section>
+  <section id="dynamic_headers">
+    <title>Dynamische Überschriften</title>
+    <p>Viele der Tabellen, auf die Sie treffen werden, haben Zellen, die als Zeilen- oder Spaltenüberschriften dienen. Ob der Autor der Tabelle diese Zellen richtig markiert hat, ist schwer festzustellen. In vielen Fällen wurde der Text einfach größer oder fett formatiert. Und selbst wenn die Tabelle korrekt gekennzeichnet wurde, gibt es keine Garantie, dass die Anwendung oder die zugrundeliegenden Bibliotheken die Überschrifteninformation an Hilfstechnologien preisgibt. <app>Orca</app>s Unterstützung für dynamische Überschriften macht es möglich, diese Herausforderungen zu bewältigen.</p>
+    <steps>
+      <title>Festlegen des Spaltenüberschriften</title>
+      <item>
+        <p>Navigieren Sie in die Zeile, welche alle Spaltenbeschriftungen enthält.</p>
+      </item>
+      <item>
+        <p>Drücken Sie <keyseq><key>Orca-Zusatztaste</key><key>R</key></keyseq>, um <app>Orca</app> mitzuteilen, dass die aktuelle Zeile die Spaltenüberschriften enthält.</p>
+      </item>
+    </steps>
+    <steps>
+      <title>Festlegen der Zeilenüberschriften</title>
+      <item>
+        <p>Navigieren Sie in die Spalte, welche alle Zeilenbeschriftungen enthält.</p>
+      </item>
+      <item>
+        <p>Drücken Sie <keyseq><key>Orca-Zusatztaste</key><key>C</key></keyseq>, um <app>Orca</app> mitzuteilen, dass die aktuelle Spalte die Zeilenüberschriften enthält.</p>
+      </item>
+    </steps>
+    <p>Wurden die Spalten- oder Zeilenüberschriften definiert, wird <app>Orca</app> beim Navigieren durch die Zellen jede Überschrift vorlesen, die sich geändert hat. Anders ausgedrückt, wird <app>Orca</app> nicht jedes Mal die Spaltenüberschrift neu vorlesen, wenn Sie sich nach oben oder unten innerhalb der aktuellen Spalte bewegen. Ebenso wird es nicht jedes Mal die Zeilenüberschrift vorlesen, wenn Sie sich nach links oder rechts innerhalb der aktuellen Zeile bewegen. Sollten Sie jedoch die Zeile wechseln und Zeilenüberschriften definiert sein, wird die Zeilenüberschrift der neuen Zeile vorgelesen. Genauso wird die neue Spaltenüberschrift vorgelesen, wenn Sie die Spalte wechseln und Spaltenüberschriften definiert sind.</p>
+    <p>Um Überschriften zurückzusetzen, drücken Sie einfach den Befehl doppelt, den Sie zum Setzen verwenden. Doppeltes Drücken von <keyseq><key>Orca-Zusatztaste</key><key>R</key></keyseq> teilt <app>Orca</app> also mit, dass es keine Spaltenüberschriften gibt. Doppeltes Drücken von <keyseq><key>Orca-Zusatztaste</key><key>C</key></keyseq> teilt <app>Orca</app> mit, dass es keine Zeilenüberschriften gibt.</p>
+  </section>
+</page>

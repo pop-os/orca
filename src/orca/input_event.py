@@ -231,7 +231,9 @@ class KeyboardEvent(InputEvent):
         self.id = event.id
         self.type = event.type
         self.hw_code = event.hw_code
-        self.modifiers = event.modifiers
+        self.modifiers = event.modifiers & Gdk.ModifierType.MODIFIER_MASK
+        if event.modifiers & (1 << pyatspi.MODIFIER_NUMLOCK):
+            self.modifiers |= (1 << pyatspi.MODIFIER_NUMLOCK)
         self.event_string = event.event_string
         self.keyval_name = Gdk.keyval_name(event.id)
         self.timestamp = event.timestamp
@@ -248,6 +250,7 @@ class KeyboardEvent(InputEvent):
         self._did_consume = None
         self._result_reason = None
         self._bypassOrca = None
+        self._is_kp_with_numlock = False
 
         # Some implementors don't populate this field at all. More often than not,
         # the event_string and the keyval_name coincide for input events.
@@ -260,6 +263,13 @@ class KeyboardEvent(InputEvent):
            and (self.id in KeyboardEvent.GDK_PUNCTUATION_KEYS or \
                 self.id in KeyboardEvent.GDK_ACCENTED_LETTER_KEYS):
             self.event_string = chr(self.id)
+
+        # Some implementors don't include numlock in the modifiers. Unfortunately,
+        # trying to heuristically hack around this just by looking at the event
+        # is not reliable. Ditto regarding asking Gdk for the numlock state.
+        if self.keyval_name.startswith("KP"):
+            if event.modifiers & (1 << pyatspi.MODIFIER_NUMLOCK):
+                self._is_kp_with_numlock = True
 
         if self._script:
             self._app = self._script.app
@@ -614,6 +624,11 @@ class KeyboardEvent(InputEvent):
             return False
 
         return self.modifiers & keybindings.ORCA_MODIFIER_MASK
+
+    def isKeyPadKeyWithNumlockOn(self):
+        """Return True if this is a key pad key with numlock on."""
+
+        return self._is_kp_with_numlock
 
     def isPrintableKey(self):
         """Return True if this is a printable key."""

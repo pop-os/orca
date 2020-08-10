@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_pronunciation" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_text_attributes"/>
+    <title type="sort">7. Pronúncia</title>
+    <title type="link">Pronúncia</title>
+    <desc>Definição de como pronunciar palavras específicas</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Preferências de Pronúncia</title>
+  <p>Às vezes o seu sintetizador de voz simplesmente não lê determinada cadeia de texto corretamente. Você pode preferir ouvir "para seu conhecimento" em vez de "PSC" ou "accessibility" em vez de "a11y". Ou pode haver um nome ou um termo técnico que o sintetizador pronuncie incorretamente.</p>
+  <p>A página de <gui>Pronúncia</gui> do diálogo de preferências do <app>Orca</app> permite que você adicione, edite, e apague entradas no dicionário de pronúncia do <app>Orca</app>.</p>
+  <p>Uma vez que a página <gui>Pronúncia</gui> também faz parte das definições específicas de aplicativo, você pode personalizar as entradas para cada aplicativo que você utiliza, de acordo com as suas necessidades.</p>
+  <steps>
+    <title>Adicionando uma nova entrada no dicionário</title>
+    <item>
+      <p>
+        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
+      </p>
+    </item>
+    <item>
+      <p>Digite o texto da nova entrada e pressione <key>Enter</key> para terminar a edição do texto corrente.</p>
+    </item>
+    <item>
+      <p>Mova para a coluna <gui>Texto substituto</gui> e pressione <key>Enter</key> para começar a edição.</p>
+    </item>
+    <item>
+      <p>Digite o texto que você gostaria que fosse falado ao invés e pressione <key>Enter</key> para terminar a edição do texto substituto.</p>
+    </item>
+  </steps>
+  <steps>
+  <title>Editando uma entrada existente no dicionário</title>
+    <item>
+      <p>Mova para a célula que você deseja editar e pressione <key>Enter</key> para começar a edição.</p>
+    </item>
+    <item>
+      <p>Faça suas alterações e então pressione <key>Enter</key> para terminar a edição.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Apagando uma entrada existente no dicionário</title>
+    <item>
+      <p>Move para a entrada que você apagar.</p>
+    </item>
+    <item>
+      <p>
+        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
+      </p>
+    </item>
+  </steps>
+</page>

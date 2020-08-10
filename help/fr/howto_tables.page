@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_tables" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_forms"/>
+    <title type="sort">4. Tableaux</title>
+    <desc>Parcourir et définir les en-têtes dynamiques</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Tableaux</title>
+  <p><app>Orca </app> propose plusieurs fonctionnalités conçues spécialement pour améliorer l’accès aux tableaux trouvés dans les pages Web et autres documents : configuration de la lecture par cellule ou par ligne, <link xref="howto_structural_navigation">Navigation par structure</link> et en-têtes dynamiques.</p>
+  <section id="cell_row">
+    <title>Lecture par cellule ou par ligne</title>
+    <p>Songez au processus d’analyse de la liste des messages dans votre boîte aux lettres. Pour que Orca lise l’expéditeur, le sujet, la date et la présence d’une pièce jointe, vous avez besoin que <app>Orca</app> lise la ligne. D’un autre côté, lorsque vous parcourez les lignes d’une feuille de calcul, entendre la ligne entière n’est pas toujours souhaitable au vu par exemple du grand nombre de cellules dans chaque ligne. Dans ce cas, vous préférerez que <app>Orca</app> ne lise que la cellule qui a le focus. Des situations similaires se produisent dans les tableaux inclus dans des documents.</p>
+    <p><app>Orca</app> permet d’indiquer si vous souhaitez que seule la cellule soit lue ou la ligne entière, pour les tableaux d’interface, les tableaux de documents et les feuilles de calcul. Comme ces réglages sont indépendants les uns des autres, vous n’êtes pas contraint de choisir un seul mode de lecture de tableau pour tous les types de tableau.</p>
+    <p>Vous pouvez définir chaque préférence de lecture de tableau d’<app>Orca</app> pour toutes les applications ou différemment d’une application à l’autre. La procédure respective est expliquée dans le guide sur la <link xref="preferences">boîte de dialogue Préférences d’<app>Orca</app></link>. Les paramètres se trouvent sur la <link xref="preferences_speech">page <gui>Synthèse vocale</gui></link>.</p>
+    <p>Finalement, il existe aussi une commande <app>Orca</app> qui permet de basculer à la volée entre la lecture de cellule et la lecture de ligne pour le tableau actuellement actif : <keyseq><key>Touche de modification d’Orca</key><key>F11</key></keyseq>.</p>
+  </section>
+  <section id="structural_navigation">
+    <title>Navigation par structure</title>
+    <p>Les <link xref="commands_structural_navigation#tables">commandes de navigation par structure</link> d’<app>Orca</app> rendent possible la localisation rapide de tableaux, le déplacement immédiat vers la première ou la dernière cellule d’un tableau et le déplacement vers n’importe quelle cellule adjacente.</p>
+    <p>Pendant que vous vous déplacez parmi les tableaux ou à l’intérieur de ceux-ci à l’aide de la navigation par structure, <app>Orca</app> lit des détails supplémentaires qui vous aident à connaître votre position, tels que les dimensions du tableau où vous venez d’arriver et le fait que vous atteignez le bord du tableau dans la direction de votre déplacement.</p>
+    <p>De plus, <app>Orca</app> fournit des <link xref="preferences_table_navigation">options de présentation</link> paramétrables qui fonctionnent en conjonction avec la navigation par structure et vous permettent de contrôler si les coordonnées de la cellule sont lues, si les fusions de cellules sont indiquées, et si les en-têtes de cellules sont lus.</p>
+    <note style="tip">
+      <title>N’oubliez pas d’activer la navigation par structure !</title>
+      <p>En fonction de votre emplacement, il peut être nécessaire d’activer explicitement la navigation par structure avant de pouvoir l’utiliser. Pour en savoir plus, lisez <link xref="howto_structural_navigation#toggling_required">Quand est-il nécessaire d’activer la navigation par structure</link>.</p>
+    </note>
+  </section>
+  <section id="dynamic_headers">
+    <title>En-têtes dynamiques</title>
+    <p>Une grande partie des tableaux que vous rencontrez pendant la lecture, possèdent des cellules qui servent d’en-tête pour les lignes et les colonnes. Savoir si l’auteur du tableau a marqué correctement les cellules comme en-tête est difficile. Dans de nombreux cas, le texte est simplement formaté pour être plus grand et/ou en gras. Même si le tableau est mis en forme correctement, il n’y a aucune garantie que l’application ou la boîte à outils indique aux technologies d’assistance que le texte est un en-tête. Il est possible de surmonter ces problèmes grâce à la prise en charge des en-têtes dynamiques d’<app>Orca</app>.</p>
+    <steps>
+      <title>Définition des en-têtes de colonne</title>
+      <item>
+        <p>Déplacez-vous sur la ligne contenant tous les en-têtes de colonne.</p>
+      </item>
+      <item>
+        <p>Appuyez sur <keyseq><key>Touche de modification d’Orca</key><key>R</key></keyseq> pour indiquer à <app>Orca</app> que la ligne actuelle est celle contenant les en-têtes.</p>
+      </item>
+    </steps>
+    <steps>
+      <title>Définition des en-têtes de ligne</title>
+      <item>
+        <p>Déplacez-vous sur la colonne contenant tous les en-têtes de ligne.</p>
+      </item>
+      <item>
+        <p>Appuyez sur <keyseq><key>Touche de modification d’Orca</key><key>C</key></keyseq> pour indiquer à <app>Orca</app> que la colonne actuelle est celle contenant les en-têtes.</p>
+      </item>
+    </steps>
+    <p>Après avoir défini les en-têtes de colonne ou de ligne, vous vous rendrez compte quand vous parcourrez les cellules, que <app>Orca</app> annonce chaque changement d’en-tête. En d’autres termes, <app>Orca</app> ne prononce pas l’en-tête de colonne à chaque fois que vous vous déplacez de haut en bas au sein d’une même colonne. De même, il ne prononce pas l’en-tête de ligne à chaque fois que vous vous déplacez de gauche à droite au sein d’une même ligne. Par contre si vous changez de ligne et qu’il existe des en-têtes de ligne, l’en-tête associé à la nouvelle ligne est lu. Si vous changez de colonne et qu’il existe des en-têtes de colonne, l’en-tête associé à la nouvelle colonne est lu.</p>
+    <p>Pour effacer les en-têtes, exécutez simplement deux fois de suite la commande que vous avez utilisée pour les définir. Exécuter deux fois de suite <keyseq><key>Touche de modification d’Orca</key><key>R</key></keyseq> indique à <app>Orca</app> qu’il n’y a pas d’en-tête de colonne. Exécuter deux fois de suite <keyseq><key>Touche de modification d’Orca</key><key>C</key></keyseq> indique à <app>Orca</app> qu’il n’y a pas d’en-tête de ligne.</p>
+  </section>
+</page>

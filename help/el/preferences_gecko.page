@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="el">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_table_navigation"/>
+    <title type="sort">1. Περιήγηση Gecko</title>
+    <title type="link">Περιήγηση Gecko</title>
+    <desc>Ρύθμιση της υποστήριξης του <app>Orca</app> για <app>Firefox</app> και <app>Thunderbird</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Προτιμήσεις περιήγησης Gecko</title>
+  <section id="page_navigation">
+    <title>Περιήγηση σελίδας</title>
+    <p>Η ομάδα <gui>περιήγηση σελίδας</gui> των ελέγχων κάνει δυνατή την προσαρμογή της παρουσίασης του <app>Orca</app> και επιτρέπει την αλληλεπίδραση με κείμενο και άλλο περιεχόμενο.</p>
+    <section id="page_navigation_control_caret">
+      <title>Έλεγχος περιήγησης δρομέα</title>
+      <p>Αυτό το πλαίσιο ελέγχου εναλλάσσει την περιήγηση δρομέα του <app>Orca</app> ενεργό/ανενεργό. Όταν είναι ενεργό, το <app>Orca</app> ελέγχει τον δρομέα καθώς μετακινείστε στη σελίδα· όταν είναι ανενεργό, η γηγενής περιήγηση δρομέα του Gecko είναι ενεργή.</p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+      <note style="tip">
+        <title>Αυτή η ρύθμιση μπορεί να εναλλαχθεί άμεσα</title>
+        <p>Για ενεργοποίηση εναλλαγής αυτής της ρύθμισης άμεσα χωρίς αποθήκευση της, χρησιμοποιήστε <keyseq><key>τροποποιητή Orca</key><key>F12</key></keyseq>.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_caret">
+      <title>Αυτόματη λειτουργία εστίασης κατά την πλοήγηση δρομέα</title>
+      <p>Αν αυτό το πλαίσιο ελέγχου είναι σημειωμένο, το <app>Orca</app> θα μεταβεί αυτόματα σε κατάσταση εστίασης, όταν χρησιμοποιήσετε τις εντολές περιήγησης δρομέα σε ένα πεδίο φόρμας. Παραδείγματος χάρη, πατώντας το πλήκτρο <key>Κάτω βέλους</key> θα σας επιτρέψει να μετακινηθείτε σε μια καταχώριση, αλλά μόλις το έχετε κάνει, το Orca θα πρέπει να μεταβεί σε κατάσταση εστίασης και τα επόμενα πατήματα του πλήκτρου <key>Κάτω βέλους</key> πρέπει να ελέγχονται από τον περιηγητή ιστού και όχι από το Orca. Αν αυτό το πλαίσιο ελέγχου δεν είναι σημειωμένο, το <app>Orca</app> θα συνεχίσει να ελέγχει τι συμβαίνει όταν πατάτε το πλήκτρο <key>Κάτω βέλους</key>, κάνοντας συνεπώς εφικτή την απομάκρυνση από την καταχώριση και την συνέχιση της ανάγνωσης.</p>
+      <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+      <note style="tip">
+        <title>Χειροκίνητη εναλλαγή μεταξύ κατάστασης περιήγησης και εστίασης</title>
+        <p>Για να ξεκινήσετε ή να σταματήσετε την αλληλεπίδραση με το εστιασμένο πεδίο φόρμας, χρησιμοποιήστε τον <keyseq><key>τροποποιητή Orca</key><key>A</key></keyseq> για εναλλαγή μεταξύ κατάστασης περιήγησης και εστίασης.</p>
+       </note>
+    </section>
+    <section id="page_navigation_structural">
+      <title>Ενεργοποίηση δομικής περιήγησης</title>
+      <p>Αυτό το πλαίσιο ελέγχου εναλλάσσει στο <app>Orca</app> τη <link xref="howto_structural_navigation">δομική περιήγηση</link> ενεργή/ανενεργή. Η δομική περιήγηση επιτρέπει την περιήγηση κατά στοιχεία όπως κεφαλίδες, σύνδεσμοι και πεδία φόρμας.</p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+      <note style="tip">
+        <title>Αυτή η ρύθμιση μπορεί να εναλλαχθεί άμεσα</title>
+        <p>Για ενεργοποίηση της εναλλαγής αυτής της ρύθμισης άμεσα χωρίς αποθήκευση της, χρησιμοποιήστε <keyseq><key>τροποποιητή Orca</key><key>Z</key></keyseq>.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_structural">
+      <title>Αυτόματη λειτουργία εστίασης κατά τη δομική πλοήγηση</title>
+      <p>Αν αυτό το πλαίσιο ελέγχου είναι σημειωμένο, το <app>Orca</app> θα μεταβεί αυτόματα σε κατάσταση εστίασης, όταν χρησιμοποιήσετε δομικές εντολές περιήγησης για να περιηγηθείτε σε ένα πεδίο φόρμας. Παραδείγματος χάρη, πατώντας το πλήκτρο <key>E</key> για να μετακινηθείτε στην επόμενη καταχώριση θα μετακινήσει την εστίαση εκεί και θα μεταβεί επίσης στην κατάσταση εστίασης έτσι ώστε το επόμενό σας πάτημα του πλήκτρου <key>E</key> να πληκτρολογήσει ένα "e (αν είσαστε στο αγγλικό πληκτρολόγιο)" σε αυτήν την καταχώριση. Αν αυτό το πλαίσιο ελέγχου δεν είναι σημειωμένο, τότε το <app>Orca</app> θα σας αφήσει στην κατάσταση περιήγησης και το επόμενο πάτημα του πλήκτρου <key>E</key> θα σας μεταφέρει στην επόμενη καταχώριση της σελίδας.</p>
+      <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+      <note style="tip">
+        <title>Χειροκίνητη εναλλαγή μεταξύ κατάστασης περιήγησης και εστίασης</title>
+        <p>Για να ξεκινήσετε ή να σταματήσετε την αλληλεπίδραση με το εστιασμένο πεδίο φόρμας, χρησιμοποιήστε τον <keyseq><key>τροποποιητή Orca</key><key>A</key></keyseq> για εναλλαγή μεταξύ κατάστασης περιήγησης και εστίασης.</p>
+       </note>
+    </section>
+    <section id="page_navigation_speak">
+      <title>Αυτόματη έναρξη εκφώνησης μια σελίδας όταν αρχίζει η φόρτωσή της</title>
+      <p>Εάν αυτό το πλαίσιο ελέγχου σημειωθεί, το <app>Orca</app> θα εκτελέσει μια εκφώνηση όλων στη νεοανοιγμένη ιστοσελίδα ή μήνυμα.</p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη για Firefox· μη σημειωμένη για Thunderbird</p>
+    </section>
+    <section id="page_navigation_summary">
+      <title>Present summary of a page when it is first loaded</title>
+      <p>
+        If this checkbox is checked, <app>Orca</app> will summarize details about the
+        newly opened web page or email, such as the number of headings, landmarks,
+        and links.
+      </p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη για Firefox· μη σημειωμένη για Thunderbird</p>
+    </section>
+    <section id="page_navigation_layout_mode">
+      <title>Ενεργοποίηση λειτουργίας διάταξης για το περιεχόμενο</title>
+      <p>Εάν αυτό το πλαίσιο ελέγχου είναι σημειωμένο, η περιήγηση του δρομέα του <app>Orca</app> θα σεβαστεί την διάταξη της οθόνης και θα εμφανίσει την πλήρη γραμμή, συμπεριλαμβάνοντας οποιουσδήποτε συνδέσμους ή πεδία φόρμας σε αυτήν τη γραμμή. Εάν αυτό το πλαίσιο ελέγχου δεν είναι σημειωμένο, το <app>Orca</app> θα θεωρήσει τα αντικείμενα ως συνδέσμους και τα πεδία φόρμας σαν να ήταν ξεχωριστές γραμμές, και για παρουσίαση και για περιήγηση.</p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    </section>
+  </section>
+  <section id="table_options">
+    <title>Επιλογές πίνακα</title>
+    <note>
+      <p>
+        To learn more about <app>Orca</app>'s options for navigating within
+        tables, please see <link xref="preferences_table_navigation">Table
+	Navigation Preferences</link>.
+      </p>
+    </note>
+  </section>
+  <section id="find_options">
+    <title>Επιλογές εύρεσης</title>
+    <p>Η ομάδα ελέγχων <gui>επιλογών εύρεσης</gui> κάνει δυνατή την προσαρμογή παρουσίασης των αποτελεσμάτων από το <app>Orca</app> για μια αναζήτηση που έγινε χρησιμοποιώντας την ενσωματωμένη λειτουργικότητα αναζήτησης της εφαρμογής.</p>
+    <section id="find_options_speak_during_find">
+      <title>Εκφώνηση αποτελεσμάτων κατά την εύρεση</title>
+      <p>Εάν αυτό το πλαίσιο ελέγχου σημειωθεί, το <app>Orca</app> θα διαβάσει τη γραμμή που συμφωνεί με το τρέχον ερώτημα αναζήτησης.</p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    </section>
+    <section id="find_options_speak_changed_lines_during_find">
+      <title>Εκφώνηση μόνο των διαφοροποιημένων γραμμών κατά την αναζήτηση</title>
+      <p>Εάν αυτό το πλαίσιο ελέγχου σημειωθεί, το <app>Orca</app> δεν θα παρουσιάσει την σύμφωνη γραμμή εάν είναι η ίδια γραμμή όπως η προηγούμενη συμφωνία. Αυτή η επιλογή σχεδιάστηκε για την αποφυγή "φλυαρίας" σε μια γραμμή με πολλαπλές περιπτώσεις της συμβολοσειράς η οποία αναζητείται.</p>
+      <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+    </section>
+    <section id="find_options_minimum_match_length">
+      <title>Ελάχιστο μήκος του σύμφωνου κειμένου</title>
+      <p>
+        This editable spin button is where you can specify the number of
+        characters which must match before <app>Orca</app> announces the
+        matching line. This option is also designed to prevent "chattiness"
+        as there are many matches when you first begin typing the string
+        for which you are searching.
+      </p>
+      <p>Προεπιλεγμένη τιμή: 4</p>
+    </section>
+  </section>
+</page>

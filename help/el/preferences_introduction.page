@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_introduction" xml:lang="el">
+  <info>
+    <title type="sort">0. Εισαγωγή στις προτιμήσεις του <app>Orca</app></title>
+    <title type="link">Εισαγωγή στις προτιμήσεις του <app>Orca</app></title>
+    <link type="guide" xref="preferences"/>
+    <link type="next" xref="preferences_general"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εισαγωγή στις προτιμήσεις του <app>Orca</app></title>
+  <section id="orca">
+    <title>Προτιμήσεις Orca</title>
+    <p>Οι προτιμήσεις orca επιτρέπουν την προσαρμογή της λειτουργικότητας στο <app>Orca</app> που εφαρμόζεται σε όλες τις εφαρμογές. Ένα παράδειγμα της προτίμησης Orca είναι η ηχώ πλήκτρου επειδή η ηχώ πλήκτρου είναι κάτι που εφαρμόζεται σε όλες τις εφαρμογές.</p>
+    <p>Σημειώστε ότι οι προτιμήσεις orca μπορούν να προσαρμοστούν σε μια βάση για κάθε εφαρμογή. Για παράδειγμα, μπορείτε να ορίσετε την προεπιλεγμένη ηχώ πλήκτρου σε λέξεις και έπειτα να ορίσετε την ηχώ πλήκτρου για το Pidgin σε καμία. Έχοντας κάνει έτσι, το <app>Orca</app> θα ηχεί πάντοτε κάθε λέξη που πληκτρολογείτε, εκτός και ήσαστε στο Pidgin.</p>
+    <note style="tip">
+      <title>Συντομεύσεις πληκτρολογίου για μετάβαση στους διαλόγους προτιμήσεων</title>
+      <list>
+        <item>
+          <p><keyseq><key>Τροποποιητής Orca</key><key>διάστημα</key></keyseq>: προτιμήσεις του <app>Orca</app></p>
+        </item>
+        <item>
+          <p><keyseq><key>Ctrl</key><key>Τροποποιητής Orca</key><key>διάστημα</key> </keyseq>: προτιμήσεις του <app>Orca</app> για την τρέχουσα εφαρμογή</p>
+        </item>
+      </list>
+    </note>
+  </section>
+  <section id="application_unique">
+    <title>Προτιμήσεις μοναδικής εφαρμογής</title>
+      <p>Αντίθετα με τις προτιμήσεις orca, υπάρχουν μοναδικές προτιμήσεις ανά εφαρμογή. Αυτές οι προτιμήσεις επιτρέπουν την προσαρμογή της λειτουργικότητας του <app>Orca</app> που εφαρμόζεται σε συγκεκριμένα περιβάλλοντα, όπως σε ιστοσελίδες ή σε εφαρμογές συζητήσεων. Ως αποτέλεσμα, θα βρείτε μόνο αυτές τις επιλογές διαθέσιμες στους συγκεκριμένους διαλόγους προτιμήσεων και μόνο για αυτές τις εφαρμογές στις οποίες εφαρμόζονται αυτές οι επιλογές.</p>
+  </section>
+</page>

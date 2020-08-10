@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_tables" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_forms"/>
+    <title type="sort">4. Tabulky</title>
+    <desc>Jak se v ní pohybovat a dynamická záhlaví</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Tabulky</title>
+  <p><app>Orca</app> poskytuje několik funkcí speciálně navržených pro zlepšení přístupu k tabulkám nalezeným na webových stránkách a v jiných dokumentech: nastavitelné čtení po buňkách nebo řádcích, <link xref="howto_structural_navigation">strukturovanou navigaci</link> a dynamická záhlaví.</p>
+  <section id="cell_row">
+    <title>Čtení po buňkách vs. po řádcích</title>
+    <p>Uvažujme o postupu procházení seznamu zpráv ve vaší doručené poště. Aby vám <app>Orca</app> přečetla odesilatele, předmět, datum a přítomnost příloh, byste potřebovali, aby přečetla řádek. Nadruhou stranu, když se pohybujete po buňkách v tabulkovém kalkulátoru, poslouchat celý řádek nemusí být zrovna to, co chcete, pokud nemáte jiný důvod, než si spočítat počet buňek v řádku. Proto byste v tomto případě potřebovali čtení pouze zaměřené buňky. Podobné situace se vyskytují i v tabulkách v dokumentech.</p>
+    <p><app>Orca</app> vám umožňuje si přizpůsobit, jestli se má přečíst jen buňka nebo celý řádek, a to zvlášť pro tabulky uživatelské rozhraní, v dokumentech a v tabulkových kalkulátorech. Protože tato nastavení jsou navzájem nezávislá, nemusíte volit režim čtení jedné tabulky, abyste si přizpůsobili více typů tabulek.</p>
+    <p>Kteroukoliv předvolbu týkající se čtení tabulek ve čtečce <app>Orca</app> můžete nastavit jak globálně, tak jednotlivě pro různé aplikace. Jak to udělat, je popsáno v části příručky o <link xref="preferences">dialogovém oknu předvoleb <app>Orca</app></link>. Nastavení najdete na <link xref="preferences_speech">kartě <gui>Řeč</gui></link>.</p>
+    <p>Navíc je zde příkaz <app>Orca</app>, která umožňuje přepnout za běhu čtení buňky versus řádku pro právě aktivní tabulku: <keyseq><key>Modifikátor Orca</key> <key>F11</key></keyseq>.</p>
+  </section>
+  <section id="structural_navigation">
+    <title>Strukturovaná navigace</title>
+    <p><link xref="commands_structural_navigation#tables">Příkazy strukturované navigace</link> ve čtečce <app>Orca</app> poskytují možnost rychle vyhledat tabulky, ihned skočit na první nebo poslední buňku tabulky a přesunout se na následující buňku v kterémkoliv směru.</p>
+    <p>Během vašeho pohybu mezi tabulkami a uvnitř tabulek pomocí strukturované navigace, vám bude <app>Orca</app> oznamovat další podrobnosti, které vám pomohou pochopit vaši polohu. K takovýmto informací patří třeba rozměry tabulky, do které jste vstoupili, nebo fakt, že jste se dostali k okraji tabulky ve směru, kterým jste se posunuli.</p>
+    <p>Navíc <app>Orca</app> poskytuje nastavitelné <link xref="preferences_table_navigation">volby prezentování</link>, které fungují ve spojení se strukturovanou navigací a umožňují vám ovládat, jestli mají být prezentovány souřadnice buňky, jestli má být upozorňováno na spojení více buňek a jestli oznamovat záhlaví buněk.</p>
+    <note style="tip">
+      <title>Nezapomeňte zapnout strukturovanou navigaci!</title>
+      <p>V závislosti na tom, kde se nacházíte, může být potřeba, abyste ručně zapnuli strukturovanou navigaci, než ji začnete používat. Více o tom, jak to udělat, se dozvíte v kapitole <link xref="howto_structural_navigation#toggling_required">Kdy je požadováno zapnutí strukturované navigace</link>.</p>
+    </note>
+  </section>
+  <section id="dynamic_headers">
+    <title>Dynamická záhlaví</title>
+    <p>Spousta tabulek, se kterými se při čtení setkáte, má buňky, které slouží jako záhlaví pro řádek nebo sloupec. Je těžké říci, jestli tvůrce tabulky takovéto buňky korektně označil či neoznačil, jako záhlaví. V některých případech je prostě jen jejich text nastaven na tučné a/nebo větší písmo. A i když je záhlaví správně označeno, není nikde zaručeno, že aplikace nebo nástrojová sada poskytne tuto informaci asistenční technologii. Podpora dynamických záhlaví ve čtečce <app>Orca</app> vám dává možnost tyto možné problémy obejít.</p>
+    <steps>
+      <title>Nastavení záhlaví sloupců</title>
+      <item>
+        <p>Přesuňte se do řádku, který obsahuje všechna záhlaví sloupců</p>
+      </item>
+      <item>
+        <p>Zmáčknutím <keyseq><key>Modifikátor Orca</key> <key>R</key></keyseq> řekněte čtečce <app>Orca</app>, že aktuální řádek je ten se záhlavími.</p>
+      </item>
+    </steps>
+    <steps>
+      <title>Nastavení záhlaví řádků</title>
+      <item>
+        <p>Přesuňte se do sloupce, který obsahuje všechna záhlaví řádků</p>
+      </item>
+      <item>
+        <p>Zmáčknutím <keyseq><key>Modifikátor Orca</key> <key>C</key></keyseq> řekněte čtečce <app>Orca</app>, že aktuální sloupec je ten se záhlavími.</p>
+      </item>
+    </steps>
+    <p>Až máte nastavená záhlaví sloupců nebo řádků, měli byste zjistit, že při pohybu mezi buňkami vám <app>Orca</app> oznamuje každé záhlaví, které se změní. Jinak řečeno, <app>Orca</app> nebude pořád dokola opakovat záhlaví sloupce, když se ve sloupci posouváte nahoru a dolů. Podobně nebude pořád dokola prezentovat záhlaví řádku, když se pohybujete doleva a doprava ve stejném řádku. Jakmile však řádek změníte a nový řádek má záhlaví, bude vám toto záhlaví oznámeno. A když změníte sloupec a nový sloupec má záhlaví, bude vám oznámeno záhlaví nového sloupce.</p>
+    <p>Pro zrušení záhlaví stačí dvakrát zmáčknout příkaz, kterým jste záhlaví nastavili. Takže dvojité zmáčknutí <keyseq><key>Modifikátor Orca</key> <key>R</key></keyseq> říká čtečce <app>Orca</app>, že zde nejsou žádná záhlaví sloupců. Dvojité zmáčknutí <keyseq><key>Modifikátor Orca</key> <key>C</key></keyseq> zase říká, že zde nejsou žádná záhlaví řádků.</p>
+  </section>
+</page>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_keyboard_layout" xml:lang="bg">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_toggling_caps_lock"/>
+    <title type="sort">6. Клавиатурна подредба</title>
+    <desc>Избор на подредба за настолни компютри или за лаптопи</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Клавиатурна подредба</title>
+  <p>Orca има две клавиатурни подредби: за настолни компютри (т.е. с цифров блок) и за лаптопи. Подредбата, която изберете, указва влияние на това кой клавиш се използва като модификатор на Orca.</p>
+  <list>
+    <item>
+      <p>Ако използвате подредбата за лаптопи, модификаторът на Orca по подразбиране ще бъде <key>CapsLock</key></p>
+    </item>
+    <item>
+      <p>
+        If you are using the Desktop layout, the Orca Modifier will be both
+        <key>Insert</key> and <key>KP_Insert</key>, the latter being the
+        same key as <key>KP_0</key>.
+      </p>
+    </item>
+  </list>
+  <p>Подредбата също така определя доста от клавишните комбинации за командите на <app>Orca</app>, и по-специално тези отнасящи се за равнинния преглед, „Къде съм“ и „Прочитане на всичко“.</p>
+  <steps>
+    <title>Промяна на клавиатурната подредба</title>
+    <item>
+      <p>Отидете в <link xref="preferences">Настройки на Orca</link> като натиснете <keyseq><key>Модификатор на Orca</key><key>Интервал</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Придвижете се до групата от радио бутони <gui>Клавиатурна подредба</gui>.</p>
+    </item>
+    <item>
+      <p>Придвижете се със стрелките до желаната подредба.</p>
+    </item>
+    <item>
+      <p>Натиснете бутона <gui>Прилагане</gui>.</p>
+    </item>
+  </steps>
+</page>

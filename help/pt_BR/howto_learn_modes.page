@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_learn_modes" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_keyboard_layout"/>
+    <title type="sort">5. Learn Mode</title>
+    <desc>Descobrindo os comandos do <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Learn Mode</title>
+  <p>No modo de aprendizado, o <app>Orca</app> anunciará cada tecla pressionada juntamente com o comando do <app>Orca</app> associado àquela tecla. Neste modo, você também pode obter uma lista de teclas de atalho contendo todos os comandos do <app>Orca</app> que você pode usar.</p>
+  <steps>
+    <title>Usando o modo de aprendizado</title>
+    <item>
+      <p>Entre no modo de aprendizado pressionando <keyseq><key>Tecla modificadora do Orca</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Pressione qualquer tecla ou atalho. O <app>Orca</app> anunciará as teclas e o comando a elas associado.</p>
+    </item>
+    <item>
+      <p>Pressione <key>Esc</key> para sair do modo de aprendizado.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Obtendo uma lista de atalhos</title>
+    <item>
+      <p>Entre no modo de aprendizado pressionando <keyseq><key>Tecla modificadora do Orca</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Pressione <key>F2</key> se você quer uma lista de atalhos que se aplicam ao <app>Orca</app>, ou pressione <key>F3</key> se você quer uma lista de atalhos que são específicos para o aplicativo com foco.</p>
+    </item>
+    <item>
+      <p>Pressione <key>seta acima</key> ou <key>seta abaixo</key> para verificar o conteúdo da lista.</p>
+    </item>
+    <item>
+      <p>Pressione <key>Esc</key> para sair da lista.</p>
+    </item>
+  </steps>
+</page>

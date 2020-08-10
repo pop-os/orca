@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_live_regions" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_whereami"/>
+    <title type="sort">6. Živé oblasti</title>
+    <desc>Jak pracovat s dynamickým obsahem webu</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Živé oblasti</title>
+  <p>Živá oblast je dynamicky aktualizovaná část webové stránky, jako například tabulka se sportovními statistikami, seznam cen akcií, záznam diskuze nebo varování od stránky, kterou čtete. Zatímco živé oblasti se vyskytují celkem často, webové stránky s úplným zpřístupněním a zároveň s živými oblastmi méně často. Tento problém aktivně průběžně řešíme s řadou organizací.</p>
+  <section id="politeness_levels">
+    <title>Úrovně chování živých oblastí</title>
+    <p>Živé oblasti mají přiřazenu úroveň „chování“, kterou jim nastavil autor, aby tím sdělil její informační důležitost a doporučil uživateli, jestli má být svojí asistenční technologií informován o změnách v této živé oblast. Živé oblasti mohou být „vypnuté“, „slušné“, „důrazné“ a až „hrubé“.</p>
+  </section>
+  <section id="orca_support">
+    <title>Podpora pro živé oblasti ve čtečce <app>Orca</app></title>
+    <p>Protože nemusíte souhlasit s úrovn chování určenou autorem stránky, kterou si prohlížíte, poskytuje <app>Orca</app> několik <link xref="commands_live_regions">příkazů pro živé oblasti</link>, pomocí kterých můžete změnit úroveň některé nebo všech oblastí na tránce. Navíc můžete:</p>
+    <list>
+      <item>
+        <p>Podporu živé oblasti zapnout nebo vypnout</p>
+      </item>
+      <item>
+        <p>Přeskočit na následující a předchozí živou oblast</p>
+      </item>
+      <item>
+        <p>Přeskočit na poslední živou oblast, která prezentovala informace</p>
+      </item>
+      <item>
+        <p>Znvou se podívat na posledních devět zpráv od živých oblastí, které byly prezentovány</p>
+    </item>
+    </list>
+  </section>
+</page>

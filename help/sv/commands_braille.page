@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_braille" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_reading"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_braille"/>
+    <title type="sort">2. Punktskrift</title>
+    <title type="link">Punktskrift</title>
+    <desc>Kommandon körbara på punktskriftsskärmar</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Punktskriftskommandon</title>
+  <p>Följande kommandon låter dig styra <app>Orca</app> från din uppdateringsbara punktskriftsskärm snarare än ditt tangentbord:</p>
+  <list>
+    <item><p>Flytta punktskriftsskärmen åt vänster: Rad vänster</p></item>
+    <item><p>Flytta punktskriftsskärmen åt höger: Rad höger</p></item>
+    <item><p>Växla platt granskningsläge: Frys</p></item>
+    <item><p>Granska ordet ovan: Rad uppåt</p></item>
+    <item><p>Granska ordet nedan: Rad nedåt</p></item>
+    <item><p>Granska nedre vänster: Nedre vänster</p></item>
+    <item><p>Granska hempositionen: Övre vänster</p></item>
+    <item><p>Litterär punktskrift: Sex punkter</p></item>
+    <item><p>Markerar början av en textmarkering: Början av markering</p></item>
+    <item><p>Markerar slutet av en textmarkering: Markera rad</p></item>
+    <item><p>Behandlar en markörriktningstangent: Markörriktning</p></item>
+    <item><p>Återvänder till objekt med tangentbordsfokus: Markörposition</p></item>
+  </list>
+</page>

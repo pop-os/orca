@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_chat" xml:lang="pt-BR">
+  <info>
+    <link type="next" xref="commands_debugging"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="preferences_chat"/>
+    <title type="sort">2. Bate-papo</title>
+    <title type="link">Bate-papo</title>
+    <desc>Comandos para clientes de IM e IRC</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos para bate-papo</title>
+  <p>Os comandos a seguir podem ser usados para acessar as informações em clientes de mensageiros instantâneos e IRC com suporte pelo <app>Orca</app>. Você notará que vários destes comandos "não possuem teclas de atalho associadas." Por favor veja <link xref="howto_key_bindings">Modificando associação de teclas</link> para informações de como vincular estes comandos a teclas de atalho.</p>
+  <list>
+    <item>
+      <p>Apresenta a mensagem anterior na sala de bate-papo: <keyseq><key>Tecla modificadora do Orca</key><key>F1</key></keyseq> até <key>F9</key></p>
+    </item>
+    <item>
+      <p>Habilita/desabilita o anúncio do nome da sala com mensagens: (Sem atalho)</p>
+    </item>
+    <item>
+      <p>Habilita/desabilita o anúncio sobre o estado de digitação do amigo: (Sem atalho)</p>
+    </item>
+    <item>
+      <p>Habilita/desabilita o histórico de uma sala específica: (Sem atalho)</p>
+    </item>
+  </list>
+</page>

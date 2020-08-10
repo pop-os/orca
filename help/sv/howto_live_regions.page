@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_live_regions" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_whereami"/>
+    <title type="sort">6. Levande regioner</title>
+    <desc>Interagera med dynamiskt webbinnehåll</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Levande regioner</title>
+  <p>En levande region är en dynamiskt uppdaterad del av en webbsida, som en tabell med sportstatistik, en lista med aktuella aktiekurser, en logg från en chatt eller en varning som visas av sidan som du läser. Medan levande regioner förekommer rätt ofta så är det mer sällsynt med fullständigt åtkomliga webbsidor med levande regioner. Ett antal organisationer arbetar aktivt med detta problem.</p>
+  <section id="politeness_levels">
+    <title>Snällhetsnivåer för levande regioner</title>
+    <p>Levande regioner har en associerad ”snällhets”-nivå som anges av författaren som ett sätt att uttrycka vikten hos informationen och för att föreslå när användare ska informeras av deras hjälpmedelsteknik om uppdateringar som gjorts i den regionen. En levande region kan vara ”av”, ”snäll” eller ”påträngande” till gränsen att vara ”fräck”.</p>
+  </section>
+  <section id="orca_support">
+    <title><app>Orca</app>s stöd för levande regioner</title>
+    <p>Eftersom du kanske inte håller med om den snällhetsnivå som angivits av författaren vars sida du tittar på så tillhandahåller <app>Orca</app> ett antal <link xref="commands_live_regions">kommandon för levande regioner</link> som låter dig ändra nivån på någon eller alla regionerna på en sida. Du kan dessutom:</p>
+    <list>
+      <item>
+        <p>Slå på eller av stöd för levande regioner</p>
+      </item>
+      <item>
+        <p>Hoppa till nästa och föregående levande region spatialt</p>
+      </item>
+      <item>
+        <p>Hoppa till den senaste levande regionen som presenterade information</p>
+      </item>
+      <item>
+        <p>Granska de nio senaste meddelandena som presenterades från levande regioner</p>
+    </item>
+    </list>
+  </section>
+</page>

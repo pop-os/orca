@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_table" xml:lang="de">
+  <info>
+    <link type="next" xref="commands_flat_review"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_tables"/>
+    <title type="sort">3. Tabellennavigation</title>
+    <title type="link">Tabellennavigation</title>
+    <desc>Befehle zum Zugriff auf tabellarische Informationen</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Befehle zur Tabellennavigation</title>
+  <p>Orcas Unterstützung zur Navigation anhand von Tabellenzellen ist ein Teil seiner <link xref="commands_structural_navigation#tables">Strukturellen Navigationsbefehle</link>. Sie können zusätzlich:</p>
+  <list>
+    <item>
+      <p>Dynamische Zeilenüberschriften auf die aktuelle Spalte setzen: <keyseq><key>Orca-Zusatztaste</key><key>C</key></keyseq></p>
+    </item>
+    <item>
+      <p>Dynamische Spaltenüberschriften auf die aktuelle Zeile setzen: <keyseq><key>Orca-Zusatztaste</key><key>R</key></keyseq></p>
+    </item>
+    <item>
+      <p>Dynamische Zeilenüberschriften leeren: <keyseq><key>Orca-Zusatztasten</key><key>R</key></keyseq> (Doppelklick)</p>
+    </item>
+    <item>
+      <p>Dynamische Spaltenüberschriften leeren: <keyseq><key>Orca-Zusatztaste</key><key>R</key></keyseq> (Doppelklick)</p>
+    </item>
+    <item>
+      <p>Umschalten zwischen zellen- und zeilenweisem Vorlesen in einer Tabelle: <keyseq><key>Orca-Zusatztaste</key><key>F11</key></keyseq></p>
+    </item>
+  </list>
+</page>

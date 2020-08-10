@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_live_regions" xml:lang="el">
+  <info>
+    <link type="next" xref="commands_chat"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="howto_live_regions"/>
+    <title type="sort">1. Live Regions</title>
+    <title type="link">Δυναμικές περιοχές</title>
+    <desc>Εντολές για πρόσβαση δυναμικών περιοχών ιστού</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εντολές δυναμικής περιοχής</title>
+  <p>Οι παρακάτω εντολές μπορούν να χρησιμοποιηθούν για να προσπελάσουν δυναμικά ενημερωμένο περιεχόμενο σε ιστοσελίδες που έχουν γίνει προσβάσιμες μέσα από το ARIA.</p>
+  <list>
+    <item>
+      <p>Παρακολούθηση δυναμικών περιοχών: <keyseq><key>τροποποιητής Orca</key><key>Shift</key><key>ανάποδη πλαγιοκάθετος</key></keyseq></p>
+    </item>
+    <item>
+      <p>Αύξηση ρύθμισης ευγένειας δυναμικής περιοχής: <key>ανάποδη πλαγιοκάθετος</key></p>
+    </item>
+    <item>
+      <p>Ορισμός προεπιλεγμένου επιπέδου ευγένειας σε ανενεργό: <keyseq><key>Shift</key><key>ανάποδη πλαγιοκάθετος</key></keyseq></p>
+    </item>
+    <item>
+      <p>Μετάβαση στην επόμενη/προηγούμενη δυναμική περιοχή: <keyseq><key>D</key></keyseq> και <keyseq><key>Shift</key><key>D</key></keyseq></p>
+    </item>
+    <item>
+      <p>Μετάβαση στην τελευταία δυναμική περιοχή που έκανε μια ανακοίνωση: <keyseq><key>Y</key></keyseq></p>
+    </item>
+    <item>
+      <p>Επισκόπηση ανακοινώσεων δυναμικής περιοχής: <keyseq><key>τροποποιητής Orca</key><key>F1</key></keyseq> μέχρι <key>F9</key></p>
+    </item>
+</list>
+</page>

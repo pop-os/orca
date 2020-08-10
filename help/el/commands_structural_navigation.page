@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_structural_navigation" xml:lang="el">
+  <info>
+    <link type="next" xref="commands_table"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_forms"/>
+    <title type="sort">2. Δομική περιήγηση</title>
+    <title type="link">Δομική περιήγηση</title>
+    <desc>Εντολές για περιήγηση ανά στοιχεία</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εντολές δομικής περιήγησης</title>
+  <p>Οι επόμενες εντολές μπορούν να χρησιμοποιηθούν για περιήγηση ανά κεφαλίδες, συνδέσμους και άλλα στοιχεία που βρίσκονται σε εφαρμογές για τις οποίες το <app>Orca</app> παρέχει δομική υποστήριξη περιήγησης.</p>
+  <list>
+    <item>
+      <p>Ενεργοποίηση/απενεργοποίηση πλήκτρων δομικής περιήγησης: <keyseq><key>τροποποιητής Orca</key><key>Z</key></keyseq></p>
+    </item>
+  </list>
+  <section id="headings">
+    <title>Kεφαλίδες</title>
+      <list>
+        <item>
+          <p>Επόμενη και προηγούμενη κεφαλίδα: <keyseq><key>H</key></keyseq> και <keyseq><key>Shift</key><key>H</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου επικεφαλίδων: <keyseq><key>Alt</key><key>Shift</key><key>H</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενη και προηγούμενη κεφαλίδα στο επίπεδο 1: <keyseq><key>1</key></keyseq> και <keyseq><key>Shift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Εμφάνιση ενός καταλόγου επικεφαλίδων στο επίπεδο 1: <keyseq><key>Alt</key><key>Shift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενη και προηγούμενη κεφαλίδα στο επίπεδο 2: <keyseq><key>2</key></keyseq> και <keyseq><key>Shift</key><key>2</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου επικεφαλίδων στο επίπεδο 2: <keyseq><key>Alt</key><key>Shift</key><key>2</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενη και προηγούμενη κεφαλίδα στο επίπεδο 3: <keyseq><key>3</key></keyseq> και <keyseq><key>Shift</key><key>3</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου επικεφαλίδων στο επίπεδο 3: <keyseq><key>Alt</key><key>Shift</key><key>3</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενη και προηγούμενη κεφαλίδα στο επίπεδο 4: <keyseq><key>4</key></keyseq> και <keyseq><key>Shift</key><key>4</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου επικεφαλίδων στο επίπεδο 4: <keyseq><key>Alt</key><key>Shift</key><key>4</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενη και προηγούμενη κεφαλίδα στο επίπεδο 5: <keyseq><key>5</key></keyseq> και <keyseq><key>Shift</key><key>5</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου επικεφαλίδων στο επίπεδο 5: <keyseq><key>Alt</key><key>Shift</key><key>5</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενη και προηγούμενη κεφαλίδα στο επίπεδο 6: <keyseq><key>6</key></keyseq> και <keyseq><key>Shift</key><key>6</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου επικεφαλίδων στο επίπεδο 6: <keyseq><key>Alt</key><key>Shift</key><key>6</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="forms">
+      <title>Φόρμες</title>
+      <list>
+        <item>
+          <p>Επόμενο και προηγούμενο πεδίο φόρμας: <keyseq><key>τροποποιητής Orca </key><key>Tab</key></keyseq> και <keyseq><key>τροποποιητής Orca</key><key>Shift</key><key>Tab</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου από πεδία φόρμας: <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενο και προηγούμενο κουμπί: <keyseq><key>B</key></keyseq> και <keyseq><key>Shift</key><key>B</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου πλήκτρων: <keyseq><key>Alt</key><key>Shift</key><key>Β</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενο και προηγούμενο σύνθετο πλαίσιο: <keyseq><key>C</key></keyseq> και <keyseq><key>Shift</key><key>C</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου σύνθετων πλαισίων: <keyseq><key>Alt</key><key>Shift</key><key>C</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενη και προηγούμενη καταχώριση: <keyseq><key>Ε</key></keyseq> και <keyseq><key>Shift</key><key>Ε</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου καταχωρίσεων: <keyseq><key>Alt</key><key>Shift</key><key>Ε</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενο και προηγούμενο ραδιοπλήκτρο: <keyseq><key>R</key></keyseq> και <keyseq><key>Shift</key><key>R</key></keyseq></p>
+        </item>
+        <item>
+          <p>Εμφάνιση ενός καταλόγου ραδιοπλήκτρων: <keyseq><key>Alt</key><key>Shift</key><key>R</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Επόμενο και προηγούμενο πλαίσιο ελέγχου: <keyseq><key>X</key></keyseq> και <keyseq><key>Shift</key><key>X</key></keyseq></p>
+        </item>
+        <item>
+          <p>Εμφάνιση ενός καταλόγου πλαισίων ελέγχου: <keyseq><key>Alt</key><key>Shift</key><key>X</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="links">
+    <title>Συνδέσμους</title>
+      <list>
+        <item>
+          <p>Επόμενος και προηγούμενος σύνδεσμος: <keyseq><key>K</key></keyseq> και <keyseq><key>Shift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Εμφάνιση ενός καταλόγου συνδέσμvn: <keyseq><key>Alt</key><key>Shift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενος και προηγούμενος ανεπίσκεπτος σύνδεσμος: <keyseq><key>U</key></keyseq> και <keyseq><key>Shift</key><key>U</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου συνδέσμων χωρίς επίσκεψη: <keyseq><key>Alt</key><key>Shift</key><key>U</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενος και προηγούμενος σύνδεσμος με επίσκεψη: <keyseq><key>V</key></keyseq> και <keyseq><key>Shift</key><key>V</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου διαβασμένων συνδέσμων: <keyseq><key>Alt</key><key>Shift</key><key>V</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="lists">
+      <title>Λίστες</title>
+      <list>
+        <item>
+          <p>Επόμενη και προηγούμενη λίστα: <keyseq><key>L</key></keyseq> και <keyseq><key>Shift</key><key>L</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση μιας λίστας των καταλόγων: <keyseq><key>Alt</key><key>Shift</key><key>L</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενο και προηγούμενο στοιχείο λίστας: <keyseq><key>I</key></keyseq> και <keyseq><key>Shift</key><key>I</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση μιας λίστας των στοιχείων καταλόγων: <keyseq><key>Alt</key><key>Shift</key><key>I</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="tables">
+      <title>Πίνακες</title>
+      <list>
+        <item>
+          <p>Επόμενος και προηγούμενος πίνακας: <keyseq><key>Τ</key></keyseq> και <keyseq><key>Shift</key><key>Τ</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου πινάκων: <keyseq><key>Alt</key><key>Shift</key><key>T</key></keyseq></p>
+        </item>
+        <item>
+          <p>Κελί στα αριστερά: <keyseq><key>Alt</key><key>Shift</key><key>αριστερό βέλος</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Κελί στα δεξιά: <keyseq><key>Alt</key><key>Shift</key><key>δεξιό βέλος</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Επάνω κελί: <keyseq><key>Alt</key><key>Shift</key><key>άνω βέλος</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Κάτω κελί: <keyseq><key>Alt</key><key>Shift</key><key>κάτω βέλος</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Πρώτο κελί στον πίνακα: <keyseq><key>Alt</key><key>Shift</key><key>Home</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Τελευταίο κελί στον πίνακα: <keyseq><key>Alt</key><key>Shift</key><key>End</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="text_blocks">
+      <title>Ομάδες κειμένου</title>
+      <list>
+        <item>
+          <p>Επόμενη και προηγούμενη παράγραφος: <keyseq><key>P</key></keyseq> και <keyseq><key>Shift</key><key>P</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου παραγράφων: <keyseq><key>Alt</key><key>Shift</key><key>P</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενη και προηγούμενη ομάδα εισαγωγικών: <keyseq><key>Q</key></keyseq> και <keyseq><key>Shift</key><key>Q</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου μεγάλων παραθέσεων: <keyseq><key>Alt</key><key>Shift</key><key>Q</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενο και προηγούμενο "μεγάλο αντικείμενο": <keyseq><key>O</key></keyseq> και <keyseq><key>Shift</key><key>O</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου "μεγάλων αντικειμένων": <keyseq><key>Alt</key><key>Shift</key><key>O</key></keyseq></p>
+        </item>
+       </list>
+    </section>
+    <section id="other">
+      <title>Άλλα στοιχεία</title>
+      <list>
+        <item>
+          <p>Επόμενο και προηγούμενο ορόσημο: <keyseq><key>M</key></keyseq> και <keyseq><key>Shift</key><key>M</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου οροσήμων: <keyseq><key>Alt</key><key>Shift</key><key>M</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενος και προηγούμενος διαχωριστής: <keyseq><key>S</key></keyseq> και <keyseq><key>Shift</key><key>S</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Επόμενο και προηγούμενο "επιλέξιμο": <keyseq><key>Α</key></keyseq> και <keyseq><key>Shift</key><key>A</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Εμφάνιση ενός καταλόγου των "επιλέξιμων": <keyseq><key>Alt</key><key>Shift</key><key>A</key></keyseq></p>
+        </item>
+        <item>
+          <p>Επόμενη και προηγούμενη εικόνα: <keyseq><key>G</key></keyseq> και <keyseq><key>Shift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Εμφάνιση ενός καταλόγου εικόνων: <keyseq><key>Alt</key><key>Shift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>
+            Start and end of current container:
+            <keyseq><key>Shift</key><key>Comma</key></keyseq> and
+            <keyseq><key>Comma</key></keyseq>
+          </p>
+        </item>
+      </list>
+    </section>
+</page>

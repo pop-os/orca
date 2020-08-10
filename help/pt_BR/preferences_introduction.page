@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_introduction" xml:lang="pt-BR">
+  <info>
+    <title type="sort">0. Introdução às preferências do <app>Orca</app></title>
+    <title type="link">Introdução às preferências do <app>Orca</app></title>
+    <link type="guide" xref="preferences"/>
+    <link type="next" xref="preferences_general"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Introdução às preferências do <app>Orca</app></title>
+  <section id="orca">
+    <title>Preferências do Orca</title>
+    <p>As preferências do Orca permitem que você personalize a funcionalidade no <app>Orca</app> a ser aplicada à todos os aplicativos. Um exemplo de uma preferência no Orca é o eco de teclas porque o eco de teclas é algo que se aplica à todos os aplicativos.</p>
+    <p>Note que as preferências do Orca podem ser personalizadas de forma padrão para todos os aplicativos e individualmente por aplicativo. Por exemplo, você pode definir o eco de teclas por padrão como palavras e então definir o eco de teclas para o Pidgin como nenhum. Tendo feito isso, o <app>Orca</app> ecoaria cada palavra digitada por você, a menos que você estivesse no Pidgin.</p>
+    <note style="tip">
+      <title>Atalhos de teclado para entrar nos Diálogos de Preferências</title>
+      <list>
+        <item>
+          <p><keyseq><key>Tecla modificadora do Orca</key><key>Space</key></keyseq>: Preferências do <app>Orca</app></p>
+        </item>
+        <item>
+          <p><keyseq><key>Ctrl</key><key>Tecla Modificadora do Orca</key><key>Espaço</key></keyseq>: Preferências do <app>Orca</app> para o aplicativo atual</p>
+        </item>
+      </list>
+    </note>
+  </section>
+  <section id="application_unique">
+    <title>Preferências exclusivas do aplicativo</title>
+      <p>Em contraste com as preferências do Orca, existem preferências exclusivas para o aplicativo. Estas preferências permitem que você personalize o funcionamento do <app>Orca</app> apenas para certos ambientes, como em páginas Web ou em aplicativos de bate-papo. Por isso, estas opções apenas estarão disponíveis nos diálogos específicos das preferências do aplicativo e apenas para aqueles aplicativos para os quais essas opções se aplicam.</p>
+  </section>
+</page>

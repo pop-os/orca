@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_controlling_orca" xml:lang="pt-BR">
+  <info>
+    <link type="next" xref="commands_where_am_i"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <title type="sort">1. Controlando e aprendendo a usar o Orca</title>
+    <title type="link">Controlando e aprendendo a usar o Orca</title>
+    <desc>Comandos para interagir com o<app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Controlando e aprendendo a usar o Orca</title>
+  <section id="controlling">
+    <title>Comandos para controlar o <app>Orca</app></title>
+    <p>Os comandos a seguir podem ser usados para entrar nas preferências do <app>Orca</app>, sair do <app>Orca</app> e ignorar comandos do <app>Orca</app> para evitar conflito de atalhos com o aplicativo que está sendo acessado.</p>
+    <list>
+      <item>
+        <p>Alterne o <app>Orca</app> em ligado e desligado no GNOME: <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>
+        <note style="tip">
+           <p>
+             If you are using <app>Orca</app> in another desktop environment in which
+             there is no command to toggle <app>Orca</app> on and off, you may find the
+             command to quit <app>Orca</app> helpful. This command is unbound by default.
+             Please see <link xref="howto_key_bindings">Modifying Keybindings</link> for
+             information on how to bind unbound commands.
+           </p>
+        </note>
+      </item>
+      <item>
+        <p><link xref="preferences">Preferências do Orca</link> Diálogo: <keyseq><key>Tecla modificadora do Orca</key><key>barra de espaço</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Preferências do Orca para o aplicativo atual: <keyseq><key>Ctrl</key><key>Tecla modificadora do Orca</key><key>barra de espaço</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Envia o próximo comando para o aplicativo atual: <keyseq><key>Tecla modificadora do Orca</key><key>BackSpace</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="learning">
+    <title>Comandos para aprender a usar o <app>Orca</app></title>
+    <p>No modo de aprendizado, o <app>Orca</app> anunciará cada tecla pressionada juntamente com o comando do <app>Orca</app> associado àquela tecla. Neste modo, você também pode obter uma lista de teclas de atalho contendo todos os comandos do <app>Orca</app> que você pode usar.</p>
+    <list>
+      <item>
+        <p>
+          Enter Learn Mode:
+          <keyseq><key>Orca Modifier</key><key>H</key></keyseq>
+        </p>
+      </item>
+      <item>
+        <p>
+          Exit Learn Mode:
+          <keyseq><key>Esc</key></keyseq>
+        </p>
+      </item>
+    </list>
+  </section>
+</page>

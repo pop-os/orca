@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_braille" xml:lang="fr">
+  <info>
+    <link type="next" xref="commands_reading"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_braille"/>
+    <title type="sort">2. Braille</title>
+    <title type="link">Braille</title>
+    <desc>Commandes exécutables sur les plages braille</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Commandes braille</title>
+  <p>Les commandes suivantes vous permettent de contrôler <app>Orca</app> depuis votre plage braille au lieu de votre clavier :</p>
+  <list>
+    <item><p>Déplacer l’afficheur braille vers la gauche : ligne à gauche</p></item>
+    <item><p>Déplacer l’afficheur braille vers la droite : ligne à droite</p></item>
+    <item><p>Activer ou désactiver le mode d’examen global : geler</p></item>
+    <item><p>Lire le mot au-dessus : ligne en haut</p></item>
+    <item><p>Lire le mot en dessous : ligne en bas</p></item>
+    <item><p>Lire en bas à gauche : en bas à droite</p></item>
+    <item><p>Lire la position de départ : en haut à gauche</p></item>
+    <item><p>Braille abrégé : six points</p></item>
+    <item><p>Marquer le début d’une sélection de texte : début couper</p></item>
+    <item><p>Marquer la fin d’une sélection de texte : couper ligne</p></item>
+    <item><p>Traiter une touche de routage du curseur : routage du curseur</p></item>
+    <item><p>Retourner à l’objet possédant le focus clavier : position du curseur</p></item>
+  </list>
+</page>

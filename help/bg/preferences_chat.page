@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_chat" xml:lang="bg">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_spellcheck"/>
+    <title type="sort">3. Чат</title>
+    <title type="link">Чат</title>
+    <desc>
+      Configuring <app>Orca</app>'s support for IM and IRC
+    </desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Настройки за чат</title>
+  <p>Следните опции ви позволяват да определите как <app>Orca</app> ще се държи при предоставянето на достъп до клиенти за незабавни съобщения и IRC.</p>
+  <section id="speak_name">
+    <title>Прочитане на името на стаята</title>
+    <p>Ако това поле има отметка, <app>Orca</app> ще прочита името на стаята или контакта преди съобщението, освен ако то не идва от разговора на фокус.</p>
+    <p>Стойност по подразбиране: без отметка</p>
+  </section>
+  <section id="announce_typing">
+    <title>Уведомяване, когато контактите пишат съобщение</title>
+    <p>Ако това поле има отметка и ако <app>Orca</app> има необходимата информация, че вашият контакт пише в момента, <app>Orca</app> ще ви съобщава когато отсрещната страна пише или спре да го прави.</p>
+    <p>Стойност по подразбиране: без отметка</p>
+  </section>
+  <section id="message_histories">
+    <title>Стаите за чата да са с отделни истории</title>
+    <p>Ако това поле има отметка, командите на <app>Orca</app> за преглед на скорошните съобщения ще се отнасят само за разговора на фокус. В противен случай, историята ще съдържа най-скорошните съобщения, без значение на кой разговор принадлежат.</p>
+    <p>Стойност по подразбиране: без отметка</p>
+  </section>
+  <section id="speak_messages_from">
+    <title>Прочитане на съобщенията от</title>
+    <p>Тази група от радио бутони ви позволява да определите в кои случаи <app>Orca</app> ще ви съобщава за пристигащи съобщения. Можете да избирате между:</p>
+    <list>
+      <item>
+        <p><gui>Всички канали</gui></p>
+      </item>
+      <item>
+        <p><gui>Канал, само ако прозорецът му е активен</gui></p>
+      </item>
+      <item>
+        <p><gui>Всички канали, когато е активен произволен прозорец на програмата</gui></p>
+      </item>
+    </list>
+    <p>Стойност по подразбиране: всички канали</p>
+  </section>
+</page>

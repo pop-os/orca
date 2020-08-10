@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_general" xml:lang="el">
+  <info>
+    <title type="sort">1. Γενικά</title>
+    <title type="link">Γενικά</title>
+    <desc>Ρύθμιση των θεμελιακών συμπεριφορών του <app>Orca</app></desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_voice"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Γενικές προτιμήσεις</title>
+  <section id="keyboardlayout">
+    <info>
+      <desc>Η επιλογή του πλαισίου διαλόγου προτιμήσεων για διάλεγμα διάταξης πληκτρολογίου του <app>Orca</app> για επιτραπέζιου ή φορητού.</desc>
+    </info>
+    <title>Διάταξη πληκτρολογίου</title>
+    <p>
+      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
+      you will be working on a desktop (i.e. with a numeric keypad) or laptop
+      keyboard. Which layout you choose will determine both the <key>Orca
+      Modifier</key> as well as a number of keyboard shortcuts for performing
+      <app>Orca</app> commands.</p>
+    <p>Προεπιλεγμένη τιμή: <gui>επιτραπέζιος</gui></p>
+  </section>
+  <section id="presenttooltips">
+    <info>
+      <desc>Η επιλογή του πλαισίου διαλόγου για ενεργοποίηση της παρουσίασης των συμβουλών οθόνης θα εμφανιστεί ως αποτέλεσμα της υπέρπτησης του ποντικιού.</desc>
+    </info>
+    <title>Εμφάνιση συμβουλών οθόνης</title>
+    <p>Όταν σημειωθεί, αυτή η επιλογή ζητά από το <app>Orca</app> να παρουσιάζει τις πληροφορίες των συμβουλών οθόνης όταν αυτές εμφανίζονται ως αποτέλεσμα της υπέρπτησης του ποντικιού. Ειδικές ενέργειες εξαναγκασμού εμφάνισης των συμβουλών οθόνης, όπως το πάτημα <keyseq> <key>Ctrl</key><key>F1</key></keyseq> όταν είναι εστιασμένο ένα αντικείμενο, καταλήγουν πάντοτε στην παρουσίαση συμβουλών οθόνης, ανεξάρτητα από τη ρύθμιση αυτή.</p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+  </section>
+  <section id="objectundermouse">
+    <info>
+      <desc>Η επιλογή του πλαισίου διαλόγου προτιμήσεων για ενεργοποίηση της παρουσίασης του αντικειμένου κάτω από τον δείκτη του ποντικιού.</desc>
+    </info>
+    <title>Εκφώνηση του αντικειμένου κάτω από το ποντίκι</title>
+    <p>Όταν σημειωθεί, αυτή η επιλογή θα πει στο <app>Orca</app> να εμφανίσει πληροφορίες για το αντικείμενο κάτω από τον δείκτη ποντικιού καθώς το μετακινείτε γύρω από την οθόνη χρησιμοποιώντας στο <app>Orca</app> το γνώρισμα <link xref="howto_mouse_review">επισκόπηση ποντικιού</link>.</p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+  </section>
+  <section id="timeanddate">
+    <info>
+      <desc>Επιλογές του πλαισίου διαλόγου προτιμήσεων για προσαρμογή των μορφών του χρόνου και ημερομηνίας που χρησιμοποιούνται από το <app>Orca</app>.</desc>
+    </info>
+    <title>Μορφές χρόνου και ημερομηνίας</title>
+    <p>Τα σύνθετα πλαίσια <gui>μορφής χρόνου</gui> και <gui>μορφής ημερομηνίας</gui> επιτρέπουν τον καθορισμό της εκφώνησης του <app>Orca</app> του χρόνου και της ημερομηνίας σε Μπράιγ.</p>
+    <p>Προεπιλεγμένη τιμή: χρήση της μορφής του τοπικού συστήματος για κάθε</p>
+  </section>
+  <section id="navigation_in_say_all">
+    <info>
+      <desc>
+        Preferences dialog box options for enabling rewind, fast forward,
+	and structural navigation during Say All.
+      </desc>
+    </info>
+    <title>Navigation in Say All</title>
+    <p>
+        <app>Orca</app>'s Say All feature speaks document content from your
+        present location to the end of the document. By default, pressing any
+        key will interrupt Say All's presentation. However, if you check the
+        <gui>Enable rewind and fast forward in Say All</gui> checkbox,
+        <key>Up</key> and <key>Down</key> can be used during Say All to quickly
+        move within the document in order to re-hear something which was just
+        read or skip past text of no interest without having to restart Say All.
+    </p>
+    <p>
+       If you are reading a document within an application that has structural
+       navigation support, and you have checked the <gui>Enable structural navigation
+       in Say All</gui> checkbox, you can use the supported structural navigation
+       commands in a similar fashion: <key>H</key>/<keyseq><key>Shift</key>
+       <key>H</key></keyseq> continues reading from the next/previous heading,
+       <key>P</key>/<keyseq><key>Shift</key><key>P</key></keyseq> continues reading
+       from the next/previous paragraph, <key>T</key>/<keyseq><key>Shift</key>
+       <key>T</key></keyseq> continues reading from the next/previous table, and
+       so on.
+    </p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+  </section>
+  <section id="say_all_announce_context">
+    <title>Announce Contextual Information in Say All</title>
+    <p>
+      <app>Orca</app> can optionally provide more information about the document
+      content being spoken, such as announcing when you are entering and leaving
+      a blockquote, list, table, or other container. Whether or not these
+      announcements are made can be configured independently through the following
+      checkboxes:
+    </p>
+    <list>
+      <item><p>Announce blockquotes in Say All</p></item>
+      <item><p>Announce forms in Say All</p></item>
+      <item><p>Announce landmarks in Say All</p></item>
+      <item><p>Announce lists in Say All</p></item>
+      <item><p>Announce panels in Say All</p></item>
+      <item><p>Announce tables in Say All</p></item>
+    </list>
+    <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    <note style="note">
+      <p>
+        Whether or not <app>Orca</app> makes these announcements during
+        navigation is also configurable. You will find similar checkboxes
+        on the <gui>Speech</gui> page. For more information, see
+        <link xref="preferences_speech#spoken_context">Spoken Context</link>.
+      </p>
+    </note>
+  </section>
+  <section id="say_all_by">
+   <info>
+      <desc>
+        Preferences dialog box option for customizing <app>Orca</app>'s
+	Say All presentation.
+      </desc>
+   </info>
+   <title>Εκφώνηση όλων κατά</title>
+   <p>Ο σύνθετο πλαίσιο <gui>εκφώνηση όλων κατά</gui> επιτρέπει τον ορισμό εάν το <app>Orca</app> εκφωνεί μια πρόταση τη φορά ή μια γραμμή τη φορά όταν κάνει μια "εκφώνηση όλων" ενός εγγράφου.</p>
+    <p>Προεπιλεγμένη τιμή: <gui>Πρόταση</gui></p>
+  </section>
+  <section id="profiles">
+    <info>
+      <desc>Επιλογή του πλαισίου διαλόγου προτιμήσεων διαχείρισης των κατατομών ρυθμίσεων.</desc>
+    </info>
+    <title>Κατατομές</title>
+    <p>Η ομάδα των ελέγχων <gui>κατατομές</gui>, που εμφανίζεται στο τέλος της σελίδας <gui>γενικά</gui>, κάνει δυνατή τη διατήρηση και χρήση πολλαπλών διαμορφώσεων.</p>
+   <list>
+      <item>
+        <p>Το σύνθετο πλαίσιο <gui>ενεργή κατατομή</gui> εμφανίζει την τρέχουσα κατατομή και επιτρέπει τη φόρτωση της επιλογή διαφορετικής κατατομής.</p>
+      </item>
+      <item>
+        <p>Το κουμπί <gui>φόρτωση</gui> θα προκαλέσει τη φόρτωση από το <app>Orca</app> της κατατομής που εμφανίζεται στο σύνθετο πλαίσιο <gui>ενεργής κατατομής</gui>.</p>
+      </item>
+      <item>
+        <p>Το κουμπί <gui>αποθήκευση ως</gui> επιτρέπει την αποθήκευση του τρέχοντος συνόλου επιλογών από το πλαίσιο διαλόγου προτιμήσεων σε μία επώνυμη κατατομή.</p>
+      </item>
+      <item>
+        <p>Το σύνθετο πλαίσιο <gui>εκκίνηση κατατομής</gui> επιτρέπει την επιλογή της κατατομής που πρέπει να φορτωθεί αυτόματα κάθε φορά που ξεκινάτε το <app>Orca</app>.</p>
+      </item>
+    </list>
+  </section>
+  <section id="progress_bar_updates">
+    <title>Ενημερώσεις γραμμής προόδου</title>
+    <section id="progress_bar_updates_speak">
+      <title>Speak updates</title>
+      <p>
+        If the <gui>Speak updates</gui> checkbox is checked <app>Orca</app> will
+        periodically speak the status of progress bars.
+      </p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    </section>
+    <section id="progress_bar_updates_braille">
+      <title>Braille updates</title>
+      <p>
+        If the <gui>Braille updates</gui> checkbox is checked <app>Orca</app> will
+        periodically display the status of progress bars on your refreshable braille
+        display.
+      </p>
+      <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+    </section>
+    <section id="progress_bar_updates_beep">
+      <title>Beep updates</title>
+      <p>
+        If the <gui>Beep updates</gui> checkbox is checked <app>Orca</app> will
+        periodically emit beeps which increase in pitch as the value of the progress
+        bar increases.
+      </p>
+      <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+    </section>
+    <section id="progress_bar_updates_frequency">
+      <title>Συχνότητα (s)</title>
+      <p>
+        This spin button determines how often updates are presented.
+      </p>
+      <p>Προεπιλεγμένη τιμή: 10</p>
+    </section>
+    <section id="progress_bar_updates_restrict">
+      <title>Applies to</title>
+      <p>Αυτό το σύνθετο πλαίσιο επιτρέπει τον έλεγχο ποιες γραμμές προόδου θα εμφανίζονται, υποθέτοντας ότι η παρουσίαση των ενημερώσεων της γραμμής προόδου έχει ενεργοποιηθεί. Οι επιλογές είναι <gui>όλα</gui>, <gui>εφαρμογή</gui> και <gui>παράθυρο</gui>.</p>
+      <p>Επιλέγοντας <gui>όλα</gui> θα καταλήξει στην παρουσίαση ενημερώσεων για όλες τις γραμμές προόδου από το <app>Orca</app>, ανεξάρτητα από πού εντοπιονται οι γραμμές προόδου.</p>
+      <p>Επιλέγοντας <gui>εφαρμογή</gui> θα καταλήξει στην παρουσίαση ενημερώσεων από τις γραμμές προόδου στην ενεργή εφαρμογή από το <app>Orca</app>, ακόμα κι αν δεν είναι στο ενεργό παράθυρο.</p>
+      <p>Επιλέγοντας <gui>παράθυρο</gui> θα καταλήξει στην παρουσίαση μόνο ενημερώσεων για τις γραμμές προόδου στο ενεργό παράθυρο από το <app>Orca</app>.</p>
+      <p>Προεπιλεγμένη τιμή: <gui>εφαρμογή</gui></p>
+    </section>
+  </section>
+</page>

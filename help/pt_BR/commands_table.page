@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_table" xml:lang="pt-BR">
+  <info>
+    <link type="next" xref="commands_flat_review"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_tables"/>
+    <title type="sort">3. Navegação em tabela</title>
+    <title type="link">Navegação em tabela</title>
+    <desc>Comandos para acessar informações tabuladas</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos de navegação em tabela</title>
+  <p>O suporte do Orca à navegação por célula de uma tabela faz parte de seus <link xref="commands_structural_navigation#tables">Comandos de navegação estrutural</link>. Adicionalmente você pode:</p>
+  <list>
+    <item>
+      <p>Ajusta os cabeçalhos de linha dinâmica para a coluna atual: <keyseq><key>Tecla modificadora do Orca</key><key>C</key></keyseq></p>
+    </item>
+    <item>
+      <p>Ajusta os cabeçalhos de coluna dinâmica para a linha atual: <keyseq><key>Tecla modificadora do Orca</key><key>R</key></keyseq></p>
+    </item>
+    <item>
+      <p>Limpa os cabeçalhos de linha dinâmica: <keyseq><key>Tecla modificadora do Orca</key><key>C</key></keyseq> (pressionada duas vezes)</p>
+    </item>
+    <item>
+      <p>Limpa os cabeçalhos de coluna dinâmica: <keyseq><key>Tecla modificadora do Orca</key><key>R</key></keyseq> (pressionada duas vezes)</p>
+    </item>
+    <item>
+      <p>Alterna entre leitura de célula ou de linha numa tabela: <keyseq><key>Tecla modificadora do Orca</key><key>F11</key></keyseq></p>
+    </item>
+  </list>
+</page>

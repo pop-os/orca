@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_toggling_caps_lock" xml:lang="es">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_key_bindings"/>
+    <title type="sort">7. Bloq Mayús en distribución de portátil</title>
+    <desc>Activarlo cuando es el <key>Modificador Orca</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Compartir Igual 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Daniel Mustieles</mal:name>
+      <mal:email>daniel.mustieles@gmail.com</mal:email>
+      <mal:years>2012 - 2020</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jorge González</mal:name>
+      <mal:email>jorgegonz@svn.gnome.org</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  </info>
+  <title>Bloq Mayús en distribución de portátil</title>
+  <p>
+    Orca has two keyboard layouts: Desktop and Laptop. The layout you choose
+    impacts which key is used as the Orca Modifier. If you are using the Laptop
+    layout, the default Orca Modifier will be <key>CapsLock</key>. If you are
+    using <app>Orca</app>'s Laptop Layout and want to lock or unlock
+    <key>CapsLock</key>, you can do so by either pressing <key>CapsLock</key>
+    twice (requires at-spi2 version 2.32 or later), or by performing the
+    following steps:
+  </p>
+  <steps>
+    <title>Alternar el «Bloq Mayús» en la distribución de portátil</title>
+    <item>
+      <p>Pulse el comando Ignorar, <keyseq><key>Modificador de Orca</key><key>Retroceso</key></keyseq>, para indicar a <app>Orca</app>que el siguiente comando se debería ignorar.</p>
+    </item>
+    <item>
+      <p>Pulse <key>Bloq Mayús</key> para cambiar su estado de bloqueo.</p>
+    </item>
+  </steps>
+</page>

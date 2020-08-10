@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_the_orca_modifier" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_learn_modes"/>
+    <title type="sort">3. The Orca Modifier</title>
+    <desc>Ključ deluje kot <key>Dvigalka</key>, <key>Ctrl</key> in <key>Alt</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Pomožne tipke Orka</title>
+  <p>Orka ima posebno spremenilno tipko, ki deluje kot <key>Dvigalka</key>, <key>Ctrl</key> in <key>Alt</key>. Zasnovana je posebej za izvajanje ukazov <app>Orke</app> brez uvajanja sporov z ukazi programov do katerih dostopate.</p>
+  <p>Katera tipka je privzeto "Spremenila tipka Orka" je odvisno od tega ali uporabljate <app>Orkino</app> razporeditev tipkovnice prenosnika ali namiznega računalnika:</p>
+  <list>
+    <item>
+      <p>V primeru da uporabljate razporeditev prenosnika, bo privzeta spremenilna tipka Orka <key>CapsLock</key></p>
+    </item>
+    <item>
+      <p>
+        If you are using the Desktop layout, the Orca Modifier will
+        be both <key>Insert</key> and <key>KP_Insert</key>, the
+        latter being the same key as <key>KP_0</key>.
+      </p>
+    </item>
+  </list>
+  <p>V primeru da želite obdržati svojo trenutno razporeditev tipkovnice, a izbrati drugo spremenilno tipko, uporabite naslednje korake:</p>
+  <steps>
+    <title>Spreminjanje pomožnih tipk Orka</title>
+    <item>
+      <p>Pojdite v pogovorno okno <link xref="preferences">Možnosti Orka</link> s pritiskom na <keyseq><key>Spremenilna tipka Orka</key><key>Preslednica</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Premaknite se na stran <gui>Tipkovne bližnjice</gui>.</p>
+    </item>
+    <item>
+      <p>Move to the <gui>Screen Reader Modifier Key(s)</gui> combobox.</p>
+    </item>
+    <item>
+      <p>S puščico se premaknite do želene spremenilne tipke. Razpoložljive možnosti so:</p>
+      <list>
+        <item><p>Vstavi, KP_Vstavi</p></item>
+        <item><p>KP_Vstavi</p></item>
+        <item><p>Vstavi</p></item>
+        <item><p>Caps_Lock</p></item>
+      </list>
+    </item>
+    <item><p>Nato pritisnite gumb <gui>Uveljavi</gui>.</p></item>
+  </steps>
+</page>

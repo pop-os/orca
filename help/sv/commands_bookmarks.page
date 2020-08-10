@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_bookmarks" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_live_regions"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_bookmarks"/>
+    <title type="sort">4. Bokmärken</title>
+    <title type="link">Bokmärken</title>
+    <desc>Kommandon för att bokmärka och återkalla objekt</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Bokmärkeskommandon</title>
+  <p><app>Orca</app> tillhandahåller flera kommandon som kan användas för att ”bokmärka” ett objekt i syfte att navigera tillbaka till det senare.</p>
+  <list>
+    <item>
+      <p>Spara ett bokmärke till den numrerade platsen: <keyseq><key>Orca-modifierare</key> <key>Alt</key><key>1</key></keyseq>-<key>6</key></p>
+    </item>
+    <item>
+      <p>Spara de definierade bokmärkena för programmet eller sidan: <keyseq><key>Orca-modifierare</key><key>Alt</key><key>B</key></keyseq></p>
+    </item>
+    <item>
+      <p>Gå till ett specifikt numrerat bokmärke: <keyseq><key>Orca-modifierare</key> <key>1</key></keyseq>-<key>6</key></p>
+    </item>
+    <item>
+      <p>Gå till föregående bokmärke för programmet eller sidan: <keyseq><key>Orca-modifierare</key><key>Skift</key><key>B</key> </keyseq></p>
+    </item>
+    <item>
+      <p>Gå till nästa bokmärke för programmet eller sidan: <keyseq><key>Orca-modifierare</key><key>B</key></keyseq></p>
+    </item>
+  </list>
+</page>

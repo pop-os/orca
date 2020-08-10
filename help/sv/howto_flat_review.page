@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_flat_review" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_orca_find"/>
+    <title type="sort">2. Platt granskning</title>
+    <desc>Undersöka ett fönster spatialt</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Platt granskning</title>
+  <p><app>Orca</app>s funktioner för platt granskning låter dig spatialt granska innehållet i det aktiva fönstret, både text och komponenter. I detta läge behandlar <app>Orca</app> fönstret som om det var en tvådimensionellt textark, och bortser helt från komponenthierarki eller annan logisk gruppering i fönstret.</p>
+  <p>Det ”tillplattade” innehållet, också känt som den platta granskningens kontext, kan <link xref="commands_flat_review">navigeras</link> per rad, per ord, per tecken och per objekt. Dessutom kan du utföra ett vänsterklick eller ett högerklick på objektet som granskas. Slutligen kan du använda <link xref="howto_orca_find">Orcas sökning</link>, en funktion baserad på platt granskning för att söka igenom det aktiva fönstrets innehåll.</p>
+  <p>Eftersom den platta granskningens kontext är en spatial representation av det aktiva fönstrets innehåll så skapas den när du först går in i platt granskning och innehåller endast de objekt som är synliga. Som ett resultat av detta kommer du inte kunna använda platt granskning för att komma åt objekt som är i fönstren men för tillfället är utanför skärmen. Dessutom så kommer den platta granskningens kontext inte uppdateras automatiskt om innehållet i fönstret ändras av sig själv. Du kan få en ny kontext att byggas genom att växla platt granskning mellan av och sedan på igen.</p>
+  <p>Slutligen är platt granskning av sin natur ett läge som inte kan användas samtidigt som <app>Orca</app> spårar fokus. Om du är i platt granskning och sedan använder programmets navigeringskommandon för att flytta markören eller för att ge fokus till ett annat objekt så kommer du därför automatiskt lämna platt granskning.</p>
+</page>

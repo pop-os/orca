@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_documents" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_text_attributes"/>
+    <title type="sort">1. Documents</title>
+    <desc>Lire le contenu</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Documents</title>
+  <p>Pour lire le contenu de tout type de documents, utilisez le mode intégré de navigation au curseur de l’application. Alors que vous parcourez le texte du document, <app>Orca</app> prononce votre nouvel emplacement. De ce fait, vous êtes vraisemblablement déjà familier avec la façon de lire des documents avec <app>Orca</app>. Par exemple :</p>
+  <list>
+    <item>
+      <p>Utilisez <key>Flèche gauche</key> et <key>Flèche droite</key> pour vous déplacer et lire caractère par caractère.</p>
+    </item>
+    <item>
+      <p>Utilisez <keyseq><key>Ctrl</key><key>Flèche gauche</key></keyseq> et <keyseq><key>Ctrl</key><key>Flèche droite</key></keyseq> pour vous déplacer et lire mot par mot.</p>
+    </item>
+    <item>
+      <p>Utilisez <key>Flèche haut</key> et <key>Flèche bas</key> pour vous déplacer et lire ligne par ligne.</p>
+    </item>
+    <item>
+      <p>Utilisez <key>Maj</key> en combinaison avec les commandes ci-dessus pour sélectionner et désélectionner du texte.</p>
+    </item>
+  </list>
+  <note style="tip">
+    <title>Activer la navigation au curseur dans une application</title>
+    <p>La navigation au curseur n’est pas activée par défaut dans toutes les applications. Dans de nombreuses applications GNOME, cette navigation peut être activée/désactivée en appuyant sur la touche <key>F7</key>.</p>
+  </note>
+  <p>En plus de la lecture d’un document avec la navigation au curseur, vous pouvez trouver utile de lire, d’épeler et d’obtenir la valeur Unicode du texte actuel. Vous pouvez faire tout cela en utilisant la <link xref="howto_flat_review">commande Examen global</link> d’<app>Orca</app>.</p>
+  <p>Finalement, pour que <app>Orca</app> lise le document en entier à partir de votre emplacement actuel, utilisez la commande « Tout lire ». Celle-ci, ainsi qu’une liste plus complète des commandes <app>Orca</app> pour l’accès au texte des documents, se trouve dans le guide <link xref="commands_reading">Commandes de lecture</link>.</p>
+</page>

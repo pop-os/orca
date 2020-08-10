@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_bindings" xml:lang="uk">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_pronunciation"/>
+    <link type="seealso" xref="howto_key_bindings"/>
+    <title type="sort">6. Прив'язка клавіш</title>
+    <title type="link">Прив'язки клавіш</title>
+    <desc>Налаштовування клавіатурних скорочень <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Параметри прив'язки клавіш</title>
+  <section id="orca_modifier_keys">
+    <title>Клавіші-модифікатори Orca</title>
+    <p>За допомогою спадного списку <gui>Клавіші-модифікатори екранного читача</gui> ви можете вибрати клавішу або клавіші, які використовуватимуться як клавіша-модифікатор Orca. Можна скористатися одним із таких варіантів:</p>
+    <list>
+      <item>
+        <p><gui>Insert_на_ЦБ</gui> (та сама клавіша, що і <key>0</key> на цифровому блоці клавіатури)</p></item>
+      <item><p><gui>Insert</gui></p></item>
+      <item><p><gui>Insert, Insert_на_ЦБ</gui></p></item>
+      <item><p><gui>Caps_Lock</gui></p></item>
+    </list>
+  </section>
+  <section id="key_bindings_table">
+    <title>Таблиця прив'язок клавіатури</title>
+    <p>У таблиці прив'язок клавіш буде наведено список усіх команд <app>Orca</app> та пов'язаних із ними комбінацій клавіш.</p>
+    <list>
+      <item>
+        <p>У стовпчику <gui>Команда</gui> буде показано опис команди <app>Orca</app>, яку буде виконано.</p>
+      </item>
+      <item>
+        <p>У стовпчику <gui>Прив'язки клавіш</gui> буде показано комбінацію клавіш, яку пов'язано із командою <app>Orca</app>. Ви можете змінити значення у цьому стовпчику натисканням клавіші <key>Enter</key>, натисканням нової комбінації клавіш і повторним натисканням клавіші <key>Enter</key>.</p>
+      </item>
+      <item>
+        <p>Стовпчик <gui>Змінено</gui> слугує одночасно індикатором того, чи було внесено зміни, і способом відновити типову прив'язку, яку використано для відповідної команди.</p>
+      </item>
+    </list>
+    <p>Під списком клавіатурних прив'язок <app>Orca</app> буде показано групу «непов'язаних» команд. Це команди, які, як нам здається, є дуже корисними для деяких користувачів, але є непотрібними більшості користувачів. Замість того, щоб «зарезервувати» комбінації клавіш для таких команд, ми лишили їх типово непов'язаними. Наприкінці, буде показано список прив'язок до дисплея Брайля для використання на оновлюваних дисплеях Брайля.</p>
+  </section>
+</page>

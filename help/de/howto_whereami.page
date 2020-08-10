@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_whereami" xml:lang="de">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_flat_review"/>
+    <title type="sort">1. Where Am I</title>
+    <desc>Erfahren Sie mehr über Ihren Standort</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Where Am I</title>
+  <p>Zusätzlich zu den fest zugeordneten Befehlen zum Vorlesen der Titel- und Statusleiste bietet Orca zwei kontextabhängige Befehle zu »Wo bin ich«: einfaches und detailliertes »Wo bin ich«. Das einfache »Wo bin ich« ist für alle Objekte implementiert. Das detaillierte »Wo bin ich« ist nur für diejenigen Objekte implementiert, die einen bedeutenden Informationsgehalt besitzen, an dem Sie manchmal, aber nicht immer, interessiert sein könnten.</p>
+  <p>Der beste Weg, sich mit »Wo bin ich« vertraut zu machen, ist, die <link xref="commands_where_am_i">Befehle zu »Wo bin ich«</link> auszuprobieren. Um Ihnen aber eine Vorstellung von der Kontextabhängigkeit in <app>Orca</app>s »Wo bin ich«-Funktion zu geben, betrachten Sie Folgendes:</p>
+  <p>Bei den meisten Widgets wird Ihnen zumindest die Bezeichnung und/oder der Name, die Art oder Rolle des Widgets, sowie der Menükürzelbuchstabe und/oder die Tastenkombination (falls vorhanden) vorgelesen. Zusätzlich:</p>
+  <list>
+    <item>
+      <p>Falls es sich beim Widget um Text handelt und Sie ein einfaches »Wo bin ich« durchführen, wird Ihnen die aktuelle Zeile vorgelesen, wenn kein Text ausgewählt ist. Falls Text ausgewählt ist, wird Ihnen ein einfaches »Wo bin ich« sagen, welcher Text ausgewählt ist. Bei einem detaillierten »Wo bin ich« werden zusätzlich die Textattribute miteinbezogen.</p>
+    </item>
+    <item>
+      <p>Falls das Widget ankreuzbar ist, wie zum Beispiel bei Ankreuzfeldern und Auswahlknöpfen, wird der Ankreuzzustand miteinbezogen.</p>
+    </item>
+    <item>
+      <p>Falls das Widget eine Liste oder ein listenähnliches Objekt ist, wie etwa ein Auswahlfeld, eine Gruppe an Auswahlknöpfen oder eine Reiterliste, wird die Position des aktuellen Objekts miteinbezogen.</p>
+    </item>
+    <item>
+      <p>Falls das Widget hierarchisch ist, wie etwa ein Baum, und Sie sich auf einem ausklappbaren Knoten befinden, wird Ihnen gesagt, ob der Knoten ausgeklappt ist oder nicht. Falls er ausgeklappt ist, wird Ihnen auch gesagt, wie viele Kindknoten er enthält und auf welcher Hierarchieebene er sich befindet.</p>
+    </item>
+    <item>
+      <p>Falls das Widget eine Fortschrittsanzeige oder ein Schieberegler ist, wird Ihnen die aktuelle Prozentzahl angegeben.</p>
+    </item>
+    <item>
+      <p>Falls das Widget ein Symbol innerhalb einer Symbolgruppe ist, wird in einem einfachen »Wo bin ich« das Objekt miteinbezogen, in und auf dem Sie sich befinden, sowie die Anzahl der ausgewählten Objekte. In einem detaillierten »Wo bin ich« wird Ihnen auch vorgelesen, welche Objekte ausgewählt sind.</p>
+    </item>
+    <item>
+      <p>Falls Sie sich auf einem Link befinden, wird der Typ des Links (gleiche oder andere Seite, FTP-Link usw.) miteinbezogen.</p>
+    </item>
+    <item>
+      <p>Falls Sie sich in einer Tabellenzelle befinden, werden die Koordinaten der Zelle sowie die Zellenüberschriften miteinbezogen.</p>
+    </item>
+    <item>
+      <p>Falls Sie sich in der Rechtschreibprüfung einer Anwendung befinden, zu der <app>Orca</app> eine erweiterte Unterstützung bietet, wird ein einfaches »Wo bin ich« den Fehler unter Berücksichtigung Ihrer <link xref="preferences_spellcheck">Einstellungen für die Rechtschreibprüfung</link> wiederholen. Ein detailliertes »Wo bin ich« wird <app>Orca</app> veranlassen, sämtliche Details zum Fehler vorzulesen.</p>
+    </item>
+  </list>
+  <p>Und so weiter. Nochmal: Das Ziel von <app>Orca</app>s »Wo bin ich« ist, Sie mit den Details über das aktuelle Objekt zu versorgen, an denen Sie vermutlich interessiert sind. Um sich an »Wo bin ich« zu versuchen, klicken Sie auf <link xref="commands_where_am_i">Befehle zu »Wo bin ich«</link>.</p>
+</page>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_bindings" xml:lang="sl">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_pronunciation"/>
+    <link type="seealso" xref="howto_key_bindings"/>
+    <title type="sort">6. Tipkovne bližnjice</title>
+    <title type="link">Tipkovne bližnjice</title>
+    <desc>Nastavljanje <app>Orkinih</app> tipkovnih bližnjic</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Možnosti tipkovne bližnjice</title>
+  <section id="orca_modifier_keys">
+    <title>Orca pomožne tipke¸</title>
+    <p>
+      The <gui>Screen Reader Modifier Key(s)</gui> combo box allows you to select which
+      key or keys will serve as the Orca Modifier. The available options are:
+    </p>
+    <list>
+      <item>
+        <p><gui>KP_Vstavi</gui> (enaka tipka kot <key>0</key> vendar na številčni tipkovnici)</p></item>
+      <item><p><gui>Vstavi</gui></p></item>
+      <item><p><gui>Vstavi, NT_Vstavi</gui></p></item>
+      <item><p><gui>Caps_Lock</gui></p></item>
+    </list>
+  </section>
+  <section id="key_bindings_table">
+    <title>Razpredelnica tipkovnih bližnjic</title>
+    <p>Razpredelnica tipkovnih bližnjic zagotavlja seznam operacij <app>Orke</app> in tipk, ki so vezane na njih.</p>
+    <list>
+      <item>
+        <p>
+          The <gui>Command</gui> column contains a description of the
+          <app>Orca</app> command to be performed.
+        </p>
+      </item>
+      <item>
+        <p>
+          The <gui>Key Binding</gui> column contains the keyboard shortcut currently
+          assigned to the <app>Orca</app> command. You can modify the value of
+          this column by pressing <key>Return</key>, pressing the keys for the
+          new binding, and pressing <key>Return</key> again.
+        </p>
+      </item>
+      <item>
+        <p>
+          The <gui>Modified</gui> column serves both as an indicator to what
+          has been changed and as a way to restore the default bindings
+          associated with that command.
+        </p>
+      </item>
+    </list>
+    <p>Pod seznamom <app>Orkinih</app> tipkovnih bližnjic boste našli skupino "nedoločenih" ukazov. To so ukazi, ki bodo zelo uporabniki za nekatere uporabnike, vendar jih večina uporabnikov ne bo potrebovala. Namesto da bi "uporabili" pritisk tipke za takšen ukaz smo jih privzeto pustili nedodeljene. Na koncu seznama so vezave Braillove pisave za uporabo z osvežljivim Braillovim zaslonom. </p>
+  </section>
+</page>

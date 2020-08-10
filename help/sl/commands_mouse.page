@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_mouse" xml:lang="sl">
+  <info>
+    <link type="next" xref="commands_bookmarks"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <title type="sort">3. Povezano z miško/kazalnikom</title>
+    <title type="link">Povezano z miško/kazalnikom</title>
+    <link type="seealso" xref="howto_flat_review"/>
+    <link type="seealso" xref="howto_mouse_review"/>
+    <desc>Ukazi za upravljanje s kazalnikom</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Ukazi povezani z miško/kazalnikom</title>
+  <p><app>Orka</app> zagotavlja več ukazov, ki jih je mogoče uporabiti za upravljanje miškinega kazalnika in upravljanje vsebine pod njim. Vsi ukazi so "vezani" na pritiske tipk z eno izjemo: preklapljanje načina pregleda miške. Za podrobnosti kako temu ukazu dodati tipkovno bližnjico si oglejte <link xref="howto_key_bindings">Spreminjanje tipkovnih bližnjic</link>.</p>
+  <note style="tip">
+    <p>
+      Below you will see several references to "KP". All
+      "KP" keys are located on the numeric keypad. You will also notice that
+      there are different keystrokes depending upon whether you are using a
+      desktop or a laptop -- or more accurately, whether you are using
+      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
+      For additional information, please see the
+      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
+    </p>
+  </note>
+  <list>
+    <item>
+      <p>Levi klik na trenutni predmet:</p>
+      <list>
+        <item><p>Namizje: <keyseq><key>NT Deli</key></keyseq></p></item>
+        <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>7</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Desni klik na trenutni predmet:</p>
+      <list>
+        <item><p>Namizje: <keyseq><key>NT Množi</key></keyseq></p></item>
+        <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>8</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Premakni kazalnik na trenutni predmet:</p>
+      <list>
+        <item><p>Namizje: <keyseq><key>Spremenilna tipka Orka</key><key>NT Deli</key></keyseq></p></item>
+        <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>9</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Premakni žarišče v ali stran od trenutne miške preko (le splet):</p>
+      <list>
+        <item><p>Namizje: <keyseq><key>Spremenilna tipka Orka</key><key>NT Množi</key></keyseq></p></item>
+        <item><p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>0</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Omogoči/onemogoči način pregleda miške: (Nedoločeno)</p>
+    </item>
+  </list>
+</page>

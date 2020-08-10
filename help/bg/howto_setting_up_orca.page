@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_setting_up_orca" xml:lang="bg">
+<info>
+  <link type="seealso" xref="preferences"/>
+  <link type="guide" xref="index#getting_started"/>
+  <link type="next" xref="howto_the_orca_modifier"/>
+  <title type="sort">4. Настройки на Orca</title>
+  <title type="link">Конфигурация</title>
+    <desc>Настройване на <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Конфигуриране на Orca</title>
+
+      <p>Ако искате да настроите <app>Orca</app>, отворете прозореца <link xref="preferences">Настройки</link> като натиснете <keyseq><key>Модификатор на Orca</key><key>Интервал</key></keyseq> от произволно достъпно приложение. Друга възможност е в терминал или прозореца за <gui>Изпълнение</gui> да въведете <cmd>orca -s</cmd> или <cmd>orca --setup</cmd> и да натиснете <key>Return</key>.</p>
+</page>

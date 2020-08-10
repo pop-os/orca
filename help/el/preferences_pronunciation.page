@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_pronunciation" xml:lang="el">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_text_attributes"/>
+    <title type="sort">7. Προφορά</title>
+    <title type="link">Προφορά</title>
+    <desc>Ορισμός πώς συγκεκριμένες λέξεις θα προφέρονται</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Προτιμήσεις προφοράς</title>
+  <p>Μερικές φορές ο συνθέτης ομιλίας σας δεν λέει απλά το σωστό για μια δοσμένη συμβολοσειρά. Ίσως προτιμάτε να ακούσετε "και τα λοιπά" αντί για "κλπ". Ή εκεί μπορεί ένα όνομα ή ένας τεχνικός όρος μπορεί να προφέρεται λάθος από τον συνθέτη.</p>
+  <p>Η σελίδα <gui>προφορά</gui> του διαλόγου προτιμήσεων του <app>Orca</app> επιτρέπει την προσθήκη, επεξεργασία και διαγραφή καταχωρίσεων στο λεξικό προφοράς του <app>Orca</app>.</p>
+  <p>Επειδή η σελίδα <gui>προφορά</gui> είναι επίσης μέρος των συγκεκριμένων ρυθμίσεων της εφαρμογής, μπορείτε να προσαρμόσετε τις καταχωρίσεις σας σε μια απαιτούμενη βάση για κάθε χρησιμοποιούμενη εφαρμογή.</p>
+  <steps>
+    <title>Προσθήκη μιας νέας καταχώρισης λεξικού</title>
+    <item>
+      <p>
+        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
+      </p>
+    </item>
+    <item>
+      <p>Πληκτρολογήστε το κείμενο της νέας καταχώρισης και πατήστε <key>Return</key> για τερματισμό της επεξεργασίας της ενεργής συμβολοσειράς.</p>
+    </item>
+    <item>
+      <p>Μετακινηθείτε στη στήλη <gui>αντικατάσταση συμβολοσειράς</gui> και πατήστε <key>Return </key> για έναρξη επεξεργασίας.</p>
+    </item>
+    <item>
+      <p>Πληκτρολογήστε το κείμενο που θα θέλατε να εκφωνηθεί στη θέση του και πατήστε <key> Return</key> για τερματισμό της επεξεργασίας της αντικατάστασης συμβολοσειράς.</p>
+    </item>
+  </steps>
+  <steps>
+  <title>Επεξεργασία μιας υπάρχουσας καταχώρισης λεξικού</title>
+    <item>
+      <p>Μεταβείτε στο επιθυμητό κελί επεξεργασίας και πατήστε <key>Return</key> για έναρξη επεξεργασίας.</p>
+    </item>
+    <item>
+      <p>Κάντε τις αλλαγές σας και έπειτα πατήστε <key>Return</key> για τερματισμό επεξεργασίας.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Διαγραφή μιας υπάρχουσας καταχώρισης λεξικού</title>
+    <item>
+      <p>Μετάβαση στην επιθυμητή καταχώριση για διαγραφή.</p>
+    </item>
+    <item>
+      <p>
+        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
+      </p>
+    </item>
+  </steps>
+</page>

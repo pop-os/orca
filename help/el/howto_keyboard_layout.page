@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_keyboard_layout" xml:lang="el">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_toggling_caps_lock"/>
+    <title type="sort">6. Διάταξη πληκτρολογίου</title>
+    <desc>Επιλέξτε τη διάταξη επιτραπέζια ή φορητή</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Διάταξη πληκτρολογίου</title>
+  <p>Το Orca έχει δύο διατάξεις πληκτρολογίου: επιτραπέζια (δηλαδή με αριθμητικό υποπληκτρολόγιο) και φορητή. Η επιλεγόμενη διάταξη επιδρά σε ποιο πλήκτρο χρησιμοποιείται ως τροποποιητής του Orca.</p>
+  <list>
+    <item>
+      <p>Εάν χρησιμοποιείτε τη διάταξη φορητού, ο προεπιλεγμένος τροποποιητής του Orca θα είναι <key>CapsLock</key></p>
+    </item>
+    <item>
+      <p>
+        If you are using the Desktop layout, the Orca Modifier will be both
+        <key>Insert</key> and <key>KP_Insert</key>, the latter being the
+        same key as <key>KP_0</key>.
+      </p>
+    </item>
+  </list>
+  <p>Η διάταξη επίσης καθορίζει τις συσχετισμένες πληκτρολογήσεις με έναν αριθμό των εντολών του <app>Orca</app>, ειδικά στις περιοχές της γενικής επισκόπησης, πού είμαι και εκφώνηση όλων.</p>
+  <steps>
+    <title>Αλλαγή της διάταξης πληκτρολογίου</title>
+    <item>
+      <p>Πηγαίνετε στο διάλογο <link xref="preferences">προτιμήσεις Orca</link> πατώντας τον <keyseq><key>τροποποιητή Orca</key><key>πλήκτρο διαστήματος</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Μετακινηθείτε την ομάδα των ραδιοπλήκτρων <gui>διάταξη πληκτρολογίου</gui>.</p>
+    </item>
+    <item>
+      <p>Δείξτε την επιθυμητή διάταξη.</p>
+    </item>
+    <item>
+      <p>Πάτημα στο κουμπί <gui>εφαρμογή</gui>.</p>
+    </item>
+  </steps>
+</page>

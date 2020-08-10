@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_structural_navigation" xml:lang="pt-BR">
+  <info>
+    <link type="next" xref="commands_table"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_forms"/>
+    <title type="sort">2. Navegação estrutural</title>
+    <title type="link">Navegação estrutural</title>
+    <desc>Comandos para navegar por elementos</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos de navegação estrutural</title>
+  <p>Os comandos a seguir podem ser usados para navegar por cabeçalhos, links e outros elementos encontrados em aplicativos paa os quais o <app>Orca</app> fornece suporte para a navegação estrutural.</p>
+  <list>
+    <item>
+      <p>Habilita/desabilita teclas para navegação estrutural: <keyseq><key>Tecla modificadora do Orca</key><key>Z</key></keyseq></p>
+    </item>
+  </list>
+  <section id="headings">
+    <title>Cabeçalhos</title>
+      <list>
+        <item>
+          <p>Próximo cabeçalho e cabeçalho anterior: <keyseq><key>H</key></keyseq> e <keyseq><key>Shift</key><key>H</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of headings:
+            <keyseq><key>Alt</key><key>Shift</key><key>H</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo cabeçalho e cabeçalho anterior do nível 1: <keyseq><key>1</key></keyseq> e <keyseq><key>Shift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>
+            Display a list of headings at level 1:
+            <keyseq><key>Alt</key><key>Shift</key><key>1</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo cabeçalho e cabeçalho anterior do nível 2: <keyseq><key>2</key></keyseq> e <keyseq><key>Shift</key><key>2</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of headings at level 2:
+            <keyseq><key>Alt</key><key>Shift</key><key>2</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo cabeçalho e cabeçalho anterior do nível 3: <keyseq><key>3</key></keyseq> e <keyseq><key>Shift</key><key>3</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of headings at level 3:
+            <keyseq><key>Alt</key><key>Shift</key><key>3</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo cabeçalho e cabeçalho anterior do nível 4: <keyseq><key>4</key></keyseq> e <keyseq><key>Shift</key><key>4</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of headings at level 4:
+            <keyseq><key>Alt</key><key>Shift</key><key>4</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo cabeçalho e cabeçalho anterior do nível 5: <keyseq><key>5</key></keyseq> e <keyseq><key>Shift</key><key>5</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of headings at level 5:
+            <keyseq><key>Alt</key><key>Shift</key><key>5</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo cabeçalho e cabeçalho anterior do nível 6: <keyseq><key>6</key></keyseq> e <keyseq><key>Shift</key><key>6</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of headings at level 6:
+            <keyseq><key>Alt</key><key>Shift</key><key>6</key></keyseq>
+          </p>
+        </item>
+      </list>
+    </section>
+    <section id="forms">
+      <title>Formulários</title>
+      <list>
+        <item>
+          <p>Próximo campo de formulário e campo de formulário anterior: <keyseq><key>Tecla modificadora do Orca</key><key>Tab</key></keyseq> e <keyseq><key>Orca Modifier</key><key>Shift</key><key>Tab</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of form fields:
+            <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo botão e botão anterior: <keyseq><key>B</key></keyseq> e <keyseq><key>Shift</key><key>B</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of buttons:
+            <keyseq><key>Alt</key><key>Shift</key><key>B</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próxima caixa de combinação e caixa de combinação anterior: <keyseq><key>C</key></keyseq> e <keyseq><key>Shift</key><key>C</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of combo boxes:
+            <keyseq><key>Alt</key><key>Shift</key><key>C</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próxima entrada e entrada anterior: <keyseq><key>E</key></keyseq> e <keyseq><key>Shift</key><key>E</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of entries:
+            <keyseq><key>Alt</key><key>Shift</key><key>E</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo botão de opção e botão de opção anterior: <keyseq><key>R</key></keyseq> e <keyseq><key>Shift</key><key>R</key></keyseq></p>
+        </item>
+        <item>
+          <p>
+            Display a list of radio buttons:
+            <keyseq><key>Alt</key><key>Shift</key><key>R</key></keyseq>
+          </p>
+        </item> 
+        <item>
+          <p>Próxima caixa de seleção e caixa de seleção anterior: <keyseq><key>X</key></keyseq> e <keyseq><key>Shift</key><key>X</key></keyseq></p>
+        </item>
+        <item>
+          <p>
+            Display a list of checkboxes:
+            <keyseq><key>Alt</key><key>Shift</key><key>X</key></keyseq>
+          </p>
+        </item> 
+      </list>
+    </section>
+    <section id="links">
+    <title>Links</title>
+      <list>
+        <item>
+          <p>
+            Next and previous link:
+            <keyseq><key>K</key></keyseq> and
+            <keyseq><key>Shift</key><key>K</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>
+            Display a list of links:
+            <keyseq><key>Alt</key><key>Shift</key><key>K</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo link não visitado e link não visitado anterior: <keyseq><key>U</key></keyseq> e <keyseq><key>Shift</key><key>U</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of unvisited links:
+            <keyseq><key>Alt</key><key>Shift</key><key>U</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo link visitado e link visitado anterior: <keyseq><key>V</key></keyseq> e <keyseq><key>Shift</key><key>V</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of visited links:
+            <keyseq><key>Alt</key><key>Shift</key><key>V</key></keyseq>
+          </p>
+        </item>
+      </list>
+    </section>
+    <section id="lists">
+      <title>Listas</title>
+      <list>
+        <item>
+          <p>Próxima lista e lista anterior: <keyseq><key>L</key></keyseq> e <keyseq><key>Shift</key><key>L</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of lists:
+            <keyseq><key>Alt</key><key>Shift</key><key>L</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo item da lista e item anterior da lista: <keyseq><key>I</key></keyseq> e <keyseq><key>Shift</key><key>I</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of list items:
+            <keyseq><key>Alt</key><key>Shift</key><key>I</key></keyseq>
+          </p>
+        </item>
+      </list>
+    </section>
+    <section id="tables">
+      <title>Tabelas</title>
+      <list>
+        <item>
+          <p>Próxima tabela e tabela anterior: <keyseq><key>T</key></keyseq> e <keyseq><key>Shift</key><key>T</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of tables:
+            <keyseq><key>Alt</key><key>Shift</key><key>T</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Célula à esquerda: <keyseq><key>Alt</key><key>Shift</key><key>Seta à esquerda</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Célula à direita: <keyseq><key>Alt</key><key>Shift</key><key>seta à direita</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Célula acima: <keyseq><key>Alt</key><key>Shift</key><key>seta acima</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Célula abaixo: <keyseq><key>Alt</key><key>Shift</key><key>seta abaixo</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Primeira célula da tabela: <keyseq><key>Alt</key><key>Shift</key><key>Home</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Última célula da tabela: <keyseq><key>Alt</key><key>Shift</key><key>End</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="text_blocks">
+      <title>Blocos de texto</title>
+      <list>
+        <item>
+          <p>Próximo parágrafo e parágrafo anterior: <keyseq><key>P</key></keyseq> e <keyseq><key>Shift</key><key>P</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of paragraphs:
+            <keyseq><key>Alt</key><key>Shift</key><key>P</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo bloco de citação e bloco de citação anterior: <keyseq><key>Q</key></keyseq> e <keyseq><key>Shift</key><key>Q</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of blockquotes:
+            <keyseq><key>Alt</key><key>Shift</key><key>Q</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo objeto e objeto anterior "objeto largo": <keyseq><key>O</key></keyseq> e <keyseq><key>Shift</key><key>O</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of "large objects":
+            <keyseq><key>Alt</key><key>Shift</key><key>O</key></keyseq>
+          </p>
+        </item>
+       </list>
+    </section>
+    <section id="other">
+      <title>Outros elementos</title>
+      <list>
+        <item>
+          <p>Próxima marca e marca anterior: <keyseq><key>M</key></keyseq> e <keyseq><key>Shift</key><key>M</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of landmarks:
+            <keyseq><key>Alt</key><key>Shift</key><key>M</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Próximo separador e separador anterior: <keyseq><key>S</key></keyseq> e <keyseq><key>Shift</key><key>S</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Next and previous "clickable":
+            <keyseq><key>A</key></keyseq> and
+            <keyseq><key>Shift</key><key>A</key></keyseq>
+          </p>
+        </item> 
+        <item>
+          <p>
+            Display a list of "clickables":
+            <keyseq><key>Alt</key><key>Shift</key><key>A</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>
+            Next and previous image:
+            <keyseq><key>G</key></keyseq> and
+            <keyseq><key>Shift</key><key>G</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>
+            Display a list of images:
+            <keyseq><key>Alt</key><key>Shift</key><key>G</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>
+            Start and end of current container:
+            <keyseq><key>Shift</key><key>Comma</key></keyseq> and
+            <keyseq><key>Comma</key></keyseq>
+          </p>
+        </item>
+      </list>
+    </section>
+</page>

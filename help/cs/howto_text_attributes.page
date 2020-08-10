@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_text_attributes" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_structural_navigation"/>
+    <title type="sort">2. Vlastnosti textu</title>
+    <desc>Jak zkoumat formát textu</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Vlastnosti textu</title>
+  <p>Termínem „vlastnosti textu“ se míní vše okolo písma, stylu, zarovnání a dalšího formátování přiřazených určitému znaku nebo řadě znaků.</p>
+  <section id="obtaining">
+    <title>Získávání informací o formátování</title>
+    <p>Když zmáčknete <keyseq><key>Modifikátor Orca</key> <key>F</key></keyseq>, oznámí vám <app>Orca</app> známé informace o vlastnostech textu u objektu. Navíc je může při pohybu po dokumentu volitelně signalizovat „podtržením“ v braillském řádku.</p>
+    <p>Protože počet různých vlastností textu je velký a každého nezajímají všechny, můžete si na <link xref="preferences_text_attributes">stránce Vlastnosti textu v dialogovém okně předvoleb</link> přizpůsobit, které vlastnosti a v jakém pořadí má <app>Orca</app> při čtení prezentovat a které má indikovat na braillském řádku.</p>
+    <p><link xref="preferences_text_attributes">Stránka Vlastnosti textu</link> je také součástí nastavení specifických pro jednotlivé aplikace, takže si můžete přizpůsobit prezentování vlastností textu zvlášt podle potřeby u každé aplikace, kterou používáte.</p>
+  </section>
+  <section id="identifying_misspelled_words">
+    <title>Zjišťování pravopisně chybných slov</title>
+    <p>Většina aplikací a nástrojových sad signalizuje, že slovo je gramaticky španě, pomocí podtržení slova červenou vlnovkou. Přítomnost vlnovky se pro asistenční technologie typicky jeví jako vlastnost textu. Výsledkem je, že pravopisné chyby najdete mezi vlastnostmi textu, které si můžete vybrat. Ve výchozím stavu je zapnutá pro čtení a braillský řádek a bude tak prezentována mezi ostatními vlastnostmi, které máte zapnuté.</p>
+    <p>Mimo přístupu k pravopisným chybám, jako vlastnostem textu, funguje ještě jeden přístup. Když máte zapnuté oznamování kláves a/nebo oznamování znaků a napíšete gramaticky špatně slovo, tak ve chvíli kdy se objeví indikace této chyby, <app>Orca</app> oznámí „překlep“, takže hned můžete zareagovat a chybu opravit.</p>
+    <p>A nakonec, když se pohybujete v dokumentu a kurzor se dostane na slovo, které je pravopisně špatně, oznámí <app>Orca</app> přítomnost pravopisné chyby.</p>
+  </section>
+</page>

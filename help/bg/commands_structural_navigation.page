@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_structural_navigation" xml:lang="bg">
+  <info>
+    <link type="next" xref="commands_table"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_forms"/>
+    <title type="sort">2. Придвижване по структурата</title>
+    <title type="link">Придвижване по структурата</title>
+    <desc>Команди за придвижване по елементи</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди за придвижване по елементи</title>
+  <p>Следните команди могат да бъдат използвани за придвижване по заглавия, връзки, и други елементи присъстващи в приложения за които <app>Orca</app> поддържа придвижване по структурата.</p>
+  <list>
+    <item>
+      <p>Включване/изключване на клавишите за придвижване по структурата: <keyseq><key>Модификатор на Orca</key><key>Z</key></keyseq></p>
+    </item>
+  </list>
+  <section id="headings">
+    <title>Заглавия</title>
+      <list>
+        <item>
+          <p>Следващо и предишно заглавие: <keyseq><key>H</key></keyseq> и <keyseq><key>Shift</key><key>H</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък със заглавия: <keyseq><key>Alt</key><key>Shift</key><key>H</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващо и предишно заглавие от ниво 1: <keyseq><key>1</key></keyseq> и <keyseq><key>Shift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Извеждане на списък със заглавия от ниво 1: <keyseq><key>Alt</key><key>Shift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващо и предишно заглавие от ниво 2: <keyseq><key>2</key></keyseq> и <keyseq><key>Shift</key><key>2</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък със заглавия от ниво 2: <keyseq><key>Alt</key><key>Shift</key><key>2</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващо и предишно заглавие от ниво 3: <keyseq><key>3</key></keyseq> и <keyseq><key>Shift</key><key>3</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък със заглавия от ниво 3: <keyseq><key>Alt</key><key>Shift</key><key>3</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващо и предишно заглавие от ниво 4: <keyseq><key>4</key></keyseq> и <keyseq><key>Shift</key><key>4</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък със заглавия от ниво 4: <keyseq><key>Alt</key><key>Shift</key><key>4</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващо и предишно заглавие от ниво 5: <keyseq><key>5</key></keyseq> и <keyseq><key>Shift</key><key>5</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък със заглавия от ниво 5: <keyseq><key>Alt</key><key>Shift</key><key>5</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващо и предишно заглавие от ниво 6: <keyseq><key>6</key></keyseq> и <keyseq><key>Shift</key><key>6</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък със заглавия от ниво 6: <keyseq><key>Alt</key><key>Shift</key><key>6</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="forms">
+      <title>Формуляри</title>
+      <list>
+        <item>
+          <p>Следващо и предишно поле от формуляр: <keyseq><key>Модификатор на Orca</key><key>Tab</key></keyseq> и <keyseq><key>Модификатор на Orca</key><key>Shift</key><key>Tab</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък с полета от формуляри: <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq></p>
+        </item>
+        <item>
+          <p>Предишен и следващ бутон: <keyseq><key>B</key></keyseq> и <keyseq><key>Shift</key><key>B</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък с бутони: <keyseq><key>Alt</key><key>Shift</key><key>B</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващ и предишен падащ списък: <keyseq><key>C</key></keyseq> и <keyseq><key>Shift</key><key>C</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък с падащи списъци: <keyseq><key>Alt</key><key>Shift</key><key>C</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващо и предишно поле за писане: <keyseq><key>E</key></keyseq> и <keyseq><key>Shift</key><key>E</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък с полета за писане: <keyseq><key>Alt</key><key>Shift</key><key>E</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващ и предишен радио бутон: <keyseq><key>R</key></keyseq> и <keyseq><key>Shift</key><key>R</key></keyseq></p>
+        </item>
+        <item>
+          <p>Извеждане на списък с радио бутони: <keyseq><key>Alt</key><key>Shift</key><key>R</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Следващо и предишно поле за отметка: <keyseq><key>X</key></keyseq> и <keyseq><key>Shift</key><key>X</key></keyseq></p>
+        </item>
+        <item>
+          <p>Извеждане на списък с полета за отметка: <keyseq><key>Alt</key><key>Shift</key><key>X</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="links">
+    <title>Връзки</title>
+      <list>
+        <item>
+          <p>Следваща и предишна връзка: <keyseq><key>K</key></keyseq> и <keyseq><key>Shift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Извеждане на списък с връзки: <keyseq><key>Alt</key><key>Shift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следваща и предишна непосетена връзка: <keyseq><key>U</key></keyseq> и <keyseq><key>Shift</key><key>U</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък с непосетени връзки: <keyseq><key>Alt</key><key>Shift</key><key>U</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следваща и предишна посетена връзка: <keyseq><key>V</key></keyseq> и <keyseq><key>Shift</key><key>V</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък с посетени връзки: <keyseq><key>Alt</key><key>Shift</key><key>V</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="lists">
+      <title>Списъци</title>
+      <list>
+        <item>
+          <p>Следващ и предишен списък: <keyseq><key>L</key></keyseq> и <keyseq><key>Shift</key><key>L</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък със списъци: <keyseq><key>Alt</key><key>Shift</key><key>L</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващ и предишен елемент от списък: <keyseq><key>I</key></keyseq> и <keyseq><key>Shift</key><key>I</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък с елементи от списъци: <keyseq><key>Alt</key><key>Shift</key><key>I</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="tables">
+      <title>Таблици</title>
+      <list>
+        <item>
+          <p>Следваща и предишна таблица: <keyseq><key>T</key></keyseq> и <keyseq><key>Shift</key><key>T</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък с таблици: <keyseq><key>Alt</key><key>Shift</key><key>T</key></keyseq></p>
+        </item>
+        <item>
+          <p>Клетката в ляво: <keyseq><key>Alt</key><key>Shift</key><key>стрелка наляво</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Клетката вдясно: <keyseq><key>Alt</key><key>Shift</key><key>стрелка надясно</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Клетката отгоре: <keyseq><key>Alt</key><key>Shift</key><key>стрелка нагоре</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Клетката отдолу: <keyseq><key>Alt</key><key>Shift</key><key>стрелка надолу</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Първата клетка в таблицата: <keyseq><key>Alt</key><key>Shift</key><key>Home</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Последната клетка в таблицата: <keyseq><key>Alt</key><key>Shift</key><key>End</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="text_blocks">
+      <title>Текстови блокове</title>
+      <list>
+        <item>
+          <p>Следващ и предишен абзац: <keyseq><key>P</key></keyseq> и <keyseq><key>Shift</key><key>P</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък с абзаци: <keyseq><key>Alt</key><key>Shift</key><key>P</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващ и предишен цитат в каре: <keyseq><key>Q</key></keyseq> и <keyseq><key>Shift</key><key>Q</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък с цитати в каре: <keyseq><key>Alt</key><key>Shift</key><key>Q</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващ и предишен „голям обект“: <keyseq><key>O</key></keyseq> и <keyseq><key>Shift</key><key>O</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък с „големи обекти“: <keyseq><key>Alt</key><key>Shift</key><key>O</key></keyseq></p>
+        </item>
+       </list>
+    </section>
+    <section id="other">
+      <title>Други елементи</title>
+      <list>
+        <item>
+          <p>Следващ и предишен ориентир: <keyseq><key>M</key></keyseq> и <keyseq><key>Shift</key><key>M</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък с ориентири: <keyseq><key>Alt</key><key>Shift</key><key>M</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващ и предишен разделител: <keyseq><key>S</key></keyseq> и <keyseq><key>Shift</key><key>S</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Следващ и предишен елемент за щракане: <keyseq><key>A</key></keyseq> и <keyseq><key>Shift</key><key>T</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Извеждане на списък с елементите за щракане: <keyseq><key>Alt</key><key>Shift</key><key>A</key></keyseq></p>
+        </item>
+        <item>
+          <p>Следващо и предишно изображение: <keyseq><key>G</key></keyseq> и <keyseq><key>Shift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Извеждане на списък с изображения: <keyseq><key>Alt</key><key>Shift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>
+            Start and end of current container:
+            <keyseq><key>Shift</key><key>Comma</key></keyseq> and
+            <keyseq><key>Comma</key></keyseq>
+          </p>
+        </item>
+      </list>
+    </section>
+</page>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_chat" xml:lang="uk">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_spellcheck"/>
+    <title type="sort">3. Спілкування</title>
+    <title type="link">Спілкування</title>
+    <desc>Налаштовування підтримки <app>Orca</app> для миттєвого обміну повідомленнями та IRC</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Параметри спілкування</title>
+  <p>Описані нижче пункти надають вам змогу налаштувати спосіб, у який <app>Orca</app> поводитиметься при наданні доступу до клієнтів миттєвого обміну повідомленнями та IRC.</p>
+  <section id="speak_name">
+    <title>Вимовити назву кімнати спілкування.</title>
+    <p>Якщо позначено цей пункт, <app>Orca</app> дописуватиме до вхідних повідомлень назву кімнати або співрозмовника, від якого надійшло повідомлення, якщо вони не прийшли із поточного фокусованого сеансу спілкування.</p>
+    <p>Типове значення: не позначено</p>
+  </section>
+  <section id="announce_typing">
+    <title>Сповіщати, коли ваші друзі набирають</title>
+    <p>Якщо позначено цей пункт, і якщо <app>Orca</app> має достатньо відомостей, які вказують на те, що ваш співрозмовник вводить повідомлення, <app>Orca</app> оголошуватиме про зміни у стані введення повідомлень.</p>
+    <p>Типове значення: не позначено</p>
+  </section>
+  <section id="message_histories">
+    <title>Представляти історію повідомлень для кожної бесіди.</title>
+    <p>Якщо позначено цей пункт, команди <app>Orca</app> для озвучування нещодавніх повідомлень застосовуватимуться лише до поточного фокусованого сеансу спілкування. Якщо пункт не буде позначено, журнал міститиме найновіші повідомлення, незалежно від того, з якого сеансу спілкування надійшли ці повідомлення.</p>
+    <p>Типове значення: не позначено</p>
+  </section>
+  <section id="speak_messages_from">
+    <title>Вимовляти повідомлення з</title>
+    <p>За допомогою цієї групи кнопок-варіантів ви можете керувати тим, за яких обставин <app>Orca</app> озвучуватиме для вас вхідне повідомлення. Передбачено такі варіанти:</p>
+    <list>
+      <item>
+        <p><gui>Всі канали</gui></p>
+      </item>
+      <item>
+        <p><gui>Канал, вікно якого вибрано</gui></p>
+      </item>
+      <item>
+        <p><gui>Всі канали, якщо вікно спілкування активне</gui></p>
+      </item>
+    </list>
+    <p>Типове значення: всі канали</p>
+  </section>
+</page>

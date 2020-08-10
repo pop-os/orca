@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_general" xml:lang="hu">
+  <info>
+    <title type="sort">1. Általános beállítások</title>
+    <title type="link">Általános beállítások</title>
+    <desc>Az <app>Orka</app> általános beállításainak megadása</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_voice"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Hammer Attila</mal:name>
+      <mal:email>hammera at pickup dot hu</mal:email>
+      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Általános beállítások</title>
+  <section id="keyboardlayout">
+    <info>
+      <desc>Megadhatja, hogy az <app>Orkát</app> asztali vagy laptop billentyűzetkiosztással szeretné használni.</desc>
+    </info>
+    <title>Billentyűzetkiosztás</title>
+    <p>
+      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
+      you will be working on a desktop (i.e. with a numeric keypad) or laptop
+      keyboard. Which layout you choose will determine both the <key>Orca
+      Modifier</key> as well as a number of keyboard shortcuts for performing
+      <app>Orca</app> commands.</p>
+    <p>Alapbeállítás: <gui>Asztali</gui> kiosztás</p>
+  </section>
+  <section id="presenttooltips">
+    <info>
+      <desc>Beállíthatja, hogy megjelenítésre kerüljenek-e a buboréksúgók, ezek például az egérrel felületi elemekre mutatás eredményeként bukkanhatnak fel.</desc>
+    </info>
+    <title>Buboréksúgók megjelenítése</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, akkor az Orka felolvassa az egérrel a felületi elemekre mutatáskor megjelenő információkat. A buboréksúgók megjelenítését kikényszerítő műveletek, például a <keyseq><key>Ctrl</key><key>F1</key></keyseq> billentyűkombináció lenyomása mindig megjeleníti a fókuszban lévő objektum buboréksúgóját, függetlenül ettől a beállítástól.</p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+  </section>
+  <section id="objectundermouse">
+    <info>
+      <desc>Megadhatja, hogy felolvasásra kerüljenek-e az egér alatti objektumok.</desc>
+    </info>
+    <title>Az egér alatti objektum felolvasása</title>
+    <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> fel fogja olvasni az egér alatti objektumot, amikor az <app>Orka</app> <link xref="howto_mouse_review">áttekintés egérrel</link> funkció segítségével mozgatja az egérmutatót a képernyőn.</p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+  </section>
+  <section id="timeanddate">
+    <info>
+      <desc>Megadhatja, hogy az <app>Orkában</app> milyen idő és dátumformátumot szeretne használni.</desc>
+    </info>
+    <title>Dátum- és időformátum</title>
+    <p>Az <gui>Időformátum</gui> és <gui>Dátumformátum</gui> kombinált listamezők segítségével beállíthatja, hogy az <app>Orka</app> hogyan mondja ki és jelenítse meg a Braille-kijelzőn az időt és a dátumot.</p>
+    <p>Mindkét esetben az alapbeállítás a rendszer területi beállításának használata.</p>
+  </section>
+  <section id="navigation_in_say_all">
+    <info>
+      <desc>Beállítások a gyors előre és visszatekerés, valamint a strukturált navigáció használatához felolvasás közben.</desc>
+    </info>
+    <title>Navigáció a felolvasás közben</title>
+    <p>Az <app>Orka</app> folyamatos felolvasás funkciója felolvassa a dokumentum tartalmát a kurzor pillanatnyi helyétől a dokumentum végéig. Alapesetben, ha bármilyen billentyűt lenyom a felolvasás közben, a felolvasás megszakításra kerül. Azonban, ha bejelöli az <gui>Előre- és visszatekerés engedélyezése a felolvasás közben</gui> jelölőnégyzetet, a <key>Felfelé nyíl</key> és <key>Lefelé nyíl</key> billentyűk segítségével gyorsan mozoghat a felolvasás közben. Meghallgathat újból egy már felolvasott szövegrészt, vagy átugorhat olyan részeket a dokumentumban, melyek nem érdekesek anélkül, hogy a felolvasást újból el kellene indítania.</p>
+    <p>Ha egy dokumentumot felolvastat egy Orka strukturált navigációt támogató alkalmazásban, és bejelölte a <gui>Strukturált navigáció engedélyezése a felolvasás közben</gui> jelölőnégyzetet, a felolvasás közben használhatja a támogatott strukturált navigációs parancsokat az eredeti működésükhöz hasonló módon: A <key>H</key> és <keyseq><key>Shift</key><key>H</key></keyseq> folytatja a felolvasást a következő vagy előző címsortól, a <key>P</key> és a <keyseq><key>Shift</key><key>P</key></keyseq> folytatja a felolvasást a következő vagy előző bekezdéstől, a <key>T</key> és a <keyseq><key>Shift</key><key>T</key></keyseq> folytatja a felolvasást a következő vagy előző táblázattól stb.</p>
+    <p>Alapbeállítás: nincs bejelölve</p>
+  </section>
+  <section id="say_all_announce_context">
+    <title>A szövegkörnyezettel kapcsolatos információk bejelentése a felolvasás közben</title>
+    <p>Az <app>Orka</app> a használt beállításoktól függően több információt tud kimondani a dokumentumtartalom felolvasása közben, például amikor rálép vagy elhagy egy idézetblokkot, listát, táblázatot, vagy egy más típusú elemet. A bejelentésekkel kapcsolatos beállítások egymástól függetlenül megadhatók a következő jelölőnégyzetek segítségével:</p>
+    <list>
+      <item><p>Idézetblokkok bejelentése felolvasás közben</p></item>
+      <item><p>Űrlapok bejelentése felolvasás közben</p></item>
+      <item><p>Jelölők bejelentése felolvasás közben</p></item>
+      <item><p>Listák bejelentése felolvasás közben</p></item>
+      <item><p>Panelek bejelentése felolvasás közben</p></item>
+      <item><p>Táblázatok bejelentése felolvasás közben</p></item>
+    </list>
+    <p>Alapbeállítás: bejelölve</p>
+    <note style="note">
+      <p> Ezeknek az információknak a bejelentése navigálás közben szintén beállítható. A beállítások megadásához hasonló jelölőnégyzeteket fog találni a <gui>Beszéd</gui> lapon. Ha bővebb információra van szüksége, olvassa el a <link xref="preferences_speech#spoken_context">Kimondott szövegkörnyezet</link> című fejezetet.</p>
+    </note>
+  </section>
+  <section id="say_all_by">
+   <info>
+      <desc>Beállítás a mondat vagy teljes sor kimondása közti váltásra felolvasáskor.</desc>
+   </info>
+   <title>Kimondás</title>
+   <p>A <gui>Kimondás</gui> kombinált listamezőben megadhatja, hogy az <app>Orka</app> egy mondatot, vagy egy teljes sort olvasson fel akkor, ha aktiválja a felolvasás parancsot.</p>
+    <p>Alapbeállítás: <gui>Mondat</gui></p>
+  </section>
+  <section id="profiles">
+    <info>
+      <desc>Megadhatja a különböző profilokkal kapcsolatos beállításokat.</desc>
+    </info>
+    <title>Profilok</title>
+    <p>Az <gui>Általános</gui> lap alján található <gui>Profilok</gui> csoport vezérlőelemeinek segítségével lehetősége van többféle konfiguráció létrehozására és karbantartására.</p>
+   <list>
+      <item>
+        <p>Az <gui>Aktív profil</gui> kombinált listamező megjeleníti az éppen használt profilt, valamint lehetővé teszi egy másik betöltendő profil kiválasztását.</p>
+      </item>
+      <item>
+        <p>A <gui>Betöltés</gui> gomb megnyomásakor az <app>Orka</app> betölti az <gui>Aktív profil</gui> kombinált listamezőben korábban kiválasztott profilt.</p>
+      </item>
+      <item>
+        <p>A <gui>Mentés másként</gui> gomb segítségével elmentheti a beállítások párbeszédablakban éppen megadott beállításokat az Ön által megadott nevű profilba.</p>
+      </item>
+      <item>
+        <p>A <gui>Kezdeti profil</gui> kombinált listamezőben kiválaszthatja az <app>Orka</app> minden indításakor automatikusan betöltendő profilt.</p>
+      </item>
+    </list>
+  </section>
+  <section id="progress_bar_updates">
+    <title>Folyamatjelző frissítésének felolvasása</title>
+    <section id="progress_bar_updates_speak">
+      <title>Folyamatjelző frissítésének kimondása</title>
+      <p>Ha a <gui>Folyamatjelző frissítésének kimondása</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> megadott időközönként felolvassa a folyamatjelzők állapotváltozását.</p>
+      <p>Alapbeállítás: bejelölve</p>
+    </section>
+    <section id="progress_bar_updates_braille">
+      <title>Folyamatjelző frissítésének megjelenítése a Braille-kijelzőn</title>
+      <p>Ha a <gui>Folyamatjelző frissítésének megjelenítése a Braille-kijelzőn</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> megadott időközönként megjeleníti a frissíthető Braille-kijelzőn a folyamatjelzők állapotváltozását.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+    </section>
+    <section id="progress_bar_updates_beep">
+      <title>Hangjelzés a folyamatjelző frissülésekor</title>
+      <p>Ha a <gui>Hangjelzés a folyamatjelző frissülésekor</gui> jelölőnégyzet be van jelölve, az <app>Orka</app> megadott időközönként egy növekvő hangmagasságú hangjelzést játszik le, amikor a folyamatjelzők értéke növekszik.</p>
+      <p>Alapbeállítás: nincs bejelölve</p>
+    </section>
+    <section id="progress_bar_updates_frequency">
+      <title>Gyakoriság másodpercben</title>
+      <p>Ezzel a léptetőgombbal megadhatja, hogy az <app>Orka</app> milyen gyakran jelenítse meg a folyamatjelzők állapotváltozását.</p>
+      <p>Alapbeállítás: 10</p>
+    </section>
+    <section id="progress_bar_updates_restrict">
+      <title>Applies to</title>
+      <p>Ha a folyamatjelzők állapotának felolvasása engedélyezve van, ebben a kombinált listamezőben megadhatja, hogy milyen esetekben legyenek kimondva a folyamatjelzők állapotváltozásai. A választható lehetőségek: <gui>Mindent</gui>, <gui>Alkalmazás</gui>, és <gui>Ablak</gui>.</p>
+      <p>Ha a <gui>Mindent</gui> lehetőséget választja, az <app>Orka</app> minden folyamatjelző-állapotváltozást ki fog mondani, függetlenül azok helyétől.</p>
+      <p>Ha az <gui>Alkalmazás</gui> lehetőséget választja, az <app>Orka</app> ki fogja mondani a fókuszban levő aktív alkalmazás folyamatjelző-állapotváltozásait, függetlenül attól, hogy az alkalmazás ablaka aktív-e.</p>
+      <p>Ha az <gui>Ablak</gui> lehetőséget választja, az <app>Orka</app> csak az aktív ablak folyamatjelző-állapotváltozásait fogja kimondani.</p>
+      <p>Alapbeállítás: <gui>Alkalmazás</gui></p>
+    </section>
+  </section>
+</page>

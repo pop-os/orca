@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_structural_navigation" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_tables"/>
+    <title type="sort">3. Strukturell navigering</title>
+    <desc>Flytta via rubrik och andra element</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Strukturell navigering</title>
+  <p><app>Orca</app>s funktion för strukturell navigering låter dig navigera efter element i ett dokument. Elementtyperna du kan navigera efter inkluderar:</p>
+  <list>
+    <item><p>Rubriker och andra textstycken</p></item>
+    <item><p>Formulärkontroller</p></item>
+    <item><p>Länkar</p></item>
+    <item><p>Listor och listobjekt</p></item>
+    <item><p>Landmärken, avgränsare och ankare</p></item>
+    <item><p>Tabeller och tabellceller</p></item>
+  </list>
+  <p>En fullständig lista över individuella element och deras associerade tangentbindningar kan hittas på <link xref="commands_structural_navigation">kommandon för strukturell navigering</link>.</p>
+  <section id="applications">
+      <title>Program som stöds</title>
+      <p>För närvarande är strukturell navigering fullständigt implementerad för webbinnehåll, inkluderande hjälpinnehållet som du läser nu. <app>Orca</app>s stöd för strukturell navigering av tabellceller har också implementerats för <app>OpenOffice Writer</app> och <app>LibreOffice Writer</app>. Att implementera de kvarstående objekten för strukturell navigering kräver att ändringar görs av deras respektive utvecklare. Att implementera funktioner för strukturell navigering i <app>Evince</app> kommer kräva en liknande insats från dess utvecklare.</p>
+      <note style="tip">
+        <title>Glöm inte att slå på strukturell navigering!</title>
+        <p>Beroende på var du är kan det vara nödvändigt för dig att explicit slå på strukturell navigering innan du kan använda den.</p>
+      </note>
+      <section id="toggling_required">
+        <title>När det är nödvändigt att slå på strukturell navigering</title>
+        <p>I webbsidor är det generellt inte nödvändigt att explicit slå på strukturell navigering eftersom din interaktion med dokumentet i stort består i att läsa dess innehåll. Därmed är det ingen tvekan om huruvida det ”H” du tryckte ned var tänkt som ett skrivkommandon eller ett navigeringskommando.</p>
+        <p>Å andra sidan, i redigerbara dokument som de som hittas i <app>OpenOffice</app> och <app>LibreOffice</app> är det väldigt mycket svårare för <app>Orca</app> att korrekt förutse vad du förväntar dig ska hända då du trycker ”H”. Därför måste du innan du kan använda något kommando för strukturell navigering i ett redigerbart dokument först slå på strukturell navigering genom att trycka <keyseq><key>Orca-modifierare</key><key>Z</key></keyseq>. Då du navigerat klart och är redo att fortsätta skriva, tryck <keyseq><key>Orca-modifierare</key><key>Z</key></keyseq> igen för att slå av strukturell navigering.</p>
+      </section>
+  </section>
+  <section id="settings">
+    <title>Tillgängliga inställningar</title>
+    <p>Förutom de tidigare nämnda kommandona så har <app>Orca</app> ett antal konfigurerbara alternativ tillgängliga specifikt för program som har stöd för strukturell navigering.</p>
+    <steps>
+      <title>Konfigurera strukturell navigering</title>
+      <item>
+        <p>Ge fokus till ett program för vilket <app>Orca</app> har stöd för strukturell navigering.</p>
+      </item>
+      <item>
+        <p>Gå till dialogrutan <link xref="preferences">Orca-inställningar</link> för det aktuella programmet genom att trycka <keyseq> <key>Ctrl</key><key>Orca-modifierare</key><key>Blanksteg</key> </keyseq>.</p>
+      </item>
+      <item>
+        <p>Navigera till den sista sidan av dialogrutan som bör vara namngiven efter namnet på ditt aktuella program.</p>
+      </item>
+      <item>
+        <p>Undersök och ändra inställningarna efter vad du finner lämpligt.</p>
+      </item>
+      <item>
+        <p>Tryck på <gui>OK</gui>-knappen.</p>
+      </item>
+    </steps>
+  </section>
+</page>

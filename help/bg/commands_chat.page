@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_chat" xml:lang="bg">
+  <info>
+    <link type="next" xref="commands_debugging"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="preferences_chat"/>
+    <title type="sort">2. Чат</title>
+    <title type="link">Чат</title>
+    <desc>Команди за клиенти за незабавни съобщения и IRC</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди за чат</title>
+  <p>Следните команди могат да бъдат използвани за достъп до информацията в клиентите за незабавни съобщения и IRC поддържани от <app>Orca</app>. Както ще забележите, някои от тези команди са „неприсвоени“. Вижте секцията <link xref="howto_key_bindings">Промяна на функциите на клавишите</link> за информация как да присвоите тези команди към клавишни комбинации.</p>
+  <list>
+    <item>
+      <p>Прочита предишни чат съобщения от стаята: <keyseq><key>Модификатор на Orca</key><key>F1</key></keyseq> до <key>F9</key></p>
+    </item>
+    <item>
+      <p>Включва/изключва обявяването на името на стаята чрез съобщение: (неприсвоена)</p>
+    </item>
+    <item>
+      <p>Включва/изключва дали да има уведомяване, когато контактите пишат съобщение: (неприсвоена)</p>
+    </item>
+    <item>
+      <p>Включва/изключва дали съобщенията да се предхождат от имената на стаите за чата: (неприсвоена)</p>
+    </item>
+  </list>
+</page>

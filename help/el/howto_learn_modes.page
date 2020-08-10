@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_learn_modes" xml:lang="el">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_keyboard_layout"/>
+    <title type="sort">5. Learn Mode</title>
+    <desc>Ανακαλύπτοντας τις εντολές του <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Learn Mode</title>
+  <p>Στην κατάσταση μάθησης, το <app>Orca</app> θα ανακοινώνει κάθε πληκτρολόγηση που πατάτε μαζί με οποιαδήποτε συσχετισμένη εντολή του <app>Orca</app> με την οποία η πληκτρολόγηση είναι συνδεμένη. Σε αυτήν την κατάσταση, μπορείτε επίσης να πάρετε έναν κατάλογο των συντομεύσεων που περιέχουν όλες τις εντολές που μπορείτε να χρησιμοποιήσετε στο <app>Orca</app>.</p>
+  <steps>
+    <title>Χρήση κατάστασης μάθησης</title>
+    <item>
+      <p>Πηγαίνετε στην κατάσταση μάθησης πατώντας <keyseq><key>τροποποιητής Orca</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Πατήστε οποιοδήποτε πλήκτρο ή πληκτρολογήστε. Το <app>Orca</app> θα ανακοινώσει τα πλήκτρα και οποιαδήποτε συσχετισμένη εντολή.</p>
+    </item>
+    <item>
+      <p>Πατήστε <key>Esc</key> για να αφήσετε την κατάσταση μάθησης.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Λήψη καταλόγου συντομεύσεων</title>
+    <item>
+      <p>Πηγαίνετε στην κατάσταση μάθησης πατώντας <keyseq><key>τροποποιητής Orca</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Πατήστε <key>F2</key> αν θέλετε έναν κατάλογο συντομεύσεων που εφαρμόζει γενικά το <app>Orca</app>, ή πατήστε το <key>F3</key> αν θέλετε έναν κατάλογο συντομεύσεων που είναι ειδικά για την εφαρμογή με εστίαση.</p>
+    </item>
+    <item>
+      <p>Πατήστε <key>επάνω</key> ή <key>κάτω</key> για να εξετάσετε τα περιεχόμενα της λίστας.</p>
+    </item>
+    <item>
+      <p>Πατήστε <key>Esc</key> για να αφήσετε τον κατάλογο.</p>
+    </item>
+  </steps>
+</page>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_pronunciation" xml:lang="sl">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_text_attributes"/>
+    <title type="sort">7. Izgovorjava</title>
+    <title type="link">Izgovorjava</title>
+    <desc>Določevanje kako so določene besede izgovorjene</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Možnosti izgovorjave</title>
+  <p>Včasih vaš sintetizator govora ne reče prave stvari za dani niz. Morda bi rajši slišali "lep pozdrav" namesto "Lp". Morda obstaja ime ali tehnični izraz, ki ga sintetizetor napačno izgovori.</p>
+  <p>Stran <gui>Izgovorjava</gui> možnosti <app>Orke</app> vam omogoča dodajanje, urejanje in izbris vnosov v <app>Orkinem</app> slovarju izgovorjave.</p>
+  <p>Ker je stran <gui>Izgovorjava</gui> tudi del nastavitev določenih za program, lahko svoje vnose prilagodite na osnovi želja za vsak program, ki ga potrebujete.</p>
+  <steps>
+    <title>Dodajanje novega vnosa slovarja</title>
+    <item>
+      <p>
+        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
+      </p>
+    </item>
+    <item>
+      <p>Vnesite besedilo novega vnosa in pritisnite <key>Vnosno tipko</key> za končanje urejanja dejanskega niza.</p>
+    </item>
+    <item>
+      <p>Premaknite se na stolpec <gui>Niz zamenjave</gui> in pritisnite <key>Vnosno tipko</key> za začetek urejanja.</p>
+    </item>
+    <item>
+      <p>Vnesite besedilo, ki naj bo izgovorjeno, in pritisnite <key>Vnosno tipko</key> za končanje urejanja niza zamenjave.</p>
+    </item>
+  </steps>
+  <steps>
+  <title>Urejanje obstoječega vnosa slovarja</title>
+    <item>
+      <p>Premaknite celico, ki jo želite urediti, in pritisnite <key>Vnosno tipko</key> za začetek urejanja.</p>
+    </item>
+    <item>
+      <p>Naredite svoje spremembe in nato pritisnite <key>Vnosno tipko</key> za končanje urejanja.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Brisanje obstoječega vnosa slovarja</title>
+    <item>
+      <p>Premaknite vnos, ki ga želite izbrisati.</p>
+    </item>
+    <item>
+      <p>
+        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
+      </p>
+    </item>
+  </steps>
+</page>

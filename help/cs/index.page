@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its" type="guide" id="index" xml:lang="cs">
+  <info>
+    <title type="text">Čtečka obrazovky Orca</title>
+    <title type="link">Úvod do čtečky obrazovky <app>Orca</app></title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+
+    <desc>Orca je svobodná, přizpůsobivá a rozšiřitelná čtečka obrazovky s otevřeným kódem, která poskytuje přístup ke grafickému pracovnímu prostředí přes hlasový výstup a braillský řádek.</desc>
+  </info>
+
+  <title><media type="image" mime="image/png" src="figures/orca-logo.png" its:translate="no">
+      <span its:translate="yes">Logo čtečky obrazovky <app>Orca</app></span>
+    </media> Čtečka obrazovky <app>Orca</app></title>
+  <note style="important">
+    <title>Než začnete</title>
+    <p>Jestli doposud nejste obeznámeni s přikazy pro pohyb poskytovanými vaším pracovním prostředím, doporučujeme vám přečíst si nejdříve dokumentaci na toto téma.</p>
+  </note>
+  <section id="getting_started" style="2column">
+    <title>Začínáme</title>
+  </section>
+  <section id="reading" style="2column">
+    <title>Čtení dokumentů a webových stránek</title>
+  </section>
+  <section id="reviewing" style="2column">
+    <title>Prohlížení obsahu obrazovky a práce s ním</title>
+  </section>
+  <section id="quick_reference" style="2column">
+    <title>Rychlé odkazy</title>
+  </section>
+</page>

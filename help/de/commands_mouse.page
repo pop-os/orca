@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_mouse" xml:lang="de">
+  <info>
+    <link type="next" xref="commands_bookmarks"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <title type="sort">Maus- und Zeigegerät</title>
+    <title type="link">Maus- und Zeigegerät</title>
+    <link type="seealso" xref="howto_flat_review"/>
+    <link type="seealso" xref="howto_mouse_review"/>
+    <desc>Befehle zur Beeinflussung des Mauszeigers</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Maus- und Zeigegerät-Befehle</title>
+  <p><app>Orca</app> unterstützt verschiedene Befehle, die zur Manipulation des Mauszeigers dienen und die Inhalte unter ihm ausgeben können. Allen Befehlen sind Tastenkürzel zugewiesen, jedoch mit einer Ausnahme: Ein- und Ausschalten der Maus-Sprachauswertung. Lesen Sie dazu <link xref="howto_key_bindings">Tastaturkürzel anpassen</link> um herauszufinden, wie dieser Befehl einem Tastenkürzel zugewiesen werden kann.</p>
+  <note style="tip">
+    <p>
+      Below you will see several references to "KP". All
+      "KP" keys are located on the numeric keypad. You will also notice that
+      there are different keystrokes depending upon whether you are using a
+      desktop or a laptop -- or more accurately, whether you are using
+      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
+      For additional information, please see the
+      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
+    </p>
+  </note>
+  <list>
+    <item>
+      <p>Linksklick auf das aktuelle Objekt:</p>
+      <list>
+        <item><p>Desktop: <keyseq><key>/ (Nmblck)</key></keyseq></p></item>
+        <item><p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>7</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Rechtsklick auf das aktuelle Objekt:</p>
+      <list>
+        <item><p>Desktop: <keyseq><key>* (Nmblck)</key></keyseq></p></item>
+        <item><p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>8</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Den Zeiger auf das aktuelle Objekt setzen:</p>
+      <list>
+        <item><p>Desktop: <keyseq><key>Orca-Zusatztaste</key><key>/ (Nmblck)</key></keyseq></p></item>
+        <item><p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>9</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Fokus auf die aktuelle Minihilfe legen/nicht legen (nur im Internet):</p>
+      <list>
+        <item><p>Desktop: <keyseq><key>Orca-Zusatztaste</key><key>* (Nmblck)</key></keyseq></p></item>
+        <item><p>Laptop: <keyseq><key>Orca-Zusatztaste</key><key>0</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Maus-Sprachauswertung ein/ausschalten: (Nicht zugewiesen)</p>
+    </item>
+  </list>
+</page>

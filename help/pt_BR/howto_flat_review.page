@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_flat_review" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_orca_find"/>
+    <title type="sort">2. Revisão plana</title>
+    <desc>Examinando parcialmente uma janela</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Revisão plana</title>
+  <p>O recurso de revisão plana do <app>Orca</app> permite-lhe rever espacialmente o conteúdo da janela ativa, sejam estes textos ou controles. Neste modo, o <app>Orca</app> trata a janela como se ela fosse uma folha bidimensional de texto, eliminando qualquer noção de hierarquia de controles ou outro grupo lógico dentro da janela.</p>
+  <p>O conteúdo "plano", também conhecido como revisão plana, pode ser <link xref="commands_flat_review">navegado</link> por linha, por palavra, por caractere e por objeto. Além disto, você pode executar um clique esquerdo ou um clique direito do mouse no objeto que está sendo revisado. Finalmente, você pode usar a <link xref="howto_orca_find">Localização do Orca</link>, um recurso baseado na revisão plana para pesquisar o conteúdo da janela ativa.</p>
+  <p>Visto que o contexto da revisão plana é uma representação espacial do conteúdo da janela ativa, este é criado quando você entra pela primeira vez neste modo e contém apenas aqueles objetos que estejam visíveis. Logo, você não será capaz de usar a revisão plana para acessar itens que estejam na janela porém atualmente fora da tela. Além disto, se o conteúdo da janela mudar, o contexto da revisão plana não será atualizado automaticamente. Você pode gerar um novo conteúdo a ser construído saindo da revisão plana e entrando nela novamente.</p>
+  <p>Por fim, por sua natureza, a revisão plana, é um modo que não pode ser usado ao mesmo tempo que o <app>Orca</app> esteja acompanhando o foco. Assim, se você estiver na revisão plana e usar os comandos do aplicativo para movimentar o cursor ou colocar o foco em outro objeto, você automaticamente deixará a revisão plana.</p>
+</page>

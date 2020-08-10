@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_voice" xml:lang="bg">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_speech"/>
+    <title type="sort">2.0 Глас</title>
+    <title type="link">Глас</title>
+    <desc>Настройка на гласа използван от <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Настройки на гласа</title>
+  <section id="voice_type_settings">
+    <title>Настройки на вида глас</title>
+    <section id="voice_type">
+      <title>Вид глас</title>
+      <p>Този падащ списък ви позволява да използвате различни гласове, така че да можете по-добре да различавате главните букви и връзките от другия текст и текста изобразен на екрана, от добавения от <app>Orca</app>.</p>
+      <note style="tip">
+        <title>Настройка на множество гласове</title>
+        <p>За всеки глас, който искате да настроите, първо го изберете от падащия списък <gui>Вид глас</gui>. После изберете гласа, скоростта, височината и силата на звука, които да се използват за този вид глас.</p>
+      </note>
+    </section>
+    <section id="speech_system">
+      <title>Речева система</title>
+      <p>Този падащ списък ви позволява да изберете предпочитаната от вас речева система от тези, които имате инсталирани, например „Speech Dispatcher“.</p>
+    </section>
+    <section id="speech_synthesizer">
+      <title>Речев синтезатор</title>
+      <p>Този падащ списък ви позволява да изберете речевия синтезатор с вашата предпочитана речева система.</p>
+    </section>
+    <section id="person">
+      <title>Човек</title>
+      <p>Този падащ списък ви позволява да изберете кой „Човек“ или „Диктор“ трябва да бъде използван с избрания глас. Например, може да искате David да говори по подразбиране, но връзките да се изговарят от Alice. Обърнете внимание, че това, което е изброено в падащия списък <gui>Човек</gui>, ще зависи от това кой речев синтезатор имате инсталиран.</p>
+    </section>
+    <section id="capitalization_style">
+      <title>Подсказване на регистъра</title>
+      <p>Този падащ списък ви позволява да изберете вида подсказване на регистъра на програмата „Speech Dispatcher“ в допълнение на гласа на <app>Orca</app> за горен регистър. Възможните стойности по терминологията на „Speech Dispatcher“ са:</p>
+     <list>
+       <item><p><gui>Icon</gui>: Plays a tone</p></item>
+       <item><p><gui>Spell</gui>: Speaks the word "capital"</p></item>
+       <item><p><gui>None</gui></p></item>
+    </list>
+    <note style="tip">
+      <title>Тази настройка може да бъде превключвана в движение</title>
+      <p><app>Orca</app> разполага и с команда за преминаване към следващия начин за подсказване на регистъра. За повече информация погледнете <link xref="commands_speech_settings">Команди за настройка на речта</link>.</p>
+    </note>
+    <p>Стойност по подразбиране: липсва</p>
+    </section>
+    <section id="rate_pitch_and_volume">
+      <title>Скорост, височина и сила на звука</title>
+      <p>Тези три хоризонтални плъзгача ви позволяват по-задълбочена настройка на човека, който току-що сте избрали.</p>
+    </section>
+  </section>
+  <section id="global_voice_settings">
+  <title>Глобални настройки на гласа</title>
+    <section id="pauses">
+      <title>Разделяне на речта на части между паузите</title>
+      <p>В зависимост от включените настройки на речта, <app>Orca</app> може да трябва да изговори доста информация за определен обект, например името, типа, състоянието, мнемониката, обучителното съобщение и т.н. Отмятането на полето <gui>Разделяне на речта на части между паузите</gui> ще накара <app>Orca</app> да вмъкне кратка пауза между всяко от тези парчета информация.</p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="multicase_strings">
+      <title>Прочитане на низовете със смесен регистър като отделни думи</title>
+      <p>В някои текстове, и особено при работа с програмен код, човек често се сблъсква с „дума“ съставена от няколко думи с различен регистър, например „ПроменливРегистър“. Речевите синтезатори не винаги прочитат тези смесени низове правилно. Слагането на отметка в полето <gui>Прочитане на низове със смесен регистър като отделни думи</gui> ще накара <app>Orca</app> да раздели дума като „ПроменливРегистър“ на отделни думи („Променлив“ и „Регистър“), преди да бъде предадена към речевия синтезатор.</p>
+      <p>Стойност по подразбиране: без отметка</p>
+    </section>
+    <section id="numbers_as_digits">
+      <title>Прочитане на числата по цифри</title>
+      <p>Ако <gui>Прочитане на числата по цифри</gui> е отметнато <app>Orca</app> ще разделя числата на цифри, преди да ги подаде на речевия синтезатор — числото „сто двадесет и три“ ще бъде произнесено като „едно“, „две“, „три“.</p>
+      <p>Стойност по подразбиране: без отметка</p>
+    </section>
+  </section>
+</page>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_spellcheck" xml:lang="uk">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <title type="sort">4. Перевірка правопису</title>
+    <title type="link">Перевірка правопису</title>
+    <desc>Налаштовування підтримки перевірки правопису в <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Параметри перевірки правопису</title>
+  <p>Розробники <app>Orca</app> намагаються реалізувати універсальну підтримку роботи з програмами, у яких передбачено засоби перевірки правопису. У програмах, для яких передбачено підтримку можливостей доступності, ви зможете скористатися декількома параметрами, які уможливлюють визначення найзручнішої для вас докладності повідомлень програми.</p>
+  <note style="tip">
+    <title>Ви можете отримувати і короткі, і докладні дані щодо перевірки правопису</title>
+    <p>Ви можете вимкнути надання даних, якщо вам, зазвичай, зовсім не потрібні дані перевірки правопису, але іноді вам хочеться ознайомитися із докладними даними щодо певної помилки. Якщо вам знадобляться такі докладні дані, просто скористайтеся докладним режимом вбудовано до <app>Orca</app> команди <link xref="howto_whereami">Де я</link>, щоб <app>Orca</app> представила вам дані щодо помилки так, наче увімкнуто усі пункти можливостей, описаних нижче.</p>
+  </note>
+  <section id="spell_error">
+    <title>Вимовляти помилку по буквах</title>
+    <p>Якщо позначено цей пункт, <app>Orca</app> вимовлятиме за літерами слово із помилкою після озвучування його цілком.</p>
+    <p>Типове значення: позначено</p>
+  </section>
+  <section id="spell_suggestion">
+    <title>Вимовляти пропозицію по буквах</title>
+    <p>Якщо позначено цей пункт, <app>Orca</app> вимовлятиме за літерами пропозицію виправлення після озвучування її цілком.</p>
+    <p>Типове значення: позначено</p>
+  </section>
+  <section id="error_context">
+    <title>Надавати контекст помилки</title>
+    <p>Якщо позначено цей пункт, <app>Orca</app> озвучуватиме речення або рядок з документа, у якому знайдено помилку.</p>
+    <p>Типове значення: позначено</p>
+  </section>
+</page>

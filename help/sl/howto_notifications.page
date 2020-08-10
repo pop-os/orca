@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_notifications" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_bookmarks"/>
+    <title type="sort">5. Obvestila</title>
+    <desc>Branje predhodno prejetih sporočil</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Obvestila</title>
+  <p>Namizje GNOME vsebuje "obvestilno področje", ki ga lahko programi uporabijo za predstavljanje podatkov uporabniku. Primeri obvestil vključujejo dohodna sporočila klepeta, podrobnosti povezane s skladbo, ki jo je vaš predvajalnik glasbe pravkar začel prevajati in opozorila, da je vaša baterija prazna.</p>
+  <p>Ker so obvestila namenjena predstavljanju podatkov uporabnikov brez prekinjanja njihovega dela, se ta sporočila hitro pojavijo in izginejo in ne morejo biti v žarišču. Čeprav vam bo <app>Orka</app> ta sporočila predstavila ob njihovem prihodu, je <app>Orkino</app> oznanjevanje preveč enostavno po nesreči prekiniti s tipkanjem ali spremembo žarišča. Zato ima <app>Orka</app> tri ukaze, ki jih lahko uporabite za dostop do predhodno prikazanih obvestilnih sporočil:</p>
+  <list>
+    <item>
+      <p>Predstavi zadnje (najbolj nedavno) obvestilno sporočilo</p>
+    </item>
+    <item>
+      <p>Predstavi predhodno obvestilo sporočila</p>
+    </item>
+    <item>
+      <p>Predstavi seznam vseh obvestil sporočil</p>
+    </item>
+  </list>
+  <p>Prva dva ukaza sta zasnovana predvsem za hiter dostop do sporočila, ki ste ga pravkar prejeli. Zadnji ukaz je najzmogljivejši, saj shrani vaš zgodovino obvestilnih sporočil.</p>
+  <p>Ko vnesete seznam obvestilni sporočil, vam bo sporočena velikost seznama. Na voljo boste imeli naslednje izbire:</p>
+  <list>
+    <item><p>Pritisnite H za pomoč.</p></item>
+    <item><p>Uporaba navzgor, navzdol, domov in konec za krmarjenje po seznamu.</p></item>
+    <item><p>Pritisnite ubežno tipko za končanje.</p></item>
+    <item><p>Pritisk preslednice za ponovno branje zadnjega prebranega sporočila.</p></item>
+    <item><p>Pritisk ene številke za branje določenega sporočila.</p></item>
+  </list>
+  <p>Najbolj nedavno prejeto sporočilo je na vrhu seznama.</p>
+  <p>Vsak ukaz <app>Orkinega</app> pregleda obvestil privzeto ni določen. Za katerikoli ali za vse ukaze lahko ustvarite tipkovne bližnjice. Za več podrobnosti si oglejte <link xref="howto_key_bindings">Uvod v tipkovne bližnjice</link>.</p>
+</page>

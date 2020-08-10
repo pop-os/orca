@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_flat_review" xml:lang="fr">
+  <info>
+    <link type="next" xref="commands_find"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_flat_review"/>
+    <title type="sort">1. Examen global</title>
+    <title type="link">Examen global</title>
+    <desc>Commandes d’examen « spatial » des fenêtres</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Commandes d’examen global</title>
+  <p>Les commandes d’<link xref="howto_flat_review">Examen global</link> sont conçues pour un examen « spatial » des éléments affichés à l’écran. Elles fournissent aussi un moyen pour lire la ligne, le mot et le caractère actuel, pendant le parcours du texte d’un document. La plupart de ces commandes sont « liées ». Reportez-vous à <link xref="howto_key_bindings">Modifier les combinaisons de touches</link> pour savoir comment lier les commandes non liées.</p>
+  <section id="line">
+    <title>Commandes d’examen par ligne</title>
+    <list>
+      <item>
+        <p>Première ligne (la position d’« origine ») :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>Touche de modification d’Orca</key><key>PN 7</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Ctrl</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Ligne précédente :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 7</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Ligne actuelle :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 8</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>I</key></keyseq></p></item>
+        </list>
+      </item>
+        <item><p>Épeler la ligne actuelle :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 8</key></keyseq> (double-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>I</key></keyseq> (double-clic)</p></item>
+        </list>
+      </item>
+      <item><p>Épeler phonétiquement la ligne actuelle :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 8</key></keyseq> (triple-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>I</key></keyseq> (triple-clic)</p></item>
+        </list>
+      </item>
+      <item><p>Ligne suivante :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 9</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Dernière ligne (la position « finale ») :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>Touche de modification d’Orca</key><key>PN 9</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Ctrl</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="word">
+    <title>Commandes d’examen par mot</title>
+    <list>
+      <item><p>Mot au-dessus :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>Touche de modification d’Orca</key><key>PN 4</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Ctrl</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Mot précédent :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 4</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Mot actuel :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 5</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Épeler le mot actuel :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 5</key></keyseq> (double-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>K</key></keyseq> (double-clic)</p></item>
+        </list>
+      </item>
+      <item><p>Épeler phonétiquement le mot actuel :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 5</key></keyseq> (triple-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>K</key></keyseq> (triple-clic)</p></item>
+        </list>
+      </item>
+      <item><p>Mot suivant :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 6</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Mot en dessous :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>Touche de modification d’Orca</key><key>PN 6</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Ctrl</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="character">
+    <title>Commandes d’examen par caractère</title>
+    <list>
+      <item><p>Caractère précédent :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 1</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Caractère actuel :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 2</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Virgule</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Lire phonétiquement le caractère actuel :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 2</key></keyseq> (double-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Virgule</key></keyseq> (double-clic)</p></item>
+        </list>
+      </item>
+      <item><p>Lire la valeur Unicode du caractère actuel :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 2</key></keyseq> (triple-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Virgule</key></keyseq> (triple-clic)</p></item>
+        </list>
+      </item>
+      <item><p>Caractère suivant :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 3</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Point</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Dernier caractère de la ligne actuelle :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>Touche de modification d’Orca</key><key>PN 1</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Ctrl</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="other">
+    <title>Commandes additionnelles</title>
+    <list>
+      <item><p>Activer ou désactiver le mode d’examen global (actualise le contexte de l’examen global) :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>Touche de modification d’Orca</key><key>PN Soustraction</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>P</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Examen de l’élément ou du composant graphique actuel :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <keyseq><key>Touche de modification d’Orca</key><key>PN 5</key></keyseq></p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Ctrl</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Utiliser « Tout lire » pour examiner le dialogue ou la fenêtre actuelle :</p>
+        <list>
+          <item><p>Ordinateur de bureau : <key>PN Plus</key> (double-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Point-virgule</key></keyseq> (double-clic)</p></item>
+        </list>
+      </item>
+      <item>
+      <p>Copier le contenu sous examen global dans le presse-papiers : (non liée)</p>
+      </item>
+        <item>
+        <p>Ajouter le contenu sous examen global dans le presse-papiers : (non liée)</p>
+      </item>
+    </list>
+  </section>
+</page>

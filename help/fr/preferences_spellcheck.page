@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_spellcheck" xml:lang="fr">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <title type="sort">4. Synthèse vocale</title>
+    <title type="link">Synthèse vocale</title>
+    <desc>Configurer la prise en charge de la synthèse vocale par <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Préférences de la synthèse vocale</title>
+  <p><app>Orca</app> s’efforce de fournir une pratique logique lors de l’interaction avec les synthétiseurs vocaux des applications. Pour les applications où une telle gestion est offerte, vous disposez de plusieurs options permettant d’obtenir le niveau de verbosité qui vous convient le mieux.</p>
+  <note style="tip">
+    <title>Vous pouvez avoir des informations de synthèse vocale courtes ou verbeuses</title>
+    <p>Si vous voulez normalement très peu de verbosité lors de l’utilisation de la synthèse vocale, mais que, occasionnellement, vous avez besoin d’informations détaillées sur une erreur donnée, vous pouvez désactiver ces options. Lorsque vous avez besoin de détails supplémentaires, servez-vous alors simplement de la commande détaillée d’<app>Orca</app> <link xref="howto_whereami">Où suis-je</link> pour que <app>Orca</app> vous présente l’erreur actuelle comme si toutes ces options étaient activées.</p>
+  </note>
+  <section id="spell_error">
+    <title>Épeler l’erreur :</title>
+    <p>Si cette case est cochée, <app>Orca</app> épelle le mot mal orthographié après l’avoir prononcé.</p>
+    <p>Valeur par défaut : cochée</p>
+  </section>
+  <section id="spell_suggestion">
+    <title>Épeler la suggestion :</title>
+    <p>Si cette case est cochée, <app>Orca</app> épelle la correction suggérée après l’avoir prononcée.</p>
+    <p>Valeur par défaut : cochée</p>
+  </section>
+  <section id="error_context">
+    <title>Présenter le contexte d’erreur</title>
+    <p>Si cette case est cochée, <app>Orca</app> lit à haute voix la phrase ou la ligne où se trouve l’erreur.</p>
+    <p>Valeur par défaut : cochée</p>
+  </section>
+</page>

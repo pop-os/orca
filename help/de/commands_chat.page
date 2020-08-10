@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_chat" xml:lang="de">
+  <info>
+    <link type="next" xref="commands_debugging"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="preferences_chat"/>
+    <title type="sort">2. Chat</title>
+    <title type="link">Chat</title>
+    <desc>Befehle zur Nutzung von Sofortnachrichten und IRC</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Chat-Befehle</title>
+  <p>Folgende Befehle können zum Erhalt von Informationen über den Sofortnachrichtendienst und IRC unterstützt durch <app>Orca</app> verwendet werden. Sie werden feststellen, dass es sich bei vielen dieser Befehle um nicht zugewiesene Befehle handelt. Bitte klicken Sie auf <link xref="howto_key_bindings">Tastenkombinationen verändern</link>, um Informationen darüber zu erhalten, wie Sie diesen Befehlen Tastenkombinationen zuweisen.</p>
+  <list>
+    <item>
+      <p>Letzte Chatraum-Nachrichten anzeigen: <keyseq><key>Orca-Zusatztaste</key><key>F1</key></keyseq> bis <key>F9</key></p>
+    </item>
+    <item>
+      <p>Anzeige des Raumnamens mit Nachrichten ermöglichen/blockieren: (Nicht zugewiesen)</p>
+    </item>
+    <item>
+      <p>Einschalten/Ausschalten des Schreibstatus des Kontakts: (Nicht zugewiesen)</p>
+    </item>
+    <item>
+      <p>Einschalten/Ausschalten von Nachrichtenverläufen je Chatraum: (Nicht zugewiesen)</p>
+    </item>
+  </list>
+</page>

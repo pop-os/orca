@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_whereami" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_flat_review"/>
+    <title type="sort">1. Where Am I</title>
+    <desc>Kako izvedeti kje ste</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Where Am I</title>
+  <p>Poleg podrobnih ukazov za branje naslovne vrstice in vrstice stanja Orka zagotavlja dva na vsebino občutljiva ukaza Kje sem: osnovni Kje sem in podrobni Kje sem. Osnovni Kje sem je podprt za vse predmete. Podroben Kje sem je podprt je podprt le za predmete, kjer obstaja občutna količina podatkov, ki jih morda želite vedeti, vendar jih ne želite vedeti ves čas.</p>
+  <p>Najboljši način za spoznavanje ukazov <link xref="commands_where_am_i">Kje sem</link> je preizkušanje. Da bi imeli boljšo idejo o na vsebino občutljivi naravi <app>Orkine</app> zmožnosti Kje sem vzemite v znanje naslednje:</p>
+  <p>Za večino gradnikov vam bo povedana oznaka in/ali ime, vrsto ali vlogo gradnika in mnemotehnika in/ali pospeševalna tipka, če obstajati. Poleg tega:</p>
+  <list>
+    <item>
+      <p>V primeru da je gradnik besedilo in izvedete osnovno iskanje Kje sem vam bo povedana trenutna vrstica, če ni izbrano nobeno besedilo. V primeru da je besedilo izbrano vam bo osnovni ukaz Kje sem povedal katero besedilo je izbrano. Podroben ukaz Kje sem bo vključil tudi atribute besedila.</p>
+    </item>
+    <item>
+      <p>V primeru da lahko gradnik izberete kot na primer v izbirnih poljih in izbirnih gumbih bo vključeno stanje izbranosti.</p>
+    </item>
+    <item>
+      <p>V primeru da je gradnik seznam ali seznamu podoben predmet kot je spustno polje, skupina izbirnih gumbov ali seznam zavihkov strani, bo vključen položaj trenutnega predmeta.</p>
+    </item>
+    <item>
+      <p>V primeru da je gradnik hierarhičen kot je drevo in ste na razširljivem vozlišču, vam bo sporočeno, če je vozlišče razširjeno ali ne. Če je vozlišče razširjeno, vam bo sporočeno koliko podrejenih predmetov vsebuje. Zagotovljena bo tudi raven gnezdenja.</p>
+    </item>
+    <item>
+      <p>V primeru da je gradnik vrstica napredka ali drsnik vam bo povedan trenutni odstotek.</p>
+    </item>
+    <item>
+      <p>V primeru da je gradnik ikona v skupini ikon, bo osnovni ukaz Kje sem vključil tudi predmet v katerem ste, predmet na katerem ste in število izbranih predmetov. Podroben ukaz Kje sem bo povedal tudi kateri predmeti so bili izbrani.</p>
+    </item>
+    <item>
+      <p>V primeru da ste na povezavi bo vključena vrsta (enaka stran, druga stran, FTP povezava) povezave.</p>
+    </item>
+    <item>
+      <p>V primeru da ste v celici razpredelnice, bodo vključene glave in koordinate te celice.</p>
+    </item>
+    <item>
+      <p>
+        If you are in the spell checker of an application where <app>Orca</app>
+        provides enhanced support, a basic Where Am I will repeat the error
+        respecting your <link xref="preferences_spellcheck">spell check
+        preferences</link>. A detailed Where Am I will cause <app>Orca</app> to
+        present the full details of the error.
+      </p>
+    </item>
+  </list>
+  <p>In tako naprej. Cilj <app>Orkinega</app> Kje sem je zagotavljanje podatkov, ki vas najverjetneje zanimajo o predmetu kjer trenutno ste. Za preizkus Kje sem si oglejte seznam <link xref="commands_where_am_i">ukazov Kje sem</link>.</p>
+</page>

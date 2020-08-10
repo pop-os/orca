@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="guide" id="commands" xml:lang="el">
+  <info>
+    <link type="next" xref="commands_controlling_orca"/>
+    <link type="guide" xref="index#quick_reference"/>
+    <title type="sort">4. Εντολές του <app>Orca</app></title>
+    <title type="link">Εντολές</title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εντολές του <app>Orca</app></title>
+  <section id="getting_started" style="2column">
+    <title>Ξεκίνημα</title>
+  </section>
+  <section id="speech_braille" style="2column">
+    <title>Εκφώνηση και Μπράιγ</title>
+  </section>
+  <section id="reading_documents" style="2column">
+    <title>Ανάγνωση ιστοσελίδων και άλλων εγγράφων</title>
+  </section>
+  <section id="reviewing_screen_contents" style="2column">
+    <title>Επισκόπηση και αλληλεπίδραση με τα περιεχόμενα οθόνης</title>
+  </section>
+  <section id="accessing_dynamic_information" style="2column">
+    <title>Πρόσβαση δυναμικών πληροφοριών</title>
+  </section>
+  <section id="troubleshooting">
+    <title>Αντιμετώπιση προβλημάτων</title>
+  </section>
+</page>

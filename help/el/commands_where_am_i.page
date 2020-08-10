@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_where_am_i" xml:lang="el">
+  <info>
+    <link type="next" xref="commands_time_date_notifications"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">3. Πού είμαι;</title>
+    <title type="link">Πού είμαι;</title>
+    <desc>Οι εντολές για μάθηση της θέσης σας</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εντολές πού είμαι</title>
+  <p>Στο <app>Orca</app> το γνώρισμα πού είμαι σας δίνει λεπτομέρειες που εξαρτώνται από το περιεχόμενο για την παρούσα θέση σας. Για παράδειγμα, σε πίνακες, πού είμαι. θα σας δώσουν λεπτομέρειες για το κελί του πίνακα που είσαστε, αλλά σε κείμενο θα παρουσιάσουν την τρέχουσα γραμμή μαζί με οποιοδήποτε κείμενο συμβαίνει να επιλεγεί. Η πλήρης λίστα του τι μπορείτε να περιμένετε στο <app>Orca</app> να παρουσιαστεί μπορεί να βρεθεί στο <link xref="howto_whereami">εισαγωγή στο πού είμαι</link>.</p>
+  <p>Το <app>Orca</app> παρέχει τις επόμενες εντολές πού είμαι:</p>
+  <list>
+    <item>
+      <p>Perform basic Where Am I:</p>
+      <list>
+        <item>
+          <p>Επιτραπέζιος: <key>εισαγωγή KP</key></p>
+        </item>
+        <item>
+          <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>επιστροφή</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Perform detailed Where Am I:</p>
+      <list>
+        <item>
+          <p>Επιτραπέζιος: <key>εισαγωγή KP</key> (διπλό κλικ)</p>
+        </item>
+        <item>
+          <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>επιστροφή</key></keyseq> (διπλό κλικ)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+  <p>
+    In addition to the dedicated Where Am I commands, <app>Orca</app> has
+    additional commands related to obtaining information about your present location:
+  </p>
+  <list>
+    <item>
+      <p>Παρουσίαση της γραμμής τίτλου:</p>
+      <list>
+        <item>
+          <p>Επιτραπέζιος: <keyseq><key>τροποποιητής Orca</key><key>εισαγωγή KP</key></keyseq></p>
+        </item>
+        <item>
+          <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>πλάγια κάθετος</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Παρουσίαση της γραμμής κατάστασης:</p>
+      <list>
+        <item>
+          <p>Επιτραπέζιος: <keyseq><key>τροποποιητής Orca</key><key>εισαγωγή KP</key></keyseq> (διπλό κλικ)</p>
+        </item>
+        <item>
+          <p>Φορητός: <keyseq><key>τροποποιητής Orca</key><key>πλαγιοκάθετος</key></keyseq> (διπλό κλικ)</p>
+        </item>
+        <item>
+          <p>Present size and location of current object in pixels: (Unbound)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

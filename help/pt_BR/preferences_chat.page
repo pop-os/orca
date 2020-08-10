@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_chat" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_spellcheck"/>
+    <title type="sort">3. Bate-papo</title>
+    <title type="link">Bate-papo</title>
+    <desc>
+      Configuring <app>Orca</app>'s support for IM and IRC
+    </desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Preferências de bate-papo</title>
+  <p>As opções seguintes permitem-lhe configurar como o <app>Orca</app> se comporta quando provê acesso a mensagens instantâneas e a clientes de bate-papo na Internet.</p>
+  <section id="speak_name">
+    <title>Falar o nome da sala de bate-papo</title>
+    <p>Se esta caixa de seleção for marcada, o <app>Orca</app> prefixará as mensagens que chegam com o nome da sala de bate-papo ou do amigo de onde ela provém, ainda que ela pertença a conversação atualmente em foco.</p>
+    <p>Valor padrão: desmarcado</p>
+  </section>
+  <section id="announce_typing">
+    <title>Anunciar quando os seus amigos estão digitando</title>
+    <p>Se esta caixa de seleção estiver marcada, e se o <app>Orca</app> possuir informação suficiente para concluir que o seu amigo está digitando, o <app>Orca</app> informará as mudanças no estado de digitação.</p>
+    <p>Valor padrão: desmarcado</p>
+  </section>
+  <section id="message_histories">
+    <title>Fornece históricos de mensagens específicos para as salas de bate-papo</title>
+    <p>Se esta caixa de seleção estiver marcada, os comandos do <app>Orca</app> para revisar mensagens recentes serão aplicados apenas a conversação atualmente em foco. Por outro lado, o histórico conterá as mensagens mais recentes independentemente de qual conversação elas vieram.</p>
+    <p>Valor padrão: desmarcado</p>
+  </section>
+  <section id="speak_messages_from">
+    <title>Falar mensagens de</title>
+    <p>Este grupo de botões de opção permite-lhe controlar sob quais circunstâncias o <app>Orca</app> apresentará as mensagens que chegam para você. Your choices are:</p>
+    <list>
+      <item>
+        <p><gui>Todos os canais</gui></p>
+      </item>
+      <item>
+        <p><gui>Um canal somente se a janela de conversação estiver ativa</gui></p>
+      </item>
+      <item>
+        <p><gui>Todos os canais quando qualquer janela de bate-papo está ativa</gui></p>
+      </item>
+    </list>
+    <p>Valor padrão: todos os canais</p>
+  </section>
+</page>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="guide" id="commands" xml:lang="sl">
+  <info>
+    <link type="next" xref="commands_controlling_orca"/>
+    <link type="guide" xref="index#quick_reference"/>
+    <title type="sort">4. Ukazi <app>Orke</app></title>
+    <title type="link">Ukazi</title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Ukazi <app>Orke</app></title>
+  <section id="getting_started" style="2column">
+    <title>Kako začeti</title>
+  </section>
+  <section id="speech_braille" style="2column">
+    <title>Govor in brajica</title>
+  </section>
+  <section id="reading_documents" style="2column">
+    <title>Branje spletnih strani in drugih dokumentov</title>
+  </section>
+  <section id="reviewing_screen_contents" style="2column">
+    <title>Pregledovanje in sporazumevanje z vsebino zaslona</title>
+  </section>
+  <section id="accessing_dynamic_information" style="2column">
+    <title>Dostopanje do dinamičnih podrobnosti</title>
+  </section>
+  <section id="troubleshooting">
+    <title>Odpravljanje težav</title>
+  </section>
+</page>

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_structural_navigation" xml:lang="sl">
+  <info>
+    <link type="next" xref="commands_table"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_forms"/>
+    <title type="sort">2. Strukturno krmarjenje</title>
+    <title type="link">Strukturno krmarjenje</title>
+    <desc>Ukazi za krmarjenje po predmetih</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Ukazi strukturnega krmarjenja</title>
+  <p>Naslednje ukaze lahko uporabite za krmarjenje po glavah, povezavah in drugih predmetih za katere <app>Orka</app> zagotavlja podporo strukturnega krmarjenja.</p>
+  <list>
+    <item>
+      <p>Onomogoči/onemogoči tipke strukturnega krmarjenja: <keyseq><key>Spremenilna tipka Orka</key><key>Z</key></keyseq></p>
+    </item>
+  </list>
+  <section id="headings">
+    <title>Glave</title>
+      <list>
+        <item>
+          <p>Naslednja in predhodna glava: <keyseq><key>H</key></keyseq> in <keyseq><key>Dvigalka</key><key>H</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of headings:
+            <keyseq><key>Alt</key><key>Shift</key><key>H</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednja in predhodna glava na ravni 1: <keyseq><key>1</key></keyseq> in <keyseq><key>Dvigalka</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>
+            Display a list of headings at level 1:
+            <keyseq><key>Alt</key><key>Shift</key><key>1</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednja in predhodna glava na ravni 2: <keyseq><key>2</key></keyseq> in <keyseq><key>Dvigalka</key><key>2</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of headings at level 2:
+            <keyseq><key>Alt</key><key>Shift</key><key>2</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednja in predhodna glava na ravni 3: <keyseq><key>3</key></keyseq> in <keyseq><key>Dvigalka</key><key>3</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of headings at level 3:
+            <keyseq><key>Alt</key><key>Shift</key><key>3</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednja in predhodna glava na ravni 4: <keyseq><key>4</key></keyseq> in <keyseq><key>Dvigalka</key><key>4</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of headings at level 4:
+            <keyseq><key>Alt</key><key>Shift</key><key>4</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednja in predhodna glava na ravni 5: <keyseq><key>5</key></keyseq> in <keyseq><key>Dvigalka</key><key>5</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of headings at level 5:
+            <keyseq><key>Alt</key><key>Shift</key><key>5</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednja in predhodna glava na ravni 6: <keyseq><key>6</key></keyseq> in <keyseq><key>Dvigalka</key><key>6</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of headings at level 6:
+            <keyseq><key>Alt</key><key>Shift</key><key>6</key></keyseq>
+          </p>
+        </item>
+      </list>
+    </section>
+    <section id="forms">
+      <title>Obrazci</title>
+      <list>
+        <item>
+          <p>Naslednje in predhodno polje obrazca: <keyseq><key>Spremenilna tipka Orka</key><key>Tabulator</key></keyseq> in <keyseq><key>Spremenilna tipka Orka</key><key>Dvigalka</key><key>Tabulator</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of form fields:
+            <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednji in predhodni gumb: <keyseq><key>B</key></keyseq> in <keyseq><key>Dvigalka</key><key>B</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of buttons:
+            <keyseq><key>Alt</key><key>Shift</key><key>B</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednje in predhodno spustno polje: <keyseq><key>C</key></keyseq> and <keyseq><key>Dvigalka</key><key>C</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of combo boxes:
+            <keyseq><key>Alt</key><key>Shift</key><key>C</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednji in predhodni vnos: <keyseq><key>E</key></keyseq> in <keyseq><key>Dvigalka</key><key>E</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of entries:
+            <keyseq><key>Alt</key><key>Shift</key><key>E</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednji in predhodni izbirni gumb: <keyseq><key>R</key></keyseq> in <keyseq><key>Dvigalka</key><key>R</key></keyseq></p>
+        </item>
+        <item>
+          <p>
+            Display a list of radio buttons:
+            <keyseq><key>Alt</key><key>Shift</key><key>R</key></keyseq>
+          </p>
+        </item> 
+        <item>
+          <p>Naslednje in predhodno izbirno polje: <keyseq><key>X</key></keyseq> in <keyseq><key>Dvigalka</key><key>X</key></keyseq></p>
+        </item>
+        <item>
+          <p>
+            Display a list of checkboxes:
+            <keyseq><key>Alt</key><key>Shift</key><key>X</key></keyseq>
+          </p>
+        </item> 
+      </list>
+    </section>
+    <section id="links">
+    <title>Povezave</title>
+      <list>
+        <item>
+          <p>
+            Next and previous link:
+            <keyseq><key>K</key></keyseq> and
+            <keyseq><key>Shift</key><key>K</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>
+            Display a list of links:
+            <keyseq><key>Alt</key><key>Shift</key><key>K</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednja in predhodna neobiskana povezava: <keyseq><key>U</key></keyseq> in <keyseq><key>Dvigalka</key><key>U</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of unvisited links:
+            <keyseq><key>Alt</key><key>Shift</key><key>U</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednja in predhodna obiskana povezava: <keyseq><key>V</key></keyseq> in <keyseq><key>Dvigalka</key><key>V</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of visited links:
+            <keyseq><key>Alt</key><key>Shift</key><key>V</key></keyseq>
+          </p>
+        </item>
+      </list>
+    </section>
+    <section id="lists">
+      <title>Seznami</title>
+      <list>
+        <item>
+          <p>Naslednji in predhodni seznam: <keyseq><key>L</key></keyseq> in <keyseq><key>Dvigalka</key><key>L</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of lists:
+            <keyseq><key>Alt</key><key>Shift</key><key>L</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednji in predhodni predmet seznama: <keyseq><key>I</key></keyseq> in <keyseq><key>Dvigalka</key><key>I</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of list items:
+            <keyseq><key>Alt</key><key>Shift</key><key>I</key></keyseq>
+          </p>
+        </item>
+      </list>
+    </section>
+    <section id="tables">
+      <title>Razpredelnice</title>
+      <list>
+        <item>
+          <p>Naslednja in predhodna razpredelnica: <keyseq><key>T</key></keyseq> in <keyseq><key>Dvigalka</key><key>T</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of tables:
+            <keyseq><key>Alt</key><key>Shift</key><key>T</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Celica na levi: <keyseq><key>Alt</key><key>Dvigalka</key><key>Levo</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Celica na desni: <keyseq><key>Alt</key><key>Dvigalka</key><key>Desno</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Celica zgoraj: <keyseq><key>Alt</key><key>Dvigalka</key><key>Navzgor</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Celica spodaj: <keyseq><key>Alt</key><key>Dvigalka</key><key>Navzdol</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Prva celica v razpredelnici: <keyseq><key>Alt</key><key>Dvigalka</key><key>Domov</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Zadnja celica v razpredelnici: <keyseq><key>Alt</key><key>Dvigalka</key><key>Konec</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="text_blocks">
+      <title>Bloki besedila</title>
+      <list>
+        <item>
+          <p>Naslednji in predhodni odstavek: <keyseq><key>P</key></keyseq> in <keyseq><key>Dvigalka</key><key>P</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of paragraphs:
+            <keyseq><key>Alt</key><key>Shift</key><key>P</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednje in predhodno bločno besedilo: <keyseq><key>Q</key></keyseq> in <keyseq><key>Dvigalka</key><key>Q</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of blockquotes:
+            <keyseq><key>Alt</key><key>Shift</key><key>Q</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednji in predhoden "velik predmet": <keyseq><key>O</key></keyseq> in <keyseq><key>Dvigalka</key><key>O</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of "large objects":
+            <keyseq><key>Alt</key><key>Shift</key><key>O</key></keyseq>
+          </p>
+        </item>
+       </list>
+    </section>
+    <section id="other">
+      <title>Drugi predmeti</title>
+      <list>
+        <item>
+          <p>Naslednja in predhodna oznaka mesta: <keyseq><key>M</key></keyseq> in <keyseq><key>Dvigalka</key><key>M</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Display a list of landmarks:
+            <keyseq><key>Alt</key><key>Shift</key><key>M</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>Naslednja in predhodna ločnica : <keyseq><key>S</key></keyseq> in <keyseq><key>Dvigalka</key><key>S</key></keyseq></p>
+        </item> 
+        <item>
+          <p>
+            Next and previous "clickable":
+            <keyseq><key>A</key></keyseq> and
+            <keyseq><key>Shift</key><key>A</key></keyseq>
+          </p>
+        </item> 
+        <item>
+          <p>
+            Display a list of "clickables":
+            <keyseq><key>Alt</key><key>Shift</key><key>A</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>
+            Next and previous image:
+            <keyseq><key>G</key></keyseq> and
+            <keyseq><key>Shift</key><key>G</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>
+            Display a list of images:
+            <keyseq><key>Alt</key><key>Shift</key><key>G</key></keyseq>
+          </p>
+        </item>
+        <item>
+          <p>
+            Start and end of current container:
+            <keyseq><key>Shift</key><key>Comma</key></keyseq> and
+            <keyseq><key>Comma</key></keyseq>
+          </p>
+        </item>
+      </list>
+    </section>
+</page>

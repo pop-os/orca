@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_pronunciation" xml:lang="bg">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_text_attributes"/>
+    <title type="sort">7. Произношение</title>
+    <title type="link">Произношение</title>
+    <desc>Определяне на произношението на определени думи</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Настройки на произношението</title>
+  <p>Понякога речевите синтезатори не прочитат правилно определени низове. Може да предпочитате да чувате „смях“ вместо „LOL,“ или „достъпност“ вместо „a11y“. Може да има някакво име или технически термин, което синтезатора прочита погрешно.</p>
+  <p>Страницата <gui>Произношение</gui> от прозореца за настройка на <app>Orca</app> ви позволява да добавяте, редактирате и изтривате записи в речника на произношението на <app>Orca</app>.</p>
+  <p>Понеже страницата <gui>Произношение</gui> е част и от настройките за отделните приложения, може да определяте записите в речника за всяко отделно приложение което използвате.</p>
+  <steps>
+    <title>Добавяне на нов запис в речника</title>
+    <item>
+      <p>
+        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
+      </p>
+    </item>
+    <item>
+      <p>Въведете текста на новия запис и натиснете <key>Return</key>, за да потвърдите.</p>
+    </item>
+    <item>
+      <p>Придвижете се до колоната <gui>Низ за замяна</gui> и натиснете <key>Return </key>, за да я редактирате.</p>
+    </item>
+    <item>
+      <p>Въведете текста, който искате да се изговаря вместо срещнатия низ, и натиснете <key>Return</key>, за да потвърдите.</p>
+    </item>
+  </steps>
+  <steps>
+  <title>Редактиране на съществуващ запис в речника</title>
+    <item>
+      <p>Придвижете се до клетката, която искате да редактирате, и натиснете <key>Return</key>, за да започнете редактирането.</p>
+    </item>
+    <item>
+      <p>Направете желаните промени и натиснете <key>Return</key>, за да потвърдите.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Изтриване на съществуващ запис в речника</title>
+    <item>
+      <p>Придвижете се до записа, който искате да изтриете.</p>
+    </item>
+    <item>
+      <p>
+        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
+      </p>
+    </item>
+  </steps>
+</page>
