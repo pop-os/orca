@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -42,6 +42,12 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
   <title>Bienvenue dans Orca</title>
   <p><app>Orca</app> est un lecteur d’écran extensible, gratuit, libre et flexible qui donne accès au bureau graphique via synthèse vocale et plage braille.</p>
@@ -51,10 +57,10 @@
     <p>Pour lancer <app>Orca</app> :</p>
     <list>
       <item>
-        <p>La méthode pour configurer le lancement automatique d’<app>Orca</app> comme lecteur d’écran favori, dépend de l’environnement de bureau que vous utilisez. Par exemple, dans GNOME 3.x cette option se trouve dans le panneau du centre de contrôle Accès universel dans l’onglet <gui>Vision</gui>. Ndt : avec Gnome 3.2, il s’agit de l’icône en forme de personne dans la barre du haut.</p>
+        <p>La méthode pour configurer le lancement automatique d’<app>Orca</app> comme lecteur d’écran favori, dépend de l’environnement de bureau que vous utilisez. Par exemple, dans GNOME 3.x, cette option se trouve dans le panneau du centre de contrôle Accès universel dans l’onglet <gui>Vision</gui>. Ndt : avec Gnome 3.2, il s’agit de l’icône en forme de personne dans la barre du haut.</p>
       </item>
       <item>
-        <p>Pour activer/désactiver <app>Orca</app> dans GNOME, appuyez sur <keyseq><key>Logo</key><key>Alt</key><key>S</key></keyseq>.</p>
+        <p>Pour activer/désactiver <app>Orca</app> dans GNOME, appuyez sur <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>
       </item>
       <item>
         <p>Saisissez <cmd>orca</cmd>, ainsi que les paramètres optionnels, dans une fenêtre de terminal ou dans la boîte de dialogue <gui>Lancer une application</gui> et appuyez sur <key>Entrée</key>.</p>
@@ -63,7 +69,7 @@
   </section>
     <section id="loadtime">
       <title>Options de lancement</title>
-      <p>Les options suivantes peuvent être spécifiées lors du lancement d’<app>Orca</app> dans une fenêtre de terminal ou à l’intérieur de la boîte de dialogue <gui>Démarrer</gui></p>
+      <p>Les options suivantes peuvent être spécifiées lors du lancement d’<app>Orca</app> dans une fenêtre de terminal ou à l’intérieur de la boîte de dialogue <gui>Démarrer</gui> :</p>
       <list>
         <item>
           <p><cmd>-h</cmd>, <cmd>--help</cmd> : affiche le message d’aide</p>

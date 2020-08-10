@@ -12,7 +12,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -44,6 +44,12 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
   <title>Commandes heure, date et notifications</title>
   <p>Les commandes suivantes peuvent être utilisées pour obtenir l’heure et la date actuelle, et pour revoir les messages de notification affichés précédemment :</p>
@@ -54,7 +60,7 @@
         <p>Lire l’heure : <keyseq><key>Touche de modification d’Orca</key><key>T</key></keyseq></p>
       </item>
       <item>
-        <p>Lire la date : <keyseq><key>Touche de modification d’Orca</key><key>T</key></keyseq> (double clic)</p>
+        <p>Lire la date : <keyseq><key>Touche de modification d’Orca</key><key>T</key></keyseq> (double-clic)</p>
       </item>
     </list>
   </section>
@@ -63,13 +69,13 @@
     <p>Orca dispose de trois commandes non liées pour accéder aux <link xref="howto_notifications">messages de notification</link> affichés au préalable. Consultez <link xref="howto_key_bindings">Modifier les combinaisons de touches</link> pour en apprendre plus sur la façon de lier ces commandes à des combinaisons de touches.</p>
     <list>
       <item>
-        <p>Présenter le dernier (le plus récent) message de notification : (non lié)</p>
+        <p>Présenter le dernier (le plus récent) message de notification : (non liée)</p>
       </item>
       <item>
-        <p>Présenter le message de notification précédent : (non lié)</p>
+        <p>Présenter le message de notification précédent : (non liée)</p>
       </item>
       <item>
-        <p>Présenter la liste de tous les messages de notification : (non lié)</p>
+        <p>Présenter la liste de tous les messages de notification : (non liée)</p>
       </item>
     </list>
   </section>

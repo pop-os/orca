@@ -8,7 +8,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
 
     <desc>Orca est un lecteur d’écran extensible, gratuit, libre et flexible qui donne accès au bureau graphique via synthèse vocale et plage braille.</desc>
@@ -41,6 +41,12 @@
       <mal:name>Claude Paroz</mal:name>
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
     </mal:credit>
   </info>
 

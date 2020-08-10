@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -42,10 +42,16 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
   <title>Notifications</title>
-  <p>Le bureau de GNOME contient une « zone de notification » qui peut être utilisée par les applications pour afficher des informations pour l’utilisateur. Par exemple : l’arrivée de messages instantanés, des informations sur la chanson que votre lecteur multimédia commence à lire et des avertissements sur la charge de votre batterie.</p>
-  <p>Comme les notifications sont prévues pour afficher les informations sans interrompre ce que l’utilisateur est en train de faire, elles disparaissent généralement rapidement. Il n’est pas possible de leur donner le focus. Comme <app>Orca</app> lit ces informations au moment où elles apparaissent, il est beaucoup trop facile d’interrompre leur lecture accidentellement en continuant votre saisie ou en changeant le focus. Pour cette raison <app>Orca</app> dispose de trois commandes qui vous permettent d’accéder aux messages de notifications affichés auparavant :</p>
+  <p>Le bureau GNOME contient une « zone de notification » qui peut être utilisée par les applications pour afficher des informations pour l’utilisateur. Par exemple : l’arrivée de messages instantanés, des informations sur la chanson que votre lecteur multimédia commence à lire et des avertissements sur la charge de votre batterie.</p>
+  <p>Comme les notifications sont prévues pour afficher les informations sans interrompre ce que l’utilisateur est en train de faire, elles disparaissent généralement rapidement. Il n’est pas possible de leur donner le focus. Comme <app>Orca</app> lit ces informations au moment où elles apparaissent, il est beaucoup trop facile d’interrompre leur lecture accidentellement en continuant votre saisie ou en changeant le focus. Pour cette raison, <app>Orca</app> dispose de trois commandes qui vous permettent d’accéder aux messages de notification affichés auparavant :</p>
   <list>
     <item>
       <p>Présente le dernier (le plus récent) message de notification</p>
@@ -61,7 +67,7 @@
   <p>Quand vous accédez à la liste des messages de notification, la taille de la liste est lue et les choix suivants vous sont offerts :</p>
   <list>
     <item><p>Appuyez sur H pour obtenir de l’aide.</p></item>
-    <item><p>Utilisez les flèches haut, bas, début et fin pour parcourir la liste.</p></item>
+    <item><p>Utilisez les touches : flèches haut, bas, origine et fin pour parcourir la liste.</p></item>
     <item><p>Appuyez sur <key>Échap</key> pour quitter.</p></item>
     <item><p>Appuyez sur la barre d’espace pour répéter le dernier message lu.</p></item>
     <item><p>Appuyez sur un numéro pour lire un message spécifique.</p></item>

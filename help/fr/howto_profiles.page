@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -42,6 +42,12 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
   <title>Profils</title>
   <p>Les profils d’Orca vous permettent d’enregistrer et de charger plusieurs configurations pour que vous puissiez accéder rapidement aux réglages dont vous avez besoin.</p>
@@ -51,10 +57,10 @@
       <p>Allez dans la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
     </item>
     <item>
-      <p>Modifier les paramètres que vous souhaitez.</p>
+      <p>Modifiez les paramètres que vous souhaitez.</p>
     </item>
     <item>
-      <p>Sur l’onglet <gui>Général</gui>, cliquez sur le bouton <gui>Enregistrer sous</gui>.</p>
+      <p>Dans l’onglet <gui>Général</gui>, cliquez sur le bouton <gui>Enregistrer sous</gui>.</p>
     </item>
     <item>
       <p>Saisissez le nom du nouveau profil dans la boîte de dialogue <gui>Enregistrer le profil sous</gui>.</p>

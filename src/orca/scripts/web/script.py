@@ -797,6 +797,9 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
+        if prevObj and self.utilities.isDead(prevObj):
+            prevObj = None
+
         if not _settingsManager.getSetting('caretNavTriggersFocusMode') \
            and self._lastCommandWasCaretNav:
             msg = "WEB: Not using focus mode due to caret nav settings"
@@ -1246,6 +1249,12 @@ class Script(default.Script):
             msg = "WEB: Event source %s is same page fragment. Generating line contents." % event.source
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(newFocus, 0)
+            utterances = self.speechGenerator.generateContents(contents)
+        elif self._lastCommandWasMouseButton and event \
+             and event.type.startswith("object:text-caret-moved"):
+            msg = "WEB: Last input event was mouse button. Generating line contents."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
             utterances = self.speechGenerator.generateContents(contents)
         else:
             msg = "WEB: New focus %s is not a special case. Generating speech." % newFocus
@@ -1736,12 +1745,6 @@ class Script(default.Script):
                 debug.println(debug.LEVEL_INFO, msg)
                 orca.setLocusOfFocus(event, focused, notify)
                 self.utilities.setCaretContext(focused, 0)
-            return True
-
-        if childRole == pyatspi.ROLE_DIALOG:
-            msg = "WEB: Setting locusOfFocus to event.any_data"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            orca.setLocusOfFocus(event, event.any_data)
             return True
 
         if self.lastMouseRoutingTime and 0 < time.time() - self.lastMouseRoutingTime < 1:

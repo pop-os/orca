@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -42,8 +42,14 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
-  <title>Remplir des formulaires</title>
+  <title>Remplissage des formulaires</title>
   <p>Lorsque vous interagissez avec des pages Web et d’autres documents en utilisant <app>Orca</app>, vous interagissez directement avec le document ; pas avec une copie intermédiaire en cache. Les modes navigation et focus d’<app>Orca</app> permettent de basculer entre la lecture et le remplissage de formulaires.</p>
   <section id="navigating_amongst_form_fields">
     <title>Navigation parmi les champs d’un formulaire</title>

@@ -12,7 +12,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -43,6 +43,12 @@
       <mal:name>Claude Paroz</mal:name>
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
     </mal:credit>
   </info>
   <title>Commandes de navigation par structure</title>
@@ -118,7 +124,7 @@
           <p>Liste déroulante précédente et suivante : <keyseq><key>C</key></keyseq> et <keyseq><key>Maj</key><key>C</key></keyseq></p>
         </item> 
         <item>
-          <p>Afficher une liste de listes déroulantes : <keyseq><key>Alt</key><key>Maj</key><key>Flèche haut</key></keyseq></p>
+          <p>Afficher une liste de listes déroulantes : <keyseq><key>Alt</key><key>Maj</key><key>C</key></keyseq></p>
         </item>
         <item>
           <p>Entrée précédente et suivante : <keyseq><key>E</key></keyseq> et <keyseq><key>Maj</key><key>E</key></keyseq></p>
@@ -196,7 +202,7 @@
           <p>Cellule de droite : <keyseq><key>Alt</key><key>Maj</key><key>Flèche droite</key></keyseq></p>
         </item> 
         <item>
-          <p>Cellule au dessus : <keyseq><key>Alt</key><key>Maj</key><key>Flèche haut</key></keyseq></p>
+          <p>Cellule au-dessus : <keyseq><key>Alt</key><key>Maj</key><key>Flèche haut</key></keyseq></p>
         </item> 
         <item>
           <p>Afficher une liste de blocs de citation : <keyseq><key>Alt</key><key>Maj</key><key>Flèche bas</key></keyseq></p>
@@ -219,7 +225,7 @@
           <p>Afficher une liste de paragraphes : <keyseq><key>Alt</key><key>Maj</key><key>P</key></keyseq></p>
         </item>
         <item>
-          <p>Bloc de citation précédente et suivante : <keyseq><key>Q</key></keyseq> et <keyseq><key>Maj</key><key>Q</key></keyseq></p>
+          <p>Bloc de citation précédent et suivant : <keyseq><key>Q</key></keyseq> et <keyseq><key>Maj</key><key>Q</key></keyseq></p>
         </item> 
         <item>
           <p>Afficher une liste de blocs de citation (blockquotes) : <keyseq><key>Alt</key><key>Maj</key><key>Q</key></keyseq></p>

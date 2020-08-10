@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -41,6 +41,12 @@
       <mal:name>Claude Paroz</mal:name>
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
     </mal:credit>
   </info>
   <title>Tableaux</title>
@@ -84,6 +90,6 @@
       </item>
     </steps>
     <p>Après avoir défini les en-têtes de colonne ou de ligne, vous vous rendrez compte quand vous parcourrez les cellules, que <app>Orca</app> annonce chaque changement d’en-tête. En d’autres termes, <app>Orca</app> ne prononce pas l’en-tête de colonne à chaque fois que vous vous déplacez de haut en bas au sein d’une même colonne. De même, il ne prononce pas l’en-tête de ligne à chaque fois que vous vous déplacez de gauche à droite au sein d’une même ligne. Par contre si vous changez de ligne et qu’il existe des en-têtes de ligne, l’en-tête associé à la nouvelle ligne est lu. Si vous changez de colonne et qu’il existe des en-têtes de colonne, l’en-tête associé à la nouvelle colonne est lu.</p>
-    <p>Pour effacer les en-têtes, exécutez simplement deux fois de suite la commande que vous avez utilisée pour les définir. Exécutez deux fois de suite <keyseq><key>Touche de modification d’Orca</key><key>R</key></keyseq> indique à <app>Orca</app> qu’il n’y a pas d’en-tête de colonne. Exécutez deux fois de suite <keyseq><key>Touche de modification d’Orca</key><key>C</key></keyseq> indique à <app>Orca</app> qu’il n’y a pas d’en-tête de ligne.</p>
+    <p>Pour effacer les en-têtes, exécutez simplement deux fois de suite la commande que vous avez utilisée pour les définir. Exécuter deux fois de suite <keyseq><key>Touche de modification d’Orca</key><key>R</key></keyseq> indique à <app>Orca</app> qu’il n’y a pas d’en-tête de colonne. Exécuter deux fois de suite <keyseq><key>Touche de modification d’Orca</key><key>C</key></keyseq> indique à <app>Orca</app> qu’il n’y a pas d’en-tête de ligne.</p>
   </section>
 </page>

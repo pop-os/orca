@@ -9,7 +9,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -41,9 +41,15 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
   <title>Signets</title>
-  <p>La prise en charge des signet d’<app>Orca</app> vous permet d’indiquer qu’un objet vous intéresse. Cela comprend les fonctions suivantes :</p>
+  <p>La prise en charge des signets d’<app>Orca</app> vous permet d’indiquer qu’un objet vous intéresse. Cela comprend les fonctions suivantes :</p>
   <list>
     <item>
       <p>Vous n’êtes pas limité à un seul objet : vous pouvez configurer jusqu’à six signets par environnement. Vous pouvez aussi enregistrer des signets pour qu’ils soient conservés d’une session d’Orca à une autre.</p>

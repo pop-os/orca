@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -41,6 +41,12 @@
       <mal:name>Claude Paroz</mal:name>
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
     </mal:credit>
   </info>
   <title>« Où suis-je »</title>
@@ -73,7 +79,7 @@
       <p>Si vous êtes dans une cellule de tableau, les coordonnées de la cellule et ses en-têtes sont lus.</p>
     </item>
     <item>
-      <p>Si vous êtes dans le correcteur orthographique d’une application où <app>Orca</app> offre une gestion améliorée, un Où suis-je basique répète l’erreur en respectant vos <link xref="preferences_spellcheck">préférences de correcteur orthographique</link>. Un Où suis-je détaillé conduit <app>Orca</app> à présenter tous les détails de l’erreur.</p>
+      <p>Si vous êtes dans le correcteur orthographique d’une application où <app>Orca</app> offre une gestion améliorée, un « Où suis-je » basique répète l’erreur en respectant vos <link xref="preferences_spellcheck">préférences de correcteur orthographique</link>. Un « Où suis-je » détaillé conduit <app>Orca</app> à présenter tous les détails de l’erreur.</p>
     </item>
   </list>
   <p>Et ainsi de suite. Le but de la commande « où suis-je » d’<app>Orca</app> est donc de vous fournir les détails qui sont potentiellement les plus intéressants pour vous, à propos de l’objet sur lequel vous êtes. Pour essayer la commande « où suis-je », consultez la liste des <link xref="commands_where_am_i">commandes « où suis-je »</link>.</p>

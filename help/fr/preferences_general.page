@@ -11,7 +11,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -43,6 +43,12 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
   <title>Préférences générales</title>
   <section id="keyboardlayout">
@@ -50,20 +56,20 @@
       <desc>Option de la boîte de dialogue des préférences qui permet de sélectionner l’agencement de clavier utilisé par <app>Orca</app> : ordinateur de bureau ou portable.</desc>
     </info>
     <title>Agencement de clavier</title>
-    <p>Le groupement de boutons radio <gui>Agencement de clavier</gui> vous permet d’indiquer si vous utilisez un clavier d’ordinateur de bureau (c.-à-d. avec pavé numérique) ou un clavier de portable. L’agencement que vous choisissez détermine le <key>Touche de modification d’Orca</key> ainsi qu’un grand nombre de raccourcis clavier pour réaliser les commandes <app>Orca</app>.</p>
+    <p>Le groupement de boutons radio <gui>Agencement du clavier</gui> vous permet d’indiquer si vous utilisez un clavier d’ordinateur de bureau (c.-à-d. avec pavé numérique) ou un clavier de portable. L’agencement que vous choisissez détermine la <key>Touche de modification d’Orca</key> ainsi qu’un grand nombre de raccourcis clavier pour réaliser les commandes <app>Orca</app>.</p>
     <p>Valeur par défaut : <gui>Bureau</gui></p>
   </section>
   <section id="presenttooltips">
     <info>
-      <desc>Option de la boîte de dialogue de préférences pour activer la prononciation des infobulles qui apparaissent lors du survol par la souris. </desc>
+      <desc>Option de la boîte de dialogue des préférences pour activer la prononciation des infobulles qui apparaissent lors du survol par la souris.</desc>
     </info>
     <title>Présentation des infobulles</title>
-    <p>Si elle est cochée, cette option demande à <app>Orca</app> de présenter les informations des infobulles lorsqu’elles apparaissent quand le pointeur de la souris reste immobile au dessus d’un élément. Des actions spécifiques pour forcer les infobulles à apparaître, comme l’appui sur <keyseq><key>Ctrl</key><key>F1</key></keyseq> lorsqu’un objet a le focus, provoquera toujours la présentation des infobulles, quel que soit le réglage de ce paramètre.</p>
+    <p>Si elle est cochée, cette option demande à <app>Orca</app> de présenter les informations des infobulles lorsqu’elles apparaissent quand le pointeur de la souris reste immobile au-dessus d’un élément. Des actions spécifiques pour forcer les infobulles à apparaître, comme l’appui sur <keyseq><key>Ctrl</key><key>F1</key></keyseq> lorsqu’un objet a le focus, provoquera toujours la présentation des infobulles, quel que soit le réglage de ce paramètre.</p>
     <p>Valeur par défaut : non cochée</p>
   </section>
   <section id="objectundermouse">
     <info>
-      <desc>Option de la boîte de dialogue de préférences pour activer la présentation de l’objet survolé par la souris.</desc>
+      <desc>Option de la boîte de dialogue des préférences pour activer la présentation de l’objet survolé par la souris.</desc>
     </info>
     <title>Lire l’objet sous la souris</title>
     <p>Quand cette option est cochée, <app>Orca</app> présente les informations de l’élément survolé par le pointeur de la souris quand vous le déplacez sur l’écran, en utilisant la fonctionnalité <link xref="howto_mouse_review">Examen à la souris</link> d’<app>Orca</app>.</p>
@@ -71,7 +77,7 @@
   </section>
   <section id="timeanddate">
     <info>
-      <desc>Option de la boîte de dialogue de préférences pour personnaliser les formats de l’heure et de la date utilisés par <app>Orca</app>.</desc>
+      <desc>Option de la boîte de dialogue des préférences pour personnaliser les formats de l’heure et de la date utilisés par <app>Orca</app>.</desc>
     </info>
     <title>Format de la date et de l’heure</title>
     <p>Les listes déroulantes <gui>Format de la date</gui> et <gui>Format de l’heure</gui> vous permettent de spécifier comment <app>Orca</app> prononce et affiche en braille l’heure et la date.</p>
@@ -82,8 +88,8 @@
       <desc>Options de la boîte de dialogue des préférences pour l’activation du retour et de l’avance rapides et de la navigation par structure en mode tout lire.</desc>
     </info>
     <title>Navigation en mode tout lire</title>
-    <p>La fonctionnalité tout lire d’<app>Orca</app> lit le contenu de documents depuis l’emplacement actuel jusqu’à la fin du document. Par défaut, l’appui sur une touche interrompt la présentation en mode tout lire. Cependant, si vous cochez la case <gui>Activer le retour et l’avance rapide en mode tout lire</gui>, les touches <key>Haut</key> et <key>Bas</key> peuvent être utilisées en mode tout lire pour se déplacer rapidement dans le document afin de réécouter quelque chose qui vient d’être lu ou pour sauter du texte sans intérêt sans devoir redémarrer le mode tout lire.</p>
-    <p>Si vous lisez un document dans une application qui prend en charge la navigation par structure et que vous avez coché la case <gui>Activer la navigation par structure en mode tout lire</gui>, vous pouvez utiliser les commandes de navigation par structure disponibles d’une manière semblable : <key>H</key>/<keyseq><key>Maj</key> <key>H</key></keyseq> continue la lecture à partir de l’en-tête suivant ou précédent, <key>P</key>/<keyseq><key>Maj</key><key>P</key></keyseq> continue la lecture à partir du paragraphe suivant ou précédent, <key>T</key>/<keyseq><key>Maj</key> <key>T</key></keyseq> continue la lecture à partir du tableau suivant ou précédent, et ainsi de suite.</p>
+    <p>La fonctionnalité tout lire d’<app>Orca</app> lit le contenu de documents depuis l’emplacement actuel jusqu’à la fin du document. Par défaut, l’appui sur une touche interrompt la présentation en mode tout lire. Cependant, si vous cochez la case <gui>Activer le retour et l’avance rapide en mode tout lire</gui>, les touches <key>Flèche haut</key> et <key>Flèche bas</key> peuvent être utilisées en mode tout lire pour se déplacer rapidement dans le document afin de réécouter quelque chose qui vient d’être lu ou pour sauter du texte sans intérêt sans devoir redémarrer le mode tout lire.</p>
+    <p>Si vous lisez un document dans une application qui prend en charge la navigation par structure et que vous avez coché la case <gui>Activer la navigation par structure en mode tout lire</gui>, vous pouvez utiliser les commandes de navigation par structure disponibles d’une manière semblable : <key>H</key> ou <keyseq><key>Maj</key><key>H</key></keyseq> continue la lecture à partir de l’en-tête suivant ou précédent, <key>P</key> ou <keyseq><key>Maj</key><key>P</key></keyseq> continue la lecture à partir du paragraphe suivant ou précédent, <key>T</key> ou <keyseq><key>Maj</key><key>T</key></keyseq> continue la lecture à partir du tableau suivant ou précédent, et ainsi de suite.</p>
     <p>Valeur par défaut : non cochée</p>
   </section>
   <section id="say_all_announce_context">
@@ -99,15 +105,15 @@
     </list>
     <p>Valeur par défaut : cochée</p>
     <note style="note">
-      <p>Il est aussi possible de configurer si <app>Orca</app> doit faire ces annonces durant la navigation. Vous trouverez des cases à cocher similaires sur la page <gui>Synthèse vocale</gui>. Pour plus d’informations, voir <link xref="preferences_speech#spoken_context">Contexte de lecture à haute voix</link>.</p>
+      <p>Il est aussi possible de configurer si <app>Orca</app> doit faire ces annonces durant la navigation. Vous trouverez des cases à cocher similaires sur la page <gui>Synthèse vocale</gui>. Pour plus d’informations, voir <link xref="preferences_speech#spoken_context">Contexte parlé</link>.</p>
     </note>
   </section>
   <section id="say_all_by">
    <info>
-      <desc>Option de la boîte de dialogue de préférences pour personnaliser la présentation en mode tout lire d’<app>Orca</app>.</desc>
+      <desc>Option de la boîte de dialogue des préférences pour personnaliser la présentation en mode tout lire d’<app>Orca</app>.</desc>
    </info>
-   <title>Lire tout par</title>
-   <p>La liste déroulante <gui>Lire tout par</gui> vous permet de spécifier si <app>Orca</app> lit une phrase à la fois ou une ligne à la fois quand une commande « Lire tout » est effectuée sur un document.</p>
+   <title>Tout lire par</title>
+   <p>La liste déroulante <gui>Tout lire par</gui> vous permet de spécifier si <app>Orca</app> lit une phrase à la fois ou une ligne à la fois quand une commande « Tout lire » est effectuée sur un document.</p>
     <p>Valeur par défaut : <gui>Phrase</gui></p>
   </section>
   <section id="profiles">

@@ -11,7 +11,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -42,6 +42,12 @@
       <mal:name>Claude Paroz</mal:name>
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
     </mal:credit>
   </info>
   <title>Préférences de navigation Gecko</title>
@@ -86,16 +92,16 @@
     </section>
     <section id="page_navigation_speak">
       <title>Lancement automatique de la lecture à haute voix d’une page quand il est chargé pour la première fois</title>
-      <p>Si cette case est cochée, <app>Orca</app> effectue un « Lire tout » sur la page Web ou le courriel qui viennent d’être ouverts.</p>
+      <p>Si cette case est cochée, <app>Orca</app> effectue un « Tout lire » sur la page Web ou le courriel qui viennent d’être ouverts.</p>
       <p>Valeur par défaut : cochée pour Firefox, non cochée pour Thunderbird</p>
     </section>
     <section id="page_navigation_summary">
-      <title>Présente le résumé d’une page lorsqu’elle est chargée pour la première fois</title>
+      <title>Présenter le résumé d’une page lorsqu’elle est chargée pour la première fois</title>
       <p>Si cette case est cochée, <app>Orca</app> résume les détails de la page Web ou du courriel que vous venez d’ouvrir, tels que le nombre d’en-têtes, de points de repère et de liens.</p>
       <p>Valeur par défaut : cochée pour Firefox, non cochée pour Thunderbird</p>
     </section>
     <section id="page_navigation_layout_mode">
-      <title>Activer le mode disposition pour le contenu</title>
+      <title>Activer le mode mise en page pour le contenu</title>
       <p>Si cette case est cochée, la navigation au curseur d’<app>Orca</app> respecte la disposition du contenu à l’écran et présente la ligne complète, y compris d’éventuels liens ou champs de formulaire sur cette ligne. Si cette case n’est pas cochée, <app>Orca</app> traite les objets tels que les liens et les champs de formulaire comme s’ils apparaissaient sur des lignes séparées, aussi bien pour la présentation que la navigation.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
@@ -121,13 +127,7 @@
     </section>
     <section id="find_options_minimum_match_length">
       <title>Longueur minimale du texte correspondant</title>
-      <p>
-        This editable spin button is where you can specify the number of
-        characters which must match before <app>Orca</app> announces the
-        matching line. This option is also designed to prevent "chattiness"
-        as there are many matches when you first begin typing the string
-        for which you are searching.
-      </p>
+      <p>Ce bouton de réglage est utilisé pour spécifier le nombre de caractères qui doivent correspondre à votre recherche avant que <app>Orca</app> ne prononce les lignes correspondantes. Cette option est aussi conçue pour prévenir le « bavardage » car il y a de très nombreuses correspondances lorsque vous commencez à saisir la chaîne que vous recherchez.</p>
       <p>Valeur par défaut : 4</p>
     </section>
   </section>
