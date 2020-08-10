@@ -1,6 +1,7 @@
-orca (3.36.3-2) UNRELEASED; urgency=medium
+orca (3.36.4-1) unstable; urgency=medium
 
   [ Samuel Thibault ]
+  * New upstream release.
   * rules: Drop now-default -Wl,--as-needed option
   * control: Bump Standards-Version to 4.5.0 (no change)
   * gbp.conf: Import from upstream tags.
@@ -8,7 +9,7 @@ orca (3.36.3-2) UNRELEASED; urgency=medium
   [ Dmitry Shachnev ]
   * rules: Also drop -Wl,-z,defs and hardening=+all.
 
- -- Samuel Thibault <sthibault@debian.org>  Fri, 24 Jul 2020 12:41:26 +0200
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 10 Aug 2020 13:48:55 +0200
 
 orca (3.36.3-1) unstable; urgency=medium
 
