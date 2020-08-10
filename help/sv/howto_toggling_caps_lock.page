@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_toggling_caps_lock" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_key_bindings"/>
+    <title type="sort">7. CapsLock vid bärbar dator-layout</title>
+    <desc>Växla den då den är <key>Orca-modifieraren</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>CapsLock vid bärbar dator-layout</title>
+  <p>Orca har två tangentbordslayouter: Stationär dator och Bärbar dator. Layouten du väljer styr vilken knapp som används som Orca-modifieraren. Om du använder bärbar dator-layouten kommer Orca-modifieraren som standard vara <key>CapsLock</key>. Om du använder <app>Orca</app>s layout för bärbar dator och vill låsa eller låsa upp <key>CapsLock</key> kan du göra det antingen genom att trycka på <key>CapsLock</key> två gånger (kräver at-spi2 version 2.32 eller senare), eller genom att utföra följande steg:</p>
+  <steps>
+    <title>Växla CapsLock vid bärbar dator-layout</title>
+    <item>
+      <p>Tryck åsidosättningskommandot <keyseq><key>Orca-modifierare</key><key>Backsteg</key> </keyseq> för att säga till <app>Orca</app> att nästa kommando ska ignoreras.</p>
+    </item>
+    <item>
+      <p>Tryck <key>CapsLock</key> för att växla dess låsningsläge.</p>
+    </item>
+  </steps>
+</page>

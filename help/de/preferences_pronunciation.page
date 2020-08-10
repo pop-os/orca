@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_pronunciation" xml:lang="de">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_text_attributes"/>
+    <title type="sort">7. Aussprache</title>
+    <title type="link">Aussprache</title>
+    <desc>Festlegen, wie bestimmte Wörter ausgesprochen werden</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Einstellungen für Aussprache</title>
+  <p>Manchmal sagt der Sprachsynthesizer einfach nicht das Richtige für einen Ausdruck. Sie könnten bevorzugen, »Lacht laut auf« statt »LOL« zu hören, oder »Barrierefreiheit« statt »a11y«. Oder der Synthesizer könnte einen Namen oder technischen Ausdruck falsch aussprechen.</p>
+  <p>Die <gui>Aussprache</gui>-Seite im Einstellungsdialog von <app>Orca</app> erlaubt Ihnen das Hinzufügen, Bearbeiten und Löschen von Einträgen in <app>Orca</app>s Aussprachewörterbuch.</p>
+  <p>Da die <gui>Aussprache</gui>-Seite auch Teil der anwendungsbezogenen Einstellungen ist, können Sie Ihre Einträge auch nach Bedarf für jede von Ihnen genutzte Anwendung anpassen.</p>
+  <steps>
+    <title>Hinzufügen eines neuen Eintrags zum Wörterbuch</title>
+    <item>
+      <p>Klicken Sie den Knopf »Neuer Eintrag« (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
+    </item>
+    <item>
+      <p>Geben Sie Text des neuen Eintrags ein und beenden Sie Ihre Eingabe mit der <key>Eingabetaste</key>.</p>
+    </item>
+    <item>
+      <p>Navigieren Sie zur Spalte <gui>Ersatzausdruck</gui> und drücken Sie die <key>Eingabetaste</key>, um mit der Bearbeitung anzufangen.</p>
+    </item>
+    <item>
+      <p>Geben Sie den stattdessen zu sprechenden Text ein und beenden Sie Ihre Eingabe mit der <key>Eingabetaste</key>.</p>
+    </item>
+  </steps>
+  <steps>
+  <title>Bearbeiten eines vorhandenen Eintrags im Wörterbuch</title>
+    <item>
+      <p>Navigieren Sie zur gewünschten Zelle und starten Sie die Bearbeitung mit der <key>Eingabetaste</key>.</p>
+    </item>
+    <item>
+      <p>Tätigen Sie Ihre Änderungen und beenden Sie die Bearbeitung mit der <key>Eingabetaste</key>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Löschen eines vorhandenen Eintrags aus dem Wörterbuch</title>
+    <item>
+      <p>Verschieben Sie den Eintrag, den Sie löschen möchten.</p>
+    </item>
+    <item>
+      <p>Drücken Sie den Knopf »Löschen« oder <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
+    </item>
+  </steps>
+</page>

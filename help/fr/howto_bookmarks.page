@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_bookmarks" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <title type="sort">6. Signets</title>
+    <desc>Enregistrer et récupérer des objets</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Signets</title>
+  <p>La prise en charge des signets d’<app>Orca</app> vous permet d’indiquer qu’un objet vous intéresse. Cela comprend les fonctions suivantes :</p>
+  <list>
+    <item>
+      <p>Vous n’êtes pas limité à un seul objet : vous pouvez configurer jusqu’à six signets par environnement. Vous pouvez aussi enregistrer des signets pour qu’ils soient conservés d’une session d’Orca à une autre.</p>
+    </item>
+    <item>
+      <p>Après avoir configuré un signet, vous pouvez vous y rendre plus tard et le faire même si vous n’avez pas choisi d’enregistrer les signets associés à votre environnement actuel de façon permanente. La navigation peut être basée sur le numéro du signet si vous souhaitez aller directement à un élément spécifique. Vous pouvez aussi aller au signet précédent ou suivant comme pour un objet de la <link xref="howto_structural_navigation">Navigation par structure</link>.</p>
+    </item>
+    <item>
+      <p>Les éléments auxquels vous pouvez attribuer un signet sont les éléments graphiques d’une application ou les objets sur la page Web que vous lisez. Le type d’environnement où vous vous trouvez, détermine le comportement de la navigation parmi les signets : si vous êtes dans le contenu d’une page Web, le curseur se déplace sur le signet pour que vous puissiez continuer à lire ; sinon l’<link xref="howto_flat_review">Examen global</link> est activé et le signet devient l’élément en cours d’examen.</p>
+    </item>
+  </list>
+  <p>Les raccourcis clavier spécifiques associés à chacune des fonctions ci-dessus se trouvent dans les <link xref="commands_bookmarks">Commandes de signets</link>.</p>
+</page>

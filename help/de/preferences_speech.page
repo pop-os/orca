@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_speech" xml:lang="de">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_braille"/>
+    <title type="sort">2.1 Sprache</title>
+    <title type="link">Sprache</title>
+    <desc>So legen Sie fest, was vorgelesen wird</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Einstellungen für Sprache</title>
+  <section id="enable_speech">
+    <title>Sprache aktivieren</title>
+    <p>Das Ankreuzfeld <gui>Sprache aktivieren</gui> bestimmt, ob <app>Orca</app> den Sprachsynthesizer verwenden soll oder nicht. Benutzer, die ausschließlich Braille verwenden, werden vermutlich dieses Ankreuzfeld deaktivieren wollen.</p>
+    <p>Vorgabewert: aktiviert</p>
+  </section>
+  <section id="verbosity">
+    <title>Ausführlichkeit</title>
+    <p>Die <gui>Ausführlichkeit</gui>s-Einstellung bestimmt die Menge an Informationen, die in verschiedenen Situationen vorgelesen wird. Ist sie beispielsweise auf gesprächig gestellt, und Sie bewegen sich auf ein falsch geschriebenes Wort, wird <app>Orca</app> Ihnen melden, dass das Wort falsch geschrieben wurde. Ist die Einstellung hingegen auf kurz gestellt, wird Ihnen diese Meldung nicht gegeben.</p>
+    <p>Vorgabewert: <gui>Gesprächig</gui></p>
+  </section>
+  <section id="punctuation_level">
+    <title>Sonderzeichen ansagen</title>
+    <p>Die Auswahlknopf-Gruppe <gui>Sonderzeichen ansagen</gui> wird verwendet, um die Menge an Sonderzeichenansagen durch den Sprachsynthesizer anzupassen. Die verfügbaren Stufen sind <gui>Keine</gui>, <gui>Einige</gui>, <gui>Die meisten</gui> und <gui>Alle</gui>.</p>
+    <p>Vorgabewert: <gui>Die meisten</gui></p>
+    <section id="punctuation_level_none">
+      <title>Keine</title>
+      <p>Ist die Sonderzeichenansage auf <gui>Keine</gui> gesetzt, werden erwartungsgemäß keine Sonderzeichen vorgelesen. Beachten Sie allerdings, dass spezielle Symbole wie tief- und hochgestellte Zahlen, Unicode-Brüche oder Aufzählungspunkte dennoch vorgelesen werden, auch wenn man diese Symboltypen als Sonderzeichen betrachten kann.</p>
+    </section>
+    <section id="punctuation_level_some">
+      <title>Einige</title>
+      <p>Ist die Sonderzeichenansage auf <gui>Einige</gui> gesetzt, werden alle bereits erwähnten Symbole vorgelesen. Zusätzlich wird <app>Orca</app> bekannte mathematische Symbole, Währungssymbole und »^«, »@«, »/«, »&amp;« und »#« ansagen.</p>
+    </section>
+    <section id="punctuation_level_most">
+      <title>Die meisten</title>
+      <p>Ist die Sonderzeichenansage auf <gui>Die meisten</gui> gesetzt, werden alle bereits erwähnten Symbole vorgelesen. Zusätzlich wird <app>Orca</app> alle anderen bekannten Sonderzeichen ansagen, <em>außer</em> »!«, »'«, »,«, ».« und »?«.</p>
+    </section>
+    <section id="punctuation_level_all">
+      <title>Alle</title>
+      <p>Ist die Sonderzeichenansage auf <gui>Alle</gui> gesetzt, wird <app>Orca</app> alle bekannten Sonderzeichen vorlesen.</p>
+    </section>
+  </section>
+  <section id="spoken_context">
+    <title>Gesprochener Kontext</title>
+    <p>Die folgenden Elemente beeinflussen das Vorlesen einer Anzahl von zusätzlichen »System«-Informationen über das Objekt im Fokus. Da der zugeordnete Text nicht auf dem Bildschirm erscheint, werden diese Informationen in <app>Orca</app>s System-Stimme vorgelesen.</p>
+    <section id="only_speak_displayed_text">
+      <title>Nur angezeigten Text vorlesen</title>
+      <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> nur tatsächlich angezeigten Text vorlesen. Diese Option ist hauptsächlich für Nutzer mit geringer Sehkraft und visueller Lernschwäche gedacht.</p>
+      <p>Vorgabewert: nicht aktiviert</p>
+      <note style="note">
+        <p>Die nachfolgenden Einstellungsmöglichkeiten sind nicht verfügbar, wenn <gui>Nur angezeigten Text vorlesen</gui> aktiviert ist.</p>
+      </note>
+    </section>
+    <section id="speak_blank_lines">
+      <title>Leerzeilen vorlesen</title>
+      <p>Ist das Feld <gui>Leerzeilen vorlesen</gui> angekreuzt, wird <app>Orca</app> jedes Mal »leer« sagen, wenn Sie eine leere Zeile betreten. Ist das Feld nicht angekreuzt, wird <app>Orca</app> nichts sagen, wenn Sie eine leere Zeile betreten.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="indentation_and_justification">
+      <title>Einrückungen und Ausrichtung vorlesen</title>
+      <p>Bei der Arbeit mit Code oder Bearbeitung anderer Dokumente ist es oft wünschenswert, sich der Ausrichtung und Einrückung bewusst zu sein. Durch das Ankreuzen des Feldes <gui>Einrückungen und Ausrichtung vorlesen</gui> wird <app>Orca</app> diese Informationen vorlesen.</p>
+      <p>Vorgabewert: nicht aktiviert</p>
+    </section>
+    <section id="speak_misspelled_word_indicator">
+      <title>Anzeiger für falsch geschriebenes Wort vorlesen</title>
+      <p>Der Anzeiger für ein falsch geschriebenes Wort ist die rote Schlängellinie, die in bearbeitbaren Textfeldern unter dem falsch geschriebenen Wort auftaucht. Ist das Feld <gui>Anzeiger für falsch geschriebenes Wort vorlesen</gui> angekreuzt, wird <app>Orca</app> »falsch geschrieben« sprechen, wenn Sie in ein Wort mit diesem Anzeiger navigieren oder ein Wort falsch schreiben, woraufhin der Anzeiger auftaucht.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="mnemonics">
+     <title>Menükürzelbuchstaben eines Objektes vorlesen</title>
+      <p>Ist das Feld <gui>Menükürzelbuchstaben eines Objektes vorlesen</gui> angekreuzt, wird <app>Orca</app> den zum fokussierten Objekt zugewiesenen Menükürzelbuchstaben vorlesen (zum Beispiel <keyseq><key>Alt</key><key>O</key></keyseq> für einen <gui>OK</gui>-Knopf).</p>
+      <p>Vorgabewert: nicht aktiviert</p>
+    </section>
+    <section id="child_position">
+      <title>Position des Unterelements vorlesen</title>
+      <p>Ist das Feld <gui>Position des Unterelements vorlesen</gui> angekreuzt, wird <app>Orca</app> die Position des fokussierten Objekts innerhalb von Menüs, Listen und Bäumen vorlesen (z.B. »9 von 16«).</p>
+      <p>Vorgabewert: nicht aktiviert</p>
+    </section>
+    <section id="speak_tutorial_messages">
+      <title>Benutzungshinweise vorlesen</title>
+      <p>Ist das Feld <gui>Benutzungshinweise vorlesen</gui> angekreuzt, wird <app>Orca</app>, während Sie sich zwischen Objekten auf einer Benutzeroberfläche bewegen, zusätzliche Informationen bereitstellen, zum Beispiel wie mit dem fokussierten Objekt interagiert werden kann.</p>
+      <p>Vorgabewert: nicht aktiviert</p>
+    </section>
+    <section id="speak_description">
+      <title>Beschreibung vorlesen</title>
+      <p>Ist das Feld <gui>Beschreibung vorlesen</gui> angekreuzt, wird <app>Orca</app>, während Sie sich zwischen Objekten auf einer Benutzeroberfläche bewegen, zusätzlich zum zugänglichen Objektnamen die zugängliche Beschreibung vorlesen.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="system_messages_are_detailed">
+      <title>Systemmeldungen sind detailliert</title>
+      <p>Ist das Feld <gui>Systemmeldungen sind detailliert</gui> angekreuzt, wird <app>Orca</app> Ihnen detaillierte Nachrichten vorlesen. Falls Sie beispielsweise <app>Orca</app>s Befehl fürs Tastaturecho verwenden, könnte <app>Orca</app> »Tastaturecho gesetzt auf Wort.« vorlesen. Falls Sie kürzere Nachrichten bevorzugen, wie zum Beispiel »Wort«, sollten Sie dieses Feld nicht ankreuzen.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="speak_colors_as_names">
+      <title>Farben als Namen vorlesen</title>
+      <p>Ist das Feld <gui>Farben als Namen vorlesen</gui> angekreuzt, wird <app>Orca</app> Farben beschreiben, indem es die beste Annäherung sucht. Der RGB-Wert 0, 27, 51 würde zum Beispiel als »Mitternachtsblau« vorgelesen werden. Falls Sie bevorzugen, den genauen RGB-Wert zu hören, sollten Sie dieses Feld nicht ankreuzen.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="announce_blockquotes_during_navigation">
+      <title>Zitate während der Navigation ankündigen</title>
+      <p>Ist das Feld <gui>Zitate während der Navigation ankündigen</gui> angekreuzt, wird <app>Orca</app> Sie benachrichtigen, wenn Sie ein Zitat betreten oder verlassen. Beachten Sie, dass diese Einstellung unabhängig davon ist, ob eine derartige Ankündigung während »Alles vorlesen« gemacht wird. Weitere Informationen finden Sie unter <link xref="preferences_general#say_all_announce_context">Kontextbedingte Informationen in »Alles vorlesen« vorlesen</link>.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="announce_forms_during_navigation">
+      <title>Formulare während der Navigation ankündigen</title>
+      <p>Ist das Feld <gui>Formulare während der Navigation ankündigen</gui> angekreuzt, wird <app>Orca</app> Sie benachrichtigen, wenn Sie ein Formular betreten oder verlassen. Beachten Sie, dass diese Einstellung nur für Formulare gilt, die keine ARIA-Orientierungspunkte sind. Sie können das Vorlesen von ARIA-Orientierungspunkten über das Ankreuzfeld <gui>Orientierungspunkte während der Navigation ankündigen</gui> konfigurieren. Beachten Sie außerdem, dass diese Einstellung unabhängig davon ist, ob eine derartige Ankündigung während »Alles vorlesen« gemacht wird. Weitere Informationen finden Sie unter <link xref="preferences_general#say_all_announce_context">Kontextbedingte Informationen in »Alles vorlesen« vorlesen</link>.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="announce_landmarks_during_navigation">
+      <title>Orientierungspunkte während der Navigation ankündigen</title>
+      <p>Ist das Feld <gui>Orientierungspunkte während der Navigation ankündigen</gui> angekreuzt, wird <app>Orca</app> Sie benachrichtigen, wenn Sie einen ARIA-Orientierungspunkt betreten oder verlassen. Beachten Sie, dass diese Einstellung unabhängig davon ist, ob eine derartige Ankündigung während »Alles vorlesen« gemacht wird. Weitere Informationen finden Sie unter <link xref="preferences_general#say_all_announce_context">Kontextbedingte Informationen in »Alles vorlesen« vorlesen</link>.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="announce_lists_during_navigation">
+      <title>Listen während der Navigation ankündigen</title>
+      <p>Ist das Feld <gui>Listen während der Navigation ankündigen</gui> angekreuzt, wird <app>Orca</app> Sie benachrichtigen, wenn Sie eine Liste betreten oder verlassen. Beachten Sie, dass diese Einstellung unabhängig davon ist, ob eine derartige Ankündigung während »Alles vorlesen« gemacht wird. Weitere Informationen finden Sie unter <link xref="preferences_general#say_all_announce_context">Kontextbedingte Informationen in »Alles vorlesen« vorlesen</link>.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="announce_panels_during_navigation">
+      <title>Panels während der Navigation ankündigen</title>
+      <p>Ist das Feld <gui>Panels während der Navigation ankündigen</gui> angekreuzt, wird <app>Orca</app> Sie benachrichtigen, wenn Sie ein Panel betreten oder verlassen. Beachten Sie, dass diese Einstellung unabhängig davon ist, ob eine derartige Ankündigung während »Alles vorlesen« gemacht wird. Weitere Informationen finden Sie unter <link xref="preferences_general#say_all_announce_context">Kontextbedingte Informationen in »Alles vorlesen« vorlesen</link>.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="announce_tables_during_navigation">
+      <title>Tabellen während der Navigation ankündigen</title>
+      <p>Ist das Feld <gui>Tabellen während der Navigation ankündigen</gui> angekreuzt, wird <app>Orca</app> Sie benachrichtigen, wenn Sie eine Tabelle betreten oder verlassen. Beachten Sie, dass diese Einstellung unabhängig davon ist, ob eine derartige Ankündigung während »Alles vorlesen« gemacht wird. Weitere Informationen finden Sie unter <link xref="preferences_general#say_all_announce_context">Kontextbedingte Informationen in »Alles vorlesen« vorlesen</link>.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="read_full_row_in_gui_tables">
+      <title>Ganze Zeile in GUI-Tabellen vorlesen</title>
+      <p>Ist das Feld <gui>Ganze Zeile in GUI-Tabellen vorlesen</gui> angekreuzt, wird <app>Orca</app> die gesamte Zeile vorlesen, während Sie sich hoch und runter in Anwendungstabellen bewegen, wie zum Beispiel der Nachrichtenliste im Posteingang. Falls Sie bevorzugen, nur die fokussierte Zelle zu hören, sollten Sie dieses Feld nicht ankreuzen.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="read_full_row_in_document_tables">
+      <title>Ganze Zeile in Dokument-Tabellen vorlesen</title>
+      <p>Ist das Feld <gui>Ganze Zeile in Dokument-Tabellen vorlesen</gui> angekreuzt, wird <app>Orca</app> die gesamte Zeile vorlesen, während Sie sich hoch und runter in Tabellen wie denen in <app>Writer</app> und Webdokumenten bewegen. Falls Sie bevorzugen, nur die fokussierte Zelle zu hören, sollten Sie dieses Feld nicht ankreuzen.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="read_full_row_in_spreadsheets">
+      <title>Ganze Zeile in Tabellenblättern vorlesen</title>
+      <p>Ist das Feld <gui>Ganze Zeile in Tabellenblättern vorlesen</gui> angekreuzt, wird <app>Orca</app> die gesamte Zeile vorlesen, während Sie sich hoch und runter in Tabellenblättern bewegen. Falls Sie bevorzugen, nur die fokussierte Zelle zu hören, sollten Sie dieses Feld nicht ankreuzen.</p>
+      <p>Vorgabewert: nicht aktiviert</p>
+    </section>
+  </section>
+</page>

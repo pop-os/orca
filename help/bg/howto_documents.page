@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_documents" xml:lang="bg">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_text_attributes"/>
+    <title type="sort">1. Документи</title>
+    <desc>Четене на съдържание</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Документи</title>
+  <p>За да прочетете съдържанието на всеки документ, използвайте вграденото в приложението придвижване с курсора. Навигирайки в текста на документа, <app>Orca</app> ще ви съобщи новото местоположение. В резултат, много е вероятно вече да сте запознати с начините за четене на документи с използването на <app>Orca</app>, например:</p>
+  <list>
+    <item>
+      <p>Използвайте <key>стрелка наляво</key> и <key>стрелка надясно</key>, за да се придвижите и да четете по знаци.</p>
+    </item>
+    <item>
+      <p>Използвайте <keyseq><key>Ctrl</key><key>стрелка наляво</key></keyseq> и <keyseq><key>Ctrl</key><key>стрелка надясно</key></keyseq>, за да се придвижите и да четете по думи.</p>
+    </item>
+    <item>
+      <p>Използвайте <key>стрелка нагоре</key> и <key>стрелка надолу</key>, за да се придвижите и четете по редове.</p>
+    </item>
+    <item>
+      <p>Използвайте <key>Shift</key> в комбинация с горните команди, за да маркирате и размаркирате текст.</p>
+    </item>
+  </list>
+  <note style="tip">
+    <title>Включване на придвижването с курсора</title>
+    <p>Не във всички приложения придвижването с курсора е включено по подразбиране. За много приложения в GNOME придвижването с курсора може да бъде включено и изключено с натискане на <key>F7</key>.</p>
+  </note>
+  <p>В допълнение към четенето на документи с курсора, може да намерите за полезно да прочитате, буквувате и да получите стойността по Уникод за текущото парче текст. Може да направите тези неща с <link xref="howto_flat_review">равнинния преглед</link> на <app>Orca</app>.</p>
+  <p>
+    Finally, in order to have <app>Orca</app> speak the entire document from your
+    present location, use the Say All command. It, along with a more complete
+    listing of <app>Orca</app>'s commands for accessing document text, can
+    be found in the <link xref="commands_reading">Reading Commands</link> guide.
+  </p>
+</page>

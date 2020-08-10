@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_controlling_orca" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_where_am_i"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <title type="sort">1. Kontrollera och lära sig använda Orca</title>
+    <title type="link">Kontrollera och lära sig använda Orca</title>
+    <desc>Kommandon för att interagera med <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kontrollera och lära sig använda Orca</title>
+  <section id="controlling">
+    <title>Kommandon för att kontrollera <app>Orca</app></title>
+    <p>Följande kommandon kan användas för att komma till <app>Orca</app>s inställningsdialoger, slå på eller av <app>Orca</app> och åsidosätta <app>Orca</app>-kommandon för att undvika genvägskonflikter i programmet som koms åt.</p>
+    <list>
+      <item>
+        <p>Slå på eller av <app>Orca</app> i GNOME: <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>
+        <note style="tip">
+           <p>Om du använder <app>Orca</app> i en annan skrivbordsmiljö där det inte finns något kommando för att slå på/av <app>Orca</app> kan du ha nytta av kommandot för att avsluta <app>Orca</app>. Detta kommando är obundet som standard. Se <link xref="howto_key_bindings">Ändra tangentbindningar</link> för information om hur du kan binda obundna kommandon.</p>
+        </note>
+      </item>
+      <item>
+        <p>Dialogruta för <link xref="preferences">Orca-inställningar</link>: <keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Orcas inställningsdialog för det fokuserade programmet: <keyseq><key>Ctrl</key><key>Orca-modifierare</key><key>Blanksteg</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Skicka nästa kommando vidare till aktuellt program: <keyseq><key>Orca-modifierare</key><key>Backsteg</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="learning">
+    <title>Kommandon för att lära dig använda <app>Orca</app></title>
+    <p>I inlärningsläge kommer <app>Orca</app> läsa upp varje tangent du tryckt ner tillsammans med eventuella associerade <app>Orca</app>-kommandon som den tangenten är bunden till. I detta läge kan du också få en lista över genvägar som innehåller alla <app>Orca</app>-kommandon du kan använda.</p>
+    <list>
+      <item>
+        <p>Gå in i inlärningsläge: <keyseq><key>Orca-modifierare</key><key>H</key></keyseq></p>
+      </item>
+      <item>
+        <p>Gå ur inlärningsläge: <keyseq><key>Esc</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+</page>

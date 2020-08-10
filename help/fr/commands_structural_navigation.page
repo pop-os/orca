@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_structural_navigation" xml:lang="fr">
+  <info>
+    <link type="next" xref="commands_table"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_forms"/>
+    <title type="sort">2. Navigation par structure</title>
+    <title type="link">Navigation par structure</title>
+    <desc>Commandes de navigation par éléments</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Commandes de navigation par structure</title>
+  <p>Les commandes suivantes peuvent être utilisées pour parcourir les en-têtes, liens et d’autres éléments trouvés dans les applications pour lesquels <app>Orca</app> prend en charge la navigation structurelle.</p>
+  <list>
+    <item>
+      <p>Activer/désactiver les touches de navigation par structure : <keyseq><key>Touche de modification d’Orca</key><key>Z</key></keyseq></p>
+    </item>
+  </list>
+  <section id="headings">
+    <title>En-têtes</title>
+      <list>
+        <item>
+          <p>En-tête précédent et suivant : <keyseq><key>H</key></keyseq> et <keyseq><key>Maj</key><key>H</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste d’en-têtes : <keyseq><key>Alt</key><key>Maj</key><key>H</key></keyseq></p>
+        </item>
+        <item>
+          <p>En-tête de niveau 1 précédent et suivant : <keyseq><key>1</key></keyseq> et <keyseq><key>Maj</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Afficher une liste d’en-têtes au niveau 1 : <keyseq><key>Alt</key><key>Maj</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>En-tête de niveau 2 précédent et suivant : <keyseq><key>2</key></keyseq> et <keyseq><key>Maj</key><key>2</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste d’en-têtes au niveau 2 : <keyseq><key>Alt</key><key>Maj</key><key>2</key></keyseq></p>
+        </item>
+        <item>
+          <p>En-tête de niveau 3 précédent et suivant : <keyseq><key>3</key></keyseq> et <keyseq><key>Maj</key><key>3</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste d’en-têtes au niveau 3 : <keyseq><key>Alt</key><key>Maj</key><key>3</key></keyseq></p>
+        </item>
+        <item>
+          <p>En-tête de niveau 4 précédent et suivant : <keyseq><key>4</key></keyseq> et <keyseq><key>Maj</key><key>4</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste d’en-têtes au niveau 4 : <keyseq><key>Alt</key><key>Maj</key><key>4</key></keyseq></p>
+        </item>
+        <item>
+          <p>En-tête de niveau 5 précédent et suivant : <keyseq><key>5</key></keyseq> et <keyseq><key>Maj</key><key>5</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste d’en-têtes au niveau 5 : <keyseq><key>Alt</key><key>Maj</key><key>5</key></keyseq></p>
+        </item>
+        <item>
+          <p>En-tête de niveau 6 précédent et suivant : <keyseq><key>6</key></keyseq> et <keyseq><key>Maj</key><key>6</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste d’en-têtes au niveau 6 : <keyseq><key>Alt</key><key>Maj</key><key>6</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="forms">
+      <title>Formulaires</title>
+      <list>
+        <item>
+          <p>Champ de formulaire précédent et suivant : <keyseq><key>Touche de modification d’Orca</key><key>Tab</key></keyseq> et <keyseq><key>Touche de modification d’Orca</key><key>Maj</key><key>Tab</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste de champs de formulaires : <keyseq><key>Alt</key><key>Maj</key><key>F</key></keyseq></p>
+        </item>
+        <item>
+          <p>Bouton précédent et suivant : <keyseq><key>B</key></keyseq> et <keyseq><key>Maj</key><key>B</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste de boutons : <keyseq><key>Alt</key><key>Maj</key><key>B</key></keyseq></p>
+        </item>
+        <item>
+          <p>Liste déroulante précédente et suivante : <keyseq><key>C</key></keyseq> et <keyseq><key>Maj</key><key>C</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste de listes déroulantes : <keyseq><key>Alt</key><key>Maj</key><key>C</key></keyseq></p>
+        </item>
+        <item>
+          <p>Entrée précédente et suivante : <keyseq><key>E</key></keyseq> et <keyseq><key>Maj</key><key>E</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste d’entrées : <keyseq><key>Alt</key><key>Maj</key><key>E</key></keyseq></p>
+        </item>
+        <item>
+          <p>Bouton radio précédent et suivant : <keyseq><key>R</key></keyseq> et <keyseq><key>Maj</key><key>R</key></keyseq></p>
+        </item>
+        <item>
+          <p>Afficher une liste de boutons radio : <keyseq><key>Alt</key><key>Maj</key><key>R</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Case à cocher précédente et suivante : <keyseq><key>X</key></keyseq> et <keyseq><key>Maj</key><key>X</key></keyseq></p>
+        </item>
+        <item>
+          <p>Afficher une liste de cases à cocher : <keyseq><key>Alt</key><key>Maj</key><key>X</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="links">
+    <title>Liens</title>
+      <list>
+        <item>
+          <p>Lien suivant et précédent : <keyseq><key>K</key></keyseq> et <keyseq><key>Maj</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Afficher une liste de liens : <keyseq><key>Alt</key><key>Maj</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Lien non visité précédent et suivant : <keyseq><key>U</key></keyseq> et <keyseq><key>Maj</key><key>U</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste de liens non visités : <keyseq><key>Alt</key><key>Maj</key><key>U</key></keyseq></p>
+        </item>
+        <item>
+          <p>Lien visité précédent et suivant : <keyseq><key>V</key></keyseq> et <keyseq><key>Maj</key><key>V</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste de liens visités : <keyseq><key>Alt</key><key>Maj</key><key>V</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="lists">
+      <title>Listes</title>
+      <list>
+        <item>
+          <p>Liste précédente et suivante : <keyseq><key>L</key></keyseq> et <keyseq><key>Maj</key><key>L</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste de listes : <keyseq><key>Alt</key><key>Maj</key><key>L</key></keyseq></p>
+        </item>
+        <item>
+          <p>Élément de liste précédent et suivant : <keyseq><key>I</key></keyseq> et <keyseq><key>Maj</key><key>I</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste d’éléments de liste : <keyseq><key>Alt</key><key>Maj</key><key>I</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="tables">
+      <title>Tableaux</title>
+      <list>
+        <item>
+          <p>Tableau précédent et suivant : <keyseq><key>T</key></keyseq> et <keyseq><key>Maj</key><key>T</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste de tableaux : <keyseq><key>Alt</key><key>Maj</key><key>T</key></keyseq></p>
+        </item>
+        <item>
+          <p>Cellule de gauche : <keyseq><key>Alt</key><key>Maj</key><key>Flèche gauche</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Cellule de droite : <keyseq><key>Alt</key><key>Maj</key><key>Flèche droite</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Cellule au-dessus : <keyseq><key>Alt</key><key>Maj</key><key>Flèche haut</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste de blocs de citation : <keyseq><key>Alt</key><key>Maj</key><key>Flèche bas</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Première cellule dans le tableau : <keyseq><key>Alt</key><key>Maj</key><key>Origine</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Dernière cellule dans le tableau : <keyseq><key>Alt</key><key>Maj</key><key>Fin</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="text_blocks">
+      <title>Blocs de texte</title>
+      <list>
+        <item>
+          <p>Paragraphe précédent et suivant : <keyseq><key>P</key></keyseq> et <keyseq><key>Maj</key><key>P</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste de paragraphes : <keyseq><key>Alt</key><key>Maj</key><key>P</key></keyseq></p>
+        </item>
+        <item>
+          <p>Bloc de citation précédent et suivant : <keyseq><key>Q</key></keyseq> et <keyseq><key>Maj</key><key>Q</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste de blocs de citation (blockquotes) : <keyseq><key>Alt</key><key>Maj</key><key>Q</key></keyseq></p>
+        </item>
+        <item>
+          <p>« Objet important » précédent et suivant : <keyseq><key>O</key></keyseq> et <keyseq><key>Maj</key><key>O</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste d’« objets importants » : <keyseq><key>Alt</key><key>Maj</key><key>O</key></keyseq></p>
+        </item>
+       </list>
+    </section>
+    <section id="other">
+      <title>Autres éléments</title>
+      <list>
+        <item>
+          <p>Repère précédent et suivant : <keyseq><key>M</key></keyseq> et <keyseq><key>Maj</key><key>M</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste de repères : <keyseq><key>Alt</key><key>Maj</key><key>M</key></keyseq></p>
+        </item>
+        <item>
+          <p>Séparateur précédent et suivant : <keyseq><key>S</key></keyseq> et <keyseq><key>Maj</key><key>S</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Élément « cliquable » précédent et suivant : <keyseq><key>A</key></keyseq> et <keyseq><key>Maj</key><key>A</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Afficher une liste d’éléments « cliquables » : <keyseq><key>Alt</key><key>Maj</key><key>A</key></keyseq></p>
+        </item>
+        <item>
+          <p>Image précédente et suivante : <keyseq><key>G</key></keyseq> et <keyseq><key>Maj</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Afficher une liste d’images : <keyseq><key>Alt</key><key>Maj</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Début et fin du conteneur actuel : <keyseq><key>Maj</key><key>virgule</key></keyseq> et <keyseq><key>virgule</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+</page>

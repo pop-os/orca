@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_profiles" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_documents"/>
+    <title type="sort">9. Profiler</title>
+    <desc>Underhålla flera konfigurationer</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Profiler</title>
+  <p>Orcas profiler låter dig spara och läsa in flera konfigurationer så att du snabbt kan komma åt inställningarna du behöver.</p>
+  <steps>
+    <title>Spara en ny profil</title>
+    <item>
+      <p>Gå till dialogrutan <link xref="preferences">Orca-inställningar</link>.</p>
+    </item>
+    <item>
+      <p>Ändra vilka inställningar du vill.</p>
+    </item>
+    <item>
+      <p>På sidan <gui>Allmänt</gui>, tryck på <gui>Spara som</gui>-knappen.</p>
+    </item>
+    <item>
+      <p>Skriv in det nya profilnamnet i den resulterande <gui>Spara profil som</gui>-dialogrutan.</p>
+    </item>
+    <item>
+      <p>Tryck på <gui>OK</gui>-knappen i dialogrutan <gui>Spara profil som</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Läsa in en befintlig profil</title>
+    <item>
+      <p>Gå till dialogrutan <link xref="preferences">Orca-inställningar</link>.</p>
+    </item>
+    <item>
+      <p>På sidan <gui>Allmänt</gui>, välj profilen att läsa in från kombinationsrutan <gui>Aktiv profil</gui>.</p>
+    </item>
+    <item>
+      <p>Tryck på <gui>Läs in</gui>-knappen.</p>
+    </item>
+    <item>
+      <p>Du kommer att ombes att bekräfta. Tryck på <gui>Ja</gui>-knappen.</p>
+    </item>
+    <item>
+      <p>Tryck på <gui>OK</gui>-knappen.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Ändra en befintlig profil</title>
+    <item>
+      <p>Följ stegen beskrivna ovan för att läsa in profilen som du vill ändra.</p>
+    </item>
+    <item>
+      <p>Följ stegen ovan för att spara en ny profil.</p>
+    </item>
+    <item>
+      <p>Då du ombes ange det nya profilnamnet skriver du in samma namn som aktuell profil. När du trycker på <gui>OK</gui>-knappen kommer du bli tillsagd att det uppstått en namnkonflikt.</p>
+    </item>
+    <item>
+      <p>Tryck på <gui>Ja</gui>-knappen för att bekräfta att du vill skriva över den befintliga profilen med de nya inställningarna.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Ändra <gui>Uppstartsprofilen</gui></title>
+    <item>
+      <p>Gå till dialogrutan <link xref="preferences">Orca-inställningar</link>.</p>
+    </item>
+    <item>
+      <p>På sidan <gui>Allmänt</gui>, välj profilen att läsa in från kombinationsrutan <gui>Uppstartsprofil</gui>.</p>
+    </item>
+    <item>
+      <p>Tryck på <gui>OK</gui>-knappen. Nästa gång du startar <app>Orca</app> kommer den nyvalda profilen att användas.</p>
+    </item>
+  </steps>
+</page>

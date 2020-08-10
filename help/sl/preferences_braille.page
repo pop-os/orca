@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_braille" xml:lang="sl">
+  <info>
+    <title type="sort">3. Brajica</title>
+    <title type="link">Brajica</title>
+    <desc>Nastavljanje <app>Orkine</app> podpore Braillovega zaslona</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_echo"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Možnosti Braillove pisave</title>
+  <section id="braillesupport">
+    <title>Omogoči podporo Braillovi pisavi</title>
+    <p>Izbirno polje preklopi ali bo <app>Orka</app> uporabljala Braillov zaslon. V primeru, da BrlTTY ne teče, bo <app>Orka</app> elegantno obnovila in se ne bo sporazumevala z Braillovim zaslonom.</p>
+    <p>Prikazana vrednost: ni izbrano</p>
+    <note style="tip">
+      <p>V primeru, da BrlTTY nastavite kasneje, boste morali za to, da <app>Orca</app> uporablja Braillovo pisavo znova zagnati.</p>
+    </note>
+  </section>
+  <section id="braillewordwrap">
+    <title>Enable word wrap</title>
+    <p>
+      If <gui>Enable word wrap</gui> is checked, <app>Orca</app> will adjust the
+      text so that only full words are shown on the braille display. If it is not
+      checked, <app>Orca</app> will use all of the cells on the display so that
+      more text can be shown at once.
+    </p>
+    <p>Prikazana vrednost: ni izbrano</p>
+  </section>
+  <section id="contractedbraille">
+    <title>Omogoči skrčen zapis braillove pisave</title>
+    <p>Orka podpira skrajšano Braillovo pisavo preko projekta liblouis. Ker veliko distribucij vključuje liblouis, boste verjetno v <app>Orki</app> samodejno imeli podporo za skrčeno Braillovo pisavo. </p>
+    <p>
+      To enable contracted braille on a system where liblouis has been installed,
+      be sure that the <gui>Enable Contracted Braille</gui> checkbox is checked.
+      Then choose your desired translation table from the <gui>Contraction
+      Table</gui> combo box.
+    </p>
+    <p>Prikazana vrednost: ni izbrano</p>
+  </section>
+  <section id="rolenames">
+    <title>Okrajšana imena vlog</title>
+    <p>To izbirno polje določi način v katerih so prikazana imena vlog in ga je mogoče uporabiti za ohranjevanje prostora na Braillovem zaslonu. Na primer, če ima žarišče drsnik, bo v primeru, da skrčena imena vlog niso omogočena prikazana beseda "drsnik", če pa so skrčena imena vlog omogočena, bo prikazana beseda "drsn".</p>
+    <p>Prikazana vrednost: ni izbrano</p>
+  </section>
+  <section id="eolindicator">
+    <title>Onemogoči simbol za konec vrstice</title>
+    <p>Izbrano izbirno polje določi, da <app>Orka</app> ne predstavi niza "$l" na koncu vrstice besedila.</p>
+    <p>Prikazana vrednost: ni izbrano</p>
+  </section>
+  <section id="verbosity">
+    <title>Razločnost</title>
+    <p>Ta skupina izbirnih gumbov določi količino podatkov, ki bo prikazana v Braillovi pisavi v določenih situacijah. Na primer, če je nastavljena na podrobno, bodo prikazani podatki o tipkovnih bližnjicah in imenih vlog. Ti podatki niso prikazani v kratkem načinu.</p>
+    <p>Privzeta vrednost: <gui>Podrobno</gui></p>
+  </section>
+  <section id="selectionandhyperlink">
+    <title>Kazalniki izbire in hipepovezav</title>
+    <p>Skupini izbirnih gumbov <gui>Kazalnik izbire</gui> in <gui>Kazalnik hiperpovezav</gui> vam omogočata nastavljanje <app>Orkinega</app> obnašanja pri prikazovanju izbranega besedila in hiperpovezav.  Privzeto bo <app>Orka</app> izbiro in hiperpovezave na vašem Braillovem zaslonu "podčrtala" s Pikama 7 in 8. Kazalnik lahko spremenite tako, da bo le Pika 7, Pika 8 ali sploh ne bo predstavljen.</p>
+    <p>Privzeta vrednost: <gui>Piki 7 in 8</gui></p>
+    <note style="tip">
+      <title>Kazalniki atributov besedila</title>
+      <p>Izbirno imate lahko atribute besedila nakazane v Braillovi pisavi. Omogočanje te zmožnosti in izbiro zanimivih atributov lahko izvedete na <link xref="preferences_text_attributes">strani <gui>Atibuti besedila</gui></link> v pogovornem oknu možnosti.</p>
+    </note>
+  </section>
+  <section id="flashMessageSettings">
+    <title>Flash Message Settings</title>
+    <p>
+        Flash messages are similar in nature to notifications or announcements:
+        They are shown on your refreshable braille display for a brief time,
+        after which the original contents of the braille display are restored.
+        <app>Orca</app> has several settings you can use to control flash message
+        presentation.
+    </p>
+    <section id="flashMessageSettings_enable">
+      <title>Enable flash messages</title>
+      <p>
+        If <gui>Enable flash messages</gui> is checked, <app>Orca</app> will
+        present messages to you in braille. If you prefer to only have
+        <app>Orca</app>'s messages spoken, you should uncheck this checkbox.
+      </p>
+      <p>Privzeta vrednost: izbrano</p>
+    </section>
+    <section id="flashMessageSettings_detailed">
+      <title>Messages are detailed</title>
+      <p>
+        If <gui>Messages are detailed</gui> is checked, <app>Orca</app> will
+        present detailed messages to you in braille. For instance, if you
+        use <app>Orca</app>'s command to change key echo, <app>Orca</app> might
+        display "Key echo set to word." If you would prefer shorter messages,
+        such as simply "word," you should uncheck this checkbox.
+      </p>
+      <p>Privzeta vrednost: izbrano</p>
+    </section>
+    <section id="flashMessageSettings_persistent">
+      <title>Messages are persistent</title>
+      <p>
+        As stated above, flash messages are only shown for a brief period of time.
+        If you would prefer messages remain displayed until you perform an action
+        which causes your display to be updated, you should check the <gui>Messages
+        are persistent</gui> checkbox.
+      </p>
+      <p>Prikazana vrednost: ni izbrano</p>
+    </section>
+    <section id="flashMessageSettings_duration">
+      <title>Message duration (secs)</title>
+      <p>
+        The amount of time <app>Orca</app> will wait before removing the message and
+        restoring the original contents of your display can be set in the <gui>
+        Message duration (secs)</gui> spin button. Note that the value of this
+        setting will be ignored if you have enabled persistent flash messages.
+      </p>
+      <p>
+        Default value: 5
+      </p>
+    </section>
+  </section>
+</page>

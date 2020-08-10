@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_find" xml:lang="sl">
+  <info>
+    <link type="next" xref="commands_mouse"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_orca_find"/>
+    <title type="sort">2. Iskanje z Orko</title>
+    <title type="link">Iskanje z Orko</title>
+    <desc>Ukazi za iskanje vsebine okna</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Orkini ukazi iskanja</title>
+  <p><app>Orkina</app>'s <link xref="howto_orca_find">zmožnost iskanja</link> vam omogoča iskanje vsebine<link xref="howto_flat_review">Ploskega pregleda</link> za predmete, ki se nahajajo v trenutnem oknu.</p>
+  <list>
+    <item>
+      <p>Odprita pogovorno okno iskanja <app>Orka</app>:</p>
+      <list>
+        <item>
+          <p>Namizni računalnik: <keyseq><key>NT Izbriši</key></keyseq></p>
+        </item>
+        <item>
+          <p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Levi uklepaj</key></keyseq> </p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Premakni ploski pregled na naslednji primerek niza:</p>
+      <list>
+        <item>
+          <p>Namizni računalnik: <keyseq><key>Spremenilna tipka Orka</key><key>KP Izbriši</key></keyseq></p>
+        </item>
+        <item>
+          <p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Desni zaklepaj</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Premakni ploski pregled na predhodni primerek niza:</p>
+      <list>
+        <item>
+          <p>Namizni računalnik: <keyseq><key>Spremenilna tipka Orka</key><key>Dvigalka</key><key>NT Izbriši</key></keyseq></p>
+        </item>
+        <item>
+          <p>Prenosnik: <keyseq><key>Spremenilna tipka Orka</key><key>Krmilka</key><key>Desni zaklepaj</key> </keyseq></p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="sv">
+  <info>
+    <title type="link">Tangenteko</title>
+    <title type="sort">4. Tangenteko</title>
+    <desc>Konfigurera vad som ska läsas upp då du skriver</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_bindings"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Inställningar för tangenteko</title>
+  <section id="keyecho">
+    <title>Aktivera tangenteko</title>
+    <p>Orcas inställningar för tangenteko styr vad som händer varje gång du trycker ner en tangent. Kryssa i kryssrutan ”Aktivera tangenteko” för att aktivera tangenteko. Att göra detta får ytterligare kryssrutor att bli tillgängliga, och genom dessa kan du välja precis vilka tangenter som ska upprepas så att det i största möjliga mån passar dina behov.</p>
+    <p>Standardvärde: ikryssad</p>  
+    <section id="keyecho_enable_alphanumeric">
+      <title>Aktivera bokstavstangenter</title>
+      <p>Detta alternativ styr huruvida tangenter som <key>a</key>, <key>b</key> och <key>c</key> ska läsas upp då de trycks ned.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="keyecho_enable_numeric">
+      <title>Aktivera siffertangenter</title>
+      <p>Detta alternativ styr huruvida tangenter som <key>1</key>, <key>2</key> och <key>3</key> ska läsas upp då de trycks ned.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="keyecho_enable_punctuation">
+      <title>Aktivera skiljetecken</title>
+      <p>Detta alternativ styr huruvida tangenter som <key>%</key>, <key>;</key> och <key>?</key> ska läsas upp då de trycks ned.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="keyecho_enable_space">
+      <title>Aktivera blanksteg</title>
+      <p>Detta alternativ styr huruvida <key>blanksteg</key> ska läsas upp då det trycks ned.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="keyecho_enable_modifier">
+      <title>Aktivera modifierartangenter</title>
+      <p>Detta alternativ styr huruvida <key>Skift</key>, <key>Ctrl</key>, <key>Alt</key> och <key>Meta</key> ska läsas upp då de trycks ned.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="keyecho_enable_function">
+      <title>Aktivera funktionstangenter</title>
+      <p>Detta alternativ styr huruvida <key>F1</key> till <key>F12</key> ska läsas upp då de trycks ned.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="keyecho_enable_action">
+      <title>Aktivera åtgärdstangenter</title>
+      <p>Detta alternativ styr huruvida <key>Backsteg</key>, <key>Delete </key>, <key>Retur</key>, <key>Escape</key>, <key>Tabb</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</key> och <key>End</key> ska läsas upp då de trycks ned.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="keyecho_enable_navigation">
+      <title>Aktivera navigeringstangenter</title>
+      <p>Detta alternativ styr huruvida <key>Vänster</key>, <key>Höger</key>, <key>Upp</key> och <key>Ned</key> ska läsas upp då de trycks ned. Detta alternativ tillämpas också till alla tangentkombinationer i vilka <key>Orca-modifierare</key> hålls ned, till exempel då platt granskning används.</p>
+      <p>Standardvärde: inte ikryssad</p>
+    </section>
+    <section id="keyecho_enable_diacritical">
+      <title>Aktivera icke-blankstegs diakritiska tangenter</title>
+      <p>Detta alternativ styr huruvida ”stumma tangenter” som används för att skapa bokstäver med diakritiska tecken ska uttalas då de trycks ned.</p>
+      <p>Standardvärde: inte ikryssad</p>
+    </section>
+  </section>
+  <section id="characterecho">
+    <title>Aktivera eko efter tecken</title>
+    <p>Att aktivera detta alternativ får Orca att upprepa tecknet som du just skrev in.</p>
+    <p>Medan teckeneko verkar ganska likt tangenteko för bokstäver, siffror och skiljetecken så finns det viktiga skillnader, särskilt då det gäller bokstäver med diakritiska tecken och andra symboler för vilka det inte finns någon speciell tangent:</p>
+    <list>
+      <item>
+        <p>Tangenteko får <app>Orca</app> att meddela vad du just <em> tryckte ned</em>.</p>
+      </item>
+      <item>
+        <p>Teckeneko får <app>Orca</app> att meddela vad som just <em>matades in</em>.</p>
+      </item>
+    </list>
+    <p>För att få bokstäver med diakritiska tecken upplästa då du skriver dem ska du därför aktivera teckeneko.</p>
+    <p>Standardvärde: inte ikryssad</p>
+    <note style="tip">
+      <title>Aktivera både tangenteko och teckeneko</title>
+      <p>Om du gillar tangenteko och ofta skriver bokstäver med diakritiska tecken kan du överväga att aktivera båda. <app>Orca</app>s logik för teckeneko försöker filtrera ut tecken som lästes upp som en följd av tangenteko, och minimerar därmed sannolikheten för ”dubbel uppläsning” då du skriver.</p>
+    </note>
+  </section>
+  <section id="wordandsentenceecho">
+    <title>Aktivera eko efter ord och Aktivera eko efter mening</title>
+    <p>Att kryssa i kryssrutan <gui>Aktivera eko efter ord</gui> får <app>Orca</app> att upprepa ordet du just skrev in. På samma sätt får att kryssa i kryssrutan <gui>Aktivera eko efter mening</gui> <app>Orca</app> att upprepa meningen du just skrev in.</p>
+    <p>Standardvärde: inte ikryssad</p>
+  </section>
+</page>

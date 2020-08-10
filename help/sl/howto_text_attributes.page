@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_text_attributes" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_structural_navigation"/>
+    <title type="sort">2. Atributi besedila</title>
+    <desc>Preučevanje oblikovanja besedila</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Atributi besedila</title>
+  <p>Izraz "atributi besedila" se sklicuje na vso pisavo, slog, poravnavo in drugo oblikovanje povezano z danim znakom ali zaporedjem znakov.</p>
+  <section id="obtaining">
+    <title>Pridobivanje podatkov o oblikovanju</title>
+    <p>Ko pritisnete <keyseq><key>Spremenilna tipka Orka</key><key>F</key></keyseq>, bo <app>Orka</app> izgovorila znane podatke atributov besedila o predmetu.  Poleg tega bo <app>Orka</app> izbirno nakazala atribute besedila v brajici z njihovim "podčrtovanjem", medtem ko krmarite po dokumentu.</p>
+    <p>Ker je atributov besedila veliko in vseh vsi atributi ne zanimajo, vam <link xref="preferences_text_attributes"> Stran atributov besedila v pogovornem oknu možnosti</link> omogoča katere atribute besedila bo <app>Orka</app> izgovorila, vrstni red njihove predstavitve in kateri bodo prikazani v Braillovi pisavi. </p>
+    <p>Ker je <link xref="preferences_text_attributes">stran atributov besedila</link> tudi del programsko določenih nastavitev, lahko predstavitev atributov besedila prilagodite po svojih željah za vsak program, ki ga uporabljate.</p>
+  </section>
+  <section id="identifying_misspelled_words">
+    <title>Določanje napačno črkovanih besed</title>
+    <p>Večina programov in zbirk orodij napačno črkovano besedo nakažejo tako, da jo podčrtajo z valovito rdečo črto. Prisotnost te črte je tehnologijam dostopnosti ponavadi predstavljena kot atribut besedila. Zato boste med atributi, ki jih lahko izberete, našli tudi napake črkovanja. Privzeto je atribut napak črkovanja omogočen tako za govor kot Braillovo pisavo, zato bo predstavljen skupaj z drugimi atributi, ki ste jih omogočili. </p>
+    <p>Poleg dostopa do napak črkovanja kot do atributov besedila bo <app>Orka</app> v primeru, da imate omogočen odmev po tipki in/ali odmev po besedi ter se pojavi napaka črkovanja, oznanila "napačno črkovano". Tako boste lahko šli nemudoma nazaj in popravili napako.</p>
+    <p>Ko krmarite po dokumentu in se kazalka premakne na napačno črkovano besedo, bo <app>Orka</app> oznanila prisotnost napake črkovanja.</p>
+  </section>
+</page>

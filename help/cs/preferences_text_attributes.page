@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_text_attributes" xml:lang="cs">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_gecko"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <title type="sort">8. Vlastnosti textu</title>
+    <title type="link">Vlastnosti textu</title>
+    <desc>Jak nastavit, které formátování má být prezentováno</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Předvolby pro vlastnosti textu</title>
+  <p>Termínem „vlastnosti textu“ se míní vše okolo písma, stylu, zarovnání a dalšího formátování přiřazených určitému znaku nebo řadě znaků. Ve čtečce <app>Orca</app> na stránce <gui>Vlastnosti textu</gui> si můžete přizpůsobit, které vlastnosti textu se mají prezentovat při čtení, a to včetně pořadí, v jakém mají být prezentovány, a které se mají naznačovat na braillském řádku.</p>
+  <section id="table">
+    <title>Tabulka s vlastnostmi textu</title>
+    <p>Tabulka s vlastnostmi textu, ve které zadáváte, které vlastnosti se mají a které nemají prezentovat a za jakých podmínek. Každý řádek sestává ze čtyř sloupců.</p>
+    <list>
+      <item>
+        <p><gui>Název vlastnosti</gui>: Název vlastnosti textu</p>
+      </item>
+      <item>
+        <p><gui>Říci</gui>: Toto políčko zaškrtněte, pokud si přejete, aby <app>Orca</app> oznamovala tuto vlastnost, když zmáčknete <keyseq><key>Modifikátor Orca</key><key>F</key></keyseq>.</p>
+      </item>
+      <item>
+        <p><gui>Označit na braillu</gui>: Toto políčko zaškrtněte, pokud si přejete, aby <app>Orca</app> „podtrhávala“ tuto vlastnost na braillském řádku.</p>
+      </item>
+      <item>
+        <p><gui>Prezentovat kromě</gui>: </p>
+        <p>Například, ve výchozím stavu má vlastnost textu „podtržení“ hodnotu „žádný“. To způsobí, že <app>Orca</app> vás bude informovat o podtrženém textu tak dlouho, dokud bude skutečně podtržený. Pokud vždy chcete oznamovat tuto vlastnost nezávisle na tom, jestli text je nebo není podtržený, měl by být sloupec <gui>Prezentovat kromě</gui> pro podtržení prázdný. Navíc byste se měli ujistit, že sloupec <gui>Říci</gui> je pro podtržení zaškrtnutý.</p>
+      </item>
+    </list>
+  </section>
+  <section id="reset">
+     <title>Vracení změn</title>
+     <p>Pod seznamem vlastností textu najdete tlačítko Obnovit (<keyseq><key>Alt</key><key>R</key></keyseq>), které obnoví v tabulce hodnoty do stavu, jako když bylo dialogové okno zobrazeno poprvé.</p>
+  </section>
+  <section id="rearranging">
+     <title>Změna pořadí prezentování</title>
+     <p>Když poprvé zobrazíte stránku s vlastnostmi textu, jsou všechny povolené vlastnosti umístěné v horní části tabulky v pořadí, v jakém budou oznamovány. K dispozici máte čtyři tlačítka, která můžete použít ke změně pořadí prezentování.</p>
+    <list>
+      <item>
+        <p><gui>Posunout úplně nahoru</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>): přesune vybrané vlastnosti na vrchol seznamu.</p>
+      </item>
+      <item>
+        <p><gui>Posunout o jedno výš</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>): přesune vybranou vlasnost o jeden řádek výš.</p>
+      </item>
+      <item>
+        <p><gui>Posunout o jedno níž</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>): přesune vybrané vlastnosti o jeden řádek níž.</p>
+      </item>
+      <item>
+        <p><gui>Posunout úplně dolů</gui> (<keyseq><key>Alt</key><key>B</key></keyseq>): přesune vybrané vlastnosti dospod seznamu.</p>
+      </item>
+    </list>
+  </section>
+  <section id="braille_indicator">
+    <title>Volby pro nastavení braillského „podtrhávání“ pro formátování</title>
+    <p>Pod čtyřmi tlačítky se nachází skupina přepínačů <gui>Indikátor braillu</gui>. Zde si můžete vybrat, který bod či body se mají použít k signalizaci přítomnosti alespoň jedné z určených vlastností.</p>
+    <list>
+      <item>
+        <p><gui>Žádný</gui>: Nepodtrhávat vlastnosti textu v braillském řádku (výchozí)</p>
+      </item>
+      <item>
+        <p><gui>Bod 7</gui>: Podtrhávat vlastnosti textu jen bodem 7</p>
+      </item>
+      <item>
+        <p><gui>Bod 8</gui>: Podtrhávat vlastnosti textu jen bodem 8</p>
+      </item>
+      <item>
+        <p><gui>Bod 7 a 8</gui>: Podtrhávat vlastnosti textu bodem 7 i 8</p>
+      </item>
+    </list>
+  </section>
+</page>

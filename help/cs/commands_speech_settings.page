@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_speech_settings" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_braille"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_speech"/>
+    <title type="sort">2. Nastavení řeči</title>
+    <title type="link">Řeč</title>
+    <desc>Příkazy pro přizpůsobení výstupu čtečky <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy pro nastavení řeči</title>
+  <p>Následující příkazy lze použít k přizpůsobení řečového výstupu čtečky <app>Orca</app>. Budete informování, že řada těchto příkazů nemá klávesovou zkratku. Informace, jak jim nějakou přiřadit, najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+  <list>
+    <item>
+      <p>Povolit/zakázat mluvení: <keyseq><key>Modifikátor Orca</key> <key>S</key></keyseq></p>
+    </item>
+    <item>
+      <p>Přepnout mezi čtením tabulky po buňkách a po řádcích: <keyseq><key>Modifikátor Orca</key> <key>F11</key></keyseq></p>
+    </item>
+    <item>
+      <p>Přepnout mezi vysokou a nízkou úrovní upovídanosti: <keyseq><key>Modifikátor Orca</key> <key>V</key></keyseq></p>
+    </item>
+    <item>
+      <p>Povolit/zakázat oznamování odsazení a zarovnání: (bez klávesové zkratky)</p>
+    </item>
+    <item>
+      <p>Změnit styl čtení čísel: (bez klávesové zkratky)</p>
+    </item>
+    <item>
+      <p>Cyklicky přejít na následující úroveň vyslovování interpunkce: (bez klávesové zkratky)</p>
+    </item>
+    <item>
+      <p>Cyklicky přejít na následujcí úroveň oznamování kláves: (bez klávesové zkratky)</p>
+    </item>
+    <item>
+      <p>Cyklicky přejít na následující styl velkých písmen: (bez klávesové zkratky)</p>
+    </item>
+    <item>
+      <p>Snížit tempo hlasu: (bez klávesové zkratky)</p>
+    </item>
+    <item>
+      <p>Zvýšit tempo hlasu: (bez klávesové zkratky)</p>
+    </item>
+    <item>
+      <p>Snížit výšku hlasu: (bez klávesové zkratky)</p>
+    </item>
+    <item>
+      <p>Zvýšit výšku hlasu: (bez klávesové zkratky)</p>
+    </item>
+    <item>
+      <p>Snížit hlasitost: (bez klávesové zkratky)</p>
+    </item>
+    <item>
+      <p>Zvýšit hlasitost: (bez klávesové zkratky)</p>
+    </item>
+  </list>
+</page>

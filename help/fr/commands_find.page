@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_find" xml:lang="fr">
+  <info>
+    <link type="next" xref="commands_mouse"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_orca_find"/>
+    <title type="sort">2. Recherche d’Orca</title>
+    <title type="link">Recherche d’Orca</title>
+    <desc>Commandes de recherche dans le contenu de la fenêtre</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Commandes de recherche d’Orca</title>
+  <p>La <link xref="howto_orca_find">fonction de recherche</link> de <app>Orca</app> vous permet de rechercher dans le contexte de l’<link xref="howto_flat_review">examen global</link>, les éléments situés dans la fenêtre actuelle.</p>
+  <list>
+    <item>
+      <p>Ouvrir la fenêtre de recherche d’<app>Orca</app> :</p>
+      <list>
+        <item>
+          <p>Ordinateur de bureau : <keyseq><key>PN Suppr</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Crochet ouvrant</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Déplacer l’examen global à l’instance suivante d’une chaîne :</p>
+      <list>
+        <item>
+          <p>Ordinateur de bureau : <keyseq><key>Touche de modification d’Orca</key><key>PN Suppr</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Crochet fermant</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Déplacer l’examen global à l’instance précédente d’une chaîne :</p>
+      <list>
+        <item>
+          <p>Ordinateur de bureau : <keyseq><key>Touche de modification d’Orca</key><key>Maj</key><key>PN Suppr</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Ctrl</key><key>Crochet fermant</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_voice" xml:lang="cs">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_speech"/>
+    <title type="sort">2.0 Hlas</title>
+    <title type="link">Hlas</title>
+    <desc>Jak nastavit hlasy pomocí čtečky <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Předvolby hlasu</title>
+  <section id="voice_type_settings">
+    <title>Nastavení typu hlasu</title>
+    <section id="voice_type">
+      <title>Typ hlasu</title>
+      <p>Tento rozbalovací seznam umožňuje použít různé hlasy, takže pak dokážete lépe rozlišit text velkými písmeny, a text odkazů od ostatního textu a text z obrazovky od textu přidaného čtečkou <app>Orca</app>.</p>
+      <note style="tip">
+        <title>Nastavení více hlasů</title>
+        <p>Pro každý hlas, který nastavíte, nejprve vyberte hlas v rozbalovacím seznamu <gui>Typ hlasu</gui>. Pak nastavte osobu, tempo, výšku a hlasitost, které se mají s tímto hlasem používat.</p>
+      </note>
+    </section>
+    <section id="speech_system">
+      <title>Řečový systém</title>
+      <p>V tomto rozbalovacím seznamu si můžete vybrat z řečových systémů, které máte nainstalované (třeba Speech Dispatcher), ten, kterému dáváte přednost.</p>
+    </section>
+    <section id="speech_synthesizer">
+      <title>Hlasový výstup</title>
+      <p>V tomto rozbalovacím seznamu si můžete vybrat hlasový výstup, který se má použít u zvoleného řečového systému.</p>
+    </section>
+    <section id="person">
+      <title>Osoba</title>
+      <p>V tomto rozbalovacím seznamu si můžete zvolit „osobu“ nebo „mluvčího“, který by se měl používat s vybraným hlasem. Například si můžete přát, aby standardně mluvil David, ale hypertextové odkazy vyslovovala Alice. Vezměte na vědomí, že výběr v rozbalovacím seznamu <gui>Osoba</gui> závisí na tom, jaký typ hlasového výstupu máte nainstalován.</p>
+    </section>
+    <section id="capitalization_style">
+      <title>Styl velkých písmen</title>
+      <p>V tomto rozbalovacím seznamu si můžete zvolit styl reprezentace velkých písmen, který si přejete používat v dispečerovi hlasového výstupu navíc ke čtení velikosti písmen. Volby, nazvané tak, jak je používá dispečer hlasového výstupu, jsou:</p>
+     <list>
+       <item><p><gui>icon</gui>: Přehrát tón</p></item>
+       <item><p><gui>spell</gui>: Říci slovo „capital“</p></item>
+       <item><p><gui>nic</gui></p></item>
+    </list>
+    <note style="tip">
+      <title>Toto nastavení je možné přepínat za běhu</title>
+      <p><app>Orca</app> má také příkaz, který umožňuje cyklicky procházet dostupné styly oznamování velikosti písmen. Více informací viz <link xref="commands_speech_settings">Příkazy pro nastavení řeči</link>.</p>
+    </note>
+    <p>Výchozí hodnota: žádný</p>
+    </section>
+    <section id="rate_pitch_and_volume">
+      <title>Tempo, výška a hlasitost</title>
+      <p>Tyto tři posuvníky umožňují dostatečně přizpůsobit znění hlasu osoby, kterou máte vybranou.</p>
+    </section>
+  </section>
+  <section id="global_voice_settings">
+  <title>Globální nastavení hlasu</title>
+    <section id="pauses">
+      <title>Rozdělovat projev na části pauzami</title>
+      <p>V závislosti na nastavení mluvení může <app>Orca</app> říkat u některých objektů jejich název, roli, stav, horné klávesy, stručný návod atd. Zaškrtnutí volby <gui>Rozdělovat projev na části pauzami</gui> způsobí vkládání krátkých pauz mezi tyto kousky informací.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="multicase_strings">
+      <title>Číst pospojovaná slova jako jednotlivá</title>
+      <p>V některých textech, hlavně například když pracujete s programovým kódem, můžete často narazit na „slova“ spojená z více slov s velkými písmeny na začátcích jednotlivých slov, typu „SlozenoZeSlov“. Řečový systém nedokáže tato slova vždy správně vyslovit. Zaškrtnutí volby <gui>Číst pospojovaná slova jak jednotlivá</gui> způsobí, že <gui>Orca</gui> bude takováto slova před předáním do řečového systému rozbíjet na jednotlivé slova („Slozeno“, „Ze“, „Slov“).</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+    </section>
+    <section id="numbers_as_digits">
+      <title>Číst čísla po číslicích</title>
+      <p>Zaškrtnutí <gui>Číst čísla po číslicích</gui> způsobí, že <app>Orca</app> rozdělí číslo, například „123“, před jeho odesláním do hlasového výstupu na jednotlivé číslice („1“, „2“ a „3“).</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+    </section>
+  </section>
+</page>

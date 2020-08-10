@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_tables" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_forms"/>
+    <title type="sort">4. Tabelas</title>
+    <desc>Navegando e configurando os cabeçalhos dinâmicos</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Tabelas</title>
+  <p>O <app>Orca</app> fornece diversos recursos desenvolvidos especificamente para melhorar o acesso a tabelas encontradas nas páginas da web e em outros documentos: leitura de célula versus leitura de linha configurável, <link xref="howto_structural_navigation">Navegação Estrutural</link> e Cabeçalhos Dinâmicos.</p>
+  <section id="cell_row">
+    <title>Célula versus leitura de linha</title>
+    <p>Considere o processo de análise da lista de mensagens na sua caixa de entrada. Para que o Orca anuncie o remetente, assunto, data, e a presença de amexos você precisará que <app>Orca</app> fale a linha. Por outro lado, quando estiver navegando entre as linhas de uma planilha eletrônica, ouvir a linha completa pode não ser desejável pelo fato de haver um grande número de células em cada linha. Neste caso, você preferiria que o <app>Orca</app> falasse apenas a célula com foco. Situações parecidas ocorrem em documentos com tabelas.</p>
+    <p>
+      <app>Orca</app> allows you to customize whether only the cell should be
+      read, or if the full row should be, for GUI tables, document tables,
+      and spreadsheets. Because these settings are independent of one another,
+      you do not have to choose one table reading mode to fit multiple types of
+      tables.
+    </p>
+    <p>
+      You can set each of <app>Orca</app>'s table reading preferences <app>Orca</app>
+      wide as well as on an application-by-application basis. How to do each is
+      described in the guide on <link xref="preferences"><app>Orca</app>'s preferences
+      dialogs</link>. The settings can be found on the <link xref="preferences_speech">
+      <gui>Speech</gui> page</link>.
+    </p>
+    <p>
+      Lastly, there is also an <app>Orca</app> command which allows you to toggle
+      cell versus row reading on the fly for the currently-active table:
+      <keyseq><key>Orca Modifier</key><key>F11</key></keyseq>.
+    </p>
+  </section>
+  <section id="structural_navigation">
+    <title>Navegação estrutural</title>
+    <p>Os <link xref="commands_structural_navigation#tables">comandos de Navegação Estrutural em tabelas</link> do <app>Orca</app> torna possível localizar rapidamente tabelas, saltar imediatamente para a primeira ou última célula da tabela, e mover para a próxima célula em qualquer direção.</p>
+    <p>Quando você navegar entre e dentro de tabelas usando a Navegação Estrutural, o <app>Orca</app> anunciará detalhes adicionais que o ajudarão a saber sua posição, tais como as dimensões da tabela que você acabou de entrar, bem como, o fato de ter atingido o final da tabela na direção que você estava se movendo.</p>
+    <p>Além disso, o <app>Orca</app> fornece <link xref="preferences_table_navigation">opções de apresentação</link> configuráveis que funcionam em conjunto com a Navegação Estrutural e permitem controlar se as coordenadas das células são ou não faladas, se a existência de várias células é anunciada, e se as células de cabeçalhos são anunciadas.</p>
+    <note style="tip">
+      <title>Não esqueça de alternar a Navegação Estrutural para ativado!</title>
+      <p>
+        Depending on where you are, it may be necessary for you to explicitly
+        toggle Structural Navigation on before you can use it. To learn more, read
+        <link xref="howto_structural_navigation#toggling_required">
+        when toggling Structural Navigation on is required.</link>
+      </p>
+    </note>
+  </section>
+  <section id="dynamic_headers">
+    <title>Cabeçalhos dinâmicos</title>
+    <p>Muitas das tabelas que você encontrará durante a leitura tem células que servem de cabeçalho para a linha ou coluna. Se o criador dessas tabelas marcou ou não corretamente as células como cabeçalhos é difícil de dizer. Em muitos casos, o texto foi simplesmente formatado para ficar maior e/ou em negrito. E mesmo se a tabela está corretamente marcada, não há garantia que o aplicativo ou kit de ferramentas mostre aquele texto com a informação de cabeçalho às tecnologias assistivas. O suporte aos Cabeçalhos Dinâmicos do <app>Orca</app> possibilita superar estes desafios.</p>
+    <steps>
+      <title>Definindo os cabeçalhos de coluna</title>
+      <item>
+        <p>Mova para a linha que contenha os cabeçalhos de coluna.</p>
+      </item>
+      <item>
+        <p>Pressione <keyseq><key>Tecla modificadora do Orca</key><key>R</key></keyseq> para informar ao <app>Orca</app> que a linha atual é a que possui os cabeçalhos.</p>
+      </item>
+    </steps>
+    <steps>
+      <title>Setting Row Headers</title>
+      <item>
+        <p>Mova para a coluna que contenha os cabeçalhos de linha.</p>
+      </item>
+      <item>
+        <p>Pressione <keyseq><key>Tecla modificadora do Orca</key><key>C</key></keyseq> para informar ao <app>Orca</app> que a coluna atual é a que possui cabeçalhos.</p>
+      </item>
+    </steps>
+    <p>Tendo definido os cabeçalhos de coluna ou os cabeçalhos de linha, você poderá localizá-los quando navegar entre as células, o <app>Orca</app> anunciará cada cabeçalho que foi definido. Ou de outra forma, o <app>Orca</app> não anunciará o cabeçalho de coluna novamente quando você se mover para cima ou para baixo dentro da coluna atual. Da mesma forma, não será anunciado novamente o cabeçalho de linha quando você se mover para direita ou para esquerda dentro da linha atual. No entanto, se você alterar linhas e houver cabeçalhos de linha, o cabeçalho associado com a nova linha será anunciado. Se você alterar colunas e houver cabeçalhos de coluna, o cabeçalho associado com a nova coluna será anunciado.</p>
+    <p>Para limpar os cabeçalhos, simplesmente tecle duas vezes o comando que você usou para defini-los. Assim a <keyseq><key>Tecla modificadora do Orca</key><key>R</key></keyseq>, pressionada duas vezes, informa ao <app>Orca</app> que não há cabeçalhos de coluna. <keyseq><key>Tecla modificadora do Orca</key><key>C</key></keyseq>, pressionada duas vezes, informa ao <app>Orca</app> que não há cabeçalhos de linha.</p>
+  </section>
+</page>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its" type="guide" id="index" xml:lang="sv">
+  <info>
+    <title type="text">Orca skärmläsare</title>
+    <title type="link">Introduktion till skärmläsaren <app>Orca</app></title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+
+    <desc>Orca är en fri, flexibel och utökningsbar skärmläsare som är öppen källkod och erbjuder åtkomst till det grafiska skrivbordet genom uppläsning och punktskriftsskärm.</desc>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+
+  <title><media type="image" mime="image/png" src="figures/orca-logo.png" its:translate="no">
+      <span its:translate="yes">Logo för <app>Orca</app></span>
+    </media> <app>Orca</app> skärmläsare</title>
+  <note style="important">
+    <title>Innan du börjar</title>
+    <p>Om du inte ännu är bekant med navigationskommandona som tillhandahålls av din skrivbordsmiljö så rekommenderas du att läsa den dokumentationen först.</p>
+  </note>
+  <section id="getting_started" style="2column">
+    <title>Komma igång</title>
+  </section>
+  <section id="reading" style="2column">
+    <title>Läsa dokument och webbsidor</title>
+  </section>
+  <section id="reviewing" style="2column">
+    <title>Granska och interagera med skärminnehåll</title>
+  </section>
+  <section id="quick_reference" style="2column">
+    <title>Snabbreferens</title>
+  </section>
+</page>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_table_navigation" xml:lang="fr">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_chat"/>
+    <link type="seealso" xref="commands_structural_navigation"/>
+    <link type="seealso" xref="commands_table"/>
+    <title type="sort">2. Navigation dans les tableaux</title>
+    <title type="link">Parcours de tableau</title>
+    <desc>Configurer le parcours des tableaux avec <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Préférences du parcours de tableau</title>
+  <p>Les options suivantes vous permettent de personnaliser le comportement d’<app>Orca</app> quand il parcourt un tableau dans les applications qui prennent en charge la <link xref="howto_structural_navigation">Navigation par structure</link>.</p>
+  <section id="speak_cell_coordinates">
+    <title>Lire les coordonnées des cellules</title>
+    <p>Si cette case est cochée, <app>Orca</app> lit les coordonnées de chaque cellule parcourue.</p>
+    <p>Valeur par défaut : cochée</p>
+  </section>
+  <section id="speak_multiple_cell_spans">
+    <title>Lire l’étendue des cellules chevauchant plusieurs lignes/colonnes</title>
+    <p>Si cette case est cochée, <app>Orca</app> lit sur combien de lignes et/ou de colonnes une cellule s’étend.</p>
+    <p>Valeur par défaut : cochée</p>
+  </section>
+  <section id="announce_cell_header">
+    <title>Annoncer les en-têtes de cellule</title>
+    <p>Si cette case est cochée, <app>Orca</app> lit les changements d’en-tête, si les en-têtes de la cellule peuvent être déterminés.</p>
+    <p>Valeur par défaut : cochée</p>
+  </section>
+  <section id="skip_blank_cells">
+    <title>Ignorer les cellules vides</title>
+    <p>Si cette case est cochée, <app>Orca</app> ignore les cellules vides quand vous utilisez les commandes de navigation par structure d’<app>Orca</app> pour accéder au tableau.</p>
+    <p>Valeur par défaut : non cochée</p>
+  </section>
+</page>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_toggling_caps_lock" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_key_bindings"/>
+    <title type="sort">7. CapsLock v rozložení klávesnice Přenosný počítač</title>
+    <desc>Jak jej přepínat, když je určen jako <key>Modifikátor Orca</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>CapsLock v rozložení klávesnice Přenosný počítač</title>
+  <p>Orca má dvě rozložení klávesnice: Stolní počítač a Přenosný počítač. To, které rozložení zvolíte, má vliv na klávesy, které používá Orca jako modifikátory. Pokud používáte rozložení Přenosný počítač, výchozím modifikátorem Orca bude <key>CapsLock</key>. Pokud používáte ve čtečce <app>Orca</app> rozložení Notebook a chcete zamknout nebo odemknout <key>CapsLock</key>, můžete tak učinit buďto zmáčknutím <key>CapsLock</key> dvakrát po sobě (vyžaduje at-spi2 verze 2.32 nebo novější) nebo provedením následujících kroků:</p>
+  <steps>
+    <title>Přepínání zámku CapsLock v rozložení Přenosný počítač</title>
+    <item>
+      <p>Zmáčkněte příkaz pro obejití, <keyseq><key>Modifikátor Orca</key><key>BackSpace</key></keyseq>, který čtečce <app>Orca</app> říká, že následující příkaz by měl být ignorován.</p>
+    </item>
+    <item>
+      <p>Přepněte stav zámku zmáčknutím <key>CapsLock</key>.</p>
+    </item>
+  </steps>
+</page>

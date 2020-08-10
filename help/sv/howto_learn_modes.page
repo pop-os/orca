@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_learn_modes" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_keyboard_layout"/>
+    <title type="sort">5. ”Inlärnings”-läge</title>
+    <desc>Upptäcka <app>Orca</app>s kommandon</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>”Inlärnings”-läge</title>
+  <p>I inlärningsläge kommer <app>Orca</app> läsa upp varje tangent du tryckt ner tillsammans med eventuella associerade <app>Orca</app>-kommandon som den tangenten är bunden till. I detta läge kan du också få en lista över genvägar som innehåller alla <app>Orca</app>-kommandon du kan använda.</p>
+  <steps>
+    <title>Använda inlärningsläge</title>
+    <item>
+      <p>Gå in i inlärningsläge genom att trycka <keyseq><key>Orca-modifierare</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Tryck valfri tangent eller tangentkombination. <app>Orca</app> kommer annonsera tangenterna och alla associerade kommandon.</p>
+    </item>
+    <item>
+      <p>Tryck <key>Esc</key> för att avsluta inlärningsläge.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Hämta en lista över genvägar</title>
+    <item>
+      <p>Gå in i inlärningsläge genom att trycka <keyseq><key>Orca-modifierare</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Tryck <key>F2</key> om du vill ha en lista över genvägar som verkar över hela <app>Orca</app>, eller tryck <key>F3</key> om du vill ha en lista över genvägar som gäller specifikt för programmet som har fokus.</p>
+    </item>
+    <item>
+      <p>Tryck <key>Upp</key> eller <key>Ned</key> för att undersöka innehållet i listan.</p>
+    </item>
+    <item>
+      <p>Tryck <key>Esc</key> för att gå ut ur listan.</p>
+    </item>
+  </steps>
+</page>

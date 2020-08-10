@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_braille" xml:lang="cs">
+  <info>
+    <title type="sort">3. Braille</title>
+    <title type="link">Braille</title>
+    <desc>Jak nastavit čtečku <app>Orca</app> pro podporu braillského řádku</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_echo"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Předvolby pro Braill</title>
+  <section id="braillesupport">
+    <title>Zapnout podporu braillských zařízení</title>
+    <p>Toto zaškrtávací počítko přepíná, jestli má nebo nemá <app>Orca</app> používat braillský řádek. Pokud BrlTTY neběží, dokáže se s tím <app>Orca</app> bez problémů vyrovnat a nekomunikovat s ním.</p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+    <note style="tip">
+      <p>V případě, že BrlTTY zapnete později, musíte čtečku <app>Orca</app> restartovat, aby mohla používat Braill.</p>
+    </note>
+  </section>
+  <section id="braillewordwrap">
+    <title>Povolit zalamování podle slov</title>
+    <p>Když je zašktnuté políčko <gui>Povolit zalamování slov</gui>, bude <app>Orca</app> přizpůsobovat text tak, aby se na braillském řádu zobrazovala vždy celá slova. Když zaškrtnuté není, bude <app>Orca</app> využívat k zobrazení všechny buňky, takže může zobrazit více textu, ale za cenu, že na konci může být slovo oříznuté.</p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+  </section>
+  <section id="contractedbraille">
+    <title>Zapnout zkratkopis u Braillu</title>
+    <p><app>Orca</app> podporuje braillský zkratkopis díky projektu liblouis. Protože většina distribucí liblous obsahuje, budete mít ve čtečce <app>Orca</app> k podpoře braillského zkratkopisu pravděpodobně automaticky přístup.</p>
+    <p>Pro zapnutí braillského zkratkopisu na systému s nainstalovanou knihovnou liblouis zaškrtněte políčko <gui>Zapnout zkratkopis u Braillu</gui>. Následně zvolte požadovanou překladovou tabulku v rozbalovacím seznamu <gui>Tabulka zkratkopisu</gui>.</p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+  </section>
+  <section id="rolenames">
+    <title>Stručné názvy prvků</title>
+    <p>Toto zaškrtávací políčko určuje způsob, jakým se zobrazují názvy prvků a může být použito jako pomoc pro zachování dostatku místa na displeji. Například, když je zaměřeno tlačítko, bude zobrazeno slovo „tlačítko“ v případě, že stručné názvy nejsou zaškrtnuté a „tlač“, když jsou zaškrtnuté.</p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+  </section>
+  <section id="eolindicator">
+    <title>Zakázat znak konce řádku</title>
+    <p>Zaškrtnutím tohoto políčka řeknete čtečce <app>Orca</app>, že nemá prezentovat řetězec „$1“ na konci řádku s textem.</p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+  </section>
+  <section id="verbosity">
+    <title>Výřečnost</title>
+    <p>Tento skupinový přepínač určuje množství informací, které bude zobrazené na braillském řádku v určitých situacích. Například, když je nastaveno na výřečný, budou zobrazovány klávesové zkratky a názvy prvků. Ve stručném režimu tyto informace zobrazovány nejsou.</p>
+    <p>Výchozí hodnota: <gui>Výřečný</gui></p>
+  </section>
+  <section id="selectionandhyperlink">
+    <title>Ukazatele výběru a hypertextových odkazů</title>
+    <p>Skupinové přepínače <gui>Ukazatel výběru</gui> a <gui>Ukazatel odkazu</gui> vám umožňují nastavit chování čtečky <app>Orca</app>, když se zobrazuje vybraný text nebo odkaz. Když ve výchozím stavu narazíte na jedno z toho, „podtrhne“ <app>Orca</app> text na brailském řádku body 7 a 8. Pokud vám to vyhovuje jinak, můžete to změnit jen na bod 7 nebo jen bod 8 nebo to vůbec neprezentovat.</p>
+    <p>Výchozí hodnota: <gui>Body 7 a 8</gui></p>
+    <note style="tip">
+      <title>Ukazatele vlastností textu</title>
+      <p>Volitelně se vám mohou na braillském řádku signalizovat i vlastnosti textu. Zapnutí této funkce a nastavení, které vlastnosti vás zajímají, se provádí na <link xref="preferences_text_attributes">stránce <gui>Vlastnosti textu</gui></link> v dialogovém okně s předvolbami.</p>
+    </note>
+  </section>
+  <section id="flashMessageSettings">
+    <title>Nastavení bleskových zpráv</title>
+    <p>Bleskové zprávy jsou něco podobného, jako upozornění nebo oznámení. Zobrazí se na braillském řádku jen na krátkou chvíli a pak se obnoví původní obsah braillského řádku. <app>Orca</app> má několik nastavení, které můžete použít k ovládání prezentace bleskových zpráv.</p>
+    <section id="flashMessageSettings_enable">
+      <title>Povolit bleskové zprávy</title>
+      <p>Když je zaškrtnuto <gui>Povolit bleskové zprávy</gui>, bude <app>Orca</app> prezentovat zprávy na braillském řádku. Jestli dáváte přednost tomu, aby byly zprávy jen čteny, neměli byste mít toto políčko zaškrtnuté.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="flashMessageSettings_detailed">
+      <title>Zprávy jsou podrobné</title>
+      <p>Když je zaškrtnuté <gui>Zprávy jsou podrobné</gui>, bude <app>Orca</app> prezentovat podrobné zprávy na braillském řádku. Například, když použijete příkaz <app>Orca</app> ke změně oznamování kláves, může vám oznámit „Oznamování kláves je nastavené na slova.“ Jestli dáváte přednost kratším zprávám, jako je prosté „slovo“, neměli byste mít toto políčko zaškrtnuté.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="flashMessageSettings_persistent">
+      <title>Zprávy jsou trvalé</title>
+      <p>Jak bylo uvedeno výše, bleskové zprávy se zobrazí jen na krátkou chvíli. Jestli je pro vás lepší, aby zůstaly zobrazené, dokud neprovedete činnost, která způsobí aktualizaci řádku, měli byste zaškrtnout políčko <gui>Zprávy jsou trvalé</gui>.</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+    </section>
+    <section id="flashMessageSettings_duration">
+      <title>Doba prezentování zprávy (v sekundách)</title>
+      <p>Dobu, po kterou bude <app>Orca</app> čekat, než zprávu odstraní a obnoví původní obsah řádku, můžete nastavit pomocí číselníku <gui>Doba prezentování zprávy (v sekundách)</gui>. Uvědomte si, že pokud máte zapnuté trvalé bleskové zprávy, bude hodnota tohoto nastavení ignorována.</p>
+      <p>Výchozí hodnota: 5</p>
+    </section>
+  </section>
+</page>

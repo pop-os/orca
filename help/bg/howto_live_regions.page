@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_live_regions" xml:lang="bg">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_whereami"/>
+    <title type="sort">6. Живи райони</title>
+    <desc>Взаимодействие с динамично уеб съдържание</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Живи райони</title>
+  <p>Живият район е динамично обновяваща се част от уеб страницата, например таблица със спортни статистики, списък с текущи цени на стоки, протокол от чат или предупреждение изведено от страницата, която четете. Докато живите райони се появяват доста често, напълно достъпни страници със живо съдържание се наблюдават по-рядко. Този проблем се разглежда активно от доста организации.</p>
+  <section id="politeness_levels">
+    <title>Нива на учтивост на живите райони</title>
+    <p>
+      Live regions have an associated "politeness" level which is set by the
+      author as a means to convey the importance of the information and to
+      suggest when users should be informed by their assistive technology of
+      updates made within that region. Live regions can be "off", "polite", or
+      "assertive" to the point of being "rude."
+    </p>
+  </section>
+  <section id="orca_support">
+    <title>Поддръжката на <app>Orca</app> за живи райони</title>
+    <p>Тъй като може да не сте съгласни с нивото на учтивост, зададено от автора на страницата която разглеждате, <app>Orca</app> предоставя набор от <link xref="commands_live_regions">команди за живите райони</link>, които ви позволяват да променяте нивото на кой да е (или всички) от районите на страницата. Допълнително имате възможност за:</p>
+    <list>
+      <item>
+        <p>Включване и изключване на поддръжката на живите райони</p>
+      </item>
+      <item>
+        <p>Прескачане до следващия и предишния район пространствено</p>
+      </item>
+      <item>
+        <p>Прескачане до последния жив район, изпратил уведомление</p>
+      </item>
+      <item>
+        <p>Преглед на последните девет съобщения от живите райони, които са били представени</p>
+    </item>
+    </list>
+  </section>
+</page>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_key_bindings" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_profiles"/>
+  <title type="sort">8. Klávesové zkratky</title>
+  <desc>Jak definovat, měnit a rušit klávesové zkratky pro příkazy</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Klávesové zkratky</title>
+  <p><app>Orca</app> má řadu příkazů, z nichž některé mají přiřazeny klávesové zkratky, zatím co jiné ne. Klávesové zkratky můžete příkazům přiřazovat, měnit je na jiné a rušit je pomocí následujících kroků.</p>
+  <steps>
+    <title>Přiřazení příkazu bez klávesové zkratky</title>
+    <item>
+      <p>Zobrazte si zmáčknutím <keyseq><key>Modifikátor Orca</key><key>mezerník</key></keyseq> dialogové okno <link xref="preferences">Předvolby Orca</link>.</p>
+    </item>
+    <item>
+      <p>Přejděte na stránku <gui>Klávesové zkratky</gui>.</p>
+    </item>
+    <item>
+      <p>Vyberte buňku, která obsahuje příkaz, kterému chcete přiřadit klávesovou zkratku.</p>
+    </item>
+    <item>
+      <p>Přesuňte se o buňku doprava. Tím se zaměří sloupec <gui>Klávesová zkratka</gui>. Zmáčkněte <key>Enter</key>.</p>
+    </item>
+    <item>
+      <p>Zmáčkněte požadovanou kombinaci kláves.</p></item>
+    <item>
+      <p>Zmáčknutím <key>Enter</key> potvrďte novou kombinaci. Nová klávesová zkratka se uloží a zaškrtávací políčko v posledním sloupci (sloupec <gui>Změněno</gui>) bude signalizovat, že klávesová zkratka byla změněna.</p>
+    </item>
+    <item>
+      <p>Zmáčkněte tlačítko <gui>Použít</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Změna stávajících klávesových zkratek</title>
+    <item>
+      <p>Zobrazte si zmáčknutím <keyseq><key>Modifikátor Orca</key><key>mezerník</key></keyseq> dialogové okno <link xref="preferences">Předvolby Orca</link>.</p>
+    </item>
+    <item>
+      <p>Přejděte na stránku <gui>Klávesové zkratky</gui>.</p>
+    </item>
+    <item>
+      <p>Zvolte buňku, která obsahuje klávesovou zkratku, kterou chcete změnit, a zmáčkněte <key>Enter</key>.</p>
+    </item>
+    <item>
+        <p>Zmáčkněte požadovanou kombinaci kláves.</p>
+    </item>
+    <item>
+      <p>Zmáčknutím <key>Enter</key> potvrďte novou kombinaci. Nová klávesová zkratka se uloží a zaškrtávací políčko v posledním sloupci (sloupec <gui>Změněno</gui>) bude signalizovat, že klávesová zkratka byla změněna.</p>
+    </item>
+    <item>
+      <p>Zmáčkněte tlačítko <gui>Použít</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Obnovení původních klávesových zkratek</title>
+    <item>
+      <p>Zobrazte si zmáčknutím <keyseq><key>Modifikátor Orca</key><key>mezerník</key></keyseq> dialogové okno <link xref="preferences">Předvolby Orca</link>.</p>
+    </item>
+    <item>
+      <p>Přejděte na stránku <gui>Klávesové zkratky</gui>.</p>
+    </item>
+    <item>
+      <p>Vyberte sloupec <gui>Změněno</gui> patřící klávesové zkratce.</p>
+    </item>
+    <item>
+      <p>Pomocí <key>mezerníku</key> zrušte zaškrtnutí políčka.</p>
+    </item>
+    <item>
+      <p>Zmáčkněte tlačítko <gui>Použít</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Zrušení přiřazení klávesové zkratky příkazu</title>
+    <item>
+      <p>Zobrazte si zmáčknutím <keyseq><key>Modifikátor Orca</key><key>mezerník</key></keyseq> dialogové okno <link xref="preferences">Předvolby Orca</link>.</p>
+    </item>
+    <item>
+      <p>Přejděte na stránku <gui>Klávesové zkratky</gui>.</p>
+    </item>
+    <item>
+      <p>Vyberte buňku, která obsahuje klávesovou zkratku, kterou chcete smazat a zmáčkněte <key>Enter</key>.</p>
+    </item>
+    <item>
+      <p>Když jste dotázáni na novou klávesovou zkratku, zmáčkněte <key>Delete</key> nebo <key>BackSpace</key>. Tím řeknete, že se má klávesová zkratka odstranit.</p>
+    </item>
+    <item>
+      <p>Zmáčknutím <key>Enter</key> potvrďte.</p>
+    </item>
+    <item>
+      <p>Zmáčkněte tlačítko <gui>Použít</gui>.</p>
+    </item>
+  </steps>
+</page>

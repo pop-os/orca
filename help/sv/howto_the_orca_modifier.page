@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_the_orca_modifier" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_learn_modes"/>
+    <title type="sort">3. Orca-modifieraren</title>
+    <desc>En tangent som fungerar som <key>Skift</key>, <key>Ctrl</key> och <key>Alt</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Orca-modifieraren</title>
+  <p>Orca har en speciell modifierartangent som fungerar på samma sätt som <key>Skift</key>, <key>Ctrl</key> och <key>Alt</key>. Den är designad speciellt för att utföra <app>Orca</app>-kommandon och att göra så utan att orsaka konflikter med kommandona hos programmen du använder.</p>
+  <p>Vilken tangent ”Orca-modifieraren” är bunden till kommer som standard bero på huruvida du använder <app>Orca</app>s layout för bärbar eller stationär dator:</p>
+  <list>
+    <item>
+      <p>Om du använder layouten för bärbar dator kommer Orca-modifieraren som standard vara <key>CapsLock</key></p>
+    </item>
+    <item>
+      <p>Om du använder layouten för stationär dator kommer Orca-modifieraren vara både <key>Insert</key> och <key>KeyPad Insert</key>, där den senare är samma tangent som <key>KeyPad 0</key>.</p>
+    </item>
+  </list>
+  <p>Om du vill behålla din nuvarande tangentbordslayout men välja en annan modifierartangent så kan du göra det genom att utföra följande steg:</p>
+  <steps>
+    <title>Ändra Orca-modifieraren</title>
+    <item>
+      <p>Gå till dialogen <link xref="preferences">Orca-inställningar</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Flytta till sidan <gui>Tangentbindningar</gui>.</p>
+    </item>
+    <item>
+      <p>Flytta till kombinationsrutan <gui>Modifierartangent(er) för skärmläsare</gui>.</p>
+    </item>
+    <item>
+      <p>Pila till den önskade modifieraren. De tillgängliga alternativen är:</p>
+      <list>
+        <item><p>Insert, KP_Insert</p></item>
+        <item><p>KP_Insert</p></item>
+        <item><p>Insert</p></item>
+        <item><p>Caps_Lock</p></item>
+      </list>
+    </item>
+    <item><p>Tryck på <gui>Verkställ</gui>-knappen.</p></item>
+  </steps>
+</page>

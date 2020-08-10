@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_structural_navigation" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_table"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_forms"/>
+    <title type="sort">2. Strukturell navigering</title>
+    <title type="link">Strukturell navigering</title>
+    <desc>Kommandon för att navigera efter element</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kommandon för strukturell navigering</title>
+  <p>De följande kommandona kan användas för att navigera mellan rubriker, länkar och andra element hittade i program för vilka <app>Orca</app> tillhandahåller stöd för strukturell navigering.</p>
+  <list>
+    <item>
+      <p>Tangenter för att aktivera/inaktivera strukturell navigering: <keyseq><key>Orca-modifierare</key><key>Z</key></keyseq></p>
+    </item>
+  </list>
+  <section id="headings">
+    <title>Rubriker</title>
+      <list>
+        <item>
+          <p>Nästa och föregående rubrik: <keyseq><key>H</key></keyseq> och <keyseq><key>Skift</key><key>H</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över rubriker: <keyseq><key>Alt</key><key>Skift</key><key>H</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående rubrik på nivå 1: <keyseq><key>1</key></keyseq> och <keyseq><key>Skift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Visa en lista över rubriker på nivå 1: <keyseq><key>Alt</key><key>Skift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående rubrik på nivå 2: <keyseq><key>2</key></keyseq> och <keyseq><key>Skift</key><key>2</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över rubriker på nivå 2: <keyseq><key>Alt</key><key>Skift</key><key>2</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående rubrik på nivå 3: <keyseq><key>3</key></keyseq> och <keyseq><key>Skift</key><key>3</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över rubriker på nivå 3: <keyseq><key>Alt</key><key>Skift</key><key>3</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående rubrik på nivå 4: <keyseq><key>4</key></keyseq> och <keyseq><key>Skift</key><key>4</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över rubriker på nivå 4: <keyseq><key>Alt</key><key>Skift</key><key>4</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående rubrik på nivå 5: <keyseq><key>5</key></keyseq> och <keyseq><key>Skift</key><key>5</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över rubriker på nivå 5: <keyseq><key>Alt</key><key>Skift</key><key>5</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående rubrik på nivå 6: <keyseq><key>6</key></keyseq> och <keyseq><key>Skift</key><key>6</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över rubriker på nivå 6: <keyseq><key>Alt</key><key>Skift</key><key>6</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="forms">
+      <title>Formulär</title>
+      <list>
+        <item>
+          <p>Nästa och föregående formulärfält: <keyseq><key>Orca-modifierare</key><key>Tabb</key></keyseq> och <keyseq><key>Orca-modifierare</key><key>Skift</key><key>Tabb</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över formulärfält: <keyseq><key>Alt</key><key>Skift</key><key>F</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående knapp: <keyseq><key>B</key></keyseq> och <keyseq><key>Skift</key><key>B</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över knappar: <keyseq><key>Alt</key><key>Skift</key><key>B</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående kombinationsruta: <keyseq><key>C</key></keyseq> och <keyseq><key>Skift</key><key>C</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över kombinationsrutor: <keyseq><key>Alt</key><key>Skift</key><key>C</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående post: <keyseq><key>E</key></keyseq> och <keyseq><key>Skift</key><key>E</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över poster: <keyseq><key>Alt</key><key>Skift</key><key>E</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående radioknapp: <keyseq><key>R</key></keyseq> och <keyseq><key>Skift</key><key>R</key></keyseq></p>
+        </item>
+        <item>
+          <p>Visa en lista över radioknappar: <keyseq><key>Alt</key><key>Skift</key><key>R</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Nästa och föregående kryssruta: <keyseq><key>X</key></keyseq> och <keyseq><key>Skift</key><key>X</key></keyseq></p>
+        </item>
+        <item>
+          <p>Visa en lista över kryssrutor: <keyseq><key>Alt</key><key>Skift</key><key>X</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="links">
+    <title>Länkar</title>
+      <list>
+        <item>
+          <p>Nästa och föregående länk: <keyseq><key>K</key></keyseq> och <keyseq><key>Skift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Visa en lista över länkar: <keyseq><key>Alt</key><key>Skift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående obesökta länk: <keyseq><key>U</key></keyseq> och <keyseq><key>Skift</key><key>U</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över obesökta länkar: <keyseq><key>Alt</key><key>Skift</key><key>U</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående besökta länk: <keyseq><key>V</key></keyseq> och <keyseq><key>Skift</key><key>V</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över besökta länkar: <keyseq><key>Alt</key><key>Skift</key><key>V</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="lists">
+      <title>Listor</title>
+      <list>
+        <item>
+          <p>Nästa och föregående lista: <keyseq><key>L</key></keyseq> och <keyseq><key>Skift</key><key>L</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över listor: <keyseq><key>Alt</key><key>Skift</key><key>L</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående listobjekt: <keyseq><key>I</key></keyseq> och <keyseq><key>Skift</key><key>I</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över listobjekt: <keyseq><key>Alt</key><key>Skift</key><key>I</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="tables">
+      <title>Tabeller</title>
+      <list>
+        <item>
+          <p>Nästa och föregående tabell: <keyseq><key>T</key></keyseq> och <keyseq><key>Skift</key><key>T</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över tabeller: <keyseq><key>Alt</key><key>Skift</key><key>T</key></keyseq></p>
+        </item>
+        <item>
+          <p>Cell till vänster: <keyseq><key>Alt</key><key>Skift</key><key>Vänster</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Cell till höger: <keyseq><key>Alt</key><key>Skift</key><key>Höger</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Cell ovan: <keyseq><key>Alt</key><key>Skift</key><key>Upp</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Cell nedan: <keyseq><key>Alt</key><key>Skift</key><key>Ned</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Första cell i tabell: <keyseq><key>Alt</key><key>Skift</key><key>Home</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Sista cell i tabell: <keyseq><key>Alt</key><key>Skift</key><key>End</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="text_blocks">
+      <title>Textstycken</title>
+      <list>
+        <item>
+          <p>Nästa och föregående stycke <keyseq><key>P</key></keyseq> och <keyseq><key>Skift</key><key>P</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över stycken: <keyseq><key>Alt</key><key>Skift</key><key>P</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående blockcitat: <keyseq><key>Q</key></keyseq> och <keyseq><key>Skift</key><key>Q</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över blockcitat: <keyseq><key>Alt</key><key>Skift</key><key>Q</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående ”stora objekt”: <keyseq><key>O</key></keyseq> och <keyseq><key>Skift</key><key>O</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över ”stora objekt”: <keyseq><key>Alt</key><key>Skift</key><key>O</key></keyseq></p>
+        </item>
+       </list>
+    </section>
+    <section id="other">
+      <title>Andra element</title>
+      <list>
+        <item>
+          <p>Nästa och föregående landmärke: <keyseq><key>M</key></keyseq> och <keyseq><key>Skift</key><key>M</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över landmärken: <keyseq><key>Alt</key><key>Skift</key><key>M</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående avgränsare: <keyseq><key>S</key></keyseq> och <keyseq><key>Skift</key><key>S</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Nästa och föregående ”klickbara”: <keyseq><key>A</key></keyseq> och <keyseq><key>Skift</key><key>A</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Visa en lista över ”klickbara”: <keyseq><key>Alt</key><key>Skift</key><key>A</key></keyseq></p>
+        </item>
+        <item>
+          <p>Nästa och föregående bild: <keyseq><key>G</key></keyseq> och <keyseq><key>Skift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Visa en lista över bilder: <keyseq><key>Alt</key><key>Skift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Början och slut på aktuell behållare: <keyseq><key>Skift</key><key>komma</key></keyseq> och <keyseq><key>komma</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+</page>

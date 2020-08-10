@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="pt-BR">
+  <info>
+    <title type="link">Eco de tecla</title>
+    <title type="sort">4. Eco de teclas</title>
+    <desc>Configurando o que é falado enquanto você digita</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_bindings"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Preferências de eco de teclas</title>
+  <section id="keyecho">
+    <title>Habilitar eco de teclas</title>
+    <p>As configurações de eco de teclas do Orca controlam o que acontece cada vez que você pressiona uma tecla. Para habilitar o eco de teclas, marque a caixa de seleção "Habilitar eco de tecla". Ao fazer isso, caixas de seleção adicionais ficarão disponíveis através das quais você poderá escolher exatamente quais teclas devem ou não haver o eco, para melhor adequar-se às suas necessidades.</p>
+    <p>Valor padrão: selecionada</p>  
+    <section id="keyecho_enable_alphanumeric">
+      <title>Enable alphabetic keys</title>
+      <p>
+        This option controls whether or not keys like <key>a</key>,
+        <key>b</key>, and <key>c</key> should be spoken when pressed.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="keyecho_enable_numeric">
+      <title>Enable numeric keys</title>
+      <p>
+        This option controls whether or not keys like <key>1</key>,
+        <key>2</key>, and <key>3</key> should be spoken when pressed.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="keyecho_enable_punctuation">
+      <title>Enable punctuation keys</title>
+      <p>
+        This option controls whether or not keys like <key>%</key>,
+        <key>;</key>, and <key>?</key> should be spoken when pressed.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="keyecho_enable_space">
+      <title>Enable space</title>
+      <p>
+        This option controls whether or not <key>space</key> should be
+        spoken when pressed.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="keyecho_enable_modifier">
+      <title>Habilitar teclas modificadoras</title>
+      <p>Esta opção controla se as teclas <key>Shift</key>, <key>Ctrl</key>, <key>Alt</key> e <key>Meta</key> devem ser faladas ou não quando pressionadas.</p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="keyecho_enable_function">
+      <title>Habilitar teclas de função</title>
+      <p>Esta opção controla se as teclas de <key>F1</key> a <key>F12</key> devem ser faladas ou não quando pressionadas.</p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="keyecho_enable_action">
+      <title>Habilitar teclas de ação</title>
+      <p>Esta opção controla se <key>BackSpace</key>, <key>Delete </key>, <key>Enter</key>, <key>Esc</key>, <key>Tab</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</key>, e <key>End</key> devem ser faladas ou não quando pressionadas.</p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="keyecho_enable_navigation">
+      <title>Habilitar teclas de navegação</title>
+      <p>Esta opção controla se <key>Esquerda</key>, <key>Direita</key>, <key>Acima</key>, e <key>Baixo</key> devem ser faladas ou não quando pressionadas. Esta opção também se aplica à qualquer combinação de teclas na qual a <key>Tecla Modificadora do Orca</key> está sendo pressionada, por exemplo, quando a revisão plana está sendo utilizada.</p>
+      <p>Valor padrão: desmarcado</p>
+    </section>
+    <section id="keyecho_enable_diacritical">
+      <title>Habilitar teclas mortas</title>
+      <p>Esta opção controla se "teclas mortas" usadas para gerar letras acentuadas devem ser faladas ou não quando pressionadas.</p>
+      <p>Valor padrão: desmarcado</p>
+    </section>
+  </section>
+  <section id="characterecho">
+    <title>Habilitar eco por caractere</title>
+    <p>Marcar essa opção faz com que o Orca ecoe o caractere digitado.</p>
+    <p>
+      While echo by character seems quite similar to the key echo of
+      alphabetic, numeric, and punctuation keys, there are important differences,
+      especially with respect to accented letters and other symbols for which
+      there is no dedicated key:
+    </p>
+    <list>
+      <item>
+        <p>Eco de teclas faz com que o <app>Orca</app> anuncie o que você <em>pressinou</em>.</p>
+      </item>
+      <item>
+        <p>Eco de caractere faz com que o <app>Orca</app> anuncie o que foi <em>inserido</em>.</p>
+      </item>
+    </list>
+    <p>Assim, para ter caracteres de acentuação falados enquanto você digita, você deve habilitar o eco de teclas por caractere.</p>
+    <p>Valor padrão: desmarcado</p>
+    <note style="tip">
+      <title>Habilitando ambos eco de teclas e eco de caractere</title>
+      <p>Se você gosta do eco de teclas e você digita caracteres acentuados frequentemente, considere habilitar ambos. A lógica do eco de caractere do <app>Orca</app> tenta filtrar caracteres falados como resultado do eco de teclas, minimizando assim a probabilidade de "falar em duplicidade" enquanto você digita.</p>
+    </note>
+  </section>
+  <section id="wordandsentenceecho">
+    <title>Habilitar eco por palavra e Habilitar eco por sentença</title>
+    <p>Marcar a caixa de seleção <gui>Habilitar eco por palavra</gui> faz com que o <app>Orca</app> ecoe apalavra digitada. Da mesma forma, marcar a caixa de seleção <gui>Habilitar eco por sentença</gui> faz com que o <app>Orca</app> ecoe the a sentença digitada.</p>
+    <p>Valor padrão: desmarcado</p>
+  </section>
+</page>

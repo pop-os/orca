@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_flat_review" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_find"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_flat_review"/>
+    <title type="sort">1. Platt granskning</title>
+    <title type="link">Platt granskning</title>
+    <desc>Kommandon för att granska fönster spatialt</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kommandon för platt granskning</title>
+  <p>Orcas kommandon för <link xref="howto_flat_review">platt granskning</link> är designade för att granska element som visas på skärmen spatialt. De tillhandahåller också ett sätt att läsa aktuella rader, ord och tecken då du navigerar i ett dokuments text. De flesta av dessa kommandon är ”bundna” till tangenttryckningar. Se <link xref="howto_key_bindings">Ändra tangentbindningar</link> för information om hur du kan binda obundna kommandon.</p>
+  <section id="line">
+    <title>Kommandon för att granska per rad</title>
+    <list>
+      <item>
+        <p>Första raden (”hem”-positionen):</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>Orca-modifierare</key><key>KP 7</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Ctrl</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Föregående rad:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 7</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Aktuell rad:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 8</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>I</key></keyseq></p></item>
+        </list>
+      </item>
+        <item><p>Bokstavera aktuell rad:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 8</key></keyseq> (dubbelklickat)</p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>I</key></keyseq> (dubbelklickat)</p></item>
+        </list>
+      </item>
+      <item><p>Bokstavera aktuell rad fonetiskt:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 8</key></keyseq> (trippelklickat)</p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>I</key></keyseq> (trippelklickat)</p></item>
+        </list>
+      </item>
+      <item><p>Nästa rad:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 9</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Sista raden (”slut”-positionen):</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>Orca-modifierare</key><key>KP 9</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Ctrl</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="word">
+    <title>Kommandon för att granska per ord</title>
+    <list>
+      <item><p>Ord ovanför:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>Orca-modifierare</key><key>KP 4</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Ctrl</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Föregående ord:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 4</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Aktuellt ord:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 5</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Bokstavera aktuellt ord:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 5</key></keyseq> (dubbelklickat)</p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>K</key></keyseq> (dubbelklickat)</p></item>
+        </list>
+      </item>
+      <item><p>Bokstavera aktuellt ord fonetiskt:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 5</key></keyseq> (trippelklickat)</p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>K</key></keyseq> (trippelklickat)</p></item>
+        </list>
+      </item>
+      <item><p>Nästa ord:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 6</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Ord nedanför:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>Orca-modifierare</key><key>KP 6</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Ctrl</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="character">
+    <title>Kommandon för att granska per tecken</title>
+    <list>
+      <item><p>Föregående tecken:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 1</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Aktuellt tecken:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 2</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Komma</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Läs upp aktuellt tecken fonetiskt:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 2</key></keyseq> (dubbelklickat)</p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Komma</key></keyseq> (dubbelklickat)</p></item>
+        </list>
+      </item>
+      <item><p>Läs upp Unicode-värdet för aktuellt tecken:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 2</key></keyseq> (trippelklickat)</p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Komma</key></keyseq> (trippelklickat)</p></item>
+        </list>
+      </item>
+      <item><p>Nästa tecken:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>KP 3</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Punkt</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Sista tecken på aktuell rad:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>Orca-modifierare</key><key>KP 1</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Ctrl</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="other">
+    <title>Ytterligare kommandon</title>
+    <list>
+      <item><p>Växla platt granskning (uppdaterar den platta granskningens kontext):</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>Orca-modifierare</key><key>KP Minus</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>P</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Granska aktuellt objekt/komponent:</p>
+        <list>
+          <item><p>Stationär dator: <keyseq><key>Orca-modifierare</key><key>KP 5</key></keyseq></p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Ctrl</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Använd Läs upp allt för att granska aktuell dialog eller aktuellt fönster:</p>
+        <list>
+          <item><p>Stationär dator: <key>KP Plus</key> (dubbelklickat)</p></item>
+          <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Semikolon</key></keyseq> (dubbelklickat)</p></item>
+        </list>
+      </item>
+      <item>
+      <p>Kopiera innehållet under platt granskning till urklipp: (Inte bunden)</p>
+      </item>
+        <item>
+        <p>Lägg till innehållet under platt granskning till urklipp: (Inte bunden)</p>
+      </item>
+    </list>
+  </section>
+</page>

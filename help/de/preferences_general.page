@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_general" xml:lang="de">
+  <info>
+    <title type="sort">1. Allgemein</title>
+    <title type="link">Allgemein</title>
+    <desc>Einstellungen des grundlegenden Verhaltens von <app>Orca</app></desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_voice"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Allgemeine Einstellungen</title>
+  <section id="keyboardlayout">
+    <info>
+      <desc>Optionen des Einstellungsdialoges zur Auswahl, welches Tastaturlayout, Desktop oder Laptop, <app>Orca</app> verwenden soll.</desc>
+    </info>
+    <title>Tastaturbelegung</title>
+    <p>Die Auswahlknopf-Gruppe <gui>Tastaturlayout</gui> erlaubt Ihnen zu anzugeben, ob Sie an einer Desktop- (sprich, mit Nummernblock) oder Laptoptastatur arbeiten. Die Wahl des Layouts bestimmt die <key>Orca-Zusatztaste</key> sowie eine Anzahl an Tastenkürzeln zum Ausführen von <app>Orca</app>-Befehlen.</p>
+    <p>Vorgabewert: <gui>Desktop</gui></p>
+  </section>
+  <section id="presenttooltips">
+    <info>
+      <desc>Optionen des Einstellungsdialoges, um das Vorlesen von Minihilfen zu aktivieren, die durch Mausbewegungen ausgelöst werden.</desc>
+    </info>
+    <title>Minihilfe anzeigen</title>
+    <p>Wenn angekreuzt, wird <app>Orca</app> Informationen über Minihilfen ausgeben, wenn diese durch Mausbewegungen ausgelöst werden. Unabhängig von dieser Einstellung werden Minihilfen immer angezeigt, wenn deren Anzeige durch spezielle Aktionen wie <keyseq><key>Strg</key><key>F1</key></keyseq> bei fokussiertem Objekt erzwungen werden.</p>
+    <p>Vorgabewert: nicht aktiviert</p>
+  </section>
+  <section id="objectundermouse">
+    <info>
+      <desc>Optionen des Einstellungsdialoges, um das Vorlesen des Objekts unter dem Mauszeiger zu aktivieren.</desc>
+    </info>
+    <title>Objekt unter Maus vorlesen</title>
+    <p>Wenn angekreuzt, wird <app>Orca</app> Informationen über das Objekt unterhalb des Mauszeigers vorlesen, während Sie sich mittels <app>Orca</app>s <link xref="howto_mouse_review">Maus-Sprachauswertung</link> über den Bildschirm bewegen.</p>
+    <p>Vorgabewert: nicht aktiviert</p>
+  </section>
+  <section id="timeanddate">
+    <info>
+      <desc>Optionen des Einstellungsdialoges zur Konfiguration der Uhrzeit- und Datumsformate in <app>Orca</app>.</desc>
+    </info>
+    <title>Uhrzeit- und Datumsformat</title>
+    <p>Die Auswahlfelder <gui>Uhrzeitformat</gui> und <gui>Datumsformat</gui> erlauben Ihnen zu anzugeben, wie <app>Orca</app> Uhrzeit und Datum vorlesen und in Braille ausgeben wird.</p>
+    <p>Vorgabewert: Formate der System-Standorteinstellungen für beide verwenden</p>
+  </section>
+  <section id="navigation_in_say_all">
+    <info>
+      <desc>Optionen des Einstellungsdialoges zum Aktivieren von schnellem Zurück- und Vorspulen sowie Strukturennavigation in »Alles vorlesen«.</desc>
+    </info>
+    <title>Navigation in »Alles vorlesen«</title>
+    <p><app>Orca</app>s Funktion »Alles vorlesen« liest den Inhalt des Dokuments von Ihrer derzeitigen Position bis zum Dokumentende vor. Standardmäßig unterbricht jeder Tastendruck die Ausgabe von »Alles vorlesen«. Haben Sie allerdings das Ankreuzfeld <gui>Schnelles Zurück- und Vorspulen in »Alles vorlesen« aktivieren</gui> angekreuzt, können die Tasten <key>Hoch</key> und <key>Runter</key> verwendet werden, um sich während »Alles vorlesen« etwas erneut anhören oder uninteressanten Text überspringen zu können, ohne »Alles vorlesen« neustarten zu müssen.</p>
+    <p>Falls Sie ein Dokument in einer Anwendung lesen, die Strukturennavigation unterstützt, und Sie das Ankreuzfeld <gui>Strukturierte Navigation bei »Alles vorlesen« verwenden</gui> angekreuzt haben, können Sie die unterstützten Befehle zur Strukturennavigation auf ähnliche Weise verwenden: <key>H</key>/<keyseq><key>Umschalt</key> <key>H</key></keyseq> setzt das Vorlesen bei der nächsten/vorherigen Überschrift fort, <key>P</key>/<keyseq><key>Umschalt</key><key>P</key></keyseq> setzt das Vorlesen beim nächsten/vorherigen Abschnitt fort, <key>T</key>/<keyseq><key>Umschalt</key> <key>T</key></keyseq> setzt das Vorlesen bei der nächsten/vorherigen Tabelle fort, und so weiter.</p>
+    <p>Vorgabewert: nicht aktiviert</p>
+  </section>
+  <section id="say_all_announce_context">
+    <title>Kontextbedingte Informationen in »Alles vorlesen« vorlesen</title>
+    <p><app>Orca</app> kann bei Bedarf mehr Informationen über den vorgelesenen Dokumenteninhalt bereitstellen, zum Beispiel ankündigen, wenn Sie ein Zitat, eine Liste, eine Tabelle oder andere Container betreten und verlassen. Ob diese Meldungen angekündigt werden oder nicht, kann unabhängig voneinander über die folgenden Ankreuzfelder eingestellt werden:</p>
+    <list>
+      <item><p>Zitate in »Alles vorlesen« ankündigen</p></item>
+      <item><p>Formulare in »Alles vorlesen« ankündigen</p></item>
+      <item><p>Orientierungspunkte in »Alles vorlesen« ankündigen</p></item>
+      <item><p>Listen in »Alles vorlesen« ankündigen</p></item>
+      <item><p>Panels in »Alles vorlesen« ankündigen</p></item>
+      <item><p>Tabellen in »Alles vorlesen« ankündigen</p></item>
+    </list>
+    <p>Vorgabewert: aktiviert</p>
+    <note style="note">
+      <p>Ob <app>Orca</app> diese Ankündigungen während der Navigation durchführt oder nicht, ist ebenfalls konfigurierbar. Sie finden ähnliche Ankreuzfelder auf der Seite <gui>Sprache</gui>. Weitere Informationen auf <link xref="preferences_speech#spoken_context">Gesprochener Kontext</link>.</p>
+    </note>
+  </section>
+  <section id="say_all_by">
+   <info>
+      <desc>Optionen des Einstellungsdialoges zum Anpassen der Vorleseweise von <app>Orca</app>s »Alles vorlesen«.</desc>
+   </info>
+   <title>Pause beim Vorlesen</title>
+   <p>Das Auswahlfeld <gui>Pause beim Vorlesen</gui> erlaubt Ihnen zu anzugeben, ob <app>Orca</app> ein Dokument satz- oder zeilenweise bei »Alles vorlesen« vorliest.</p>
+    <p>Vorgabewert: <gui>Satz</gui></p>
+  </section>
+  <section id="profiles">
+    <info>
+      <desc>Optionen des Einstellungsdialoges zum Verwalten von Profileinstellungen.</desc>
+    </info>
+    <title>Profile</title>
+    <p>Die Befehle unter <gui>Profile</gui>, die sich am Ende der Seite <gui>Allgemein</gui> befinden, erlauben Ihnen die Verwaltung und Nutzung von mehreren Konfigurationen.</p>
+   <list>
+      <item>
+        <p>Das Auswahlfeld <gui>Aktives Profil</gui> zeigt das derzeitige Profil an und ermöglicht das Laden eines anderen Profils.</p>
+      </item>
+      <item>
+        <p>Der <gui>Laden</gui>-Knopf führt dazu, dass <app>Orca</app> das Profil lädt, das im Feld <gui>Aktives Profil</gui> ausgewählt wurde.</p>
+      </item>
+      <item>
+        <p>Der Knopf <gui>Speichern unter</gui> erlaubt Ihnen, die aktuellen Einstellungen des Einstellungsdialogs in einem benannten Profil zu speichern.</p>
+      </item>
+      <item>
+        <p>Das Auswahlfeld <gui>Profil beim Start</gui> erlaubt Ihnen, das Profil auszuwählen, das automatisch beim Start von <app>Orca</app> geladen wird.</p>
+      </item>
+    </list>
+  </section>
+  <section id="progress_bar_updates">
+    <title>Aktualisierungen von Fortschrittsanzeigen</title>
+    <section id="progress_bar_updates_speak">
+      <title>Aktualisierungen vorlesen</title>
+      <p>Ist das Feld <gui>Sprach-Aktualisierungen</gui> angekreuzt, wird <app>Orca</app> regelmäßig den Status von Fortschrittsanzeigen vorlesen.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="progress_bar_updates_braille">
+      <title>Braille-Aktualisierungen</title>
+      <p>Ist das Feld <gui>Braille-Aktualisierungen</gui> angekreuzt, wird <app>Orca</app> regelmäßig den Status von Fortschrittsanzeigen in der Braillezeile anzeigen.</p>
+      <p>Vorgabewert: nicht aktiviert</p>
+    </section>
+    <section id="progress_bar_updates_beep">
+      <title>Klingel-Aktualisierungen</title>
+      <p>Ist das Feld <gui>Klingel-Aktualisierungen</gui> angekreuzt, wird <app>Orca</app> regelmäßig den Status von Fortschrittsanzeigen durch einen Klingelton angeben, dessen Tonhöhe mit fortschreitendem Ladestatus ansteigt.</p>
+      <p>Vorgabewert: nicht aktiviert</p>
+    </section>
+    <section id="progress_bar_updates_frequency">
+      <title>Frequenz (Sekunden)</title>
+      <p>Dieser Einstellknopf bestimmt, wie oft Aktualisierungen angegeben werden.</p>
+      <p>Vorgabewert: 10</p>
+    </section>
+    <section id="progress_bar_updates_restrict">
+      <title>Beschränken auf</title>
+      <p>Dieses Auswahlfeld ermöglicht Ihnen einzustellen, welche Fortschrittsanzeigen vorgelesen werden sollen, unter der Annahme, dass die Angabe von Aktualisierungen von Fortschrittsanzeigen aktiviert ist. Mögliche Werte sind <gui>Alle</gui>, <gui>Anwendung</gui> und <gui>Fenster</gui>.</p>
+      <p>Ist <gui>Alle</gui> gewählt, wird <app>Orca</app> Aktualisierungen für alle Fortschrittsanzeigen angeben, unabhängig davon, wo sich die Fortschrittsanzeige befindet.</p>
+      <p>Ist <gui>Anwendung</gui> gewählt, wird <app>Orca</app> Aktualisierungen für Fortschrittsanzeigen in der aktiven Anwendung angeben, auch wenn sie nicht im aktiven Fenster sind.</p>
+      <p>Ist <gui>Fenster</gui> gewählt, wird <app>Orca</app> nur Aktualisierungen für Fortschrittsanzeigen im aktiven Fenster angeben.</p>
+      <p>Vorgabewert: <gui>Anwendung</gui></p>
+    </section>
+  </section>
+</page>

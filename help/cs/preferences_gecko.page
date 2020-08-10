@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="cs">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_table_navigation"/>
+    <title type="sort">1. Pohyb v prohlížečích Gecko</title>
+    <title type="link">Pohlyb v prohlížečích Gecko</title>
+    <desc>Jak nastavit ve čtečce <app>Orca</app> podporu pro <app>Firefox</app> a <app>Thunderbird</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Předvolby pro pohyb v prohlížečích Gecko</title>
+  <section id="page_navigation">
+    <title>Pohyb po stránce</title>
+    <p>Skupina ovládacích prvků <gui>Pohyb po stránce</gui> vám umožňuje přizpůsobit si, jak má <app>Orca</app> prezentovat text a ostatní obsah na webové stránce a umožňuje vám s ním pracovat.</p>
+    <section id="page_navigation_control_caret">
+      <title>Ovládat pohyb kurzoru</title>
+      <p>Toto zaškrtávací políčko zapíná a vypíná ovládání pohybu kurzoru čtečkou <app>Orca</app>. Když je zapnuto, převezme <app>Orca</app> řízení nad kurzorem při pohybu po stránce, když je vypnuto, je aktivní vestavěná práce s kurzorem v jádře Gecko.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+      <note style="tip">
+        <title>Toto nastavení je možné přepínat za běhu</title>
+        <p>Pro přepnutí tohoto nastavení za běhu bez ukládání použijte <keyseq><key>Modifikátor Orca</key> <key>F12</key></keyseq>.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_caret">
+      <title>Režim automatického zaměřování během pohybu kurzoru</title>
+      <p>Když je toto políčko zaškrtnuté, bude <app>Orca</app> automaticky zapínat režim zaměřování, když použijte příkazy pro ovládání kurzoru k najetí do formulářového pole. Například, zmáčknutí klávesy <key>↓</key> by vám umožnilo přesun do vstupního pole, ale jakmile byste to udělali, <app>Orca</app> by se přepnula do režimu zaměřování a další zmáčknutí <key>↓</key> by již zpracovával prohlížeč a ne čtečka <app>Orca</app>. Když políčko zaškrtnuté není, <app>Orca</app> by pokračovala v řízení toho, co se stane při následujícím zmáčknutí klávesy <key>↓</key>, takže byste mohli ze vstupního pole vyjet ven a pokračovat ve čtení.</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+      <note style="tip">
+        <title>Ruční přepínání mezi režimy procházení a zaměřování</title>
+        <p>Když chcete nebo naopak nechcete zaměřovat pole formuláře kvůli vyplňování, použijte <keyseq><key>Modifikátor Orca</key><key>A</key></keyseq> k přepnutí mezi režimem procházení a zaměřování.</p>
+       </note>
+    </section>
+    <section id="page_navigation_structural">
+      <title>Povolit strukturovanou navigaci</title>
+      <p>Toto zaškrtávací políčko zapíná a vypíná <link xref="howto_structural_navigation">strukturovanou navigaci</link> čtečky <app>Orca</app>. Strukturovaná navigace umožňuje pohyby po prvcích, jako jsou záhlaví, odkazy a pole formuláře.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+      <note style="tip">
+        <title>Toto nastavení je možné přepínat za běhu</title>
+        <p>Pro přepnutí tohoto nastavení za běhu bez ukládání použijte <keyseq><key>Modifikátor Orca</key> <key>Z</key></keyseq>.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_structural">
+      <title>Režim automatického zaměřování během strukturované navigace</title>
+      <p>Když je toto políčko zaškrtnuté, bude <app>Orca</app> automaticky zapínat režim zaměřování, když použijte příkazy strukturované navigace k najetí do formulářového pole. Například, zmáčknutí klávesy <key>E</key> pro přesun do následujícího vstupního pole by toto pole zaměřilo a zároveň zapnulo režim zaměřování, takže následující zmáčknutí <key>E</key> by napsalo „e“ do tohoto pole. Když políčko zaškrtnuté není, <app>Orca</app> ponechá režim procházení a následující zmáčknutí <key>E</key> by vás přesunulo do dalšího vstupního pole na stránce.</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+      <note style="tip">
+        <title>Ruční přepínání mezi režimy procházení a zaměřování</title>
+        <p>Když chcete nebo naopak nechcete zaměřovat pole formuláře kvůli vyplňování, použijte <keyseq><key>Modifikátor Orca</key><key>A</key></keyseq> k přepnutí mezi režimem procházení a zaměřování.</p>
+       </note>
+    </section>
+    <section id="page_navigation_speak">
+      <title>Automaticky číst stránku po jejím prvním načtení</title>
+      <p>Když je toto políčko zaškrtnuté, <app>Orca</app> plynule přečte celou nově otevřenou webovou stránku nebo e-mail.</p>
+      <p>Výchozí hodnota: zaškrtnuto pro Firefox, nezaškrtnuto pro Thunderbird</p>
+    </section>
+    <section id="page_navigation_summary">
+      <title>Prezentovat souhrnné informace o stránce po jejím prvním načtení</title>
+      <p>Když je toto políčko zaškrtnuté, <app>Orca</app> sestaví souhrn informací o nově otevřené stránce www nebo e-mailu. K těmto informacím patří například počet nadpisů, záchytných bodů a odkazů.</p>
+      <p>Výchozí hodnota: zaškrtnuto pro Firefox, nezaškrtnuto pro Thunderbird</p>
+    </section>
+    <section id="page_navigation_layout_mode">
+      <title>Zapnout režim rozvržení pro obsah</title>
+      <p>Když je toto políčko zaškrtnuté, budo <app>Orca</app> při ovládání kurzoru vždy respektovat rozvržení obsahu na obrazovce a prezentovat celé řádky, včetně případných odkazů nebo formulářových polí na daném řádku. Když políčko není zaškrtnuté, bude <app>Orca</app> zacházet s objekty, jako jsou odkazy nebo formulářová pole, jak by to byly samostatné řádky, o to jak při prezentování, tak při navigaci.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+  </section>
+  <section id="table_options">
+    <title>Volby pro tabulky</title>
+    <note>
+      <p>Více o volbách čtečky <app>Orca</app>, které se týkají se pohybu po tabulkách, najdete v kapitole <link xref="preferences_table_navigation">Předvolby pro pohyb v tabulkách</link>.</p>
+    </note>
+  </section>
+  <section id="find_options">
+    <title>Volby hledání</title>
+    <p>Skupina ovládacích prvků <gui>Volby hledání</gui> vám umožňuje přizpůsobit si, jak má <app>Orca</app> prezentovat výsledky hledání prováděného pomocí vyhledávacích funkcí vestavěných v aplikaci.</p>
+    <section id="find_options_speak_during_find">
+      <title>Číst výsledky v průběhu hledání</title>
+      <p>Když je toto políčko zaškrtnuté, bude <app>Orca</app> číst řádky, které vyhovují vašemu aktuálnímu vyhledávacímu dotazu.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="find_options_speak_changed_lines_during_find">
+      <title>V průběhu hledání číst jen změněné řádky</title>
+      <p>Když je toto políčko zaškrtnuté, nebude <app>Orca</app> prezentovat shodné řádky, když se jedná o stejný řádek, jako předchozí. Tato volba slouží k zabránění nadměrené „upovídanosti“ na řádcích s více výskyty řetězce, který hledáte.</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+    </section>
+    <section id="find_options_minimum_match_length">
+      <title>Minimální délka nalezeného textu</title>
+      <p>V tomto číselníku můžete určit počet znaků, které se musí shodovat, než začne <app>Orca</app> oznamovat shodné řádky. Rovněž tato volba je určena k omezení „upovídanosti“, protože na začátku psaní řetězce, který hledáte, bývá výskytů opravdu hodně.</p>
+      <p>Výchozí hodnota: 4</p>
+    </section>
+  </section>
+</page>

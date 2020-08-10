@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_forms" xml:lang="el">
+  <info>
+    <link type="guide" xref="index#reading"/>
+     <link type="next" xref="howto_live_regions"/>
+    <title type="sort">5. Συμπλήρωση φορμών</title>
+    <desc>Πρόσβαση γραφικών συστατικών ενσωματωμένων σε έγγραφα</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Συμπλήρωση φορμών</title>
+  <p>Όταν αλληλεπιδράτε με ιστοσελίδες και άλλα έγγραφα χρησιμοποιώντας το <app>Orca</app>, αλληλεπιδράτε με το ίδιο το έγγραφο· όχι σε ένα αντίγραφο ενδιάμεσης μνήμης αυτού του εγγράφου. Οι λειτουργίες περιήγησης και εστίασης του <app>Orca</app> σας επιτρέπουν να εναλλάσσεστε μεταξύ ανάγνωσης και συμπλήρωσης εντύπων.</p>
+  <section id="navigating_amongst_form_fields">
+    <title>Περιήγηση μεταξύ των πεδίων φόρμας</title>
+    <p>Για περιήγηση μεταξύ πεδίων φόρμας, έχετε πολλές επιλογές:</p>
+    <list>
+      <item>
+        <p>Χρησιμοποιήστε τον <key>στηλοθέτη</key> και <keyseq><key>Shift</key><key>στηλοθέτη</key></keyseq>, για περιήγηση μεταξύ εστιάσιμων αντικειμένων, ανεξάρτητα από τον τύπο.</p>
+      </item>
+      <item>
+        <p>Χρησιμοποιήστε στο <app>Orca</app> το <link xref="commands_structural_navigation#forms">δομικές εντολές περιήγησης για φόρμες</link>.</p>
+      </item>
+      <item>
+        <p>Ανάλογα με τη μορφή και την εφαρμογή, μπορείτε επίσης να χρησιμοποιήσετε τα πλήκτρα βελών για να περιηγηθείτε σε ένα πεδίο δεδομένης μορφής.</p>
+      </item>
+   </list>
+   <note style="tip">
+     <p>Για να χρησιμοποιήσετε τον δρομέα περιήγησης του <app>Orca</app> ή τις δομικές εντολές περιήγησης για περιηγηθείτε σε ένα πεδίο φόρμας, πρέπει να είσαστε σε κατάσταση περιήγησης. Αν είσαστε σε κατάσταση εστίασης, μπορείτε να μεταβείτε στην κατάσταση περιήγησης πατώντας τον <keyseq><key>τροποποιητή Orca</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+  <section id="exiting_form_fields">
+    <title>Έξοδος από πεδία φόρμας</title>
+    <p>Για να αφήσετε ένα πεδίο φόρμας, έχετε πολλές επιλογές:</p>
+    <list>
+      <item>
+        <p>Χρησιμοποιήστε το <key>Tab</key>/<keyseq><key>Shift</key><key>Tab</key></keyseq> εάν επιθυμείτε να αφήσετε το τρέχον εστιασμένο πεδίο φόρμας και να μετακινηθείτε στο επόμενο/προηγούμενο εστιάσιμο αντικείμενο, ανεξάρτητα από τον τύπο.</p>
+      </item>
+      <item>
+        <p>Χρησιμοποιήστε στο <app>Orca</app> τις <link xref="commands_structural_navigation#forms">δομικές εντολές περιήγησης για φόρμες</link> για να μετακινηθείτε στο επόμενο ή το προηγούμενο πεδίο φόρμας.</p>
+      </item>
+      <item>
+        <p>Ανάλογα με τη μορφή και την εφαρμογή, μπορείτε επίσης να χρησιμοποιήσετε τα πλήκτρα βελών για να περιηγηθείτε έξω από ένα πεδίο δεδομένης μορφής.</p>
+      </item>
+    </list>
+   <note style="tip">
+     <p>Για να χρησιμοποιήσετε τον δρομέα περιήγησης του <app>Orca</app> ή τις δομικές εντολές περιήγησης για να αφήσετε ένα πεδίο φόρμας, πρέπει να είσαστε σε κατάσταση περιήγησης. Αν είσαστε σε κατάσταση εστίασης, μπορείτε να μεταβείτε στην κατάσταση περιήγησης πατώντας τον <keyseq><key>τροποποιητή Orca</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+</page>

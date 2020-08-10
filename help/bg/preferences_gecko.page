@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="bg">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_table_navigation"/>
+    <title type="sort">1. Придвижване в Gecko</title>
+    <title type="link">Придвижване в Gecko</title>
+    <desc>Настройка на поддръжката на <app>Orca</app> за <app>Firefox</app> и <app>Thunderbird</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Настройки на придвижването в Gecko</title>
+  <section id="page_navigation">
+    <title>Придвижване в страниците</title>
+    <p>Групата графични обекти <gui>Придвижване в страниците</gui> позволява настройката на начина по който <app>Orca</app> ви представя и ви позволява да си взаимодействате с текста и другото съдържание.</p>
+    <section id="page_navigation_control_caret">
+      <title>Придвижване с курсора на Orca</title>
+      <p>Това поле за отметка превключва придвижването с курсора на <app>Orca</app>. Когато има отметка, <app>Orca</app> ще управлява курсора докато се придвижвате в страниците. Ако е изключена, ще се използва вграденото придвижване с курсора на Gecko.</p>
+      <p>Стойност по подразбиране: с отметка</p>
+      <note style="tip">
+        <title>Тази настройка може да бъде превключвана в движение</title>
+        <p>За да превключите тази настройка в движение, без да я съхранявате, използвайте <keyseq><key>Модификатор на Orca</key><key>F12</key></keyseq>.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_caret">
+      <title>Режим на автоматичен фокус при придвижване с курсор</title>
+      <p>Ако това поле има отметка, <app>Orca</app> ще включва режима на на автоматичен фокус при придвижване с курсор до поле във формуляр. Например, като натиснете клавиша <key>Down</key>, ще се придвижите до поле във формуляр, но в момента на влизане в него <app>Orca</app> ще премине в режим на взаимодействие и последващите натискания на клавиша <key>Down</key> ще се управляват от браузъра, а не от <app>Orca</app>. Ако това поле няма отметка, <app>Orca</app> ще продължава да определя какво се случва при натискането на <key>Down</key>, така натискането на стрелка ще ви придвижи извън полето и четенето на съдържанието ще продължи.</p>
+      <p>Стойност по подразбиране: без отметка</p>
+      <note style="tip">
+        <title>Ръчно превключване между режимите на четене и взаимодействие</title>
+        <p>За да започнете или да спрете работата по поле във формуляр, натиснете <keyseq><key>Orca Modifier</key><key>A</key></keyseq>, за да превключите между режимите на четене и взаимодействие.</p>
+       </note>
+    </section>
+    <section id="page_navigation_structural">
+      <title>Включване на клавишите за придвижване по структурата</title>
+      <p>Това поле за отметка превключва <link xref="howto_structural_navigation">Придвижване по структура</link> на <app>Orca</app>. То ви позволява да се придвижвате по елементи, например заглавия, връзки и полета от формуляр.</p>
+      <p>Стойност по подразбиране: с отметка</p>
+      <note style="tip">
+        <title>Тази настройка може да бъде превключвана в движение</title>
+        <p>За да превключите тази настройка в движение, без да я съхранявате, използвайте <keyseq><key>Модификатор на Orca</key><key>Z</key></keyseq>.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_structural">
+      <title>Режим на автоматичен фокус при придвижване по структура</title>
+      <p>Ако това поле е отметнато, <app>Orca</app> автоматично ще превключва към режим на взаимодействие след придвижване по структурата до поле във формуляр. Например, натискането на <key>E</key>, за да се придвижите до следващото поле, ще включва режима на взаимодействие и следващото натискане на <key>E</key> ще въведе „e“ в полето. Ако това поле не е отметнато, <app>Orca</app> ще остава в режим на четене и следващото натискане на <key>E</key> ще ви придвижи до следващото поле на страницата.</p>
+      <p>Стойност по подразбиране: без отметка</p>
+      <note style="tip">
+        <title>Ръчно превключване между режимите на четене и взаимодействие</title>
+        <p>За да започнете или да спрете работата по поле във формуляр, натиснете <keyseq><key>Orca Modifier</key><key>A</key></keyseq>, за да превключите между режимите на четене и взаимодействие.</p>
+       </note>
+    </section>
+    <section id="page_navigation_speak">
+      <title>Автоматично прочитане на страницата при първоначално зареждане</title>
+      <p>Ако това поле има отметка, <app>Orca</app> ще изпълни командата за „Прочитане на всичко“ във всяка новоотворена страница или писмо.</p>
+      <p>Стойност по подразбиране: с отметка във Firefox, без отметка в Thunderbird</p>
+    </section>
+    <section id="page_navigation_summary">
+      <title>Автоматично обобщение на страницата при първоначално зареждане</title>
+      <p>Ако това поле има отметка, <app>Orca</app> ще прочете обобщени данни за новоотворена страница или писмо, като броя на заглавията, връзките и ориентирите.</p>
+      <p>Стойност по подразбиране: с отметка във Firefox, без отметка в Thunderbird</p>
+    </section>
+    <section id="page_navigation_layout_mode">
+      <title>Екранна подредба за съдържанието</title>
+      <p>Ако това поле е отметнато, придвижването с курсор винаги ще спазва екранната подредба за съдържанието и <app>Orca</app> ще чете цели редове заедно с връзки или полета на формуляри. Ако това поле не е отметнато, <app>Orca</app> ще третира обектите като връзки и полета все едно са на отделни редове, както при придвижване, така и при прочитане.</p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+  </section>
+  <section id="table_options">
+    <title>Опции за таблиците</title>
+    <note>
+      <p>
+        To learn more about <app>Orca</app>'s options for navigating within
+        tables, please see <link xref="preferences_table_navigation">Table
+	Navigation Preferences</link>.
+      </p>
+    </note>
+  </section>
+  <section id="find_options">
+    <title>Настройки на търсенето</title>
+    <p>Групата графични обекти <gui>настройки на търсенето</gui> ви позволява да настроите начина, по който <app>Orca</app> представя резултатите от търсене извършено с използването на вградената функция за търсене на приложението.</p>
+    <section id="find_options_speak_during_find">
+      <title>Прочитане на резултатите при намиране на съвпадение</title>
+      <p>Ако това поле има отметка, <app>Orca</app> ще прочита реда, на който има съвпадение с текущите ви критерии за търсене.</p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="find_options_speak_changed_lines_during_find">
+      <title>При съвпадение да се прочитат само променените редове</title>
+      <p>Ако това поле има отметка, <app>Orca</app> няма да ви прочете съответстващия ред, ако той съвпада с предишното съвпадение. Тази опция е проектирана да предотврати „повторението“ на ред с множество повторения на даден низ.</p>
+      <p>Стойност по подразбиране: без отметка</p>
+    </section>
+    <section id="find_options_minimum_match_length">
+      <title>Минимална дължина на текста, който съвпада</title>
+      <p>
+        This editable spin button is where you can specify the number of
+        characters which must match before <app>Orca</app> announces the
+        matching line. This option is also designed to prevent "chattiness"
+        as there are many matches when you first begin typing the string
+        for which you are searching.
+      </p>
+      <p>Стойност по подразбиране: 4</p>
+    </section>
+  </section>
+</page>

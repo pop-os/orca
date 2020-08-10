@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_mouse" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_bookmarks"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <title type="sort">3. Myš/ukazatel myši</title>
+    <title type="link">Myš a ukazatel myši</title>
+    <link type="seealso" xref="howto_flat_review"/>
+    <link type="seealso" xref="howto_mouse_review"/>
+    <desc>Příkazy pro práci s ukazatelem</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy vztahující se k myši/ukazateli</title>
+  <p><app>Orca</app> poskytuje několik příkazů, které můžete použít pro zacházení s ukazatelem myši a ke čtení obsahu pod ním. Všechny tyto příkazy mají přidělené klávesové zkratky s jednou výjimkou: přepínání režimu náhledu myši. Jak klávesovou zkratku přiřadit i tomuto příkazu najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+  <note style="tip">
+    <p>V seznamu níže můžete několikrát narazit na zkatku „KP“. Znamená „key pad“, což je anglické označení pro numerickou (číselnou) klávesnici a všechny klávesy s touto zkratkou jsou umístěné na ní. Upozorňujeme také, že zmáčknutí klávesy se liší podle toho, jestli používáte stolní nebo přenosný počítač – respektive přesněji, jestli používáte rozložení klávesnice stolního nebo přenosného počítače podle čtečky <app>Orca</app>. Více informací najdete u tématu <link xref="howto_keyboard_layout">rozložení klávesnice</link>.</p>
+  </note>
+  <list>
+    <item>
+      <p>Kliknout levým tlačítkem na aktuální položku:</p>
+      <list>
+        <item><p>Stolní počítač: <keyseq><key>KP /</key></keyseq> (děleno na numerické klávesnici)</p></item>
+        <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>7</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Kliknout pravým tlačítkem na aktuální položku:</p>
+      <list>
+        <item><p>Stolní počítač: <keyseq><key>KP *</key></keyseq> (krát na numerické klávesnici)</p></item>
+        <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>8</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Nasměrovat ukazatel na aktuální položku:</p>
+      <list>
+        <item><p>Stolní počítač: <keyseq><key>Modifiktáro Orca</key><key>KP /</key></keyseq> (děleno na numerické klávesnici)</p></item>
+        <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>9</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Přesunout zaměření na/pryč z objektu, nad kterým se myš právě nachází (jen pro web):</p>
+      <list>
+        <item><p>Stolní počítač: <keyseq><key>Modifikátor Orca</key><key>KP *</key></keyseq> (krát na numerické klávesnici)</p></item>
+        <item><p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>0</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Zapnout/vypnout řežim zkoumání myší: (bez klávesové zkratky)</p>
+    </item>
+  </list>
+</page>

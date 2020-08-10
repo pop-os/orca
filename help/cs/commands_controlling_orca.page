@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_controlling_orca" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_where_am_i"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <title type="sort">1. Ovládání a výuka používání čtečky <app>Orca</app></title>
+    <title type="link">Ovládání a výuka používání čtečky <app>Orca</app></title>
+    <desc>Příkazy pro komunikaci se čtečkou <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Ovládání a výuka používání čtečky <app>Orca</app></title>
+  <section id="controlling">
+    <title>Příkazy pro ovládání čtečky <app>Orca</app></title>
+    <p>Následující příkazy se používají pro přístup do dialogového okna předvoleb <app>Orca</app>, k zápínání a vypínání čtečky <app>Orca</app> a k obcházení příkazů <app>Orca</app>, aby se předešlo konfliktům s aplikací, se kterou se pracuje.</p>
+    <list>
+      <item>
+        <p>Zapnout a vypnout čtečku <app>Orca</app> v GNOME: <keyseq><key>Super</key> <key>Alt</key> <key>S</key></keyseq></p>
+        <note style="tip">
+           <p>Pokud používáte čtečku <app>Orca</app> v jiném pracovním prostředí, ve kterém není žádný příkaz pro její zapnutí a vypnutí, může se vám hodit příkaz pro její ukončení. Ve výchozím stavu nemá tento příkaz přidělenou žádnou klávesovou zkratku. Jak mu ji přidělit, najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+        </note>
+      </item>
+      <item>
+        <p>Dialogové okno <link xref="preferences">Předvolby Orca</link>: <keyseq><key>Modifikátor Orca</key> <key>mezerník</key></keyseq></p>
+      </item>
+      <item>
+        <p>Dialogové okno s předvolbami <app>Orca</app> pro zaměřenou aplikaci: <keyseq><key>Ctrl</key> <key>Modifikátor Orca</key> <key>mezerník</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Předat následující příkaz do aktuální aplikace: <keyseq><key>Modifikátor Orca</key><key>BackSpace</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="learning">
+    <title>Příkazy pro výuku používání čtečky <app>Orca</app></title>
+    <p>Ve výukovém režimu bude <app>Orca</app> oznamovat všechny klávesy, které zmáčknete, spolu s příkazem <app>Orca</app>, který je k nim přiřazen. V tomto režimu můžete také získat seznam klávesových zkratek obsahující všechny příkazy <app>Orca</app>, které můžete použít.</p>
+    <list>
+      <item>
+        <p>Vstoupit do výukového režimu: <keyseq><key>Modifikátor Orca</key><key>H</key></keyseq></p>
+      </item>
+      <item>
+        <p>Ukončit výukový režim: <keyseq><key>Esc</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+</page>

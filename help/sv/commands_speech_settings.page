@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_speech_settings" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_braille"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_speech"/>
+    <title type="sort">2. Uppläsningsinställningar</title>
+    <title type="link">Uppläsning</title>
+    <desc>Kommandon för att anpassa <app>Orca</app>s utmatning</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kommandon för uppläsningsinställningar</title>
+  <p>De följande kommandona kan användas för att anpassa <app>Orca</app>s uppläsning. Du kommer att se att ett antal av dessa kommandon är ”obundna”. Se <link xref="howto_key_bindings">Ändra tangentbindningar</link> för information om hur du kan binda dessa kommandon till tangenttryckningar.</p>
+  <list>
+    <item>
+      <p>Aktivera/inaktivera uppläsning: <keyseq><key>Orca-modifierare</key><key>S</key></keyseq></p>
+    </item>
+    <item>
+      <p>Växla mellan cell- och radläsning i en tabell: <keyseq><key>Orca-modifierare</key><key>F11</key></keyseq></p>
+    </item>
+    <item>
+      <p>Växla mellan informativ och kort informationsnivå: <keyseq><key>Orca-modifierare</key><key>V</key></keyseq></p>
+    </item>
+    <item>
+      <p>Aktivera/inaktivera uppläsning av textindentering och textjustering: (Inte bunden)</p>
+    </item>
+    <item>
+      <p>Ändra stil för upplästa nummer: (Inte bunden)</p>
+    </item>
+    <item>
+      <p>Växla till nästa nivå för uppläsning av skiljetecken: (Inte bunden)</p>
+    </item>
+    <item>
+      <p>Växla till nästa nivå för tangenteko: (Inte bunden)</p>
+    </item>
+    <item>
+      <p>Växla till nästa versaliseringsstil: (Inte bunden)</p>
+    </item>
+    <item>
+      <p>Minska hastigheten: (Inte bunden)</p>
+    </item>
+    <item>
+      <p>Öka hastigheten: (Inte bunden)</p>
+    </item>
+    <item>
+      <p>Sänk tonarten: (Inte bunden)</p>
+    </item>
+    <item>
+      <p>Höj tonarten: (Inte bunden)</p>
+    </item>
+    <item>
+      <p>Sänk volymen: (Inte bunden)</p>
+    </item>
+    <item>
+      <p>Höj volymen: (Inte bunden)</p>
+    </item>
+  </list>
+</page>

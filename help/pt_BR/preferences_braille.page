@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_braille" xml:lang="pt-BR">
+  <info>
+    <title type="sort">3. Braille</title>
+    <title type="link">Braille</title>
+    <desc>Configurando suporte a monitor de braille no <app>Orca</app></desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_echo"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Preferências Braille</title>
+  <section id="braillesupport">
+    <title>Habilitar suporte ao Braille</title>
+    <p>Esta caixa de seleção informa se o <app>Orca</app> fará uso de um dispositivo Braille. Se o BrlTTY não estiver em execução, o <app>Orca</app> recuperar-se-á de forma elegante sem comunicar a falha para o dispositivo Braille.</p>
+    <p>Valor padrão: desmarcado</p>
+    <note style="tip">
+      <p>Se você configurar o BrlTTY posteriormente, você deve reiniciar o <app>Orca</app> para usar o suporte a Braille.</p>
+    </note>
+  </section>
+  <section id="braillewordwrap">
+    <title>Enable word wrap</title>
+    <p>
+      If <gui>Enable word wrap</gui> is checked, <app>Orca</app> will adjust the
+      text so that only full words are shown on the braille display. If it is not
+      checked, <app>Orca</app> will use all of the cells on the display so that
+      more text can be shown at once.
+    </p>
+    <p>Valor padrão: desmarcado</p>
+  </section>
+  <section id="contractedbraille">
+    <title>Habilitar Braille contraído</title>
+    <p>O suporte do Orca a Braille contraído deve-se ao projeto Liblouis. Visto que muitas distribuições Linux incluem Liblouis, você provavelmente terá acesso automático ao suporte ao Braille contraído no <app>Orca</app>.</p>
+    <p>
+      To enable contracted braille on a system where liblouis has been installed,
+      be sure that the <gui>Enable Contracted Braille</gui> checkbox is checked.
+      Then choose your desired translation table from the <gui>Contraction
+      Table</gui> combo box.
+    </p>
+    <p>Valor padrão: desmarcado</p>
+  </section>
+  <section id="rolenames">
+    <title>Nomes de regras abreviados</title>
+    <p>Esta caixa de seleção determina de que maneira os nomes de regras são exibidos e como podem ser utilizados para conservar o estado real no dispositivo Braille. Por exemplo, se um controle deslizante ganha foco, a palavra "deslizante (ou slider)" é exibida se os nomes de regras abreviados não tiverem sido marcados; se, ao contrário, tiverem sido marcados, "dslz", é exibido.</p>
+    <p>Valor padrão: desmarcado</p>
+  </section>
+  <section id="eolindicator">
+    <title>Desabilitar o símbolo de final de linha</title>
+    <p>Marcando esta caixa de seleção, diz-se ao <app>Orca</app> para não apresentar o "$l" símbolo ao final de uma linha de texto.</p>
+    <p>Valor padrão: desmarcado</p>
+  </section>
+  <section id="verbosity">
+    <title>Verbosidade</title>
+    <p>Este grupo de botões de opção determina a quantidade de informação que será exibida pelo dispositivo Braille em certas situações. Por exemplo, se a opção verbosa está selecionada, informações sobre atalhos de teclado e nomes de regras são exibidas. Estas informações não são exibidas no modo resumido.</p>
+    <p>Valor padrão: <gui>Verboso</gui></p>
+  </section>
+  <section id="selectionandhyperlink">
+    <title>Indicadores de seleção e de links</title>
+    <p>O grupo de botões de opção para <gui>indicador de seleção</gui> e <gui>indicador de link</gui> permite-lhe configurar o comportamento do <app>Orca</app> quando exibe textos selecionados e links. Por padrão, quando você encontra um deles, o <app>Orca</app> irá sublinhar o texto em seu monitor braille com os pontos 7 e 8. Se preferir, você pode alterar o indicador para ser apenas o ponto 7, ser apenas o ponto 8, ou não estar presente.</p>
+    <p>Valor padrão: <gui>7 e 8 pontos</gui></p>
+    <note style="tip">
+      <title>Indicadores de atributo de texto</title>
+      <p>Opcionalmente, você pode ter os atributos de texto indicados em seu monitor Braille. Habilitando este recurso e escolhendo quais são os atributos que lhe interessam, o que é feito na <link xref="preferences_text_attributes">página <gui>atributos de textos</gui></link> do diálogo de Preferências.</p>
+    </note>
+  </section>
+  <section id="flashMessageSettings">
+    <title>Flash Message Settings</title>
+    <p>
+        Flash messages are similar in nature to notifications or announcements:
+        They are shown on your refreshable braille display for a brief time,
+        after which the original contents of the braille display are restored.
+        <app>Orca</app> has several settings you can use to control flash message
+        presentation.
+    </p>
+    <section id="flashMessageSettings_enable">
+      <title>Enable flash messages</title>
+      <p>
+        If <gui>Enable flash messages</gui> is checked, <app>Orca</app> will
+        present messages to you in braille. If you prefer to only have
+        <app>Orca</app>'s messages spoken, you should uncheck this checkbox.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="flashMessageSettings_detailed">
+      <title>Messages are detailed</title>
+      <p>
+        If <gui>Messages are detailed</gui> is checked, <app>Orca</app> will
+        present detailed messages to you in braille. For instance, if you
+        use <app>Orca</app>'s command to change key echo, <app>Orca</app> might
+        display "Key echo set to word." If you would prefer shorter messages,
+        such as simply "word," you should uncheck this checkbox.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="flashMessageSettings_persistent">
+      <title>Messages are persistent</title>
+      <p>
+        As stated above, flash messages are only shown for a brief period of time.
+        If you would prefer messages remain displayed until you perform an action
+        which causes your display to be updated, you should check the <gui>Messages
+        are persistent</gui> checkbox.
+      </p>
+      <p>Valor padrão: desmarcado</p>
+    </section>
+    <section id="flashMessageSettings_duration">
+      <title>Message duration (secs)</title>
+      <p>
+        The amount of time <app>Orca</app> will wait before removing the message and
+        restoring the original contents of your display can be set in the <gui>
+        Message duration (secs)</gui> spin button. Note that the value of this
+        setting will be ignored if you have enabled persistent flash messages.
+      </p>
+      <p>
+        Default value: 5
+      </p>
+    </section>
+  </section>
+</page>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_braille" xml:lang="el">
+  <info>
+    <title type="sort">3. Μπράιγ</title>
+    <title type="link">Μπράιγ</title>
+    <desc>Ρύθμιση της υποστήριξης εμφάνιση Μπράιγ του <app>Orca</app></desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_echo"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Προτιμήσεις Μπράιγ</title>
+  <section id="braillesupport">
+    <title>Ενεργοποίηση υποστήριξης Μπράιγ</title>
+    <p>Αυτό το πλαίσιο ελέγχου εναλλάσσει εάν το <app>Orca</app> θα χρησιμοποιήσει ή όχι μια εμφάνιση Μπράιγ. Εάν το BrlTTY δεν εκτελείται, το <app>Orca</app> θα ανακάμψει σωστά και δεν θα επικοινωνήσει με την προβολή Μπράιγ.</p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+    <note style="tip">
+      <p>Εάν ρυθμίσετε αργότερα το BrlTTY, χρειάζεται να επανεκκινήσετε το <app>Orca</app> για να χρησιμοποιήσετε Μπράιγ.</p>
+    </note>
+  </section>
+  <section id="braillewordwrap">
+    <title>Enable word wrap</title>
+    <p>
+      If <gui>Enable word wrap</gui> is checked, <app>Orca</app> will adjust the
+      text so that only full words are shown on the braille display. If it is not
+      checked, <app>Orca</app> will use all of the cells on the display so that
+      more text can be shown at once.
+    </p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+  </section>
+  <section id="contractedbraille">
+    <title>Ενεργοποίηση συμπυκνωμένου Μπράιγ</title>
+    <p>Το Orca υποστηρίζει συμπυκνωμένο Μπράιγ μέσα από το έργο liblouis. Επειδή πολλές διανομές περιλαμβάνουν το liblouis, είναι πιθανό να έχετε αυτόματη πρόσβαση σε συμπυκνωμένη υποστήριξη Μπράιγ στο <app>Orca</app>.</p>
+    <p>Για ενεργοποίηση συμπυκνωμένου Μπράιγ σε ένα σύστημα όπου το liblouis έχει εγκατασταθεί, βεβαιωθείτε ότι το πλαίσιο ελέγχου <gui>Ενεργοποίηση συντμήσεων Μπράιγ</gui> έχει σημειωθεί. Έπειτα επιλέξτε τον επιθυμητό πίνακα μετάφρασης από το σύνθετο πλαίσιο του <gui>Πίνακας συντμήσεων</gui>.</p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+  </section>
+  <section id="rolenames">
+    <title>Συντμήσεις ονομάτων ρόλου</title>
+    <p>Αυτό το πλαίσιο ελέγχου καθορίζει τον τρόπο που τα ονόματα ρόλου εμφανίζονται και μπορεί να χρησιμοποιηθεί για να βοηθήσει στη διατήρηση πραγματικής κατάστασης στην προβολή Μπράιγ. Για παράδειγμα, εάν ένας ολισθητής εστιαστεί, η λέξη "ολισθητής" θα εμφανιστεί εάν οι συντμήσεις ρόλων δεν έχουν σημειωθεί· εάν έχουν σημειωθεί "ολσθτ" θα εμφανιστεί στη θέση του.</p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+  </section>
+  <section id="eolindicator">
+    <title>Απενεργοποίηση συμβόλου τέλους γραμμής</title>
+    <p>Σημείωση αυτού του πλαισίου ελέγχου λέει στο <app>Orca</app> να μην εμφανίσει τη συμβολοσειρά "$l" στο τέλος μιας γραμμής κειμένου.</p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+  </section>
+  <section id="verbosity">
+    <title>Περιγραφικότητα</title>
+    <p>Αυτή η ομάδα ραδιοπλήκτρων καθορίζει την ποσότητα των πληροφοριών που θα προβληθεί ως Μπράιγ σε συγκεκριμένες καταστάσεις. Για παράδειγμα, εάν οριστεί σε αναλυτική, οι πληροφορίες συντομεύσεων πληκτρολογίου και ονομάτων ρόλου θα εμφανιστούν. Αυτές οι πληροφορίες δεν εμφανίζονται σε σύντομη κατάσταση.</p>
+    <p>Προεπιλεγμένη τιμή: <gui>αναλυτικά</gui></p>
+  </section>
+  <section id="selectionandhyperlink">
+    <title>Επιλογή και δείκτες υπερσύνδεσης</title>
+    <p>Η <gui>επιλογή δείκτη</gui> και οι ομάδες ραδιοπλήκτρων <gui>δείκτη υπερσύνδεσης</gui> επιτρέπουν τη ρύθμιση της συμπεριφοράς του <app>Orca</app> όταν εμφανίζεται το επιλεγμένο κείμενο και υπερσύνδεσμοι. Από προεπιλογή, όταν συμβαίνει οποιοδήποτε από τα δύο, το <app>Orca</app> θα "υπογραμμίσει" αυτό το κείμενο στην εμφάνιση Μπράιγ με κουκκίδες 7 και 8. Εάν προτιμάτε, μπορείτε να αλλάξετε τον δείκτη σε μόνο κουκκίδα 7, μόνο σε κουκκίδα 8, ή να μην είναι καθόλου παρόν.</p>
+    <p>Προεπιλεγμένη τιμή: <gui>κουκκίδες 7 και 8</gui></p>
+    <note style="tip">
+      <title>Δείκτες γνωρίσματος κειμένου</title>
+      <p>Μπορείτε επίσης προαιρετικά να έχετε γνωρίσματα κειμένου που εμφανίζονται σε Μπράιγ. Η ενεργοποίηση αυτού του γνωρίσματος και επιλογή των γνωρισμάτων που ενδιαφέρουν γίνεται στη σελίδα <link xref="preferences_text_attributes"> <gui>γνωρίσματα κειμένου</gui></link> του διαλόγου προτιμήσεων.</p>
+    </note>
+  </section>
+  <section id="flashMessageSettings">
+    <title>Flash Message Settings</title>
+    <p>
+        Flash messages are similar in nature to notifications or announcements:
+        They are shown on your refreshable braille display for a brief time,
+        after which the original contents of the braille display are restored.
+        <app>Orca</app> has several settings you can use to control flash message
+        presentation.
+    </p>
+    <section id="flashMessageSettings_enable">
+      <title>Enable flash messages</title>
+      <p>
+        If <gui>Enable flash messages</gui> is checked, <app>Orca</app> will
+        present messages to you in braille. If you prefer to only have
+        <app>Orca</app>'s messages spoken, you should uncheck this checkbox.
+      </p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    </section>
+    <section id="flashMessageSettings_detailed">
+      <title>Messages are detailed</title>
+      <p>
+        If <gui>Messages are detailed</gui> is checked, <app>Orca</app> will
+        present detailed messages to you in braille. For instance, if you
+        use <app>Orca</app>'s command to change key echo, <app>Orca</app> might
+        display "Key echo set to word." If you would prefer shorter messages,
+        such as simply "word," you should uncheck this checkbox.
+      </p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    </section>
+    <section id="flashMessageSettings_persistent">
+      <title>Messages are persistent</title>
+      <p>
+        As stated above, flash messages are only shown for a brief period of time.
+        If you would prefer messages remain displayed until you perform an action
+        which causes your display to be updated, you should check the <gui>Messages
+        are persistent</gui> checkbox.
+      </p>
+      <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+    </section>
+    <section id="flashMessageSettings_duration">
+      <title>Message duration (secs)</title>
+      <p>
+        The amount of time <app>Orca</app> will wait before removing the message and
+        restoring the original contents of your display can be set in the <gui>
+        Message duration (secs)</gui> spin button. Note that the value of this
+        setting will be ignored if you have enabled persistent flash messages.
+      </p>
+      <p>
+        Default value: 5
+      </p>
+    </section>
+  </section>
+</page>

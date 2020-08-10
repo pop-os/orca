@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="el">
+  <info>
+    <title type="link">Ηχώ πλήκτρου</title>
+    <title type="sort">4. Ηχώ πλήκτρου</title>
+    <desc>Ρύθμιση της εκφώνησης κατά την πληκτρολόγηση</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_bindings"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Προτιμήσεις ηχούς πλήκτρου</title>
+  <section id="keyecho">
+    <title>Ενεργοποίηση ηχούς πλήκτρου</title>
+    <p>Η ηχώ πλήκτρου του Orca ορίζει ελέγχους που συμβαίνουν κάθε φορά που πατάτε ένα πλήκτρο. Για ενεργοποίηση της ηχούς πλήκτρου, σημειώστε το πλαίσιο ελέγχου "ενεργοποίηση ηχούς πλήκτρου". Κάνοντας το, γίνονται πρόσθετα πλαίσια ελέγχου διαθέσιμα μέσα από τα οποία μπορείτε να επιλέξτε ακριβώς ποια πλήκτρα θα πρέπει να ηχήσουν για βέλτιστη προσαρμογή στις ανάγκες σας.</p>
+    <p>Προεπιλεγμένη τιμή: σημειωμένη</p>  
+    <section id="keyecho_enable_alphanumeric">
+      <title>Enable alphabetic keys</title>
+      <p>
+        This option controls whether or not keys like <key>a</key>,
+        <key>b</key>, and <key>c</key> should be spoken when pressed.
+      </p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    </section>
+    <section id="keyecho_enable_numeric">
+      <title>Enable numeric keys</title>
+      <p>
+        This option controls whether or not keys like <key>1</key>,
+        <key>2</key>, and <key>3</key> should be spoken when pressed.
+      </p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    </section>
+    <section id="keyecho_enable_punctuation">
+      <title>Enable punctuation keys</title>
+      <p>
+        This option controls whether or not keys like <key>%</key>,
+        <key>;</key>, and <key>?</key> should be spoken when pressed.
+      </p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    </section>
+    <section id="keyecho_enable_space">
+      <title>Enable space</title>
+      <p>
+        This option controls whether or not <key>space</key> should be
+        spoken when pressed.
+      </p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    </section>
+    <section id="keyecho_enable_modifier">
+      <title>Ενεργοποίηση πλήκτρων τροποποιητή</title>
+      <p>Αυτή η επιλογή ελέγχει εάν τα <key>Shift</key>, <key>Ctrl</key>, <key>Alt</key> και <key>Meta</key> θα πρέπει να εκφωνούνται όταν πατιούνται ή όχι.</p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    </section>
+    <section id="keyecho_enable_function">
+      <title>Ενεργοποίηση πλήκτρων συναρτήσεων</title>
+      <p>Αυτή η επιλογή ελέγχει εάν τα <key>F1</key> έως <key>F12</key> πρέπει να εκφωνούνται όταν πατιούνται ή όχι.</p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    </section>
+    <section id="keyecho_enable_action">
+      <title>Ενεργοποίηση πλήκτρων ενέργειας</title>
+      <p>Αυτή η επιλογή ελέγχει εάν τα <key>BackSpace</key>, <key>Delete </key>, <key>Return</key>, <key>Escape</key>, <key>Tab</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</key> και <key>End</key> θα πρέπει να εκφωνούνται εάν πατιούνται ή όχι.</p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
+    </section>
+    <section id="keyecho_enable_navigation">
+      <title>Ενεργοποίηση πλήκτρων περιήγησης</title>
+      <p>Αυτή η επιλογή ελέγχει εάν τα <key>Left</key>, <key>Right</key>, <key>Up</key> και <key>Down</key> πρέπει να εκφωνούνται όταν πατιούνται. Αυτή η επιλογή επίσης εφαρμόζεται σε κάθε συνδυασμό πλήκτρων στον οποίο ο <key>τροποποιητής Orca</key> κρατιέται πατημένος, για παράδειγμα όταν χρησιμοποιείται γενική επισκόπηση.</p>
+      <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+    </section>
+    <section id="keyecho_enable_diacritical">
+      <title>Ενεργοποίηση μη κενών διακριτικών πλήκτρων</title>
+      <p>Αυτή η επιλογή ελέγχει εάν τα "νεκρά πλήκτρα" που χρησιμοποιούνται για δημιουργία τονισμένων γραμμάτων πρέπει να εκφωνούνται όταν πατιούνται.</p>
+      <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+    </section>
+  </section>
+  <section id="characterecho">
+    <title>Ενεργοποίηση ηχούς κατά χαρακτήρα</title>
+    <p>Ενεργοποίηση αυτής την επιλογής προκαλεί την αντήχηση του χαρακτήρα που μόλις πληκτρολογήσατε στο Orca.</p>
+    <p>
+      While echo by character seems quite similar to the key echo of
+      alphabetic, numeric, and punctuation keys, there are important differences,
+      especially with respect to accented letters and other symbols for which
+      there is no dedicated key:
+    </p>
+    <list>
+      <item>
+        <p>Η ηχώ πλήκτρου προκαλεί στο <app>Orca</app> την αναγγελία του τι μόλις <em>πατήσατε</em>.</p>
+      </item>
+      <item>
+        <p>Το ηχώ χαρακτήρα προκαλεί στο <app>Orca</app> την αναγγελία του τι μόλις <em>εισάγατε</em>.</p>
+      </item>
+    </list>
+    <p>Έτσι για να έχετε τονισμένους χαρακτήρες να εκφωνούνται καθώς τους πληκτρολογείτε, πρέπει να ενεργοποιήσετε την ηχώ χαρακτήρα.</p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+    <note style="tip">
+      <title>Ενεργοποίηση και της ηχούς πλήκτρου και της ηχούς χαρακτήρα</title>
+      <p>Εάν σας αρέσει η ηχώ πλήκτρου και πληκτρολογείτε συχνά τονισμένους χαρακτήρες, εξετάστε την ενεργοποίηση και των δύο. Η λογική ηχώ χαρακτήρα του <app>Orca</app> προσπαθεί να φιλτράρει τους χαρακτήρες που εκφωνήθηκαν ως αποτέλεσμα της ηχούς πλήκτρου, ελαχιστοποιώντας έτσι την πιθανότητα "διπλής εκφώνησης" καθώς πληκτρολογείτε.</p>
+    </note>
+  </section>
+  <section id="wordandsentenceecho">
+    <title>Ενεργοποίηση ηχούς κατά λέξη και ηχούς κατά πρόταση</title>
+    <p>Σημειώνοντας το πλαίσιο ελέγχου <gui>ενεργοποίηση ηχούς κατά λέξη</gui> προκαλεί το <app>Orca</app> να αντηχεί τη λέξη που μόλις πληκτρολογήσατε. Παρόμοια, σημειώνοντας το πλαίσιο ελέγχου <gui>ενεργοποίηση ηχούς κατά πρόταση</gui> προκαλεί την αντήχηση της πρότασης που μόλις πληκτρολογήσατε από το <app>Orca</app>.</p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+  </section>
+</page>

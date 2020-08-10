@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_bookmarks" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <title type="sort">6. Bokmärken</title>
+    <desc>Lagra och åter plocka fram objekt</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Bokmärken</title>
+  <p><app>Orca</app>s stöd för bokmärken låter dig indikera att ett objekt är intressant. Det inkluderar följande funktioner:</p>
+  <list>
+    <item>
+      <p>Du är inte begränsad till ett enstaka objekt: du kan sätta upp till sex bokmärken per miljö. Du kan också spara bokmärken så att de består från en Orca-session till en annan.</p>
+    </item>
+    <item>
+      <p>Då du har satt ett bokmärke kan du navigera till det senare, och kan göra så oavsett om du har valt att permanent spara bokmärkena som är associerade med din aktuella miljö eller inte. Navigering kan baseras på bokmärkets nummer om du skulle vilja hoppa direkt till ett specifikt objekt. Alternativt kan du navigera till nästa eller föregående bokmärke precis som du kan för ett objekt i <link xref="howto_structural_navigation">strukturell navigering</link>.</p>
+    </item>
+    <item>
+      <p>Objekt som går att bokmärka kan vara komponenter i ett program eller objekt på webbsidan som du läser. Vilken miljö du är i avgör vad som händer då du navigerar mellan bokmärken. Om du är i webbinnehåll kommer markören förflyttas till bokmärket så att du kan fortsätta läsa. I andra fall kommer <link xref="howto_flat_review">platt granskning</link> att aktiveras med bokmärket som aktuellt granskningsobjekt.</p>
+    </item>
+  </list>
+  <p>De specifika tangentbindningar som är associerade med var och en av uppgifterna ovan kan hittas i <link xref="commands_bookmarks">bokmärkeskommandon</link>.</p>
+</page>

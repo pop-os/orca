@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_find" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_mouse"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_orca_find"/>
+    <title type="sort">2. Sökning i Orca</title>
+    <title type="link">Sökning i Orca</title>
+    <desc>Kommandon för att söka fönsterinnehåll</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Sökkommandon i Orca</title>
+  <p><app>Orca</app>s <link xref="howto_orca_find">sökfunktion</link> låter dig söka i den <link xref="howto_flat_review">platta granskningens</link> kontext efter element som finns i det aktuella fönstret.</p>
+  <list>
+    <item>
+      <p>Öppna sökdialogen i <app>Orca</app>:</p>
+      <list>
+        <item>
+          <p>Stationär dator: <keyseq><key>KP Delete</key></keyseq></p>
+        </item>
+        <item>
+          <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Vänster hakparentes</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Flytta platt granskning till nästa förekomst av en sträng:</p>
+      <list>
+        <item>
+          <p>Stationär dator: <keyseq><key>Orca-modifierare</key><key>KP Delete</key></keyseq></p>
+        </item>
+        <item>
+          <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Höger hakparentes</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Flytta platt granskning till föregående förekomst av en sträng:</p>
+      <list>
+        <item>
+          <p>Stationär dator: <keyseq> <key>Orca-modifierare</key><key>Skift</key><key>KP Delete</key> </keyseq></p>
+        </item>
+        <item>
+          <p>Bärbar dator: <keyseq> <key>Orca-modifierare</key><key>Ctrl</key><key>Höger hakparentes</key> </keyseq></p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

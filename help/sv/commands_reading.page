@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_reading" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_structural_navigation"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_documents"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">1. Läsning</title>
+    <title type="link">Läsning</title>
+    <desc>Kommandon för att komma åt dokumentinnehåll</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Läskommandon</title>
+  <p>Förutom markörnavigeringskommandona som är en del av GNOME tillhandahåller <app>Orca</app> ett antal kommandon som du kan använda för att läsa ett dokument.</p>
+  <note style="tip">
+    <p>I listorna som följer kommer du se flera referenser till ”KP”. Alla "KP"-tangenter finns på det numeriska tangentbordet (keypad). Du kommer också se att det finns olika tangenttryckningar beroende på om du använder en stationär eller en bärbar dator -- eller mer korrekt, huruvida du använder <app>Orca</app>s tangentbordslayout för stationär eller bärbar dator. För mer information se ämnet <link xref="howto_keyboard_layout">Tangentbordslayout</link>.</p>
+  </note>
+  <section id="flat_review">
+    <title>Läsa din aktuella position</title>
+    <p>Följande <link xref="commands_flat_review">kommandon för platt granskning</link> i <app>Orca</app> kan användas för att läsa din aktuella position:</p>
+    <list>
+      <item>
+        <p>Läs aktuell rad:</p>
+        <list>
+          <item>
+            <p>Stationär dator: <keyseq><key>KP 8</key></keyseq></p>
+          </item>
+          <item>
+            <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>I</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Läs aktuellt ord:</p>
+        <list>
+          <item>
+            <p>Stationär dator: <keyseq><key>KP 5</key></keyseq></p>
+          </item>
+          <item>
+            <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>K</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Bokstavera det aktuella ordet:</p>
+        <list>
+          <item>
+            <p>Stationär dator: <keyseq><key>KP 5</key></keyseq> (dubbelklickat)</p>
+          </item>
+          <item>
+            <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>K</key></keyseq> (dubbelklickat)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Bokstavera fonetiskt det aktuella ordet:</p>
+        <list>
+          <item>
+            <p>Stationär dator: <keyseq><key>KP 5</key></keyseq> (trippelklickat)</p>
+          </item>
+          <item>
+            <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>K</key></keyseq> (trippelklickat)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Läs aktuellt tecken:</p>
+        <list>
+          <item>
+            <p>Stationär dator: <keyseq><key>KP 2</key></keyseq></p>
+          </item>
+          <item>
+            <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Komma</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Läs fonetiskt upp det aktuella tecknet:</p>
+        <list>
+          <item>
+            <p>Stationär dator: <keyseq><key>KP 2</key></keyseq> (dubbelklickat)</p>
+          </item>
+          <item>
+            <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Komma</key></keyseq> (dubbelklickat)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Läs upp Unicode-värdet för aktuellt tecken:</p>
+        <list>
+          <item>
+            <p>Stationär dator: <keyseq><key>KP 2</key></keyseq> (trippelklickat)</p>
+          </item>
+          <item>
+            <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Komma</key></keyseq> (trippelklickat)</p>
+          </item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="say_all">
+    <title>Läs upp allt</title>
+    <p>Orcas Läs upp allt-kommando kommer få <app>Orca</app> att läsa upp hela dokumentet med början på din aktuella position.</p>
+    <list>
+      <item>
+        <p>Stationär dator: <key>KP Plus</key></p>
+      </item>
+      <item>
+        <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Semikolon</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="attributes_and_selection">
+    <title>Textattribut och markerad text</title>
+    <p><app>Orca</app> har ett speciellt avsett kommando för att erhålla attributen hos texten vid markörpositionen. Om du dessutom använder <app>Orca</app>s ”Var är jag”-kommandon inifrån ett textobjekt där text har markerats så kommer <app>Orca</app> annonsera den markerade texten. <app>Orca</app>s kommando för att läsa upp den aktuella markeringen kommer också utföra denna funktion i ett textobjekt.</p>
+    <list>
+      <item>
+        <p>Presentera textattributen: <keyseq><key>Orca-modifierare</key><key>F</key></keyseq></p>
+      </item>
+      <item>
+        <p>Utför grundläggande ”Var är jag”:</p>
+        <list>
+          <item>
+            <p>Stationär dator: <key>KP Enter</key></p>
+          </item>
+          <item>
+            <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Retur</key></keyseq></p>
+          </item>
+        </list>
+    </item>
+    <item>
+      <p>Utför detaljerad ”Var är jag”:</p>
+      <list>
+        <item>
+          <p>Stationär dator: <key>KP Enter</key> (dubbelklickat)</p>
+        </item>
+        <item>
+          <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Retur</key></keyseq> (dubbelklickat)</p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Läs upp aktuell markering: <keyseq><key>Orca-modifierare</key><key>Skift</key><key>Upp</key></keyseq></p>
+    </item>
+  </list>
+  </section>
+  <section id="link_details">
+    <title>Länkdetaljer</title>
+    <p>Om du är på en länk kan <app>Orca</app>s grundläggande ”Var är jag”-kommando användas för att annonsera detaljerna som är associerade med länken, som länktypen, om länken är besökt, beskrivning av webbplatsen och filstorlek. Om du istället skulle föredra ett speciellt avsett kommando för detta syfte kan du binda <app>Orca</app>s kommando ”Läs upp länkdetaljer” till en tangenttryckning. Se <link xref="howto_key_bindings">Ändra tangentbindningar</link> för information om hur du kan göra det.</p>
+    <list>
+      <item>
+        <p>Läs upp länkdetaljerna: (Inte bunden)</p>
+      </item>
+    </list>
+  </section>
+  <section id="browse_and_focus_modes">
+    <title>Bläddrings- och fokuslägen</title>
+    <p><app>Orca</app>s bläddrings- och fokuslägen låter dig växla mellan att läsa och interagera med webbinnehåll.</p>
+    <list>
+      <item>
+        <p>Växla mellan bläddrings- och fokusläge: <keyseq><key>Orca-modifierare</key><key>A</key></keyseq></p>
+      </item>
+      <item>
+        <p>Aktivera ”klistrigt” fokusläge: <keyseq><key>Orca-modifierare</key><key>A</key></keyseq> (dubbelklickat)</p>
+      </item>
+      <item>
+        <p>Aktivera ”klistrigt” bläddringsläge: <keyseq><key>Orca-modifierare</key><key>A</key></keyseq> (trippelklickat)</p>
+      </item>
+    </list>
+  </section>
+  <section id="toggling_layout_mode">
+    <title>Växla layoutläge</title>
+    <p>När layoutläge är aktiverat kommer <app>Orca</app>s markörnavigering respektera innehållets layout på skärmen och presentera hela raden, inkluderande alla länkar och formulärfält på den raden. När layoutläge är inaktiverat kommer <app>Orca</app> behandla objekt som exempelvis länkar och formulärfält som om de var på separata rader, både för presentation och navigering.</p>
+    <p><app>Orca</app> tillhandahåller ett kommando för att växla mellan layoutläge och objektläge. Detta kommando är obundet som standard. Se <link xref="howto_key_bindings">Ändra tangentbindningar</link> för information om hur du kan binda obundna kommandon.</p>
+    <list>
+      <item>
+        <p>Växla mellan layoutläge och objektläge: (Inte bunden)</p>
+      </item>
+    </list>
+  </section>
+</page>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="introduction" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_setting_up_orca"/>
+    <title type="sort">1. Välkommen till Orca</title>
+    <desc>Introducerar skärmläsaren <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Välkommen till Orca</title>
+  <p><app>Orca</app> är en fri, flexibel och utökningsbar skärmläsare som är öppen källkod och erbjuder åtkomst till det grafiska skrivbordet genom tal och punktskriftsskärm.</p>
+  <p><app>Orca</app> fungerar med program och verktygslådor som stöder gränssnittet Assistive Technology Service Provider Interface (AT-SPI), som är den primära infrastrukturen för hjälpmedelsteknik för Linux och Solaris. Program och verktygslådor som stöder AT-SPI inkluderar verktygslådan Gtk+ för GNOME, verktygslådan Swing för Java-plattformen, LibreOffice, Gecko och WebKitGtk. AT-SPI-stöd är ett mål för KDE:s Qt-verktygslåda.</p>
+  <section id="launching">
+    <title>Starta <app>Orca</app></title>
+    <p>För att starta <app>Orca</app>:</p>
+    <list>
+      <item>
+        <p>Metoden för att ställa in <app>Orca</app> att startas automatiskt som din föredragna skärmläsare beror på vilken skrivbordsmiljö du använder. I GNOME 3.x kan till exempel detta alternativ hittas i kontrollpanelen för allmän åtkomst på sidan <gui>Se</gui>.</p>
+      </item>
+      <item>
+        <p>För att slå på och av <app>Orca</app> i GNOME, tryck <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Skriv <cmd>orca</cmd> tillsammans med valfria parametrar i ett terminalfönster eller i <gui>Kör</gui>-dialogen och tryck sedan <key>Retur</key>.</p>
+      </item>
+    </list>
+  </section>
+    <section id="loadtime">
+      <title>Flaggor vid inläsning</title>
+      <p>Följande flaggor kan anges då <app>Orca</app> startas i ett terminalfönster eller från <gui>Kör</gui>-dialogen:</p>
+      <list>
+        <item>
+          <p><cmd>-h</cmd>, <cmd>--help</cmd>: Visa hjälpmeddelandet</p>
+        </item>
+        <item>
+          <p><cmd>-v</cmd>, <cmd>--version</cmd>: Visa versionen av <app>Orca</app></p>
+        </item>
+        <item>
+          <p><cmd>-s</cmd>, <cmd>--setup</cmd>: Konfigurera användarinställningar</p>
+        </item>
+        <item>
+          <p><cmd>-u</cmd>, <cmd>--user-prefs=<em>katnamn</em></cmd>: Använd <em>katnamn</em> som alternativ katalog för användarinställningar</p>
+        </item>
+        <item>
+          <p><cmd>-e</cmd>, <cmd>--enable=<em>flagga</em></cmd>: Tvinga användandet av en flagga, där <em>flagga</em> kan vara en av följande:</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+          <p><cmd>-d</cmd>, <cmd>--disable=<em>flagga</em></cmd>: Förhindra användandet av en flagga, där <em>flagga</em> kan vara en av följande:</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+            <p><cmd>-p</cmd>, <cmd>--profile=<em>filnamn</em></cmd>: Importera en profil från en given <app>Orca</app>-profilfil</p>
+        </item>
+        <item>
+          <p><cmd>-r</cmd>, <cmd>--replace</cmd>: Ersätt ett <app>Orca</app> som redan körs</p>
+        </item>
+        <item>
+          <p><cmd>-l</cmd>, <cmd>--list-apps</cmd>: Skriv ut de kända körande programmen</p>
+        </item>
+        <item>
+          <p><cmd>--debug</cmd>: Skicka felsökningsutdata till debug-ÅÅÅÅ-MM-DD-TT:MM:SS.out</p>
+        </item>
+        <item>
+          <p><cmd>--debug-file=<em>filnamn</em></cmd>: Skicka felsökningsutdata till den angivna filen</p>
+        </item>
+      </list>
+    </section>
+
+</page>

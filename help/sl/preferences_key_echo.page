@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="sl">
+  <info>
+    <title type="link">Odmev tipk</title>
+    <title type="sort">4. Odmev tipk</title>
+    <desc>Nastavljanje kaj je izgovorjeno medtem ko tipkate</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_bindings"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Možnosti odmeva tipk</title>
+  <section id="keyecho">
+    <title>Omogoči odmev tipk</title>
+    <p>Nadzorniki Okrinega odmeva tipk nastavijo kaj se zgodi, ko pritisnete tipko. Za omogočenje odmeva tipka izberite izbirno polje "Omogoči odmev tipk". To povzroči, da so na voljo dodatna izbirna polja v katerih lahko izberete katere tipke naj odmevajo ali ne, da najboljše ustrezajo vašim potrebam:</p>
+    <p>Privzeta vrednost: izbrano</p>  
+    <section id="keyecho_enable_alphanumeric">
+      <title>Enable alphabetic keys</title>
+      <p>
+        This option controls whether or not keys like <key>a</key>,
+        <key>b</key>, and <key>c</key> should be spoken when pressed.
+      </p>
+      <p>Privzeta vrednost: izbrano</p>
+    </section>
+    <section id="keyecho_enable_numeric">
+      <title>Enable numeric keys</title>
+      <p>
+        This option controls whether or not keys like <key>1</key>,
+        <key>2</key>, and <key>3</key> should be spoken when pressed.
+      </p>
+      <p>Privzeta vrednost: izbrano</p>
+    </section>
+    <section id="keyecho_enable_punctuation">
+      <title>Enable punctuation keys</title>
+      <p>
+        This option controls whether or not keys like <key>%</key>,
+        <key>;</key>, and <key>?</key> should be spoken when pressed.
+      </p>
+      <p>Privzeta vrednost: izbrano</p>
+    </section>
+    <section id="keyecho_enable_space">
+      <title>Enable space</title>
+      <p>
+        This option controls whether or not <key>space</key> should be
+        spoken when pressed.
+      </p>
+      <p>Privzeta vrednost: izbrano</p>
+    </section>
+    <section id="keyecho_enable_modifier">
+      <title>Omogoči pomožne tipke</title>
+      <p>Ta možnost nadzira ali so tipke <key>Dvigalka</key>, <key>Ctrl</key>, <key>Alt</key> in <key>Meta</key> izgovorjene ob pritisku.</p>
+      <p>Privzeta vrednost: izbrano</p>
+    </section>
+    <section id="keyecho_enable_function">
+      <title>Omogoči funkcijske tipke</title>
+      <p>Ta možnost nadzira ali so tipke od <key>F1</key> do <key>F12</key> izgovorjene ob pritisku.</p>
+      <p>Privzeta vrednost: izbrano</p>
+    </section>
+    <section id="keyecho_enable_action">
+      <title>Omogoči tipke dejanj</title>
+      <p>Ta možnost nadzira ali so tipke <key>Vračalka</key>, <key>Izbriši</key>, <key>Vnosna tipka</key>, <key>Ubežna tipka</key>, <key>Tabulator</key>, <key>Stran navzgor</key>, <key>Stran navzdol</key>, <key>Domov</key> in <key>Konec</key> izgovorjene ob pritisku.</p>
+      <p>Privzeta vrednost: izbrano</p>
+    </section>
+    <section id="keyecho_enable_navigation">
+      <title>Omogoči tipke krmarjenja</title>
+      <p>Ta možnost nadzira ali so tipke <key>Levo</key>, <key>Desno</key>, <key>Navzgor</key> in <key>Navzdol</key> izgovorjene ob pritisku. Ta možnost je uveljavljena za katerokoli kombinacijo tipk pri kateri je pritisnjena <key>Pomožna tipka Orka</key> na primer pri uporabi ploskega pregleda.</p>
+      <p>Prikazana vrednost: ni izbrano</p>
+    </section>
+    <section id="keyecho_enable_diacritical">
+      <title>Omogoči ne-presledne razločevalne tipke</title>
+      <p>Ta možnost nadzira ali so "mrtve tipke" uporabljene za ustvarjanje naglašenih črk izgovorjene ob pritisku.</p>
+      <p>Prikazana vrednost: ni izbrano</p>
+    </section>
+  </section>
+  <section id="characterecho">
+    <title>Omogoči odmev po znakih</title>
+    <p>Omogočena možnost določi, da Orka odmeva znak, ki ste ga pravkar vnesli.</p>
+    <p>
+      While echo by character seems quite similar to the key echo of
+      alphabetic, numeric, and punctuation keys, there are important differences,
+      especially with respect to accented letters and other symbols for which
+      there is no dedicated key:
+    </p>
+    <list>
+      <item>
+        <p>Odmev tipk povzroči, da <app>Orka</app> oznani kar ste ravnokar <em>pritisnili</em>.</p>
+      </item>
+      <item>
+        <p>Odmev znakov povzroči, da <app>Orka</app> oznani kaj je bilo pravkar <em>vstavljeno</em>.</p>
+      </item>
+    </list>
+    <p>Za izgovorjavo naglašenih znakov medtem ko jih tipkate omogočite odmev znakov.</p>
+    <p>Prikazana vrednost: ni izbrano</p>
+    <note style="tip">
+      <title>Omogočanje tako odmeva tipk kot odmeva znakov</title>
+      <p>V primeru, da vam je všeč odmev tipk in pogosto pišete naglašene znake, lahko omogočite oboje. <app>Orkina</app> logika odmeva znakov, poskuša filtrirati znake, ki so bili izgovorjeni kot posledica odmeva tipke in s tem zmanjša možnost "dvojnega govora" medtem, ko tipkate.</p>
+    </note>
+  </section>
+  <section id="wordandsentenceecho">
+    <title>Omogoči odmev po besedah in odmev po stavku</title>
+    <p>Izbira izbirnega polja <gui>Omogoči odmev besed</gui> določi, da <app>Orka</app> odmeva besedo, ki ste jo pravkar vnesli. Podobno izbira izbirnega polja <gui>Omogoči odmev stavka</gui> določi, da <app>Orka</app> odmeva vstavek, ki ste ga pravkar vnesli.</p>
+    <p>Prikazana vrednost: ni izbrano</p>
+  </section>
+</page>

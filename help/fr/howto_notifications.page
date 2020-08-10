@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_notifications" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_bookmarks"/>
+    <title type="sort">5. Notifications</title>
+    <desc>Lire des messages reçus dans le passé</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Notifications</title>
+  <p>Le bureau GNOME contient une « zone de notification » qui peut être utilisée par les applications pour afficher des informations pour l’utilisateur. Par exemple : l’arrivée de messages instantanés, des informations sur la chanson que votre lecteur multimédia commence à lire et des avertissements sur la charge de votre batterie.</p>
+  <p>Comme les notifications sont prévues pour afficher les informations sans interrompre ce que l’utilisateur est en train de faire, elles disparaissent généralement rapidement. Il n’est pas possible de leur donner le focus. Comme <app>Orca</app> lit ces informations au moment où elles apparaissent, il est beaucoup trop facile d’interrompre leur lecture accidentellement en continuant votre saisie ou en changeant le focus. Pour cette raison, <app>Orca</app> dispose de trois commandes qui vous permettent d’accéder aux messages de notification affichés auparavant :</p>
+  <list>
+    <item>
+      <p>Présente le dernier (le plus récent) message de notification</p>
+    </item>
+    <item>
+      <p>Présente le message de notification précédent</p>
+    </item>
+    <item>
+      <p>Présente la liste des messages de notification</p>
+    </item>
+  </list>
+  <p>Les deux premières commandes sont conçues principalement pour accéder au message qui vient d’être affiché. La dernière commande est la plus puissante car elle conserve l’historique des messages de notification.</p>
+  <p>Quand vous accédez à la liste des messages de notification, la taille de la liste est lue et les choix suivants vous sont offerts :</p>
+  <list>
+    <item><p>Appuyez sur H pour obtenir de l’aide.</p></item>
+    <item><p>Utilisez les touches : flèches haut, bas, origine et fin pour parcourir la liste.</p></item>
+    <item><p>Appuyez sur <key>Échap</key> pour quitter.</p></item>
+    <item><p>Appuyez sur la barre d’espace pour répéter le dernier message lu.</p></item>
+    <item><p>Appuyez sur un numéro pour lire un message spécifique.</p></item>
+  </list>
+  <p>Remarquez que le message reçu le plus récent est en haut de la liste.</p>
+  <p>Chacune des commandes d’examen des notifications d’<app>Orca</app> n’est par défaut pas liée. Vous pouvez lier chacune d’entre elles au raccourci de votre choix. Pour apprendre comment faire cela, consultez <link xref="howto_key_bindings">Introduction aux raccourcis clavier</link>.</p>
+</page>

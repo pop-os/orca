@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_speech" xml:lang="bg">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_braille"/>
+    <title type="sort">2.1 Реч</title>
+    <title type="link">Реч</title>
+    <desc>Определяне какво се изговаря</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Настройки на речта</title>
+  <section id="enable_speech">
+    <title>Включване на речта</title>
+    <p>Полето за отметка <gui>Включване на речта</gui> определя дали <app>Orca</app> ще използва речев синтезатор. Потребители, които използват само брайл, може би биха искали да премахнат отметката в това поле.</p>
+    <p>Стойност по подразбиране: с отметка</p>
+  </section>
+  <section id="verbosity">
+    <title>Многословност</title>
+    <p>Настройката <gui>Многословност</gui> определя количеството информация, което ще бъде изговаряно в множество ситуации. Например, ако е зададено на „Подробна“, когато навлезете в дума, която е сгрешена, <app>Orca</app> ще ви съобщи, че думата е сгрешена. Когато нивото е зададено на „Съкратена“, това уведомление няма да бъде направено.</p>
+    <p>Стойност по подразбиране: <gui>Подробна</gui></p>
+  </section>
+  <section id="punctuation_level">
+    <title>Ниво на пунктуация</title>
+    <p>Групата от радио бутони <gui>Ниво на пунктуация</gui> се използва за определяне на количеството пунктуация изговаряно от синтезатора. Наличните нива са <gui>Без</gui>, <gui>Някои</gui>, <gui>Повечето</gui> и <gui>Всички</gui>.</p>
+    <p>Стойност по подразбиране: <gui>Повечето</gui></p>
+    <section id="punctuation_level_none">
+      <title>Без</title>
+      <p>
+        Choosing a punctuation level of <gui>None</gui> would, as you expect,
+        cause no punctuation to be spoken. Note, however, that special symbols
+        such as subscripted and superscripted numbers, Unicode fractions, and
+        bullets are still spoken at this level, even though some might consider
+        these types of symbols punctuation.
+      </p>
+    </section>
+    <section id="punctuation_level_some">
+      <title>Някои</title>
+      <p>Задаване на нивото на пунктуация на <gui>Някои</gui> води до прочитането на всички досега споменати знаци. В допълнение, <app>Orca</app> ще прочита известните ѝ математически и валутни знаци и „^“, „@“, „/“, „&amp;“, „#“.</p>
+    </section>
+    <section id="punctuation_level_most">
+      <title>Повечето</title>
+      <p>Задаване на нивото на пунктуация на <gui>Повечето</gui> води до прочитането на всички досега споменати знаци. В допълнение, <app>Orca</app> ще произнася всички останали пунктуационни знаци <em>различни от</em> „!“, „'“, „,“, „.“, „?“.</p>
+    </section>
+    <section id="punctuation_level_all">
+      <title>Всички</title>
+      <p>Задаване на нивото на пунктуация на <gui>Всички</gui>, както може да се очаква, кара <app>Orca</app> да прочита всички известни пунктуационни знаци.</p>
+    </section>
+  </section>
+  <section id="spoken_context">
+    <title>Контекст при изговаряне</title>
+    <p>Следващите елементи определят прочитането на допълнителна, „системна“ информация за елемента на фокус. Понеже въпросният текст не се изобразява на екрана, тази информация се представя със системния глас на <app>Orca</app>.</p>
+    <section id="only_speak_displayed_text">
+      <title>Прочитане само на текста от екрана</title>
+      <p>Отмятането на това поле кара <app>Orca</app> да прочита само текста, който е изобразен на екрана. Тази възможност е предназначена главно за потребители с остатъчно зрение и потребители с проблеми в ученето.</p>
+      <p>Стойност по подразбиране: без отметка</p>
+      <note style="note">
+        <p>
+          The following items will not be available for configuration if
+          the <gui>Only speak displayed text</gui> checkbox is checked.
+        </p>
+      </note>
+    </section>
+    <section id="speak_blank_lines">
+      <title>Прочитане на празните редове</title>
+      <p>Ако <gui>Прочитане на празните редове</gui> е отметнато, <app>Orca</app> ще изговаря „празен“ всеки път, когато се придвижите до празен ред. Ако няма отметка, <app>Orca</app> няма да прочита нищо.</p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="indentation_and_justification">
+      <title>Прочитане на отместването по ред и подравняването</title>
+      <p>Когато работим с програмен код или редактираме други документи, често се налага да сме информирани за отместването по ред и подравняването. Отмятането на полето <gui>Прочитане на отместването по ред и подравняването</gui> ще накара <app>Orca</app> да съобщава тази информация.</p>
+      <p>Стойност по подразбиране: без отметка</p>
+    </section>
+    <section id="speak_misspelled_word_indicator">
+      <title>Прочитане на индикацията за сгрешена дума</title>
+      <p>Индикацията за сгрешена дума е червената вълнообразна линия, с която се подчертават сгрешените думи в полетата за въвеждане на текст. Ако <gui>Прочитане на индикацията за сгрешена дума</gui> е отметнато, при придвижването върху така подчертана дума <app>Orca</app> ще обявява „сгрешено“.</p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="mnemonics">
+     <title>Прочитане на мнемониката на обекта</title>
+      <p>Ако <gui>Прочитане на мнемониката на обекта</gui> има отметка, <app>Orca</app> ще ви съобщава мнемониката асоциирана с обекта на фокус (като <keyseq><key>Alt</key><key>O</key></keyseq> за бутон <gui>OK</gui>).</p>
+      <p>Стойност по подразбиране: без отметка</p>
+    </section>
+    <section id="child_position">
+      <title>Прочитане на позицията на дъщерния елемент</title>
+      <p>Отмятане на полето <gui>Прочитане на позицията на дъщерния елемент</gui> ще накара <app>Orca</app> да ви съобщава позицията на елемента на фокус в менюта, списъци и дървовидни списъци (т.е.. „9 от 16“).</p>
+      <p>Стойност по подразбиране: без отметка</p>
+    </section>
+    <section id="speak_tutorial_messages">
+      <title>Прочитане на обучителните съобщения</title>
+      <p>Ако <gui>Прочитане на обучителните съобщения</gui> е отметнато, придвижвайки се между обектите на графичния интерфейс, <app>Orca</app> ще ви предоставя допълнителна информация, например как да си взаимодействате с текущия обект на фокус.</p>
+      <p>Стойност по подразбиране: без отметка</p>
+    </section>
+    <section id="speak_description">
+      <title>Speak description</title>
+      <p>
+        If the <gui>Speak description</gui> checkbox is checked, as
+        you move amongst objects in an interface, <app>Orca</app> will
+        speak the accessible description in addition to the accessible
+        name of the object.
+      </p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="system_messages_are_detailed">
+      <title>Подробни системни съобщения</title>
+      <p>Ако <gui>Подробни системни съобщения</gui> е отметнато, <app>Orca</app> ще прочита детайлни съобщения. Например, ако използвате командата на <app>Orca</app> за смяна на прочитането на клавиши, <app>Orca</app> ще произнесе „Прочитане по клавиши“. Ако предпочитате кратки съобщения като „по думи“, настройката трябва да не е отметната.</p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="speak_colors_as_names">
+      <title>Прочитане на цветовете като имена</title>
+      <p>Ако <gui>Прочитане на цветовете като имена</gui> е отметнато, <app>Orca</app> ще описва цветовете с най близкото съответствие. Например цвят с компоненти в червено, зелено и синьо съответно — 0, 27, 51 ще бъде прочетен като „среднощно-синьо“. Ако предпочитате точната стойност в RGB, оставете полето без отметка.</p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="announce_blockquotes_during_navigation">
+      <title>Announce blockquotes during navigation</title>
+      <p>
+        If <gui>Announce blockquotes during navigation</gui> is checked,
+        <app>Orca</app> will tell you when you navigate into or out of a
+        blockquote. Note that this setting is independent of whether or not
+        this announcement is made during Say All. See
+        <link xref="preferences_general#say_all_announce_context">Announce
+        Contextual Information in Say All</link> for more information.
+      </p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="announce_forms_during_navigation">
+      <title>Announce forms during navigation</title>
+      <p>
+        If <gui>Announce forms during navigation</gui> is checked,
+        <app>Orca</app> will tell you when you navigate into or out of a
+        form. Note that this setting is specific to forms which are not
+        ARIA landmarks. You can configure the presentation of ARIA landmarks
+        through the <gui>Announce landmarks during navigation</gui> checkbox.
+        In addition, note that this setting is independent of whether or not
+        this announcement is made during Say All. See
+        <link xref="preferences_general#say_all_announce_context">Announce
+        Contextual Information in Say All</link> for more information.
+      </p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="announce_landmarks_during_navigation">
+      <title>Announce landmarks during navigation</title>
+      <p>
+        If <gui>Announce landmarks during navigation</gui> is checked,
+        <app>Orca</app> will tell you when you navigate into or out of an
+        ARIA landmark. Note that this setting is independent of whether or not
+        this announcement is made during Say All. See
+        <link xref="preferences_general#say_all_announce_context">Announce
+        Contextual Information in Say All</link> for more information.
+      </p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="announce_lists_during_navigation">
+      <title>Announce lists during navigation</title>
+      <p>
+        If <gui>Announce lists during navigation</gui> is checked,
+        <app>Orca</app> will tell you when you navigate into or out of a
+        list. Note that this setting is independent of whether or not
+        this announcement is made during Say All. See
+        <link xref="preferences_general#say_all_announce_context">Announce
+        Contextual Information in Say All</link> for more information.
+      </p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="announce_panels_during_navigation">
+      <title>Announce panels during navigation</title>
+      <p>
+        If <gui>Announce panels during navigation</gui> is checked,
+        <app>Orca</app> will tell you when you navigate into or out of a
+        panel. Note that this setting is independent of whether or not
+        this announcement is made during Say All. See
+        <link xref="preferences_general#say_all_announce_context">Announce
+        Contextual Information in Say All</link> for more information.
+      </p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="announce_tables_during_navigation">
+      <title>Announce tables during navigation</title>
+      <p>
+        If <gui>Announce tables during navigation</gui> is checked,
+        <app>Orca</app> will tell you when you navigate into or out of a
+        table. Note that this setting is independent of whether or not
+        this announcement is made during Say All. See
+        <link xref="preferences_general#say_all_announce_context">Announce
+        Contextual Information in Say All</link> for more information.
+      </p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="read_full_row_in_gui_tables">
+      <title>Четене на цели редове в таблиците от интерфейса</title>
+      <p>Ако <gui>Четене на цели редове в таблиците от интерфейса</gui> е отметнато, <app>Orca</app> ще прочита цели редове при придвижването нагоре и надолу в таблици като входящата поща. Ако предпочитате да чувате само клетката с фокуса, оставете полето без отметка.</p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="read_full_row_in_document_tables">
+      <title>Четене на цели редове в таблиците в документа</title>
+      <p>Ако <gui>Четене на цели редове в таблиците в документа</gui> е отметнато, <app>Orca</app> ще прочита цели редове при придвижването нагоре и надолу в таблици като тези в <app>Writer</app> и уеб страници. Ако предпочитате да чувате само клетката с фокуса, оставете полето без отметка.</p>
+      <p>Стойност по подразбиране: с отметка</p>
+    </section>
+    <section id="read_full_row_in_spreadsheets">
+      <title>Четене на цели редове в електронните таблици</title>
+      <p>Ако <gui>Четене на цели редове в електронните таблици</gui> е отметнато, <app>Orca</app> ще прочита цели редове при придвижването нагоре и надолу в електронните таблици като тези в <app>Calc</app>. Ако предпочитате да чувате само клетката с фокуса, оставете полето без отметка.</p>
+      <p>Стойност по подразбиране: без отметка</p>
+    </section>
+  </section>
+</page>

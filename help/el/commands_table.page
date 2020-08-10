@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_table" xml:lang="el">
+  <info>
+    <link type="next" xref="commands_flat_review"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_tables"/>
+    <title type="sort">3. Πίνακας περιήγησης</title>
+    <title type="link">Πίνακας περιήγησης</title>
+    <desc>Εντολές για πρόσβαση πληροφοριών πίνακα</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εντολές περιήγησης πίνακα</title>
+  <p>Η υποστήριξη του Orca για περιήγηση ανά κελί πίνακα είναι μέρος των <link xref="commands_structural_navigation#tables">εντολών δομικής περιήγησης του</link>. Επιπλέον μπορείτε να:</p>
+  <list>
+    <item>
+      <p>Ορίσετε δυναμικές κεφαλίδες γραμμής στην τρέχουσα στήλη: <keyseq><key>τροποποιητής Orca</key><key>C</key></keyseq></p>
+    </item>
+    <item>
+      <p>Ορίσετε δυναμικές κεφαλίδες στήλης στην τρέχουσα γραμμή: <keyseq><key>τροποποιητής Orca</key><key>R</key></keyseq></p>
+    </item>
+    <item>
+      <p>Καθαρίσετε δυναμικές κεφαλίδες γραμμής: <keyseq><key>τροποποιητής Orca</key><key>C</key></keyseq> (διπλό κλικ)</p>
+    </item>
+    <item>
+      <p>Καθαρίσετε δυναμικές κεφαλίδες στήλης: <keyseq><key>τροποποιητής Orca</key><key>R</key></keyseq> (διπλό κλικ)</p>
+    </item>
+    <item>
+      <p>Εναλλάξετε μεταξύ κελιού και ανάγνωσης γραμμής σε έναν πίνακα: <keyseq><key>τροποποιητής του Orca</key><key>F11</key></keyseq></p>
+    </item>
+  </list>
+</page>

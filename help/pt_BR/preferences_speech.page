@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_speech" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_braille"/>
+    <title type="sort">2.1 Speech</title>
+    <title type="link">Fala</title>
+    <desc>
+      Configuring what gets spoken
+    </desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Preferências de Fala</title>
+  <section id="enable_speech">
+    <title>Habilitar fala</title>
+    <p>A caixa de seleção <gui>Habilitar fala</gui> controla se o <app>Orca</app> deve ou não fazer uso de um sintetizador de voz. Usuários que usam apenas Braille provavelmente desejarão desmarcar esta opção.</p>
+    <p>Valor padrão: selecionada</p>
+  </section>
+  <section id="verbosity">
+    <title>Verbosidade</title>
+    <p>A configuração de <gui>Verbosidade</gui> determina a quantidade de informação que será falada em diversas situações. Por exemplo, se for ajustado para detalhado e você se deslocar com as teclas direcionais sobre uma palavra que está incorretamente soletrada, o <app>Orca</app> dirá que ela está incorretamente soletrada. Quando o nível é ajustado para breve, este anúncio não será feito.</p>
+    <p>Valor padrão: <gui>Verboso</gui></p>
+  </section>
+  <section id="punctuation_level">
+    <title>Nível de pontuação</title>
+    <p>O botão de opção <gui>nível de pontuação</gui> é usado para ajustar a quantidade de pontuação falada pelo sintetizador. Os níveis disponíveis são <gui>Nenhum</gui>, <gui>Algum</gui>, <gui>Maioria</gui>, e <gui>Todas</gui>.</p>
+    <p>Valor padrão: <gui>A maioria</gui></p>
+    <section id="punctuation_level_none">
+      <title>Nenhum</title>
+      <p>
+        Choosing a punctuation level of <gui>None</gui> would, as you expect,
+        cause no punctuation to be spoken. Note, however, that special symbols
+        such as subscripted and superscripted numbers, Unicode fractions, and
+        bullets are still spoken at this level, even though some might consider
+        these types of symbols punctuation.
+      </p>
+    </section>
+    <section id="punctuation_level_some">
+      <title>Algum</title>
+      <p>Selecionando um nível de pontuação de <gui>Algum</gui> faz com que todos os sinais anteriormente mencionados sejam falados. Além disso, <app>Orca</app> falará sinais matemáticos conhecidos, símbolos monetários, como também "^", "@", "/", "&amp;", "#".</p>
+    </section>
+    <section id="punctuation_level_most">
+      <title>Maioria</title>
+      <p>Selecionando o nível de pontuação <gui>maioria</gui> faz com que todos os sinais anteriormente mencionados sejam falados. Além disso, o <app>Orca</app> falará os demais sinais de pontuação conhecidos <em>exceto</em> "!", "'", ",", ".", "?".</p>
+    </section>
+    <section id="punctuation_level_all">
+      <title>Todos</title>
+      <p>Selecionando o nível de pontuação <gui>Todos</gui>, como é esperado, faz com que o <app>Orca</app> fale todos os sinais de pontuação.</p>
+    </section>
+  </section>
+  <section id="spoken_context">
+    <title>Spoken Context</title>
+    <p>Os itens seguintes controlam a apresentação de uma variedade de informações de "sistema" sobre o item com foco. Já que o texto associado não aparece na tela, esta informação é apresentada na "voz de sistema" do <app>Orca</app>.</p>
+    <section id="only_speak_displayed_text">
+      <title>Falar somente textos exibidos</title>
+      <p>Marcando esta caixa de seleção, faz-se com que o <app>Orca</app> fale somente os textos atualmente exibidos na tela. Esta opção é destinada, em primeiro lugar, para usuários de baixa visão e para usuários com distúrbios visuais de aprendizado.</p>
+      <p>Valor padrão: desmarcado</p>
+      <note style="note">
+        <p>
+          The following items will not be available for configuration if
+          the <gui>Only speak displayed text</gui> checkbox is checked.
+        </p>
+      </note>
+    </section>
+    <section id="speak_blank_lines">
+      <title>Falar as linhas em branco</title>
+      <p>Se a caixa de seleção <gui>Falar as linhas em branco</gui> está marcada, o <app>Orca</app> irá ler "em branco" cada vez que você mover para uma linha em branco usando as setas. Se não marcada, o <app>Orca</app> não lerá nada quando você mover para uma linha em branco.</p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="indentation_and_justification">
+      <title>Falar recuo e justificação</title>
+      <p>Quando trabalhamos com código ou editamos outros documentos, muitas vezes é desejável ter informações de justificação e de recuo. Marcando a caixa de seleção <gui>Falar recuo e justificação</gui> fará com que o <app>Orca</app> anuncie essa informação.</p>
+      <p>Valor padrão: desmarcado</p>
+    </section>
+    <section id="speak_misspelled_word_indicator">
+      <title>Speak misspelled-word indicator</title>
+      <p>
+        The misspelled-word indicator is the red squiggly line that appears
+        underneath misspelled words in editable text fields. If <gui>Speak
+        misspelled-word indicator</gui> is checked, when you navigate into
+        a word with this indicator, or type a word incorrectly causing this
+        indicator to appear, <app>Orca</app> will speak "misspelled."
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="mnemonics">
+     <title>Falar mnemônicos do objeto</title>
+      <p>Se a caixa de seleção <gui>Falar mnemônicos do objeto</gui> está marcada, o <app>Orca</app> anunciará o mnemônico associado ao objeto com o foco (como por exemplo <keyseq><key>Alt</key><key>O</key> </keyseq> para um botão de <gui>OK</gui>).</p>
+      <p>Valor padrão: desmarcado</p>
+    </section>
+    <section id="child_position">
+      <title>Fala posição filha</title>
+      <p>Marcando a caixa de seleção <gui>Fala posição filha</gui> fará com que o <app>Orca</app> anuncie a posição do item em foco em menus, listas, e árvores. (Exemplo: "9 de 16").</p>
+      <p>Valor padrão: desmarcado</p>
+    </section>
+    <section id="speak_tutorial_messages">
+      <title>Falar mensagens tutorial</title>
+      <p>Se a caixa de seleção <gui>Fala mensagens tutorial</gui> está marcada, assim que você se mover pelos objetos da interface, o <app>Orca</app> fornecerá informações adicionais, como por exemplo a forma de interagir com o objeto atualmente em foco.</p>
+      <p>Valor padrão: desmarcado</p>
+    </section>
+    <section id="speak_description">
+      <title>Speak description</title>
+      <p>
+        If the <gui>Speak description</gui> checkbox is checked, as
+        you move amongst objects in an interface, <app>Orca</app> will
+        speak the accessible description in addition to the accessible
+        name of the object.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="system_messages_are_detailed">
+      <title>System messages are detailed</title>
+      <p>
+        If <gui>System messages are detailed</gui> is checked, <app>Orca</app> will
+        present detailed messages to you in speech. For instance, if you use
+        <app>Orca</app>'s command to change key echo, <app>Orca</app> might
+        speak "Key echo set to word." If you would prefer shorter messages,
+        such as simply "word," you should uncheck this checkbox.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="speak_colors_as_names">
+      <title>Speak colors as names</title>
+      <p>
+        If <gui>Speak colors as names</gui> is checked, <app>Orca</app> will
+        describe colors, looking for the closest approximate. For instance,
+        RGB 0, 27, 51 would be spoken as "midnight blue." If you would prefer
+        to hear the exact RGB value, you should uncheck this checkbox.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="announce_blockquotes_during_navigation">
+      <title>Announce blockquotes during navigation</title>
+      <p>
+        If <gui>Announce blockquotes during navigation</gui> is checked,
+        <app>Orca</app> will tell you when you navigate into or out of a
+        blockquote. Note that this setting is independent of whether or not
+        this announcement is made during Say All. See
+        <link xref="preferences_general#say_all_announce_context">Announce
+        Contextual Information in Say All</link> for more information.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="announce_forms_during_navigation">
+      <title>Announce forms during navigation</title>
+      <p>
+        If <gui>Announce forms during navigation</gui> is checked,
+        <app>Orca</app> will tell you when you navigate into or out of a
+        form. Note that this setting is specific to forms which are not
+        ARIA landmarks. You can configure the presentation of ARIA landmarks
+        through the <gui>Announce landmarks during navigation</gui> checkbox.
+        In addition, note that this setting is independent of whether or not
+        this announcement is made during Say All. See
+        <link xref="preferences_general#say_all_announce_context">Announce
+        Contextual Information in Say All</link> for more information.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="announce_landmarks_during_navigation">
+      <title>Announce landmarks during navigation</title>
+      <p>
+        If <gui>Announce landmarks during navigation</gui> is checked,
+        <app>Orca</app> will tell you when you navigate into or out of an
+        ARIA landmark. Note that this setting is independent of whether or not
+        this announcement is made during Say All. See
+        <link xref="preferences_general#say_all_announce_context">Announce
+        Contextual Information in Say All</link> for more information.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="announce_lists_during_navigation">
+      <title>Announce lists during navigation</title>
+      <p>
+        If <gui>Announce lists during navigation</gui> is checked,
+        <app>Orca</app> will tell you when you navigate into or out of a
+        list. Note that this setting is independent of whether or not
+        this announcement is made during Say All. See
+        <link xref="preferences_general#say_all_announce_context">Announce
+        Contextual Information in Say All</link> for more information.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="announce_panels_during_navigation">
+      <title>Announce panels during navigation</title>
+      <p>
+        If <gui>Announce panels during navigation</gui> is checked,
+        <app>Orca</app> will tell you when you navigate into or out of a
+        panel. Note that this setting is independent of whether or not
+        this announcement is made during Say All. See
+        <link xref="preferences_general#say_all_announce_context">Announce
+        Contextual Information in Say All</link> for more information.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="announce_tables_during_navigation">
+      <title>Announce tables during navigation</title>
+      <p>
+        If <gui>Announce tables during navigation</gui> is checked,
+        <app>Orca</app> will tell you when you navigate into or out of a
+        table. Note that this setting is independent of whether or not
+        this announcement is made during Say All. See
+        <link xref="preferences_general#say_all_announce_context">Announce
+        Contextual Information in Say All</link> for more information.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="read_full_row_in_gui_tables">
+      <title>Read full row in GUI tables</title>
+      <p>
+        If <gui>Read full row in GUI tables</gui> is checked, as you arrow up
+        and down in application tables such as the list of messages in your
+        Inbox, <app>Orca</app> will speak the entire row. If you would prefer
+        to hear only the cell with focus, you should uncheck this checkbox.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="read_full_row_in_document_tables">
+      <title>Read full row in document tables</title>
+      <p>
+        If <gui>Read full row in document tables</gui> is checked, as you arrow
+        up and down in tables such as those found in <app>Writer</app> and web
+        documents, <app>Orca</app> will speak the entire row. If you would prefer
+        to hear only the cell with focus, you should uncheck this checkbox.
+      </p>
+      <p>Valor padrão: selecionada</p>
+    </section>
+    <section id="read_full_row_in_spreadsheets">
+      <title>Read full row in spreadsheets</title>
+      <p>
+        If <gui>Read full row in spreadsheets</gui> is checked, as you arrow
+        up and down in spreadsheets, <app>Orca</app> will speak the entire
+        row. If you would prefer to hear only the cell with focus, you should
+        uncheck this checkbox.
+      </p>
+      <p>Valor padrão: desmarcado</p>
+    </section>
+  </section>
+</page>

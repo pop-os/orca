@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_documents" xml:lang="el">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_text_attributes"/>
+    <title type="sort">1. Έγγραφα</title>
+    <desc>Ανάγνωση περιεχομένου</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Έγγραφα</title>
+  <p>Για ανάγνωση των περιεχομένων οποιουδήποτε εγγράφου, χρησιμοποιήστε την ενσωματωμένη κατάσταση περιήγησης δρομέα της εφαρμογής. Καθώς περιηγείστε μες το κείμενο του εγγράφου, το <app>Orca</app> θα παρουσιάσει τη νέα σας τοποθεσία. Ως αποτέλεσμα, είναι πιθανό να είσαστε εξοικειωμένος πώς να διαβάσετε ένα έγγραφο χρησιμοποιώντας το <app>Orca</app>. Για παράδειγμα:</p>
+  <list>
+    <item>
+      <p>Χρησιμοποιήστε <key>αριστερό βέλος</key> και <key>δεξιό βέλος</key> για μετακίνηση και ανάγνωση ανά χαρακτήρα.</p>
+    </item>
+    <item>
+      <p>Χρησιμοποιήστε <keyseq><key>Ctrl</key><key>αριστερό βέλος</key></keyseq> και <keyseq><key>Ctrl</key><key>δεξιό βέλος</key></keyseq> για μετακίνηση και ανάγνωση ανά λέξη.</p>
+    </item>
+    <item>
+      <p>Χρησιμοποιήστε <key>επάνω βέλος</key> και <key>κάτω βέλος</key> για μετακίνηση και ανάγνωση ανά γραμμή.</p>
+    </item>
+    <item>
+      <p>Χρησιμοποιήστε <key>Shift</key> σε συνδυασμό με τις παραπάνω εντολές για επιλογή και αποεπιλογή κειμένου.</p>
+    </item>
+  </list>
+  <note style="tip">
+    <title>Ενεργοποίηση περιήγησης δρομέα σε μια εφαρμογή</title>
+    <p>Δεν έχουν όλες οι εφαρμογές περιήγηση δρομέα ενεργοποιημένο από προεπιλογή. Σε πολλές εφαρμογές GNOME, η περιήγηση δρομέα μπορεί να εναλλαχτεί ναι/όχι πατώντας το <key>F7</key>.</p>
+  </note>
+  <p>Πέρα από την ανάγνωση εγγράφου με περιήγηση δρομέα, μπορείτε να βρείτε χρήσιμη την ανάγνωση, συλλαβισμό και λήψη τιμής Unicode για το τρέχον κείμενο. Μπορείτε να κάνετε αυτά τα πράγματα μέσα από το <app>Orca</app> στο <link xref="howto_flat_review">γνώρισμα γενικής επισκόπησης</link>.</p>
+  <p>
+    Finally, in order to have <app>Orca</app> speak the entire document from your
+    present location, use the Say All command. It, along with a more complete
+    listing of <app>Orca</app>'s commands for accessing document text, can
+    be found in the <link xref="commands_reading">Reading Commands</link> guide.
+  </p>
+</page>

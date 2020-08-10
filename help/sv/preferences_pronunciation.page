@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_pronunciation" xml:lang="sv">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_text_attributes"/>
+    <title type="sort">7. Uttal</title>
+    <title type="link">Uttal</title>
+    <desc>Definiera hur specifika ord ska uttalas</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Uttalsinställningar</title>
+  <p>Ibland säger din talsyntes helt enkelt inte rätt sak för en sträng. Du kanske föredrar att höra ”asgarvar” snarare än ”asg” eller ”accessibility” snarare än ”a11y”, eller också kan det finnas ett namn eller en teknisk term som syntesen uttalar fel.</p>
+  <p>Sidan <gui>Uttal</gui> i <app>Orca</app>s inställningsdialog låter dig lägga till, redigera och ta bort poster i <app>Orca</app>s uttalsordlista.</p>
+  <p>Eftersom sidan <gui>Uttal</gui> också är en del av de programspecifika inställningarna kan du anpassa dina poster efter behov för varje program som du använder.</p>
+  <steps>
+    <title>Lägga till en ny ordbokspost</title>
+    <item>
+      <p>Tryck ned knappen Ny post (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
+    </item>
+    <item>
+      <p>Skriv in texten för den nya posten och tryck <key>Retur</key> för att slutföra redigering av den faktiska strängen.</p>
+    </item>
+    <item>
+      <p>Flytta till kolumnen <gui>Ersättningssträng</gui> och tryck <key>Retur </key> för att börja redigera.</p>
+    </item>
+    <item>
+      <p>Skriv texten du vill ska läsas upp istället och tryck <key> Retur</key> för att slutföra redigering av ersättningssträngen.</p>
+    </item>
+  </steps>
+  <steps>
+  <title>Redigera en befintlig ordbokspost</title>
+    <item>
+      <p>Flytta till cellen du vill redigera och tryck <key>Retur</key> för att börja redigera.</p>
+    </item>
+    <item>
+      <p>Gör dina ändringar och tryck <key>Retur</key> för att slutföra redigeringen.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Ta bort en befintlig ordbokspost</title>
+    <item>
+      <p>Flytta till posten som du vill ta bort.</p>
+    </item>
+    <item>
+      <p>Tryck på Ta bort-knappen eller <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
+    </item>
+  </steps>
+</page>

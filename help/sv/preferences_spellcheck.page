@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_spellcheck" xml:lang="sv">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <title type="sort">4. Stavningskontroll</title>
+    <title type="link">Stavningskontroll</title>
+    <desc>Konfigurera <app>Orcas</app>s stöd för stavningskontroll</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Inställningar för stavningskontroll</title>
+  <p><app>Orca</app> försöker tillhandahålla en konsekvent användarupplevelse vid interaktion med programs stavningskontroller. För program där detta utökade stöd tillhandahålls kommer du hitta flera alternativ som du kan justera för att hålla den informationsnivå som fungerar bäst för dig.</p>
+  <note style="tip">
+    <title>Du kan ha antingen kort eller informativ stavningskontrollinformation</title>
+    <p>Om du vanligen vill ha låg informationsnivå då du använder stavningskontroll, men ibland behöver detaljerad information om ett givet fel så kan du inaktivera dessa alternativ. Då du behöver ytterligare detaljer använder du helt enkelt <app>Orca</app>s detaljerade <link xref="howto_whereami">Var är jag</link>-kommando för att få <app>Orca</app> att presentera det aktuella felet som om alla dessa alternativ var aktiverade.</p>
+  </note>
+  <section id="spell_error">
+    <title>Bokstavera fel</title>
+    <p>Om denna kryssruta är ikryssad kommer <app>Orca</app> bokstavera det felstavade ordet efter att ha läst upp det.</p>
+    <p>Standardvärde: ikryssad</p>
+  </section>
+  <section id="spell_suggestion">
+    <title>Bokstavera förslag</title>
+    <p>Om denna kryssruta är ikryssad kommer <app>Orca</app> bokstavera den föreslagna rättningen efter att ha läst upp den.</p>
+    <p>Standardvärde: ikryssad</p>
+  </section>
+  <section id="error_context">
+    <title>Visa sammanhang för fel</title>
+    <p>Om denna kryssruta är ikryssad kommer <app>Orca</app> läsa upp meningen eller raden ur dokumentet i vilket felet finns.</p>
+    <p>Standardvärde: ikryssad</p>
+  </section>
+</page>

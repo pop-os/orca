@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_text_attributes" xml:lang="sv">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_gecko"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <title type="sort">8. Textattribut</title>
+    <title type="link">Textattribut</title>
+    <desc>Konfigurera vilken formatering som ska presenteras</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Inställningar för textattribut</title>
+  <p>Termen ”textattribut” hänvisar till typsnitt, stil, justering och annan formatering som är associerad med ett tecken eller en serie med tecken. <app>Orca</app>s sida <gui>Textattribut</gui> låter dig anpassa vilka textattribut som <app>Orca</app> kommer läsa upp, tillsammans med ordningen de ska presenteras i, samt vilka som <app>Orca</app> kommer visa i punktskrift.</p>
+  <section id="table">
+    <title>Tabellen textattribut</title>
+    <p>Tabellen textattribut är platsen där du anger vilka attribut som kommer att presenteras och under vilka villkor. Varje rad består av fyra kolumner.</p>
+    <list>
+      <item>
+        <p><gui>Attributnamn</gui>: Namnet på textattributet.</p>
+      </item>
+      <item>
+        <p><gui>Läs upp</gui>: Kryssa i denna kryssruta om du vill att <app>Orca</app> ska läsa upp detta attribut när du trycker <keyseq><key>Orca-modifierare</key><key>F</key></keyseq>.</p>
+      </item>
+      <item>
+        <p><gui>Markera i punktskrift</gui>: Kryssa i denna kryssruta om du vill att <app>Orca</app> ska ”stryka under” detta attribut på din punktskriftskärm.</p>
+      </item>
+      <item>
+        <p><gui>Presentera såvida inte</gui>: Detta redigerbara fält låter dig ange när ett aktiverat attribut inte är av intresse.</p>
+        <p>Till exempel har textattributet ”understruken” som standard värdet ”ingen”. Detta får <app>Orca</app> att informera dig om understruken text så länge som texten faktiskt är understruken. Om du alltid vill att detta attribut ska läsas upp oberoende av om texten är understruken så ska kolumnen <gui>Presentera såvida inte</gui> vara tom för understruken. Du ska dessutom se till att kolumnen <gui>Läs upp</gui> för understruken är ikryssad.</p>
+      </item>
+    </list>
+  </section>
+  <section id="reset">
+     <title>Ångra ändringar</title>
+     <p>Under listan med textattribut finns en Återställ-knapp (<keyseq><key>Alt</key><key>R</key></keyseq>) som återställer värdena i tabellen till vad de var då dialogen först visades.</p>
+  </section>
+  <section id="rearranging">
+     <title>Arrangera om presentationsordning</title>
+     <p>Då du först visar sidan för textattribut så är alla dina aktiverade attribut högst upp i tabellen i den ordning som de kommer läsas upp. Det finns fyra knappar som kan användas för att ändra presentationsordningen.</p>
+    <list>
+      <item>
+        <p><gui>Flytta överst</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>): flyttar det markerade attributet högst upp i listan.</p>
+      </item>
+      <item>
+        <p><gui>Flytta en uppåt</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>): flyttar det markerade attributet en rad uppåt.</p>
+      </item>
+      <item>
+        <p><gui>Flytta en nedåt</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>): flyttar det markerade attributet en rad nedåt.</p>
+      </item>
+      <item>
+        <p><gui>Flytta nederst</gui> (<keyseq><key>Alt</key><key>B</key></keyseq>): flyttar det markerade attributet längst ner i listan.</p>
+      </item>
+    </list>
+  </section>
+  <section id="braille_indicator">
+    <title>Alternativ för att konfigurera ”understrykning” för formatering i punktskrift</title>
+    <p>Under tryckknapparna finns radioknappsgruppen <gui>Punktskriftsindikator</gui>. Här kan du välja den cell eller de celler som ska användas för att indikera text som har minst ett av de angivna attributen.</p>
+    <list>
+      <item>
+        <p><gui>Ingen</gui>: Stryk inte under textattribut i punktskrift (standardvärdet)</p>
+      </item>
+      <item>
+        <p><gui>Punkt 7</gui>: Stryk under textattribut endast med punkt 7</p>
+      </item>
+      <item>
+        <p><gui>Punkt 8</gui>: Stryk under textattribut endast med punkt 8</p>
+      </item>
+      <item>
+        <p><gui>Punkt 7 och 8</gui>: Stryk under textattribut med både punkt 7 och punkt 8</p>
+      </item>
+    </list>
+  </section>
+</page>

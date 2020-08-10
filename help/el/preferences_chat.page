@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_chat" xml:lang="el">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_spellcheck"/>
+    <title type="sort">3. Συνομιλία</title>
+    <title type="link">Συνομιλία</title>
+    <desc>
+      Configuring <app>Orca</app>'s support for IM and IRC
+    </desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Προτιμήσεις συνομιλίας</title>
+  <p>Οι επόμενες επιλογές επιτρέπουν την προσαρμογή της συμπεριφοράς του <app>Orca</app> όταν παρέχεται πρόσβαση σε άμεσα μηνύματα και πελάτες συνομιλίας μεταγωγής διαδικτύου.</p>
+  <section id="speak_name">
+    <title>Εκφώνηση ονόματος δωματίου συνομιλίας</title>
+    <p>Εάν αυτό το πλαίσιο ελέγχου σημειωθεί, το <app>Orca</app> θα προθεματίσει τα εισερχόμενα μηνύματα με το όνομα του δωματίου ή του ατόμου από τα οποία προήλθε, εκτός και ήρθαν από την τρέχουσα συζήτηση.</p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+  </section>
+  <section id="announce_typing">
+    <title>Ανακοίνωση όταν πληκτρολογούν τα άτομα</title>
+    <p>Εάν αυτό το πλαίσιο ελέγχου σημειωθεί και εάν το <app>Orca</app> έχει αρκετές πληροφορίες ταυτοποίησης ότι αυτό το άτομο πληκτρολογεί, το <app>Orca</app> θα ανακοινώσει αλλαγές στην κατάσταση πληκτρολόγησης.</p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+  </section>
+  <section id="message_histories">
+    <title>Παροχή ιδιαίτερων ιστορικών μηνύματος για κάθε δωμάτιο συνομιλίας</title>
+    <p>Εάν αυτό το πλαίσιο ελέγχου σημειωθεί, οι εντολές του <app>Orca</app> για επισκόπηση των πρόσφατων μηνυμάτων θα εφαρμοστούν μόνο για την εφαρμογή τρέχουσα συζήτηση. Αλλιώς, το ιστορικό θα περιέχει τα πιο πρόσφατα μηνύματα ανεξάρτητα από ποια συζήτηση προήλθαν.</p>
+    <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+  </section>
+  <section id="speak_messages_from">
+    <title>Εκφώνηση μηνυμάτων από</title>
+    <p>Αυτή η ομάδα ραδιοπλήκτρων επιτρέπει τον έλεγχο των συνθηκών κάτω από τις οποίες το <app>Orca</app> θα παρουσιάσει ένα εισερχόμενο μήνυμα σε σας. Οι επιλογές σας είναι:</p>
+    <list>
+      <item>
+        <p><gui>Όλα τα κανάλια</gui></p>
+      </item>
+      <item>
+        <p><gui>Ένα κανάλι μόνο αν το παράθυρό του είναι ενεργό</gui></p>
+      </item>
+      <item>
+        <p><gui>Όλα τα κανάλια όταν οποιοδήποτε παράθυρο συνομιλίας είναι ενεργό</gui></p>
+      </item>
+    </list>
+    <p>Προεπιλεγμένη τιμή: όλα τα κανάλια</p>
+  </section>
+</page>

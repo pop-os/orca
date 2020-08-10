@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_where_am_i" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_time_date_notifications"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">3. Kde se nacházím</title>
+    <title type="link">Kde se nacházím</title>
+    <desc>Příkazy pro zjištění vaší polohy</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy pro „Kde se nacházím“</title>
+  <p>Funkce čtečky <app>Orca</app> „Kde se nacházím“ vám dává kontextově závislé podrobné údaje o tom, kde se nacházíte na obrazovce. Například v tabulkách poskytne „Kde se nacházím“ podrobnosti o buňce tabulky, ve které jste, ale v textu prezentuje aktuální řádek spolu s textem, který je označený. Úplný seznam, co přesně můžete očekávat, že <app>Orca</app> bude prezentovat, najdete v <link xref="howto_whereami">Uvodu do „Kde se nacházím“</link>.</p>
+  <p><app>Orca</app> poskytuje následující příkazy „Kde se nacházím“:</p>
+  <list>
+    <item>
+      <p>Zjištění základních informací o tom, kde se nacházíte:</p>
+      <list>
+        <item>
+          <p>Stolní počítač: <key>KP Enter</key> (Enter na numerické klávesnici)</p>
+        </item>
+        <item>
+          <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>Enter</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Zjištění podrobných informací o tom, kde se nacházíte:</p>
+      <list>
+        <item>
+          <p>Stolní počítač: <key>KP Enter</key> (Enter na numerické klávesnici, dvojité zmáčknutí)</p>
+        </item>
+        <item>
+          <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key> <key>Enter</key></keyseq> (dvojité zmáčknutí)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+  <p>Mimo příkazů přímo sloužících pro „Kde se nacházím“ má <app>Orca</app> dva doplňující příkazy vztahující se k získání informací o prezentování místa, kde se nacházíte:</p>
+  <list>
+    <item>
+      <p>Prezentovat lištu záhlaví:</p>
+      <list>
+        <item>
+          <p>Stolní počítač: <keyseq><key>Modifikátor Orca</key><key>KP Enter</key></keyseq> (Enter na numerické klávesnici)</p>
+        </item>
+        <item>
+          <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>/</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Prezentovat stavovou lištu:</p>
+      <list>
+        <item>
+          <p>Stolní počítač: <keyseq><key>Modifikátor Orca</key><key>KP Enter</key></keyseq> (Enter na numerické klávesnici, dvojité zmáčknutí)</p>
+        </item>
+        <item>
+          <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key> <key>/</key></keyseq> (dvojité zmáčknutí)</p>
+        </item>
+        <item>
+          <p>Prezentovat velikost a umístění aktuálního objektu v pixelech: (bez klávesové zkratky)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

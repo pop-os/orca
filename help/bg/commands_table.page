@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_table" xml:lang="bg">
+  <info>
+    <link type="next" xref="commands_flat_review"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_tables"/>
+    <title type="sort">3. Придвижване в таблици</title>
+    <title type="link">Придвижване в таблици</title>
+    <desc>Команди за достъп до таблична информация</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди за придвижване в таблици</title>
+  <p>Поддръжката на Orca за придвижване по клетки от таблици е част от нейните <link xref="commands_structural_navigation#tables">Команди за придвижване по структурата</link>. Допълнителни команди:</p>
+  <list>
+    <item>
+      <p>Задаване на текущата колона като динамични заглавия на редовете: <keyseq><key>Модификатор на Orca</key><key>C</key></keyseq></p>
+    </item>
+    <item>
+      <p>Задаване на текущия ред като динамични заглавия на колоните: <keyseq><key>Модификатор на Orca</key><key>R</key></keyseq></p>
+    </item>
+    <item>
+      <p>Изчистване на динамичните заглавия на редовете: <keyseq><key>Модификатор на Orca</key><key>C</key></keyseq> (двукратно)</p>
+    </item>
+    <item>
+      <p>Изчистване на динамичните заглавия на колоните: <keyseq><key>Orca Modifier</key><key>R</key></keyseq> (двукратно)</p>
+    </item>
+    <item>
+      <p>Превключване между четене по редове и по клетки в таблица: <keyseq><key>Модификатор на Orca</key><key>F11</key></keyseq></p>
+    </item>
+  </list>
+</page>

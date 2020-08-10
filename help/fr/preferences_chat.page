@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_chat" xml:lang="fr">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_spellcheck"/>
+    <title type="sort">3. Discussion</title>
+    <title type="link">Discussion</title>
+    <desc>Configurer la prise en charge de la messagerie instantanée et de l’IRC par <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Préférences de discussion</title>
+  <p>Les options suivantes vous permettent de personnaliser le comportement d’<app>Orca</app> pendant l’utilisation de messagerie instantanée et de clients IRC (discussion relayée par Internet).</p>
+  <section id="speak_name">
+    <title>Lire le nom du salon de discussion</title>
+    <p>Si cette case est cochée, <app>Orca</app> préfixe les messages entrants avec le nom du salon ou du contact émetteur, sauf s’ils proviennent de la conversation actuellement utilisée.</p>
+    <p>Valeur par défaut : non cochée</p>
+  </section>
+  <section id="announce_typing">
+    <title>Indiquer si vos contacts saisissent un message</title>
+    <p>Si cette case est cochée, et si <app>Orca</app> possède les informations indiquant que votre contact est en train de saisir, <app>Orca</app> annonce les changements de statut de saisie.</p>
+    <p>Valeur par défaut : non cochée</p>
+  </section>
+  <section id="message_histories">
+    <title>Donner les historiques de messages par salon de discussion</title>
+    <p>Si cette case est cochée, <app>Orca</app> relit les messages récents de la conversation actuelle. Autrement, l’historique des conversations les plus récentes est lue indépendamment de l’origine des conversations.</p>
+    <p>Valeur par défaut : non cochée</p>
+  </section>
+  <section id="speak_messages_from">
+    <title>Lire les messages provenant de</title>
+    <p>Ce groupement de boutons radio vous permet de contrôler dans quelles circonstances <app>Orca</app> vous présente un nouveau message. Les choix sont les suivants :</p>
+    <list>
+      <item>
+        <p><gui>Tous les canaux</gui></p>
+      </item>
+      <item>
+        <p><gui>Un canal uniquement si sa fenêtre est active</gui></p>
+      </item>
+      <item>
+        <p><gui>Tous les canaux quand n’importe quelle fenêtre est active</gui></p>
+      </item>
+    </list>
+    <p>Valeur par défaut : tous les canaux</p>
+  </section>
+</page>

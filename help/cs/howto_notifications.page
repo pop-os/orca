@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_notifications" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_bookmarks"/>
+    <title type="sort">5. Upozornění</title>
+    <desc>Jak přečíst dříve obdržené zprávy</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Upozornění</title>
+  <p>Součástí pracovního prostředí GNOME je „upozorňovací oblast“, kterou používají aplikace ke sdělování informací uživateli. Například o nové zprávě v diskuzi, o skladbě, kterou právě začal přehrávat multimediální přehrávač nebo o nízkém stavu nabití baterie.</p>
+  <p>Protože záměrem upozornění je poskytnout uživateli informaci, aniž by musel přerušit svoji činnost, mají zprávy snahu se objevit a zase zmizet raltivně rychle. Navíc se nedají zaměřit. I když <app>Orca</app> prezentuje tyto zprávy hned jak přijdou, velmi snadno ji v tom můžete nechtěně přerušit tím, že budete pokračovat v psaní nebo změníte zaměření. Z tohoto důvodu má <app>Orca</app> tři příkazy, které můžete použít pro přístup k dříve zobrazeným zprávám v upozorněních.</p>
+  <list>
+    <item>
+      <p>Prezentovat poslední (tj. nejnovější) zprávu v upozorněních</p>
+    </item>
+    <item>
+      <p>Prezentovat předchozí zprávu v upozorněních</p>
+    </item>
+    <item>
+      <p>Prezentovat seznam všech zpráv v upozorněních</p>
+    </item>
+  </list>
+  <p>První dva příkazy mají za účel hlavně rychlý přístup ke zprávě, kterou jste právě obdrželi. Poslední přikaz je mocnější, protože v něm najdete historii zpráv v upozorněních.</p>
+  <p>Když vstoupíte do seznamu zpráv z upozoronění, bude vám oznámena velikost seznamu a nabídnuty následující možnosti:</p>
+  <list>
+    <item><p>Zmáčknout H pro nápovědu.</p></item>
+    <item><p>Použít <key>↑</key>, <key>↓</key>, <key>Home</key> nebo <key>End</key> pro pohyb v seznamu.</p></item>
+    <item><p>Zmáčknutím <key>Esc</key> seznam opustit.</p></item>
+    <item><p>Zmáčknutím <key>mezerníku</key> zopakovat poslední přečtenou zprávu.</p></item>
+    <item><p>Zmáčknutím jedné číslice nechat přečíst konkrétní zprávu.</p></item>
+  </list>
+  <p>Všimněte si, že nejnovější přijatá zpráva se nachází na začátku seznamu.</p>
+  <p>Žádný z příkazů <app>Orca</app> pro přístup k upozorněním nemá ve výchozím stavu přidělenou klávesovou zkratku. Kterémukoliv, nebo i všem, můžete ale přidělit klávesovou zkratku podle své libosti. Jak se to dělá, je popsáno v <link xref="howto_key_bindings">úvodu do klávesových zkratek</link>.</p>
+</page>

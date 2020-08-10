@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_bindings" xml:lang="sv">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_pronunciation"/>
+    <link type="seealso" xref="howto_key_bindings"/>
+    <title type="sort">6. Tangentbindningar</title>
+    <title type="link">Tangentbindningar</title>
+    <desc>Konfigurera <app>Orca</app>s tangentbordsgenvägar</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Inställningar för tangentbindningar</title>
+  <section id="orca_modifier_keys">
+    <title>Orca-modifierartangenter</title>
+    <p>Kombinationsrutan <gui>Modifierartangenter för skärmläsare</gui> låter dig välja vilken tangent eller vilka tangenter som kommer att tjäna som Orca-modifieraren. De tillgängliga alternativen är:</p>
+    <list>
+      <item>
+        <p><gui>KP_Insert</gui> (samma tangent som <key>0</key> på det numeriska tangentbordet)</p></item>
+      <item><p><gui>Insert</gui></p></item>
+      <item><p><gui>Insert, KP_Insert</gui></p></item>
+      <item><p><gui>Caps_Lock</gui></p></item>
+    </list>
+  </section>
+  <section id="key_bindings_table">
+    <title>Tangentbindningstabellen</title>
+    <p>Tangentbindningstabellen tillhandahåller en lista över <app>Orca</app>-åtgärder och tangenterna som är bundna till dem.</p>
+    <list>
+      <item>
+        <p>Kolumnen <gui>Funktion</gui> innehåller en beskrivning av <app>Orca</app>-kommandot som ska utföras.</p>
+      </item>
+      <item>
+        <p>Kolumnen <gui>Tangentbindning</gui> innehåller tangentbordsgenvägen som nu är tilldelad till <app>Orca</app>-kommandot. Du kan ändra värdet i denna kolumn genom att trycka <key>Retur</key>, trycka på tangenterna för den nya bindningen och sedan trycka <key>Retur</key> igen.</p>
+      </item>
+      <item>
+        <p>Kolumnen <gui>Ändrad</gui> tjänar både som en indikator på vad som ändrats och som ett sätt att återställa standardbindningarna associerade med den funktionen.</p>
+      </item>
+    </list>
+    <p>Under listan med <app>Orca</app>-tangentbindningar kommer du hitta en lista med ”obundna” kommandon. Detta är kommandon som vi känner kommer vara mycket användbara för vissa användare, men inte behövs av de flesta användarna. Snarare än att ”använda upp” en tangenttryckning för sådana kommandon så har vi lämnat dem otilldelade som standard. I slutet av listan är punktskriftsbindningarna, för användning med en uppdateringsbar punktskriftsskärm.</p>
+  </section>
+</page>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_mouse_review" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_notifications"/>
+    <title type="sort">4. Zkoumání myší</title>
+    <desc>Jak použít ukazatel ke zkoumání obrazovky</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Zkoumání myší</title>
+  <p>Funkce čtečky <app>Orca</app> zkoumání myší způsobí, že <app>Orca</app> bude prezentovat objekt pod ukazatelem myši. Na rozdíl od funkce <link xref="howto_flat_review">plošného náhledu</link> není zkoumání myší omezeno na aktivní okno. Místo toho se <app>Orca</app> snaží zjistit, jaký zpřístupněný objekt, pokud vůbec nějaký, se vizuálně nachází pod ukazatelem myši. Když ukazatel přesunete nad zpřístupněný objekt s informacemi ke sdělení, bude vám <app>Orca</app> objekt a informace o něm prezentovat.</p>
+  <p>Protože zapnutí zkoumání myší způsobí, že <app>Orca</app> bude sledovat všechny změny v poloze ukazatele myši a zpracovávat je, je tato funkce ve výchozím stavu vypnutá. Abyste ji trvale zapnuli, zaškrtněte políčko <gui>Oznamovat objekt pod ukazatelem</gui> na <link xref="preferences_general">stránce Obecné v dialogovém okně předvoleb <app>Orca</app></link>. Navíc na <link xref="preferences_key_bindings">stránce Klávesové zkratky</link> můžete najít příkaz <gui>Přepnout režim zkoumání myší</gui>, který nemá přidělenou žádnou klávesovou zkratku. Pokud mu klávesovou zkratku přidělíte, jak je popsáno v <link xref="howto_key_bindings">instrukcích k přidělení klávesové zkratky</link>, můžete zkoumání myší zapínat a vypínat tímto způsobem.</p>
+  <note style="tip">
+    <title>Výchozí nastavení a klávesové zkratky jsou na sobě nezávislé</title>
+    <p>Poznamenejme, že zkoumání myší může být vždy zapnuté nabo vypnuté a stále ho můžete vypínat a zapínat pomocí klávesové zkratky a pomocí příkazu <gui>Přepnout režim zkoumání myší</gui>. Není nutné jej mít zapnuté, aby šlo přepínat, protože nastavení a klávesové zkratky jsou na sobě nezávislé.</p>
+  </note>
+</page>

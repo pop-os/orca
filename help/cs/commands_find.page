@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_find" xml:lang="cs">
+  <info>
+    <link type="next" xref="commands_mouse"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_orca_find"/>
+    <title type="sort">2. Hledání čtečkou Orca</title>
+    <title type="link">Hledání čtečkou Orca</title>
+    <desc>Přikazy pro hledání v obsahu okna</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Příkazy pro hledání čtečkou Orca</title>
+  <p><link xref="howto_orca_find">Funkce hledání</link> ve čtečce <app>Orca</app> vám umožňuje vyhledávat v kontextu <link xref="howto_flat_review">plošného náhledu</link> prvky, které se nachází v aktuálním okně.</p>
+  <list>
+    <item>
+      <p>Otevřít dialogové okno hledání:</p>
+      <list>
+        <item>
+          <p>Stolní počítač: <keyseq><key>KP Delete</key></keyseq> (Del na numerické klávesnici)</p>
+        </item>
+        <item>
+          <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>(</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Přesunout plošný náhled na následující výskyt řetězce:</p>
+      <list>
+        <item>
+          <p>Stolní počítač: <keyseq><key>Modifikátor Orca</key><key>KP Delete</key></keyseq> (Del na numerické klávesnici)</p>
+        </item>
+        <item>
+          <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>)</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Přesunout plošný náhled na předchozí výskyt řetězce:</p>
+      <list>
+        <item>
+          <p>Stolní počítač: <keyseq><key>Modifikátor Orca</key><key>Shift</key><key>KP Delete</key></keyseq> (Del na numerické klávesnici)</p>
+        </item>
+        <item>
+          <p>Přenosný počítač: <keyseq><key>Modifikátor Orca</key><key>Ctrl</key><key>)</key> </keyseq></p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

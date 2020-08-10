@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_speech" xml:lang="sv">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_braille"/>
+    <title type="sort">2.1 Uppläsning</title>
+    <title type="link">Uppläsning</title>
+    <desc>Konfigurera vad som ska läsas upp</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Uppläsningsinställningar</title>
+  <section id="enable_speech">
+    <title>Aktivera uppläsning</title>
+    <p>Kryssrutan <gui>Aktivera uppläsning</gui> styr huruvida <app>Orca</app> kommer använda sig av talsyntes. Användare av enbart punktskrift kommer troligen vilja avmarkera denna kryssruta.</p>
+    <p>Standardvärde: ikryssad</p>
+  </section>
+  <section id="verbosity">
+    <title>Informationsnivå</title>
+    <p>Inställningen <gui>Informationsnivå</gui> avgör mängden information som kommer läsas upp i olika situationer. Till exempel, om den är ställd till informativ och du pilar in i ett ord som är felstavat så kommer <app>Orca</app> meddela att ordet är felstavat. Då nivån är ställd till kort kommer detta meddelande inte läsas upp.</p>
+    <p>Standardvärde: <gui>Informativ</gui></p>
+  </section>
+  <section id="punctuation_level">
+    <title>Skiljeteckensnivå</title>
+    <p>Radioknappsgruppen <gui>Skiljeteckensnivå</gui> används för att justera mängden skiljetecken som läses upp av talsyntesen. De tillgängliga nivåerna är <gui>Inget</gui>, <gui>Vissa</gui>, <gui>Flesta</gui> och <gui>Alla</gui>.</p>
+    <p>Standardvärde: <gui>Flesta</gui></p>
+    <section id="punctuation_level_none">
+      <title>Inget</title>
+      <p>Att välja skiljeteckensnivån <gui>Inget</gui> orsakar, som du förväntar dig, att inget skiljetecken läses upp. Notera dock att specialsymboler som upphöjda och nedsänkta siffror, bråktal i Unicode samt listpunkter fortfarande läses upp på denna nivå, även om vissa skulle kunna anse dessa typer av symboler vara skiljetecken.</p>
+    </section>
+    <section id="punctuation_level_some">
+      <title>Vissa</title>
+      <p>Att välja skiljeteckensnivån <gui>Vissa</gui> får alla tidigare nämnda symboler att läsas upp. Utöver detta kommer <app>Orca</app> läsa upp kända matematiska symboler, valutasymboler samt ”^”, ”@”, ”/”, ”&amp;” och ”#”.</p>
+    </section>
+    <section id="punctuation_level_most">
+      <title>Flesta</title>
+      <p>Att välja skiljeteckensnivån <gui>Flesta</gui> får alla tidigare nämnda symboler att läsas upp. Utöver detta kommer <app>Orca</app> läsa upp alla andra kända skiljetecken <em>förutom</em> ”!”, ”'”, ”,”, ”.” och ”?”.</p>
+    </section>
+    <section id="punctuation_level_all">
+      <title>Alla</title>
+      <p>Att välja skiljeteckensnivån <gui>Alla</gui> får, som väntat, <app>Orca</app> att läsa upp alla kända skiljetecken.</p>
+    </section>
+  </section>
+  <section id="spoken_context">
+    <title>Talsammanhang</title>
+    <p>Följande poster styr presentationen av diverse tilläggsinformation av ”system”-karaktär om objektet som har fokus. Eftersom den associerade texten inte dyker upp på skärmen så presenteras den med <app>Orca</app>s systemröst.</p>
+    <section id="only_speak_displayed_text">
+      <title>Läs endast upp visad text</title>
+      <p>Att kryssa i den här kryssrutan får <app>Orca</app> att bara läsa upp text som faktiskt visas på skärmen. Detta alternativ är tänkt främst för användare med nedsatt syn och användare med visuella inlärningssvårigheter.</p>
+      <p>Standardvärde: inte ikryssad</p>
+      <note style="note">
+        <p>Följande poster kommer inte finnas tillgängliga för konfiguration om kryssrutan <gui>Läs endast upp visad text</gui> är ikryssad.</p>
+      </note>
+    </section>
+    <section id="speak_blank_lines">
+      <title>Läs upp blanka rader</title>
+      <p>Om kryssrutan <gui>Läs upp blanka rader</gui> är ikryssad kommer <app>Orca</app> säga ”blank” varje gång du pilar till en tom rad. Om den är avmarkerad kommer <app>Orca</app> inte säga någonting då du flyttar till en tom rad.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="indentation_and_justification">
+      <title>Läs upp textindentering och textjustering</title>
+      <p>Då du arbetar med kod eller att redigera andra dokument är det ofta önskvärt att vara medveten om justering och indentering. Att kryssa i kryssrutan <gui>Läs upp textindentering och textjustering</gui> kommer få <app>Orca</app> att meddela denna information.</p>
+      <p>Standardvärde: inte ikryssad</p>
+    </section>
+    <section id="speak_misspelled_word_indicator">
+      <title>Läs upp indikator för felstavade ord</title>
+      <p>Indikatorn för felstavade ord är den röda vågiga linjen som visas under felstavade ord i redigerbara textrutor. Om <gui>Läs upp indikator för felstavade ord</gui> är ikryssad kommer <app>Orca</app> läsa upp ”felstavat” när du navigerar till ett ord med denna indikator, eller då du stavar ett ord fel så att indikatorn dyker upp.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="mnemonics">
+     <title>Läs upp minnesobjekt</title>
+      <p>Om kryssrutan <gui>Läs upp minnesobjekt</gui> är ikryssad kommer <app>Orca</app> att annonsera minnesobjektet som är associerat med det fokuserade objektet (som <keyseq><key>Alt</key><key>O</key> </keyseq> för en <gui>OK</gui>-knapp).</p>
+      <p>Standardvärde: inte ikryssad</p>
+    </section>
+    <section id="child_position">
+      <title>Läs upp barnposition</title>
+      <p>Att kryssa i kryssrutan <gui>Läs upp barnposition</gui> kommer få <app>Orca</app> att meddela positionen för det fokuserade objektet i menyer, listor och träd (t.ex. ”9 av 16”).</p>
+      <p>Standardvärde: inte ikryssad</p>
+    </section>
+    <section id="speak_tutorial_messages">
+      <title>Läs upp handledningsmeddelanden</title>
+      <p>Om kryssrutan <gui>Läs upp handledningsmeddelanden</gui> är ikryssad kommer <app>Orca</app> tillhandahålla ytterligare information då du flyttar längs objekt i ett gränssnitt, som hur du kan interagera med det aktuellt fokuserade objektet.</p>
+      <p>Standardvärde: inte ikryssad</p>
+    </section>
+    <section id="speak_description">
+      <title>Läs upp beskrivning</title>
+      <p>Om kryssrutan <gui>Läs upp beskrivning</gui> är ikryssad kommer <app>Orca</app> under tiden du förflyttar dig längs objekt i ett gränssnitt att läsa upp den åtkomliga beskrivningen utöver det åtkomliga namnet för objektet.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="system_messages_are_detailed">
+      <title>Systemmeddelanden är detaljerade</title>
+      <p>Om <gui>Systemmeddelanden är detaljerade</gui> är ikryssad kommer <app>Orca</app> läsa upp detaljerade meddelanden för dig. Till exempel, om du använder <app>Orca</app>s kommando för att ändra tangenteko kan <app>Orca</app> säga ”Tangenteko inställt till tangent”. Om du skulle föredra kortare meddelanden, som bara ”ord”, ska du avmarkera denna kryssruta.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="speak_colors_as_names">
+      <title>Läs upp färger som namn</title>
+      <p>Om <gui>Läs upp färger som namn</gui> är ikryssad kommer <app>Orca</app> beskriva färger genom att söka den närmaste approximationen. Till exempel skulle RGB 0, 27, 51 läsas upp som ”midnattsblå”. Om du föredrar att höra det exakta RGB-värdet ska du avmarkera denna kryssruta.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="announce_blockquotes_during_navigation">
+      <title>Annonsera blockcitat under navigering</title>
+      <p>Om <gui>Annonsera blockcitat under navigering</gui> är ikryssad kommer <app>Orca</app> att säga till när du navigerar in i eller ut ur ett blockcitat. Observera att denna inställning är oberoende av huruvida denna annonsering görs under Läs upp allt. Se <link xref="preferences_general#say_all_announce_context">Annonsera sammanhangsberoende information i Läs upp allt</link> för mer information.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="announce_forms_during_navigation">
+      <title>Annonsera formulär under navigering</title>
+      <p>Om <gui>Annonsera formulär under navigering</gui> är ikryssad kommer <app>Orca</app> att säga till när du navigerar in i eller ut ur ett formulär. Observera att denna inställning är specifik för formulär som inte är ARIA-landmärken. Du kan konfigurera presentationen av ARIA-landmärken genom kryssrutan <gui>Annonsera landmärken under navigering</gui>. Observera dessutom att denna inställning är oberoende av huruvida denna annonsering görs under Läs upp allt. Se <link xref="preferences_general#say_all_announce_context">Annonsera sammanhangsberoende information i Läs upp allt</link> för mer information.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="announce_landmarks_during_navigation">
+      <title>Annonsera landmärken under navigering</title>
+      <p>Om <gui>Annonsera landmärken under navigering</gui> är ikryssad kommer <app>Orca</app> att säga till när du navigerar in i eller ut ur ett ARIA-landmärke. Observera att denna inställning är oberoende av huruvida denna annonsering görs under Läs upp allt. Se <link xref="preferences_general#say_all_announce_context">Annonsera sammanhangsberoende information i Läs upp allt</link> för mer information.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="announce_lists_during_navigation">
+      <title>Annonsera listor under navigering</title>
+      <p>Om <gui>Annonsera listor under navigering</gui> är ikryssad kommer <app>Orca</app> att säga till när du navigerar in i eller ut ur en lista. Observera att denna inställning är oberoende av huruvida denna annonsering görs under Läs upp allt. Se <link xref="preferences_general#say_all_announce_context">Annonsera sammanhangsberoende information i Läs upp allt</link> för mer information.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="announce_panels_during_navigation">
+      <title>Annonsera paneler under navigering</title>
+      <p>Om <gui>Annonsera paneler under navigering</gui> är ikryssad kommer <app>Orca</app> att säga till när du navigerar in i eller ut ur en panel. Observera att denna inställning är oberoende av huruvida denna annonsering görs under Läs upp allt. Se <link xref="preferences_general#say_all_announce_context">Annonsera sammanhangsberoende information i Läs upp allt</link> för mer information.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="announce_tables_during_navigation">
+      <title>Annonsera tabeller under navigering</title>
+      <p>Om <gui>Annonsera tabeller under navigering</gui> är ikryssad kommer <app>Orca</app> att säga till när du navigerar in i eller ut ur en tabell. Observera att denna inställning är oberoende av huruvida denna annonsering görs under Läs upp allt. Se <link xref="preferences_general#say_all_announce_context">Annonsera sammanhangsberoende information i Läs upp allt</link> för mer information.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="read_full_row_in_gui_tables">
+      <title>Läs upp hel rad i gränssnittstabeller</title>
+      <p>Om <gui>Läs upp hel rad i gränssnittstabeller</gui> är ikryssad kommer <app>Orca</app> läsa upp hela raden då du pilar upp och ner i programtabeller som meddelandelistan i din inkorg. Om du föredrar att endast höra cellen som har fokus bör du avmarkera denna kryssruta.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="read_full_row_in_document_tables">
+      <title>Läs upp hel rad i dokumenttabeller</title>
+      <p>Om <gui>Läs upp hel rad i dokumenttabeller</gui> är ikryssad kommer <app>Orca</app> läsa upp hela raden då du pilar upp och ner i tabeller som de i <app>Writer</app> och webbdokument. Om du föredrar att endast höra cellen som har fokus bör du avmarkera denna kryssruta.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="read_full_row_in_spreadsheets">
+      <title>Läs upp hel rad i kalkylblad</title>
+      <p>Om <gui>Läs upp hel rad i kalkylblad</gui> är ikryssad kommer <app>Orca</app> läsa upp hela raden då du pilar upp och ner i kalkylblad. Om du föredrar att endast höra cellen som har fokus bör du avmarkera denna kryssruta.</p>
+      <p>Standardvärde: inte ikryssad</p>
+    </section>
+  </section>
+</page>

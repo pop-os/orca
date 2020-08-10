@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_setting_up_orca" xml:lang="sv">
+<info>
+  <link type="seealso" xref="preferences"/>
+  <link type="guide" xref="index#getting_started"/>
+  <link type="next" xref="howto_the_orca_modifier"/>
+  <title type="sort">4. Konfiguration av Orca</title>
+  <title type="link">Konfiguration</title>
+    <desc>Konfigurera <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Konfiguration av Orca</title>
+
+      <p>Om du vill konfigurera <app>Orca</app>, gå in i dialogrutan <link xref="preferences">Inställningar</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq> inifrån ett valfritt åtkomligt program. Alternativt kan du skriva <cmd>orca</cmd> följt av antingen <cmd>-s</cmd> eller <cmd>--setup</cmd> i ett terminalfönster eller i <gui>Kör</gui>-dialogen och sedan trycka <key>Retur</key>.</p>
+</page>

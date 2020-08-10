@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_profiles" xml:lang="el">
+  <info>
+    <link type="next" xref="commands_speech_settings"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_profiles"/>
+    <title type="sort">5. Κατατομές</title>
+    <title type="link">Κατατομές</title>
+    <desc>Εντολές για πρόσβαση αποθηκευμένων ρυθμίσεων</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Εντολές κατατομής</title>
+    <p>Οι κατατομές σας επιτρέπουν την αποθήκευση και φόρτωση πολλαπλών διαμορφώσεων έτσι ώστε να μπορείτε γρήγορα να προσπελάσετε τις απαιτούμενες ρυθμίσεις.</p>
+    <p>Η παρακάτω εντολή δεν είναι "δεσμευμένη" με κάποια πληκτρολόγηση. Αν θα θέλατε να την συσχετίσετε, παρακαλούμε δείτε <link xref="howto_key_bindings">Τροποποίηση συνδυασμών πλήκτρων</link>.</p>
+    <list>
+      <item>
+        <p>Κυκλικά στην επόμενη κατατομή: (Αδέσμευτη)</p>
+      </item>
+    </list>
+</page>

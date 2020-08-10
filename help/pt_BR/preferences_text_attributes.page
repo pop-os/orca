@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_text_attributes" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_gecko"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <title type="sort">8. Atributos de texto</title>
+    <title type="link">Atributos de texto</title>
+    <desc>Configurando qual formatação é apresentada</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Preferências de Atributos de Texto</title>
+  <p>O termo "atributos de texto" se refere à fonte, estilo, alinhamento, e outras formatações associadas a um determinado caractere ou série de caracteres. A página de <gui>atributos de texto</gui> do <app>Orca</app> permite que você personalize quais atributos de texto o <app>Orca</app> apresentará na fala, juntamente com a ordem na qual eles devem ser apresentados, e quais o <app>Orca</app> indicará em braille.</p>
+  <section id="table">
+    <title>A tabela de atributos de texto</title>
+    <p>A tabela de atributos de texto é onde você especifica quais atributos serão ou não apresentados, e em que condições. Cada linha consiste de quatro colunas.</p>
+    <list>
+      <item>
+        <p><gui>Nome do Atributo</gui>: O nome do atributo de texto.</p>
+      </item>
+      <item>
+        <p>
+          <gui>Speak</gui>: Check this checkbox if you would like
+          <app>Orca</app> to speak this attribute when you press
+          <keyseq><key>Orca Modifier</key><key>F</key></keyseq>.
+        </p>
+      </item>
+      <item>
+        <p><gui>Marcar em braille</gui>: Marque esta caixa de seleção se você deseja que o <app>Orca</app> "sublinhe" este atributo em seu monitor braille.</p>
+      </item>
+      <item>
+        <p><gui>Presente a menos que</gui>: Este campo editável permite que você especifique quando um atributo habilitado não é de interesse.</p>
+        <p>Por exemplo, por padrão o texto atributo "sublinhado" tendo valor de "nenhum". Isto faz com que o <app>Orca</app> informe você sobre texto sublinhado enquanto o texto é realmente sublinhado. Se voce sempre quer que este atributo seja falado independentemente do texto ser ou não sublinhado, a coluna <gui>Presente a menos</gui> deveria ser vazio para sublinhado. Em adição, você deve ter certeza que a coluna <gui>Falar</gui> esteja marcada.</p>
+      </item>
+    </list>
+  </section>
+  <section id="reset">
+     <title>Desfazendo alterações</title>
+     <p>Abaixo da lista de atributos de texto, há um botão de Restauração (<keyseq><key>Alt</key><key>R</key></keyseq>) que irá restaurar os valores da tabela para o que eram quando o diálogo foi exibido pela primeira vez.</p>
+  </section>
+  <section id="rearranging">
+     <title>Reorganizando a ordem de apresentação</title>
+     <p>Quando inicialmente a página de atributo de texto é exibida, todos os atributos que estão habilitados são colocados no topo da tabela na ordem em que eles serão falados. Existem quatro botões que podem ser usados para rearrumar a ordem da apresentação.</p>
+    <list>
+      <item>
+        <p><gui>Move para o início</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>): move o atributo selecionado para o início da lista.</p>
+      </item>
+      <item>
+        <p><gui>Move uma acima</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>): move o atributo selecionado uma linha acima.</p>
+      </item>
+      <item>
+        <p><gui>Move uma abaixo</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>): move o atributo selecionado uma linha abaixo.</p>
+      </item>
+      <item>
+        <p><gui>Move para o final</gui> (<keyseq><key>Alt</key><key>B</key></keyseq>): move o atributo selecionado para o final da lista.</p>
+      </item>
+    </list>
+  </section>
+  <section id="braille_indicator">
+    <title>Opções para configurar a formatação do "Sublinhado" em Braille</title>
+    <p>Abaixo dos botões de apertar está o grupo de botões de opção do <gui>Indicador Braille</gui>. Aqui você pode selecionar a célula ou células a serem usadas para indicar o texto que possui pelo menos um dos atributos especificados.</p>
+    <list>
+      <item>
+        <p><gui>Nenhum</gui>: Não sublinha os atributos do texto em braille (é o padrão)</p>
+      </item>
+      <item>
+        <p><gui>Ponto 7</gui>: Sublinha atributos do texto apenas com o Ponto 7</p>
+      </item>
+      <item>
+        <p><gui>Ponto 8</gui>: Sublinha atributos do texto apenas com o Ponto 8</p>
+      </item>
+      <item>
+        <p><gui>Pontos 7 e 8</gui>: Sublinha atributos do texto com os Pontos 7 e 8</p>
+      </item>
+    </list>
+  </section>
+</page>

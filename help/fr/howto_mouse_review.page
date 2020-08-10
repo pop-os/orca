@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_mouse_review" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_notifications"/>
+    <title type="sort">4. Examen à la souris</title>
+    <desc>Utiliser le pointeur pour examiner l’écran</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Examen à la souris</title>
+  <p>Avec la fonction « Examen à la souris » d’<app>Orca</app>, <app>Orca</app> présente les objets qui se trouvent sous le pointeur. Contrairement à l’<link xref="howto_flat_review">Examen global</link> d’<app>Orca</app>, l’examen à la souris n’est pas limité à la fenêtre actuelle ; <app>Orca</app> essaye d’identifier l’objet accessible, s’il existe, sous le pointeur quand vous déplacez la souris. Si vous avez déplacé la souris au-dessus d’un objet accessible qui contient des informations à présenter, <app>Orca</app> vous lit alors cet objet et ses informations.</p>
+  <p>Après avoir activé l’« Examen à la souris », <app>Orca</app> surveille et traite tous les changements de position de la souris ; cette fonction est par conséquent désactivée par défaut. Pour l’activer de façon permanente, cochez la case <gui>Lire l’objet sous la souris</gui> dans <link xref="preferences_general">l’onglet Général de la boîte de dialogue des préférences d’<app>Orca</app></link>. De plus, vous trouverez une commande non liée nommée <gui>Active ou désactive le mode de lecture à la souris</gui> dans <link xref="preferences_key_bindings">l’onglet Raccourcis clavier</link> de la même boîte de dialogue. En liant cette commande, comme décrit dans l’<link xref="howto_key_bindings">introduction aux raccourcis clavier</link>, vous pouvez activer ou désactiver l’examen à la souris selon vos besoins.</p>
+  <note style="tip">
+    <title>Les paramètres par défaut et les raccourcis sont indépendants les uns des autres</title>
+    <p>Remarque : bien que l’examen à la souris puisse être activé/désactivé en permanence, il est toujours possible de l’activer ou de le désactiver en liant et en utilisant la commande <gui>Active ou désactive le mode de lecture à la souris</gui>. Il n’est pas nécessaire d’activer la fonction pour pouvoir la basculer car les paramètres et les raccourcis sont indépendants.</p>
+  </note>
+</page>

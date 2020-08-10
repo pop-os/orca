@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_voice" xml:lang="fr">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_speech"/>
+    <title type="sort">2.0 Voix</title>
+    <title type="link">Voix</title>
+    <desc>Configurer la voix utilisée par <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Préférences de la voix</title>
+  <section id="voice_type_settings">
+    <title>Paramètres pour le type de voix</title>
+    <section id="voice_type">
+      <title>Type de voix</title>
+      <p>Cette liste déroulante rend possible l’utilisation de différentes voix pour que vous puissiez distinguer les majuscules et les liens textuels d’autres textes, et aussi distinguer un texte affiché à l’écran de celui ajouté par <app>Orca</app>.</p>
+      <note style="tip">
+        <title>Configuration de voix multiples</title>
+        <p>Pour chaque voix que vous souhaitez configurer, sélectionnez en premier la voix dans la liste déroulante <gui>Type de voix</gui>. Configurez ensuite la personne, le débit, la hauteur, et le volume pour cette voix.</p>
+      </note>
+    </section>
+    <section id="speech_system">
+      <title>Système de synthèse vocale</title>
+      <p>Cette liste déroulante vous permet de sélectionner votre système de synthèse vocale préféré parmi ceux que vous avez installés. Par exemple, Speech Dispatcher.</p>
+    </section>
+    <section id="speech_synthesizer">
+      <title>Synthétiseur vocal</title>
+      <p>Cette liste déroulante vous permet de sélectionner le synthétiseur vocal à utiliser avec le système de synthèse vocale.</p>
+    </section>
+    <section id="person">
+      <title>Personne</title>
+      <p>Cette liste déroulante vous permet de choisir quelle « personne » ou « lecteur » doit être utilisé avec la voix sélectionnée. Par exemple, vous pouvez souhaiter que David lise par défaut et qu’Alice lise les hyperliens. Notez que ce qui se trouve dans la liste déroulante <gui>Personne</gui> dépend des synthétiseurs vocaux que vous avez installés.</p>
+    </section>
+    <section id="capitalization_style">
+      <title>Style de lecture des majuscules</title>
+      <p>Cette liste déroulante permet de choisir le style d’indication de majuscules par le système Speech Dispatcher, en plus de la voix d’<app>Orca</app> pour les majuscules. Les options nommées selon la terminologie de Speech Dispatcher sont :</p>
+     <list>
+       <item><p><gui>icône</gui> : émet un son</p></item>
+       <item><p><gui>annonce</gui> : lit le mot « majuscule »</p></item>
+       <item><p><gui>aucun</gui></p></item>
+    </list>
+    <note style="tip">
+      <title>Ce paramètre peut être activé à la volée</title>
+      <p><app>Orca</app> possède aussi une commande pour passer en boucle les styles de lecture des majuscules disponibles. Voir <link xref="commands_speech_settings">Commandes pour paramétrer la synthèse vocale</link> pour plus d’informations.</p>
+    </note>
+    <p>Valeur par défaut : aucun</p>
+    </section>
+    <section id="rate_pitch_and_volume">
+      <title>Débit, hauteur et volume</title>
+      <p>Ces trois glissières horizontales vous permettent de personnaliser de manière plus complète la voix de la personne que vous venez de choisir.</p>
+    </section>
+  </section>
+  <section id="global_voice_settings">
+  <title>Paramètres globaux pour la voix</title>
+    <section id="pauses">
+      <title>Couper la synthèse vocale en morceaux entre les pauses</title>
+      <p>En fonction des paramètres de synthèse vocale, <app>Orca</app> peut avoir beaucoup à dire sur un objet particulier tel que son nom, son rôle, son état, son raccourci clavier, son message d’aide, etc. Lorsque la case <gui>Couper la synthèse vocale en morceaux entre les pauses</gui> est cochée, <app>Orca</app> insère une brève pause entre chacune de ces informations.</p>
+      <p>Valeur par défaut : cochée</p>
+    </section>
+    <section id="multicase_strings">
+      <title>Lire les chaînes à casse mélangée comme des mots</title>
+      <p>Dans certains textes, et particulièrement lorsque vous faites de la programmation informatique, il vous arrive souvent de trouver des « mots » constitués de plusieurs mots avec une casse mélangée, tels que « MonCompteurDeMots ». La synthèse vocale ne prononce pas toujours ces mots correctement. Lorsque la case <gui>Lire les chaînes à casse mélangée comme des mots</gui> est cochée, <app>Orca</app> coupe alors le mot « MonCompteurDeMots » en plusieurs mots (« Mon », « Compteur », « De » et « Mots ») avant de les transmettre au synthétiseur vocal.</p>
+      <p>Valeur par défaut : non cochée</p>
+    </section>
+    <section id="numbers_as_digits">
+      <title>Lire les nombres comme des chiffres</title>
+      <p>Si vous cochez la case <gui>Lire les nombres comme des chiffres</gui>, <app>Orca</app> va diviser un nombre comme « 123 » en chiffres séparés (1, 2 et 3) avant de le transmettre au synthétiseur vocal.</p>
+      <p>Valeur par défaut : non cochée</p>
+    </section>
+  </section>
+</page>

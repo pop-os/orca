@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_general" xml:lang="cs">
+  <info>
+    <title type="sort">1. Obecné</title>
+    <title type="link">Obecné</title>
+    <desc>Jak nastavit základní chování čtečky <app>Orca</app></desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_voice"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Obecné předvolby</title>
+  <section id="keyboardlayout">
+    <info>
+      <desc>Volba v dialogovém okně s předvolbami, která slouží k výběru rozložení klávesnice (stolní počítač nebo přenosný počíta), které má používat čtečka <app>Orca</app></desc>
+    </info>
+    <title>Rozložení klávesnice</title>
+    <p>Pomocí skupinových přepínačů <gui>rozložení klávesnice</gui> se určuje, jestli budete pracovat na klávesnici stolního počítače (tj. s numerickou částí klávesnice) nebo přenosného počítače. Výběr rozložení klávesnice ovlivní <key>Modifikátor Orca</key> a počet klávesových zkratek pro provádění příkazů <app>Orca</app>.</p>
+    <p>Výchozí hodnota: <gui>Stolní počítač</gui></p>
+  </section>
+  <section id="presenttooltips">
+    <info>
+      <desc>Volba v dialogovém okně s předvolbami, která povoluje prezentování vysvětlivek, které se objeví jako následek najetí ukazatelem myši.</desc>
+    </info>
+    <title>Prezentovat vysvětlivky</title>
+    <p>Když je zaškrtnuto, říká tato volba čtečce <app>Orca</app>, že má prezentovat informace o vysvětlivkách, pokud se objeví jako následek najetí myší. Specifické způsoby vyvolání vysvětlivek, jako je například zmáčknutí <keyseq><key>Ctrl</key> <key>F1</key></keyseq> ve chvíli, kdy je objekt zaměřen, způsobí prezentování vysvětlivek vždy, bez ohledu na toto nastavení.</p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+  </section>
+  <section id="objectundermouse">
+    <info>
+      <desc>Volba v dialogovém okně s předvolbami, která povoluje prezentování objektu pod ukazatelem myši.</desc>
+    </info>
+    <title>Oznamovat objekt pod ukazatelem</title>
+    <p>Když je zaškrtnuto, řídká tato volba čtečce <app>Orca</app>, že má prezentovat informace o objektu pod ukazatelem myši tak, jak se s ním pohybujete po obrazovce pomocí funkce čtečky <link xref="howto_mouse_review">zkoumání myší</link>.</p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+  </section>
+  <section id="timeanddate">
+    <info>
+      <desc>Volba v dialogovém okně s předvolbami, která umožňuje přizpůsobit si formát data a času používaný čtečkou <app>Orca</app>.</desc>
+    </info>
+    <title>Formát času a formát data</title>
+    <p>Rozbalovací seznamy <gui>Formát času</gui> a <gui>Formát data</gui> umožňují určit, jak má <app>Orca</app> číst a předávat braillským zařízením čas a datum.</p>
+    <p>Výchozí hodnota: u obou použít formát podle národního prostředí nastaveného v systému</p>
+  </section>
+  <section id="navigation_in_say_all">
+    <info>
+      <desc>Volby v dialogovém okně s předvolbami sloužící k povolení přeskakování zpět a vpřed a strukturované navigace při plynulém čtení.</desc>
+    </info>
+    <title>Pohyb v plynulém čtení</title>
+    <p>Funkce plynulého čtení ve čtečce <app>Orca</app> přečte obsah dokumentu od aktuálního místa až do konce. Výchozí chování je, že zmáčknutí kterékoliv klávesy čtení přeruší. Pokud ale zaškrtnete <gui>Povolit přeskakování zpět a vpřed při plynulém čtení</gui>, můžete během plynulého čtení používat klávesy <key>↑</key> a <key>↓</key> k rychlému přesunu v dokumentu, abyste si mohli nechat znovu zopakovat, co už jste slyšeli, nebo naopak některé pasáže přeskočit, bez nutnosti plynulé čtení znovu spouštět.</p>
+    <p>Když čtete dokument v aplikaci, která má podporu pro strukturovanou navigaci, a máte zaškrtnuté <gui>Povolit strukturovanou navigaci při plynulém čtení</gui>, můžete používat podporované příkazy strukturované navigace takto: <key>H</key>/<keyseq><key>Shift</key> <key>H</key></keyseq> pokračovat ve čtení od následujícího/předchozího nadpisu, <key>P</key>/<keyseq><key>Shift</key><key>P</key></keyseq> pokračovat ve čtení od následujícího/předchozího odstavce, <key>T</key>/<keyseq><key>Shift</key> <key>T</key></keyseq> pokračovat ve čtení od následující/předchozí tabulky, apod.</p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+  </section>
+  <section id="say_all_announce_context">
+    <title>Při čtení všeho oznamovat kontextové informace</title>
+    <p><app>Orca</app> může volitelně poskytovat informace o obsahu čteného dokumentu, jako třeba oznamovat, když je vstoupili do citace, seznamu, tabulky nebo nějakého jiného kontejneru, nebo jej opouštíte. Jestli se mají tyto věci oznamovat, se dá nezávisle nastavit pomocí následujících zaškrtávacích políček:</p>
+    <list>
+      <item><p>Při čtení všeho oznamovat citace</p></item>
+      <item><p>Při čtení všeho oznamovat formuláře</p></item>
+      <item><p>Při čtení všeho oznamovat záchytné body</p></item>
+      <item><p>Při čtení všeho oznamovat seznamy</p></item>
+      <item><p>Při čtení všeho oznamovat panely</p></item>
+      <item><p>Při čtení všeho oznamovat tabulky</p></item>
+    </list>
+    <p>Výchozí hodnota: zaškrtnuto</p>
+    <note style="note">
+      <p>Dá se nastavit i to, jestli má <app>Orca</app> oznamovat tyto věci při pohybu v dokumentu. K tomu najdete obdobná zaškrtávací políčka na stránce <gui>Řeč</gui>. Více informací viz <link xref="preferences_speech#spoken_context">Čtení kontextu</link>.</p>
+    </note>
+  </section>
+  <section id="say_all_by">
+   <info>
+      <desc>Volba v dialogovém okně s předvolbami, která umožňuje přizpůsobit si přezentování formou plynulého čtení ve čtečce <app>Orca</app>.</desc>
+   </info>
+   <title>Plynulé čtení po</title>
+   <p>V rozbalovacím seznamu <gui>Plynulé čtení po</gui> můžete určit, jestli má <app>Orca</app> číst věty nebo řádky, když má dokument „číst plynule“.</p>
+    <p>Výchozí hodnota: <gui>Větách</gui></p>
+  </section>
+  <section id="profiles">
+    <info>
+      <desc>Volby v dialogovém okně s předvolbami sloužící ke správě profilů s nastavením.</desc>
+    </info>
+    <title>Profily</title>
+    <p>Skupina ovládacích prvků <gui>Profily</gui> se nachází v dolní části karty <gui>Obecné</gui> a umožňuje vám spravovat a používat vícero nastavení.</p>
+   <list>
+      <item>
+        <p>Rozbalovací seznam <gui>Aktivní profil</gui> zobrazuje aktuální profil a umožňuje vám vybrat jiný, který se má načíst.</p>
+      </item>
+      <item>
+        <p>Tlačítko <gui>Načíst</gui> způsobí, že <app>Orca</app> načte profil vybraný v rozbalovacím seznamu <gui>Aktivní profil</gui>.</p>
+      </item>
+      <item>
+        <p>Tlačítko <gui>Uložit jako</gui> umožňuje uložit aktuální sadu voleb z dialogového okna předvoleb do pojmenovaného profilu.</p>
+      </item>
+      <item>
+        <p>Rozbalovací seznam <gui>Počáteční profil</gui> vám umožňje vybrat si profil, který by se měl automaticky načíst pokaždé, když se <app>Orca</app> spustí.</p>
+      </item>
+    </list>
+  </section>
+  <section id="progress_bar_updates">
+    <title>Aktualizace ukazatele průběhu</title>
+    <section id="progress_bar_updates_speak">
+      <title>Číst průběh</title>
+      <p>Když je zaškrtávací políčko <gui>Číst průběh</gui> zaškrtnuté, bude <app>Orca</app> pravidelně číst stav ukazatele průběhu.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="progress_bar_updates_braille">
+      <title>Zobrazovat průběh na braillském řádku</title>
+      <p>Když je zaškrtávací políčko <gui>Zobrazovat průběh na braillském řádku</gui> zaškrtnuté, bude <app>Orca</app> pravidelně zobrazovat stav ukazatele průběhu na braillském řádku.</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+    </section>
+    <section id="progress_bar_updates_beep">
+      <title>Pípat průběh</title>
+      <p>Když je zaškrtávací políčko <gui>Pípat průběh</gui> zaškrtnuté, bude <app>Orca</app> pravidelně vydávat pípnutí, které bude zvyšovat tón podle hodnoty, které ukazatel průběhu dosáhl.</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+    </section>
+    <section id="progress_bar_updates_frequency">
+      <title>Četnost (v sekundách)</title>
+      <p>Tento číselník určuje, jak často je postup prezentován.</p>
+      <p>Výchozí hodnota: 10</p>
+    </section>
+    <section id="progress_bar_updates_restrict">
+      <title>Omezit na</title>
+      <p>Tento rozbalovací seznam vám umožňuje řídit, které ukazatele průběhu by měly být prezentovány, což předpokládá, že prezentování aktualizace ukazatele průběhu je zapnuto. Na výběr je <gui>Vše</gui>, <gui>Aplikace</gui> a <gui>Okno</gui>.</p>
+      <p>Výsledkem volby <gui>Vše</gui> je, že <app>Orca</app> bude prezentovat aktualizace všech ukazatelů průběhu, bez ohledu na to, kde se nachází.</p>
+      <p>Výsledkem volby <gui>Aplikace</gui> je, že <app>Orca</app> bude prezentovat aktualizace ukazatelů průběhu, které se nachází v aktivní aplikaci, i když třeba v neaktivním okně.</p>
+      <p>Výsledkem volby <gui>Okno</gui> je, že <app>Orca</app> bude prezentovat aktualizace ukazatelů průběhu, které se nachází v aktivním okně.</p>
+      <p>Výchozí hodnota: <gui>Aplikace</gui></p>
+    </section>
+  </section>
+</page>

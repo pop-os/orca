@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_keyboard_layout" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_toggling_caps_lock"/>
+    <title type="sort">6. Tangentbordslayout</title>
+    <desc>Välja layout för stationär eller bärbar dator</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Tangentbordslayout</title>
+  <p>Orca har två tangentbordslayouter: Stationär dator (d.v.s. med ett numeriskt tangentbord) och Bärbar dator. Layouten du väljer styr vilken knapp som används som Orca-modifieraren.</p>
+  <list>
+    <item>
+      <p>Om du använder layouten för bärbar dator kommer Orca-modifieraren som standard vara <key>CapsLock</key></p>
+    </item>
+    <item>
+      <p>Om du använder layouten för stationär dator kommer Orca-modifieraren vara både <key>Insert</key> och <key>KeyPad Insert</key>, där den senare är samma tangent som <key>KeyPad 0</key>.</p>
+    </item>
+  </list>
+  <p>Layouten avgör också tangenttryckningarna som är associerade med ett antal av <app>Orca</app>s kommandon, speciellt kring platt granskning, ”Var är jag” och Läs upp allt.</p>
+  <steps>
+    <title>Ändra din tangentbordslayout</title>
+    <item>
+      <p>Gå till dialogen <link xref="preferences">Orca-inställningar</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Flytta till <gui>Tangentbordslayout</gui>-gruppen av radioknappar.</p>
+    </item>
+    <item>
+      <p>Pila till den önskade layouten.</p>
+    </item>
+    <item>
+      <p>Tryck på <gui>Verkställ</gui>-knappen.</p>
+    </item>
+  </steps>
+</page>

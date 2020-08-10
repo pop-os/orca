@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_documents" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_text_attributes"/>
+    <title type="sort">1. Dokumenti</title>
+    <desc>Branje vsebine</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Dokumenti</title>
+  <p>Za branje vsebine poljubnega dokumenta uporabite vgrajen način krmarjenja programa. Ko krmarite po besedilu dokumenta, vam bo <app>Orka</app> predstavila vaše novo mesto. Zato verjetno že veste, kako brati dokument z <app>Orko</app>. V primeru, da želite pregledati ukaze GNOME za krmarjenja kazalke, si oglejte  "<link href="http://library.gnome.org/users/gnome-access-guide/stable/keynav-52.html">Način krmarjenja kazalke</link>" v <link href="http://library.gnome.org/users/gnome-access-guide/stable">Vodniku po dostopnosti namizja GNOME</link>.</p>
+  <list>
+    <item>
+      <p>Uporabite tipki <key>Levo</key> in <key>Desno</key> za pomikanje in branje znaka za znakom.</p>
+    </item>
+    <item>
+      <p>Premikanje in branje besede za besedo: <keyseq><key>Krmilka</key><key>Levo</key></keyseq> in <keyseq><key>Krmilka</key><key>Desno</key></keyseq></p>
+    </item>
+    <item>
+      <p>Pritisnite <key>Navzgor</key> ali <key>Navzdol</key> za premikanje in branje vrstice za vrstico.</p>
+    </item>
+    <item>
+      <p>
+        Use <key>Shift</key> in combination with the above commands to select and
+        unselect text.
+      </p>
+    </item>
+  </list>
+  <note style="tip">
+    <title>Enabling Caret Navigation in an Application</title>
+    <p>
+      Not all applications have caret navigation enabled by default. For many GNOME
+      applications, caret navigation can be toggled on and off by pressing <key>F7</key>.
+    </p>
+  </note>
+  <p>
+    In addition to reading a document by caret navigation, you may find it helpful
+    to read, spell, and obtain the Unicode value for the current text. You can do
+    these things through <app>Orca</app>'s <link xref="howto_flat_review">Flat
+    Review feature</link>.
+  </p>
+  <p>
+    Finally, in order to have <app>Orca</app> speak the entire document from your
+    present location, use the Say All command. It, along with a more complete
+    listing of <app>Orca</app>'s commands for accessing document text, can
+    be found in the <link xref="commands_reading">Reading Commands</link> guide.
+  </p>
+</page>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_setting_up_orca" xml:lang="cs">
+<info>
+  <link type="seealso" xref="preferences"/>
+  <link type="guide" xref="index#getting_started"/>
+  <link type="next" xref="howto_the_orca_modifier"/>
+  <title type="sort">4. Nastavení čtečky Orca</title>
+  <title type="link">Nastavení</title>
+    <desc>Jak nastavit čtečku <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Nastavení čtečky Orca</title>
+
+      <p>Když chcete provést nastavení čtečky <app>Orca</app>, přejděte do dialogového okna <link xref="preferences">Předvolby</link> zmáčknutím <keyseq><key>modifikátor Orca</key><key>mezerník</key></keyseq> v kterékoliv zpřístupněné aplikaci. Jinou možností je napsat v terminálovém okně nebo v dialogovém okně <gui>Spuštení</gui> příkaz <cmd>orca</cmd> následovaný <cmd>-s</cmd> nebo <cmd>--setup</cmd> a zmáčknout <key>Enter</key>.</p>
+</page>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_text_attributes" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_structural_navigation"/>
+    <title type="sort">2. Attributs de texte</title>
+    <desc>Examiner la mise en forme du texte</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Attributs de texte</title>
+  <p>Le terme « attributs de texte » se réfère à la police, au style, à l’alignement et aux autres mises en forme associées à un caractère ou à une série de caractères.</p>
+  <section id="obtaining">
+    <title>Obtention d’informations sur la mise en forme</title>
+    <p>Quand vous appuyez sur <keyseq><key>Touche de modification d’Orca</key><key>F</key></keyseq>, <app>Orca</app> lit les attributs de texte connus d’un objet. De plus, <app>Orca</app> peut indiquer les attributs de texte en braille en les « soulignant » quand vous parcourez un document.</p>
+    <p>Comme le nombre d’attributs de texte est grand, et que tout le monde n’est pas intéressé par tous les attributs, <link xref="preferences_text_attributes">l’onglet Attributs de texte de la boîte de dialogue des préférences</link> vous permet de personnaliser quels attributs <app>Orca</app> va lire, avec l’ordre de lecture, ainsi que ceux que <app>Orca</app> indiquera en braille.</p>
+    <p>Parce que <link xref="preferences_text_attributes">l’onglet Attributs de texte </link> fait aussi partie des paramètres spécifiques aux applications, vous pouvez personnaliser en fonction de vos besoins la présentation des attributs de texte pour chaque application utilisée.</p>
+  </section>
+  <section id="identifying_misspelled_words">
+    <title>Identification des mots mal orthographiés</title>
+    <p>La plupart des applications et des boîtes à outils indiquent qu’un mot est mal orthographié en le soulignant d’une ligne ondulée rouge. La présence de cette ligne est en général présentée par les technologies d’assistance comme un attribut de texte. Vous trouvez donc les fautes d’orthographe parmi les attributs de texte que vous pouvez choisir. Par défaut, l’attribut faute d’orthographe est activé pour la lecture et l’afficheur braille, et est donc présenté parmi tous les autres attributs que vous avez activés.</p>
+    <p>En plus de la notification des fautes d’orthographe comme attribut de texte, si vous avez activé l’écho des touches et/ou des mots, et si vous saisissez un mot avec une faute d’orthographe, lorsque l’indication de faute apparaît, <app>Orca</app> annonce « mot mal orthographié » pour que vous puissiez immédiatement corriger l’erreur.</p>
+    <p>Finalement, quand vous parcourez un document et que le curseur pointe sur un mot mal orthographié, <app>Orca</app> annonce la présence d’une faute d’orthographe.</p>
+  </section>
+</page>

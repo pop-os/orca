@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_live_regions" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_chat"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="howto_live_regions"/>
+    <title type="sort">1. Levande region</title>
+    <title type="link">Levande regioner</title>
+    <desc>Kommandon för att komma åt levande regioner på nätet</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Levande region-kommandon</title>
+  <p>Följande kommandon kan användas för att komma åt dynamiskt uppdaterat innehåll på webbplatser som gjorts åtkomliga genom ARIA.</p>
+  <list>
+    <item>
+      <p>Övervaka levande regioner: <keyseq><key>Orca-modifierare</key><key>Skift</key><key>Omvänt snedstreck</key></keyseq></p>
+    </item>
+    <item>
+      <p>Öka snällhetsinställning för levande region: <key>Omvänt snedstreck</key></p>
+    </item>
+    <item>
+      <p>Ställ standardsnällhetsnivå till av: <keyseq><key>Skift</key><key>Omvänt snedstreck</key></keyseq></p>
+    </item>
+    <item>
+      <p>Gå till nästa/föregående levande region: <keyseq><key>D</key></keyseq>/<keyseq><key>Skift</key><key>D</key></keyseq></p>
+    </item>
+    <item>
+      <p>Gå till sista levande region som annonserat något: <keyseq><key>Y</key></keyseq></p>
+    </item>
+    <item>
+      <p>Granska annonseringar från levande regioner: <keyseq><key>Orca-modifierare</key><key>F1</key></keyseq> till <key>F9</key></p>
+    </item>
+</list>
+</page>

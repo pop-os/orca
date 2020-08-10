@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_introduction" xml:lang="sl">
+  <info>
+    <title type="sort">0 Uvod v možnosti <app>Orke</app></title>
+    <title type="link">Uvod v možnosti <app>Orke</app>.</title>
+    <link type="guide" xref="preferences"/>
+    <link type="next" xref="preferences_general"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Uvod v možnosti <app>Orke</app>.</title>
+  <section id="orca">
+    <title>Možnosti Orke</title>
+    <p>Možnosti Orke vam omogočajo prilagajanje zmožnosti v <app>Orki</app>, ki so uveljavljene za vse programe. Primer možnosti Orke je odmev tipk, ker je odmev tipk uveljavljen za vse programe. </p>
+    <p>Možnosti Orke lahko prilagodite za posamezen program. Tako lahko na primer nastavitev privzeti odmev tipk na besede in nato nastavite odmev tipk za Pidgin na brez. V tem primeru bo <app>Orka</app> odmevala vse napisane besede razen besed napisanih v Pidginu.</p>
+    <note style="tip">
+      <title>Tipkovne bližnjice za vstop v pogovorno okno možnosti</title>
+      <list>
+        <item>
+          <p><keyseq><key>Pomožna tipka Orka</key><key>Preslednica</key></keyseq>: možnosti <app>Orke</app></p>
+        </item>
+        <item>
+          <p><keyseq><key>Krmilka</key><key>Pomožna tipka Orka</key><key>Preslednica</key></keyseq>: možnosti <app>Orke</app>za trenuten program</p>
+        </item>
+      </list>
+    </note>
+  </section>
+  <section id="application_unique">
+    <title>Edinstvene možnosti programa</title>
+      <p>Te možnosti so edinstvene za določen program. Omogočajo vam prilagajanje zmožnosti <app>Orke</app>, ki so uveljavljene le v določenih okoljih, kot so spletne strani ali programi klepeta. Te možnosti boste našli le v pogovornih oknih možnosti le pri tistih programih, za katere te možnosti veljajo.</p>
+  </section>
+</page>

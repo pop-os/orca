@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_key_bindings" xml:lang="bg">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_profiles"/>
+  <title type="sort">8. Функции на клавишите</title>
+  <desc>Присвояване, промяна и изтриване на команди</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Функции на клавишите</title>
+  <p>Orca има много команди, някои от които са присвоени на клавишна комбинация, докато други са неприсвоени. Можете да присвоявате, променяте, и премахвате командите на <app>Orca</app>, като следвате стъпките по-долу.</p>
+  <steps>
+    <title>Присвояване на неприсвоена команда</title>
+    <item>
+      <p>Отидете в <link xref="preferences">Настройки на Orca</link> като натиснете <keyseq><key>Модификатор на Orca</key><key>Интервал</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Придвижете се до страницата <gui>Функции на клавишите</gui>.</p>
+    </item>
+    <item>
+      <p>Придвижете се със стрелките до клетката, съдържаща командата, на която искате да присвоите клавишна комбинация.</p>
+    </item>
+    <item>
+      <p>Натиснете стрелка надясно. Това ще постави фокуса в колоната <gui>Функция на клавиша</gui>. Натиснете <key>Return</key>.</p>
+    </item>
+    <item>
+      <p>Натиснете желаната клавишна комбинация.</p></item>
+    <item>
+      <p>Натиснете <key>Return</key>, за да потвърдите новата клавишна комбинация. Тя ще бъде запазена и полето за отметка в последната колона (колоната <gui>Променена</gui>) ще показва, че клавишната комбинация за тази команда е била променена.</p>
+    </item>
+    <item>
+      <p>Натиснете бутона <gui>Прилагане</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Промяна на съществуващи клавишни комбинации</title>
+    <item>
+      <p>Отидете в <link xref="preferences">Настройки на Orca</link> като натиснете <keyseq><key>Модификатор на Orca</key><key>Интервал</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Придвижете се до страницата <gui>Функции на клавишите</gui>.</p>
+    </item>
+    <item>
+      <p>Придвижете се със стрелките до функцията, чиято клавишна комбинация искате да промените и натиснете <key>Return</key>.</p>
+    </item>
+    <item>
+        <p>Натиснете желаната клавишна комбинация.</p>
+    </item>
+    <item>
+      <p>Натиснете <key>Return</key>, за да потвърдите новата клавишна комбинация. Тя ще бъде запазена и полето за отметка в последната колона (колоната <gui>Променена</gui>) ще показва, че клавишната комбинация за тази команда е била променена.</p>
+    </item>
+    <item>
+      <p>Натиснете бутона <gui>Прилагане</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Възстановяване на оригиналните функции на клавишите</title>
+    <item>
+      <p>Отидете в <link xref="preferences">Настройки на Orca</link> като натиснете <keyseq><key>Модификатор на Orca</key><key>Интервал</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Придвижете се до страницата <gui>Функции на клавишите</gui>.</p>
+    </item>
+    <item>
+      <p>Придвижете се със стрелките до колоната „Променена“, която е асоциирана с функцията на клавиша.</p>
+    </item>
+    <item>
+      <p>Махнете отметката като натиснете <key>Интервал</key>.</p>
+    </item>
+    <item>
+      <p>Натиснете бутона <gui>Прилагане</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Премахване на присвоени команди</title>
+    <item>
+      <p>Отидете в <link xref="preferences">Настройки на Orca</link> като натиснете <keyseq><key>Модификатор на Orca</key><key>Интервал</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Придвижете се до страницата <gui>Функции на клавишите</gui>.</p>
+    </item>
+    <item>
+      <p>Придвижете се със стрелките до клетката, съдържаща клавишната комбинация, която искате да изтриете и натиснете <key>Return</key>.</p>
+    </item>
+    <item>
+      <p>Когато ви бъде поискана новата клавишна комбинация, натиснете клавиша <key>Delete</key> или <key>BackSpace</key>. Ще ви бъде съобщено, че клавишната комбинация за тази функция е била премахната.</p>
+    </item>
+    <item>
+      <p>Натиснете <key>Return</key>, за да потвърдите.</p>
+    </item>
+    <item>
+      <p>Натиснете бутона <gui>Прилагане</gui>.</p>
+    </item>
+  </steps>
+</page>

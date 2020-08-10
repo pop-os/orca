@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_live_regions" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_whereami"/>
+    <title type="sort">6. Regiões dinâmicas</title>
+    <desc>Interagindo com conteúdo dinâmico da web</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Regiões dinâmicas</title>
+  <p>Uma região dinâmica é uma parte de uma página da web atualizada automaticamente, tal como uma tabela com estatísticas de esportes, uma lista atual dos preços do estoque, um registro de acesso de um bate-papo, ou um alerta exibido pela página que você está lendo. Enquanto regiões dinâmicas aparecem mais freqüentemente, páginas da web com regiões dinâmicas e completamente acessíveis são cada vez menos encontradas. Este problema está sendo enfrentado por uma série de organizações.</p>
+  <section id="politeness_levels">
+    <title>Nível de polidez de uma região dinâmica</title>
+    <p>
+      Live regions have an associated "politeness" level which is set by the
+      author as a means to convey the importance of the information and to
+      suggest when users should be informed by their assistive technology of
+      updates made within that region. Live regions can be "off", "polite", or
+      "assertive" to the point of being "rude."
+    </p>
+  </section>
+  <section id="orca_support">
+    <title>Suporte do <app>Orca</app> para regiões dinâmicas</title>
+    <p>Caso você não concorde com o nível de polidez especificado pelo autor para a página que você está vendo, o <app>Orca</app> fornece uma série of <link xref="commands_live_regions">comandos para regiões dinâmicas</link> que permitem você modificar o nível de algumas ou todas regiões na página. Além disto, você pode:</p>
+    <list>
+      <item>
+        <p>Ligando ou desligando o suporte às regiões dinâmicas</p>
+      </item>
+      <item>
+        <p>Salta para a região dinâmica anterior ou próxima</p>
+      </item>
+      <item>
+        <p>Salta para a última região que apresentou informação</p>
+      </item>
+      <item>
+        <p>Revê as últimas nove mensagens de regiões dinâmicas que foram apresentadas</p>
+    </item>
+    </list>
+  </section>
+</page>

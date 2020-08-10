@@ -237,7 +237,7 @@ def _scrollSubstringToLocation(obj, location, startOffset, endOffset):
         debug.println(debug.LEVEL_INFO, msg, True)
         return False
     except:
-        msg = "ERROR: Exception scrolling %s (%i,%i) to %s." % \
+        msg = "ERROR: Exception scrolling %s (%s,%s) to %s." % \
             (obj, startOffset, endOffset, location)
         debug.println(debug.LEVEL_INFO, msg, True)
         return False
@@ -401,7 +401,14 @@ def _getAccessibleAtPoint(root, x, y):
 
 def _obscuringBanner(obj):
     document = _containingDocument(obj)
-    if not document and "Component" in pyatspi.listInterfaces(document):
+    if not document:
+        msg = "EVENT SYNTHESIZER: No obscuring banner found for %s. No document." % obj
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return None
+
+    if not "Component" in pyatspi.listInterfaces(document):
+        msg = "EVENT SYNTHESIZER: No obscuring banner found for %s. No doc iface." % obj
+        debug.println(debug.LEVEL_INFO, msg, True)
         return None
 
     objX, objY, objWidth, objHeight = _objectExtents(obj)

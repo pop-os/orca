@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_speech" xml:lang="es">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_braille"/>
+    <title type="sort">2.1. Voz</title>
+    <title type="link">Voz</title>
+    <desc>Configurar lo que se habla</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Compartir Igual 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Daniel Mustieles</mal:name>
+      <mal:email>daniel.mustieles@gmail.com</mal:email>
+      <mal:years>2012 - 2020</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jorge González</mal:name>
+      <mal:email>jorgegonz@svn.gnome.org</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  </info>
+  <title>Preferencias de voz</title>
+  <section id="enable_speech">
+    <title>Activar voz</title>
+    <p>La casilla <gui>Activar voz</gui> controla si <app>Orca</app> hará uso o no de un sintetizador de voz. Los usuarios que solamente usen Braille probablemente quieran desmarcar esta casilla.</p>
+    <p>Valor predeterminado: marcado</p>
+  </section>
+  <section id="verbosity">
+    <title>Cantidad de información</title>
+    <p>El ajuste <gui>Cantidad de información</gui> determina la cantidad de información que se hablará en varias situaciones. Por ejemplo, si este está establecido a extendida, y se sitúa con los cursores sobre una palabra mal escrita, <app>Orca</app> anunciará que la palabra está mal escrita. Este anuncio no se hará cuando el nivel se establece a «breve».</p>
+    <p>Valor predeterminado: <gui>extendida</gui></p>
+  </section>
+  <section id="punctuation_level">
+    <title>Nivel de puntuación</title>
+    <p>El grupo de botones de radio <gui>Nivel de puntuación</gui> se usa para ajustar la cantidad de puntuación que se habla por el sintetizador. Los niveles disponibles son <gui>Ninguna</gui>, <gui>Alguna</gui>, <gui>La mayoría</gui> y <gui>Toda</gui>.</p>
+    <p>Valor predeterminado: <gui>La mayoría</gui></p>
+    <section id="punctuation_level_none">
+      <title>Ninguna</title>
+      <p>Seleccionar un nivel de puntuación <gui>Ninguna</gui> hará, como imagina, que no se hable ninguna puntuación. Sin embargo, note que los símbolos especiales tales como números superíndice y subíndice, fracciones Unicode y viñetas todavía se hablarán en este nivel, a pesar de que algunos podrían considerar estos símbolos como signos de puntuación.</p>
+    </section>
+    <section id="punctuation_level_some">
+      <title>Alguna</title>
+      <p>Seleccionar nivel de puntuación <gui>Alguna</gui> hace que se hablen todos los símbolos mencionados anteriormente. Por otro lado, <app>Orca</app> hablará los símbolos matemáticos conocidos, símbolos de moneda y «^», «@», «/», «&amp;», «#».</p>
+    </section>
+    <section id="punctuation_level_most">
+      <title>La mayoría</title>
+      <p>Seleccionar el nivel de puntuación <gui>La mayoría</gui> hace que se hablen todos los símbolos mencionados anteriormente. Por otra parte <app>Orca</app> hablará todos los otros símbolos de puntuación conocidos <em>que no sean</em> «!», «'», «,», «.», «?».</p>
+    </section>
+    <section id="punctuation_level_all">
+      <title>Toda</title>
+      <p>Seleccionar un nivel de puntuación <gui>Toda</gui> hace, como ya imagina, que <app>Orca</app> hable todos los símbolos de puntuación conocidos.</p>
+    </section>
+  </section>
+  <section id="spoken_context">
+    <title>Contexto hablado</title>
+    <p>Los siguientes elementos controlan la presentación de una variedad de información suplementaria acerca del elemento con el foco. Debido a que el texto asociado no aparece en pantalla, esta información se presenta con la voz de sistema de <app>Orca</app>.</p>
+    <section id="only_speak_displayed_text">
+      <title>Hablar solamente el texto mostrado</title>
+      <p>Al marcar esta casilla hace que <app>Orca</app> solamente hable el texto actual que se muestra en pantalla. Esta opción está destinada a usuarios con baja visión y usuarios con una discapacidad de aprendizaje visual.</p>
+      <p>Valor predeterminado: no marcado</p>
+      <note style="note">
+        <p>Los siguientes elementos no estarán disponibles para configurar si la casilla <gui>Hablar solamente el texto mostrado</gui> está marcada.</p>
+      </note>
+    </section>
+    <section id="speak_blank_lines">
+      <title>Indicar líneas en blanco</title>
+      <p>Si la casilla <gui>Indicar líneas en blanco</gui>está marcada, <app>Orca</app> dirá «en blanco» cada vez que llegue con flechas de cursor a una línea en blanco. Si no está marcada, <app>Orca</app> no dirá nada cuando se mueva a una línea en blanco.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section id="indentation_and_justification">
+      <title>Indicar sangrado y justificación</title>
+      <p>Cuando se trabaja con código o se editan otros documentos a menudo es deseable estar al tanto de la justificación y el sangrado. Al marcar la casilla <gui>Indicar sangrado y justificación</gui> hará que <app>Orca</app> anuncie esta información.</p>
+      <p>Valor predeterminado: no marcado</p>
+    </section>
+    <section id="speak_misspelled_word_indicator">
+      <title>Hablar el indicador de palabra mal escrita</title>
+      <p>El indicador de palabra mal escrita es la línea roja que aparece debajo de las palabras mal escritas en los campos de texto editables. Si la opción <gui>Hablar el indicador de palabra mal escrita</gui> está marcada, cuando navegue por una palabra con este indicador, o cuando escriba una palabra incorrectamente, haciendo que aparezca el indicador, <app>Orca</app> hablará «mal escrita».</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section id="mnemonics">
+     <title>Leer las teclas de acceso del objeto</title>
+      <p>Si se marca la casilla <gui>Leer las teclas de acceso del objeto</gui>, <app>Orca</app> anunciará las teclas de acceso asociadas al objeto con el foco (tal como <keyseq><key>Alt</key><key>A</key></keyseq> para el botón <gui>Aceptar</gui>).</p>
+      <p>Valor predeterminado: no marcado</p>
+    </section>
+    <section id="child_position">
+      <title>Indicar la posición del hijo</title>
+      <p>Al marcar la casilla <gui>Indicar la posición del hijo</gui> hará que <app>Orca</app> anuncie la posición del elemento con el foco en menús, listas y árboles (Ej. «9 de 16»).</p>
+      <p>Valor predeterminado: no marcado</p>
+    </section>
+    <section id="speak_tutorial_messages">
+      <title>Leer mensajes de aprendizaje</title>
+      <p>Si la casilla <gui>Leer mensajes de aprendizaje</gui> está marcada, <app>Orca</app> proporcionará información adicional, como la forma de interactuar con el objeto que actualmente tiene el foco.</p>
+      <p>Valor predeterminado: no marcado</p>
+    </section>
+    <section id="speak_description">
+      <title>Hablar descripción</title>
+      <p>Si la casilla <gui>Leer descripción</gui> está marcada, según se mueva entre los objetos de una interfaz, <app>Orca</app> leerá la descripción accesible además del nombre accesible del objeto.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section id="system_messages_are_detailed">
+      <title>Los mensajes del sistema son detallados</title>
+      <p>Si la opción <gui>Los mensajes son del sistema son detallados</gui> está activada, <app>Orca</app> mostrará mensajes detalladados al hablar. Por ejemplo, si usa el comando de <app>Orca</app> para cambiar el eco de las teclas, <app>Orca</app> puede hablar «Eco de tecla establecido a palabra». Si prefiere mensajes más cortos, como simplemente «palabra», debe desmarcar esta casilla.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section id="speak_colors_as_names">
+      <title>Hablar colores como nombres</title>
+      <p>Si la opción <gui>Hablar colores como nombres</gui> está activada, <app>Orca</app> describirá los colores de manera más aproximada. Por ejemplo, RGB 0, 27, 51 se hablará como «midnight blue»" Si prefiere escuchar el valor RGB exacto, desmarque esta casilla.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section id="announce_blockquotes_during_navigation">
+      <title>Anunciar citas durante la navegación</title>
+      <p>Si las casilla <gui>Anunciar bloques durante la navegación</gui> está marcada, <app>Orca</app> le dirá cuando navega dentro o fuera de un bloque. Tenga en cuenta que esta opción es independiente de si este anuncio se hace o no al hablar todo. Consulte la sección <link xref="preferences_general#say_all_announce_context">Información contextual de anuncios al hablar todo</link> para obtener más información.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section id="announce_forms_during_navigation">
+      <title>Anunciar formularios durante la navegación</title>
+      <p>Si las casilla <gui>Anunciar formularios durante la navegación</gui> está marcada, <app>Orca</app> le dirá cuando navega dentro o fuera de un formulario. Tenga en cuenta que esta opción es específica de formularios que no son marcadores ARIA. Puede configurar la presentación de marcas ARIA mediante la casilla <gui>Anunciar marcas durante la navegación</gui>. Además, está opción es independiente de si este anuncio se hace o no al hablar todo. Consulte la sección <link xref="preferences_general#say_all_announce_context">Información contextual de anuncios al hablar todo</link> para obtener más información.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section id="announce_landmarks_during_navigation">
+      <title>Anunciar marcas durante la navegación</title>
+      <p>Si las casilla <gui>Anunciar marcas durante la navegación</gui> está marcada, <app>Orca</app> le dirá cuando navega dentro o fuera de una marca ARIA. Tenga en cuenta que esta opción es independiente de si este anuncio se hace o no al hablar todo. Consulte la sección <link xref="preferences_general#say_all_announce_context">Información contextual de anuncios al hablar todo</link> para obtener más información.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section id="announce_lists_during_navigation">
+      <title>Anunciar listas durante la navegación</title>
+      <p>Si las casilla <gui>Anunciar listas durante la navegación</gui> está marcada, <app>Orca</app> le dirá cuando navega dentro o fuera de una lista. Tenga en cuenta que esta opción es independiente de si este anuncio se hace o no al hablar todo. Consulte la sección <link xref="preferences_general#say_all_announce_context">Información contextual de anuncios al hablar todo</link> para obtener más información.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section id="announce_panels_during_navigation">
+      <title>Anunciar paneles durante la navegación</title>
+      <p>Si las casilla <gui>Anunciar paneles durante la navegación</gui> está marcada, <app>Orca</app> le dirá cuando navega dentro o fuera de un panel. Tenga en cuenta que esta opción es independiente de si este anuncio se hace o no al hablar todo. Consulte la sección <link xref="preferences_general#say_all_announce_context">Información contextual de anuncios al hablar todo</link> para obtener más información.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section id="announce_tables_during_navigation">
+      <title>Anunciar tablas durante la navegación</title>
+      <p>Si las casilla <gui>Anunciar tablas durante la navegación</gui> está marcada, <app>Orca</app> le dirá cuando navega dentro o fuera de una tabla. Tenga en cuenta que esta opción es independiente de si este anuncio se hace o no al hablar todo. Consulte la sección <link xref="preferences_general#say_all_announce_context">Información contextual de anuncios al hablar todo</link> para obtener más información.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section id="read_full_row_in_gui_tables">
+      <title>Leer la fila completa el tablas de la IGU</title>
+      <p>Si la opción <gui>Leer fila completa el tablas de la IGU</gui> está marcada, a medida que sube y baja en las tablas de la aplicación, tales como la lista de mensajes de la bandeja de entrada, <app>Orca</app> hablará la fila completa. Si prefiere escuchar sólo la celda con el foco, debe desmarcar esta casilla.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section id="read_full_row_in_document_tables">
+      <title>Leer la fila completa el tablas del documento</title>
+      <p>Si la opción <gui>Leer fila completa el tablas del documento</gui> está marcada, a medida que sube y baja en las tablas como las de <app>writer</app> y en documentos web, <app>Orca</app> hablará la fila completa. Si prefiere escuchar sólo la celda con el foco, debe desmarcar esta casilla.</p>
+      <p>Valor predeterminado: marcado</p>
+    </section>
+    <section id="read_full_row_in_spreadsheets">
+      <title>Leer la fila completa el hojas de cálculo</title>
+      <p>Si la casilla <gui>Hablar fila completa en hojas de cálculo</gui> está marcada, a medida que sube y baja en la hoja de cálculo <app>Orca</app> hablará la fila completa. Si prefiere escuchar sólo la celda que tiene el foco, debe desmarcar esta casilla.</p>
+      <p>Valor predeterminado: no marcado</p>
+    </section>
+  </section>
+</page>

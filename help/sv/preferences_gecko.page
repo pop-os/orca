@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="sv">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_table_navigation"/>
+    <title type="sort">1. Gecko-navigering</title>
+    <title type="link">Gecko-navigering</title>
+    <desc>Konfigurera <app>Orca</app>s stöd för <app>Firefox</app> och <app>Thunderbird</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Inställningar för Gecko-navigering</title>
+  <section id="page_navigation">
+    <title>Sidnavigering</title>
+    <p>Kontrollgruppen <gui>Sidnavigering</gui> gör det möjligt för dig att anpassa hur <app>Orca</app> presenterar, och låter dig interagera med, text och annat innehåll.</p>
+    <section id="page_navigation_control_caret">
+      <title>Kontrollera markörnavigering</title>
+      <p>Denna kryssruta slår på och av <app>Orca</app>s markörnavigering. När den är på tar <app>Orca</app> kontroll över markören då du pilar runt i en sida; då den är avslagen är Geckos inbyggda markörnavigering aktiv.</p>
+      <p>Standardvärde: ikryssad</p>
+      <note style="tip">
+        <title>Denna inställning kan växlas direkt</title>
+        <p>För att växla denna inställning direkt utan att spara den, använd <keyseq><key>Orca-modifierare</key><key>F12</key></keyseq>.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_caret">
+      <title>Automatiskt fokusläge under markörnavigering</title>
+      <p>Om denna kryssruta är ikryssad kommer <app>Orca</app> automatiskt slå på fokusläge då du använder markörnavigeringskommandon för att navigera till ett formulärfält. Till exempel skulle <key>Ned</key> kunna låta dig flytta in i en post men då du har gjort det så skulle Orca växla till fokusläge och följande tryck på <key>Ned</key> skulle kontrolleras av webbläsaren och inte av Orca. Om denna kryssruta inte är ikryssad så skulle <app>Orca</app> fortsätta kontrollera vad som händer då du trycker <key>Ned</key>, och därmed göra det möjligt att pila ut ur posten och fortsätta läsa.</p>
+      <p>Standardvärde: inte ikryssad</p>
+      <note style="tip">
+        <title>Växla manuellt mellan bläddringsläge och fokusläge</title>
+        <p>För att börja eller sluta interagera med det fokuserade formulärfältet, använd <keyseq><key>Orca-modifierare</key><key>A</key></keyseq> för att växla mellan bläddringsläge och fokusläge.</p>
+       </note>
+    </section>
+    <section id="page_navigation_structural">
+      <title>Aktivera strukturell navigering</title>
+      <p>Denna kryssruta slår på och av <app>Orca</app>s <link xref="howto_structural_navigation">strukturella navigering</link>. Strukturell navigering låter dig navigera efter element som rubriker, länkar och formulärfält.</p>
+      <p>Standardvärde: ikryssad</p>
+      <note style="tip">
+        <title>Denna inställning kan växlas direkt</title>
+        <p>För att växla denna inställning direkt utan att spara den, använd <keyseq><key>Orca-modifierare</key><key>Z</key></keyseq>.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_structural">
+      <title>Automatiskt fokusläge under strukturell navigering</title>
+      <p>Om denna kryssruta är ikryssad kommer <app>Orca</app> automatiskt slå på fokusläge när du använder kommandon för strukturell navigering för att navigera till ett formulärfält. Till exempel så skulle att trycka <key>E</key> för att flytta till nästa post flytta fokus dit och även slå på fokusläge så att ditt nästa tryck på <key>E</key> skulle skriva in ett ”e” i den posten. Om denna kryssruta inte är ikryssad skulle <app>Orca</app> lämna dig i bläddringsläge och ditt nästa tryck på <key>E</key> skulle flytta dig till nästa post på sidan.</p>
+      <p>Standardvärde: inte ikryssad</p>
+      <note style="tip">
+        <title>Växla manuellt mellan bläddringsläge och fokusläge</title>
+        <p>För att börja eller sluta interagera med det fokuserade formulärfältet, använd <keyseq><key>Orca-modifierare</key><key>A</key></keyseq> för att växla mellan bläddringsläge och fokusläge.</p>
+       </note>
+    </section>
+    <section id="page_navigation_speak">
+      <title>Börja automatiskt läsa upp en sida när den först läses in</title>
+      <p>Om denna kryssruta är ikryssad kommer <app>Orca</app> utföra en Läs upp allt på den nyöppnade webbplatsen eller e-posten.</p>
+      <p>Standardvärde: ikryssad för Firefox, inte ikryssad för Thunderbird</p>
+    </section>
+    <section id="page_navigation_summary">
+      <title>Presentera sammanfattning för en sida när den först läses in</title>
+      <p>Om denna kryssruta är ikryssad kommer <app>Orca</app> sammanfatta detaljer om den nyss öppnade webbsidan eller e-postmeddelandet, som exempelvis antalet rubriker, landmärken och länkar.</p>
+      <p>Standardvärde: ikryssad för Firefox, inte ikryssad för Thunderbird</p>
+    </section>
+    <section id="page_navigation_layout_mode">
+      <title>Aktivera layoutläge för innehåll</title>
+      <p>Om denna kryssruta är ikryssad kommer <app>Orca</app>s markörnavigering respektera innehållets layout på skärmen och presentera hela raden, inkluderande alla länkar och formulärfält på den raden. Om denna kryssruta inte är ikryssad kommer <app>Orca</app> behandla objekt som exempelvis länkar och formulärfält som om de var på separata rader, både för presentation och navigering.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+  </section>
+  <section id="table_options">
+    <title>Tabellalternativ</title>
+    <note>
+      <p>För att lära dig mer om <app>Orcas</app> alternativ för att navigera i tabeller, se <link xref="preferences_table_navigation">Inställningar för tabellnavigering</link>.</p>
+    </note>
+  </section>
+  <section id="find_options">
+    <title>Sökalternativ</title>
+    <p>Kontrollgruppen <gui>Sökalternativ</gui> gör det möjligt för dig att anpassa hur <app>Orca</app> presenterar resultaten av en sökning som utförts med programmets inbyggda sökfunktionalitet.</p>
+    <section id="find_options_speak_during_find">
+      <title>Läs upp resultat under sökning</title>
+      <p>Om denna kryssruta är ikryssad så kommer <app>Orca</app> att läsa upp raden som matchar din aktuella sökning.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="find_options_speak_changed_lines_during_find">
+      <title>Läs endast upp ändrade rader under sökning</title>
+      <p>Om denna kryssruta är ikryssad så kommer <app>Orca</app> inte presentera den matchande raden om det är samma rad som föregående matchning. Detta alternativ är designad för att förhindra ”pratsamhet” på rader med flera förekomster av strängen du söker.</p>
+      <p>Standardvärde: inte ikryssad</p>
+    </section>
+    <section id="find_options_minimum_match_length">
+      <title>Minimal längd på matchande text</title>
+      <p>I denna redigerbara snurrknapp kan du ange antalet tecken som måste matcha innan <app>Orca</app> annonserar den matchande raden. Detta alternativ är också designat för att förhindra ”pratsamhet” eftersom det finns många matchningar då du först börjar skriva strängen som du söker efter.</p>
+      <p>Standardvärde: 4</p>
+    </section>
+  </section>
+</page>

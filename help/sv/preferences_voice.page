@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_voice" xml:lang="sv">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_speech"/>
+    <title type="sort">2.0 Röst</title>
+    <title type="link">Röst</title>
+    <desc>Konfigurera rösten som <app>Orca</app> använder</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Röstinställningar</title>
+  <section id="voice_type_settings">
+    <title>Inställningar för rösttyp</title>
+    <section id="voice_type">
+      <title>Rösttyp</title>
+      <p>Denna kombinationsruta gör det möjligt för dig att använda olika röster så att du lättare kan skilja versal och länkad text från annan text, och text på skärmen från text som lagts till av <app>Orca</app>.</p>
+      <note style="tip">
+        <title>Konfigurera flera röster</title>
+        <p>För varje röst du vill konfigurera väljer du först rösten i kombinationsrutan <gui>Rösttyp</gui>. Konfigurera sedan person, hastighet, tonart och volym att använda för den rösten.</p>
+      </note>
+    </section>
+    <section id="speech_system">
+      <title>Uppläsningssystem</title>
+      <p>Denna kombinationsruta låter dig välja ditt föredragna uppläsningssystem från de som du har installerade, som exempelvis Speech Dispatcher.</p>
+    </section>
+    <section id="speech_synthesizer">
+      <title>Talsyntes</title>
+      <p>Denna kombinationsruta låter dig välja talsyntesen att använda med ditt valda uppläsningssystem.</p>
+    </section>
+    <section id="person">
+      <title>Person</title>
+      <p>Denna kombinationsruta låter dig välja vilken ”person” eller ”talare” som ska användas med den valda rösten. Till exempel vill du kanske att David talar som standard, men att Alice läser upp hyperlänkar. Notera att vad du hittar i kombinationsrutan <gui>Person</gui> kommer bero på vilka talsynteser som du har installerade.</p>
+    </section>
+    <section id="capitalization_style">
+      <title>Versaliseringsstil</title>
+      <p>Denna kombinationsruta låter dig välja vilka stilar för versaliseringsindikation i Speech Dispatcher du vill använda utöver <app>Orca</app>s versaliseringsröst. Alternativen, vilka är namngivna enligt Speech Dispatchers terminologi, är:</p>
+     <list>
+       <item><p><gui>ikon</gui>: Spelar en ton</p></item>
+       <item><p><gui>uppläsning</gui>: Läser upp ordet ”capital”</p></item>
+       <item><p><gui>ingen</gui></p></item>
+    </list>
+    <note style="tip">
+      <title>Denna inställning kan växlas direkt</title>
+      <p><app>Orca</app> har också ett kommando för att växla mellan de tillgängliga versaliseringsstilarna. Se <link xref="commands_speech_settings"> kommandon för uppläsningsinställningar</link> för mer information.</p>
+    </note>
+    <p>Standardvärde: ingen</p>
+    </section>
+    <section id="rate_pitch_and_volume">
+      <title>Hastighet, tonart och volym</title>
+      <p>Dessa tre vänster-höger-skjutreglage låter dig ytterligare anpassa ljudet för personen som du just valt.</p>
+    </section>
+  </section>
+  <section id="global_voice_settings">
+  <title>Allmänna röstinställningar</title>
+    <section id="pauses">
+      <title>Dela upp tal i delar mellan pauser</title>
+      <p>Beroende på de aktiverade uppläsningsinställningarna kan <app>Orca</app> ha mycket att säga om ett enstaka objekt som dess namn, roll, tillstånd, minnesobjekt, handledningsmeddelande och så vidare. Att kryssa i kryssrutan <gui>Dela upp tal i delar mellan pauser</gui> kommer få <app>Orca</app> att sätta in korta pauser mellan var och en av dessa bitar information.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="multicase_strings">
+      <title>Läs upp strängar med blandade skiftlägen som ord</title>
+      <p>I viss text, och särskilt då det gäller kod, kan man stöta på ett ”ord” som består av flera ord med växlande skiftläge, som ”MinNyaFunktion”. Talsynteser uttalar inte nödvändigtvis sådana strängar med flera skiftlägen korrekt. Att kryssa i kryssrutan <gui>Läs upp strängar med blandade skiftlägen som ord</gui> kommer få <app>Orca</app> att dela upp ett ord som ”MinNyaFunktion” till separata ord (”Min”, ”Nya” och ”Funktion”) innan det skickas vidare till talsyntesen.</p>
+      <p>Standardvärde: inte ikryssad</p>
+    </section>
+    <section id="numbers_as_digits">
+      <title>Läs upp nummer som siffror</title>
+      <p>Att kryssa i kryssrutan <gui>Läs upp nummer som siffror</gui> får <app>Orca</app> att dela upp ett nummer som ”123” till enstaka siffror (”1”, ”2” och ”3”) innan det skickas vidare till talsyntesen.</p>
+      <p>Standardvärde: inte ikryssad</p>
+    </section>
+  </section>
+</page>

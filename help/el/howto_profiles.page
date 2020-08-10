@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_profiles" xml:lang="el">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_documents"/>
+    <title type="sort">9. Κατατομές</title>
+    <desc>Διατήρηση πολλαπλών διαμορφώσεων</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Κατατομές</title>
+  <p>Οι κατατομές του Orca επιτρέπουν την αποθήκευση και φόρτωση πολλαπλών διαμορφώσεων έτσι ώστε να μπορείτε γρήγορα να προσπελάσετε τις απαιτούμενες ρυθμίσεις.</p>
+  <steps>
+    <title>Αποθήκευση νέας κατατομής</title>
+    <item>
+      <p>Πηγαίνετε στο πλαίσιο διαλόγου <link xref="preferences">προτιμήσεις Orca</link>.</p>
+    </item>
+    <item>
+      <p>Αλλάξτε ό,τι ρυθμίσεις θέλετε.</p>
+    </item>
+    <item>
+      <p>Στη σελίδα<gui>γενικά</gui>, πατήστε το κουμπί <gui>αποθήκευση ως</gui>.</p>
+    </item>
+    <item>
+      <p>Πληκτρολογήστε το νέο όνομα της κατατομής στον τελικό πλαίσιο διαλόγου <gui>αποθήκευση κατατομής ως</gui>.</p>
+    </item>
+    <item>
+      <p>Πατήστε το κουμπί <gui>εντάξει</gui> στο πλαίσιο διαλόγου <gui>αποθήκευση κατατομής ως</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Φόρτωση μιας υπάρχουσας κατατομής</title>
+    <item>
+      <p>Πηγαίνετε στο πλαίσιο διαλόγου <link xref="preferences">προτιμήσεις Orca</link>.</p>
+    </item>
+    <item>
+      <p>Στη σελίδα <gui>γενικά</gui>, επιλέξτε την κατατομή προς φόρτωση από το σύνθετο πλαίσιο <gui>ενεργή κατατομή</gui>.</p>
+    </item>
+    <item>
+      <p>Πατήστε στο κουμπί <gui>φόρτωση</gui>.</p>
+    </item>
+    <item>
+      <p>Θα σας ζητηθεί επιβεβαίωση. Πατήστε το κουμπί <gui>ναι</gui>.</p>
+    </item>
+    <item>
+      <p>Πατήστε στο κουμπί <gui>Εντάξει</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Αλλαγή μιας υπάρχουσας κατατομής</title>
+    <item>
+      <p>Ακολουθήστε τα βήματα που περιγράφηκαν παραπάνω για φόρτωση της κατατομής που θέλετε να αλλάξετε.</p>
+    </item>
+    <item>
+      <p>Ακολουθήστε τα βήματα που περιγράφηκαν παραπάνω για αποθήκευση μιας νέας κατατομής.</p>
+    </item>
+    <item>
+      <p>Όταν σας ζητηθεί το νέο όνομα κατατομής, πληκτρολογήστε το ίδιο όνομα με την τρέχουσα κατατομή. Όταν πατάτε το κουμπί <gui>εντάξει</gui>, θα σας ειπωθεί ότι υπάρχει μια σύγκρουση ονόματος.</p>
+    </item>
+    <item>
+      <p>Πατήστε το κουμπί <gui>ναι</gui> για επιβεβαίωση ότι θέλετε να αντικαταστήσετε την υπάρχουσα κατατομή με τις νέες ρυθμίσεις.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Αλλάζοντας την <gui>κατατομή εκκίνησης</gui></title>
+    <item>
+      <p>Πηγαίνετε στο πλαίσιο διαλόγου <link xref="preferences">προτιμήσεις Orca</link>.</p>
+    </item>
+    <item>
+      <p>Στη σελίδα <gui>γενικά</gui>, επιλέξτε την κατατομή προς φόρτωση από το σύνθετο πλαίσιο <gui>κατατομή έναρξης</gui>.</p>
+    </item>
+    <item>
+      <p>Πατήστε το κουμπί <gui>εντάξει</gui>. Την επόμενη φορά που θα ξεκινήσετε το <app>Orca</app>, θα χρησιμοποιηθεί η νεοεπιλεγμένη κατατομή.</p>
+    </item>
+  </steps>
+</page>

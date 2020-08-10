@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_keyboard_layout" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_toggling_caps_lock"/>
+    <title type="sort">6. Agencement de clavier</title>
+    <desc>Choisir l’agencement ordinateur de bureau ou portable</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Agencement de clavier</title>
+  <p>Orca dispose de deux agencements de clavier : ordinateur de bureau (c’est-à-dire doté d’un pavé numérique) et portable. L’agencement que vous choisissez, détermine la touche qui est utilisée comme Touche de modification d’Orca.</p>
+  <list>
+    <item>
+      <p>Si vous utilisez l’agencement ordinateur portable, la touche de modification d’Orca par défaut est <key>Verr. maj.</key></p>
+    </item>
+    <item>
+      <p>Si vous utilisez l’agencement ordinateur de bureau, les touches de modification d’Orca par défaut sont à la fois les touches <key>Inser</key> et <key>Inser du pavé numérique</key>, cette dernière étant la même touche que le <key>0 du pavé numérique</key>.</p>
+    </item>
+  </list>
+  <p>L’agencement détermine aussi les combinaisons de touches associées à un certain nombre de commandes d’<app>Orca</app>, plus particulièrement en ce qui concerne l’« Examen global », « Où suis-je » et « Tout lire ».</p>
+  <steps>
+    <title>Modification de l’agencement de votre clavier</title>
+    <item>
+      <p>Appuyez sur <keyseq><key>Touche de modification d’Orca</key><key>Barre d’espace</key></keyseq> pour accéder à la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
+    </item>
+    <item>
+      <p>Déplacez-vous dans le groupement de boutons radio <gui>Agencement du clavier</gui>.</p>
+    </item>
+    <item>
+      <p>Sélectionnez l’agencement de clavier désiré.</p>
+    </item>
+    <item>
+      <p>Cliquez sur le bouton <gui>Appliquer</gui>.</p>
+    </item>
+  </steps>
+</page>

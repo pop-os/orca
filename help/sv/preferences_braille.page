@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_braille" xml:lang="sv">
+  <info>
+    <title type="sort">3. Punktskrift</title>
+    <title type="link">Punktskrift</title>
+    <desc>Konfigurera <app>Orca</app>s stöd för punktskriftsskärm</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_echo"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Punktskriftsinställningar</title>
+  <section id="braillesupport">
+    <title>Aktivera punktskriftsstöd</title>
+    <p>Denna kryssruta växlar huruvida <app>Orca</app> kommer använda sig av en punktskriftsskärm. Om BrlTTY inte körs kommer <app>Orca</app> återhämta sig elegant och kommer inte kommunicera med punktskriftsskärmen.</p>
+    <p>Standardvärde: inte ikryssad</p>
+    <note style="tip">
+      <p>Om du konfigurerar BrlTTY senare kommer du behöva starta om <app>Orca</app> för att använda punktskrift.</p>
+    </note>
+  </section>
+  <section id="braillewordwrap">
+    <title>Aktivera radbrytning mellan ord</title>
+    <p>Om kryssrutan <gui>Aktivera radbrytning mellan ord</gui> är ikryssad kommer <app>Orca</app> justera texten så att bara hela ord visas på punktskriftsskärmen. Om. Om den inte är ikryssad kommer <app>Orca</app> att använda alla celler på skärmen så att mer text kan visas på en gång.</p>
+    <p>Standardvärde: inte ikryssad</p>
+  </section>
+  <section id="contractedbraille">
+    <title>Aktivera litterär punktskrift</title>
+    <p>Orca stöder litterär punktskrift via liblouis-projektet. Eftersom många distributioner inkluderar liblouis så har du troligen automatiskt åtkomst till stöd för litterär punktskrift i <app>Orca</app>.</p>
+    <p>För att aktivera litterär punktskrift på ett system där liblouis är installerat ska du se till att kryssrutan <gui>Aktivera litterär punktskrift</gui> är ikryssad. Välj sedan din önskade översättningstabell från kombinationsrutan <gui>Kontraktionstabell</gui>.</p>
+    <p>Standardvärde: inte ikryssad</p>
+  </section>
+  <section id="rolenames">
+    <title>Förkortade rollnamn</title>
+    <p>Denna kryssruta avgör sättet som rollnamn visas på och kan användas för att hjälpa till att spara utrymme på punktskriftsskärmen. Till exempel om ett skjutreglage har fokus så kommer ordet ”skjutreglage” visas om förkortade rollnamn inte är ikryssad. Om det vore kryssat skulle ”skju” visas istället.</p>
+    <p>Standardvärde: inte ikryssad</p>
+  </section>
+  <section id="eolindicator">
+    <title>Inaktivera radslutssymbol</title>
+    <p>Att kryssa i denna kryssruta säger till <app>Orca</app> att inte presentera strängen ”$l” i slutet på en rad med text.</p>
+    <p>Standardvärde: inte ikryssad</p>
+  </section>
+  <section id="verbosity">
+    <title>Informationsnivå</title>
+    <p>Denna radioknappsgrupp avgör mängden information som kommer skrivas med punktskrift i vissa situationer. Till exempel, om den är satt till informativ så kommer information om tangentbordsgenvägar och rollnamn att visas. Denna information visas inte i det korta läget.</p>
+    <p>Standardvärde: <gui>Informativ</gui></p>
+  </section>
+  <section id="selectionandhyperlink">
+    <title>Markerings- och hyperlänksindikatorer</title>
+    <p>Radioknappsgrupperna <gui>Markeringsindikator</gui> och <gui>Hyperlänksindikatorer</gui> låter dig konfigurera <app>Orca</app>s beteende då markerad text och hyperlänkar visas. Som standard kommer <app>Orca</app> om du stöter på endera av dessa att ”stryka under” den texten med punkt 7 och 8 på din punktskriftsskärm. Om du föredrar kan du ändra indikatorn till att bara vara punkt 7, punkt 8 eller att den inte används alls.</p>
+    <p>Standardvärde: <gui>Punkt 7 och 8</gui></p>
+    <note style="tip">
+      <title>Indikatorer för textattribut</title>
+      <p>Du kan valfritt också få textattribut att indikeras i punktskrift. Att aktivera denna funktion och välja vilka attribut som är av intresse görs på <link xref="preferences_text_attributes">sidan <gui>Textattribut</gui></link> i inställningsdialogen.</p>
+    </note>
+  </section>
+  <section id="flashMessageSettings">
+    <title>Inställningar för blixtmeddelanden</title>
+    <p>Blixtmeddelanden liknar aviseringar eller annonseringar: De visas på din uppdateringsbara punktskriftsskärm en kort tid, efter vilken det ursprungliga innehållet på punktskriftsskärmen återställs. <app>Orca</app> har flera inställningar du kan använda för att styra presentation av blixtmeddelanden.</p>
+    <section id="flashMessageSettings_enable">
+      <title>Aktivera blixtmeddelanden</title>
+      <p>Om <gui>Aktivera blixtmeddelanden</gui> är ikryssad kommer <app>Orca</app> presentera meddelanden till dig i punktskrift. Om du föredrar att bara få <app>Orca</app>s meddelanden upplästa ska du avmarkera denna kryssruta.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="flashMessageSettings_detailed">
+      <title>Meddelanden är detaljerade</title>
+      <p>Om <gui>Meddelanden är detaljerade</gui> är ikryssad kommer <app>Orca</app> presentera detaljerade meddelanden till dig i punktskrift. Till exempel, om du använder <app>Orca</app>s kommando för att ändra tangenteko kan <app>Orca</app> visa ”Tangenteko satt till ord”. Om du föredrar kortare meddelanden, som exempelvis bara ”ord”, ska du avmarkera denna kryssruta.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="flashMessageSettings_persistent">
+      <title>Meddelanden är beständiga</title>
+      <p>Som nämnts ovan visas blixtmeddelanden bara en kort tid. Om du skulle föredra att meddelanden kvarstår tills du utför en åtgärd som får din skärm att uppdateras ska du kryssa i kryssrutan <gui>Meddelanden är beständiga</gui>.</p>
+      <p>Standardvärde: inte ikryssad</p>
+    </section>
+    <section id="flashMessageSettings_duration">
+      <title>Meddelandelängd (sek)</title>
+      <p>Tidsperioden som <app>Orca</app> kommer vänta innan meddelandet tas bort och det ursprungliga innehållet på din skärm återställs kan ställas in i snurrknappen <gui>Meddelandelängd (sek)</gui>. Notera att värdet på denna inställning kommer ignoreras om du har aktiverat beständiga blixtmeddelanden.</p>
+      <p>Standardvärde: 5</p>
+    </section>
+  </section>
+</page>

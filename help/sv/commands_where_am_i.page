@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_where_am_i" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_time_date_notifications"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">3. Var är jag</title>
+    <title type="link">Var är jag</title>
+    <desc>Kommandon för att få veta mer om din position</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>”Var är jag”-kommandon</title>
+  <p><app>Orca</app>s ”Var är jag”-funktion ger dig sammanhangskänsliga detaljer om din aktuella plats. Till exempel så kommer ”Var är jag” i tabeller ge dig detaljer om tabellcellen du är i, men i text kommer det presentera den aktuella raden tillsammans med all text som råkar vara markerad. Den fullständiga listan över vad du kan förvänta dig att <app>Orca</app> presenterar kan hittas i <link xref="howto_whereami">introduktionen till ”Var är jag”</link>.</p>
+  <p><app>Orca</app> tillhandahåller följande ”Var är jag”-kommandon:</p>
+  <list>
+    <item>
+      <p>Utför grundläggande ”Var är jag”:</p>
+      <list>
+        <item>
+          <p>Stationär dator: <key>KP Enter</key></p>
+        </item>
+        <item>
+          <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Retur</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Utför detaljerad ”Var är jag”:</p>
+      <list>
+        <item>
+          <p>Stationär dator: <key>KP Enter</key> (dubbelklickat)</p>
+        </item>
+        <item>
+          <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Retur</key></keyseq> (dubbelklickat)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+  <p>Förutom de två speciellt avsedda ”Var är jag”-kommandona har <app>Orca</app> ytterligare kommandon som är relaterade till att erhålla information om din aktuella position:</p>
+  <list>
+    <item>
+      <p>Presentera titellisten:</p>
+      <list>
+        <item>
+          <p>Stationär dator: <keyseq><key>Orca-modifierare</key><key>KP Enter</key></keyseq></p>
+        </item>
+        <item>
+          <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Snedstreck</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Presentera statusraden:</p>
+      <list>
+        <item>
+          <p>Stationär dator: <keyseq><key>Orca-modifierare</key><key>KP Enter</key></keyseq> (dubbelklickat)</p>
+        </item>
+        <item>
+          <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Snedstreck</key></keyseq> (dubbelklickat)</p>
+        </item>
+        <item>
+          <p>Presentera storlek och plats för aktuellt objekt i bildpunkter: (Inte bunden)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

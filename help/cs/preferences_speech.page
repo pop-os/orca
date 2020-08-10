@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_speech" xml:lang="cs">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_braille"/>
+    <title type="sort">2.1 Řeč</title>
+    <title type="link">Řeč</title>
+    <desc>Jak nastavit, co se bude číst</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Předvolby pro čtení</title>
+  <section id="enable_speech">
+    <title>Povolit čtení</title>
+    <p>Zaškrtávací políčko <gui>Povolit čtení</gui> řídí, jestli <app>Orca</app> má nebo nemá používá hlasový výstup. Uživatelé, kteří používají jen braillský řádek, budou chtít tuto volbu nejpíše nezaškrtnutou.</p>
+    <p>Výchozí hodnota: zaškrtnuto</p>
+  </section>
+  <section id="verbosity">
+    <title>Výřečnost</title>
+    <p>Nastavení <gui>Výřečnost</gui> určuje množství informací, které bude řečeno v různých situacích. Například, když je nastaveno na výřečný a ukážete na slovo, které je gramaticky špatně, oznámí <gui>Orca</gui>, že slovo je chybné. Když je úroveň nastavená na stručnou, nebude toto oznámení provedeno.</p>
+    <p>Výchozí hodnota: <gui>Výřečný</gui></p>
+  </section>
+  <section id="punctuation_level">
+    <title>Úroveň interpunkce</title>
+    <p>Skupinové přepínače <gui>Úroveň interpunkce</gui> se používá k přizpůsobení množství interpunkce, kterou má hlasový výstup číst. Dostupné úrovně jsou <gui>Žádná</gui>, <gui>Některá</gui>, <gui>Většina</gui> a <gui>Vše</gui>.</p>
+    <p>Výchozí hodnota: <gui>Většina</gui></p>
+    <section id="punctuation_level_none">
+      <title>Žádná</title>
+      <p>Nastavení úrovně interpunkce na <gui>Žádná</gui> způsobí, jak asi očekáváte, že <app>Orca</app> nebude vyslovovat žádná interpunkční znaménka. Upozorňujeme ale, že speciální symboly, jako jsou horní a dolní indexy, unikódové zlomky a odrážky budou i při této úrovni vyslovovány, i když je někteří mohou považovat za typy symbolů interpunkce.</p>
+    </section>
+    <section id="punctuation_level_some">
+      <title>Některá</title>
+      <p>Nastavení úrovně interpunkce na <gui>Některá</gui> způsobí, že <app>Orca</app> bude vyslovovat všechny dříve zmíněné interpunkční symboly a navíc matematické symboly, měnové symboly a „^“, „@“, „/“, „&amp;“ a „#“.</p>
+    </section>
+    <section id="punctuation_level_most">
+      <title>Většina</title>
+      <p>Nastavení úrovně interpunkce na <gui>Většina</gui> způsobí, že <app>Orca</app> bude vyslovovat všechny dříve zmíněné interpunkční symboly a navíc všechny ostatní zmámé interpukční symboly <gui>vyjma</gui> „!“, „'“, „,“, „.“ a „?“.</p>
+    </section>
+    <section id="punctuation_level_all">
+      <title>Vše</title>
+      <p>Nastavení úrovně interpunkce na <gui>Vše</gui> způsobí, jak asi očekáváte, že <app>Orca</app> bude vyslovovat všechna známá interpunkční znaménka.</p>
+    </section>
+  </section>
+  <section id="spoken_context">
+    <title>Kontext čtení</title>
+    <p>Následující položky řídí prezentování různých doplňujících „systémových“ informací o zaměřené položce. Protože přiřazený text se neobjeví na obrazovce, je tato informace prezentována hlasovým systémem čtečky <app>Orca</app>.</p>
+    <section id="only_speak_displayed_text">
+      <title>Číst pouze zobrazený text</title>
+      <p>Zaškrtnutí tohoto políčka způsobí, že <app>Orca</app> bude číst jen aktální text zobrazený na obrazovce. Tato volba je zamířena hlavně na slabozraké uživatele a uživatele se sníženou schopností rozpoznávání.</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+      <note style="note">
+        <p>Následující položky nejsou dostupné k nastavení, když je zaškrtnuté políčko <gui>Číst pouze zobrazený text</gui>.</p>
+      </note>
+    </section>
+    <section id="speak_blank_lines">
+      <title>Číst prázdné řádky</title>
+      <p>Když je zašktnuté políčko <gui>Číst prázdné řádky</gui>, bude <app>Orca</app> hlásit „prázdný“ pokaždé, když se nasměrujete na prázdný řádek. Když zašktnuté není, nebude <app>Orca</app> po přesunu na prázdný řádek hlásit nic.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="indentation_and_justification">
+      <title>Číst odsazení a zarovnání</title>
+      <p>Když pracujete s programovým kódem nebo upravujete některé typy dokumentů, je často žádoucí vědět o zarovnání a odsazení. Zaškrtnutí políčka <gui>Číst odsazení a zarovnání</gui> způsobí, že <app>Orca</app> bude tyto informace oznamovat.</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+    </section>
+    <section id="speak_misspelled_word_indicator">
+      <title>Oznamovat označení pravopisně chybných slov</title>
+      <p>V polích pro úpravu textu bývají pravopisně chybná slova označena podtržením červenou vlnovkou. Když je zaškrtnuto <gui>Oznamovat označení pravopisně chybných slov</gui> a na takovéto slovo se přemístíte, nebo slovo chybně napíšete, takže se pod ním označení objeví, oznámí vám to <app>Orca</app> slovem „překlep“.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="mnemonics">
+     <title>Číst horké klávesy objektů</title>
+      <p>Když je zaškrtnuté políčko <gui>Číst horké klávesy objektů</gui>, bude <app>Orca</app> oznamovat horkou klávesu přiřazenou zaměřenému objektu (například <keyseq><key>Alt</key> <key>B</key></keyseq> pro tlačítko <gui>Budiž</gui>).</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+    </section>
+    <section id="child_position">
+      <title>Uvádět pořadová čísla položek</title>
+      <p>Když je zašktnuté políčko <gui>Uvádět pořadová čísla položek</gui>, způsobí to, že <app>Orca</app> bude oznamovat pozici zaměřené položky v nabídkách, seznamech a stromech (např. „9 z 16“).</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+    </section>
+    <section id="speak_tutorial_messages">
+      <title>Číst výukové zprávy</title>
+      <p>Když je zaškrtnuté políčko <gui>Číst výukové zprávy</gui> a budete se pohybovat mezi objekty v uživatelském rozhraní, bude <app>Orca</app> poskytovat dodatečné informace, jako například, jak pracovat s právě zaměřeným objektem.</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+    </section>
+    <section id="speak_description">
+      <title>Číst popisy</title>
+      <p>Když je zaškrtnuté políčko <gui>Číst popisy</gui> a budete se pohybovat mezi objekty v uživatelském rozhraní, bude <app>Orca</app> navíc k názvu zpřístupnění objektu číst i jeho popis zpřístupnění.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="system_messages_are_detailed">
+      <title>Systémové zprávy jsou podrobné</title>
+      <p>Když je zaškrtnuté <gui>Systémové zprávy jsou podrobné</gui>, bude <app>Orca</app> prezentovat podrobné zprávy na hlasovém výstupu. Například, když použijete příkaz <app>Orca</app> ke změně oznamování kláves, může vám říci „Oznamování kláves je nastavené na slova.“ Jestli dáváte přednost kratším zprávám, jako je prosté „slovo“, neměli byste mít toto políčko zaškrtnuté.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="speak_colors_as_names">
+      <title>Číst barvy jako názvy</title>
+      <p>Když je políčko <gui>Číst barvy jako názvy</gui> zaškrtnuté, bude <app>Orca</app> barvy popisovat se snahou barvu co nejlépe odhadnout. Například RGB 0, 27, 51 by byla vyslovena jako „půlnoční modř“. Pokud chce poslouchat raději přesné hodnoty RGB, měli byste toto políčko nechat nezaškrtnuté.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="announce_blockquotes_during_navigation">
+      <title>Při pohybu v dokumentu oznamovat citace</title>
+      <p>Když je zaškrtnuté <gui>Při pohybu v dokumentu oznamovat citace</gui>, bude vám <app>Orca</app> říkat, když se dostanete do citace, nebo ji opustíte. Upozorňujeme, že toto nastavení je nezávislé na tom, jestli to je, či není, oznamováno při čtení všeho. Více informací viz <link xref="preferences_general#say_all_announce_context">Při čtení všeho oznamovat kontextové informace</link>.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="announce_forms_during_navigation">
+      <title>Při pohybu v dokumentu oznamovat formuláře</title>
+      <p>Když je zaškrtnuté <gui>Při pohybu v dokumentu oznamovat citace</gui>, bude vám <app>Orca</app> říkat, když se dostanete do formuláře, nebo jej opustíte. Upozorňujeme, že toto nastavení je vyhraněné pro formuláře, které nejsou záchytnými body ARIA. Oznamování záchytných bodů ARIA můžete nastavit zvlášť pomocí zaškrtávacího políčka <gui>Při pohybu v dokumentu oznamovat záchytné body</gui>. Ještě upozorňujeme, že toto nastavení je nezávislé na tom, jestli to je, či není, oznamováno při čtení všeho. Více informací viz <link xref="preferences_general#say_all_announce_context">Při čtení všeho oznamovat kontextové informace</link>.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="announce_landmarks_during_navigation">
+      <title>Při pohybu v dokumentu oznamovat záchytné body</title>
+      <p>Když je zaškrtnuté <gui>Při pohybu v dokumentu oznamovat citace</gui>, bude vám <app>Orca</app> říkat, když se dostanete do záchytného bodu ARIA, nebo jej opustíte. Upozorňujeme, že toto nastavení je nezávislé na tom, jestli to je, či není, oznamováno při čtení všeho. Více informací viz <link xref="preferences_general#say_all_announce_context">Při čtení všeho oznamovat kontextové informace</link>.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="announce_lists_during_navigation">
+      <title>Při pohybu v dokumentu oznamovat seznamy</title>
+      <p>Když je zaškrtnuté <gui>Při pohybu v dokumentu oznamovat citace</gui>, bude vám <app>Orca</app> říkat, když se dostanete do seznamu, nebo jej opustíte. Upozorňujeme, že toto nastavení je nezávislé na tom, jestli to je, či není, oznamováno při čtení všeho. Více informací viz <link xref="preferences_general#say_all_announce_context">Při čtení všeho oznamovat kontextové informace</link>.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="announce_panels_during_navigation">
+      <title>Při pohybu v dokumentu oznamovat panely</title>
+      <p>Když je zaškrtnuté <gui>Při pohybu v dokumentu oznamovat citace</gui>, bude vám <app>Orca</app> říkat, když se dostanete do panelu, nebo jej opustíte. Upozorňujeme, že toto nastavení je nezávislé na tom, jestli to je, či není, oznamováno při čtení všeho. Více informací viz <link xref="preferences_general#say_all_announce_context">Při čtení všeho oznamovat kontextové informace</link>.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="announce_tables_during_navigation">
+      <title>Při pohybu v dokumentu oznamovat tabulky</title>
+      <p>Když je zaškrtnuté <gui>Při pohybu v dokumentu oznamovat citace</gui>, bude vám <app>Orca</app> říkat, když se dostanete do tabulky, nebo ji opustíte. Upozorňujeme, že toto nastavení je nezávislé na tom, jestli to je, či není, oznamováno při čtení všeho. Více informací viz <link xref="preferences_general#say_all_announce_context">Při čtení všeho oznamovat kontextové informace</link>.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="read_full_row_in_gui_tables">
+      <title>Číst celé řádky tabulek v uživatelském rozhraní</title>
+      <p>Když je zaškrtnuto <gui>Číst celé řádky tabulek v uživatelském rozhraní</gui> a budete se pohybovat šipkami nahoru nebo dolů v tabulce v nějaké aplikaci, třeba v seznam zpráv v příchozí poště, bude <app>Orca</app> číst celé řádky. Jestli dáváte přednost čtení jen jediné buňky, která je právě zaměřená, neměli byste mít toto políčko zaškrtnuté.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="read_full_row_in_document_tables">
+      <title>Číst celé řádky tabulek v dokumentech</title>
+      <p>Když je zaškrtnuto <gui>Číst celé řádky tabulek v dokumentech</gui> a budete se pohybovat šipkami nahoru nebo dolů v nějaké tabulce, kterou najdete třeba ve <app>Writeru</app> nebo ve webových dokumentech, bude <app>Orca</app> číst celé řádky. Jestli dáváte přednost čtení jen jediné buňky, která je právě zaměřená, neměli byste mít toto políčko zaškrtnuté.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="read_full_row_in_spreadsheets">
+      <title>Číst celé řádky tabulek v tabulkových kalkulátorech</title>
+      <p>Když je zaškrtnuto <gui>Číst celé řádky tabulek v tabulkových kalkulátorech</gui> a budete se pohybovat šipkami nahoru nebo dolů v tabulkovém kalkulátoru, bude <app>Orca</app> číst celé řádky. Jestli dáváte přednost čtení jen jediné buňky, která je právě zaměřená, neměli byste mít toto políčko zaškrtnuté.</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+    </section>
+  </section>
+</page>

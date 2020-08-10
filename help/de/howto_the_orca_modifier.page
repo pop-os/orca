@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_the_orca_modifier" xml:lang="de">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_learn_modes"/>
+    <title type="sort">3. Die Orca-Zusatztaste</title>
+    <desc>Eine Taste, welche ähnlich funktioniert wie <key>Umschalt</key>, <key>Strg</key> und <key>Alt</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Die Orca-Zusatztaste</title>
+  <p>Orca hat eine spezielle Zusatztaste, welche ähnlich funktioniert wie <key>Umschalt</key>, <key>Strg</key> und <key>Alt</key>. Die dient dazu einen bestimmten <app>Orca</app>-Befehl auszuführen, ohne dabei im Konflikt mit den Tastenkombinationen einer Anwendung zu stehen.</p>
+  <p>Welche Taste der »Orca-Zusatztaste« in der Voreinstellung zugewiesen ist, hängt davon ab, ob Sie <app>Orca</app>s Laptop- oder Desktop-Tastaturlayout verwenden:</p>
+  <list>
+    <item>
+      <p>Falls Sie das Laptop-Layout verwenden, wird die voreingestellte Orca-Zusatztaste die <key>Feststelltaste</key> sein</p>
+    </item>
+    <item>
+      <p>Falls Sie das Desktop-Layout verwenden, wird die Orca-Zusatztaste sowohl <key>Einfügen</key> als auch <key>Einf (Nmblck)</key> sein, wobei letztere die gleiche Taste wie <key>0 (Nmblck)</key> ist.</p>
+    </item>
+  </list>
+  <p>Falls Sie Ihr aktuelles Tastaturlayout behalten, aber eine andere Modifikationstaste auswählen wollen, können Sie dies über die folgenden Schritte erreichen:</p>
+  <steps>
+    <title>Die Orca-Zusatztaste ändern</title>
+    <item>
+      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq> drücken.</p>
+    </item>
+    <item>
+      <p>Wechseln Sie nun zum Reiter <gui>Tastenbelegung</gui>.</p>
+    </item>
+    <item>
+      <p>Gehen Sie zum Auswahlfeld <gui>Modifikationstaste(n) für den Bildschirmleser</gui>.</p>
+    </item>
+    <item>
+      <p>Wählen Sie den gewünschten Modifikator. Vorhandene Optionen sind:</p>
+      <list>
+        <item><p>Einfügen,Einf (Nummernblock)</p></item>
+        <item><p>Einf (Nummernblock)</p></item>
+        <item><p>Einfügen</p></item>
+        <item><p>Feststelltaste</p></item>
+      </list>
+    </item>
+    <item><p>Klicken Sie auf <gui>Anwenden</gui>.</p></item>
+  </steps>
+</page>

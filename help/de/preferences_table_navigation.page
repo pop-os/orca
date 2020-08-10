@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_table_navigation" xml:lang="de">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_chat"/>
+    <link type="seealso" xref="commands_structural_navigation"/>
+    <link type="seealso" xref="commands_table"/>
+    <title type="sort">2. Tabellennavigation</title>
+    <title type="link">Tabellennavigation</title>
+    <desc>Die Navigation mit <app>Orca</app> innerhalb von Tabellen konfigurieren</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Einstellungen für Tabellennavigation</title>
+  <p>Die folgende Option erlaubt Ihnen anzupassen, wie sich <app>Orca</app> bei der Navigation in einer Tabelle in <link xref="howto_structural_navigation">Strukturennavigation</link>-aktivierten Anwendungen verhalten soll.</p>
+  <section id="speak_cell_coordinates">
+    <title>Zellenkoordinaten vorlesen</title>
+    <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> die Koordinaten jeder angesteuerten Zelle vorlesen.</p>
+    <p>Vorgabewert: aktiviert</p>
+  </section>
+  <section id="speak_multiple_cell_spans">
+    <title>Zellenausdehnung vorlesen</title>
+    <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> vorlesen, wie viele Zeilen und/oder Spalten die Zelle umfasst, falls sie mehr als eine umfasst.</p>
+    <p>Vorgabewert: aktiviert</p>
+  </section>
+  <section id="announce_cell_header">
+    <title>Zellenüberschrift vorlesen</title>
+    <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> Änderungen in der Überschrift vorlesen, falls die Überschriften der aktuellen Zelle bestimmt werden können.</p>
+    <p>Vorgabewert: aktiviert</p>
+  </section>
+  <section id="skip_blank_cells">
+    <title>Leere Zellen überspringen</title>
+    <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> leere Zellen überspringen, wenn Sie <app>Orca</app>s Befehle zur Tabellen-Strukturennavigation verwenden, um auf die Tabelle zuzugreifen.</p>
+    <p>Vorgabewert: nicht aktiviert</p>
+  </section>
+</page>

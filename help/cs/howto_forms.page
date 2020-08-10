@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_forms" xml:lang="cs">
+  <info>
+    <link type="guide" xref="index#reading"/>
+     <link type="next" xref="howto_live_regions"/>
+    <title type="sort">5. Vyplňování formulářů</title>
+    <desc>Jak přistupovat k objektům vloženým v dokumentech</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Vyplňování formulářů</title>
+  <p>Když pomocí čtečky <app>Orca</app> pracujete s webovými stránkami a jinými dokumenty, pracujete přímo s dokumentem a ne s kopií ve vyrovnávací paměti. Režimy procházení a zaměřování vám ve čtečce <app>Orca</app> umožňují přepínat se mezi čtením a vyplňováním formulářů.</p>
+  <section id="navigating_amongst_form_fields">
+    <title>Pohyb mezi poli formuláře</title>
+    <p>Za účelem pohybu mezi poli formuláře máte několik možností:</p>
+    <list>
+      <item>
+        <p>Pro pohyb mezi zaměřitelnými objekty, bez ohledu na jejich typ, použijte <key>Tab</key> a <keyseq><key>Shift</key> <key>Tab</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Použijte <link xref="commands_structural_navigation#forms">příkazy strukturované navigace čtečky <app>Orca</app> pro formuláře</link></p>
+      </item>
+      <item>
+        <p>V závislosti na formuláři a aplikaci můžete být schopni k pohybu na požadované formulářové pole použít i kurzorové klávesy.</p>
+      </item>
+   </list>
+   <note style="tip">
+     <p>Abyste mohli ve čtečce <app>Orca</app> použít příkazy pro ovládání kurzoru nebo strukturovanou navigaci k přístupu do formulářových polí, musíte být v režimu procházení. Když jste v režimu zaměřování, můžete se přepnout do režimu procházení zmáčknutím <keyseq><key>Modifikátor Orca</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+  <section id="exiting_form_fields">
+    <title>Opuštění polí formuláře</title>
+    <p>Když chcete opustit formulářové pole, máte několik možností:</p>
+    <list>
+      <item>
+        <p>Použijte <key>Tab</key>/<keyseq><key>Shift</key> <key>Tab</key></keyseq>, pokud si přejete opustit právě zaměřené pole formuláře a přesunout se na následující/předchozí zaměřitelný objekt, bez ohledu na typ objektu.</p>
+      </item>
+      <item>
+        <p>Použijte <link xref="commands_structural_navigation#forms">příkazy strukturované navigace čtečky <app>Orca</app> pro formuláře</link>, abyste se přesunuli na následující nebo předchozí pole formuláře.</p>
+      </item>
+      <item>
+        <p>V závislosti na formuláři a aplikaci můžete být schopni k opuštění formulářového pole použít i kurzorové klávesy.</p>
+      </item>
+    </list>
+   <note style="tip">
+     <p>Abyste mohli ve čtečce <app>Orca</app> použít příkazy pro ovládání kurzoru nebo strukturovanou navigaci k opuštění formulářového pole, musíte být v režimu procházení. Když jste v režimu zaměřování, můžete se přepnout do režimu procházení zmáčknutím <keyseq><key>Modifikátor Orca</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+</page>

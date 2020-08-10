@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_time_date_notifications" xml:lang="sl">
+  <info>
+    <link type="next" xref="commands_profiles"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_notifications"/>
+    <title type="sort">4. Čas, datum in obvestila</title>
+    <title type="link">Čas, datum in obvestila</title>
+    <desc>
+      Commands for getting the time, date, and notification messages
+    </desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Ukazi časa, datuma in obvestil</title>
+  <p>Naslednje ukaze lahko uporabite za pridobivanje trenutnega časa in datuma in za pregled predhodno prikazanih obvestilnih sporočil:</p>
+  <section id="time_and_date">
+    <title>Pridobivanje datuma in časa</title>
+    <list>
+      <item>
+        <p>Predstavi čas: <keyseq><key>Spremenilna tipka Orka</key><key>T</key></keyseq></p>
+      </item>
+      <item>
+        <p>Predstavi datum: <keyseq><key>Spremenilna tipka Orka</key><key>T</key></keyseq> (dvakrat kliknjeno)</p>
+      </item>
+    </list>
+  </section>
+  <section id="notifications">
+    <title>Pregled sporočil obvestil </title>
+    <p>Orka ima tri nedoločene ukaze za dostop do predhodno prikazanih <link xref="howto_notifications">obvestilnih sporočil</link>.  Za podrobnosti kako tem ukazom dodati tipkovne bližnjice si oglejte <link xref="howto_key_bindings">Spreminjanje tipkovnih bližnjic</link>.</p>
+    <list>
+      <item>
+        <p>Present the last (most recent) notification message: (Unbound)</p>
+      </item>
+      <item>
+        <p>Present the previous notification message: (Unbound)</p>
+      </item>
+      <item>
+        <p>Present list of all notification messages: (Unbound)</p>
+      </item>
+    </list>
+  </section>
+</page>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_general" xml:lang="sv">
+  <info>
+    <title type="sort">1. Allmänt</title>
+    <title type="link">Allmänt</title>
+    <desc>Konfigurera <app>Orca</app>s grundläggande beteenden</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_voice"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Allmänna inställningar</title>
+  <section id="keyboardlayout">
+    <info>
+      <desc>Alternativ för inställningsdialogruta för att välja vilken tangentbordslayout <app>Orca</app> ska använda, bärbar dator eller stationär dator.</desc>
+    </info>
+    <title>Tangentbordslayout</title>
+    <p>Radioknappsgruppen <gui>Tangentbordslayout</gui> låter dig ange om du kommer arbeta på ett tangentbord för en stationär dator (d.v.s. med ett numeriskt tangentbord) eller för en bärbar dator. Vilken layout du väljer kommer avgöra både <key>Orca-modifieraren</key> så väl som ett antal tangentbordsgenvägar för att utföra <app>Orca</app>-kommandon.</p>
+    <p>Standardvärde: <gui>Stationär dator</gui></p>
+  </section>
+  <section id="presenttooltips">
+    <info>
+      <desc>Alternativ för inställningsdialogruta för att aktivera presentation av verktygstips som dyker upp som ett resultat av mushovring.</desc>
+    </info>
+    <title>Presentera verktygstips</title>
+    <p>När detta alternativ är kryssat kommer det säga till <app>Orca</app> att presentera information om verktygstips då de dyker upp till resultat av mushovring. Särskilda åtgärder för att tvinga verktygstips att dyka upp, som att trycka <keyseq> <key>Ctrl</key><key>F1</key></keyseq> då ett objekt har fokus kommer alltid resultera i att verktygstips visas, oberoende av denna inställning.</p>
+    <p>Standardvärde: inte ikryssad</p>
+  </section>
+  <section id="objectundermouse">
+    <info>
+      <desc>Alternativ för inställningsdialogruta för att aktivera presentation av objektet under muspekaren.</desc>
+    </info>
+    <title>Läs upp objekt under muspekare</title>
+    <p>När detta alternativ är kryssat kommer det säga till <app>Orca</app> att presentera information om objektet under muspekaren då du flyttar den runt skärmen med hjälp av <app>Orca</app>s <link xref="howto_mouse_review">musgransknings</link>-funktion.</p>
+    <p>Standardvärde: inte ikryssad</p>
+  </section>
+  <section id="timeanddate">
+    <info>
+      <desc>Alternativ för inställningsdialogruta för att anpassa tids- och datumformaten som används av <app>Orca</app>.</desc>
+    </info>
+    <title>Tidsformat och datumformat</title>
+    <p>Kombinationsrutorna <gui>Tidsformat</gui> och <gui>Datumformat</gui> låter dig ange hur <app>Orca</app> kommer läsa upp och med punktskrift skriva ut datum och tid.</p>
+    <p>Standardvärde: använd systemets lokals format för var och en</p>
+  </section>
+  <section id="navigation_in_say_all">
+    <info>
+      <desc>Alternativ för inställningsdialogruta för att aktivera tillbakaspolning, spola framåt och strukturell navigering under Läs upp allt.</desc>
+    </info>
+    <title>Navigering i Läs upp allt</title>
+    <p><app>Orca</app>s Läs upp allt-funktion läser upp dokumentinnehåll från din aktuella position till slutet av dokumentet. Som standard kommer att trycka på valfri tangent att avbryta presentationen från Läs upp allt. Om du kryssar i kryssrutan <gui>Aktivera spolning bakåt och framåt i Läs upp allt</gui> kan <key>Upp</key> och <key>Ned</key> användas under Läs upp allt för att snabbt förflytta sig i dokumentet för att höra något som just lästs upp igen eller hoppa över ointressant text utan att behöva starta om Läs upp allt.</p>
+    <p>Om du läser ett dokument i ett program som har stöd för strukturell navigering, och du har kryssat i kryssrutan <gui>Aktivera strukturell navigering i Läs upp allt</gui> så kan du använda de kommandon som stöds för strukturell navigering på liknande sätt: <key>H</key>/<keyseq><key>Skift</key> <key>H</key></keyseq> fortsätter läsa från nästa/föregående rubrik, <key>P</key>/<keyseq><key>Skift</key><key>P</key></keyseq> fortsätter läsa från nästa/föregående stycke, <key>T</key>/<keyseq><key>Skift</key> <key>T</key></keyseq> fortsätter läsa från nästa/föregående tabell och så vidare.</p>
+    <p>Standardvärde: inte ikryssad</p>
+  </section>
+  <section id="say_all_announce_context">
+    <title>Annonsera sammanhangsberoende information i Läs upp allt</title>
+    <p><app>Orca</app> kan valfritt tillhandahålla mer information om dokumentinnehållet som läses upp, så som att annonsera när du går in i eller ut ur blockcitat, listor, tabeller eller andra behållare. Huruvida dessa annonseringar görs eller inte kan ställas in oberoende genom följande kryssrutor:</p>
+    <list>
+      <item><p>Annonsera blockcitat i Läs upp allt</p></item>
+      <item><p>Annonsera formulär i Läs upp allt</p></item>
+      <item><p>Annonsera landmärken i Läs upp allt</p></item>
+      <item><p>Annonsera listor i Läs upp allt</p></item>
+      <item><p>Annonsera paneler i Läs upp allt</p></item>
+      <item><p>Annonsera tabeller i Läs upp allt</p></item>
+    </list>
+    <p>Standardvärde: ikryssad</p>
+    <note style="note">
+      <p>Huruvida <app>Orca</app> utför dessa annonseringar under navigering kan också konfigureras. Du kommer hitta liknande kryssrutor på sidan<gui>Uppläsning</gui>. För mer information, se <link xref="preferences_speech#spoken_context">Talsammanhang</link>.</p>
+    </note>
+  </section>
+  <section id="say_all_by">
+   <info>
+      <desc>Alternativ för inställningsdialogruta för att anpassa <app>Orca</app>s Läs upp allt-presentation.</desc>
+   </info>
+   <title>Läs upp allt efter</title>
+   <p>Kombinationsrutan <gui>Läs upp allt efter</gui> låter dig ange huruvida <app>Orca</app> läser upp en mening i tagen eller en rad i taget då ”Läs upp allt” utförs på ett dokument.</p>
+    <p>Standardvärde: <gui>Mening</gui></p>
+  </section>
+  <section id="profiles">
+    <info>
+      <desc>Alternativ för inställningsdialogruta för att hantera inställningsprofiler.</desc>
+    </info>
+    <title>Profiler</title>
+    <p><gui>Profiler</gui>-gruppen med kontroller som finns längst ner på sidan <gui>Allmänt</gui> gör det möjligt för dig att underhålla och använda flera konfigurationer.</p>
+   <list>
+      <item>
+        <p>Kombinationsrutan <gui>Aktiv profil</gui> visar den aktuella profilen och låter dig välja en annan profil att läsa in.</p>
+      </item>
+      <item>
+        <p><gui>Läs in</gui>-knappen får <app>Orca</app> att läsa in profilen som visas i kombinationsrutan <gui>Aktiv profil</gui>.</p>
+      </item>
+      <item>
+        <p><gui>Spara som</gui>-knappen låter dig spara den aktuella uppsättningen alternativ från inställningsdialogrutan till en namngiven profil.</p>
+      </item>
+      <item>
+        <p>Kombinationsrutan <gui>Uppstartsprofil</gui> låter dig välja profilen som ska läsas in automatiskt varje gång du startar <app>Orca</app>.</p>
+      </item>
+    </list>
+  </section>
+  <section id="progress_bar_updates">
+    <title>Uppdateringar i förloppsindikator</title>
+    <section id="progress_bar_updates_speak">
+      <title>Läs upp uppdateringar</title>
+      <p>Om kryssrutan <gui>Läs upp uppdateringar</gui> är ikryssad kommer <app>Orca</app> med jämna mellanrum läsa upp statusen för förloppsindikatorer.</p>
+      <p>Standardvärde: ikryssad</p>
+    </section>
+    <section id="progress_bar_updates_braille">
+      <title>Punktskriftsuppdateringar</title>
+      <p>Om kryssrutan <gui>Punktskriftsuppdateringar</gui> är ikryssad kommer <app>Orca</app> med jämna mellanrum visa statusen för förloppsindikatorer på din uppdateringsbara punktskriftsskärm.</p>
+      <p>Standardvärde: inte ikryssad</p>
+    </section>
+    <section id="progress_bar_updates_beep">
+      <title>Signalera uppdateringar</title>
+      <p>Om kryssrutan <gui>Signalera uppdateringar</gui> är ikryssad kommer <app>Orca</app> med jämna mellanrum utstöta signaler som ökar i tonart då värdet för förloppsindikatorn ökar.</p>
+      <p>Standardvärde: inte ikryssad</p>
+    </section>
+    <section id="progress_bar_updates_frequency">
+      <title>Frekvens (sekunder)</title>
+      <p>Denna snurrknapp avgör hur ofta uppdateringar presenteras.</p>
+      <p>Standardvärde: 10</p>
+    </section>
+    <section id="progress_bar_updates_restrict">
+      <title>Begränsa till</title>
+      <p>Denna kombinationsruta låter dig styra vilka förloppsindikatorer som ska presenteras, under förutsättning att presentation av uppdateringar av förloppsindikatorer har aktiverats. Valen är <gui>Alla</gui>, <gui>Program</gui> och <gui>Fönster</gui>.</p>
+      <p>Att välja <gui>Alla</gui> leder till att <app>Orca</app> presenterar uppdateringar för alla förloppsindikatorer, oavsett var förloppsindikatorerna finns.</p>
+      <p>Att välja <gui>Program</gui> leder till att <app>Orca</app> presenterar uppdateringar för förloppsindikatorer i det aktiva programmet, även om de inte är i det aktiva fönstret.</p>
+      <p>Att välja <gui>Fönster</gui> leder till att <app>Orca</app> endast presenterar uppdateringar för förloppsindikatorer i det aktiva fönstret.</p>
+      <p>Standardvärde: <gui>Program</gui></p>
+    </section>
+  </section>
+</page>

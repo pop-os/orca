@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_table_navigation" xml:lang="bg">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_chat"/>
+    <link type="seealso" xref="commands_structural_navigation"/>
+    <link type="seealso" xref="commands_table"/>
+    <title type="sort">2. Придвижване в таблици</title>
+    <title type="link">Придвижване в таблици</title>
+    <desc>Настройки на придвижването в таблици на <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Настройки на придвижването в таблици</title>
+  <p>
+    The following options allow you to customize how <app>Orca</app>
+    behaves when navigating within a table in
+    <link xref="howto_structural_navigation">Structural-Navigation</link>-enabled
+    applications.
+  </p>
+  <section id="speak_cell_coordinates">
+    <title>Прочитане на координатите на клетките</title>
+    <p>Ако това поле е отметнато, <app>Orca</app> ще ви съобщава координатите на всяка клетка, до която се придвижите.</p>
+    <p>Стойност по подразбиране: с отметка</p>
+  </section>
+  <section id="speak_multiple_cell_spans">
+    <title>Прочитане на обхвата на слетите клетки</title>
+    <p>Ако това поле има отметка, <app>Orca</app> ще ви уведомява колко редове и/или колони обхваща дадена клетка, когато обхваща повече от една клетка или един ред.</p>
+    <p>Стойност по подразбиране: с отметка</p>
+  </section>
+  <section id="announce_cell_header">
+    <title>Прочитане на заглавията на клетките</title>
+    <p>Ако това поле има отметка, <app>Orca</app> ще ви уведомява за промени във заглавията на клетките, ако могат да бъдат определени заглавията на текущата клетка.</p>
+    <p>Стойност по подразбиране: с отметка</p>
+  </section>
+  <section id="skip_blank_cells">
+    <title>Прескачане на празните клетки</title>
+    <p>Ако това поле има отметка, <app>Orca</app> ще прескача празните клетки, когато използвате командите за придвижване по структура на <app>Orca</app> за да си взаимодействате с таблицата.</p>
+    <p>Стойност по подразбиране: без отметка</p>
+  </section>
+</page>

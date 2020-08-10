@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_pronunciation" xml:lang="cs">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_text_attributes"/>
+    <title type="sort">7. Výslovnost</title>
+    <title type="link">Výslovnost</title>
+    <desc>Jak nastavit, jak se mají konkrétní slova vyslovovat</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Předvolby pro výslovnost</title>
+  <p>Občas váš hlasový výstup neříká pro daný řetězec to správné, co by měl. Například můžete chtít slyšet „to jest“ namísto „tj.“ nebo „lokalizace“ namísto „l10n“. Nebo se může jednat o jméno nebo technický výraz, které jsou špatně vyslovovány.</p>
+  <p>Stránka <gui>Výslovnost</gui> v dialogovém okně předvoleb <app>Orca</app> vám umožňuje přidávat, upravovat a mazat položky ve slovníku výslovnosti čtečky <app>Orca</app>.</p>
+  <p>Protože stránka <gui>Výslovnost</gui> je rovněž součástí nastavení závislých na konkrétní aplikaci, můžete si přizpůsobit položky zvlášť u každé aplikace, kterou používáte.</p>
+  <steps>
+    <title>Přidání nové položky do slovníku</title>
+    <item>
+      <p>Zmáčkněte tlačítko <gui>Nová položka</gui> nebo kombinaci kláves <keyseq><key>Alt</key> <key>N</key></keyseq></p>
+    </item>
+    <item>
+      <p>Napište text nové položky a zmáčknutím <key>Enter</key> úpravy aktuálního řetězce dokončete.</p>
+    </item>
+    <item>
+      <p>Přesuňte se na sloupec <gui>Nahradit řetězcem</gui> a zmáčknutím <key>Enter</key> úpravy započněte.</p>
+    </item>
+    <item>
+      <p>Napište text, který si přejete vyslovovat namísto původního a zmáčknutím <key>Enter</key> úpravy nahrazujícího řetězce dokončete.</p>
+    </item>
+  </steps>
+  <steps>
+  <title>Úprava stávající položky ve slovníku</title>
+    <item>
+      <p>Přesuňte se na buňku, kterou si přejete upravit a zmáčknutím <key>Enter</key> úpravy započněte.</p>
+    </item>
+    <item>
+      <p>Proveďte požadované změny a zmáčknutím <key>Enter</key> úpravy dokončete.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Smazání stávající položky ve slovníku</title>
+    <item>
+      <p>Přesuňte se na položku, kterou si přejete smazat.</p>
+    </item>
+    <item>
+      <p>Zmáčkněte tlačítko <gui>Vymazat</gui> nebo kombinaci kláves <keyseq><key>Alt</key> <key>D</key></keyseq>.</p>
+    </item>
+  </steps>
+</page>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_tables" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_forms"/>
+    <title type="sort">4. Tabeller</title>
+    <desc>Navigera och ställa in dynamiska huvuden</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Tabeller</title>
+  <p><app>Orca</app> tillhandahåller flera funktioner som är specifikt designade för att förbättra åtkomst till tabeller som hittas i webbsidor och i andra dokument: konfigurerbar cell- eller radläsning, <link xref="howto_structural_navigation">strukturell navigering</link> och dynamiska huvuden.</p>
+  <section id="cell_row">
+    <title>Cell- eller radläsning</title>
+    <p>Tänk dig processen att undersöka listan över meddelanden i din inkorg. För att Orca ska annonsera avsändare, ämne, datum och förekomst av bilagor skulle du behöva att <app>Orca</app> läste upp raden. Då du å andra sidan navigerar längs rader i ett kalkylblad är det kanske inte önskvärt att höra hela raden, om inte annat så på grund av det stora antalet celler i varje rad. Därför skulle du i det fallet vilja att <app>Orca</app> endast läste upp den fokuserade cellen. Liknande situationer dyker upp i dokumenttabeller.</p>
+    <p><app>Orca</app> låter dig anpassa huruvida endast cellen eller hela raden ska läsas för gränssnittstabeller, dokumenttabeller och kalkylblad. Eftersom dessa inställningar är oberoende av varandra så behöver du inte välja ett tabelläsningsläge som ska passa till flera sorters tabeller.</p>
+    <p>Du kan ställa in var och en av <app>Orca</app>s inställningar för tabelläsning över hela <app>Orca</app> likväl som för enskilda program. Hur du gör endera av dessa beskrivs i guiden på <link xref="preferences"><app>Orca</app>s inställningsdialoger</link>. Inställningarna kan hittas på sidan <link xref="preferences_speech"> <gui>Uppläsning</gui></link>.</p>
+    <p>Slutligen finns det också ett <app>Orca</app>-kommando som låter dig växla mellan cell- och radläsning direkt för den aktuella tabellen: <keyseq><key>Orca-modifierare</key><key>F11</key></keyseq>.</p>
+  </section>
+  <section id="structural_navigation">
+    <title>Strukturell navigering</title>
+    <p><app>Orca</app>s <link xref="commands_structural_navigation#tables">kommandon för strukturell navigering av tabeller</link> gör det möjligt för dig att snabbt hitta tabeller, hoppa omedelbart till en tabells första eller sista cell, och flytta till nästa cell i valfri riktning.</p>
+    <p>Då du navigerar i och mellan tabeller med strukturell navigering kommer <app>Orca</app> meddela ytterligare detaljer för att hjälpa dig att förstå din position, som dimensionerna på tabellen du just gick in i och det fakta att du har nått slutet på tabellen i den riktning du rör dig.</p>
+    <p><app>Orca</app> tillhandahåller dessutom konfigurerbara <link xref="preferences_table_navigation">presentationsalternativ</link> som arbetar tillsammans med strukturell navigering och låter dig styra huruvida cellkoordinater ska presenteras, om spann över flera celler indikeras och om cellhuvuden meddelas.</p>
+    <note style="tip">
+      <title>Glöm inte att slå på strukturell navigering!</title>
+      <p>Beroende på var du är kan det vara nödvändigt för dig att explicit slå på strukturell navigering innan du kan använda den. För att få veta mer, läs <link xref="howto_structural_navigation#toggling_required"> när strukturell navigering behöver slås på.</link></p>
+    </note>
+  </section>
+  <section id="dynamic_headers">
+    <title>Dynamiska huvuden</title>
+    <p>Många av tabellerna du kommer stöta på när du läser har celler som tjänar som huvud för en rad eller en kolumn. Huruvida skaparen av den tabellen korrekt har markerat de cellerna som huvuden är svårt att säga. I många fall var texten helt enkelt formaterad för att vara större och/eller i fetstil. Även om tabellen är rätt markerad så är det ingen garanti för att programmet eller verktygslådan exponerar den texten som huvudinformation till hjälpmedelstekniker. <app>Orca</app>s stöd för dynamiska huvuden gör det möjligt att övervinna dessa utmaningar.</p>
+    <steps>
+      <title>Ställa in kolumnhuvuden</title>
+      <item>
+        <p>Flytta till raden som innehåller alla kolumnhuvuden.</p>
+      </item>
+      <item>
+        <p>Tryck <keyseq><key>Orca-modifierare</key><key>R</key></keyseq> för att berätta för <app>Orca</app> att den aktuella raden är den som har huvudena.</p>
+      </item>
+    </steps>
+    <steps>
+      <title>Ställa in radhuvuden</title>
+      <item>
+        <p>Flytta till kolumnen som innehåller alla radhuvuden.</p>
+      </item>
+      <item>
+        <p>Tryck <keyseq><key>Orca-modifierare</key><key>C</key></keyseq> för att berätta för <app>Orca</app> att den aktuella raden är den som har huvudena.</p>
+      </item>
+    </steps>
+    <p>Då du ställt in antingen radhuvudena eller kolumnhuvudena kommer du finna att då du navigerar cellerna kommer <app>Orca</app> att presentera varje huvud som har ändrats. Eller för att uttrycka det på ett annat sätt så kommer <app>Orca</app> inte presentera kolumnhuvudet om och om igen då du går upp eller ner i den aktuella kolumnen. På samma sätt kommer det inte presentera radhuvudet om och om igen då du går vänster eller höger i den aktuella raden. Om du byter rad och det finns två radhuvuden så kommer dock huvudet som är associerat med den nya raden att presenteras. Om du istället byter kolumn och det finns kolumnhuvuden så kommer huvudet som är associerat med den nya kolumnen att presenteras.</p>
+    <p>För att tömma huvuden, dubbelklicka helt enkelt kommandot du använde för att sätta dem. På detta vis säger dubbelklick på <keyseq><key>Orca-modifierare</key><key>R</key></keyseq> till <app>Orca</app> att det inte finns några kolumnhuvuden. Att dubbelklicka <keyseq><key>Orca-modifierare</key><key>C</key></keyseq> säger till <app>Orca</app> att det inte finns några radhuvuden.</p>
+  </section>
+</page>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_bindings" xml:lang="cs">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_pronunciation"/>
+    <link type="seealso" xref="howto_key_bindings"/>
+    <title type="sort">6. Klávesové zkratky</title>
+    <title type="link">Klávesové zkratky</title>
+    <desc>Jak nastavit klávesové zkratky čtečky <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Předvolby klávesových zkratek</title>
+  <section id="orca_modifier_keys">
+    <title>Modifikační klávesy Orca</title>
+    <p>Rozbalovací seznam <gui>Modifikační klávesy Orca</gui> vám umožňuje si vybrat, která klávesa či klávesy budou sloužit jako Modifikátor Orca. Na výběr jsou:</p>
+    <list>
+      <item>
+        <p><gui>KP_Insert</gui> (ta stejná klávesa, co <key>0</key> na numerické klávesnici)</p></item>
+      <item><p><gui>Insert</gui></p></item>
+      <item><p><gui>Insert, KP_Insert (Insert na numerické klávesnici)</gui></p></item>
+      <item><p><gui>Caps_Lock</gui></p></item>
+    </list>
+  </section>
+  <section id="key_bindings_table">
+    <title>Tabulka klávesových zkratek</title>
+    <p>Tabulka klávesových zkratek poskytuje seznam operací čtečky <app>Orca</app> a klávesy, které jim jsou přiřazeny.</p>
+    <list>
+      <item>
+        <p>Sloupec <gui>Funkce</gui> obsahuje popis příkazu <app>Orca</app>, který se má provést.</p>
+      </item>
+      <item>
+        <p>Sloupec <gui>Klávesová zkratka</gui> obsahuje klávesovou zkratku aktuálně přiřazenou k příkazu <app>Orca</app>. Hodnotu tohoto sloupce můžete změnit zmáčknutím <key>Enter</key>, zmáčknutím nové klávesové zkratky a opětovným zmáčknutím <key>Enter</key>.</p>
+      </item>
+      <item>
+        <p>Sloupec <gui>Změněno</gui> slouží jednak jako signalizace, že klávesová zkratka byla změněna a zároveň je způsobem, jak obnovit výchozí zkratku přiřazenou k této funkci.</p>
+      </item>
+    </list>
+    <p>Za příkazy <app>Orca</app> s klávesovými zkratkami v seznamu najdete příkazy bez přiřazených klávesových zkratek. Jedná se o příkazy, u kterých jsme měli pocit, že by pro některé uživatele mohly být užitečné, ale většina uživatelů je nepotřebuje. Aby se zbytečně „nespotřebovaly“ klávesové zkratky pro takovéto příkazy, ponechali jsme je ve výchozím stavu bez nich. Na konci seznamu pak jsou příkazy s klávesovými zkratkami braillských zařízení pro používání na braillském řádku.</p>
+  </section>
+</page>

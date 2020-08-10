@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_voice" xml:lang="de">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_speech"/>
+    <title type="sort">2.0 Stimme</title>
+    <title type="link">Stimme</title>
+    <desc>So richten Sie die von <app>Orca</app> verwendete Stimme ein</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Stimmeneinstellungen</title>
+  <section id="voice_type_settings">
+    <title>Typ der Sprachausgabe</title>
+    <section id="voice_type">
+      <title>Stimmtyp</title>
+      <p>Dieses Auswahlfeld erlaubt Ihnen, verschiedene Stimmen zu verwenden, sodass Sie besser großgeschriebenen und verlinkten Text von anderem Text, sowie sichtbaren Text von Text, der von <app>Orca</app> hinzugefügt wurde, unterscheiden können.</p>
+      <note style="tip">
+        <title>Mehrere Stimmen konfigurieren</title>
+        <p>Für jede Stimme, die sie konfigurieren möchten, wählen Sie zuerst die Stimme im Auswahlfeld <gui>Stimmtyp</gui> aus. Richten Sie dann die Person, Geschwindigkeit, Tonhöhe und Lautstärke ein, die für diese Stimme verwendet werden soll.</p>
+      </note>
+    </section>
+    <section id="speech_system">
+      <title>Sprachsystem</title>
+      <p>Dieses Auswahlfeld ermöglicht Ihnen, Ihr bevorzugtes Sprachsystem aus den installierten Systemen zu wählen, wie zum Beispiel »Speech Dispatcher«.</p>
+    </section>
+    <section id="speech_synthesizer">
+      <title>Sprachsynthesizer</title>
+      <p>Dieses Auswahlfeld ermöglicht Ihnen, den Sprachsynthesizer einzustellen, der mit Ihrem ausgewählten Sprachsystem verwendet werden soll.</p>
+    </section>
+    <section id="person">
+      <title>Person</title>
+      <p>Dieses Auswahlfeld ermöglicht Ihnen auszuwählen, welche »Person« oder »Sprecher« mit der ausgewählten Stimme verwendet werden soll. Sie könnten sich beispielsweise wünschen, dass »David« standardmäßig vorliest, aber Links von »Alice« gesprochen werden. Beachten Sie, dass die Auswahlmöglichkeiten unter »Person« davon abhängen, welche Sprachsynthesizer Sie installiert haben.</p>
+    </section>
+    <section id="capitalization_style">
+      <title>Großschreibungsstil</title>
+      <p>Dieses Auswahlfeld ermöglicht Ihnen auszuwählen, welchen Hinweisstil für Großschreibung Sie in »Speech Dispatcher« zusätzlich zu <app>Orca</app>s Großschreibungsstimme verwenden wollen. Die möglichen Optionen, die nach der Terminologie von »Speech Dispatcher« benannt sind, lauten:</p>
+     <list>
+       <item><p><gui>Symbol</gui>: Spielt einen Ton ab</p></item>
+       <item><p><gui>Rechtschreibung</gui>: Spricht das Wort »capital«</p></item>
+       <item><p><gui>Kein</gui></p></item>
+    </list>
+    <note style="tip">
+      <title>Diese Einstellung kann im laufenden Betrieb ein-/ausgeschaltet werden</title>
+      <p><app>Orca</app> besitzt ebenfalls einen Befehl zum Durchwechseln durch die verfügbaren Großschreibungsstile. Weitere Informationen dazu finden Sie unter <link xref="commands_speech_settings">Befehle zu den Spracheinstellungen</link>.</p>
+    </note>
+    <p>Vorgabewert: Kein</p>
+    </section>
+    <section id="rate_pitch_and_volume">
+      <title>Geschwindigkeit, Tonhöhe und Lautstärke</title>
+      <p>Diese drei Schieberegler ermöglichen Ihnen, den Klang der ausgewählten Person weiter anzupassen.</p>
+    </section>
+  </section>
+  <section id="global_voice_settings">
+  <title>Globale Sprachausgabe-Einstellungen</title>
+    <section id="pauses">
+      <title>Sprache zwischen Pausen in einzelne Blöcke aufteilen</title>
+      <p>Abhängig von den eingeschalteten Spracheigenschaften kann <app>Orca</app> einiges zu einem bestimmten Objekt sagen, wie etwa seinen Namen, seine Rolle, seinen Zustand, seine Tastaturkürzel, seine informative Botschaft und so weiter. Das Ankreuzfeld <gui>Sprache zwischen Pausen in einzelne Blöcke aufteilen</gui> veranlasst <app>Orca</app>, kurze Pausen zwischen diese Informationshäppchen einzufügen.</p>
+      <p>Vorgabewert: aktiviert</p>
+    </section>
+    <section id="multicase_strings">
+      <title>Zusammengesetzte Wörter einzeln vorlesen</title>
+      <p>In manchem Text, insbesondere bei der Arbeit mit Code, treten häufiger »Wörter« auf, die aus mehreren Einzelwörtern mit abwechselnder Groß-/Kleinschreibung zusammengesetzt sind, wie zum Beispiel »GroßKleinWort«. Sprachsynthesizer betonen solche zusammengesetzten Wörter nicht immer korrekt. Ist das Feld <gui>Zusammengesetzte Wörter einzeln vorlesen</gui> angekreuzt, wird <app>Orca</app> ein Wort wie »GroßKleinWort« in einzelne Wörter aufteilen (»Groß«, »Klein« und »Wort«), bevor es an den Sprachsynthesizer weitergegeben wird.</p>
+      <p>Vorgabewert: nicht aktiviert</p>
+    </section>
+    <section id="numbers_as_digits">
+      <title>Zahlen als Ziffern vorlesen</title>
+      <p>Ist das Feld <gui>Zahlen als Ziffern vorlesen</gui> angekreuzt, wird <app>Orca</app> eine Zahl wie »123« in einzelne Ziffern aufteilen (»1«, »2« und »3«), bevor sie an den Sprachsynthesizer weitergegeben wird.</p>
+      <p>Vorgabewert: nicht aktiviert</p>
+    </section>
+  </section>
+</page>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_notifications" xml:lang="pt-BR">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_bookmarks"/>
+    <title type="sort">5. Notificações</title>
+    <desc>Leitura de mensagens recebidas</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Notificações</title>
+  <p>A área de trabalho do GNOME inclui uma "área de notificação" que pode ser usada por aplicativos para apresentar informação ao usuário. Exemplos de notificações são a chegada de mensagens de bate-papo, os detalhes associados com o som que seu tocador de mídia está reproduzindo, e o aviso que seu nível de bateria está ficando baixo.</p>
+  <p>Como as notificações têm a intenção de apresentar informações aos usuários sem interromper o que eles estão fazendo, essas mensagens tendem a aparecer e desaparecer relativamente rápido. Elas também não podem receber o foco. Como o <app>Orca</app> anunciará essas mensagens para você assim que elas chegarem, também será fácil interromper acidentalmente o anúncio do <app>Orca</app> continuando a escrever ou a mudar o foco. Por isto, o <app>Orca</app> tem três comandos que você pode usar para acessar as mensagens de notificações exibidas anteriormente:</p>
+  <list>
+    <item>
+      <p>Apresenta a última (mais recente) mensagem de notificação</p>
+    </item>
+    <item>
+      <p>Apresenta a mensagem de notificação anterior</p>
+    </item>
+    <item>
+      <p>Apresenta uma lista com todas as mensagens de notificação</p>
+    </item>
+  </list>
+  <p>Os ddois primeiros comandos são projetados principalmente para um rápido acesso a uma mensagem que você recém tenha recebido. O último, é o mais poderoso uma vez que ele armazena seu histórico de mensagem de notificação.</p>
+  <p>Quando você entrar na lista de mensagens de notificação, você será avisado do tamanho da lista e solicitado a escolher uma das seguintes opções:</p>
+  <list>
+    <item><p>Pressione H para ajuda.</p></item>
+    <item><p>Use seta para cima ou para baixo, home ou end para navegar pela lista.</p></item>
+    <item><p>Pressione escapeepara sair.</p></item>
+    <item><p>Pressione barra de espaço para repetir a última mensagem lida.</p></item>
+    <item><p>Pressione um dígito para ler uma mensagem específica.</p></item>
+  </list>
+  <p>Observe que a mensagem recebida mais recentemente estará no topo da lista.</p>
+  <p>Cada um dos comandos de revisão de notificação do <app>Orca</app> estão, por padrão, sem atalho. Você pode associar alguns ou todos eles à tecla de atalho ou às teclas de atalho que você escolher. Como fazer isto está descrito na <link xref="howto_key_bindings">Introdução à associação de teclas</link>.</p>
+</page>

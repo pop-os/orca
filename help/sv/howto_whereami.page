@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_whereami" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_flat_review"/>
+    <title type="sort">1. VarÄrJag</title>
+    <desc>Få reda på din position</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>VarÄrJag</title>
+  <p>Förutom speciella kommandon för att läsa titellisten och statusraden så tillhandahåller Orca två sammanhangskänsliga ”Var är jag”-kommandon: grundläggande ”Var är jag” och detaljerad ”Var är jag”. Grundläggande ”Var är jag” är implementerat för alla objekt. Detaljerad ”Var är jag” är implementerat endast för de objekt för vilka det finns en betydande mängd information som du kan tänkas vilja veta, men mest troligt inte vill veta hela tiden.</p>
+  <p>Det bästa sättet att bli bekant med vad ”Var är jag” kommer presentera är att titta närmare på <link xref="commands_where_am_i">Var är jag-kommandon</link>. Tänk dig dock följande för att få ett bättre grepp om den sammanhangskänsliga naturen hos <app>Orca</app>s ”Var är jag”-funktion:</p>
+  <p>För de flesta komponenter kommer du åtminstone få veta etiketten och/eller namnet, typen eller rollen för komponenten samt minnesobjekt och/eller snabbtangent om de existerar. Dessutom:</p>
+  <list>
+    <item>
+      <p>Om komponenten är text och du utför en grundläggande ”Var är jag” kommer du få veta den aktuella raden om ingen text är markerad. Om text är markerad kommer dock en grundläggande ”Var är jag” att berätta vilken text som är markerad. En detaljerad Var är jag i texten kommer också inkludera textattributen.</p>
+    </item>
+    <item>
+      <p>Om komponenten kan kryssas, som är fallet för kryssrutor och radioknappar kommer tillståndet ikryssad/inte ikryssad att inkluderas.</p>
+    </item>
+    <item>
+      <p>Om komponenten är en lista eller ett listliknande objekt, som en kombinationsruta, radioknappsgrupp eller sidflikslista kommer positionen för det aktuella objektet att inkluderas.</p>
+    </item>
+    <item>
+      <p>Om komponenten är hierarkisk, som ett träd, och du är på en expanderbar nod så kommer du få berättat om noden är expanderad eller inte. Är den expanderad kommer du också få berättat hur många barn den innehåller. Dessutom kommer nästlingsnivån tillhandahållas.</p>
+    </item>
+    <item>
+      <p>Om komponenten är en förloppsindikator eller ett skjutreglage kommer du få berättat aktuell procentsats.</p>
+    </item>
+    <item>
+      <p>Om komponenten är en ikon i en ikongrupp kommer en grundläggande ”Var är jag” att inkludera objektet du är i, posten du är på, och antalet poster som är markerade. I en detaljerad ”Var är jag” kommer du också få berättat vilka poster som är markerade.</p>
+    </item>
+    <item>
+      <p>Om du är på en länk kommer länktypen (samma webbplats, annan webbplats, FTP-länk etc.) att inkluderas.</p>
+    </item>
+    <item>
+      <p>Om du är i en tabellcell kommer koordinaterna för den cellen och cellhuvudena att inkluderas.</p>
+    </item>
+    <item>
+      <p>Om du är i stavningskontrollen för ett program där <app>Orca</app> tillhandahåller utökat stöd kommer en grundläggande ”Var är jag” att upprepa felet efter att ha tagit hänsyn till dina <link xref="preferences_spellcheck">inställningar för stavningskontroll</link>. En detaljerad ”Var är jag” kommer få <app>Orca</app> att presentera de fullständiga detaljerna för felet.</p>
+    </item>
+  </list>
+  <p>Och så vidare. Målet med <app>Orca</app>s ”Var är jag” är att hålla dig med detaljerna som du mest troligt vill veta om objektet som du för tillfället är i. För att testa ”Var är jag”, se listan över <link xref="commands_where_am_i">Var är jag-kommandon</link>.</p>
+</page>

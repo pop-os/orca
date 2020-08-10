@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_debugging" xml:lang="sv">
+  <info>
+    <link type="guide" xref="commands#troubleshooting"/>
+    <title type="sort">1. Felsökning</title>
+    <title type="link">Felsökning</title>
+    <desc>Kommandon för att lösa problem</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Felsökningskommandon</title>
+  <p>Du kan bli tillfrågad av utvecklarna att tillhandahålla felsökningsinformation för att hjälpa dem hitta källan till ett problem du upplever. Följande kommando är inte ”bundet” till en tangenttryckning. Om du behöver binda det, se <link xref="howto_key_bindings">Ändra tangentbindningar</link>.</p>
+  <list>
+    <item>
+      <p>Växla till nästa felsökningsnivå: (Inte bunden)</p>
+    </item>
+  </list>
+</page>

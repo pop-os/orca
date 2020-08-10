@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_chat" xml:lang="cs">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_spellcheck"/>
+    <title type="sort">3. Diskuze</title>
+    <title type="link">Diskuze</title>
+    <desc>Jak nastavit čtečku <app>Orca</app> pro podporu rychlé komunikace a IRC</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Předvolby pro diskuze</title>
+  <p>Následujícími volbami si můžete přizpůsobit, jak se má <app>Orca</app> chovat, když poskytuje přístup ke klientům rychlé komunikace a IRC.</p>
+  <section id="speak_name">
+    <title>Číst název diskuzní místnosti</title>
+    <p>Když je toto políčko zaškrtnuto a příchozí zpráva nepatří do právě zaměřené konverzace, vloží před ni <app>Orca</app> název místnosti a jméno kamaráda, od kterého pochází</p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+  </section>
+  <section id="announce_typing">
+    <title>Oznámit, když kamarád píše</title>
+    <p>Když je toto políčko zaškrtnuté a <app>Orca</app> má dostatek informací ke zjištění, že kamarád píše, oznámí změnu ve stavu psaní.</p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+  </section>
+  <section id="message_histories">
+    <title>Poskytnout historii zpráv z konkrétní místnosti</title>
+    <p>Když je toto políčko zaškrtnuté, budou příkazy čtečky <app>Orca</app> pro zopakování posledních zpráv použity jen na právě zaměřenou konverzaci. V opačném případě bude historie obsahovat poslední zprávy bez ohledu na to, ze které konverzace pocházejí.</p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+  </section>
+  <section id="speak_messages_from">
+    <title>Číst zpávy od</title>
+    <p>Tyto skupinové přepínače slouží k řízení toho, za které situace vám <app>Orca</app> bude prezentovat příchozí zprávy. Na výběr je:</p>
+    <list>
+      <item>
+        <p><gui>Všechny kanály</gui></p>
+      </item>
+      <item>
+        <p><gui>Pouze kanál, jehož okno je aktivní</gui></p>
+      </item>
+      <item>
+        <p><gui>Všechny kanály, když je aktivní některé okno s diskuzí</gui></p>
+      </item>
+    </list>
+    <p>Výchozí hodnota: všechny kanály</p>
+  </section>
+</page>

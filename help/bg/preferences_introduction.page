@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_introduction" xml:lang="bg">
+  <info>
+    <title type="sort">0. Въведение в настройките на <app>Orca</app></title>
+    <title type="link">Въведение в настройките на <app>Orca</app></title>
+    <link type="guide" xref="preferences"/>
+    <link type="next" xref="preferences_general"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Признание-Споделяне на споделеното 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Захари Юруков</mal:name>
+      <mal:email>zahari.yurukov@gmail.com</mal:email>
+      <mal:years>2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Александър Шопов</mal:name>
+      <mal:email>ash@kambanaria.org</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  </info>
+  <title>Въведение в настройките на <app>Orca</app></title>
+  <section id="orca">
+    <title>Настройки на Orca</title>
+    <p>Настройките на Orca ви позволяват да настройвате функционалността на <app>Orca</app>, която се отнася за всички приложения. Пример за настройка на Orca е изговарянето на въведените знаци, понеже това е нещо, което е валидно във всички приложения.</p>
+    <p>Обърнете внимание, че настройките на Orca могат да бъдат задавани отделно за всяко приложение. Например, може да зададете изговарянето на въведените знаци по подразбиране на думи и след това да зададете изговарянето на въведените знаци за Pidgin да бъде изключено. Правейки така, <app>Orca</app> ще ви прочита всяка дума, която въведете, освен ако не се намирате в Pidgin.</p>
+    <note style="tip">
+      <title>Клавиатурни команди за отваряне на прозорците за настройка</title>
+      <list>
+        <item>
+          <p><keyseq><key>Модификатор на Orca</key><key>Интервал</key></keyseq>: Настройки на <app>Orca</app></p>
+        </item>
+        <item>
+          <p><keyseq><key>Ctrl</key><key>Модификатор на Orca</key><key>Интервал</key> </keyseq>: Настройки на <app>Orca</app> за текущото приложение</p>
+        </item>
+      </list>
+    </note>
+  </section>
+  <section id="application_unique">
+    <title>Настройки за отделните приложения</title>
+      <p>За разлика от настройките на Orca, има уникални настройки за различните приложения. Тези настройки ви позволяват да настроите функционалности на <app>Orca</app>, които са валидни в определени среди, например в уеб страници или програми за чат. Като резултат, ще може да намерите тези настройки само в прозорците за настройка на специфичните приложения само за тези приложения, за които тези настройки са валидни.</p>
+  </section>
+</page>

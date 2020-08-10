@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_live_regions" xml:lang="el">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_whereami"/>
+    <title type="sort">6. Δυναμικές περιοχές</title>
+    <desc>Αλληλεπίδραση με δυναμικό περιεχόμενο ιστού</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name> Δημήτρης Σπίγγος</mal:name>
+      <mal:email>dmtrs32@gmail.com</mal:email>
+      <mal:years>2012-2015</mal:years>
+    </mal:credit>
+  </info>
+  <title>Δυναμικές περιοχές</title>
+  <p>Μια δυναμική περιοχή είναι ένα δυναμικά ενημερωμένο τμήμα μιας ιστοσελίδας, όπως ένας πίνακας αθλητικών στατιστικών, μια λίστα τρεχόντων τιμών αποθέματος, μια καταγραφή από συνομιλία, ή ένα μήνυμα που εμφανίζεται από τη σελίδα που διαβάζετε. Ενώ οι ζωντανές περιοχές εμφανίζονται αρκετά συχνά, οι πλήρως προσβάσιμες ιστοσελίδες με ζωντανές περιοχές αντιμετωπίζονται λιγότερο συχνά. Αυτό το πρόβλημα αντιμετωπίζεται ενεργά από έναν αριθμό οργανώσεων.</p>
+  <section id="politeness_levels">
+    <title>Επίπεδα ευγένειας δυναμικής περιοχής</title>
+    <p>
+      Live regions have an associated "politeness" level which is set by the
+      author as a means to convey the importance of the information and to
+      suggest when users should be informed by their assistive technology of
+      updates made within that region. Live regions can be "off", "polite", or
+      "assertive" to the point of being "rude."
+    </p>
+  </section>
+  <section id="orca_support">
+    <title>Η υποστήριξη του <app>Orca</app> για δυναμικές περιοχές</title>
+    <p>Επειδή ίσως διαφωνείτε με το καθορισμένο επίπεδο ευγένειας από τον συγγραφέα του οποίου βλέπετε τη σελίδα, το <app>Orca</app> παρέχει έναν αριθμό <link xref="commands_live_regions">εντολών δυναμικής περιοχής</link> που επιτρέπει την τροποποίηση του επιπέδου οποιασδήποτε ή όλων των περιοχών σε μια σελίδα. Επιπλέον, μπορείτε:</p>
+    <list>
+      <item>
+        <p>Ανοίξετε ή όχι την υποστήριξη δυναμικής περιοχής</p>
+      </item>
+      <item>
+        <p>Άλμα στην επόμενη και προηγούμενη δυναμική περιοχή του χώρου</p>
+      </item>
+      <item>
+        <p>Άλμα στην τελευταία δυναμική περιοχή που παρουσιάζει πληροφορίες</p>
+      </item>
+      <item>
+        <p>Επισκόπηση των τελευταίων εννέα μηνυμάτων δυναμικών περιοχών που παρουσιάστηκαν</p>
+    </item>
+    </list>
+  </section>
+</page>

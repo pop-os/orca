@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="guide" id="commands" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_controlling_orca"/>
+    <link type="guide" xref="index#quick_reference"/>
+    <title type="sort">4. <app>Orca</app>s kommandon</title>
+    <title type="link">Kommandon</title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title><app>Orca</app>s kommandon</title>
+  <section id="getting_started" style="2column">
+    <title>Komma igång</title>
+  </section>
+  <section id="speech_braille" style="2column">
+    <title>Uppläsning och punktskrift</title>
+  </section>
+  <section id="reading_documents" style="2column">
+    <title>Läsa webbsidor och andra dokument</title>
+  </section>
+  <section id="reviewing_screen_contents" style="2column">
+    <title>Granska och interagera med skärminnehåll</title>
+  </section>
+  <section id="accessing_dynamic_information" style="2column">
+    <title>Komma åt dynamisk information</title>
+  </section>
+  <section id="troubleshooting">
+    <title>Problemlösning</title>
+  </section>
+</page>

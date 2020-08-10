@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_bookmarks" xml:lang="fr">
+  <info>
+    <link type="next" xref="commands_live_regions"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_bookmarks"/>
+    <title type="sort">4. Signets</title>
+    <title type="link">Signets</title>
+    <desc>Commandes pour créer des signets et récupérer des éléments</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Commandes de signets</title>
+  <p><app>Orca</app> fournit plusieurs commandes qui peuvent être utilisées pour marquer un objet donné en vue d’y revenir plus tard.</p>
+  <list>
+    <item>
+      <p>Enregistrer un signet dans l’emplacement numéroté : <keyseq><key>Touche de modification d’Orca</key><key>Alt</key><key>1</key></keyseq>-<key>6</key></p>
+    </item>
+    <item>
+      <p>Enregistrer les signets définis pour l’application ou la page : <keyseq><key>Touche de modification d’Orca</key><key>Alt</key><key>B</key></keyseq></p>
+    </item>
+    <item>
+      <p>Aller à l’emplacement du signet numéroté spécifique : <keyseq><key>Touche de modification d’Orca</key><key>1</key></keyseq>-<key>6</key></p>
+    </item>
+    <item>
+      <p>Aller à l’emplacement du signet précédent pour l’application ou la page : <keyseq><key>Touche de modification d’Orca</key><key>Maj</key><key>B</key></keyseq></p>
+    </item>
+    <item>
+      <p>Aller à l’emplacement du signet suivant pour l’application ou la page : <keyseq><key>Touche de modification d’Orca</key><key>B</key></keyseq></p>
+    </item>
+  </list>
+</page>

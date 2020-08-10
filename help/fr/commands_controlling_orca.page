@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_controlling_orca" xml:lang="fr">
+  <info>
+    <link type="next" xref="commands_where_am_i"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <title type="sort">1. Contrôler et apprendre à utiliser Orca</title>
+    <title type="link">Contrôler et apprendre à utiliser Orca</title>
+    <desc>Commandes pour utiliser <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Contrôler et apprendre à utiliser Orca</title>
+  <section id="controlling">
+    <title>Commandes pour contrôler <app>Orca</app></title>
+    <p>Les commandes suivantes peuvent être utilisées pour aller dans la boîte de dialogue des préférences d’<app>Orca</app>, pour activer/désactiver <app>Orca</app>, et contourner des commandes d’<app>Orca</app> afin d’éviter les conflits de raccourcis dans l’application en cours d’accès.</p>
+    <list>
+      <item>
+        <p>Activer/Désactiver <app>Orca</app> dans GNOME : <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>
+        <note style="tip">
+           <p>Si vous utilisez <app>Orca</app> dans un environnement de bureau qui n’offre pas de commande pour lancer ou arrêter <app>Orca</app>, vous trouverez utile la commande pour quitter <app>Orca</app>. Cette commande est non liée par défaut. Reportez-vous à <link xref="howto_key_bindings">Modifier les combinaisons de touches</link> pour savoir comment lier les commandes non liées.</p>
+        </note>
+      </item>
+      <item>
+        <p>Boîte de dialogue <link xref="preferences">Préférences d’Orca</link> : <keyseq><key>Touche de modification d’Orca</key><key>Barre d’espace</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Boîte de dialogue d’Orca pour l’application qui a le focus : <keyseq><key>Ctrl</key><key>Touche de modification d’Orca</key><key>Barre d’espace</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Transmettre la commande suivante à l’application actuelle : <keyseq><key>Touche de modification d’Orca</key><key>Retour arrière</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="learning">
+    <title>Commande pour apprendre à utiliser <app>Orca</app></title>
+    <p>En mode d’apprentissage, <app>Orca</app> annonce chaque combinaison de touches que vous réalisez ainsi que les commandes d’<app>Orca</app> associées. Dans ce mode, vous pouvez également obtenir une liste des raccourcis contenant toutes les commandes d’<app>Orca</app> que vous pouvez utiliser.</p>
+    <list>
+      <item>
+        <p>Entrer dans le mode d’apprentissage : <keyseq><key>Touche de modification d’Orca</key><key>H</key></keyseq></p>
+      </item>
+      <item>
+        <p>Quitter le mode d’apprentissage : <keyseq><key>Échap</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+</page>

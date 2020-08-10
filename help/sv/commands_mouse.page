@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_mouse" xml:lang="sv">
+  <info>
+    <link type="next" xref="commands_bookmarks"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <title type="sort">3. Mus/pekar-relaterat</title>
+    <title type="link">Mus/pekar-relaterat</title>
+    <link type="seealso" xref="howto_flat_review"/>
+    <link type="seealso" xref="howto_mouse_review"/>
+    <desc>Kommandon för att manipulera pekaren</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Mus/pekar-relaterade kommandon</title>
+  <p><app>Orca</app> tillhandahåller flera kommandon som kan användas för att manipulera muspekaren och läsa innehållet under den. Alla kommandona är ”bundna” till tangenttryckningar med ett undantag: Växla musgranskningsläge. Se <link xref="howto_key_bindings">Ändra tangentbindningar</link> för information om hur du kan binda detta kommando till en tangenttryckning.</p>
+  <note style="tip">
+    <p>I listan som följer kommer du se flera referenser till ”KP”. Alla "KP"-tangenter finns på det numeriska tangentbordet (keypad). Du kommer också se att det finns olika tangenttryckningar beroende på om du använder en stationär eller en bärbar dator -- eller mer korrekt, huruvida du använder <app>Orca</app>s tangentbordslayout för stationär eller bärbar dator. För mer information se ämnet <link xref="howto_keyboard_layout">Tangentbordslayout</link>.</p>
+  </note>
+  <list>
+    <item>
+      <p>Vänsterklicka på aktuellt objekt:</p>
+      <list>
+        <item><p>Stationär dator: <keyseq><key>KP Division</key></keyseq></p></item>
+        <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>7</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Högerklicka på aktuellt objekt:</p>
+      <list>
+        <item><p>Stationär dator: <keyseq><key>KP Multiplikation</key></keyseq></p></item>
+        <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>8</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Vägled muspekaren till aktuellt objekt:</p>
+      <list>
+        <item><p>Stationär dator: <keyseq><key>Orca-modifierare</key><key>KP Division</key></keyseq></p></item>
+        <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>9</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Flytta fokus till eller bort från objektet under muspekaren (endast webb):</p>
+      <list>
+        <item><p>Stationär dator: <keyseq><key>Orca-modifierare</key><key>KP Multiplikation</key></keyseq></p></item>
+        <item><p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>0</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Aktivera/inaktivera musgranskningsläge: (Inte bunden)</p>
+    </item>
+  </list>
+</page>

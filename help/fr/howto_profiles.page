@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_profiles" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_documents"/>
+    <title type="sort">9. Profils</title>
+    <desc>Gérer plusieurs configurations</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Profils</title>
+  <p>Les profils d’Orca vous permettent d’enregistrer et de charger plusieurs configurations pour que vous puissiez accéder rapidement aux réglages dont vous avez besoin.</p>
+  <steps>
+    <title>Enregistrement d’un nouveau profil</title>
+    <item>
+      <p>Allez dans la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
+    </item>
+    <item>
+      <p>Modifiez les paramètres que vous souhaitez.</p>
+    </item>
+    <item>
+      <p>Dans l’onglet <gui>Général</gui>, cliquez sur le bouton <gui>Enregistrer sous</gui>.</p>
+    </item>
+    <item>
+      <p>Saisissez le nom du nouveau profil dans la boîte de dialogue <gui>Enregistrer le profil sous</gui>.</p>
+    </item>
+    <item>
+      <p>Appuyez sur le bouton <gui>Valider</gui> dans la boîte de dialogue <gui>Enregistrer le profil sous</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Chargement d’un profil existant</title>
+    <item>
+      <p>Allez dans la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
+    </item>
+    <item>
+      <p>Dans l’onglet <gui>Général</gui>, sélectionnez le profil à charger dans la liste déroulante <gui>Profil actif</gui>.</p>
+    </item>
+    <item>
+      <p>Cliquez sur le bouton <gui>Charger</gui>.</p>
+    </item>
+    <item>
+      <p>Vous devez confirmer. Cliquez sur le bouton <gui>Oui</gui>.</p>
+    </item>
+    <item>
+      <p>Cliquez sur le bouton <gui>Valider</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Modification d’un profil existant</title>
+    <item>
+      <p>Suivez les étapes décrites ci-dessus pour charger le profil que vous souhaitez modifier.</p>
+    </item>
+    <item>
+      <p>Suivez les étapes décrites ci-dessus pour enregistrer un nouveau profil.</p>
+    </item>
+    <item>
+      <p>Quand vous êtes invité à saisir le nom du nouveau profil, saisissez le même nom que le profil actuel. Quand vous cliquez sur le bouton <gui>Valider</gui>, vous êtes averti d’un conflit de nom.</p>
+    </item>
+    <item>
+      <p>Cliquez sur le bouton <gui>Oui</gui> pour confirmer que vous souhaitez écraser le profil existant avec les nouveaux réglages.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Modification du <gui>Profil au démarrage</gui></title>
+    <item>
+      <p>Allez dans la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
+    </item>
+    <item>
+      <p>Dans l’onglet <gui>Général</gui>, sélectionnez le profil à charger dans la liste déroulante <gui>Profil au démarrage</gui>.</p>
+    </item>
+    <item>
+      <p>Cliquez sur le bouton <gui>Valider</gui>. La prochaine fois que vous lancez <app>Orca</app>, le profil que vous venez de sélectionner sera utilisé.</p>
+    </item>
+  </steps>
+</page>

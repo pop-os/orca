@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_introduction" xml:lang="sv">
+  <info>
+    <title type="sort">0. Introduktion till <app>Orca</app>s inställningar</title>
+    <title type="link">Introduktion till <app>Orca</app>s inställningar</title>
+    <link type="guide" xref="preferences"/>
+    <link type="next" xref="preferences_general"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Introduktion till <app>Orca</app>s inställningar</title>
+  <section id="orca">
+    <title>Orca-inställningar</title>
+    <p>Orca-inställningar låter dig anpassa funktionalitet i <app>Orca</app> som gäller för alla program. Ett exempel på en Orca-inställning är tangenteko eftersom tangenteko är något som gäller för alla program.</p>
+    <p>Notera att Orca-inställningar kan anpassas program för program. Till exempel kan du ställa in tangenteko till ord som standard och sedan ställa in tangenteko för Pidgin till inget. Då du gjort detta kommer <app>Orca</app> alltid upprepa varje ord du skriver, förutom om du är i Pidgin.</p>
+    <note style="tip">
+      <title>Tangentbordsgenvägar för att komma till inställningsdialogerna</title>
+      <list>
+        <item>
+          <p><keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq>: <app>Orca</app>s inställningar</p>
+        </item>
+        <item>
+          <p><keyseq><key>Ctrl</key><key>Orca-modifierare</key><key>Blanksteg</key> </keyseq>: <app>Orca</app>s inställningar för det aktuella programmet</p>
+        </item>
+      </list>
+    </note>
+  </section>
+  <section id="application_unique">
+    <title>Programunika inställningar</title>
+      <p>Som kontrast till Orca-inställningar så finns det programspecifika inställningar. Dessa inställningar låter dig anpassa funktionalitet i <app>Orca</app> som bara används i vissa miljöer, som på webbsidor eller i chattprogram. Som en följd av detta kommer dessa alternativ bara vara tillgängliga för dig i de programspecifika inställningsdialogerna och bara för de program som dessa alternativ kan användas för.</p>
+  </section>
+</page>

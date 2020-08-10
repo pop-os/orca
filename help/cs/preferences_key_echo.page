@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="cs">
+  <info>
+    <title type="link">Oznamování kláves</title>
+    <title type="sort">4. Oznamování kláves</title>
+    <desc>Jak nastavit, co se má číst, když píšete</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_bindings"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  </info>
+  <title>Předvolby pro oznamování kláves</title>
+  <section id="keyecho">
+    <title>Oznamovat klávesy</title>
+    <p>Nastavení oznamování kláves řídí, co se má stát pokaždé, když zmáčknete klávesu. Pro zapnutí oznamování kláves zaškrtněte políčko „Oznamovat klávesy“. Tím se také zpřístupní další zaškrtávací políčka, pomocí kterých můžete podle svých potřeb přesněji zvolit, které klávesy mají být oznamovány a které ne.</p>
+    <p>Výchozí hodnota: zaškrtnuto</p>  
+    <section id="keyecho_enable_alphanumeric">
+      <title>Oznamovat klávesy s písmeny</title>
+      <p>Tato volba ovládá, jestli klávesy jako jsou <key>a</key>, <key>B</key> a <key>c</key> mají či nemají být vysloveny při zmáčknutí.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="keyecho_enable_numeric">
+      <title>Oznamovat klávesy s číslicemi</title>
+      <p>Tato volba ovládá, jestli klávesy jako jsou <key>1</key>, <key>2</key> a <key>3</key> mají či nemají být vysloveny při zmáčknutí.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="keyecho_enable_punctuation">
+      <title>Oznamovat klávesy s interpunkčními znaménky</title>
+      <p>Tato volba ovládá, jestli klávesy jako jsou <key>%</key>, <key>;</key> a <key>?</key> mají či nemají být vysloveny při zmáčknutí.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="keyecho_enable_space">
+      <title>Oznamovat mezerník</title>
+      <p>Tato volba ovládá, jestli klávesa <key>mezerník</key> má či nemá být vyslovena při zmáčknutí.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="keyecho_enable_modifier">
+      <title>Oznamovat modifikační klávesy</title>
+      <p>Tato volba ovládá, jestli klávesy <key>Shift</key>, <key>Ctrl</key>, <key>Alt</key> a <key>Super</key> mají či nemají být vysloveny při zmáčknutí.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="keyecho_enable_function">
+      <title>Oznamovat funkční klávesy</title>
+      <p>Tato volba ovládá, jestli klávesy <key>F1</key> až <key>F12</key> mají či nemají být vysloveny při zmáčknutí.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="keyecho_enable_action">
+      <title>Oznamovat akční klávesy</title>
+      <p>Tato volba ovládá, jestli klávesy <key>BackSpace</key>, <key>Delete </key>, <key>Return</key>, <key>Escape</key>, <key>Tab</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</key> a <key>End</key> mají či nemají být vysloveny při zmáčknutí.</p>
+      <p>Výchozí hodnota: zaškrtnuto</p>
+    </section>
+    <section id="keyecho_enable_navigation">
+      <title>Oznamovat kurzorové klávesy</title>
+      <p>Tato volba ovládá, jestli klávesy <key>←</key>, <key>→</key>, <key>↑</key> a <key>↓</key> mají či nemají být vysloveny při zmáčknutí. Tato volba se použije i na zmáčknutí těchto kláves v kombinaci s <key>Modifikátorem Orca</key>, například při používání plošného náhledu.</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+    </section>
+    <section id="keyecho_enable_diacritical">
+      <title>Oznamovat diakritické klávesy</title>
+      <p>Tato volba řídí, jestli mají být při zmáčknutí oznamovány „mrtvé klávesy“, které generují diakritická znaménka.</p>
+      <p>Výchozí hodnota: nezaškrtnuto</p>
+    </section>
+  </section>
+  <section id="characterecho">
+    <title>Oznamovat znaky</title>
+    <p>Zapnutí této volby zajistí, že <app>Orca</app> bude oznamovat znaky, které jste právě napsali.</p>
+    <p>I když oznamování znaků může vypadat podobně jako oznamování kláves u kláves s písmeny, číslicemi a interpunkčními znaménky, je zde podstatný rozdíl, když používáte znaky s diakritikou a jiné symboly, které nemají na klávesnici samostatnou klávesu.</p>
+    <list>
+      <item>
+        <p>Oznamování kláves způsobí, že <app>Orca</app> bude oznamovat, co jste právě <em>zmáčkli</em>.</p>
+      </item>
+      <item>
+        <p>Oznamování znaků způsobí, že <app>Orca</app> bude oznamovat, co bylo právě <em>vloženo</em>.</p>
+      </item>
+    </list>
+    <p>Takže, aby byly vyslovovány znaky s diakritikou, které zmáčknete, měli byste zapnout oznamování znaků.</p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+    <note style="tip">
+      <title>Souběžné oznamování kláves a oznamování po znacích</title>
+      <p>V případě, že chcete oznamovat klávesy a často píšete znaky s diakritikou, zvažte zapnutí obého. <app>Orca</app> se při oznamování znaků snaží logicky filtrovat výstupní znaky, které již byly oznámeny v podobě kláves, takže se minimalizuje pravděpodobnost „zdovojeného mluvení“ při psaní.</p>
+    </note>
+  </section>
+  <section id="wordandsentenceecho">
+    <title>Oznamovat slova a Oznamovat věty</title>
+    <p>Zaškrtnutí políčka <gui>Oznamování slov</gui> způsobí, že <app>Orca</app> bude oznamovat slova po té, co je napíšete. Obdobně, zaškrtnutí políčka <gui>Oznamovat věty</gui> způsobí, že <app>Orca</app> bude oznamovat věty, které napíšete.</p>
+    <p>Výchozí hodnota: nezaškrtnuto</p>
+  </section>
+</page>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_bookmarks" xml:lang="pt-BR">
+  <info>
+    <link type="next" xref="commands_live_regions"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_bookmarks"/>
+    <title type="sort">4. Marcadores</title>
+    <title type="link">Marcadores</title>
+    <desc>Comandos para marcar e recuperar objetos</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
+  </info>
+  <title>Comandos de marcador</title>
+  <p>
+    <app>Orca</app> provides several commands which can be used to "bookmark"
+    a given object for the purpose of navigating back to it later.
+  </p>
+  <list>
+    <item>
+      <p>Salvar um marcador numa posição numerada: <keyseq><key>Tecla modificadora do Orca</key> <key>Alt</key><key>1</key></keyseq>-<key>6</key></p>
+    </item>
+    <item>
+      <p>Salvar os marcadores definidos para o aplicativo ou a página: <keyseq><key>Tecla modificadora do Orca</key><key>Alt</key><key>B</key></keyseq></p>
+    </item>
+    <item>
+      <p>Ir para um marcador numerado específico: <keyseq><key>Tecla modificadora do Orca</key> <key>1</key></keyseq>-<key>6</key></p>
+    </item>
+    <item>
+      <p>Ir para o marcador anterior no aplicativo ou na página: <keyseq><key>Tecla modificadora do Orca</key><key>Shift</key><key>B</key> </keyseq></p>
+    </item>
+    <item>
+      <p>
+        Go to the next bookmark for the application or page:
+        <keyseq><key>Orca Modifier</key><key>B</key></keyseq>
+      </p>
+    </item>
+  </list>
+</page>

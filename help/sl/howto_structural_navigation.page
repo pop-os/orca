@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_structural_navigation" xml:lang="sl">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_tables"/>
+    <title type="sort">3. Strukturno krmarjenje</title>
+    <desc>Premikanje po glavah in drugih elementih</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+    </license>
+  </info>
+  <title>Strukturno krmarjenje</title>
+  <p><app>Orkina</app> zmožnost strukturnega krmarjenja vam omogoča krmarjenje med predmeti v dokumentu. Vrste predmetov po katerih lahko krmarite vključujejo:</p>
+  <list>
+    <item><p>Glave in druge bloke besedila</p></item>
+    <item><p>Nadzorniki obrazcev</p></item>
+    <item><p>Povezave</p></item>
+    <item><p>Seznami in predmeti seznamov</p></item>
+    <item><p>Oznake mest, ločnice in sidra</p></item>
+    <item><p>Razpredelnice in celice razpredelnic</p></item>
+  </list>
+  <p>Poln seznam posameznih predmetov in njihovih tipkovnih bližnjic lahko najdete v <link xref="commands_structural_navigation">ukazih strukturnega krmarjenja</link>.</p>
+  <section id="applications">
+      <title>Podprti programi</title>
+      <p>Trenutno je strukturno krmarjenje polno podprto za spletno vsebino vključno z vsebino pomoči, ki jo berete sedaj. <app>Orkina</app> podpora strukturnega krmarjenja za celice razpredelnic je podprta tudi v programih <app>OpenOffice Writer</app> in <app>LibreOffice Writer</app>. Podpora preostankov predmetov strukturnega krmarjenja v teh pisarniških zbirkah zahteva spremembe s strani razvijalcev pisarniških zbirk. Podpora zmožnosti strukturnega krmarjenja v <app>Evince</app> bo zahtevala podobno delo s strani njegovih razvijalcev.</p>
+      <note style="tip">
+        <title>Ne pozabite vklopiti strukturnega krmarjenja!</title>
+        <p>Odvisno od tega kje ste boste morda morali pred uporabo strukturno krmarjenje eksplicitno preklopiti.</p>
+      </note>
+      <section id="toggling_required">
+        <title>Kdaj je preklop strukturnega krmarjenja zahtevan</title>
+        <p>Na spletnih straneh je ekspliciten preklop strukturnega krmarjenja v splošnem nezaželen, ker je vaše sporazumevanje z dokumentom večinoma sestavljeno iz branja njegove vsebine. Zato ni dvomov ali je bil 'H' pritisnjen z namenom pisanja ali kot ukaz strukturnega krmarjenja. </p>
+        <p>Na drugi strani pa v uredljivih dokumentih kot so tisti v <app>OpenOffice</app> in <app>LibreOffice</app> <app>Orki</app> veliko težje natančno napovedati kaj pričakujete kot posledico pritiska tipke 'H'. Zato morate pred uporabo kateregakoli ukaza strukturnega krmarjenja v uredljivem dokumentu struktruno krmarjenje najprej vklopiti s pritiskom na <keyseq><key>spremenilno tipko Orka</key><key>Z</key></keyseq>. Ko ste končali s krmarjenjem in se pripravljeni na nadaljevanje pisanja, znova pritisnite <keyseq><key>spremenilno tipko Orka</key><key>Z</key></keyseq> za izklop strukturnega krmarjenja.</p>
+      </section>
+  </section>
+  <section id="settings">
+    <title>Razpoložljive nastavitve</title>
+    <p>Poleg predhodno omenjenih ukazov ima <app>Orka</app> številne nastavljive možnosti na voljo posebej za programe, kjer ni podpore strukturnega krmarjenja.</p>
+    <steps>
+      <title>Nastavljanje strukturnega krmarjenja</title>
+      <item>
+        <p>Da žarišče programu za katerega ima <app>Orka</app> podporo strukturnega krmarjenja. </p>
+      </item>
+      <item>
+        <p>
+          Get into the <link xref="preferences">Orca Preferences</link>
+          dialog box for the current application by pressing
+          <keyseq>
+            <key>Ctrl</key><key>Orca Modifier</key><key>Space</key>
+          </keyseq>.
+        </p>
+      </item>
+      <item>
+        <p>Krmarite na zadnjo stran pogovornega polja, ki bi morala biti poimenovana ustrezno z imenom vašega trenutnega programa.</p>
+      </item>
+      <item>
+        <p>Preučujte in spremenite nastavitve kot se vam zdi primerno.</p>
+      </item>
+      <item>
+        <p>Pritisnite gumb <gui>V redu</gui>.</p>
+      </item>
+    </steps>
+  </section>
+</page>

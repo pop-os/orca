@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="guide" id="commands" xml:lang="de">
+  <info>
+    <link type="next" xref="commands_controlling_orca"/>
+    <link type="guide" xref="index#quick_reference"/>
+    <title type="sort">4. <app>Orca</app>-Befehle</title>
+    <title type="link">Befehle</title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mario Blättermann</mal:name>
+      <mal:email>mario.blaettermann@gmail.com</mal:email>
+      <mal:years>2011, 2012</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Christian Kirbach</mal:name>
+      <mal:email>Christian.Kirbach@googlemail.com</mal:email>
+      <mal:years>2011, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Sascha Manns</mal:name>
+      <mal:email>Sascha.Manns@mailbox.org</mal:email>
+      <mal:years>2017</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Tim Sabsch</mal:name>
+      <mal:email>tim@sabsch.com</mal:email>
+      <mal:years>2018-2019</mal:years>
+    </mal:credit>
+  </info>
+  <title><app>Orca</app>-Befehle</title>
+  <section id="getting_started" style="2column">
+    <title>Erste Schritte</title>
+  </section>
+  <section id="speech_braille" style="2column">
+    <title>Sprache und Braille</title>
+  </section>
+  <section id="reading_documents" style="2column">
+    <title>So lesen Sie Webseiten und andere Dokumente</title>
+  </section>
+  <section id="reviewing_screen_contents" style="2column">
+    <title>Vorlesen von und Interaktion mit Bildschirminhalten</title>
+  </section>
+  <section id="accessing_dynamic_information" style="2column">
+    <title>Zugriff auf dynamische Informationen</title>
+  </section>
+  <section id="troubleshooting">
+    <title>Fehlerbehandlung</title>
+  </section>
+</page>

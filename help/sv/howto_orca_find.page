@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_orca_find" xml:lang="sv">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_mouse_review"/>
+    <title type="sort">3. Sökning i Orca</title>
+    <desc>Söka efter objekt i ett fönster</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons DelaLika 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Anders Jonsson</mal:name>
+      <mal:email>anders.jonsson@norsjovallen.se</mal:email>
+      <mal:years>2015, 2016, 2017, 2018</mal:years>
+    </mal:credit>
+  </info>
+  <title>Sökning i Orca</title>
+  <p><app>Orca</app>s sökfunktion är en sökning baserad på <link xref="howto_flat_review">platt granskning</link> som är designad för att hjälpa dig snabbt hitta objekt i det aktuella fönstret som är synliga på skärmen.</p>
+  <note style="tip">
+    <title>Aktivera sökning i Orca</title>
+      <p>För att öppna Orcas <gui>Sök</gui>-dialog använd följande kommando baserat på din valda <link xref="howto_keyboard_layout">tangentbordslayout</link>:</p>
+      <list>
+        <item>
+          <p>Stationär dator: <keyseq><key>KP Delete</key></keyseq></p>
+        </item>
+        <item>
+          <p>Bärbar dator: <keyseq><key>Orca-modifierare</key><key>Vänster hakparentes</key></keyseq></p>
+        </item>
+      </list>
+      <p>För en lista över ytterligare uppgifter du kan utföra, se <link xref="commands_find">Sökkommandon i Orca</link></p>
+  </note>
+  <p>När du aktiverar sökning i Orca kommer du placeras i en dialogruta.</p>
+  <p>Här kan du ange följande objekt:</p>
+  <list>
+    <item>
+      <p>Texten att söka efter</p>
+    </item>
+    <item>
+      <p>Platsen som sökningen ska börja från, vilket kan vara antingen den aktuella positionen eller överst i fönstret</p>
+      <p>Standardvärde för <gui>Starta från</gui>: <gui>Aktuell position</gui></p>
+    </item>
+    <item>
+      <p>Huruvida versaler/gemener ska tas i beaktande då en matchning söks</p>
+      <p>Standardvärde för <gui>Skiftlägeskänslig</gui>: inte ikryssad</p>
+    </item>
+    <item>
+      <p>Huruvida matchningar ska begränsas till de som matchar hela ordet eller frasen</p>
+      <p>Standardvärde för <gui>Matcha endast hela ord</gui>: inte ikryssad</p>
+    </item>
+    <item>
+      <p>Huruvida sökningen ska titta ner och/eller till höger för nästa matchning eller upp och/eller till vänster.</p>
+      <p>Standardvärde för <gui>Sök baklänges</gui>: inte ikryssad</p>
+    </item>
+    <item>
+      <p>Huruvida sökningen ska börja om högst upp/längst ner i fönstret om det inte finns någon matchning från startpositionen i sökriktningen.</p>
+      <p>Standardvärde för <gui>Börja om</gui>: ikryssad</p>
+    </item>
+  </list>
+  <p>Då du har gjort en sökning kan du snabbt söka nästa eller föregående matchning utan att behöva återvända till Orcas Sök-dialogruta.</p>
+  <p>Eftersom det är en <link xref="howto_flat_review">platt granskning</link>-funktion så kommer platt granskning automatiskt aktiveras då det finns en matchning, och det matchande objektet eller texten kommer att bli det aktuella granskningsobjektet. Notera att fokus i programmet inte kommer att ändras, och markören kommer inte heller flyttas. Om du behöver åstadkomma endera av dessa, se <link xref="commands_mouse">Orcas mus/pekar-relaterade kommandon</link>.</p>
+</page>

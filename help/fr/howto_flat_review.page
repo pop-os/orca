@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_flat_review" xml:lang="fr">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_orca_find"/>
+    <title type="sort">2. Examen global</title>
+    <desc>Examiner une fenêtre de manière « spatiale »</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Laurent Coudeur</mal:name>
+      <mal:email>laurentc@iol.ie</mal:email>
+      <mal:years>2011</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Bruno Brouard</mal:name>
+      <mal:email>annoa.b@gmail.com</mal:email>
+      <mal:years>2011-12</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Julien Hardelin</mal:name>
+      <mal:email>jhardlin@orange.fr</mal:email>
+      <mal:years>2011, 2013, 2015</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Mickael Albertus</mal:name>
+      <mal:email>mickael.albertus@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Claude Paroz</mal:name>
+      <mal:email>claude@2xlibre.net</mal:email>
+      <mal:years>2016</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Examen global</title>
+  <p>La fonction « Examen global » d’<app>Orca</app> permet d’examiner de manière « spatiale » à la fois le contenu du texte et les éléments graphiques de la fenêtre active. Dans ce mode, <app>Orca</app> traite la fenêtre comme s’il s’agissait d’une feuille de texte bidimensionnelle, éliminant ainsi toute notion de hiérarchie d’élément graphique ou de groupement logique dans la fenêtre.</p>
+  <p>Le contenu « globalisé », dénommé aussi contexte d’examen global, peut être <link xref="commands_flat_review">parcouru</link> par ligne, par mot, par caractère et par objet. De plus, vous pouvez effectuer un clic gauche ou droit sur l’objet qui est lu. Enfin, vous pouvez utiliser la <link xref="howto_orca_find">Recherche d’Orca</link>, une fonction de type examen global pour faire des recherches dans le contenu de la fenêtre actuelle.</p>
+  <p>Comme l’examen global est une représentation spatiale du contenu de la fenêtre active, elle est créée lorsque vous activez l’examen global et ne contient que les éléments visibles. Vous ne pouvez donc pas utiliser l’examen global pour accéder aux éléments qui sont dans la fenêtre mais n’apparaissent pas à l’écran. De même, si le contenu de la fenêtre change de soi-même, le contexte de l’examen global n’est pas mis à jour automatiquement. Pour reconstruire un nouveau contexte, désactivez et réactivez l’examen global.</p>
+  <p>Finalement, l’examen global est un mode qui, par nature, ne peut pas être utilisé en même temps que le suivi de focus d’<app>Orca</app>. Donc, si vous êtes en examen global et que vous utilisez une commande de navigation de l’application pour déplacer le curseur ou pour donner le focus à un autre élément, vous quittez automatiquement l’examen global.</p>
+</page>
