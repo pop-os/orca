@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#getting_started"/>
     <link type="next" xref="howto_keyboard_layout"/>
-    <title type="sort">5. Modo de "Aprendizagem"</title>
+    <title type="sort">5. Learn Mode</title>
     <desc>Descobrindo os comandos do <app>Orca</app></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -31,7 +31,7 @@
       <mal:years>2013.</mal:years>
     </mal:credit>
   </info>
-  <title>Modo de "Aprendizagem"</title>
+  <title>Learn Mode</title>
   <p>No modo de aprendizado, o <app>Orca</app> anunciará cada tecla pressionada juntamente com o comando do <app>Orca</app> associado àquela tecla. Neste modo, você também pode obter uma lista de teclas de atalho contendo todos os comandos do <app>Orca</app> que você pode usar.</p>
   <steps>
     <title>Usando o modo de aprendizado</title>

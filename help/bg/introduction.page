@@ -33,7 +33,11 @@
     <p>За да стартирате <app>Orca</app>:</p>
     <list>
       <item>
-        <p>Начините за настройване на <app>Orca</app>, да се стартира автоматично като предпочитан екранен четец, зависят от графичната среда, която използвате. Например, в GNOME 3.x тази възможност може да бъде открита в панела на контролния център Универсален достъп на страницата <gui>Зрение</gui>.</p>
+        <p>
+          The method for configuring <app>Orca</app> to be launched
+          automatically as your preferred screen reader will depend upon
+          which desktop environment you use.
+        </p>
       </item>
       <item>
         <p>За да включите и изключите <app>Orca</app> в GNOME, натиснете <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>

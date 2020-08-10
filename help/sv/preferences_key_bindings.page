@@ -24,7 +24,10 @@
   <title>Inställningar för tangentbindningar</title>
   <section id="orca_modifier_keys">
     <title>Orca-modifierartangenter</title>
-    <p>Kombinationsrutan <gui>Modifierartangenter för skärmläsare</gui> låter dig välja vilken tangent eller vilka tangenter som kommer att tjäna som Orca-modifieraren. De tillgängliga alternativen är:</p>
+    <p>
+      The <gui>Screen Reader Modifier Key(s)</gui> combo box allows you to select which
+      key or keys will serve as the Orca Modifier. The available options are:
+    </p>
     <list>
       <item>
         <p><gui>KP_Insert</gui> (samma tangent som <key>0</key> på det numeriska tangentbordet)</p></item>
@@ -38,13 +41,20 @@
     <p>Tangentbindningstabellen tillhandahåller en lista över <app>Orca</app>-åtgärder och tangenterna som är bundna till dem.</p>
     <list>
       <item>
-        <p>Kolumnen <gui>Funktion</gui> innehåller en beskrivning av <app>Orca</app>-kommandot som ska utföras.</p>
+        <p>
+          The <gui>Command</gui> column contains a description of the
+          <app>Orca</app> command to be performed.
+        </p>
       </item>
       <item>
         <p>Kolumnen <gui>Tangentbindning</gui> innehåller tangentbordsgenvägen som nu är tilldelad till <app>Orca</app>-kommandot. Du kan ändra värdet i denna kolumn genom att trycka <key>Retur</key>, trycka på tangenterna för den nya bindningen och sedan trycka <key>Retur</key> igen.</p>
       </item>
       <item>
-        <p>Kolumnen <gui>Ändrad</gui> tjänar både som en indikator på vad som ändrats och som ett sätt att återställa standardbindningarna associerade med den funktionen.</p>
+        <p>
+          The <gui>Modified</gui> column serves both as an indicator to what
+          has been changed and as a way to restore the default bindings
+          associated with that command.
+        </p>
       </item>
     </list>
     <p>Under listan med <app>Orca</app>-tangentbindningar kommer du hitta en lista med ”obundna” kommandon. Detta är kommandon som vi känner kommer vara mycket användbara för vissa användare, men inte behövs av de flesta användarna. Snarare än att ”använda upp” en tangenttryckning för sådana kommandon så har vi lämnat dem otilldelade som standard. I slutet av listan är punktskriftsbindningarna, för användning med en uppdateringsbar punktskriftsskärm.</p>

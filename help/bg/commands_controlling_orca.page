@@ -53,10 +53,16 @@
     <p>В режим на обучение, <app>Orca</app> ще ви съобщава всяка клавишна комбинация която натиснете, заедно с всяка асоциирана с нея команда на <app>Orca</app>. В този режим можете също да получите списък с клавиши за всички команди на <app>Orca</app>, които можете да използвате.</p>
     <list>
       <item>
-        <p>Влизане в режим на обучение: <keyseq><key>Модификатор на Orca</key><key>H</key></keyseq></p>
+        <p>
+          Enter Learn Mode:
+          <keyseq><key>Orca Modifier</key><key>H</key></keyseq>
+        </p>
       </item>
       <item>
-        <p>Излизане от режим на обучение: <keyseq><key>Esc</key></keyseq></p>
+        <p>
+          Exit Learn Mode:
+          <keyseq><key>Esc</key></keyseq>
+        </p>
       </item>
     </list>
   </section>

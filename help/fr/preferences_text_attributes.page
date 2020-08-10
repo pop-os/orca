@@ -12,7 +12,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -44,6 +44,12 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
   <title>Préférence des attributs de texte</title>
   <p>Le terme « attributs de texte » se rapporte à la police, au style, à l’alignement et aux autres types de mise en forme associés à un caractère ou à une série de caractères. L’onglet <gui>Attributs de texte</gui> d’<app>Orca</app> vous permet de personnaliser les attributs de texte lus par <app>Orca</app>, ainsi que l’ordre de la lecture, et ceux qui sont indiqués en braille.</p>
@@ -68,20 +74,36 @@
   </section>
   <section id="reset">
      <title>Annulation des modifications</title>
-     <p>Sous la liste des attributs de texte, il y a un bouton Réinitialiser (<keyseq><key>Alt</key><key>R</key></keyseq>) qui restaure les valeurs du tableau à celles qui étaient en place à l’ouverture de la boîte de dialogue.</p>
+     <p>
+       Beneath the list of text attributes, there is a <gui>Reset</gui> button
+       (<keyseq><key>Alt</key><key>R</key></keyseq>) which will restore
+       the values of the table to what they were when the dialog was
+       first displayed.
+    </p>
   </section>
   <section id="rearranging">
      <title>Changement de l’ordre de lecture</title>
-     <p>Quand vous affichez l’onglet des attributs de texte la première fois, tous les attributs activés sont placés en haut du tableau dans l’ordre de la lecture. Quatre boutons peuvent être utilisés pour modifier l’ordre de lecture.</p>
+     <p>
+        When you initially display the <gui>Text Attributes</gui> page, all of your enabled
+        attributes are placed at the top of the table in the order in which they
+        will be spoken. There are four buttons which can be used to rearrange
+        the order of presentation.
+    </p>
     <list>
       <item>
         <p><gui>Déplacer tout en haut</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>) : déplace l’attribut sélectionné en tête de liste.</p>
       </item>
       <item>
-        <p><gui>Déplacer vers le haut</gui> (<keyseq><key>Alt</key><key>H</key></keyseq>) : monte l’attribut sélectionné d’une ligne.</p>
+        <p>
+          <gui>Move up</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>):
+          moves the selected attribute up one row.
+        </p>
       </item>
       <item>
-        <p><gui>Déplacer vers le bas</gui> (<keyseq><key>Alt</key><key>B</key></keyseq>) : descend l’attribut sélectionné d’une ligne.</p>
+        <p>
+          <gui>Move down</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>):
+          moves the selected attribute down one row.
+        </p>
       </item>
       <item>
         <p><gui>Déplacer tout en bas</gui> (<keyseq><key>Alt</key><key>S</key></keyseq>) : déplace l’attribut sélectionné en bas de la liste.</p>

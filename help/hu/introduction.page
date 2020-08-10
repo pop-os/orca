@@ -27,7 +27,11 @@
     <p>Az <app>Orka</app> elindításához tegye a következőket:</p>
     <list>
       <item>
-        <p>Az <app>Orka</app> automatikus elindulását attól függően más és más módon állíthatja be, hogy milyen asztali környezetet használ. GNOME 3.x asztali környezet esetén például ezt a beállítást a <app>Rendszerbeállítások</app> Akadálymentesítés panelének <app>Látás</app> lapján találja meg.</p>
+        <p>
+          The method for configuring <app>Orca</app> to be launched
+          automatically as your preferred screen reader will depend upon
+          which desktop environment you use.
+        </p>
       </item>
       <item>
         <p>Ha a GNOME asztali környezet használata közben szeretné be- vagy kikapcsolni az <app>Orka</app> képernyőolvasót, nyomja le a <keyseq><key>STARTGOMB</key><key>ALT</key><key>S</key></keyseq> billentyűkombinációt.</p>

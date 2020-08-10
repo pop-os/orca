@@ -32,7 +32,15 @@
   <title>Команди за четене</title>
   <p>В допълнение към командите за придвижване с курсора, които са част от GNOME, <app>Orca</app> предоставя някои команди, които можете да използвате, за да прочетете документ.</p>
   <note style="tip">
-    <p>В следващия списък ще видите няколко препратки към „цифровия блок“. Всички клавиши от цифровия блок обикновено са отделени в дясната част на клавиатурата. Ще забележите също, че има различни клавишни комбинации, в зависимост от това дали използвате настолен компютър или лаптоп — или по-точно, дали използвате подредбата на <app>Orca</app> за настолни компютри или подредбата за лаптопи. За повече информация, вижте секцията <link xref="howto_keyboard_layout">Клавиатурни подредби</link>.</p>
+    <p>
+      Below you will see several references to "KP". All
+      "KP" keys are located on the numeric keypad. You will also notice that
+      there are different keystrokes depending upon whether you are using a
+      desktop or a laptop -- or more accurately, whether you are using
+      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
+      For additional information, please see the
+      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
+    </p>
   </note>
   <section id="flat_review">
     <title>Прочитане на текущото местоположение</title>
@@ -144,7 +152,7 @@
         <p>Прочитане на атрибутите на текста: <keyseq><key>Модификатор на Orca</key><key>F</key></keyseq></p>
       </item>
       <item>
-        <p>Изпълнение на основната операция „Къде съм?“:</p>
+        <p>Perform basic Where Am I:</p>
         <list>
           <item>
             <p>Настолни компютри: <key>Enter от цифровия блок</key></p>
@@ -155,7 +163,7 @@
         </list>
     </item>
     <item>
-      <p>Изпълнение на разширената операция „Къде съм?“:</p>
+      <p>Perform detailed Where Am I:</p>
       <list>
         <item>
           <p>Настолни компютри: <key>Enter от цифровия блок</key> (двукратно)</p>
@@ -175,7 +183,14 @@
   </section>
   <section id="link_details">
     <title>Информация за връзката</title>
-    <p>Ако сте върху връзка, основната операция „Къде съм?“ на <app>Orca</app> прочита вида ѝ, дали е посетена, описание на сайта и размер на сайта. Ако искате специална команда за това, трябва да присвоите клавишна комбинация на командата „Информация за връзката“. Вижте секцията <link xref="howto_key_bindings">Промяна на функциите на клавишите</link> за повече информация как да присвоите неприсвоени команди.</p>
+    <p>
+      If you are on a link, <app>Orca</app>'s Basic Where Am I command can be
+      used to announce the details associated with the link such as the link type,
+      if the link is visited, the site description, and file size. If you would
+      instead prefer dedicated command for this purpose, you can bind <app>Orca</app>'s
+      Speaks Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
+      Modifying Keybindings</link> for information on how to do so.
+    </p>
     <list>
       <item>
         <p>Прочитане на информация за връзката: (неприсвоена)</p>
@@ -190,11 +205,14 @@
         <p>Превключване между режимите на четене и взаимодействие: <keyseq><key>Модификатор на Orca</key><key>A</key></keyseq></p>
       </item>
       <item>
-        <p>Използване на „лепкав“ режим на фокуса: <keyseq><key>Модификатор на Orca</key><key>A</key></keyseq> (двукратно)</p>
+        <p>
+          Enable sticky focus mode:
+          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (double-clicked)
+        </p>
       </item>
       <item>
         <p>
-          Enable "sticky" browse mode:
+          Enable sticky browse mode:
           <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (triple-clicked)
         </p>
       </item>

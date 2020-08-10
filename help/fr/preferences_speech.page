@@ -11,7 +11,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -43,11 +43,17 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
-  <title>Préférence de la synthèse vocale</title>
+  <title>Préférences de la synthèse vocale</title>
   <section id="enable_speech">
     <title>Activer la synthèse vocale</title>
-    <p>La case à cocher <gui>Activer la synthèse vocale</gui> contrôle si <app>Orca</app> utilise la synthèse vocale. Les utilisateurs qui utilisent uniquement le braille préfèreront sûrement décocher cette case.</p>
+    <p>La case à cocher <gui>Activer la synthèse vocale</gui> contrôle si <app>Orca</app> utilise la synthèse vocale. Les utilisateurs qui utilisent uniquement le braille préféreront sûrement décocher cette case.</p>
     <p>Valeur par défaut : cochée</p>
   </section>
   <section id="verbosity">
@@ -57,27 +63,27 @@
   </section>
   <section id="punctuation_level">
     <title>Niveau de ponctuation</title>
-    <p>Le groupement de boutons radio <gui>Niveau de ponctuation</gui> permet d’ajuster le taux de ponctuation lu par le synthétiseur. Les niveaux disponibles sont <gui>Aucun</gui>, <gui>Quelques-uns</gui>, <gui>La plupart</gui> et <gui>Tous</gui>.</p>
+    <p>Le groupement de boutons radio <gui>Niveau de ponctuation</gui> permet d’ajuster le taux de ponctuation lu par le synthétiseur. Les niveaux disponibles sont <gui>Aucun</gui>, <gui>Quelques</gui>, <gui>La plupart</gui> et <gui>Tout</gui>.</p>
     <p>Valeur par défaut : <gui>La plupart</gui></p>
     <section id="punctuation_level_none">
       <title>Aucun</title>
       <p>Le choix du niveau de ponctuation <gui>Aucun</gui> va, comme vous l’attendez, faire en sorte que la ponctuation ne soit pas lue. Notez que les symboles spéciaux tels que les chiffres en indice ou en exposant, les fractions Unicode et les puces sont toujours lus à ce niveau, même si certains les considèrent comme des signes de ponctuation.</p>
     </section>
     <section id="punctuation_level_some">
-      <title>Quelques-uns</title>
-      <p>Le choix du niveau de ponctuation <gui>Quelques-uns</gui> va faire en sorte que les symboles nommés précédemment soit prononcés. <app>Orca</app> prononce de plus certains symboles mathématiques, symboles monétaires et « ^ », « @ », « / », « &amp; », « # ».</p>
+      <title>Quelques</title>
+      <p>Le choix du niveau de ponctuation <gui>Quelques</gui> va faire en sorte que les symboles nommés précédemment soit prononcés. <app>Orca</app> prononce de plus certains symboles mathématiques, symboles monétaires et « ^ », « @ », « / », « &amp; », « # ».</p>
     </section>
     <section id="punctuation_level_most">
       <title>La plupart</title>
       <p>Le choix du niveau de ponctuation <gui>La plupart</gui> va faire en sorte que les symboles nommés précédemment soit prononcés. <app>Orca</app> prononce de plus tous les autres signes de ponctuation connus <em>autre que</em> « ! », « ' », « , », « . », « ? ».</p>
     </section>
     <section id="punctuation_level_all">
-      <title>Tous</title>
-      <p>Le choix du niveau de punctuation <gui>Tous</gui> va, comme vous l’attendez, faire en sorte que <app>Orca</app> prononce tous les signes de ponctuation.</p>
+      <title>Tout</title>
+      <p>Le choix du niveau de ponctuation <gui>Tout</gui> va, comme vous l’attendez, faire en sorte que <app>Orca</app> prononce tous les signes de ponctuation.</p>
     </section>
   </section>
   <section id="spoken_context">
-    <title>Contexte de lecture à haute voix</title>
+    <title>Contexte parlé</title>
     <p>Les éléments suivants contrôlent la présentation d’un grand nombre d’informations « système » supplémentaires à propos de l’élément qui possède le focus. Comme le texte associé n’apparaît pas à l’écran, celle-ci est lue par le système vocal d’<app>Orca</app>.</p>
     <section id="only_speak_displayed_text">
       <title>Ne lire que le texte affiché</title>
@@ -108,23 +114,23 @@
       <p>Valeur par défaut : non cochée</p>
     </section>
     <section id="child_position">
-      <title>Lire la position fille</title>
-      <p>Lorsque la case <gui>Lire la positon fille</gui> est cochée, <app>Orca</app> lit la position de l’objet qui possède le focus dans les menus, les listes et les arborescences (par exemple « neuf sur seize »).</p>
+      <title>Lire le rang d’un élément dans une liste</title>
+      <p>Lorsque la case <gui>Lire le rang d’un élément dans une liste</gui> est cochée, <app>Orca</app> lit la position de l’objet qui possède le focus dans les menus, les listes et les arborescences (par exemple « neuf sur seize »).</p>
       <p>Valeur par défaut : non cochée</p>
     </section>
     <section id="speak_tutorial_messages">
       <title>Lire les messages du tutoriel</title>
-      <p>Si la case <gui>Lire les messages du tutoriel</gui> est cochée, quand vous vous déplacez parmi les objets de l’interface <app>Orca</app> fournit des informations supplémentaires, comme par exemple comment utiliser l’objet qui possède actuellement le focus.</p>
+      <p>Si la case <gui>Lire les messages du tutoriel</gui> est cochée, quand vous vous déplacez parmi les objets de l’interface, <app>Orca</app> fournit des informations supplémentaires, comme par exemple comment utiliser l’objet qui possède actuellement le focus.</p>
       <p>Valeur par défaut : non cochée</p>
     </section>
     <section id="speak_description">
       <title>Lire la description</title>
-      <p>Si la case <gui>Lire la description</gui> est cochée, quand vous vous déplacez parmi les objets de l’interface, <app>Orca</app> lira la description accessible en plus du nom accessible de l’objet.</p>
+      <p>Si la case <gui>Lire la description</gui> est cochée, quand vous vous déplacez parmi les objets de l’interface, <app>Orca</app> lit la description accessible en plus du nom accessible de l’objet.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="system_messages_are_detailed">
       <title>Les messages systèmes sont détaillés</title>
-      <p>Si la case <gui>Les messages systèmes sont détaillés</gui> est cochée, <app>Orca</app> annoncera des messages détaillés en synthèse vocale. Par exemple, si vous utilisez la commande d’<app>Orca</app> pour changer l’écho des touches, <app>Orca</app> pourrait annoncer « écho des touches définit par mot ». Si vous préférez des messages plus courts, tels que simplement « mot », vous devriez décocher cette case.</p>
+      <p>Si la case <gui>Les messages systèmes sont détaillés</gui> est cochée, <app>Orca</app> annonce des messages détaillés en synthèse vocale. Par exemple, si vous utilisez la commande d’<app>Orca</app> pour changer l’écho des touches, <app>Orca</app> pourrait annoncer « écho des touches définit par mot ». Si vous préférez des messages plus courts, tels que simplement « mot », vous devriez décocher cette case.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="speak_colors_as_names">
@@ -134,32 +140,32 @@
     </section>
     <section id="announce_blockquotes_during_navigation">
       <title>Annoncer les blocs de citation durant la navigation</title>
-      <p>Si la case <gui>Annoncer les blocs de citation durant la navigation</gui> est cochée, <app>Orca</app> vous dit losrque vous naviguez et entrez ou sortez d’un bloc de citation. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
+      <p>Si la case <gui>Annoncer les blocs de citation durant la navigation</gui> est cochée, <app>Orca</app> vous informe lorsque vous naviguez et entrez ou sortez d’un bloc de citation. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="announce_forms_during_navigation">
       <title>Annoncer les formulaires durant la navigation</title>
-      <p>Si la case <gui>Annoncer les formulaires durant la navigation</gui> est cochée, <app>Orca</app> vous dit lorsque vous naviguez et entrez ou sortez d’un formulaire. Notez que ce réglage est spécifique aux formulaires qui ne sont pas des points de repère ARIA. Vous pouvez configurer la présentation des points de repère ARIA au moyen de la case à cocher <gui>Annoncer les points de repère durant la navigation</gui>. De plus, ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context"> Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
+      <p>Si la case <gui>Annoncer les formulaires durant la navigation</gui> est cochée, <app>Orca</app> vous informe lorsque vous naviguez et entrez ou sortez d’un formulaire. Notez que ce réglage est spécifique aux formulaires qui ne sont pas des points de repère ARIA. Vous pouvez configurer la présentation des points de repère ARIA au moyen de la case à cocher <gui>Annoncer les points de repère durant la navigation</gui>. De plus, ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context"> Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="announce_landmarks_during_navigation">
       <title>Annoncer les points de repère durant la navigation</title>
-      <p>Si la case <gui>Annoncer les points de repère durant la navigation</gui> est cochée, <app>Orca</app> vous dit lorsque vous naviguez et entrez ou sortez d’un point de repère ARIA. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
+      <p>Si la case <gui>Annoncer les points de repère durant la navigation</gui> est cochée, <app>Orca</app> vous informe lorsque vous naviguez et entrez ou sortez d’un point de repère ARIA. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="announce_lists_during_navigation">
       <title>Annoncer les listes durant la navigation</title>
-      <p>Si la case <gui>Annoncer les listes durant la navigation</gui> est cochée, <app>Orca</app> vous dit lorsque vous naviguez et entrez ou sortez d’une liste. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
+      <p>Si la case <gui>Annoncer les listes durant la navigation</gui> est cochée, <app>Orca</app> vous informe lorsque vous naviguez et entrez ou sortez d’une liste. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="announce_panels_during_navigation">
       <title>Annoncer les panneaux durant la navigation</title>
-      <p>Si la case <gui>Annoncer les panneaux durant la navigation</gui> est cochée, <app>Orca</app> vous dit lorsque vous naviguez et entrez ou sortez d’un panneau. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
+      <p>Si la case <gui>Annoncer les panneaux durant la navigation</gui> est cochée, <app>Orca</app> vous informe lorsque vous naviguez et entrez ou sortez d’un panneau. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="announce_tables_during_navigation">
       <title>Annoncer les tableaux durant la navigation</title>
-      <p>Si la case <gui>Annoncer les tableaux durant la navigation</gui> est cochée, <app>Orca</app> vous dit lorsque vous naviguez et entrez ou sortez d’un tableau. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
+      <p>Si la case <gui>Annoncer les tableaux durant la navigation</gui> est cochée, <app>Orca</app> vous informe lorsque vous naviguez et entrez ou sortez d’un tableau. Notez que ce réglage ne dépend pas du fait que l’annonce a lieu en mode tout lire. Voir <link xref="preferences_general#say_all_announce_context">Annonce des informations contextuelles en mode tout lire</link> pour plus d’informations.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="speak_full_row_in_gui_tables">

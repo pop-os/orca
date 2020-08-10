@@ -83,8 +83,13 @@
       <p>Alapbeállítás: nincs bejelölve</p>
     </section>
     <section id="flashMessageSettings_duration">
-      <title>Üzenet megjelenítés időtartama másodpercben</title>
-      <p>Az <gui>Üzenet megjelenítés időtartama másodpercben</gui> léptetőgomb segítségével szabályozhatja azt az időtartamot, ameddig az <app>Orka</app> megjeleníti a Braille-kijelzőn a frissülő üzenetet, ezután az eredeti tartalom visszaállításra kerül. Megjegyzés: ez a beállítás figyelmen kívül lesz hagyva, ha be van jelölve az <gui>Üzenetek megtartása</gui> jelölőnégyzet.</p>
+      <title>Duration (secs)</title>
+      <p>
+        The amount of time <app>Orca</app> will wait before removing the message and
+        restoring the original contents of your display can be set in the <gui>
+        Duration (secs)</gui> spin button. Note that the value of this
+        setting will be ignored if you have enabled persistent flash messages.
+      </p>
       <p>Alapértelmezett érték: 5 másodperc</p>
     </section>
   </section>

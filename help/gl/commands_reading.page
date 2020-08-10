@@ -27,7 +27,7 @@
   </p>
   <note style="tip">
     <p>
-      In the lists that follow, you will see several references to "KP". All
+      Below you will see several references to "KP". All
       "KP" keys are located on the numeric keypad. You will also notice that
       there are different keystrokes depending upon whether you are using a
       desktop or a laptop -- or more accurately, whether you are using
@@ -189,7 +189,7 @@
         </p>
       </item>
       <item>
-        <p>Perform basic where am I:</p>
+        <p>Perform basic Where Am I:</p>
         <list>
           <item>
             <p>
@@ -204,7 +204,7 @@
         </list>
     </item>
     <item>
-      <p>Perform detailed where am I:</p>
+      <p>Perform detailed Where Am I:</p>
       <list>
         <item>
           <p>
@@ -234,7 +234,7 @@
       used to announce the details associated with the link such as the link type,
       if the link is visited, the site description, and file size. If you would
       instead prefer dedicated command for this purpose, you can bind <app>Orca</app>'s
-      Speak Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
+      Speaks Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
       Modifying Keybindings</link> for information on how to do so.
     </p>
     <list>
@@ -258,13 +258,13 @@
       </item>
       <item>
         <p>
-          Enable "sticky" focus mode:
+          Enable sticky focus mode:
           <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (double-clicked)
         </p>
       </item>
       <item>
         <p>
-          Enable "sticky" browse mode:
+          Enable sticky browse mode:
           <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (triple-clicked)
         </p>
       </item>

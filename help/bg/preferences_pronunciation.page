@@ -33,7 +33,9 @@
   <steps>
     <title>Добавяне на нов запис в речника</title>
     <item>
-      <p>Натиснете бутона „Нов запис“ (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
+      <p>
+        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
+      </p>
     </item>
     <item>
       <p>Въведете текста на новия запис и натиснете <key>Return</key>, за да потвърдите.</p>
@@ -60,7 +62,9 @@
       <p>Придвижете се до записа, който искате да изтриете.</p>
     </item>
     <item>
-      <p>Натиснете бутона „Изтриване“ или <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
+      <p>
+        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
+      </p>
     </item>
   </steps>
 </page>

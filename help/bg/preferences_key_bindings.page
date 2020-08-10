@@ -30,7 +30,10 @@
   <title>Настройка на функциите на клавишите</title>
   <section id="orca_modifier_keys">
     <title>Модификатори на Orca</title>
-    <p>Падащият списък <gui>Модификаторни клавиши на екранния четец</gui> ви позволява да определите кои клавиши ще изпълняват ролята на модификатори на Orca. Наличните възможности са:</p>
+    <p>
+      The <gui>Screen Reader Modifier Key(s)</gui> combo box allows you to select which
+      key or keys will serve as the Orca Modifier. The available options are:
+    </p>
     <list>
       <item>
         <p><gui>Insert от цифровия блок</gui> (същият клавиш като <key>0 от цифровия блок</key>)</p></item>
@@ -44,13 +47,20 @@
     <p>Таблицата с функции на клавишите предоставя списък с команди на <app>Orca</app> и клавишите, които са асоциирани с тях.</p>
     <list>
       <item>
-        <p>Колоната <gui>Функция</gui> съдържа описание на командата на <app>Orca</app>, която ще бъде изпълнена.</p>
+        <p>
+          The <gui>Command</gui> column contains a description of the
+          <app>Orca</app> command to be performed.
+        </p>
       </item>
       <item>
         <p>Колоната <gui>Присвоени клавиши</gui> съдържа текущата клавишна комбинация присвоена на тази команда на <app>Orca</app>. Можете да променяте стойността на тази колона като натиснете <key>Return</key>, натиснете клавишите за новото назначение, и натиснете отново <key>Return</key>.</p>
       </item>
       <item>
-        <p>Колоната <gui>Променена</gui> служи както като индикатор какво е било променено, така и като начин да се възстановят присвоените клавиши по подразбиране за тази функция.</p>
+        <p>
+          The <gui>Modified</gui> column serves both as an indicator to what
+          has been changed and as a way to restore the default bindings
+          associated with that command.
+        </p>
       </item>
     </list>
     <p>В списъка с функции на клавишите на <app>Orca</app>, ще намерите група с „неприсвоени“ команди. Това са команди, които смятаме че може да са много полезни за някои потребители, но не са нужни на повечето от тях. Вместо да „заемаме“ клавишни комбинации за подобни команди, ние ги оставихме неприсвоени по подразбиране. На края на списъка са клавишните назначения за брайл, за използване с брайлов дисплей.</p>

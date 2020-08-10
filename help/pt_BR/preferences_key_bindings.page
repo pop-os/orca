@@ -37,7 +37,7 @@
   <section id="orca_modifier_keys">
     <title>Teclas modificadoras do orca</title>
     <p>
-      The <gui>Screen Reader Modifier Keys</gui> combo box allows you to select which
+      The <gui>Screen Reader Modifier Key(s)</gui> combo box allows you to select which
       key or keys will serve as the Orca Modifier. The available options are:
     </p>
     <list>
@@ -54,7 +54,7 @@
     <list>
       <item>
         <p>
-          The <gui>Function</gui> column contains a description of the
+          The <gui>Command</gui> column contains a description of the
           <app>Orca</app> command to be performed.
         </p>
       </item>
@@ -67,7 +67,11 @@
         </p>
       </item>
       <item>
-        <p>A coluna <gui>Modificada</gui> serve para indicar que houve mudança e também para restaurar o atalho padrão associado à função.</p>
+        <p>
+          The <gui>Modified</gui> column serves both as an indicator to what
+          has been changed and as a way to restore the default bindings
+          associated with that command.
+        </p>
       </item>
     </list>
     <p>Abaixo da lista de teclas de atalho do <app>Orca</app>, você localizará um grupo de comandos "Sem atalho". Estes são comandos que, em nossa opinião, serão de grande utilidade para alguns usuários, mas não necessários para a maioria. Ao invés de atribuir uma tecla de atalho para tais comandos, nós preferimos deixá-los sem teclas de atalho por padrão. No final da lista existem os atalhos de braille, para usar com monitores braille atualizáveis.</p>

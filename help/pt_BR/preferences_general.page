@@ -38,7 +38,12 @@
       <desc>Opção da caixa de diálogo Preferências para selecionar qual disposição de teclado será usada pelo <app>Orca</app>, computador de mesa ou notebook.</desc>
     </info>
     <title>Disposição de teclado</title>
-    <p>O grupo de botões de opção <gui>disposição do teclado</gui> permite que você especifique se você estará trabalhando em um computador de mesa (isto é com um teclado numérico) ou um teclado de notebook. A disposição que você escolher irá determinar tanto a <key>Tecla Modificadora do Orca</key> bem como uma série de atalhos de teclado para executar comandos do <app>Orca</app>.</p>
+    <p>
+      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
+      you will be working on a desktop (i.e. with a numeric keypad) or laptop
+      keyboard. Which layout you choose will determine both the <key>Orca
+      Modifier</key> as well as a number of keyboard shortcuts for performing
+      <app>Orca</app> commands.</p>
     <p>Valor Padrão: <gui>Desktop</gui></p>
   </section>
   <section id="presenttooltips">
@@ -192,7 +197,7 @@
       <p>Valor padrão: 10</p>
     </section>
     <section id="progress_bar_updates_restrict">
-      <title>Restrito a</title>
+      <title>Applies to</title>
       <p>Esta caixa de combinação permite-lhe controlar qual a barra de progresso que deve ser apresentada, assumindo que as atualizações de barras de progresso tenham sido ativadas. As opções são <gui>todas</gui>, <gui>Aplicativo</gui>, e <gui>Janela</gui>.</p>
       <p>Selecionando <gui>Todas</gui> fará que o <app>Orca</app> apresente atualizações para todas as barras de progresso, independentemente de onde estas estejam localizadas.</p>
       <p>Selecionando <gui>Aplicativo</gui> fará que o <app>Orca</app> apresente somente as atualizações do aplicativo atual, ainda que estas não estejam na janela ativa.</p>

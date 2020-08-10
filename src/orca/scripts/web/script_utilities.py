@@ -970,6 +970,9 @@ class Utilities(script_utilities.Utilities):
         if not (obj and self.inDocumentContent(obj)) or self._script.browseModeIsSticky():
             return super().queryNonEmptyText(obj)
 
+        if self.isDead(obj):
+            return None
+
         if hash(obj) in self._text:
             return self._text.get(hash(obj))
 
@@ -2640,7 +2643,7 @@ class Utilities(script_utilities.Utilities):
     def filterContentsForPresentation(self, contents, inferLabels=False):
         def _include(x):
             obj, start, end, string = x
-            if not obj:
+            if not obj or self.isDead(obj):
                 return False
 
             rv = self._shouldFilter.get(hash(obj))
@@ -3076,22 +3079,16 @@ class Utilities(script_utilities.Utilities):
             return rv
 
         rv = False
-        isLabelFor = lambda x: x.getRelationType() == pyatspi.RELATION_LABEL_FOR
-        try:
-            relationSet = obj.getRelationSet()
-        except:
-            pass
-        else:
-            relations = list(filter(isLabelFor, relationSet))
-            if relations:
-                try:
-                    text = obj.queryText()
-                    end = text.characterCount
-                except:
-                    end = 1
-                x, y, width, height = self.getExtents(obj, 0, end)
-                if x < 0 or y < 0:
-                    rv = True
+        targets = self.labelTargets(obj)
+        if targets:
+            try:
+                text = obj.queryText()
+                end = text.characterCount
+            except:
+                end = 1
+            x, y, width, height = self.getExtents(obj, 0, end)
+            if x < 0 or y < 0:
+                rv = True
 
         self._isOffScreenLabel[hash(obj)] = rv
         return rv
@@ -3194,9 +3191,14 @@ class Utilities(script_utilities.Utilities):
             return []
 
         r = relations[0]
-        rv = [r.getTarget(i) for i in range(r.getNTargets())]
-        rv = [hash(x) for x in rv if x is not None]
+        rv = set([r.getTarget(i) for i in range(r.getNTargets())])
 
+        if obj in rv:
+            msg = 'WARNING: %s claims to be a label for itself' % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            rv.remove(obj)
+
+        rv = [hash(x) for x in rv if x is not None]
         self._labelTargets[hash(obj)] = rv
         return rv
 
@@ -3767,9 +3769,9 @@ class Utilities(script_utilities.Utilities):
         if obj.getRole() not in [pyatspi.ROLE_IMAGE, pyatspi.ROLE_CANVAS] \
            and self._getTag(obj) != 'svg':
             rv = False
-        if rv and (obj.name or obj.description):
+        if rv and (obj.name or obj.description or self.hasLongDesc(obj)):
             rv = False
-        if rv and (self.isClickableElement(obj) or self.hasLongDesc(obj)):
+        if rv and (self.isClickableElement(obj) and not self.hasExplicitName(obj)):
             rv = False
         if rv and obj.getState().contains(pyatspi.STATE_FOCUSABLE):
             rv = False
@@ -4992,12 +4994,6 @@ class Utilities(script_utilities.Utilities):
 
         self._statusBar = super().statusBar(obj)
         return self._statusBar
-
-    def getOnScreenObjects(self, root, extents=None):
-        if self._treatObjectAsWhole(root):
-            return [root]
-
-        return super().getOnScreenObjects(root, extents)
 
     def getPageObjectCount(self, obj):
         result = {'landmarks': 0,

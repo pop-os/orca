@@ -38,20 +38,36 @@
   </section>
   <section id="reset">
      <title>Vracení změn</title>
-     <p>Pod seznamem vlastností textu najdete tlačítko Obnovit (<keyseq><key>Alt</key><key>R</key></keyseq>), které obnoví v tabulce hodnoty do stavu, jako když bylo dialogové okno zobrazeno poprvé.</p>
+     <p>
+       Beneath the list of text attributes, there is a <gui>Reset</gui> button
+       (<keyseq><key>Alt</key><key>R</key></keyseq>) which will restore
+       the values of the table to what they were when the dialog was
+       first displayed.
+    </p>
   </section>
   <section id="rearranging">
      <title>Změna pořadí prezentování</title>
-     <p>Když poprvé zobrazíte stránku s vlastnostmi textu, jsou všechny povolené vlastnosti umístěné v horní části tabulky v pořadí, v jakém budou oznamovány. K dispozici máte čtyři tlačítka, která můžete použít ke změně pořadí prezentování.</p>
+     <p>
+        When you initially display the <gui>Text Attributes</gui> page, all of your enabled
+        attributes are placed at the top of the table in the order in which they
+        will be spoken. There are four buttons which can be used to rearrange
+        the order of presentation.
+    </p>
     <list>
       <item>
         <p><gui>Posunout úplně nahoru</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>): přesune vybrané vlastnosti na vrchol seznamu.</p>
       </item>
       <item>
-        <p><gui>Posunout o jedno výš</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>): přesune vybranou vlasnost o jeden řádek výš.</p>
+        <p>
+          <gui>Move up</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>):
+          moves the selected attribute up one row.
+        </p>
       </item>
       <item>
-        <p><gui>Posunout o jedno níž</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>): přesune vybrané vlastnosti o jeden řádek níž.</p>
+        <p>
+          <gui>Move down</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>):
+          moves the selected attribute down one row.
+        </p>
       </item>
       <item>
         <p><gui>Posunout úplně dolů</gui> (<keyseq><key>Alt</key><key>B</key></keyseq>): přesune vybrané vlastnosti dospod seznamu.</p>

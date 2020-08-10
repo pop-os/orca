@@ -40,7 +40,15 @@
   <title>Comandos de leitura</title>
   <p>Além dos comandos de navegação do cursor que fazem parte do GNOME, o <app>Orca</app> fornece uma série de comandos que você pode usar para ler documentos.</p>
   <note style="tip">
-    <p>Na lista a seguir você verá muitas referências a "NUM". Todas as teclas "NUM" estão localizadas no teclado numérico. Você também perceberá que existem diferentes combinações de teclas dependendo se você está usando um computador de mesa ou um notebook -- ou mais precisamente, se você está usando a disposição de teclado de computador de mesa, ou a disposição de teclado de notebook do <app>Orca</app>. Para mais informações, por favor veja o tópico <link xref="howto_keyboard_layout">Disposição de teclado</link>.</p>
+    <p>
+      Below you will see several references to "KP". All
+      "KP" keys are located on the numeric keypad. You will also notice that
+      there are different keystrokes depending upon whether you are using a
+      desktop or a laptop -- or more accurately, whether you are using
+      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
+      For additional information, please see the
+      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
+    </p>
   </note>
   <section id="flat_review">
     <title>Lendo sua localização atual</title>
@@ -152,7 +160,7 @@
         <p>Apresenta os atributos do texto: <keyseq><key>Tecla modificadora do Orca</key><key>F</key></keyseq></p>
       </item>
       <item>
-        <p>Executa o comando "onde estou" básico:</p>
+        <p>Perform basic Where Am I:</p>
         <list>
           <item>
             <p>Computador de mesa: <key>NUM Enter</key></p>
@@ -163,7 +171,7 @@
         </list>
     </item>
     <item>
-      <p>Executa o comando "onde estou" detalhado:</p>
+      <p>Perform detailed Where Am I:</p>
       <list>
         <item>
           <p>Computador de mesa: <key>NUM Enter</key> (pressionada duas vezes)</p>
@@ -188,7 +196,7 @@
       used to announce the details associated with the link such as the link type,
       if the link is visited, the site description, and file size. If you would
       instead prefer dedicated command for this purpose, you can bind <app>Orca</app>'s
-      Speak Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
+      Speaks Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
       Modifying Keybindings</link> for information on how to do so.
     </p>
     <list>
@@ -212,13 +220,13 @@
       </item>
       <item>
         <p>
-          Enable "sticky" focus mode:
+          Enable sticky focus mode:
           <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (double-clicked)
         </p>
       </item>
       <item>
         <p>
-          Enable "sticky" browse mode:
+          Enable sticky browse mode:
           <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (triple-clicked)
         </p>
       </item>

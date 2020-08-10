@@ -12,7 +12,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -44,6 +44,12 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
   <title>Commandes de recherche d’Orca</title>
   <p>La <link xref="howto_orca_find">fonction de recherche</link> de <app>Orca</app> vous permet de rechercher dans le contexte de l’<link xref="howto_flat_review">examen global</link>, les éléments situés dans la fenêtre actuelle.</p>
@@ -55,7 +61,7 @@
           <p>Ordinateur de bureau : <keyseq><key>PN Suppr</key></keyseq></p>
         </item>
         <item>
-          <p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Crochet gauche</key></keyseq></p>
+          <p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Crochet ouvrant</key></keyseq></p>
         </item>
       </list>
     </item>
@@ -66,7 +72,7 @@
           <p>Ordinateur de bureau : <keyseq><key>Touche de modification d’Orca</key><key>PN Suppr</key></keyseq></p>
         </item>
         <item>
-          <p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Crochet droite</key></keyseq></p>
+          <p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Crochet fermant</key></keyseq></p>
         </item>
       </list>
     </item>
@@ -77,7 +83,7 @@
           <p>Ordinateur de bureau : <keyseq><key>Touche de modification d’Orca</key><key>Maj</key><key>PN Suppr</key></keyseq></p>
         </item>
         <item>
-          <p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Ctrl</key><key>Crochet droite</key></keyseq></p>
+          <p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Ctrl</key><key>Crochet fermant</key></keyseq></p>
         </item>
       </list>
     </item>

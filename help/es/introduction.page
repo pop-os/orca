@@ -33,7 +33,11 @@
     <p>Para lanzar <app>Orca</app>:</p>
     <list>
       <item>
-        <p>El método para configurar <app>Orca</app> para que se lance como su lector de pantalla preferido dependerá de qué entorno de escritorio use. Por ejemplo, en GNOME 3.x esta opción se puede encontrar en el panel del Centro de control de Acceso universal, bajo la página <gui>Visión</gui>.</p>
+        <p>
+          The method for configuring <app>Orca</app> to be launched
+          automatically as your preferred screen reader will depend upon
+          which desktop environment you use.
+        </p>
       </item>
       <item>
         <p>Para activar y desactivar <app>Orca</app> en GNOME, pulse <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>

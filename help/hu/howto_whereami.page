@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#reviewing"/>
     <link type="next" xref="howto_flat_review"/>
-    <title type="sort">1. A hol vagyok művelet</title>
+    <title type="sort">1. Where Am I</title>
     <desc>Parancsok az aktuális objektum azonosításához</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -19,7 +19,7 @@
       <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
     </mal:credit>
   </info>
-  <title>A hol vagyok művelet</title>
+  <title>Where Am I</title>
   <p>A dedikált címsor és állapotsor felolvasó parancsokon kívül az <app>Orka</app> két helyzetérzékeny hol vagyok műveletet is nyújt: Az egyszerű hol vagyok műveletet, és a részletesebb hol vagyok műveletet. Az egyszerű hol vagyok művelet minden objektumhoz megvalósításra került. A részletesebb hol vagyok művelet olyan objektumokhoz lett megvalósítva, melyekhez jelentős mennyiségű fontos információ érhető el, de ezekről csak néha szeretne értesülni.</p>
   <p>A legjobb módszer a hol vagyok művelettel való ismerkedésre <link xref="commands_where_am_i">A hol vagyok művelet billentyűparancsainak</link> kipróbálása. Másrészt, talán jobban segíthetnek az <app>Orka</app> helyzetérzékeny hol vagyok szolgáltatásának megértésében az alábbi információk:</p>
   <p>A legtöbb felületi elemhez elérhetők az alábbi információk, melyeket hallani fog: felirat és/vagy név, a felületi elem típusa vagy szerepe, gyorsbillentyűje és/vagy hívóbetűje, ha létezik. Ebben az esetben a következő fog történni, ha valamelyik hol vagyok műveletet kezdeményezi:</p>

@@ -94,8 +94,13 @@
       <p>Стойност по подразбиране: без отметка</p>
     </section>
     <section id="flashMessageSettings_duration">
-      <title>Продължителност на съобщенията (сек.)</title>
-      <p>Времето, преди <app>Orca</app> да изтрие съобщението по брайл и да възстанови първоначалното състояние на дисплея, може да бъде зададено чрез въртеливия бутон <gui>Продължителност на съобщенията (сек.)</gui>. Настройката за <gui>Изрично скриване на съобщенията</gui> има предимство пред тази.</p>
+      <title>Duration (secs)</title>
+      <p>
+        The amount of time <app>Orca</app> will wait before removing the message and
+        restoring the original contents of your display can be set in the <gui>
+        Duration (secs)</gui> spin button. Note that the value of this
+        setting will be ignored if you have enabled persistent flash messages.
+      </p>
       <p>Стойност по подразбиране: 5</p>
     </section>
   </section>

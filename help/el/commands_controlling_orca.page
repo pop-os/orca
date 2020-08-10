@@ -47,10 +47,16 @@
     <p>Στην κατάσταση μάθησης, το <app>Orca</app> θα ανακοινώνει κάθε πληκτρολόγηση που πατάτε μαζί με οποιαδήποτε συσχετισμένη εντολή του <app>Orca</app> με την οποία η πληκτρολόγηση είναι συνδεμένη. Σε αυτήν την κατάσταση, μπορείτε επίσης να πάρετε έναν κατάλογο των συντομεύσεων που περιέχουν όλες τις εντολές που μπορείτε να χρησιμοποιήσετε στο <app>Orca</app>.</p>
     <list>
       <item>
-        <p>Είσοδος στην κατάσταση εκμάθησης: <keyseq><key>τροποποιητής Orca</key><key>H</key></keyseq></p>
+        <p>
+          Enter Learn Mode:
+          <keyseq><key>Orca Modifier</key><key>H</key></keyseq>
+        </p>
       </item>
       <item>
-        <p>Έξοδος από την κατάσταση εκμάθησης: <keyseq><key>Esc</key></keyseq></p>
+        <p>
+          Exit Learn Mode:
+          <keyseq><key>Esc</key></keyseq>
+        </p>
       </item>
     </list>
   </section>

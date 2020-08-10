@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#reviewing"/>
     <link type="next" xref="howto_flat_review"/>
-    <title type="sort">1. VarÄrJag</title>
+    <title type="sort">1. Where Am I</title>
     <desc>Få reda på din position</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -19,7 +19,7 @@
       <mal:years>2015, 2016, 2017, 2018</mal:years>
     </mal:credit>
   </info>
-  <title>VarÄrJag</title>
+  <title>Where Am I</title>
   <p>Förutom speciella kommandon för att läsa titellisten och statusraden så tillhandahåller Orca två sammanhangskänsliga ”Var är jag”-kommandon: grundläggande ”Var är jag” och detaljerad ”Var är jag”. Grundläggande ”Var är jag” är implementerat för alla objekt. Detaljerad ”Var är jag” är implementerat endast för de objekt för vilka det finns en betydande mängd information som du kan tänkas vilja veta, men mest troligt inte vill veta hela tiden.</p>
   <p>Det bästa sättet att bli bekant med vad ”Var är jag” kommer presentera är att titta närmare på <link xref="commands_where_am_i">Var är jag-kommandon</link>. Tänk dig dock följande för att få ett bättre grepp om den sammanhangskänsliga naturen hos <app>Orca</app>s ”Var är jag”-funktion:</p>
   <p>För de flesta komponenter kommer du åtminstone få veta etiketten och/eller namnet, typen eller rollen för komponenten samt minnesobjekt och/eller snabbtangent om de existerar. Dessutom:</p>

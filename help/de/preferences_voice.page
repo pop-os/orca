@@ -65,9 +65,9 @@
       <title>Großschreibungsstil</title>
       <p>Dieses Auswahlfeld ermöglicht Ihnen auszuwählen, welchen Hinweisstil für Großschreibung Sie in »Speech Dispatcher« zusätzlich zu <app>Orca</app>s Großschreibungsstimme verwenden wollen. Die möglichen Optionen, die nach der Terminologie von »Speech Dispatcher« benannt sind, lauten:</p>
      <list>
-       <item><p><gui>Symbol</gui>: Spielt einen Ton ab</p></item>
-       <item><p><gui>Rechtschreibung</gui>: Spricht das Wort »capital«</p></item>
-       <item><p><gui>Kein</gui></p></item>
+       <item><p><gui>Icon</gui>: Plays a tone</p></item>
+       <item><p><gui>Spell</gui>: Speaks the word "capital"</p></item>
+       <item><p><gui>None</gui></p></item>
     </list>
     <note style="tip">
       <title>Diese Einstellung kann im laufenden Betrieb ein-/ausgeschaltet werden</title>

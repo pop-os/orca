@@ -227,7 +227,11 @@
           <p>Zobrazit seznam obrázků: <keyseq><key>Alt</key><key>Shift</key><key>G</key></keyseq></p>
         </item>
         <item>
-          <p>Začátek a konec aktuálního kentejneru: <keyseq><key>Shift</key><key>,</key></keyseq> a <keyseq><key>,</key></keyseq></p>
+          <p>
+            Start and end of current container:
+            <keyseq><key>Shift</key><key>Comma</key></keyseq> and
+            <keyseq><key>Comma</key></keyseq>
+          </p>
         </item>
       </list>
     </section>

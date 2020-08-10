@@ -27,7 +27,11 @@
     <p>Για την έναρξη του <app>Orca</app>:</p>
     <list>
       <item>
-        <p>Η μέθοδος για ρύθμιση της αυτόματης έναρξης του προτιμώμενου αναγνώστη οθόνης του <app>Orca</app> εξαρτάται από το χρησιμοποιούμενο περιβάλλον επιφάνειας εργασίας. Για παράδειγμα, στο GNOME 3.x αυτή η επιλογή μπορεί να βρεθεί στον πίνακα εφαρμογών του κέντρου ελέγχου γενικής πρόσβασης στη σελίδα <gui>όραση</gui>.</p>
+        <p>
+          The method for configuring <app>Orca</app> to be launched
+          automatically as your preferred screen reader will depend upon
+          which desktop environment you use.
+        </p>
       </item>
       <item>
         <p>Για να ενεργοποιήσετε και να απενεργοποιήσετε το <app>Orca</app> στο GNOME, πατήστε το <keyseq><key>πλήκτρο λογότυπου</key><key>Alt</key><key>S</key></keyseq>.</p>

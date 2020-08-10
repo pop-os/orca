@@ -62,20 +62,36 @@
   </section>
   <section id="reset">
      <title>Änderungen rückgängig machen</title>
-     <p>Unter der Liste der Textattribute gibt es einen Zurücksetzen-Knopf (<keyseq><key>Alt</key><key>R</key></keyseq>), welcher die Werte in der Tabelle auf die ursprünglichen zurücksetzt, als der Dialog zuerst angezeigt wurde.</p>
+     <p>
+       Beneath the list of text attributes, there is a <gui>Reset</gui> button
+       (<keyseq><key>Alt</key><key>R</key></keyseq>) which will restore
+       the values of the table to what they were when the dialog was
+       first displayed.
+    </p>
   </section>
   <section id="rearranging">
      <title>So passen Sie die Darstellungsreihenfolge an</title>
-     <p>Wenn Sie anfangs die Seite mit den Textattributen anzeigen, werden alle Ihre aktivierten Attribute oben in der Tabelle in der Reihenfolge dargestellt, wie sie vorgelesen werden. Mit vier Knöpfen kann die Reihenfolge der Präsentation angepasst werden.</p>
+     <p>
+        When you initially display the <gui>Text Attributes</gui> page, all of your enabled
+        attributes are placed at the top of the table in the order in which they
+        will be spoken. There are four buttons which can be used to rearrange
+        the order of presentation.
+    </p>
     <list>
       <item>
         <p><gui>An den Anfang verschieben</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>): Das ausgewählte Attribut an den Anfang der Liste verschieben.</p>
       </item>
       <item>
-        <p><gui>Nach oben verschieben</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>): Das ausgewählte Attribut eine Zeile nach oben verschieben.</p>
+        <p>
+          <gui>Move up</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>):
+          moves the selected attribute up one row.
+        </p>
       </item>
       <item>
-        <p><gui>Nach unten verschieben</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>): Das ausgewählte Attribut eine Zeile nach unten verschieben.</p>
+        <p>
+          <gui>Move down</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>):
+          moves the selected attribute down one row.
+        </p>
       </item>
       <item>
         <p><gui>Ans Ende verschieben</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>): Das ausgewählte Attribut ans Ende der Liste verschieben.</p>

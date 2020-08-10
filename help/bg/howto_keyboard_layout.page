@@ -32,7 +32,11 @@
       <p>Ако използвате подредбата за лаптопи, модификаторът на Orca по подразбиране ще бъде <key>CapsLock</key></p>
     </item>
     <item>
-      <p>Ако използвате подредбата за настолни компютри, модификаторите на Orca по подразбиране ще бъдат клавишите <key>Insert</key> и <key>Insert от цифровия блок</key>, като вторият е същият клавиш като <key>0 от цифровия блок</key>.</p>
+      <p>
+        If you are using the Desktop layout, the Orca Modifier will be both
+        <key>Insert</key> and <key>KP_Insert</key>, the latter being the
+        same key as <key>KP_0</key>.
+      </p>
     </item>
   </list>
   <p>Подредбата също така определя доста от клавишните комбинации за командите на <app>Orca</app>, и по-специално тези отнасящи се за равнинния преглед, „Къде съм“ и „Прочитане на всичко“.</p>

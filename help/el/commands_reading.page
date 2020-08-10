@@ -26,7 +26,15 @@
   <title>Ανάγνωση εντολών</title>
   <p>Πέρα από τις εντολές περιήγησης δρομέα που είναι μέρος του GNOME, το <app>Orca</app> παρέχει έναν αριθμό εντολών που μπορείτε να χρησιμοποιήσετε για ανάγνωση εγγράφου.</p>
   <note style="tip">
-    <p>Στις λίστες που ακολουθούν, θα δείτε αρκετές αναφορές στο "KP". Όλα τα πλήκτρα "KP" τοποθετούνται στο αριθμητικό υποπληκτρολόγιο. Θα σημειώσετε επίσης ότι υπάρχουν διαφορετικές πληκτρολογήσεις ανάλογα με το εάν χρησιμοποιείτε έναν επιτραπέζιο ή φορητό υπολογιστή -- ή με περισσότερη ακρίβεια, εάν χρησιμοποιείτε τη διάταξη πληκτρολογίου επιτραπέζιου του <app>Orca</app> ή τη διάταξη πληκτρολογίου του φορητού. Για πρόσθετες πληροφορίες, παρακαλώ δείτε το θέμα <link xref="howto_keyboard_layout">διάταξη πληκτρολογίου</link>.</p>
+    <p>
+      Below you will see several references to "KP". All
+      "KP" keys are located on the numeric keypad. You will also notice that
+      there are different keystrokes depending upon whether you are using a
+      desktop or a laptop -- or more accurately, whether you are using
+      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
+      For additional information, please see the
+      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
+    </p>
   </note>
   <section id="flat_review">
     <title>Ανάγνωση της τρέχουσας θέση σας</title>
@@ -138,7 +146,7 @@
         <p>Παρουσίαση των γνωρισμάτων κειμένου: ο <keyseq><key>τροποποιητής Orca</key><key>F</key></keyseq></p>
       </item>
       <item>
-        <p>Εκτέλεση βασικού πού είμαι:</p>
+        <p>Perform basic Where Am I:</p>
         <list>
           <item>
             <p>Επιτραπέζιος: <key>εισαγωγή KP</key></p>
@@ -149,7 +157,7 @@
         </list>
     </item>
     <item>
-      <p>Εκτέλεση λεπτομερούς πού είμαι:</p>
+      <p>Perform detailed Where Am I:</p>
       <list>
         <item>
           <p>Επιτραπέζιος: <key>εισαγωγή KP</key> (διπλό κλικ)</p>
@@ -174,7 +182,7 @@
       used to announce the details associated with the link such as the link type,
       if the link is visited, the site description, and file size. If you would
       instead prefer dedicated command for this purpose, you can bind <app>Orca</app>'s
-      Speak Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
+      Speaks Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
       Modifying Keybindings</link> for information on how to do so.
     </p>
     <list>
@@ -191,11 +199,14 @@
         <p>Για εναλλαγή μεταξύ λειτουργιών περιήγησης και εστίασης: <keyseq><key>τροποποιητής Orca</key><key>Α</key></keyseq></p>
       </item>
       <item>
-        <p>Ενεργοποίηση κατάστασης "κολλώδους" εστίασης: <keyseq><key>τροποποιητής Orca</key><key>Α</key></keyseq> (διπλό πάτημα)</p>
+        <p>
+          Enable sticky focus mode:
+          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (double-clicked)
+        </p>
       </item>
       <item>
         <p>
-          Enable "sticky" browse mode:
+          Enable sticky browse mode:
           <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (triple-clicked)
         </p>
       </item>

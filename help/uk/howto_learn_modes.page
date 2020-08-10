@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#getting_started"/>
     <link type="next" xref="howto_keyboard_layout"/>
-    <title type="sort">5. Режим «Навчання»</title>
+    <title type="sort">5. Режим навчання</title>
     <desc>Вивчення команд <app>Orca</app></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -19,7 +19,7 @@
       <mal:years>2020</mal:years>
     </mal:credit>
   </info>
-  <title>Режим «Навчання»</title>
+  <title>Режим навчання</title>
   <p>У режимі навчання <app>Orca</app> буде озвучувати будь-яке натискання комбінації клавіш разом із пов'язаною із ним командою <app>Orca</app>. У цьому режимі ви також можете отримати список клавіатурних скорочень, що містить усі команди <app>Orca</app>, якими ви можете скористатися.</p>
   <steps>
     <title>Користування режимом навчання</title>

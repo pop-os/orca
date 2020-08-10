@@ -251,7 +251,11 @@
           <p>Eine Liste der Bilder anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>G</key></keyseq></p>
         </item>
         <item>
-          <p>Beginn und Ende des aktuellen Containers: <keyseq><key>Umschalt</key><key>Komma</key></keyseq> und <keyseq><key>Komma</key></keyseq></p>
+          <p>
+            Start and end of current container:
+            <keyseq><key>Shift</key><key>Comma</key></keyseq> and
+            <keyseq><key>Comma</key></keyseq>
+          </p>
         </item>
       </list>
     </section>

@@ -57,7 +57,7 @@
     </section>
     <section id="keyecho_enable_action">
       <title>Увімкнути клавіші дій</title>
-      <p>За допомогою цього пункту можна визначити, чи буде озвучено клавіші <key>BackSpace</key>, <key>Delete</key>, <key>Enter</key>, <key>Escape</key>, <key>Tab</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</key> і <key>End</key> після натискання.</p>
+      <p>За допомогою цього пункту можна визначити, чи буде озвучено клавіші <key>BackSpace</key>, <key>Delete</key>, <key>Enter</key>, <key>Esc</key>, <key>Tab</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</key> і <key>End</key> після натискання.</p>
       <p>Типове значення: позначено</p>
     </section>
     <section id="keyecho_enable_navigation">

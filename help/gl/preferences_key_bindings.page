@@ -21,7 +21,7 @@
   <section id="orca_modifier_keys">
     <title>Teclas de modificación de Orca</title>
     <p>
-      The <gui>Screen Reader Modifier Keys</gui> combo box allows you to select which
+      The <gui>Screen Reader Modifier Key(s)</gui> combo box allows you to select which
       key or keys will serve as the Orca Modifier. The available options are:
     </p>
     <list>
@@ -44,7 +44,7 @@
     <list>
       <item>
         <p>
-          The <gui>Function</gui> column contains a description of the
+          The <gui>Command</gui> column contains a description of the
           <app>Orca</app> command to be performed.
         </p>
       </item>
@@ -60,7 +60,7 @@
         <p>
           The <gui>Modified</gui> column serves both as an indicator to what
           has been changed and as a way to restore the default bindings
-          associated with that function.
+          associated with that command.
         </p>
       </item>
     </list>

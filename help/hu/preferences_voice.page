@@ -47,9 +47,9 @@
       <title>Nagybetű jelzési stílus</title>
       <p>Ez a kombinált listamező lehetővé teszi annak kiválasztását, hogy az <app>Orka</app> melyik Speech Dispatcher nagybetűjelzési stílus használatával jelezze a nagybetűs szövegeket. A lehetséges beállítások a Speech Dispatcher terminológia alapján lettek elnevezve:</p>
      <list>
-       <item><p><gui>Hangjelzés</gui>: Egy hangjelzés lejátszása</p></item>
-       <item><p><gui>Betűzés</gui>: A „Nagy” szócskával kiegészítve kimondja a nagybetűt tartalmazó szót.</p></item>
-       <item><p><gui>Nincs</gui></p></item>
+       <item><p><gui>Icon</gui>: Plays a tone</p></item>
+       <item><p><gui>Spell</gui>: Speaks the word "capital"</p></item>
+       <item><p><gui>None</gui></p></item>
     </list>
     <note style="tip">
       <title>A beállítás menet közben módosítható</title>

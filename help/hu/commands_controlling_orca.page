@@ -47,10 +47,16 @@
     <p>A tanuló módban az <app>Orka</app> kimondja az Ön által lenyomott billentyűkombinációkat és a hozzájuk társított <app>Orka</app> parancsokat. Ezen kívül, a billentyűparancs-listázó mód segítségével az összes használható <app>Orka</app> parancsot egy listában áttekintheti.</p>
     <list>
       <item>
-        <p>Belépés a tanuló módba: <keyseq><key>Orka módosító</key><key>H</key></keyseq></p>
+        <p>
+          Enter Learn Mode:
+          <keyseq><key>Orca Modifier</key><key>H</key></keyseq>
+        </p>
       </item>
       <item>
-        <p>Kilépés a tanuló módból: <keyseq><key>Esc</key></keyseq></p>
+        <p>
+          Exit Learn Mode:
+          <keyseq><key>Esc</key></keyseq>
+        </p>
       </item>
     </list>
   </section>

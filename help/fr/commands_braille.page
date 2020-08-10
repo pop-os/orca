@@ -12,7 +12,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -44,20 +44,26 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
-  <title>Commandes braille </title>
+  <title>Commandes braille</title>
   <p>Les commandes suivantes vous permettent de contrôler <app>Orca</app> depuis votre plage braille au lieu de votre clavier :</p>
   <list>
-    <item><p>Déplacer l’afficheur braille vers la gauche : ligne gauche</p></item>
-    <item><p>Déplacer l’afficheur braille vers la droite : ligne droite</p></item>
-    <item><p>Activer ou désactiver le mode d’examen global : gel</p></item>
-    <item><p>Lire le mot au dessus : ligne vers le haut</p></item>
-    <item><p>Lire le mot en dessous : ligne vers le bas</p></item>
-    <item><p>Lire en bas à gauche : bas droite</p></item>
-    <item><p>Lire la position de départ : haut gauche</p></item>
+    <item><p>Déplacer l’afficheur braille vers la gauche : ligne à gauche</p></item>
+    <item><p>Déplacer l’afficheur braille vers la droite : ligne à droite</p></item>
+    <item><p>Activer ou désactiver le mode d’examen global : geler</p></item>
+    <item><p>Lire le mot au-dessus : ligne en haut</p></item>
+    <item><p>Lire le mot en dessous : ligne en bas</p></item>
+    <item><p>Lire en bas à gauche : en bas à droite</p></item>
+    <item><p>Lire la position de départ : en haut à gauche</p></item>
     <item><p>Braille abrégé : six points</p></item>
-    <item><p>Marquer le début d’une sélection de texte : début de coupe</p></item>
-    <item><p>Marquer la fin d’une sélection de texte : coupe la ligne</p></item>
+    <item><p>Marquer le début d’une sélection de texte : début couper</p></item>
+    <item><p>Marquer la fin d’une sélection de texte : couper ligne</p></item>
     <item><p>Traiter une touche de routage du curseur : routage du curseur</p></item>
     <item><p>Retourner à l’objet possédant le focus clavier : position du curseur</p></item>
   </list>

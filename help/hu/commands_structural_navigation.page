@@ -233,7 +233,11 @@
           <p>Képek listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>G</key></keyseq></p>
         </item>
         <item>
-          <p>Ugrás az aktuális elemblokk elejére vagy végére: <keyseq><key>Shift</key><key>vessző</key></keyseq> és <keyseq><key>vessző</key></keyseq></p>
+          <p>
+            Start and end of current container:
+            <keyseq><key>Shift</key><key>Comma</key></keyseq> and
+            <keyseq><key>Comma</key></keyseq>
+          </p>
         </item>
       </list>
     </section>

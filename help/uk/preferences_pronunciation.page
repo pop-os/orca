@@ -27,7 +27,7 @@
   <steps>
     <title>Додавання нового запису словника</title>
     <item>
-      <p>Натисніть кнопку «Нова стаття» (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
+      <p>Натисніть кнопку <gui>Нова стаття</gui> (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
     </item>
     <item>
       <p>Введіть текст нового запису і натисніть клавішу <key>Enter</key>, щоб завершити редагування рядка.</p>
@@ -54,7 +54,7 @@
       <p>Перейдіть до запису, який ви хочете вилучити.</p>
     </item>
     <item>
-      <p>Натисніть кнопку «Вилучити» або комбінацію клавіш <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
+      <p>Натисніть кнопку <gui>Вилучити</gui> або комбінацію клавіш <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
     </item>
   </steps>
 </page>
