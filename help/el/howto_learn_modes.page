@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#getting_started"/>
     <link type="next" xref="howto_keyboard_layout"/>
-    <title type="sort">5. Η κατάσταση "μάθησης"</title>
+    <title type="sort">5. Learn Mode</title>
     <desc>Ανακαλύπτοντας τις εντολές του <app>Orca</app></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -19,7 +19,7 @@
       <mal:years>2012-2015</mal:years>
     </mal:credit>
   </info>
-  <title>Η κατάσταση "μάθησης"</title>
+  <title>Learn Mode</title>
   <p>Στην κατάσταση μάθησης, το <app>Orca</app> θα ανακοινώνει κάθε πληκτρολόγηση που πατάτε μαζί με οποιαδήποτε συσχετισμένη εντολή του <app>Orca</app> με την οποία η πληκτρολόγηση είναι συνδεμένη. Σε αυτήν την κατάσταση, μπορείτε επίσης να πάρετε έναν κατάλογο των συντομεύσεων που περιέχουν όλες τις εντολές που μπορείτε να χρησιμοποιήσετε στο <app>Orca</app>.</p>
   <steps>
     <title>Χρήση κατάστασης μάθησης</title>

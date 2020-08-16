@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_forms" xml:lang="uk">
+  <info>
+    <link type="guide" xref="index#reading"/>
+     <link type="next" xref="howto_live_regions"/>
+    <title type="sort">5. Заповнення форм</title>
+    <desc>Доступ до віджетів, які вбудовано до документів</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Заповнення форм</title>
+  <p>При взаємодії з вебсторінками та іншими документами за допомогою <app>Orca</app>, ви працюєте із самим документом, а не із його буферизованою копією. Режими навігації та фокусування <app>Orca</app> надають вам змогу перемикатися між читанням та заповненням форм.</p>
+  <section id="navigating_amongst_form_fields">
+    <title>Навігація полями форми</title>
+    <p>Існує декілька способів навігація між полями форми:</p>
+    <list>
+      <item>
+        <p>За допомогою клавіш <key>Tab</key> і <keyseq><key>Shift</key><key>Tab</key></keyseq> можна переходити між фокусованими об'єктами, незалежно від типу.</p>
+      </item>
+      <item>
+        <p>Скористатися вбудованими до <app>Orca</app> <link xref="commands_structural_navigation#forms">командами навігації структурою для форм</link>.</p>
+      </item>
+      <item>
+        <p>Залежно від форми і програми, у вас може бути можливість використовувати клавіші зі стрілочками для переходу до потрібного вам поля форми.</p>
+      </item>
+   </list>
+   <note style="tip">
+     <p>Щоб ви могли користуватися навігацією за допомогою курсора у <app>Orca</app> або командами навігації структурою для переходу до поля форми, програма має працювати у режимі навігації. Якщо ви працюєте у режимі фокусування, ви можете перемкнутися у режим навігації за допомогою комбінації клавіш <keyseq><key>Модифікатор Orca</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+  <section id="exiting_form_fields">
+    <title>Вихід з полів форми</title>
+    <p>Щоб вийти з поля форми, можете скористатися одним із таких варіантів дій:</p>
+    <list>
+      <item>
+        <p>Скористайтеся <key>Tab</key>/<keyseq><key>Shift</key><key>Tab</key></keyseq>, якщо вам потрібно полишити поточне фокусоване поле форми і перейти до наступного або попереднього фокусованого об'єкта, незалежно від типу.</p>
+      </item>
+      <item>
+        <p>Скористайтеся вбудованими до <app>Orca</app> <link xref="commands_structural_navigation#forms">командами навігації структурою для форм</link>, щоб перейти до наступного або попереднього поля форми.</p>
+      </item>
+      <item>
+        <p>Залежно від форми і програми, у вас може бути можливість використовувати клавіші зі стрілочками для переходу із заданого поля форми.</p>
+      </item>
+    </list>
+   <note style="tip">
+     <p>Щоб ви могли користуватися навігацією за допомогою курсора у <app>Orca</app> або командами навігації структурою для виходу з поля форми, програма має працювати у режимі навігації. Якщо ви працюєте у режимі фокусування, ви можете перемкнутися у режим навігації за допомогою комбінації клавіш <keyseq><key>Модифікатор Orca</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+</page>

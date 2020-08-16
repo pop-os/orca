@@ -12,7 +12,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -44,9 +44,15 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
   <title>Commandes d’examen global</title>
-  <p>Les commandes de <link xref="howto_flat_review">Examen global</link> sont conçues pour un examen « spatial » des éléments affichés à l’écran. Elles fournissent aussi un moyen pour lire la ligne, le mot et le caractère actuel, pendant le parcours du texte d’un document. La plupart de ces commandes sont « liées ». Reportez-vous à <link xref="howto_key_bindings">Modifier les combinaisons de touches</link> pour savoir comment lier les commandes non liées.</p>
+  <p>Les commandes d’<link xref="howto_flat_review">Examen global</link> sont conçues pour un examen « spatial » des éléments affichés à l’écran. Elles fournissent aussi un moyen pour lire la ligne, le mot et le caractère actuel, pendant le parcours du texte d’un document. La plupart de ces commandes sont « liées ». Reportez-vous à <link xref="howto_key_bindings">Modifier les combinaisons de touches</link> pour savoir comment lier les commandes non liées.</p>
   <section id="line">
     <title>Commandes d’examen par ligne</title>
     <list>
@@ -73,14 +79,14 @@
       </item>
         <item><p>Épeler la ligne actuelle :</p>
         <list>
-          <item><p>Ordinateur de bureau : <keyseq><key>PN 8</key></keyseq> (double clic)</p></item>
-          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>I</key></keyseq> (double clic)</p></item>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 8</key></keyseq> (double-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>I</key></keyseq> (double-clic)</p></item>
         </list>
       </item>
       <item><p>Épeler phonétiquement la ligne actuelle :</p>
         <list>
-          <item><p>Ordinateur de bureau : <keyseq><key>PN 8</key></keyseq> (triple clic)</p></item>
-          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>I</key></keyseq> (triple clic)</p></item>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 8</key></keyseq> (triple-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>I</key></keyseq> (triple-clic)</p></item>
         </list>
       </item>
       <item><p>Ligne suivante :</p>
@@ -120,14 +126,14 @@
       </item>
       <item><p>Épeler le mot actuel :</p>
         <list>
-          <item><p>Ordinateur de bureau : <keyseq><key>PN 5</key></keyseq> (double clic)</p></item>
-          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>K</key></keyseq> (double clic)</p></item>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 5</key></keyseq> (double-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>K</key></keyseq> (double-clic)</p></item>
         </list>
       </item>
       <item><p>Épeler phonétiquement le mot actuel :</p>
         <list>
-          <item><p>Ordinateur de bureau : <keyseq><key>PN 5</key></keyseq> (triple clic)</p></item>
-          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>K</key></keyseq> (triple clic)</p></item>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 5</key></keyseq> (triple-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>K</key></keyseq> (triple-clic)</p></item>
         </list>
       </item>
       <item><p>Mot suivant :</p>
@@ -161,14 +167,14 @@
       </item>
       <item><p>Lire phonétiquement le caractère actuel :</p>
         <list>
-          <item><p>Ordinateur de bureau : <keyseq><key>PN 2</key></keyseq> (double clic)</p></item>
-          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Virgule</key></keyseq> (double clic)</p></item>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 2</key></keyseq> (double-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Virgule</key></keyseq> (double-clic)</p></item>
         </list>
       </item>
       <item><p>Lire la valeur Unicode du caractère actuel :</p>
         <list>
-          <item><p>Ordinateur de bureau : <keyseq><key>PN 2</key></keyseq> (triple clic)</p></item>
-          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Virgule</key></keyseq> (triple clic)</p></item>
+          <item><p>Ordinateur de bureau : <keyseq><key>PN 2</key></keyseq> (triple-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Virgule</key></keyseq> (triple-clic)</p></item>
         </list>
       </item>
       <item><p>Caractère suivant :</p>
@@ -200,17 +206,17 @@
           <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Ctrl</key><key>K</key></keyseq></p></item>
         </list>
       </item>
-      <item><p>Utiliser « Lire tout » pour examiner le dialogue ou la fenêtre courants :</p>
+      <item><p>Utiliser « Tout lire » pour examiner le dialogue ou la fenêtre actuelle :</p>
         <list>
-          <item><p>Ordinateur de bureau : <key>PN Plus</key> (double clic)</p></item>
-          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Point-virgule</key></keyseq> (double clic)</p></item>
+          <item><p>Ordinateur de bureau : <key>PN Plus</key> (double-clic)</p></item>
+          <item><p>Ordinateur portable : <keyseq><key>Touche de modification d’Orca</key><key>Point-virgule</key></keyseq> (double-clic)</p></item>
         </list>
       </item>
       <item>
-      <p>Copier le contenu sous examen global dans le presse-papier : (non liée)</p>
+      <p>Copier le contenu sous examen global dans le presse-papiers : (non liée)</p>
       </item>
         <item>
-        <p>Ajouter le contenu sous examen global dans le presse-papier : (non liée)</p>
+        <p>Ajouter le contenu sous examen global dans le presse-papiers : (non liée)</p>
       </item>
     </list>
   </section>

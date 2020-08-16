@@ -39,7 +39,11 @@
       <p>Se você estiver usando a disposição de teclado de notebook, por padrão, a tecla modificadora do Orca será o <key>CapsLock</key></p>
     </item>
     <item>
-      <p>Se você estiver usando a disposição de teclado de computador de mesa, as teclas modificadoras do Orca serão <key>Insert</key> e <key>Insert do teclado numérico</key>, sendo o último a mesma tecla que o <key>0 do teclado numérico</key>.</p>
+      <p>
+        If you are using the Desktop layout, the Orca Modifier will
+        be both <key>Insert</key> and <key>KP_Insert</key>, the
+        latter being the same key as <key>KP_0</key>.
+      </p>
     </item>
   </list>
   <p>Se você quiser manter a sua disposição de teclado atual, mas selecionar uma tecla modificadora diferente, você pode fazê-lo executando os seguintes passos:</p>

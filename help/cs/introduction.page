@@ -21,7 +21,11 @@
     <p>Když chcete spustit aplikaci <app>Orca</app>:</p>
     <list>
       <item>
-        <p>Způsob, jak nastavit čtečku <app>Orca</app>, aby se spouštěla automticky jako vaše upřednostňovaná čtečka obrazovky, závisí na pracovním prostředí, které používáte. Například, v GNOME 3.x můžete tuto volbu najít v části <gui>Zrak</gui> na panelu <gui>Univerzální přístup</gui> v Centru nastavení.</p>
+        <p>
+          The method for configuring <app>Orca</app> to be launched
+          automatically as your preferred screen reader will depend upon
+          which desktop environment you use.
+        </p>
       </item>
       <item>
         <p>Pro zapnutí či vypnutí čtečky <app>Orca</app> v GNOME použijte <keyseq><key>Super</key> <key>Alt</key> <key>S</key></keyseq>.</p>

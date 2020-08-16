@@ -20,7 +20,7 @@
   <p><app>Orca</app> zagotavlja naslednje ukaze Kje sem:</p>
   <list>
     <item>
-      <p>Izvedi enostavno opravilo kje sem:</p>
+      <p>Perform basic Where Am I:</p>
       <list>
         <item>
           <p>Namizje: <key>Vnos KP</key></p>
@@ -31,7 +31,7 @@
       </list>
     </item>
     <item>
-      <p>Izvedi podrobno opravilo kje sem:</p>
+      <p>Perform detailed Where Am I:</p>
       <list>
         <item>
           <p>Namizni računalnik: <key>KP Vnosna tipka</key> (dvakrat kliknjeno)</p>

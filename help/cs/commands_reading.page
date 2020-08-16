@@ -20,7 +20,15 @@
   <title>Příkazy pro čtení</title>
   <p>Mimo příkazů kurzorové navigace, která je součástí GNOME, poskytuje <app>Orca</app> i několik příkazů, které můžete použít ke čtení dokumentů.</p>
   <note style="tip">
-    <p>V seznamu níže můžete několikrát narazit na zkatku „KP“. Znamená „key pad“, což je anglické označení pro numerickou (číselnou) klávesnici a všechny klávesy s touto zkratkou jsou umístěné na ní. Upozorňujeme také, že zmáčknutí klávesy se liší podle toho, jestli používáte stolní nebo přenosný počítač – respektive přesněji, jestli používáte rozložení klávesnice stolního nebo přenosného počítače podle čtečky <app>Orca</app>. Více informací najdete u tématu <link xref="howto_keyboard_layout">rozložení klávesnice</link>.</p>
+    <p>
+      Below you will see several references to "KP". All
+      "KP" keys are located on the numeric keypad. You will also notice that
+      there are different keystrokes depending upon whether you are using a
+      desktop or a laptop -- or more accurately, whether you are using
+      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
+      For additional information, please see the
+      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
+    </p>
   </note>
   <section id="flat_review">
     <title>Čtení na vaší aktuální pozici</title>
@@ -125,7 +133,7 @@
         <p>Prezentovat vlastnosti textu: <keyseq><key>Modifikátor Orca</key> <key>F</key></keyseq></p>
       </item>
       <item>
-        <p>Zjištění základních informací o tom, kde se nacházíte:</p>
+        <p>Perform basic Where Am I:</p>
         <list>
           <item>
             <p>Stolní počítač: <key>KP Enter</key> (Enter na numerické klávesnici)</p>
@@ -136,7 +144,7 @@
         </list>
     </item>
     <item>
-      <p>Zjištění podrobných informací o tom, kde se nacházíte:</p>
+      <p>Perform detailed Where Am I:</p>
       <list>
         <item>
           <p>Stolní počítač: <key>KP Enter</key> (Enter na numerické klávesnici, dvojité zmáčknutí)</p>
@@ -153,7 +161,14 @@
   </section>
   <section id="link_details">
     <title>Podrobnosti k odkazu</title>
-    <p>Když se nacházíte na odkazu, můžete použít příkaz čtečky <app>Orca</app> „Kde se nacházím“ k oznámení informací patřících k odkazu, jako typ odkazu, jestli byl již navštíven, popis webu a velikost souboru. Pokud byste pro tento účel měli raději vyhrazený příkaz, můžete navázat příkaz „Přečíst podrobnosti k odkazu“ na klávesovou zkratku. Jak to udělat, najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+    <p>
+      If you are on a link, <app>Orca</app>'s Basic Where Am I command can be
+      used to announce the details associated with the link such as the link type,
+      if the link is visited, the site description, and file size. If you would
+      instead prefer dedicated command for this purpose, you can bind <app>Orca</app>'s
+      Speaks Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
+      Modifying Keybindings</link> for information on how to do so.
+    </p>
     <list>
       <item>
         <p>Přečíst podrobnosti k odkazu: (bez klávesové zkratky)</p>
@@ -168,10 +183,16 @@
         <p>Přepnout mezi režimem procházení a zaměřování: <keyseq><key>Modifikátor Orca</key><key>A</key></keyseq></p>
       </item>
       <item>
-        <p>Zapnout „přichytávací“ režim zaměřování: <keyseq><key>Modifikátor Orca</key><key>A</key></keyseq> (dvojité zmáčknutí)</p>
+        <p>
+          Enable sticky focus mode:
+          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (double-clicked)
+        </p>
       </item>
       <item>
-        <p>Zapnout „přichytávací“ režim zaměřování: <keyseq><key>Modifikátor Orca</key><key>A</key></keyseq> (trojité zmáčknutí)</p>
+        <p>
+          Enable sticky browse mode:
+          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (triple-clicked)
+        </p>
       </item>
     </list>
   </section>

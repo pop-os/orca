@@ -253,6 +253,10 @@ CLI_LOAD_PREFS = _("Use alternate directory for user preferences")
 # using the '-u, --user-prefs' command line option.
 CLI_PREFS_DIR = _("DIR")
 
+# Translators: This is the description of command line option '-v, --version'
+# which prints the version of Orca. E.g. '1.23.4'.
+CLI_VERSION = _("Version of this application")
+
 # Translators: This is the description of command line option '-r, --replace'
 # which tells Orca to replace any existing Orca process that might be running.
 CLI_REPLACE = _("Replace a currently running instance of this screen reader")
@@ -405,12 +409,12 @@ DATE_FORMAT_FULL_DM = "%A, %-d %B"
 DATE_FORMAT_FULL_MD = "%A, %B %-d"
 DATE_FORMAT_FULL_DMY = "%A, %-d %B, %Y"
 DATE_FORMAT_FULL_MDY = "%A, %B %-d, %Y"
-DATE_FORMAT_FULL_YMD = "%Y. %B %-d, %A."
+DATE_FORMAT_FULL_YMD = "%Y. %B %-d, %A"
 DATE_FORMAT_ABBREVIATED_DM = "%a, %-d %b"
 DATE_FORMAT_ABBREVIATED_MD = "%a, %b %-d"
 DATE_FORMAT_ABBREVIATED_DMY = "%a, %-d %b, %Y"
 DATE_FORMAT_ABBREVIATED_MDY = "%a, %b %-d, %Y"
-DATE_FORMAT_ABBREVIATED_YMD = "%Y. %b %-d, %a."
+DATE_FORMAT_ABBREVIATED_YMD = "%Y. %b %-d, %a"
 
 # Translators: This phrase is spoken to inform the user that what is about to
 # be said is content marked for deletion in a document, such as content which
@@ -1231,6 +1235,10 @@ LEAVING_PANEL = _("leaving panel.")
 # table and then navigates out of it.
 LEAVING_TABLE = _("leaving table.")
 
+# Translators: This message is presented when a user is navigating within a
+# tooltip in a web application and then navigates out of it.
+LEAVING_TOOL_TIP = _("leaving tooltip.")
+
 # Translators: This message is presented when a user is navigating within
 # a document container and then navigates out of it. The word or phrase
 # that follows "leaving" should be consistent with the translation provided
@@ -1627,7 +1635,7 @@ MISSPELLED_WORD_CONTEXT = _("Context is %s")
 # you to the next heading. What should happen when you press an "h" in
 # an entry on a web page depends: If you want to resume reading content,
 # "h" should move to the next heading; if you want to enter text, "h"
-# should not not move you to the next heading. Similarly, if you are
+# should not move you to the next heading. Similarly, if you are
 # at the bottom of an entry and press Down arrow, should you leave the
 # entry? Again, it depends on if you want to resume reading content or
 # if you are editing the text in the entry. Because Orca doesn't know
@@ -1642,7 +1650,7 @@ MODE_BROWSE = _("Browse mode")
 # you to the next heading. What should happen when you press an "h" in
 # an entry on a web page depends: If you want to resume reading content,
 # "h" should move to the next heading; if you want to enter text, "h"
-# should not not move you to the next heading. Similarly, if you are
+# should not move you to the next heading. Similarly, if you are
 # at the bottom of an entry and press Down arrow, should you leave the
 # entry? Again, it depends on if you want to resume reading content or
 # if you are editing the text in the entry. Because Orca doesn't know
@@ -1657,7 +1665,7 @@ MODE_FOCUS = _("Focus mode")
 # you to the next heading. What should happen when you press an "h" in
 # an entry on a web page depends: If you want to resume reading content,
 # "h" should move to the next heading; if you want to enter text, "h"
-# should not not move you to the next heading. Similarly, if you are
+# should not move you to the next heading. Similarly, if you are
 # at the bottom of an entry and press Down arrow, should you leave the
 # entry? Again, it depends on if you want to resume reading content or
 # if you are editing the text in the entry. Because Orca doesn't know
@@ -2204,6 +2212,16 @@ STOP_ORCA = _("Screen reader off.")
 # Translators: This message means speech synthesis is not installed or working.
 SPEECH_UNAVAILABLE = _("Speech is unavailable.")
 
+# Translators: Orca has a command to present the contents of the status bar.
+# This is a brief message which will be presented if Orca cannot find the
+# status bar (e.g. because there isn't one).
+STATUS_BAR_NOT_FOUND_BRIEF = C_("status bar", "Not found")
+
+# Translators: Orca has a command to present the contents of the status bar.
+# This is a detailed message which will be presented if Orca cannot find the
+# status bar (e.g. because there isn't one).
+STATUS_BAR_NOT_FOUND_FULL = _("Status bar not found")
+
 # Translators: the Orca "Find" dialog allows a user to search for text in a
 # window and then move focus to that text.  For example, they may want to find
 # the "OK" button.  This message lets them know a string they were searching
@@ -2387,12 +2405,12 @@ TIME_FORMAT_12_HMS = "%I:%M:%S %p"
 # Translators: Orca has a feature to speak the time when the user presses a
 # shortcut key. This is one of the alternative formats that the user may wish
 # it to be presented with.
-TIME_FORMAT_24_HMS_WITH_WORDS = _("%H hours, %M minutes and %S seconds.")
+TIME_FORMAT_24_HMS_WITH_WORDS = _("%H hours, %M minutes and %S seconds")
 
 # Translators: Orca has a feature to speak the time when the user presses a
 # shortcut key. This is one of the alternative formats that the user may wish
 # it to be presented with.
-TIME_FORMAT_24_HM_WITH_WORDS = _("%H hours and %M minutes.")
+TIME_FORMAT_24_HM_WITH_WORDS = _("%H hours and %M minutes")
 
 # Translators: this is information about a unicode character reported to the
 # user.  The value is the unicode number value of this character in hex.

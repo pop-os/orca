@@ -124,13 +124,14 @@ class Script(Gecko.Script):
 
         if self.spellcheck.isSuggestionsItem(newFocus):
             includeLabel = not self.spellcheck.isSuggestionsItem(oldFocus)
+            orca.emitRegionChanged(newFocus)
             self.updateBraille(newFocus)
             self.spellcheck.presentSuggestionListItem(includeLabel=includeLabel)
             return
 
         super().locusOfFocusChanged(event, oldFocus, newFocus)
 
-    def useFocusMode(self, obj):
+    def useFocusMode(self, obj, prevObj=None):
         if self.utilities.isEditableMessage(obj):
             msg = "THUNDERBIRD: Using focus mode for editable message %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -138,7 +139,7 @@ class Script(Gecko.Script):
 
         msg = "THUNDERBIRD: %s is not an editable message." % obj
         debug.println(debug.LEVEL_INFO, msg, True)
-        return super().useFocusMode(obj)
+        return super().useFocusMode(obj, prevObj)
 
     def enableStickyBrowseMode(self, inputEvent, forceMessage=False):
         if self.utilities.isEditableMessage(orca_state.locusOfFocus):
@@ -192,6 +193,9 @@ class Script(Gecko.Script):
         """Callback for object:state-changed:busy accessibility events."""
 
         if self.utilities.isEditableMessage(event.source):
+            return
+
+        if self.inFocusMode():
             return
 
         obj = event.source
@@ -255,7 +259,7 @@ class Script(Gecko.Script):
         default.Script.onShowingChanged(self, event)
 
     def onTextDeleted(self, event):
-        """Called whenever text is from an an object.
+        """Called whenever text is from an object.
 
         Arguments:
         - event: the Event
@@ -380,19 +384,6 @@ class Script(Gecko.Script):
             msg = "THUNDERBIRD: SayAllOnLoad is True and speech is enabled"
             debug.println(debug.LEVEL_INFO, msg, True)
             self.sayAll(None)
-
-    def sayWord(self, obj):
-        """Speaks the word at the current caret position."""
-
-        contextObj, offset = self.utilities.getCaretContext(documentFrame=None)
-        if contextObj != obj:
-            super().sayWord(obj)
-            return
-
-        wordContents = self.utilities.getWordContentsAtOffset(obj, offset)
-        textObj, startOffset, endOffset, word = wordContents[0]
-        self.speakMisspelledIndicator(textObj, startOffset)
-        self.speakContents(wordContents)
 
     def toggleFlatReviewMode(self, inputEvent=None):
         """Toggles between flat review mode and focus tracking mode."""

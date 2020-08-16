@@ -41,9 +41,9 @@
       <title>Styl velkých písmen</title>
       <p>V tomto rozbalovacím seznamu si můžete zvolit styl reprezentace velkých písmen, který si přejete používat v dispečerovi hlasového výstupu navíc ke čtení velikosti písmen. Volby, nazvané tak, jak je používá dispečer hlasového výstupu, jsou:</p>
      <list>
-       <item><p><gui>icon</gui>: Přehrát tón</p></item>
-       <item><p><gui>spell</gui>: Říci slovo „capital“</p></item>
-       <item><p><gui>nic</gui></p></item>
+       <item><p><gui>Icon</gui>: Plays a tone</p></item>
+       <item><p><gui>Spell</gui>: Speaks the word "capital"</p></item>
+       <item><p><gui>None</gui></p></item>
     </list>
     <note style="tip">
       <title>Toto nastavení je možné přepínat za běhu</title>

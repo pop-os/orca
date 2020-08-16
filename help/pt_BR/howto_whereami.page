@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#reviewing"/>
     <link type="next" xref="howto_flat_review"/>
-    <title type="sort">1. Onde Estou</title>
+    <title type="sort">1. Where Am I</title>
     <desc>Aprendendo sobre sua localização</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -31,7 +31,7 @@
       <mal:years>2013.</mal:years>
     </mal:credit>
   </info>
-  <title>Onde Estou</title>
+  <title>Where Am I</title>
   <p>Além dos comandos específicos para a leitura da barra de título e da barra de estado, o Orca fornece dois comandos sensíveis ao contexto do tipo Onde Estou: Onde Estou básico e o Onde Estou detalhado.. O Onde Estou básico é implementado para todos os objetos. O Onde Estou detalhado é implementado somente para aqueles objetos para os quais você deseja saber significativa quantidade de informação, entretanto, provavelmente não deseja saber o tempo todo.</p>
   <p>A melhor maneira de familiarizar-se com quê o comando "Onde Estou" apresentará é tentar (usar) os <link xref="commands_where_am_i">comandos Onde Estou</link>. No entanto, para lhe proporcionar uma melhor compreensão da natureza sensível ao contexto do recurso "Onde Estou" do <app>Orca</app>, considere o seguinte:</p>
   <p>Para a maioria dos controles, você será informado ao menos sobre o rótulo e/ou o nome, o tipo ou a regra deles e o mnemônico e/ou a tecla de acesso rápido, se ela existir. E ainda:</p>

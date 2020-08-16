@@ -65,13 +65,9 @@ class EventManager:
         debug.println(debug.LEVEL_INFO, 'Event manager initialized', True)
 
     def activate(self):
-        """Called when this presentation manager is activated."""
+        """Called when this event manager is activated."""
 
         debug.println(debug.LEVEL_INFO, 'EVENT MANAGER: Activating', True)
-        self._registerListener("window:activate")
-        self._registerListener("window:deactivate")
-        self._registerListener("object:children-changed")
-        self._registerListener("mouse:button")
         self.registerKeystrokeListener(self._processKeyboardEvent)
         self._active = True
         debug.println(debug.LEVEL_INFO, 'EVENT MANAGER: Activated', True)
@@ -100,10 +96,18 @@ class EventManager:
     def _ignore(self, event):
         """Returns True if this event should be ignored."""
 
+        anydata = event.any_data
+        if isinstance(anydata, str) and len(anydata) > 100:
+            anydata = "%s (...)" % anydata[0:100]
+
+        source = str(event.source)
+        if len(source) > 100:
+            source = "%s (...) ]" % source[0:100]
+
         debug.println(debug.LEVEL_INFO, '')
         msg = 'EVENT MANAGER: %s for %s in %s (%s, %s, %s)' % \
-              (event.type, event.source, event.host_application,
-               event.detail1,event.detail2, event.any_data)
+              (event.type, source, event.host_application,
+               event.detail1,event.detail2, anydata)
         debug.println(debug.LEVEL_INFO, msg, True)
 
         if not self._active:
@@ -121,8 +125,13 @@ class EventManager:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
+        if event.type.startswith('mouse:button'):
+            msg = 'EVENT MANAGER: Not ignoring because event type is never ignored'
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
         script = orca_state.activeScript
-        if event.type.startswith('object:children-changed:add'):
+        if event.type.startswith('object:children-changed'):
             if not script:
                 msg = 'EVENT MANAGER: Ignoring because there is no active script'
                 debug.println(debug.LEVEL_INFO, msg, True)
@@ -131,14 +140,6 @@ class EventManager:
                 msg = 'EVENT MANAGER: Ignoring because event is not from active app'
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
-
-        # This should ultimately be changed as there are valid reasons
-        # to handle these events at the application level.
-        if event.type.startswith('object:children-changed:remove') \
-           and event.source != self._desktop:
-            msg = 'EVENT MANAGER: Ignoring because event type is ignored'
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return True
 
         if event.type.startswith('object:text-changed') and event.type.endswith('system'):
             # We should also get children-changed events telling us the same thing.
@@ -161,6 +162,12 @@ class EventManager:
             msg = 'ERROR: Event is from potentially-defunct source'
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
+
+        if state.isEmpty():
+            msg = 'EVENT MANAGER: Ignoring event due to empty state set'
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
         if state.contains(pyatspi.STATE_DEFUNCT):
             msg = 'ERROR: Event is from defunct source'
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -169,8 +176,13 @@ class EventManager:
         if event.type.startswith('object:property-change:accessible-name'):
             if role in [pyatspi.ROLE_CANVAS,
                         pyatspi.ROLE_ICON,
+                        pyatspi.ROLE_LABEL,      # gnome-shell spam
+                        pyatspi.ROLE_LIST_ITEM,  # Web app spam
+                        pyatspi.ROLE_LIST,       # Web app spam
+                        pyatspi.ROLE_SECTION,    # Web app spam
                         pyatspi.ROLE_TABLE_ROW,  # Thunderbird spam
                         pyatspi.ROLE_TABLE_CELL, # Thunderbird spam
+                        pyatspi.ROLE_MENU,
                         pyatspi.ROLE_MENU_ITEM]:
                 msg = 'EVENT MANAGER: Ignoring event type due to role'
                 debug.println(debug.LEVEL_INFO, msg, True)
@@ -180,6 +192,11 @@ class EventManager:
                 msg = 'EVENT MANAGER: Ignoring event type due to role and state'
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
+        elif event.type.startswith('object:text-changed:insert') and event.detail2 > 1000 \
+             and role in [pyatspi.ROLE_TEXT, pyatspi.ROLE_STATIC]:
+            msg = 'EVENT MANAGER: Ignoring because inserted text has more than 1000 chars'
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
         elif event.type.startswith('object:state-changed:sensitive'):
             if role in [pyatspi.ROLE_MENU_ITEM,
                         pyatspi.ROLE_FILLER,
@@ -214,7 +231,7 @@ class EventManager:
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
 
-        if event.type.startswith('object:children-changed:add') \
+        if event.type.startswith('object:children-changed') \
            or event.type.startswith('object:active-descendant-changed'):
             if role in [pyatspi.ROLE_MENU,
                         pyatspi.ROLE_LAYERED_PANE,
@@ -229,6 +246,7 @@ class EventManager:
             try:
                 childState = event.any_data.getState()
                 childRole = event.any_data.getRole()
+                name = event.any_data.name
             except:
                 msg = 'ERROR: Event any_data contains potentially-defunct child/descendant'
                 debug.println(debug.LEVEL_INFO, msg, True)
@@ -295,8 +313,11 @@ class EventManager:
         elif isinstance(e, input_event.BrailleEvent):
             data = "'%s'" % repr(e.event)
         elif not debug.eventDebugFilter or debug.eventDebugFilter.match(e.type):
+            anydata = e.any_data
+            if isinstance(anydata, str) and len(anydata) > 100:
+                anydata = "%s (...)" % anydata[0:100]
             data = "%s (%s,%s,%s) from %s" % \
-                   (e.source, e.detail1, e.detail2, e.any_data, e.host_application)
+                   (e.source, e.detail1, e.detail2, anydata, e.host_application)
         else:
             return
 
@@ -345,7 +366,8 @@ class EventManager:
             except:
                 toolkitName = None
             if toolkitName in self._synchronousToolkits \
-               or isinstance(e, input_event.MouseButtonEvent):
+               or isinstance(e, input_event.MouseButtonEvent) \
+               or e.type.startswith("object:children-changed"):
                 asyncMode = False
             script = _scriptManager.getScript(app, e.source)
             script.eventCache[e.type] = (e, time.time())
@@ -371,6 +393,7 @@ class EventManager:
 
         defaultScript = _scriptManager.getDefaultScript()
         _scriptManager.setActiveScript(defaultScript, 'No focus')
+        defaultScript.idleMessage()
         return False
 
     def _dequeue(self):
@@ -682,12 +705,7 @@ class EventManager:
                 if event.source == self._desktop:
                     _scriptManager.reclaimScripts()
                     return
-            except (LookupError, RuntimeError):
-                # If we got this error here, we'll get it again when we
-                # attempt to get the state, catch it, and clean up.
-                pass
             except:
-                debug.printException(debug.LEVEL_WARNING)
                 return
 
         if eType.startswith("window:") and not eType.endswith("create"):

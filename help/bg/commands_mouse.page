@@ -31,7 +31,15 @@
   <title>Команди свързани с мишката/показалеца</title>
   <p><app>Orca</app> предоставя няколко команди, които могат да бъдат използвани за управление на показалеца на мишката и за прочитане на съдържанието под него. Всички команди са „присвоени“ на клавишни комбинации, с едно изключение: превключване на режима на преглед на мишката. Вижте секцията <link xref="howto_key_bindings">Промяна на функциите на клавишите</link> за повече информация как да присвоите тази команда към клавишна комбинация.</p>
   <note style="tip">
-    <p>В следващия списък ще видите няколко препратки към „цифровия блок“. Всички клавиши от „цифровия блок“ обикновено са отделени в дясната част на клавиатурата. Ще забележите също, че има различни клавишни комбинации, в зависимост от това дали използвате настолен компютър или лаптоп — или по-точно, дали използвате подредбата на <app>Orca</app> за настолни компютри или подредбата за лаптопи. За повече информация, вижте секцията <link xref="howto_keyboard_layout">Клавиатурни подредби</link>.</p>
+    <p>
+      Below you will see several references to "KP". All
+      "KP" keys are located on the numeric keypad. You will also notice that
+      there are different keystrokes depending upon whether you are using a
+      desktop or a laptop -- or more accurately, whether you are using
+      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
+      For additional information, please see the
+      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
+    </p>
   </note>
   <list>
     <item>

@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#getting_started"/>
     <link type="next" xref="howto_keyboard_layout"/>
-    <title type="sort">5. „Обучителен“ режим</title>
+    <title type="sort">5. Learn Mode</title>
     <desc>Откриване на командите на <app>Orca</app></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -25,7 +25,7 @@
       <mal:years>2016</mal:years>
     </mal:credit>
   </info>
-  <title>Режим на обучение</title>
+  <title>Learn Mode</title>
   <p>В режим на обучение, <app>Orca</app> ще ви съобщава всяка клавишна комбинация която натиснете, заедно с всяка асоциирана с нея команда на <app>Orca</app>. В този режим можете също да получите списък с клавиши за всички команди на <app>Orca</app>, които можете да използвате.</p>
   <steps>
     <title>Използване на режима на обучение</title>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_live_regions" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_chat"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="howto_live_regions"/>
+    <title type="sort">1. Інтерактивні області</title>
+    <title type="link">Інтерактивні області</title>
+    <desc>Команди для доступу до інтерактивних вебобластей</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди інтерактивних областей</title>
+  <p>Наведеними нижче командами можна скористатися для доступу до вебсторінок із динамічно оновлюваним вмістом, які зроблено доступними для читання за допомогою ARIA.</p>
+  <list>
+    <item>
+      <p>Спостерігати за інтерактивними областями: <keyseq><key>Модифікатор Orca</key><key>Shift</key><key>Backslash</key></keyseq></p>
+    </item>
+    <item>
+      <p>Розширені параметри роботи із змінюваними областями: <key>Backslash</key></p>
+    </item>
+    <item>
+      <p>Встановити типовий рівень ввічливості у значення «вимкнено»: <keyseq><key>Shift</key><key>Backslash</key></keyseq></p>
+    </item>
+    <item>
+      <p>Перейти до наступної або попередньої інтерактивної області: <keyseq><key>D</key></keyseq>/<keyseq><key>Shift</key><key>D</key></keyseq></p>
+    </item>
+    <item>
+      <p>Перейти до останньої інтерактивної області, яку було оголошено: <keyseq><key>Y</key></keyseq></p>
+    </item>
+    <item>
+      <p>Переглянути оголошення інтерактивних областей: від <keyseq><key>Модифікатор Orca</key><key>F1</key></keyseq> до <key>F9</key></p>
+    </item>
+</list>
+</page>

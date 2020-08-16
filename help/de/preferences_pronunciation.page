@@ -45,7 +45,9 @@
   <steps>
     <title>Hinzufügen eines neuen Eintrags zum Wörterbuch</title>
     <item>
-      <p>Klicken Sie den Knopf »Neuer Eintrag« (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
+      <p>
+        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
+      </p>
     </item>
     <item>
       <p>Geben Sie Text des neuen Eintrags ein und beenden Sie Ihre Eingabe mit der <key>Eingabetaste</key>.</p>
@@ -72,7 +74,9 @@
       <p>Verschieben Sie den Eintrag, den Sie löschen möchten.</p>
     </item>
     <item>
-      <p>Drücken Sie den Knopf »Löschen« oder <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
+      <p>
+        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
+      </p>
     </item>
   </steps>
 </page>

@@ -77,8 +77,13 @@
       <p>Výchozí hodnota: nezaškrtnuto</p>
     </section>
     <section id="flashMessageSettings_duration">
-      <title>Doba prezentování zprávy (v sekundách)</title>
-      <p>Dobu, po kterou bude <app>Orca</app> čekat, než zprávu odstraní a obnoví původní obsah řádku, můžete nastavit pomocí číselníku <gui>Doba prezentování zprávy (v sekundách)</gui>. Uvědomte si, že pokud máte zapnuté trvalé bleskové zprávy, bude hodnota tohoto nastavení ignorována.</p>
+      <title>Duration (secs)</title>
+      <p>
+        The amount of time <app>Orca</app> will wait before removing the message and
+        restoring the original contents of your display can be set in the <gui>
+        Duration (secs)</gui> spin button. Note that the value of this
+        setting will be ignored if you have enabled persistent flash messages.
+      </p>
       <p>Výchozí hodnota: 5</p>
     </section>
   </section>

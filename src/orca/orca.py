@@ -121,6 +121,41 @@ _restoreOrcaKeys = False
 #                                                                      #
 ########################################################################
 
+CARET_TRACKING = "caret-tracking"
+FOCUS_TRACKING = "focus-tracking"
+FLAT_REVIEW = "flat-review"
+MOUSE_REVIEW = "mouse-review"
+SAY_ALL = "say-all"
+
+def emitRegionChanged(obj, startOffset=None, endOffset=None, mode=None):
+    """Notifies interested clients that the current region of interest has changed."""
+
+    if startOffset is None:
+        startOffset = 0
+    if endOffset is None:
+        endOffset = startOffset
+    if mode is None:
+        mode = FOCUS_TRACKING
+
+    try:
+        obj.emit("mode-changed::" + mode, 1, "")
+    except:
+        msg = "ORCA: Exception emitting mode-changed notification"
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+    if mode != orca_state.activeMode:
+        msg = "ORCA: Switching active mode from %s to %s" % (orca_state.activeMode, mode)
+        debug.println(debug.LEVEL_INFO, msg, True)
+        orca_state.activeMode = mode
+
+    try:
+        msg = "ORCA: Region of interest: %s (%i, %i)" % (obj, startOffset, endOffset)
+        debug.println(debug.LEVEL_INFO, msg, True)
+        obj.emit("region-changed", startOffset, endOffset)
+    except:
+        msg = "ORCA: Exception emitting region-changed notification"
+        debug.println(debug.LEVEL_INFO, msg, True)
+
 def setLocusOfFocus(event, obj, notifyScript=True, force=False):
     """Sets the locus of focus (i.e., the object with visual focus) and
     notifies the script of the change should the script wish to present
@@ -402,7 +437,7 @@ def loadUserSettings(script=None, inputEvent=None, skipReloadMessage=False):
 
     if _settingsManager.getSetting('enableBraille'):
         try:
-            braille.init(_processBrailleEvent, settings.tty)
+            braille.init(_processBrailleEvent)
         except:
             debug.printException(debug.LEVEL_WARNING)
             msg = 'ORCA: Could not initialize connection to braille.'

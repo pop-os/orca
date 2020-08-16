@@ -83,8 +83,13 @@
       <p>Standardvärde: inte ikryssad</p>
     </section>
     <section id="flashMessageSettings_duration">
-      <title>Meddelandelängd (sek)</title>
-      <p>Tidsperioden som <app>Orca</app> kommer vänta innan meddelandet tas bort och det ursprungliga innehållet på din skärm återställs kan ställas in i snurrknappen <gui>Meddelandelängd (sek)</gui>. Notera att värdet på denna inställning kommer ignoreras om du har aktiverat beständiga blixtmeddelanden.</p>
+      <title>Duration (secs)</title>
+      <p>
+        The amount of time <app>Orca</app> will wait before removing the message and
+        restoring the original contents of your display can be set in the <gui>
+        Duration (secs)</gui> spin button. Note that the value of this
+        setting will be ignored if you have enabled persistent flash messages.
+      </p>
       <p>Standardvärde: 5</p>
     </section>
   </section>

@@ -54,20 +54,36 @@
   </section>
   <section id="reset">
      <title>Връщане на промените</title>
-     <p>След списъка с атрибутите на текста ще намерите бутон „Изчистване“ (<keyseq><key>Alt</key><key>R</key></keyseq>), който ще изчисти стойностите на атрибутите в таблицата, както са били в момента, в който прозорецът е бил отворен първоначално.</p>
+     <p>
+       Beneath the list of text attributes, there is a <gui>Reset</gui> button
+       (<keyseq><key>Alt</key><key>R</key></keyseq>) which will restore
+       the values of the table to what they were when the dialog was
+       first displayed.
+    </p>
   </section>
   <section id="rearranging">
      <title>Подреждане на реда на представяне</title>
-     <p>Когато отворите първоначално страницата атрибути на текста, всички включени атрибути са подредени в началото на таблицата в реда, в който ще бъдат представени. Има четири бутона, които могат да бъдат използвани за подреждане на реда на представяне.</p>
+     <p>
+        When you initially display the <gui>Text Attributes</gui> page, all of your enabled
+        attributes are placed at the top of the table in the order in which they
+        will be spoken. There are four buttons which can be used to rearrange
+        the order of presentation.
+    </p>
     <list>
       <item>
         <p><gui>Преместване в началото</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>): премества избрания атрибут в началото на списъка.</p>
       </item>
       <item>
-        <p><gui>Преместване нагоре</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>): премества избрания атрибут нагоре с един ред.</p>
+        <p>
+          <gui>Move up</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>):
+          moves the selected attribute up one row.
+        </p>
       </item>
       <item>
-        <p><gui>Преместване надолу</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>): премества избрания атрибут надолу с един ред.</p>
+        <p>
+          <gui>Move down</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>):
+          moves the selected attribute down one row.
+        </p>
       </item>
       <item>
         <p><gui>Преместване в края</gui> (<keyseq><key>Alt</key><key>B</key></keyseq>): премества избрания атрибут в края на списъка.</p>

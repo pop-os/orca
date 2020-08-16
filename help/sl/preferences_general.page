@@ -20,7 +20,12 @@
       <desc>Možnost za izbiro razporeditve tipkovnice, ki jo bo uporabljala <app>Orka</app>. Na voljo sta razporeditvi namiznega računalnika in prenosnika.</desc>
     </info>
     <title>Razporeditev tipkovnice</title>
-    <p>Izbirni gumb <gui>razporeditev tipkovnice</gui> vam omogoča navedbo, če boste delali s tipkovnico namiznega računalnika (s številčno tipkovnico) ali prenosnika. Razporeditev, ki jo izberete, bo določila tako <key>Spremenilno tipko Orka</key> kot tudi številne tipkovne bližnjice za izvajanje ukazov <app>Orka</app>.</p>
+    <p>
+      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
+      you will be working on a desktop (i.e. with a numeric keypad) or laptop
+      keyboard. Which layout you choose will determine both the <key>Orca
+      Modifier</key> as well as a number of keyboard shortcuts for performing
+      <app>Orca</app> commands.</p>
     <p>Privzeta vrednost: <gui>Namizni računalnik</gui></p>
   </section>
   <section id="presenttooltips">
@@ -174,7 +179,7 @@
       <p>Privzeta vrednost: 10</p>
     </section>
     <section id="progress_bar_updates_restrict">
-      <title>Omeji na</title>
+      <title>Applies to</title>
       <p>To spustno polje vam omogoča nadzor katere vrstice napredka naj bodo predstavljene, če je bilo predstavljanje posodobitev vrstic napredka omogočeno. Izbire so <gui>Vse</gui>, <gui>Program</gui> in <gui>Okno</gui>.</p>
       <p>Izbira <gui>Vse</gui> določi, da <app>Orka</app> predstavi posodobitve za vse vrstice napredka ne glede na to kje so.</p>
       <p>Izbira <gui>Program</gui> določi, da <app>Orka</app> predstavi posodobitve iz vrstic napredka v dejavnem programu, tudi če niso v dejavnem oknu.</p>

@@ -48,20 +48,36 @@
   </section>
   <section id="reset">
      <title>Αναίρεση αλλαγών</title>
-     <p>Κάτω από τη λίστα των γνωρισμάτων κειμένου, υπάρχει ένα κουμπί επαναφοράς (<keyseq><key>Alt</key><key>R</key></keyseq>) που θα επαναφέρει τις τιμές του πίνακα σε εκείνες που ήταν όταν ο διάλογος πρωτοεμφανίστηκε.</p>
+     <p>
+       Beneath the list of text attributes, there is a <gui>Reset</gui> button
+       (<keyseq><key>Alt</key><key>R</key></keyseq>) which will restore
+       the values of the table to what they were when the dialog was
+       first displayed.
+    </p>
   </section>
   <section id="rearranging">
      <title>Αναδιάταξη της σειράς παρουσίασης</title>
-     <p>Όταν εμφανίζετε αρχικά τη σελίδα γνωρίσματος κειμένου, όλα τα ενεργά γνωρίσματα τοποθετούνται στην κορυφή του πίνακα με τη σειρά εκφώνησης. Υπάρχουν τέσσερα κουμπιά που μπορούν να χρησιμοποιηθούν για αναδιάταξη της σειράς παρουσίασης.</p>
+     <p>
+        When you initially display the <gui>Text Attributes</gui> page, all of your enabled
+        attributes are placed at the top of the table in the order in which they
+        will be spoken. There are four buttons which can be used to rearrange
+        the order of presentation.
+    </p>
     <list>
       <item>
         <p><gui>μετακίνηση στην κορυφή</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>): μετακινεί το επιλεγμένο γνώρισμα στην κορυφή της λίστας.</p>
       </item>
       <item>
-        <p><gui>μετακίνηση μια γραμμή επάνω</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>): μετακινεί το επιλεγμένο γνώρισμα μια γραμμή επάνω.</p>
+        <p>
+          <gui>Move up</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>):
+          moves the selected attribute up one row.
+        </p>
       </item>
       <item>
-        <p><gui>μετακίνηση μια γραμμή κάτω</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>): μετακινεί το επιλεγμένο γνώρισμα μια γραμμή κάτω.</p>
+        <p>
+          <gui>Move down</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>):
+          moves the selected attribute down one row.
+        </p>
       </item>
       <item>
         <p><gui>μετακίνηση στο τέλος</gui> (<keyseq><key>Alt</key><key>B</key></keyseq>): μετακινεί το επιλεγμένο γνώρισμα στο τέλος της λίστας.</p>

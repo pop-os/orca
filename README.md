@@ -1,4 +1,4 @@
-# Orca v3.36.2
+# Orca v3.37.90
 
 ## Introduction
 
@@ -22,7 +22,7 @@ requests.
 
 ## Dependencies
 
-Orca v3.36.x is supported on GNOME 3.36.x only.  We highly suggest you
+Orca v3.37.x is supported on GNOME 3.37.x only.  We highly suggest you
 use the latest releases of GNOME because they contain accessibility
 infrastructure and application bug fixes that help Orca work better.
 
@@ -39,22 +39,8 @@ Orca also has the following dependencies:
 * py-setproctitle  - Python library to set the process title (optional)
 * gstreamer-1.0    - GStreamer - Streaming media framework (optional)
 
-YOU ALSO NEED THE LATEST AT-SPI2, PYATSPI2 AND ATK FOR THE GNOME 3.36.x
+YOU ALSO NEED THE LATEST AT-SPI2, PYATSPI2 AND ATK FOR THE GNOME 3.37.x
 RELEASES.  THEY CONTAIN VERY IMPORTANT BUG FIXES!
-
-> NOTE: If you have multiple versions of the Python interpreter installed
-on your machine, you should set the PYTHON environment variable when
-configuring Orca.  For example:
-
-```sh
-PYTHON=/usr/bin/python3.3 ./autogen.sh
-```
-
-or
-
-```sh
-PYTHON=/usr/bin/python3.3 ./configure
-```
 
 ## NOTE FOR BRLTTY USERS:
 
@@ -86,5 +72,4 @@ within Orca as well as at: <https://help.gnome.org/users/orca/stable/>
 
 So, you want to write a script for Orca?  The best thing to do is 
 start by looking at other scripts under the src/orca/scripts/ hierarchy
-of the source tree.  Also, the docs/doc-set/internals.html file contains
-detailed information about the internal workings of Orca.
+of the source tree.

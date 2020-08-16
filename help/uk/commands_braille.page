@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_braille" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_reading"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_braille"/>
+    <title type="sort">2. Брайль</title>
+    <title type="link">Брайль</title>
+    <desc>Команди, якими можна скористатися на дисплеях Брайля</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди Брайля</title>
+  <p>Вказаними нижче командами можна керувати <app>Orca</app> за допомогою вашого оновлюваного дисплея Брайля, замість клавіатури:</p>
+  <list>
+    <item><p>Панорамувати брайлівський дисплей ліворуч: Рядок ліворуч</p></item>
+    <item><p>Панорамувати дисплей Брайля праворуч: Рядок праворуч</p></item>
+    <item><p>Перемкнути режим загального перегляду: Зафіксувати</p></item>
+    <item><p>Переглянути слово вище: Рядок вгору</p></item>
+    <item><p>Переглянути слово нижче: Рядок вниз</p></item>
+    <item><p>Переглянути нижній лівий: Нижній правий</p></item>
+    <item><p>Переглянути початкову позицію: Верхній лівий</p></item>
+    <item><p>Скоропис Брайля: Шість крапок</p></item>
+    <item><p>Позначити початок позначення тексту: Початок вирізання</p></item>
+    <item><p>Позначити кінець позначеного тексту: Вирізати рядок</p></item>
+    <item><p>Робота з клавішею маршрутизації курсора: Курсорне керування</p></item>
+    <item><p>Повертає об'єкт, що має фокус клавіатури: Позиція курсора</p></item>
+  </list>
+</page>

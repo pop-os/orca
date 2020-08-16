@@ -27,7 +27,9 @@
   <steps>
     <title>Lägga till en ny ordbokspost</title>
     <item>
-      <p>Tryck ned knappen Ny post (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
+      <p>
+        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
+      </p>
     </item>
     <item>
       <p>Skriv in texten för den nya posten och tryck <key>Retur</key> för att slutföra redigering av den faktiska strängen.</p>
@@ -54,7 +56,9 @@
       <p>Flytta till posten som du vill ta bort.</p>
     </item>
     <item>
-      <p>Tryck på Ta bort-knappen eller <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
+      <p>
+        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
+      </p>
     </item>
   </steps>
 </page>

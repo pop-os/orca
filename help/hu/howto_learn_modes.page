@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#getting_started"/>
     <link type="next" xref="howto_keyboard_layout"/>
-    <title type="sort">5. Az <app>Orka</app> tanuló mód</title>
+    <title type="sort">5. Learn Mode</title>
     <desc>Az <app>Orka</app> parancsainak felfedezése</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -19,7 +19,7 @@
       <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
     </mal:credit>
   </info>
-  <title>Az <app>Orka</app> tanuló mód használata</title>
+  <title>Learn Mode</title>
   <p>A tanuló módban az <app>Orka</app> kimondja az Ön által lenyomott billentyűkombinációkat és a hozzájuk társított <app>Orka</app> parancsokat. Ezen kívül, a billentyűparancs-listázó mód segítségével az összes használható <app>Orka</app> parancsot egy listában áttekintheti.</p>
   <steps>
     <title>A tanuló mód használata</title>

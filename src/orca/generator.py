@@ -236,6 +236,7 @@ class Generator:
             msg = '%s GENERATOR: Starting generation for %s' % (self._mode.upper(), obj)
             debug.println(debug.LEVEL_INFO, msg, True)
 
+            debuginfo = lambda x: self._resultElementToString(x, False)
             assert(formatting)
             while True:
                 currentTime = time.time()
@@ -253,9 +254,11 @@ class Generator:
                         break
                     globalsDict[arg] = self._methodsDict[arg](obj, **args)
                     duration = "%.4f" % (time.time() - currentTime)
-                    debug.println(debug.LEVEL_ALL,
-                                  "%sGENERATION TIME: %s  ---->  %s=%s" \
-                                  % (' ' * 18, duration, arg, repr(globalsDict[arg])))
+                    if isinstance(globalsDict[arg], list):
+                        stringResult = " ".join(filter(lambda x: x, map(debuginfo, globalsDict[arg])))
+                        debug.println(debug.LEVEL_ALL,
+                                      "%sGENERATION TIME: %s  ---->  %s=[%s]" \
+                                      % (" " * 18, duration, arg, stringResult))
 
         except:
             debug.printException(debug.LEVEL_SEVERE)
@@ -263,14 +266,25 @@ class Generator:
 
         duration = "%.4f" % (time.time() - startTime)
         debug.println(debug.LEVEL_ALL, "%sCOMPLETION TIME: %s" % (' ' * 18, duration))
-        debug.println(debug.LEVEL_ALL, "%s GENERATOR: Results:" % self._mode.upper(), True)
-        for element in result:
-            debug.println(debug.LEVEL_ALL, "%s%s" % (' ' * 18, element))
-
+        self._debugResultInfo(result)
         if args.get('isProgressBarUpdate') and result:
             self.setProgressBarUpdateTimeAndValue(obj)
 
         return result
+
+    def _resultElementToString(self, element, includeAll=True):
+        if not includeAll:
+            return str(element)
+
+        return "\n%s'%s'" % (" " * 18, element)
+
+    def _debugResultInfo(self, result):
+        if debug.LEVEL_ALL < debug.debugLevel:
+            return
+
+        info = "%s%s GENERATOR: Results: " % (" " * 18, self._mode.upper())
+        info += "%s" % " ".join(map(self._resultElementToString, result))
+        debug.println(debug.LEVEL_ALL, info)
 
     #####################################################################
     #                                                                   #
@@ -286,6 +300,13 @@ class Generator:
         """
         # Subclasses must override this.
         return []
+
+    def _fallBackOnDescriptionForName(self, obj, **args):
+        role = args.get('role', obj.getRole())
+        if role == pyatspi.ROLE_LABEL:
+            return False
+
+        return True
 
     def _generateName(self, obj, **args):
         """Returns an array of strings for use by speech and braille that
@@ -304,29 +325,9 @@ class Generator:
         result = []
         self._script.pointOfReference['usedDescriptionForName'] = False
         name = obj.name
-        if obj.getRole() == pyatspi.ROLE_COMBO_BOX:
-            children = self._script.utilities.selectedChildren(obj)
-            if not children:
-                try:
-                    children = self._script.utilities.selectedChildren(obj[0])
-                except:
-                    pass
-            try:
-                include = lambda x: not self._script.utilities.isStaticTextLeaf(x)
-                children = children or [child for child in obj if include(child)]
-            except:
-                pass
-            names = map(self._script.utilities.displayedText, children)
-            names = list(filter(lambda x: x, names))
-            if len(names) == 1:
-                name = names[0].strip()
-            elif len(children) == 1 and children[0].name:
-                name = children[0].name.strip()
-            elif not names and obj.name:
-                name = obj.name
         if name:
             result.append(name)
-        else:
+        elif self._fallBackOnDescriptionForName(obj, **args):
             try:
                 description = obj.description
             except (LookupError, RuntimeError):
@@ -365,6 +366,10 @@ class Generator:
         """
         attrs = self._script.utilities.objectAttributes(obj)
         placeholder = attrs.get('placeholder-text')
+        if placeholder:
+            return [placeholder]
+
+        placeholder = attrs.get('placeholder')
         if placeholder:
             return [placeholder]
 
@@ -457,6 +462,11 @@ class Generator:
         if label:
             result.append(label)
         return result
+
+    def generateStatusBar(self, obj, **args):
+        """Returns an array of strings that represent a status bar."""
+
+        return self._generateStatusBar(obj, **args)
 
     #####################################################################
     #                                                                   #
@@ -681,6 +691,9 @@ class Generator:
            or obj.getRole() == pyatspi.ROLE_CHECK_MENU_ITEM:
             return self._generateCheckedState(obj, **args)
 
+        if obj.getState().contains(pyatspi.STATE_CHECKED):
+            return self._generateCheckedState(obj, **args)
+
         return []
 
     def _generateMenuItemCheckedState(self, obj, **args):
@@ -794,6 +807,13 @@ class Generator:
 
         result.append(text)
         return result
+
+    def _generateSortOrder(self, obj, **args):
+        description = self._script.utilities.getSortOrderDescription(obj)
+        if not description:
+            return []
+
+        return [description]
 
     def _generateTableCell2ChildLabel(self, obj, **args):
         """Returns an array of strings for use by speech and braille for the
@@ -1037,6 +1057,15 @@ class Generator:
         attribute if it exists on the object.  [[[WDW - we should
         consider returning an empty array if there is no value.
         """
+
+        role = args.get('role', obj.getRole())
+        if role == pyatspi.ROLE_COMBO_BOX:
+            value = self._script.utilities.getComboBoxValue(obj)
+            return [value]
+
+        if role == pyatspi.ROLE_SEPARATOR and not obj.getState().contains(pyatspi.STATE_FOCUSED):
+            return []
+
         return [self._script.utilities.textForValue(obj)]
 
     #####################################################################

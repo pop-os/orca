@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -42,6 +42,12 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
   <title>Verr. maj. pour l’agencement ordinateur portable</title>
   <p>
@@ -49,7 +55,7 @@
     impacts which key is used as the Orca Modifier. If you are using the Laptop
     layout, the default Orca Modifier will be <key>CapsLock</key>. If you are
     using <app>Orca</app>'s Laptop Layout and want to lock or unlock
-    <key>CapsLock</key>, you can do so by either typing <key>CapsLock</key>
+    <key>CapsLock</key>, you can do so by either pressing <key>CapsLock</key>
     twice (requires at-spi2 version 2.32 or later), or by performing the
     following steps:
   </p>

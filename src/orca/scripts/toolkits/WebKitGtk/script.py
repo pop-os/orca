@@ -512,10 +512,7 @@ class Script(default.Script):
         if obj.getRole() == pyatspi.ROLE_LINK:
             obj = obj.parent
 
-        if self.utilities.isDocument(obj):
-            document = obj
-        else:
-            document = self.utilities.getContainingDocument(obj)
+        document = self.utilities.getDocumentForObject(obj)
         if not document or document.getState().contains(pyatspi.STATE_BUSY):
             return
 
@@ -555,6 +552,8 @@ class Script(default.Script):
 
     def __sayAllProgressCallback(self, context, progressType):
         if progressType == speechserver.SayAllContext.PROGRESS:
+            orca.emitRegionChanged(
+                context.obj, context.currentOffset, context.currentEndOffset, orca.SAY_ALL)
             return
 
         obj = context.obj
@@ -576,6 +575,7 @@ class Script(default.Script):
             self._sayAllContexts = []
             if not self._lastCommandWasStructNav:
                 text.setCaretOffset(offset)
+            orca.emitRegionChanged(obj, offset)
             return
 
         # SayAllContext.COMPLETED doesn't necessarily mean done with SayAll;
@@ -592,6 +592,7 @@ class Script(default.Script):
             if [l for l in links if l.startIndex <= offset <= l.endIndex]:
                 return
 
+        orca.emitRegionChanged(obj, offset, mode=orca.SAY_ALL)
         text.setCaretOffset(offset)
 
     def getTextLineAtCaret(self, obj, offset=None, startOffset=None, endOffset=None):

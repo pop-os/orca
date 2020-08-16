@@ -56,7 +56,14 @@ class Utilities(web.Utilities):
         if not (obj and self.inDocumentContent(obj)):
             return super().isStaticTextLeaf(obj)
 
-        if obj.childCount:
+        try:
+            childCount = obj.childCount
+        except:
+            msg = "CHROMIUM: Exception getting child count of %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if childCount:
             return False
 
         if self.isListItemMarker(obj):
@@ -101,12 +108,23 @@ class Utilities(web.Utilities):
 
         rv = False
         if obj.parent and obj.parent.getRole() == pyatspi.ROLE_LIST_ITEM:
-            rv = self._getTag(obj) in ["::marker", None] and obj.parent[0] == obj
+            tag = self._getTag(obj)
+            if tag == "::marker":
+                rv = True
+            elif tag is not None:
+                rv = False
+            elif obj.parent.childCount > 1:
+                rv = obj.parent[0] == obj
+            else:
+                rv = obj.name != self.displayedText(obj.parent)
 
         self._isListItemMarker[hash(obj)] = rv
         return rv
 
     def selectedChildCount(self, obj):
+        if not obj:
+            return []
+
         count = super().selectedChildCount(obj)
         if count or "Selection" in pyatspi.listInterfaces(obj):
             return count
@@ -123,6 +141,9 @@ class Utilities(web.Utilities):
         return count
 
     def selectedChildren(self, obj):
+        if not obj:
+            return []
+
         result = super().selectedChildren(obj)
         if result or "Selection" in pyatspi.listInterfaces(obj):
             return result
@@ -298,6 +319,9 @@ class Utilities(web.Utilities):
         listbox = obj
         if obj.getRole() == pyatspi.ROLE_LIST_ITEM:
             listbox = listbox.parent
+
+        if not listbox:
+            return result
 
         # The listbox sometimes claims to be a redundant object rather than a listbox.
         # Clearing the AT-SPI2 cache seems to be the trigger.
@@ -483,41 +507,42 @@ class Utilities(web.Utilities):
 
         return super().findAllDescendants(root, includeIf, excludeIf)
 
-    def _accessibleAtPoint(self, root, x, y, coordType=None):
-        if self.isHidden(root):
-            return None
-
-        try:
-            component = root.queryComponent()
-        except:
-            msg = "CHROMIUM: Exception querying component of %s" % root
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return None
-
-        result = component.getAccessibleAtPoint(x, y, coordType)
+    def accessibleAtPoint(self, root, x, y, coordType=None):
+        result = super().accessibleAtPoint(root, x, y, coordType)
 
         # Chromium cannot do a hit test of web content synchronously. So what it
         # does is return a guess, then fire off an async hit test. The next time
         # one calls it, Chromium returns the previous async hit test result if
         # the point is still within its bounds. Therefore, we need to call
-        # getAccessibleAtPoint() twice to be safe.
-        result = component.getAccessibleAtPoint(x, y, coordType)
-
-        msg = "CHROMIUM: %s is descendant of %s at (%i, %i)" % (result, root, x, y)
+        # accessibleAtPoint() twice to be safe.
+        msg = "CHROMIUM: Getting accessibleAtPoint again due to async hit test result."
         debug.println(debug.LEVEL_INFO, msg, True)
+        result = super().accessibleAtPoint(root, x, y, coordType)
         return result
 
-    def descendantAtPoint(self, root, x, y, coordType=None):
-        if coordType is None:
-            coordType = pyatspi.DESKTOP_COORDS
+    def _isActiveAndShowingAndNotIconified(self, obj):
+        if super()._isActiveAndShowingAndNotIconified(obj):
+            return True
 
-        result = None
-        if self.isDocument(root):
-            result = self._accessibleAtPoint(root, x, y, coordType)
+        if obj and obj.getApplication() != self._script.app:
+            return False
 
-        root = result or root
-        result = super().descendantAtPoint(root, x, y, coordType)
-        if self.isListItemMarker(result) or self.isStaticTextLeaf(result):
-            return result.parent
+        # FIXME: This can potentially be non-performant because AT-SPI2 will recursively
+        # clear the cache of all descendants. This is an attempt to work around what may
+        # be a lack of window:activate and object:state-changed events from Chromium
+        # windows in at least some environments.
+        try:
+            msg = "CHROMIUM: Clearing cache for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            obj.clearCache()
+        except:
+            msg = "CHROMIUM: Exception clearing cache for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
 
-        return result
+        if super()._isActiveAndShowingAndNotIconified(obj):
+            msg = "CHROMIUM: %s deemed to be active and showing after cache clear" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        return False

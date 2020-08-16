@@ -43,6 +43,7 @@ except:
 from . import debug
 from . import event_manager
 from . import messages
+from . import orca
 from . import orca_state
 from . import script_manager
 from . import settings_manager
@@ -66,7 +67,7 @@ class _StringContext:
         - script: The script associated with the accessible object
         """
 
-        self._obj = hash(obj)
+        self._obj = obj
         self._script = script
         self._string = string
         self._start = start
@@ -142,6 +143,8 @@ class _StringContext:
 
         voice = self._script.speechGenerator.voice(string=self._string)
         string = self._script.utilities.adjustForRepeats(self._string)
+
+        orca.emitRegionChanged(self._obj, self._start, self._end, orca.MOUSE_REVIEW)
         self._script.speakMessage(string, voice=voice, interrupt=False)
         self._script.displayBrailleMessage(self._string, -1)
         return True
@@ -289,10 +292,21 @@ class _ItemContext:
         if self._frame and self._frame != prior._frame:
             self._script.presentObject(self._frame, alreadyFocused=True, inMouseReview=True)
 
+        if self._script.utilities.containsOnlyEOCs(self._obj):
+            msg = "MOUSE REVIEW: Not presenting object which contains only EOCs"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
         if self._obj and self._obj != prior._obj:
             priorObj = prior._obj or self._getContainer()
+            orca.emitRegionChanged(self._obj, mode=orca.MOUSE_REVIEW)
             self._script.presentObject(self._obj, priorObj=priorObj, inMouseReview=True)
+            if self._string.getString() == self._obj.name:
+                return True
             if not self._script.utilities.isEditableTextArea(self._obj):
+                return True
+            if self._obj.getRole() == pyatspi.ROLE_TABLE_CELL \
+               and self._string.getString() == self._script.utilities.displayedText(self._obj):
                 return True
 
         if self._string != prior._string and self._string.present():
@@ -308,7 +322,9 @@ class MouseReviewer:
         self._active = _settingsManager.getSetting("enableMouseReview")
         self._currentMouseOver = _ItemContext()
         self._pointer = None
+        self._workspace = None
         self._windows = []
+        self._all_windows = []
         self._handlerIds = {}
 
         self.inMouseEvent = False
@@ -340,10 +356,35 @@ class MouseReviewer:
     def activate(self):
         """Activates mouse review."""
 
+        # Set up the initial object as the one with the focus to avoid
+        # presenting irrelevant info the first time.
+        obj = orca_state.locusOfFocus
+        script = None
+        frame = None
+        if obj:
+            script = _scriptManager.getScript(obj.getApplication(), obj)
+        if script:
+            frame = script.utilities.topLevelObject(obj)
+        self._currentMouseOver = _ItemContext(obj=obj, frame=frame, script=script)
+
         _eventManager.registerModuleListeners(self._get_listeners())
         screen = Wnck.Screen.get_default()
         if screen:
+            # On first startup windows and workspace are likely to be None,
+            # but the signals we connect to will get emitted when proper values
+            # become available;  but in case we got disabled and re-enabled we
+            # have to get the initial values manually.
+            stacked = screen.get_windows_stacked()
+            if stacked:
+                stacked.reverse()
+                self._all_windows = stacked
+            self._workspace = screen.get_active_workspace()
+            if self._workspace:
+                self._update_workspace_windows()
+
             i = screen.connect("window-stacking-changed", self._on_stacking_changed)
+            self._handlerIds[i] = screen
+            i = screen.connect("active-workspace-changed", self._on_workspace_changed)
             self._handlerIds[i] = screen
 
         self._active = True
@@ -355,6 +396,9 @@ class MouseReviewer:
         for key, value in self._handlerIds.items():
             value.disconnect(key)
         self._handlerIds = {}
+        self._workspace = None
+        self._windows = []
+        self._all_windows = []
 
         self._active = False
 
@@ -395,12 +439,24 @@ class MouseReviewer:
         if orca_state.activeScript:
             orca_state.activeScript.presentMessage(msg)
 
+    def _update_workspace_windows(self):
+        self._windows = [w for w in self._all_windows
+                         if w.is_on_workspace(self._workspace)]
+
     def _on_stacking_changed(self, screen):
         """Callback for Wnck's window-stacking-changed signal."""
 
         stacked = screen.get_windows_stacked()
         stacked.reverse()
-        self._windows = stacked
+        self._all_windows = stacked
+        if self._workspace:
+            self._update_workspace_windows()
+
+    def _on_workspace_changed(self, screen, prev_ws=None):
+        """Callback for Wnck's active-workspace-changed signal."""
+
+        self._workspace = screen.get_active_workspace()
+        self._update_workspace_windows()
 
     def _contains_point(self, obj, x, y, coordType=None):
         if coordType is None:
@@ -515,18 +571,13 @@ class MouseReviewer:
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return
 
-        objDocument = script.utilities.getContainingDocument(obj)
+        objDocument = script.utilities.getTopLevelDocumentForObject(obj)
         if objDocument and script.utilities.inDocumentContent():
             document = script.utilities.activeDocument()
             if document != objDocument:
                 msg = "MOUSE REVIEW: %s is not in active document %s" % (obj, document)
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return
-
-        if obj and obj.getRole() in script.utilities.getCellRoles() \
-           and script.utilities.shouldReadFullRow(obj):
-            isRow = lambda x: x and x.getRole() == pyatspi.ROLE_TABLE_ROW
-            obj = pyatspi.findAncestor(obj, isRow) or obj
 
         screen, nowX, nowY = self._pointer.get_position()
         if (pX, pY) != (nowX, nowY):

@@ -24,7 +24,7 @@
     </info>
     <title>Disposición do teclado</title>
     <p>
-      The <gui>keyboard layout</gui> radio button group allows you to specify if
+      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
       you will be working on a desktop (i.e. with a numeric keypad) or laptop
       keyboard. Which layout you choose will determine both the <key>Orca
       Modifier</key> as well as a number of keyboard shortcuts for performing
@@ -231,7 +231,7 @@
       <p>Valor por omisión: 10</p>
     </section>
     <section id="progress_bar_updates_restrict">
-      <title>Restrinxir a</title>
+      <title>Applies to</title>
       <p>
          This combo box allows you to control which progress bars should be
          presented, assuming the presentation of progress bar updates has been

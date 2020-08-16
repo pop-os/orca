@@ -18,7 +18,10 @@
   <title>Předvolby klávesových zkratek</title>
   <section id="orca_modifier_keys">
     <title>Modifikační klávesy Orca</title>
-    <p>Rozbalovací seznam <gui>Modifikační klávesy Orca</gui> vám umožňuje si vybrat, která klávesa či klávesy budou sloužit jako Modifikátor Orca. Na výběr jsou:</p>
+    <p>
+      The <gui>Screen Reader Modifier Key(s)</gui> combo box allows you to select which
+      key or keys will serve as the Orca Modifier. The available options are:
+    </p>
     <list>
       <item>
         <p><gui>KP_Insert</gui> (ta stejná klávesa, co <key>0</key> na numerické klávesnici)</p></item>
@@ -32,13 +35,20 @@
     <p>Tabulka klávesových zkratek poskytuje seznam operací čtečky <app>Orca</app> a klávesy, které jim jsou přiřazeny.</p>
     <list>
       <item>
-        <p>Sloupec <gui>Funkce</gui> obsahuje popis příkazu <app>Orca</app>, který se má provést.</p>
+        <p>
+          The <gui>Command</gui> column contains a description of the
+          <app>Orca</app> command to be performed.
+        </p>
       </item>
       <item>
         <p>Sloupec <gui>Klávesová zkratka</gui> obsahuje klávesovou zkratku aktuálně přiřazenou k příkazu <app>Orca</app>. Hodnotu tohoto sloupce můžete změnit zmáčknutím <key>Enter</key>, zmáčknutím nové klávesové zkratky a opětovným zmáčknutím <key>Enter</key>.</p>
       </item>
       <item>
-        <p>Sloupec <gui>Změněno</gui> slouží jednak jako signalizace, že klávesová zkratka byla změněna a zároveň je způsobem, jak obnovit výchozí zkratku přiřazenou k této funkci.</p>
+        <p>
+          The <gui>Modified</gui> column serves both as an indicator to what
+          has been changed and as a way to restore the default bindings
+          associated with that command.
+        </p>
       </item>
     </list>
     <p>Za příkazy <app>Orca</app> s klávesovými zkratkami v seznamu najdete příkazy bez přiřazených klávesových zkratek. Jedná se o příkazy, u kterých jsme měli pocit, že by pro některé uživatele mohly být užitečné, ale většina uživatelů je nepotřebuje. Aby se zbytečně „nespotřebovaly“ klávesové zkratky pro takovéto příkazy, ponechali jsme je ve výchozím stavu bez nich. Na konci seznamu pak jsou příkazy s klávesovými zkratkami braillských zařízení pro používání na braillském řádku.</p>

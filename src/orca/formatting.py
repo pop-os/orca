@@ -129,7 +129,7 @@ formatting = {
             'detailedWhereAmI' : 'pageSummary'
             },
         pyatspi.ROLE_ALERT: {
-            'unfocused': 'labelOrName + roleName + pause + (expandedEOCs or unrelatedLabels or description)'
+            'unfocused': 'roleName + labelOrName + pause + (expandedEOCs or unrelatedLabels or description)'
             },
         pyatspi.ROLE_ANIMATION: {
             'unfocused': 'labelAndName'
@@ -167,12 +167,12 @@ formatting = {
             'basicWhereAmI': 'label + roleName + value + percentage + ' + MNEMONIC + ' + accelerator + required'
             },
         pyatspi.ROLE_COLUMN_HEADER: {
-            'unfocused': '((substring and currentLineText) or labelAndName) + roleName'
+            'focused': 'labelAndName + roleName + pause + sortOrder',
+            'unfocused': '((substring and currentLineText) or labelAndName) + roleName + pause + sortOrder'
             },
         pyatspi.ROLE_COMBO_BOX: {
-            'focused': 'labelAndName + roleName + expandableState',
-            'unfocused': 'labelAndName + roleName + pause + (currentLineText + anyTextSelection or positionInList) + ' + MNEMONIC + ' + accelerator',
-            'basicWhereAmI': 'label + roleName + pause + name + (currentLineText + anyTextSelection or positionInList) + ' + MNEMONIC + ' + accelerator'
+            'focused': 'labelOrName + roleName + expandableState',
+            'unfocused': 'labelOrName + roleName + pause + value + pause + positionInList + ' + MNEMONIC + ' + accelerator',
             },
         pyatspi.ROLE_COMMENT: {
             'focused': 'labelOrName + roleName',
@@ -216,14 +216,14 @@ formatting = {
             'unfocused': '(expandedEOCs or (labelOrName + roleName + (unrelatedLabels or description)))'
             },
         pyatspi.ROLE_DOCUMENT_FRAME: {
-            'unfocused': 'label + readOnly + textRole + currentLineText + anyTextSelection + ' + MNEMONIC,
-            'basicWhereAmI': 'label + readOnly + textRole + textContent + anyTextSelection + ' + MNEMONIC,
-            'detailedWhereAmI': 'label + readOnly + textRole + textContentWithAttributes + anyTextSelection + ' + MNEMONIC
+            'unfocused': 'labelOrName + readOnly + textRole + currentLineText + anyTextSelection + ' + MNEMONIC,
+            'basicWhereAmI': 'labelOrName + readOnly + textRole + textContent + anyTextSelection + ' + MNEMONIC,
+            'detailedWhereAmI': 'labelOrName + readOnly + textRole + textContentWithAttributes + anyTextSelection + ' + MNEMONIC
             },
         pyatspi.ROLE_DOCUMENT_WEB: {
-            'unfocused': 'label + readOnly + textRole + currentLineText + anyTextSelection + ' + MNEMONIC,
-            'basicWhereAmI': 'label + readOnly + textRole + textContent + anyTextSelection + ' + MNEMONIC,
-            'detailedWhereAmI': 'label + readOnly + textRole + textContentWithAttributes + anyTextSelection + ' + MNEMONIC
+            'unfocused': 'labelOrName + readOnly + textRole + currentLineText + anyTextSelection + ' + MNEMONIC,
+            'basicWhereAmI': 'labelOrName + readOnly + textRole + textContent + anyTextSelection + ' + MNEMONIC,
+            'detailedWhereAmI': 'labelorName + readOnly + textRole + textContentWithAttributes + anyTextSelection + ' + MNEMONIC
             },
         'ROLE_DPUB_LANDMARK': {
             'focused': 'leaving or labelOrName',
@@ -279,9 +279,7 @@ formatting = {
             'unfocused': 'labelAndName + unrelatedLabels'
             },
         pyatspi.ROLE_LABEL: {
-            'focused': 'label + displayedText + allTextSelection + roleName',
-            'unfocused': 'label + displayedText + allTextSelection + roleName',
-            'basicWhereAmI': 'label + displayedText + allTextSelection + roleName'
+            'unfocused': 'label + ((displayedText + allTextSelection) or name) + roleName',
             },
         pyatspi.ROLE_LANDMARK: {
             'focused': 'leaving or (roleName + labelAndName)',
@@ -414,7 +412,8 @@ formatting = {
             'basicWhereAmI': 'ancestors + labelOrName + roleName + radioState + accelerator + positionInList + ' + MNEMONIC
             },
         pyatspi.ROLE_ROW_HEADER: {
-            'unfocused': '((substring and currentLineText) or labelAndName) + roleName'
+            'focused': 'labelAndName + roleName + pause + sortOrder',
+            'unfocused': '((substring and currentLineText) or labelAndName) + roleName + pause + sortOrder'
             },
         pyatspi.ROLE_SCROLL_BAR: {
             'focused': 'value',
@@ -438,6 +437,10 @@ formatting = {
             'unfocused': 'labelAndName + (displayedText or value) + roleName + required + pause + invalid + availability + ' + MNEMONIC,
             'basicWhereAmI': 'label + roleName + name + (displayedText or value) + ' + MNEMONIC + ' + accelerator + required + pause + invalid'
             },
+        pyatspi.ROLE_SEPARATOR: {
+            'focused': 'roleName',
+            'unfocused': 'roleName + (labelOrName or displayedText or value) + ' + MNEMONIC,
+            },
         pyatspi.ROLE_SPLIT_PANE: {
             'focused': 'value',
             'unfocused': 'labelAndName + roleName + value + availability + ' + MNEMONIC,
@@ -445,13 +448,16 @@ formatting = {
             },
         pyatspi.ROLE_STATIC: {
             'unfocused': '(displayedText or name) + roleName',
-        },
+            },
+        pyatspi.ROLE_STATUS_BAR: {
+            'focused': 'labelAndName + roleName',
+            'unfocused': 'labelAndName + roleName + pause + statusBar',
+            },
         'ROLE_SWITCH': {
             'focused': 'switchState',
             'unfocused': 'labelOrName + roleName + switchState + availability + ' + MNEMONIC + ' + accelerator',
             'basicWhereAmI': 'labelOrName + roleName + switchState'
             },
-
         pyatspi.ROLE_TABLE: {
             'focused': 'leaving or (labelAndName + pause + table)',
             'unfocused': 'labelAndName + pause + table',
@@ -509,8 +515,9 @@ formatting = {
             'unfocused': 'labelAndName + roleName',
             },
         pyatspi.ROLE_TOOL_TIP: {
-            'unfocused': 'labelAndName',
-            'basicWhereAmI': 'labelAndName'
+            'focused': 'leaving or roleName',
+            'unfocused': 'roleName + labelAndName',
+            'basicWhereAmI': 'roleName + labelAndName'
             },
         pyatspi.ROLE_TREE_ITEM: {
             'focused': 'expandableState',
@@ -580,6 +587,9 @@ formatting = {
                              + (childWidget and ([Region(" ")] + childWidget))))'
             },
         #pyatspi.ROLE_ARROW: 'default'
+        pyatspi.ROLE_BLOCK_QUOTE: {
+            'unfocused': BRAILLE_TEXT + ' + (roleName and [Region(" " + asString(roleName + nestingLevel))])',
+            },
         pyatspi.ROLE_CANVAS: {
             'unfocused': '[Component(obj,\
                                      asString(((label + displayedText + imageDescription) or name) + roleName))]'
@@ -594,15 +604,13 @@ formatting = {
                                      asString(label + displayedText + roleName + availability) + asString(accelerator),\
                                      indicator=asString(checkedState))]'
             },
-        #pyatspi.ROLE_COLUMN_HEADER: 'default'
+        pyatspi.ROLE_COLUMN_HEADER: {
+            'unfocused': '[Component(obj,\
+                                     asString(((substring and currentLineText) or labelAndName) + roleName + sortOrder))]',
+            },
         pyatspi.ROLE_COMBO_BOX: {
-            # [[[TODO: WDW - maybe pass the label into the region constructor?
-            # We could then use the cursorOffset field to indicate where the
-            # combobox starts.]]]
-            #
-            'unfocused': '((comboBoxTextObj and ([Text(comboBoxTextObj[0], asString(label), asString(eol))] \
-                                               + [Region(" " + asString(roleName))])) \
-                           or [Component(obj, asString(label + name + roleName), label and (len(asString(label)) + 1) or 0)])'
+            'unfocused': '[Component(obj, asString(labelOrName + value + roleName), \
+                                     labelOrName and (len(asString(labelOrName)) + 1) or 0)]'
             },
         #pyatspi.ROLE_DESKTOP_ICON: 'default'
         pyatspi.ROLE_DIAL: {
@@ -610,7 +618,7 @@ formatting = {
                                      asString(labelOrName + value + roleName + required))]'
             },
         pyatspi.ROLE_DIALOG: {
-            'unfocused': '[Component(obj, asString(labelOrName + roleName))]'
+            'unfocused': '[Component(obj, asString(labelOrName + roleName + (unrelatedLabels or description)))]'
             },
         #pyatspi.ROLE_DIRECTORY_PANE: 'default'
         pyatspi.ROLE_DOCUMENT_FRAME: {
@@ -654,13 +662,10 @@ formatting = {
                                      asString(labelAndName + value + roleName + required))]',
             },
         pyatspi.ROLE_LABEL: {
-            'focused': '[Text(obj, asString(labelAndName))]',
-            'unfocused': '[Text(obj, asString(labelAndName))]'
+            'unfocused': BRAILLE_TEXT
             },
         pyatspi.ROLE_LINK: {
-            'unfocused': '[Link(obj, asString(currentLineText)\
-                                     or asString(displayedText)\
-                                     or asString(name))] \
+            'unfocused': '[Link(obj, asString(name or displayedText))] \
                         + (roleName and [Region(" " + asString(roleName))])',
         },
         pyatspi.ROLE_LIST: {
@@ -695,6 +700,10 @@ formatting = {
             'unfocused': '[Component(obj,\
                                      asString(labelOrName + expandableState + availability) + asString(accelerator),\
                                      indicator=asString(checkedStateIfCheckable))]'
+            },
+        pyatspi.ROLE_NOTIFICATION: {
+            'unfocused': '((substring and ' + BRAILLE_TEXT + ')\
+                          or ([Component(obj, asString(labelAndName + roleName))]))'
             },
         pyatspi.ROLE_PAGE: {
             'unfocused': BRAILLE_TEXT
@@ -742,7 +751,10 @@ formatting = {
                                      + asString(accelerator),\
                                      indicator=asString(radioState))]'
             },
-        #pyatspi.ROLE_ROW_HEADER: 'default'
+        pyatspi.ROLE_ROW_HEADER: {
+            'unfocused': '[Component(obj,\
+                                     asString(((substring and currentLineText) or labelAndName) + roleName + sortOrder))]',
+            },
         pyatspi.ROLE_SCROLL_BAR: {
             'unfocused': '[Component(obj,\
                                      asString(labelOrName + value + roleName + required))]'
@@ -751,9 +763,7 @@ formatting = {
             'unfocused': 'asPageTabOrScrollPane'
             },
         pyatspi.ROLE_SECTION: {
-            'unfocused': '((substring and ' + BRAILLE_TEXT + ')\
-                          or ([Component(obj, asString(labelAndName + roleName))]\
-                             + (childWidget and ([Region(" ")] + childWidget))))'
+            'unfocused': BRAILLE_TEXT
             },
         #'REAL_ROLE_SCROLL_PANE': 'default'
         pyatspi.ROLE_SLIDER: {
@@ -764,6 +774,10 @@ formatting = {
             'unfocused': '[Text(obj, asString(label), asString(eol))]\
                           + (required and [Region(" " + asString(required))] or [])\
                           + (readOnly and [Region(" " + asString(readOnly))] or [])'
+            },
+        pyatspi.ROLE_STATUS_BAR: {
+            'unfocused': '[Component(obj, asString(labelOrName + roleName))]\
+                              + [Region(" ")] + statusBar',
             },
         'ROLE_SWITCH' : {
             'unfocused': '[Component(obj,\

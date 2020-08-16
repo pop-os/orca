@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_introduction" xml:lang="uk">
+  <info>
+    <title type="sort">0. Вступ до налаштувань <app>Orca</app></title>
+    <title type="link">Вступ до налаштувань <app>Orca</app></title>
+    <link type="guide" xref="preferences"/>
+    <link type="next" xref="preferences_general"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Вступ до налаштувань <app>Orca</app></title>
+  <section id="orca">
+    <title>Налаштування Orca</title>
+    <p>За допомогою вікна налаштувань Orca ви можете визначити параметри роботи <app>Orca</app>, які стосуватимуться усіх програм. Прикладом налаштування Orca є параметр озвучування натискання клавіш, оскільки озвучування натискання клавіш стосується усіх програм одночасно.</p>
+    <p>Зауважте, що параметри Orca можна налаштувати на рівні окремої програми. Наприклад, ви можете налаштувати типове озвучування набраного на клавіатурі на рівні слів, а потім встановити для озвучування натискання клавіш у Pidgin значення «немає». Після цього, <app>Orca</app> озвучуватиме кожне введене вами слово, але не у вікні Pidgin.</p>
+    <note style="tip">
+      <title>Клавіатурні скорочення для доступу до діалогових вікон налаштувань</title>
+      <list>
+        <item>
+          <p><keyseq><key>Модифікатор Orca</key><key>Пробіл</key></keyseq>: налаштування <app>Orca</app></p>
+        </item>
+        <item>
+          <p><keyseq><key>Ctrl</key><key>Модифікатор Orca</key><key>Пробіл</key> </keyseq>: параметри <app>Orca</app> для поточної програми</p>
+        </item>
+      </list>
+    </note>
+  </section>
+  <section id="application_unique">
+    <title>Параметри для окремої програми</title>
+      <p>Окрім загальних параметрів Orca, існують ще і параметри для окремих програм. За допомогою цих параметрів ви можете визначити функціональні можливості <app>Orca</app>, які стосуватимуться лише певних середовищ, зокрема вебсторінок або програм для спілкування. Отже, пункти цих параметрів можна буде знайти лише у специфічних для програм діалогових вікнах, а стосуватимуться ці параметри лише тих програм, для яких їх визначено.</p>
+  </section>
+</page>

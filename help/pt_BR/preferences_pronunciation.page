@@ -39,7 +39,9 @@
   <steps>
     <title>Adicionando uma nova entrada no dicionário</title>
     <item>
-      <p>Pressione o botão nova entrada (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
+      <p>
+        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
+      </p>
     </item>
     <item>
       <p>Digite o texto da nova entrada e pressione <key>Enter</key> para terminar a edição do texto corrente.</p>
@@ -66,7 +68,9 @@
       <p>Move para a entrada que você apagar.</p>
     </item>
     <item>
-      <p>Pressione o botão Delete ou <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
+      <p>
+        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
+      </p>
     </item>
   </steps>
 </page>

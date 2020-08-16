@@ -26,7 +26,12 @@
       <desc>Η επιλογή του πλαισίου διαλόγου προτιμήσεων για διάλεγμα διάταξης πληκτρολογίου του <app>Orca</app> για επιτραπέζιου ή φορητού.</desc>
     </info>
     <title>Διάταξη πληκτρολογίου</title>
-    <p>Η ομάδα ραδιοπλήκτρων <gui>διάταξης πληκτρολογίου</gui> επιτρέπει τον ορισμό εάν θα δουλεύει σε επιτραπέζιο (δηλαδή με αριθμητικό υποπληκτρολόγιο) ή πληκτρολόγιο φορητού. Η επιλεγόμενη διάταξη θα προσδιορίσει και τον <key>τροποποιητή Orca</key> και έναν αριθμό συντομεύσεων πληκτρολογίου για εκτέλεση εντολών <app>Orca</app>.</p>
+    <p>
+      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
+      you will be working on a desktop (i.e. with a numeric keypad) or laptop
+      keyboard. Which layout you choose will determine both the <key>Orca
+      Modifier</key> as well as a number of keyboard shortcuts for performing
+      <app>Orca</app> commands.</p>
     <p>Προεπιλεγμένη τιμή: <gui>επιτραπέζιος</gui></p>
   </section>
   <section id="presenttooltips">
@@ -178,7 +183,7 @@
       <p>Προεπιλεγμένη τιμή: 10</p>
     </section>
     <section id="progress_bar_updates_restrict">
-      <title>Περιορισμός σε</title>
+      <title>Applies to</title>
       <p>Αυτό το σύνθετο πλαίσιο επιτρέπει τον έλεγχο ποιες γραμμές προόδου θα εμφανίζονται, υποθέτοντας ότι η παρουσίαση των ενημερώσεων της γραμμής προόδου έχει ενεργοποιηθεί. Οι επιλογές είναι <gui>όλα</gui>, <gui>εφαρμογή</gui> και <gui>παράθυρο</gui>.</p>
       <p>Επιλέγοντας <gui>όλα</gui> θα καταλήξει στην παρουσίαση ενημερώσεων για όλες τις γραμμές προόδου από το <app>Orca</app>, ανεξάρτητα από πού εντοπιονται οι γραμμές προόδου.</p>
       <p>Επιλέγοντας <gui>εφαρμογή</gui> θα καταλήξει στην παρουσίαση ενημερώσεων από τις γραμμές προόδου στην ενεργή εφαρμογή από το <app>Orca</app>, ακόμα κι αν δεν είναι στο ενεργό παράθυρο.</p>

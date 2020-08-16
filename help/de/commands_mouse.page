@@ -43,7 +43,15 @@
   <title>Maus- und Zeigegerät-Befehle</title>
   <p><app>Orca</app> unterstützt verschiedene Befehle, die zur Manipulation des Mauszeigers dienen und die Inhalte unter ihm ausgeben können. Allen Befehlen sind Tastenkürzel zugewiesen, jedoch mit einer Ausnahme: Ein- und Ausschalten der Maus-Sprachauswertung. Lesen Sie dazu <link xref="howto_key_bindings">Tastaturkürzel anpassen</link> um herauszufinden, wie dieser Befehl einem Tastenkürzel zugewiesen werden kann.</p>
   <note style="tip">
-    <p>In der folgenden Liste sehen Sie verschiedene Bezüge zum Nummernblock. Alle diese Tasten befinden sich auf dem numerischen Tastenfeld. Sie werden ebenfalls bemerken, dass sich die Tastenkürzel je nach Endgerät (PC oder Laptop) unterscheiden, genauer gesagt, welche Tastaturbelegung von <app>Orca</app> Sie verwenden. Für weitere Informationen lesen Sie bitte <link xref="howto_keyboard_layout">Tastaturbelegung</link>.</p>
+    <p>
+      Below you will see several references to "KP". All
+      "KP" keys are located on the numeric keypad. You will also notice that
+      there are different keystrokes depending upon whether you are using a
+      desktop or a laptop -- or more accurately, whether you are using
+      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
+      For additional information, please see the
+      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
+    </p>
   </note>
   <list>
     <item>

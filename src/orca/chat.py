@@ -290,7 +290,7 @@ class Chat:
         Arguments:
         - script: the script with which this instance is associated.
         - buddyListAncestries: a list of lists of pyatspi roles beginning
-          with the the object serving as the actual buddy list (e.g.
+          with the object serving as the actual buddy list (e.g.
           ROLE_TREE_TABLE) and ending with the top level object (e.g.
           ROLE_FRAME).
         """
@@ -916,6 +916,9 @@ class Chat:
         Arguments:
         - event: the accessible event being examined
         """
+
+        if event.source.getRole() != pyatspi.ROLE_TEXT:
+            return False
 
         lastKey, mods = self._script.utilities.lastKeyAndModifiers()
         if lastKey == "Tab" and event.any_data and event.any_data != "\t":

@@ -60,11 +60,14 @@
     </p>
     <list>
       <item>
-        <p>Vstop v način učenja:  <keyseq><key>Orca Modifier</key><key>H</key></keyseq> </p>
+        <p>
+          Enter Learn Mode:
+          <keyseq><key>Orca Modifier</key><key>H</key></keyseq>
+        </p>
       </item>
       <item>
         <p>
-          Exit learn mode:
+          Exit Learn Mode:
           <keyseq><key>Esc</key></keyseq>
         </p>
       </item>

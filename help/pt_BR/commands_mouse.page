@@ -37,7 +37,15 @@
   <title>Comandos relacionados ao ponteiro do mouse</title>
   <p>O <app>Orca</app> fornece vários comandos que podem ser usados para manipular o ponteiro do mouse e ler o conteúdo sob ele. Todos os comandos possuem teclas de atalho "atribuídas", com uma exceção: Alternar para o modo de revisão do mouse. Por favor veja <link xref="howto_key_bindings">modificando associação de teclas</link> para informações sobre como associar este comando a uma tecla de atalho.</p>
   <note style="tip">
-    <p>Na lista a seguir você verá muitas referências a "NUM". Todas as teclas "NUM" estão localizadas no teclado numérico. Você também perceberá que existem diferentes combinações de teclas dependendo se você está usando um computador de mesa ou um notebook -- ou mais precisamente, se você está usando a disposição de teclado de computador de mesa, ou a disposição de teclado de notebook do <app>Orca</app>. Para mais informações, por favor veja o tópico <link xref="howto_keyboard_layout">Disposição de teclado</link>.</p>
+    <p>
+      Below you will see several references to "KP". All
+      "KP" keys are located on the numeric keypad. You will also notice that
+      there are different keystrokes depending upon whether you are using a
+      desktop or a laptop -- or more accurately, whether you are using
+      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
+      For additional information, please see the
+      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
+    </p>
   </note>
   <list>
     <item>

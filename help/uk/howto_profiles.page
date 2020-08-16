@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_profiles" xml:lang="uk">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_documents"/>
+    <title type="sort">9. Профілі</title>
+    <desc>Робота із декількома конфігураціями</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Профілі</title>
+  <p>За допомогою профілів Orca ви можете зберігати і завантажувати налаштування програми, отже, швидко перемикатися між потрібними вам значеннями параметрів.</p>
+  <steps>
+    <title>Збереження нового профілю</title>
+    <item>
+      <p>Відкрийте діалогове вікно <link xref="preferences">Параметри Orca</link>.</p>
+    </item>
+    <item>
+      <p>Змініть потрібні вам значення параметрів.</p>
+    </item>
+    <item>
+      <p>На сторінці <gui>Загальне</gui> натисніть кнопку <gui>Зберегти як</gui>.</p>
+    </item>
+    <item>
+      <p>Введіть назву нового профілю у відкритому діалоговому вікні <gui>Зберегти профіль як</gui>.</p>
+    </item>
+    <item>
+      <p>Натисніть кнопку <gui>Гаразд</gui> у діалоговому вікні <gui>Зберегти профіль як</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Завантаження наявного профілю</title>
+    <item>
+      <p>Відкрийте діалогове вікно <link xref="preferences">Параметри Orca</link>.</p>
+    </item>
+    <item>
+      <p>На сторінці <gui>Загальне</gui> виберіть профіль, який слід завантажити, зі списку <gui>Активний профіль</gui>.</p>
+    </item>
+    <item>
+      <p>Натисніть кнопку <gui>Завантажити</gui>.</p>
+    </item>
+    <item>
+      <p>Програма попросить вас підтвердити дію. Натисніть кнопку <gui>Так</gui>.</p>
+    </item>
+    <item>
+      <p>Натисніть кнопку <gui>Гаразд</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Зміна наявного профілю</title>
+    <item>
+      <p>Виконайте дії, які описано вище для завантаження профілю, який ви хочете змінити.</p>
+    </item>
+    <item>
+      <p>Виконайте дії, які описано вище для збереження нового профілю.</p>
+    </item>
+    <item>
+      <p>Коли програма попросить вас ввести назву нового профілю, введіть ту саму назву, що і у поточного профілю. Коли ви натиснете кнопку <gui>Гаразд</gui>, програма повідомить вам про конфлікт назв профілів.</p>
+    </item>
+    <item>
+      <p>Натисніть кнопку <gui>Так</gui>, щоб підтвердити ваше бажання перезаписати наявний профіль новими параметрами.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Внесення змін до <gui>Профілю запуску</gui></title>
+    <item>
+      <p>Відкрийте діалогове вікно <link xref="preferences">Параметри Orca</link>.</p>
+    </item>
+    <item>
+      <p>На сторінці <gui>Загальне</gui> виберіть профіль, який слід завантажити, зі списку <gui>Профіль запуску</gui>.</p>
+    </item>
+    <item>
+      <p>Натисніть кнопку <gui>Гаразд</gui>. Наступного разу, коли ви запустите <app>Orca</app>, буде використано новий вибраний профіль.</p>
+    </item>
+  </steps>
+</page>

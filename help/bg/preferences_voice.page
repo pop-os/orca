@@ -53,9 +53,9 @@
       <title>Подсказване на регистъра</title>
       <p>Този падащ списък ви позволява да изберете вида подсказване на регистъра на програмата „Speech Dispatcher“ в допълнение на гласа на <app>Orca</app> за горен регистър. Възможните стойности по терминологията на „Speech Dispatcher“ са:</p>
      <list>
-       <item><p><gui>звук</gui>: подсказване чрез звук</p></item>
-       <item><p><gui>„главно“</gui>: произнасяне на „главно“</p></item>
-       <item><p><gui>без</gui></p></item>
+       <item><p><gui>Icon</gui>: Plays a tone</p></item>
+       <item><p><gui>Spell</gui>: Speaks the word "capital"</p></item>
+       <item><p><gui>None</gui></p></item>
     </list>
     <note style="tip">
       <title>Тази настройка може да бъде превключвана в движение</title>

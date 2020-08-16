@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#reviewing"/>
     <link type="next" xref="howto_flat_review"/>
-    <title type="sort">1. Kde se nacházím</title>
+    <title type="sort">1. Where Am I</title>
     <desc>Jak zjistit svoji polohu</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -13,7 +13,7 @@
       <p>Creative Commons Share Alike 3.0</p>
     </license>
   </info>
-  <title>Kde se nacházím</title>
+  <title>Where Am I</title>
   <p>Navíc k samostatným příkazům pro čtení lišty záhlaví a stavové lišty poskytuje <app>Orca</app> dva kontextově závisle příkazy „Kde se nacházím“: základní a podrobný. Základní je implementován pro všechny objekty. Podrobný je implementován jen pro ty objekty, u kterých je významné množství informací, které byste si mohli přát znát, ale nemusíte si je přát znát vždy.</p>
   <p>Nejlepší způsob, jak se seznámit s tím, co bude funkce „Kde se nacházím“ prezentovat naživo, je vyzkoušet si <link xref="commands_where_am_i">příkazy „Kde se nacházím“</link>. Abyste získali lepší představu o kontextové povaze této funkce, zvažte následující:</p>
   <p>U většiny widgetů vám bude přečten aspoň popisek a/nebo název, typ nebo role widgetu a horká klávesa a/nebo klávesová zkratka, pokud existují. Navíc:</p>

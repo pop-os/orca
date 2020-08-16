@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_keyboard_layout" xml:lang="uk">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_toggling_caps_lock"/>
+    <title type="sort">6. Розкладка клавіатури</title>
+    <desc>Вибір розкладки для робочих станцій чи ноутбуків</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Розкладка клавіатури</title>
+  <p>В Orca передбачено дві розкладки клавіатури: для робочої станції (тобто з цифровим блоком) і для ноутбука. Вибрана вами розкладка впливає на те, яку клавішу буде використано як клавішу-модифікатор Orca.</p>
+  <list>
+    <item>
+      <p>Якщо ви користуєтеся розкладкою для ноутбука, типовим модифікатором Orca буде <key>CapsLock</key></p>
+    </item>
+    <item>
+      <p>Якщо ви використовуєте розкладку для робочої станції, модифікатором Orca буде і <key>Insert</key>, і <key>Insert на цифровому блоці</key>, останній варіант є тим самим, що і <key>0 на цифровому блоці</key>.</p>
+    </item>
+  </list>
+  <p>Розкладка також визначає, які комбінації клавіш буде пов'язано із декількома командами <app>Orca</app>, особливо на теренах загального огляду, режиму «Де я» та режиму «Вимовляти все».</p>
+  <steps>
+    <title>Зміна розкладки клавіатури</title>
+    <item>
+      <p>Відкрийте вікно <link xref="preferences">Параметри Orca</link> натисканням комбінації клавіш <keyseq><key>Модифікатор Orca</key><key>Пробіл</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Перейдіть до групи кнопок варіантів <gui>Розкладка клавіатури</gui>.</p>
+    </item>
+    <item>
+      <p>Виберіть за допомогою стрілочок бажану розкладку.</p>
+    </item>
+    <item>
+      <p>Натисніть кнопку <gui>Застосувати</gui>.</p>
+    </item>
+  </steps>
+</page>

@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#reviewing"/>
     <link type="next" xref="howto_flat_review"/>
-    <title type="sort">1. Wo bin ich</title>
+    <title type="sort">1. Where Am I</title>
     <desc>Erfahren Sie mehr über Ihren Standort</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -37,7 +37,7 @@
       <mal:years>2018-2019</mal:years>
     </mal:credit>
   </info>
-  <title>Wo bin ich</title>
+  <title>Where Am I</title>
   <p>Zusätzlich zu den fest zugeordneten Befehlen zum Vorlesen der Titel- und Statusleiste bietet Orca zwei kontextabhängige Befehle zu »Wo bin ich«: einfaches und detailliertes »Wo bin ich«. Das einfache »Wo bin ich« ist für alle Objekte implementiert. Das detaillierte »Wo bin ich« ist nur für diejenigen Objekte implementiert, die einen bedeutenden Informationsgehalt besitzen, an dem Sie manchmal, aber nicht immer, interessiert sein könnten.</p>
   <p>Der beste Weg, sich mit »Wo bin ich« vertraut zu machen, ist, die <link xref="commands_where_am_i">Befehle zu »Wo bin ich«</link> auszuprobieren. Um Ihnen aber eine Vorstellung von der Kontextabhängigkeit in <app>Orca</app>s »Wo bin ich«-Funktion zu geben, betrachten Sie Folgendes:</p>
   <p>Bei den meisten Widgets wird Ihnen zumindest die Bezeichnung und/oder der Name, die Art oder Rolle des Widgets, sowie der Menükürzelbuchstabe und/oder die Tastenkombination (falls vorhanden) vorgelesen. Zusätzlich:</p>

@@ -25,7 +25,15 @@
   <title>Εντολές σχετικές με το ποντίκι/δείκτη</title>
   <p>Το <app>Orca</app> παρέχει αρκετές εντολές που μπορούν να χρησιμοποιηθούν στο χειρισμό του δείκτη ποντικιού και την ανάγνωση των περιεχομένων από κάτω του. Όλες οι εντολές είναι "συνδεμένες" με τις πληκτρολογήσεις με μια εξαίρεση: την εναλλαγή της κατάστασης επισκόπησης ποντικιού. Παρακαλώ δείτε <link xref="howto_key_bindings">τροποποίηση συνδυασμών πλήκτρων</link> για πληροφορίες σύνδεσης αυτής της εντολής με μια πληκτρολόγηση.</p>
   <note style="tip">
-    <p>Στη λίστα που ακολουθεί, θα δείτε αρκετές αναφορές στο "KP". Όλα τα πλήκτρα "KP" τοποθετούνται στο αριθμητικό υποπληκτρολόγιο. Θα σημειώσετε επίσης ότι υπάρχουν διαφορετικές πληκτρολογήσεις ανάλογα με το εάν χρησιμοποιείτε έναν επιτραπέζιο ή φορητό υπολογιστή -- ή με περισσότερη ακρίβεια, εάν χρησιμοποιείτε τη διάταξη πληκτρολογίου επιτραπέζιου του <app>Orca</app> ή τη διάταξη πληκτρολογίου του φορητού. Για πρόσθετες πληροφορίες, παρακαλώ δείτε το θέμα <link xref="howto_keyboard_layout">διάταξη πληκτρολογίου</link>.</p>
+    <p>
+      Below you will see several references to "KP". All
+      "KP" keys are located on the numeric keypad. You will also notice that
+      there are different keystrokes depending upon whether you are using a
+      desktop or a laptop -- or more accurately, whether you are using
+      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
+      For additional information, please see the
+      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
+    </p>
   </note>
   <list>
     <item>

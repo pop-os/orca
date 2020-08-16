@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_chat" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_debugging"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="preferences_chat"/>
+    <title type="sort">2. Спілкування</title>
+    <title type="link">Спілкування</title>
+    <desc>Команди, якими можна скористатися у клієнтах миттєвого обміну повідомленнями та IRC</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди спілкування</title>
+  <p>Наведеними нижче командами можна скористатися для доступу до відомостей у клієнтах миттєвого обміну повідомленнями і IRC, підтримку яких передбачено у <app>Orca</app>. Ви можете зауважити, що декілька з цих команд не пов'язано із клавіатурними скороченнями. Будь ласка, ознайомтеся з розділом <link xref="howto_key_bindings">зміна клавіатурних прив'язок</link>, щоб дізнатися, як пов'язати ці команди із натисканням комбінацій клавіш.</p>
+  <list>
+    <item>
+      <p>Надати попередні повідомлення кімнати спілкування: від <keyseq><key>Модифікатор Orca</key><key>F1</key></keyseq> до <key>F9</key></p>
+    </item>
+    <item>
+      <p>Увімкнути/вимкнути озвучування назви кімнати із повідомленнями: (не пов'язано)</p>
+    </item>
+    <item>
+      <p>Увімкнути/вимкнути озвучування стану введення повідомлення друзями: (не пов'язано)</p>
+    </item>
+    <item>
+      <p>Увімкнути або вимкнути специфічні для кімнат журнали: (не пов'язано)</p>
+    </item>
+  </list>
+</page>

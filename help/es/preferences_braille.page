@@ -89,8 +89,13 @@
       <p>Valor predeterminado: no marcado</p>
     </section>
     <section id="flashMessageSettings_duration">
-      <title>Duración del mensaje (segs)</title>
-      <p>La cantidad de tiempo que <app>Orca</app> esperará antes de eliminar el mensaje y restaurar el contenido original de la pantalla se puede configurar con el botón <gui>Duración del mensaje (segs)</gui>. Tenga en cuenta que el valor de esta opción se ignorará si los mensajes temporales son persistentes.</p>
+      <title>Duration (secs)</title>
+      <p>
+        The amount of time <app>Orca</app> will wait before removing the message and
+        restoring the original contents of your display can be set in the <gui>
+        Duration (secs)</gui> spin button. Note that the value of this
+        setting will be ignored if you have enabled persistent flash messages.
+      </p>
       <p>Valor predeterminado: 5</p>
     </section>
   </section>

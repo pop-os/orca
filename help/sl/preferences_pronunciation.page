@@ -21,7 +21,9 @@
   <steps>
     <title>Dodajanje novega vnosa slovarja</title>
     <item>
-      <p>Pritisnite gumb Nov vnos (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
+      <p>
+        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
+      </p>
     </item>
     <item>
       <p>Vnesite besedilo novega vnosa in pritisnite <key>Vnosno tipko</key> za končanje urejanja dejanskega niza.</p>
@@ -48,7 +50,9 @@
       <p>Premaknite vnos, ki ga želite izbrisati.</p>
     </item>
     <item>
-      <p>Pritisnite gumb Izbriši ali <keyseq><key>Alt</key><key>D</key></keyseq>. </p>
+      <p>
+        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
+      </p>
     </item>
   </steps>
 </page>

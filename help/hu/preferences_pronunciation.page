@@ -27,7 +27,9 @@
   <steps>
     <title>Új szó hozzáadása a kivételszótárhoz</title>
     <item>
-      <p>A Kiejtés lapon aktiválja az <gui>Új bejegyzés</gui> gombot, vagy nyomja meg az <keyseq><key>Alt</key><key>B</key></keyseq> billentyűkombinációt.</p>
+      <p>
+        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
+      </p>
     </item>
     <item>
       <p>A megjelenő „Tényleges karakterlánc” szerkesztőmezőbe gépelje be az eredeti szót vagy szöveget, majd nyomja meg az <key>Enter</key> billentyűt.</p>
@@ -54,7 +56,9 @@
       <p>A nyílbillentyűk segítségével lépjen a törölni kívánt bejegyzésre.</p>
     </item>
     <item>
-      <p>Nyomja meg a <key>Del</key> billentyűt, vagy az <keyseq><key>Alt</key><key>T</key></keyseq> billentyűkombinációt.</p>
+      <p>
+        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
+      </p>
     </item>
   </steps>
 </page>

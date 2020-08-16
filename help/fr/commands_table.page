@@ -12,7 +12,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -44,6 +44,12 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
   <title>Commandes de navigation dans les tableaux</title>
   <p>La prise en charge de la navigation de cellule en cellule dans les tableaux fait partie des <link xref="commands_structural_navigation#tables">Commandes de navigation par structure</link> d’Orca. De plus, vous pouvez :</p>
@@ -55,10 +61,10 @@
       <p>Définir les en-têtes de colonne dynamiques à la ligne actuelle : <keyseq><key>Touche de modification d’Orca</key><key>R</key></keyseq></p>
     </item>
     <item>
-      <p>Effacer les en-têtes de ligne dynamiques : <keyseq><key>Touche de modification d’Orca</key><key>C</key></keyseq> (double clic)</p>
+      <p>Effacer les en-têtes de ligne dynamiques : <keyseq><key>Touche de modification d’Orca</key><key>C</key></keyseq> (double-clic)</p>
     </item>
     <item>
-      <p>Effacer les en-têtes de colonne dynamiques : <keyseq><key>Touche de modification d’Orca</key><key>R</key></keyseq> (double clic)</p>
+      <p>Effacer les en-têtes de colonne dynamiques : <keyseq><key>Touche de modification d’Orca</key><key>R</key></keyseq> (double-clic)</p>
     </item>
     <item>
       <p>Basculer entre la lecture par ligne et la lecture par cellule dans un tableau : <keyseq><key>Touche de modification d’Orca</key><key>F11</key></keyseq></p>

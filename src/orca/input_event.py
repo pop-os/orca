@@ -64,7 +64,21 @@ class InputEvent:
 
         pass
 
+def _getXkbStickyKeysState():
+    from subprocess import check_output, CalledProcessError
+
+    try:
+        output = check_output(['xkbset', 'q'])
+        for line in output.decode('ASCII', errors='ignore').split('\n'):
+            if line.startswith('Sticky-Keys = '):
+                return line.endswith('On')
+    except:
+        pass
+    return False
+
 class KeyboardEvent(InputEvent):
+
+    stickyKeys = _getXkbStickyKeysState()
 
     duplicateCount = 0
     orcaModifierPressed = False
@@ -77,6 +91,8 @@ class KeyboardEvent(InputEvent):
     currentOrcaModifierAloneTime = None
     # When the second orca press happened
     secondOrcaModifierTime = None
+    # Sticky modifiers state, to be applied to the next keyboard event
+    orcaStickyModifiers = 0
 
     TYPE_UNKNOWN          = "unknown"
     TYPE_PRINTABLE        = "printable"
@@ -215,7 +231,9 @@ class KeyboardEvent(InputEvent):
         self.id = event.id
         self.type = event.type
         self.hw_code = event.hw_code
-        self.modifiers = event.modifiers
+        self.modifiers = event.modifiers & Gdk.ModifierType.MODIFIER_MASK
+        if event.modifiers & (1 << pyatspi.MODIFIER_NUMLOCK):
+            self.modifiers |= (1 << pyatspi.MODIFIER_NUMLOCK)
         self.event_string = event.event_string
         self.keyval_name = Gdk.keyval_name(event.id)
         self.timestamp = event.timestamp
@@ -232,6 +250,7 @@ class KeyboardEvent(InputEvent):
         self._did_consume = None
         self._result_reason = None
         self._bypassOrca = None
+        self._is_kp_with_numlock = False
 
         # Some implementors don't populate this field at all. More often than not,
         # the event_string and the keyval_name coincide for input events.
@@ -244,6 +263,13 @@ class KeyboardEvent(InputEvent):
            and (self.id in KeyboardEvent.GDK_PUNCTUATION_KEYS or \
                 self.id in KeyboardEvent.GDK_ACCENTED_LETTER_KEYS):
             self.event_string = chr(self.id)
+
+        # Some implementors don't include numlock in the modifiers. Unfortunately,
+        # trying to heuristically hack around this just by looking at the event
+        # is not reliable. Ditto regarding asking Gdk for the numlock state.
+        if self.keyval_name.startswith("KP"):
+            if event.modifiers & (1 << pyatspi.MODIFIER_NUMLOCK):
+                self._is_kp_with_numlock = True
 
         if self._script:
             self._app = self._script.app
@@ -272,6 +298,15 @@ class KeyboardEvent(InputEvent):
         except:
             role = None
         _mayEcho = _isPressed or role == pyatspi.ROLE_TERMINAL
+
+        if KeyboardEvent.stickyKeys and not self.isOrcaModifier() \
+           and not KeyboardEvent.lastOrcaModifierAlone:
+            doubleEvent = self._getDoubleClickCandidate()
+            if doubleEvent and \
+               doubleEvent.modifiers & keybindings.ORCA_MODIFIER_MASK:
+                # this is the second event of a double-click, and sticky Orca
+                # affected the first, so copy over the modifiers to the second
+                KeyboardEvent.orcaStickyModifiers = doubleEvent.modifiers
 
         if not self.isOrcaModifier():
             if KeyboardEvent.orcaModifierPressed:
@@ -353,19 +388,38 @@ class KeyboardEvent(InputEvent):
         if KeyboardEvent.orcaModifierPressed:
             self.modifiers |= keybindings.ORCA_MODIFIER_MASK
 
+        if KeyboardEvent.stickyKeys:
+            # apply all recorded sticky modifiers
+            self.modifiers |= KeyboardEvent.orcaStickyModifiers
+            if self.isModifierKey():
+                # add this modifier to the sticky ones
+                KeyboardEvent.orcaStickyModifiers |= self.modifiers
+            else:
+                # Non-modifier key, so clear the sticky modifiers. If the user
+                # actually double-presses that key, the modifiers of this event
+                # will be copied over to the second event, see earlier in this
+                # function.
+                KeyboardEvent.orcaStickyModifiers = 0
+
         self._should_consume, self._consume_reason = self.shouldConsume()
+
+    def _getDoubleClickCandidate(self):
+        lastEvent = orca_state.lastNonModifierKeyEvent
+        if isinstance(lastEvent, KeyboardEvent) \
+           and lastEvent.event_string == self.event_string \
+           and self.time - lastEvent.time <= settings.doubleClickTimeout:
+            return lastEvent
+        return None
 
     def setClickCount(self):
         """Updates the count of the number of clicks a user has made."""
 
-        lastEvent = orca_state.lastNonModifierKeyEvent
-        if not isinstance(lastEvent, KeyboardEvent) \
-           or lastEvent.event_string != self.event_string \
-           or self.time - lastEvent.time > settings.doubleClickTimeout:
+        doubleEvent = self._getDoubleClickCandidate()
+        if not doubleEvent:
             self._clickCount = 1
             return
 
-        self._clickCount = lastEvent.getClickCount()
+        self._clickCount = doubleEvent.getClickCount()
         if self.is_duplicate:
             return
 
@@ -388,17 +442,46 @@ class KeyboardEvent(InputEvent):
         return False
 
     def __str__(self):
-        return ("KEYBOARD_EVENT:  type=%d\n" % self.type) \
-             + ("                 id=%d\n" % self.id) \
-             + ("                 hw_code=%d\n" % self.hw_code) \
-             + ("                 modifiers=%d\n" % self.modifiers) \
-             + ("                 event_string=(%s)\n" % self.event_string) \
-             + ("                 keyval_name=(%s)\n" % self.keyval_name) \
+        if self._shouldObscure():
+            keyid = hw_code = modifiers = event_string = keyval_name = key_type = "*"
+        else:
+            keyid = self.id
+            hw_code = self.hw_code
+            modifiers = self.modifiers
+            event_string = self.event_string
+            keyval_name = self.keyval_name
+            key_type = self.keyType
+
+        return ("KEYBOARD_EVENT:  type=%s\n" % self.type.value_name.upper()) \
+             + ("                 id=%s\n" % keyid) \
+             + ("                 hw_code=%s\n" % hw_code) \
+             + ("                 modifiers=%s\n" % modifiers) \
+             + ("                 event_string=(%s)\n" % event_string) \
+             + ("                 keyval_name=(%s)\n" % keyval_name) \
              + ("                 timestamp=%d\n" % self.timestamp) \
              + ("                 time=%f\n" % time.time()) \
-             + ("                 keyType=%s\n" % self.keyType) \
+             + ("                 keyType=%s\n" % key_type) \
              + ("                 clickCount=%s\n" % self._clickCount) \
              + ("                 shouldEcho=%s\n" % self.shouldEcho)
+
+    def _shouldObscure(self):
+        try:
+            role = self._obj.getRole()
+        except:
+            return False
+
+        if role != pyatspi.ROLE_PASSWORD_TEXT:
+            return False
+
+        if not self.isPrintableKey():
+            return False
+
+        if self.modifiers & keybindings.CTRL_MODIFIER_MASK \
+           or self.modifiers & keybindings.ALT_MODIFIER_MASK \
+           or self.modifiers & keybindings.ORCA_MODIFIER_MASK:
+            return False
+
+        return True
 
     def _isReleaseForLastNonModifierKeyEvent(self):
         last = orca_state.lastNonModifierKeyEvent
@@ -541,6 +624,11 @@ class KeyboardEvent(InputEvent):
             return False
 
         return self.modifiers & keybindings.ORCA_MODIFIER_MASK
+
+    def isKeyPadKeyWithNumlockOn(self):
+        """Return True if this is a key pad key with numlock on."""
+
+        return self._is_kp_with_numlock
 
     def isPrintableKey(self):
         """Return True if this is a printable key."""
@@ -752,7 +840,11 @@ class KeyboardEvent(InputEvent):
         """Processes this input event."""
 
         startTime = time.time()
-        data = "'%s' (%d)" % (self.event_string, self.hw_code)
+        if not self._shouldObscure():
+            data = "'%s' (%d)" % (self.event_string, self.hw_code)
+        else:
+            data = "(obscured)"
+
         if self.is_duplicate:
             data = '%s DUPLICATE EVENT #%i' % (data, KeyboardEvent.duplicateCount)
 

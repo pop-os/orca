@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -42,6 +42,12 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
   <title>Commandes <app>d’Orca</app></title>
   <section id="getting_started" style="2column">
@@ -57,7 +63,7 @@
     <title>Examen et interaction avec le contenu de l’écran</title>
   </section>
   <section id="accessing_dynamic_information" style="2column">
-    <title>Accés aux informations dynamiques</title>
+    <title>Accès aux informations dynamiques</title>
   </section>
   <section id="troubleshooting">
     <title>Dépannage</title>

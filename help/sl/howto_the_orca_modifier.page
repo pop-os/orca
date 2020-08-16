@@ -21,7 +21,11 @@
       <p>V primeru da uporabljate razporeditev prenosnika, bo privzeta spremenilna tipka Orka <key>CapsLock</key></p>
     </item>
     <item>
-      <p>V primeru da uporabljate razporeditev namiznega računalnika, bo spremenilna tipka Orka tako <key>Vstavi</key> kot <key>Vstavi številčne tipkovnice</key>. Slednja je enaka tipki <key>Številčna tipkovnica 0</key>.</p>
+      <p>
+        If you are using the Desktop layout, the Orca Modifier will
+        be both <key>Insert</key> and <key>KP_Insert</key>, the
+        latter being the same key as <key>KP_0</key>.
+      </p>
     </item>
   </list>
   <p>V primeru da želite obdržati svojo trenutno razporeditev tipkovnice, a izbrati drugo spremenilno tipko, uporabite naslednje korake:</p>

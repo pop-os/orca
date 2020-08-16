@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_time_date_notifications" xml:lang="uk">
+  <info>
+    <link type="next" xref="commands_profiles"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_notifications"/>
+    <title type="sort">4. Час, дата і сповіщення</title>
+    <title type="link">Час, дата і сповіщення</title>
+    <desc>Команди для отримання часу, дати та вмісту сповіщень</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команди часу, дати і сповіщень</title>
+  <p>Наведеними нижче командами можна скористатися для отримання даних щодо поточного часу і дати та перегляду раніше показаних сповіщень:</p>
+  <section id="time_and_date">
+    <title>Отримання даних щодо часу і дати</title>
+    <list>
+      <item>
+        <p>Вимовити час: <keyseq><key>Модифікатор Orca</key><key>T</key></keyseq></p>
+      </item>
+      <item>
+        <p>Вимовити дату: <keyseq><key>Модифікатор Orca</key><key>T</key></keyseq> (подвійне клацання)</p>
+      </item>
+    </list>
+  </section>
+  <section id="notifications">
+    <title>Перегляд сповіщень</title>
+    <p>У Orca передбачено три непов'язані із комбінаціями клавіш команди для доступу до раніше показаних <link xref="howto_notifications">сповіщень</link>. Будь ласка, ознайомтеся із розділом щодо <link xref="howto_key_bindings">зміни клавіатурних скорочень</link>, щоб дізнатися про те, як можна визначити комбінації клавіш для непов'язаних команд.</p>
+    <list>
+      <item>
+        <p>Прочитати останнє (найсвіжіше) сповіщення: (не пов'язано)</p>
+      </item>
+      <item>
+        <p>Прочитати попереднє сповіщення: (не пов'язано)</p>
+      </item>
+      <item>
+        <p>Прочитати список усіх сповіщень: (не пов'язано)</p>
+      </item>
+    </list>
+  </section>
+</page>

@@ -38,7 +38,7 @@
   <p>O <app>Orca</app> fornece os seguintes comandos para Onde Estou:</p>
   <list>
     <item>
-      <p>Executa o comando "onde estou" básico:</p>
+      <p>Perform basic Where Am I:</p>
       <list>
         <item>
           <p>Computador de mesa: <key>NUM Enter</key></p>
@@ -49,7 +49,7 @@
       </list>
     </item>
     <item>
-      <p>Executa o comando "onde estou" detalhado:</p>
+      <p>Perform detailed Where Am I:</p>
       <list>
         <item>
           <p>Computador de mesa: <key>NUM Enter</key> (pressionada duas vezes)</p>

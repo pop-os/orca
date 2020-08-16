@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_learn_modes" xml:lang="uk">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_keyboard_layout"/>
+    <title type="sort">5. Режим навчання</title>
+    <desc>Вивчення команд <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Режим навчання</title>
+  <p>У режимі навчання <app>Orca</app> буде озвучувати будь-яке натискання комбінації клавіш разом із пов'язаною із ним командою <app>Orca</app>. У цьому режимі ви також можете отримати список клавіатурних скорочень, що містить усі команди <app>Orca</app>, якими ви можете скористатися.</p>
+  <steps>
+    <title>Користування режимом навчання</title>
+    <item>
+      <p>Увійдіть до режиму навчання натисканням комбінації клавіш <keyseq><key>Модифікатор Orca</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Натисніть будь-яку клавішу або комбінацію клавіш. <app>Orca</app> повідомить про клавіші та будь-яку пов'язану із ними команду.</p>
+    </item>
+    <item>
+      <p>Натисніть <key>Esc</key>, щоб вийти з режиму навчання.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Отримання списку клавіатурних скорочень</title>
+    <item>
+      <p>Увійдіть до режиму навчання натисканням комбінації клавіш <keyseq><key>Модифікатор Orca</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Натисніть клавішу <key>F2</key>, якщо вам потрібен список скорочень, які стосуються усієї <app>Orca</app>, або натисніть клавішу <key>F3</key>, якщо хочете ознайомитися зі списком скорочень, які стосуються лише вікна програми, яка перебуває у фокусі.</p>
+    </item>
+    <item>
+      <p>Натискайте клавіші <key>стрілка вгору</key> та <key>стрілка вниз</key> для вивчення вмісту списку.</p>
+    </item>
+    <item>
+      <p>Натисніть клавішу <key>Esc</key>, щоб закрити список.</p>
+    </item>
+  </steps>
+</page>

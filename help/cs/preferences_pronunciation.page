@@ -21,7 +21,9 @@
   <steps>
     <title>Přidání nové položky do slovníku</title>
     <item>
-      <p>Zmáčkněte tlačítko <gui>Nová položka</gui> nebo kombinaci kláves <keyseq><key>Alt</key> <key>N</key></keyseq></p>
+      <p>
+        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
+      </p>
     </item>
     <item>
       <p>Napište text nové položky a zmáčknutím <key>Enter</key> úpravy aktuálního řetězce dokončete.</p>
@@ -48,7 +50,9 @@
       <p>Přesuňte se na položku, kterou si přejete smazat.</p>
     </item>
     <item>
-      <p>Zmáčkněte tlačítko <gui>Vymazat</gui> nebo kombinaci kláves <keyseq><key>Alt</key> <key>D</key></keyseq>.</p>
+      <p>
+        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
+      </p>
     </item>
   </steps>
 </page>

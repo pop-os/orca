@@ -11,7 +11,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -43,6 +43,12 @@
       <mal:email>claude@2xlibre.net</mal:email>
       <mal:years>2016</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Charles Monzat</mal:name>
+      <mal:email>charles.monzat@free.fr</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
   <title>Préférences braille</title>
   <section id="braillesupport">
@@ -66,7 +72,7 @@
   </section>
   <section id="rolenames">
     <title>Noms de rôle abrégés</title>
-    <p>Cette case à cocher détermine la façon dont sont affichés les noms de rôles et elle peut être utilisée pour conserver de la place sur l’afficheur braille. Par exemple, si une glissière a le focus, le mot « Glissière » s’affiche si les rôles abrégés ne sont pas activés sinon « glis » est affiché à la place.</p>
+    <p>Cette case à cocher détermine la façon dont sont affichés les noms de rôles et elle peut être utilisée pour conserver de la place sur l’afficheur braille. Par exemple, si une glissière a le focus, le mot « glissière » s’affiche si les rôles abrégés ne sont pas activés, sinon « glis » est affiché à la place.</p>
     <p>Valeur par défaut : non cochée</p>
   </section>
   <section id="eolindicator">
@@ -98,7 +104,7 @@
     </section>
     <section id="flashMessageSettings_detailed">
       <title>Les messages sont détaillés</title>
-      <p>Si <gui>Les messages sont détaillés</gui> est coché, <app>Orca</app> présentera des messages détaillés en braille. Par exemple, si vous utilisez la commande d’<app>Orca</app> pour modifier l’écho des touches, <app>Orca</app> pourrait afficher « écho de touche défini par mot. » Si vous préférez des messages plus courts, comme par exemple « mot », vous devriez décocher cette case.</p>
+      <p>Si <gui>Les messages sont détaillés</gui> est coché, <app>Orca</app> présentera des messages détaillés en braille. Par exemple, si vous utilisez la commande d’<app>Orca</app> pour modifier l’écho des touches, <app>Orca</app> pourrait afficher « écho de touche défini par mot ». Si vous préférez des messages plus courts, comme par exemple « mot », vous devriez décocher cette case.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="flashMessageSettings_persistent">
@@ -107,8 +113,13 @@
       <p>Valeur par défaut : non cochée</p>
     </section>
     <section id="flashMessageSettings_duration">
-      <title>Durée des messages (sec)</title>
-      <p>Le temps que <app>Orca</app> attendra avant de supprimer le message et de restaurer le contenu original de l’affichage peut être défini par le bouton compteur <gui>Durée des messages (sec)</gui>. Notez que la valeur de ce réglage sera ignorée si vous avez activé l’affichage persistant des messages flash.</p>
+      <title>Duration (secs)</title>
+      <p>
+        The amount of time <app>Orca</app> will wait before removing the message and
+        restoring the original contents of your display can be set in the <gui>
+        Duration (secs)</gui> spin button. Note that the value of this
+        setting will be ignored if you have enabled persistent flash messages.
+      </p>
       <p>Valeur par défaut : 5</p>
     </section>
   </section>

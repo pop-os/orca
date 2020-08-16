@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_debugging" xml:lang="uk">
+  <info>
+    <link type="guide" xref="commands#troubleshooting"/>
+    <title type="sort">1. Діагностика</title>
+    <title type="link">Діагностика</title>
+    <desc>Команди для усування проблем</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Юрій Чорноіван</mal:name>
+      <mal:email>yurchor@ukr.net</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title>Діагностичні команди</title>
+  <p>Розробники можуть попросити вас надати певні діагностичні дані для того, щоб спростити виявлення джерела проблеми, з якою ви зіткнулися. Вказану нижче команду не пов'язано із жодною комбінацією клавіш. Якщо хочете пов'язати її із комбінацією клавіш, будь ласка, скористайтеся порадами з розділу щодо <link xref="howto_key_bindings">зміни клавіатурних прив'язок</link>.</p>
+  <list>
+    <item>
+      <p>Циклічний перехід на наступний рівень діагностики: (не пов'язано)</p>
+    </item>
+  </list>
+</page>

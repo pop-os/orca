@@ -44,7 +44,7 @@
   <p><app>Orca</app> unterstützt die folgenden Wo bin ich Befehle:</p>
   <list>
     <item>
-      <p>Die einfache »Wo bin ich«-Funktion ausführen:</p>
+      <p>Perform basic Where Am I:</p>
       <list>
         <item>
           <p>Desktop: <key>Eingabetaste (Nmblck)</key></p>
@@ -55,7 +55,7 @@
       </list>
     </item>
     <item>
-      <p>Die detaillierte »Wo bin ich«-Funktion ausführen:</p>
+      <p>Perform detailed Where Am I:</p>
       <list>
         <item>
           <p>Desktop: <key>Eingabetaste (Nmblck)</key> (Doppelklick)</p>

@@ -65,10 +65,16 @@
     <p>Im Lernmodus wird <app>Orca</app> jedes gedrückten Tastenkürzel zusammen mit dem dazugehörigen zugewiesenen <app>Orca</app>-Befehl ankündigen. In diesem Modus können Sie ebenfalls eine Liste mit den Tastenkürzeln aller verwendbaren <app>Orca</app>-Befehle erhalten.</p>
     <list>
       <item>
-        <p>Lernmodus starten: <keyseq><key>Orca-Zusatztaste</key><key>H</key></keyseq></p>
+        <p>
+          Enter Learn Mode:
+          <keyseq><key>Orca Modifier</key><key>H</key></keyseq>
+        </p>
       </item>
       <item>
-        <p>Lernmodus beenden: <keyseq><key>Esc</key></keyseq></p>
+        <p>
+          Exit Learn Mode:
+          <keyseq><key>Esc</key></keyseq>
+        </p>
       </item>
     </list>
   </section>

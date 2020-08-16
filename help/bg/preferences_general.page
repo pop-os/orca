@@ -32,7 +32,12 @@
       <desc>Група от радио бутони за настройка на клавиатурната подредба, използвана от <app>Orca</app> - за настолни компютри или за лаптопи.</desc>
     </info>
     <title>Клавиатурна подредба</title>
-    <p>Групата радио бутони <gui>Клавиатурна подредба</gui> ви позволява да определите дали ще работите на клавиатура за настолен компютър (т.е. с цифров блок) или клавиатура на лаптоп. Избраната подредба определя както <key>Модификатора на Orca</key> така и някои клавишни команди на <app>Orca</app>.</p>
+    <p>
+      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
+      you will be working on a desktop (i.e. with a numeric keypad) or laptop
+      keyboard. Which layout you choose will determine both the <key>Orca
+      Modifier</key> as well as a number of keyboard shortcuts for performing
+      <app>Orca</app> commands.</p>
     <p>Стойност по подразбиране: <gui>Настолен компютър</gui></p>
   </section>
   <section id="presenttooltips">
@@ -147,7 +152,7 @@
       <p>Стойност по подразбиране: 10</p>
     </section>
     <section id="progress_bar_updates_restrict">
-      <title>Ограничаване до</title>
+      <title>Applies to</title>
       <p>Този падащ списък ви позволява да определите кои ленти на напредъка трябва да бъдат следени, в случай че наблюдението на промените в лентите на напредъка е включено. Възможностите са <gui>Всички</gui>, <gui>Програмата</gui> и <gui>Прозореца</gui>.</p>
       <p>Избирането на <gui>Всички</gui> ще накара <app>Orca</app> да ви уведомява за промените във всички ленти на напредъка, без значение къде се намират.</p>
       <p>Избирането на <gui>Програмата</gui> ще накара <app>Orca</app> да ви уведомява за промени в лентите на напредъка в текущото приложение, дори и те да не са в текущия прозорец.</p>
