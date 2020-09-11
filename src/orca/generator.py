@@ -366,11 +366,11 @@ class Generator:
         """
         attrs = self._script.utilities.objectAttributes(obj)
         placeholder = attrs.get('placeholder-text')
-        if placeholder:
+        if placeholder and placeholder != obj.name:
             return [placeholder]
 
         placeholder = attrs.get('placeholder')
-        if placeholder:
+        if placeholder and placeholder != obj.name:
             return [placeholder]
 
         return []
@@ -580,7 +580,8 @@ class Generator:
         if not args.get('mode', None):
             args['mode'] = self._mode
         args['stringType'] = 'readonly'
-        if self._script.utilities.isReadOnlyTextArea(obj):
+        if obj.getState().contains(pyatspi.STATE_READ_ONLY) \
+           or self._script.utilities.isReadOnlyTextArea(obj):
             result.append(self._script.formatting.getString(**args))
         return result
 

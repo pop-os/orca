@@ -35,7 +35,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Einstellungen für Aussprache</title>
@@ -45,9 +45,7 @@
   <steps>
     <title>Hinzufügen eines neuen Eintrags zum Wörterbuch</title>
     <item>
-      <p>
-        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
-      </p>
+      <p>Klicken Sie den Knopf <gui>Neuer Eintrag</gui> (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
     </item>
     <item>
       <p>Geben Sie Text des neuen Eintrags ein und beenden Sie Ihre Eingabe mit der <key>Eingabetaste</key>.</p>
@@ -74,9 +72,7 @@
       <p>Verschieben Sie den Eintrag, den Sie löschen möchten.</p>
     </item>
     <item>
-      <p>
-        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
-      </p>
+      <p>Klicken Sie auf den Knopf <gui>Löschen</gui> oder drücken Sie <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
     </item>
   </steps>
 </page>

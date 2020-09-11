@@ -35,7 +35,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Stimmeneinstellungen</title>
@@ -59,15 +59,15 @@
     </section>
     <section id="person">
       <title>Person</title>
-      <p>Dieses Auswahlfeld ermöglicht Ihnen auszuwählen, welche »Person« oder »Sprecher« mit der ausgewählten Stimme verwendet werden soll. Sie könnten sich beispielsweise wünschen, dass »David« standardmäßig vorliest, aber Links von »Alice« gesprochen werden. Beachten Sie, dass die Auswahlmöglichkeiten unter »Person« davon abhängen, welche Sprachsynthesizer Sie installiert haben.</p>
+      <p>Dieses Auswahlfeld ermöglicht Ihnen auszuwählen, welche »Person« oder »Sprecher« mit der ausgewählten Stimme verwendet werden soll. Sie könnten sich beispielsweise wünschen, dass »David« standardmäßig vorliest, aber Links von »Alice« gesprochen werden. Beachten Sie, dass die Auswahlmöglichkeiten unter <gui>Person</gui> davon abhängen, welche Sprachsynthesizer Sie installiert haben.</p>
     </section>
     <section id="capitalization_style">
       <title>Großschreibungsstil</title>
       <p>Dieses Auswahlfeld ermöglicht Ihnen auszuwählen, welchen Hinweisstil für Großschreibung Sie in »Speech Dispatcher« zusätzlich zu <app>Orca</app>s Großschreibungsstimme verwenden wollen. Die möglichen Optionen, die nach der Terminologie von »Speech Dispatcher« benannt sind, lauten:</p>
      <list>
-       <item><p><gui>Icon</gui>: Plays a tone</p></item>
-       <item><p><gui>Spell</gui>: Speaks the word "capital"</p></item>
-       <item><p><gui>None</gui></p></item>
+       <item><p><gui>Symbol</gui>: Spielt einen Ton ab</p></item>
+       <item><p><gui>Buchstabieren</gui>: Spricht das Wort »capital«</p></item>
+       <item><p><gui>Kein</gui></p></item>
     </list>
     <note style="tip">
       <title>Diese Einstellung kann im laufenden Betrieb ein-/ausgeschaltet werden</title>

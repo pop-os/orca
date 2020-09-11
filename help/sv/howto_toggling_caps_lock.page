@@ -20,15 +20,7 @@
     </mal:credit>
   </info>
   <title>CapsLock vid bärbar dator-layout</title>
-  <p>
-    Orca has two keyboard layouts: Desktop and Laptop. The layout you choose
-    impacts which key is used as the Orca Modifier. If you are using the Laptop
-    layout, the default Orca Modifier will be <key>CapsLock</key>. If you are
-    using <app>Orca</app>'s Laptop Layout and want to lock or unlock
-    <key>CapsLock</key>, you can do so by either pressing <key>CapsLock</key>
-    twice (requires at-spi2 version 2.32 or later), or by performing the
-    following steps:
-  </p>
+  <p>Orca har två tangentbordslayouter: Stationär dator och Bärbar dator. Layouten du väljer styr vilken knapp som används som Orca-modifieraren. Om du använder bärbar dator-layouten kommer Orca-modifieraren som standard vara <key>CapsLock</key>. Om du använder <app>Orca</app>s layout för bärbar dator och vill låsa eller låsa upp <key>CapsLock</key> kan du göra det antingen genom att trycka på <key>CapsLock</key> två gånger (kräver at-spi2 version 2.32 eller senare), eller genom att utföra följande steg:</p>
   <steps>
     <title>Växla CapsLock vid bärbar dator-layout</title>
     <item>

@@ -33,11 +33,7 @@
       <p>Si está usando la distribución de portátil, el Modificador de Orca predeterminado será <key>Bloq Mayús</key></p>
     </item>
     <item>
-      <p>
-        If you are using the Desktop layout, the Orca Modifier will
-        be both <key>Insert</key> and <key>KP_Insert</key>, the
-        latter being the same key as <key>KP_0</key>.
-      </p>
+      <p>Si está usando la distribución de escritorio, el Modificador de Orca será tanto <key>Ins</key> como <key>TN Ins</key>, esta última es la misma tecla que <key>TN 0</key>.</p>
     </item>
   </list>
   <p>Si quiere mantener su distribución de teclado actual, pero quiere seleccionar una tecla modificadora diferente, puede hacerlo siguiendo estos pasos:</p>

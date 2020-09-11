@@ -19,15 +19,7 @@
   <title>Příkazy vztahující se k myši/ukazateli</title>
   <p><app>Orca</app> poskytuje několik příkazů, které můžete použít pro zacházení s ukazatelem myši a ke čtení obsahu pod ním. Všechny tyto příkazy mají přidělené klávesové zkratky s jednou výjimkou: přepínání režimu náhledu myši. Jak klávesovou zkratku přiřadit i tomuto příkazu najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
   <note style="tip">
-    <p>
-      Below you will see several references to "KP". All
-      "KP" keys are located on the numeric keypad. You will also notice that
-      there are different keystrokes depending upon whether you are using a
-      desktop or a laptop -- or more accurately, whether you are using
-      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
-      For additional information, please see the
-      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
-    </p>
+    <p>Níže můžete několikrát narazit na zkatku „KP“. Znamená „key pad“, což je anglické označení pro numerickou (číselnou) klávesnici a všechny klávesy s touto zkratkou jsou umístěné na ní. Upozorňujeme také, že zmáčknutí klávesy se liší podle toho, jestli používáte stolní nebo přenosný počítač – respektive přesněji, jestli používáte rozložení klávesnice stolního nebo přenosného počítače podle čtečky <app>Orca</app>. Více informací najdete u tématu <link xref="howto_keyboard_layout">rozložení klávesnice</link>.</p>
   </note>
   <list>
     <item>

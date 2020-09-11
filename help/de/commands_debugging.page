@@ -34,11 +34,11 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Befehle zur Fehlerdiagnose</title>
-  <p>Sie werden von den Entwicklern gefragt, ob Sie einige Fehlerinformationen senden möchten, damit sie die Ursache Ihres Problems finden können. Der folgende Befehl ist nicht einem Tastaturkürzel zugewiesen. Falls Sie es benötigen, lesen Sie bitte <link xref="howto_key_bindings">Tastenkürzel bearbeiten</link>.</p>
+  <p>Sie werden von den Entwicklern gefragt, ob Sie einige Fehlerinformationen senden möchten, damit sie die Ursache Ihres Problems finden können. Der folgende Befehl ist keinem Tastaturkürzel zugewiesen. Falls Sie es benötigen, lesen Sie bitte <link xref="howto_key_bindings">Tastenkürzel bearbeiten</link>.</p>
   <list>
     <item>
       <p>Zur nächsthöheren Stufe der Fehlerdiagnose wechseln: (Nicht zugewiesen)</p>

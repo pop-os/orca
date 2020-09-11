@@ -17,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
+      <mal:years>2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2020.</mal:years>
     </mal:credit>
   </info>
   <title>Kiejtési beállítások</title>
@@ -27,9 +27,7 @@
   <steps>
     <title>Új szó hozzáadása a kivételszótárhoz</title>
     <item>
-      <p>
-        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
-      </p>
+      <p>A Kiejtés lapon aktiválja az <gui>Új bejegyzés</gui> gombot, vagy nyomja meg az <keyseq><key>Alt</key><key>B</key></keyseq> billentyűkombinációt.</p>
     </item>
     <item>
       <p>A megjelenő „Tényleges karakterlánc” szerkesztőmezőbe gépelje be az eredeti szót vagy szöveget, majd nyomja meg az <key>Enter</key> billentyűt.</p>
@@ -56,9 +54,7 @@
       <p>A nyílbillentyűk segítségével lépjen a törölni kívánt bejegyzésre.</p>
     </item>
     <item>
-      <p>
-        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
-      </p>
+      <p>Nyomja meg a <key>Del</key> billentyűt, vagy az <keyseq><key>Alt</key><key>T</key></keyseq> billentyűkombinációt.</p>
     </item>
   </steps>
 </page>

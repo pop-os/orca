@@ -47,9 +47,9 @@
       <title>Versaliseringsstil</title>
       <p>Denna kombinationsruta låter dig välja vilka stilar för versaliseringsindikation i Speech Dispatcher du vill använda utöver <app>Orca</app>s versaliseringsröst. Alternativen, vilka är namngivna enligt Speech Dispatchers terminologi, är:</p>
      <list>
-       <item><p><gui>Icon</gui>: Plays a tone</p></item>
-       <item><p><gui>Spell</gui>: Speaks the word "capital"</p></item>
-       <item><p><gui>None</gui></p></item>
+       <item><p><gui>Ikon</gui>: Spelar en ton</p></item>
+       <item><p><gui>Bokstavering</gui>: Läser upp ordet ”capital”</p></item>
+       <item><p><gui>Ingen</gui></p></item>
     </list>
     <note style="tip">
       <title>Denna inställning kan växlas direkt</title>

@@ -33,9 +33,7 @@
   <steps>
     <title>Añadir una entrada nueva de diccionario</title>
     <item>
-      <p>
-        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
-      </p>
+      <p>Pulse el botón <gui>Entrada nueva</gui> (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
     </item>
     <item>
       <p>Escriba el texto de la nueva entrada y pulse <key>Intro</key> para terminar de editar la cadena actual.</p>
@@ -62,9 +60,7 @@
       <p>Desplácese hasta la entrada que quiere eliminar.</p>
     </item>
     <item>
-      <p>
-        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
-      </p>
+      <p>Pulse el botón <gui>Supr</gui> o <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
     </item>
   </steps>
 </page>

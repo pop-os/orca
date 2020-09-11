@@ -55,15 +55,7 @@
   <title>Commandes en relation avec la souris ou le pointeur</title>
   <p><app>Orca</app> fournit plusieurs commandes qui peuvent être utilisées pour manipuler le pointeur de la souris et lire ce qui est en dessous. Toutes ces commandes sont « liées » à des combinaisons de touches à une exception : activer ou désactiver le mode de lecture à la souris. Consultez <link xref="howto_key_bindings">Modifier les combinaisons de touches</link> pour en apprendre plus sur la façon de lier ces commandes à des combinaisons de touches.</p>
   <note style="tip">
-    <p>
-      Below you will see several references to "KP". All
-      "KP" keys are located on the numeric keypad. You will also notice that
-      there are different keystrokes depending upon whether you are using a
-      desktop or a laptop -- or more accurately, whether you are using
-      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
-      For additional information, please see the
-      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
-    </p>
+    <p>Vous trouverez ci-dessous plusieurs références à « PN ». Toutes les touches « PN » se trouvent dans le pavé numérique. Vous remarquerez qu’il existe des combinaisons de touches différentes si vous utilisez un clavier d’ordinateur de bureau ou de portable - ou pour être plus précis, si vous utilisez l’agencement de clavier ordinateur de bureau ou portable d’<app>Orca</app>. Pour plus d’informations, consultez la rubrique <link xref="howto_keyboard_layout">Agencement de clavier</link>.</p>
   </note>
   <list>
     <item>

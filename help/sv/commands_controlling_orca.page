@@ -47,16 +47,10 @@
     <p>I inlärningsläge kommer <app>Orca</app> läsa upp varje tangent du tryckt ner tillsammans med eventuella associerade <app>Orca</app>-kommandon som den tangenten är bunden till. I detta läge kan du också få en lista över genvägar som innehåller alla <app>Orca</app>-kommandon du kan använda.</p>
     <list>
       <item>
-        <p>
-          Enter Learn Mode:
-          <keyseq><key>Orca Modifier</key><key>H</key></keyseq>
-        </p>
+        <p>Gå in i inlärningsläge: <keyseq><key>Orca-modifierare</key><key>H</key></keyseq></p>
       </item>
       <item>
-        <p>
-          Exit Learn Mode:
-          <keyseq><key>Esc</key></keyseq>
-        </p>
+        <p>Gå ur inlärningsläge: <keyseq><key>Esc</key></keyseq></p>
       </item>
     </list>
   </section>

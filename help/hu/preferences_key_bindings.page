@@ -18,16 +18,13 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
+      <mal:years>2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2020.</mal:years>
     </mal:credit>
   </info>
   <title>Billentyűtársítások beállításai</title>
   <section id="orca_modifier_keys">
     <title>Orka módosítóbillentyűk</title>
-    <p>
-      The <gui>Screen Reader Modifier Key(s)</gui> combo box allows you to select which
-      key or keys will serve as the Orca Modifier. The available options are:
-    </p>
+    <p>A <gui>Képernyőolvasó módosítóbillentyűk</gui> kombinált listamezőben kiválaszthatja, hogy mely billentyűt vagy billentyűket kívánja Orka módosítóbillentyűként használni. Az elérhető lehetőségek:</p>
     <list>
       <item>
         <p><gui>KP_Insert</gui>: Egyenértékű a numerikus billentyűzet <key>0</key> billentyűjével.</p></item>
@@ -41,20 +38,13 @@
     <p>A billentyűtársítások táblázat a különböző <app>Orka</app> műveletek és az azokhoz rendelt billentyűtársítások listáját tartalmazza.</p>
     <list>
       <item>
-        <p>
-          The <gui>Command</gui> column contains a description of the
-          <app>Orca</app> command to be performed.
-        </p>
+        <p>A <gui>Parancs</gui> oszlop az adott <app>Orka</app> művelet leírását tartalmazza.</p>
       </item>
       <item>
         <p>A <gui>Billentyűtársítás</gui> oszlop az adott Orka funkció jelenlegi billentyűparancsát tartalmazza. A billentyűparancsot módosíthatja, ha lenyomja az <key>Enter</key> billentyűt. Ezután nyomja meg az Ön által használni kívánt billentyűkombinációt, majd nyomja meg újra az <key>Enter</key> billentyűt.</p>
       </item>
       <item>
-        <p>
-          The <gui>Modified</gui> column serves both as an indicator to what
-          has been changed and as a way to restore the default bindings
-          associated with that command.
-        </p>
+        <p>A <gui>Módosítva</gui> oszlop két célra szolgál: jelzi, hogy milyen billentyűtársítások lettek megváltoztatva, és lehetőséget biztosít egy funkció eredeti billentyűtársításainak visszaállítására.</p>
       </item>
     </list>
     <p>Az <app>Orka</app> billentyűtársítások listája alatt találni fog egy „Nincs kiosztva” elnevezésű csoportot. Ezek általában olyan parancsok, melyek hasznosak lehetnek egyes felhasználóknak, de a legtöbb felhasználónak ezekre a parancsokra nem lenne szüksége. Nem akartunk minden ilyen parancshoz „elhasználni” egy billentyűtársítást, így ezek a parancsok alapértelmezetten nem rendelkeznek billentyűtársítással. A lista alján találhatók a Braille társítások, melyeket egy frissíthető Braille-kijelzőn használhat.</p>

@@ -54,10 +54,7 @@
   <title>Préférences de raccourcis clavier</title>
   <section id="orca_modifier_keys">
     <title>Touches de modification d’Orca</title>
-    <p>
-      The <gui>Screen Reader Modifier Key(s)</gui> combo box allows you to select which
-      key or keys will serve as the Orca Modifier. The available options are:
-    </p>
+    <p>La liste déroulante <gui>Touche(s) de modification du lecteur d’écran</gui> vous permet de sélectionner quelles touches sont utilisées comme Touche de modification d’Orca. Les options suivantes sont disponibles :</p>
     <list>
       <item>
         <p><gui>PN_Inser</gui> (la même touche que le <key>0</key> sur le pavé numérique)</p></item>
@@ -71,20 +68,13 @@
     <p>Le tableau des raccourcis clavier offre une liste des fonctions d’<app>Orca</app> et les touches qui correspondent à ces opérations.</p>
     <list>
       <item>
-        <p>
-          The <gui>Command</gui> column contains a description of the
-          <app>Orca</app> command to be performed.
-        </p>
+        <p>La colonne <gui>Commande</gui> contient la description de l’opération <app>Orca</app> à réaliser.</p>
       </item>
       <item>
         <p>La colonne <gui>Raccourci</gui> contient le raccourci actuellement assigné à cette fonction. Pour modifier la valeur de cette colonne, appuyez sur la touche <key>Entrée</key> et pressez ensuite les touches pour le nouveau raccourci puis, appuyez sur <key>Entrée</key> à nouveau.</p>
       </item>
       <item>
-        <p>
-          The <gui>Modified</gui> column serves both as an indicator to what
-          has been changed and as a way to restore the default bindings
-          associated with that command.
-        </p>
+        <p>La colonne <gui>Modifié</gui> sert à la fois d’indicateur de modification et de moyen de restaurer le raccourci par défaut associé à cette commande.</p>
       </item>
     </list>
     <p>Sous la liste des raccourcis d’<app>Orca</app>, se trouve un groupe de commandes « non liées ». Ce sont des commandes qui doivent certainement être très utiles pour certains utilisateurs, mais qui ne le sont pas pour d’autres. Plutôt que d’utiliser un raccourci pour ces commandes, elles ne sont pas assignées par défaut. À la fin de cette liste se trouvent les raccourcis braille, pour l’utilisation avec une plage braille.</p>
