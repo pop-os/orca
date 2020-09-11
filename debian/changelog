@@ -16,6 +16,12 @@ orca (3.37.1-1) experimental; urgency=medium
 
  -- Samuel Thibault <sthibault@debian.org>  Thu, 23 Apr 2020 23:28:01 +0200
 
+orca (3.36.6-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 31 Aug 2020 18:17:26 +0200
+
 orca (3.36.5-1) unstable; urgency=medium
 
   * New upstream release (Closes: #968248)
