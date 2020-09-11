@@ -57,9 +57,7 @@
   <steps>
     <title>Ajout d’une nouvelle entrée de dictionnaire</title>
     <item>
-      <p>
-        Press the <gui>New Entry</gui> button (<keyseq><key>Alt</key><key>N</key></keyseq>)
-      </p>
+      <p>Cliquez sur le bouton <gui>Nouvelle zone de saisie</gui> (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
     </item>
     <item>
       <p>Saisissez le texte de la nouvelle entrée et appuyez sur <key>Entrée</key> pour finir la saisie de la chaîne actuelle.</p>
@@ -86,9 +84,7 @@
       <p>Placez-vous sur l’entrée que vous souhaitez supprimer.</p>
     </item>
     <item>
-      <p>
-        Press the <gui>Delete</gui> button or <keyseq><key>Alt</key><key>D</key></keyseq>.
-      </p>
+      <p>Cliquez sur le bouton <gui>Supprimer</gui> ou appuyez sur <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
     </item>
   </steps>
 </page>

@@ -34,7 +34,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Willkommen bei Orca</title>
@@ -45,11 +45,7 @@
     <p>So starten Sie <app>Orca</app>:</p>
     <list>
       <item>
-        <p>
-          The method for configuring <app>Orca</app> to be launched
-          automatically as your preferred screen reader will depend upon
-          which desktop environment you use.
-        </p>
+        <p>Die Einstellung, <app>Orca</app> automatisch als Ihren bevorzugten Bildschirmleser zu starten, hängt von der verwendeten Arbeitsumgebung ab.</p>
       </item>
       <item>
         <p>Um <app>Orca</app> in GNOME ein- und auszuschalten, drücken Sie <keyseq><key>Super-Taste</key><key>Alt</key><key>S</key></keyseq>.</p>

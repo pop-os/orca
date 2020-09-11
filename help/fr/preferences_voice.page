@@ -77,9 +77,9 @@
       <title>Style de lecture des majuscules</title>
       <p>Cette liste déroulante permet de choisir le style d’indication de majuscules par le système Speech Dispatcher, en plus de la voix d’<app>Orca</app> pour les majuscules. Les options nommées selon la terminologie de Speech Dispatcher sont :</p>
      <list>
-       <item><p><gui>Icon</gui>: Plays a tone</p></item>
-       <item><p><gui>Spell</gui>: Speaks the word "capital"</p></item>
-       <item><p><gui>None</gui></p></item>
+       <item><p><gui>icône</gui> : émet un son</p></item>
+       <item><p><gui>annonce</gui> : lit le mot « majuscule »</p></item>
+       <item><p><gui>aucun</gui></p></item>
     </list>
     <note style="tip">
       <title>Ce paramètre peut être activé à la volée</title>

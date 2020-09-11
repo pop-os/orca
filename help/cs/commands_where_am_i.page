@@ -20,7 +20,7 @@
   <p><app>Orca</app> poskytuje následující příkazy „Kde se nacházím“:</p>
   <list>
     <item>
-      <p>Perform basic Where Am I:</p>
+      <p>Zjištění základních informací o tom, kde se nacházíte:</p>
       <list>
         <item>
           <p>Stolní počítač: <key>KP Enter</key> (Enter na numerické klávesnici)</p>
@@ -31,7 +31,7 @@
       </list>
     </item>
     <item>
-      <p>Perform detailed Where Am I:</p>
+      <p>Zjištění podrobných informací o tom, kde se nacházíte:</p>
       <list>
         <item>
           <p>Stolní počítač: <key>KP Enter</key> (Enter na numerické klávesnici, dvojité zmáčknutí)</p>

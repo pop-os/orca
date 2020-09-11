@@ -32,7 +32,7 @@
   <p><app>Orca</app> proporciona los siguientes comandos de «Dónde estoy»:</p>
   <list>
     <item>
-      <p>Perform basic Where Am I:</p>
+      <p>Realizar el «dónde estoy» básico:</p>
       <list>
         <item>
           <p>Sobremesa: <key>TN Intro</key></p>
@@ -43,7 +43,7 @@
       </list>
     </item>
     <item>
-      <p>Perform detailed Where Am I:</p>
+      <p>Realizar el «dónde estoy» detallado:</p>
       <list>
         <item>
           <p>Sobremesa: <key>TN Intro</key> (doble pulsación)</p>

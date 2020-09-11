@@ -239,11 +239,7 @@
           <p>Mostrar una lista de imágenes: <keyseq><key>Alt</key><key>Mayús</key><key>G</key></keyseq></p>
         </item>
         <item>
-          <p>
-            Start and end of current container:
-            <keyseq><key>Shift</key><key>Comma</key></keyseq> and
-            <keyseq><key>Comma</key></keyseq>
-          </p>
+          <p>Principio o final del contenedor actual: <keyseq><key>Mayús</key><key>coma</key></keyseq> y <keyseq><key>coma</key></keyseq></p>
         </item>
       </list>
     </section>

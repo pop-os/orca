@@ -19,21 +19,13 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
+      <mal:years>2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2020.</mal:years>
     </mal:credit>
   </info>
   <title>Egérmutatóval kapcsolatos parancsok</title>
   <p>Az <app>Orka</app> számos, az egérmutató helyének manipulálására és az elérhető információk felolvastatására használható paranccsal rendelkezik. Minden parancshoz definiálva van billentyűtársítás, az áttekintés egérrel mód be- vagy kikapcsolásának kivételével. Ha billentyűtársítást szeretne rendelni ehhez a parancshoz, olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
   <note style="tip">
-    <p>
-      Below you will see several references to "KP". All
-      "KP" keys are located on the numeric keypad. You will also notice that
-      there are different keystrokes depending upon whether you are using a
-      desktop or a laptop -- or more accurately, whether you are using
-      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
-      For additional information, please see the
-      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
-    </p>
+    <p>A következő listákban rengeteg „Numpad” kifejezés látható. Minden „Numpad” kifejezéssel jelölt billentyű a numerikus billentyűzeten található. Talán már tudja, hogy a billentyűparancsok különbözhetnek, attól függően, hogy asztali vagy hordozható számítógépet használ. Pontosabban a billentyűparancsok közötti különbség attól függ, hogy az <app>Orka</app> képernyőolvasót asztali vagy laptop kiosztással használja-e. További információkért olvassa el a <link xref="howto_keyboard_layout">Billentyűzetkiosztás</link> című fejezetet.</p>
   </note>
   <list>
     <item>

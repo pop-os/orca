@@ -74,36 +74,20 @@
   </section>
   <section id="reset">
      <title>Annulation des modifications</title>
-     <p>
-       Beneath the list of text attributes, there is a <gui>Reset</gui> button
-       (<keyseq><key>Alt</key><key>R</key></keyseq>) which will restore
-       the values of the table to what they were when the dialog was
-       first displayed.
-    </p>
+     <p>Sous la liste des attributs de texte, il y a un bouton <gui>Réinitialiser</gui> (<keyseq><key>Alt</key><key>R</key></keyseq>) qui restaure les valeurs du tableau à celles qui étaient en place à l’ouverture de la boîte de dialogue.</p>
   </section>
   <section id="rearranging">
      <title>Changement de l’ordre de lecture</title>
-     <p>
-        When you initially display the <gui>Text Attributes</gui> page, all of your enabled
-        attributes are placed at the top of the table in the order in which they
-        will be spoken. There are four buttons which can be used to rearrange
-        the order of presentation.
-    </p>
+     <p>Quand vous affichez l’onglet des <gui>attributs de texte</gui> la première fois, tous les attributs activés sont placés en haut du tableau dans l’ordre de la lecture. Quatre boutons peuvent être utilisés pour modifier l’ordre de lecture.</p>
     <list>
       <item>
         <p><gui>Déplacer tout en haut</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>) : déplace l’attribut sélectionné en tête de liste.</p>
       </item>
       <item>
-        <p>
-          <gui>Move up</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>):
-          moves the selected attribute up one row.
-        </p>
+        <p><gui>Déplacer vers le haut</gui> (<keyseq><key>Alt</key><key>H</key></keyseq>) : monte l’attribut sélectionné d’une ligne.</p>
       </item>
       <item>
-        <p>
-          <gui>Move down</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>):
-          moves the selected attribute down one row.
-        </p>
+        <p><gui>Déplacer vers le bas</gui> (<keyseq><key>Alt</key><key>B</key></keyseq>) : descend l’attribut sélectionné d’une ligne.</p>
       </item>
       <item>
         <p><gui>Déplacer tout en bas</gui> (<keyseq><key>Alt</key><key>S</key></keyseq>) : déplace l’attribut sélectionné en bas de la liste.</p>

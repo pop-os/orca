@@ -56,12 +56,7 @@
       <desc>Option de la boîte de dialogue des préférences qui permet de sélectionner l’agencement de clavier utilisé par <app>Orca</app> : ordinateur de bureau ou portable.</desc>
     </info>
     <title>Agencement de clavier</title>
-    <p>
-      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
-      you will be working on a desktop (i.e. with a numeric keypad) or laptop
-      keyboard. Which layout you choose will determine both the <key>Orca
-      Modifier</key> as well as a number of keyboard shortcuts for performing
-      <app>Orca</app> commands.</p>
+    <p>Le groupement de boutons radio <gui>Agencement du clavier</gui> vous permet d’indiquer si vous utilisez un clavier d’ordinateur de bureau (c.-à-d. avec pavé numérique) ou un clavier de portable. L’agencement que vous choisissez détermine la <key>Touche de modification d’Orca</key> ainsi qu’un grand nombre de raccourcis clavier pour réaliser les commandes <app>Orca</app>.</p>
     <p>Valeur par défaut : <gui>Bureau</gui></p>
   </section>
   <section id="presenttooltips">
@@ -165,7 +160,7 @@
       <p>Valeur par défaut : 10</p>
     </section>
     <section id="progress_bar_updates_restrict">
-      <title>Applies to</title>
+      <title>S’applique à</title>
       <p>Cette liste déroulante vous permet de choisir quelles barres de progression sont prononcées, en supposant que l’annonce de la mise à jour des barres de progression soit activée. Les choix possibles sont : <gui>Toutes</gui>, <gui>Application</gui> et <gui>Fenêtre</gui>.</p>
       <p>Quand vous choisissez <gui>Toutes</gui>, <app>Orca</app> prononce les mises à jour de toutes les barres de progression, quel que soit leur emplacement.</p>
       <p>Quand vous choisissez <gui>Application</gui>, <app>Orca</app> prononce les mises à jour des barres de progression de l’application active, même si elles ne sont pas dans la fenêtre active.</p>

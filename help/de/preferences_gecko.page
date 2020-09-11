@@ -35,7 +35,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Einstellungen für Gecko-Navigation</title>
@@ -56,8 +56,8 @@
       <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> automatisch den Fokus-Modus einschalten, wenn Sie sich mittels Caret-Navigation in ein Formularfeld bewegen. Durch Drücken von <key>Runter</key> könnten Sie beispielsweise einen Eintrag betreten; sobald Sie dies aber getan hätten, würde Orca in den Fokus-Modus wechseln und nachfolgendes Drücken von <key>↓</key> würde nicht mehr von Orca, sondern dem Internet-Browser kontrolliert werden. Ist dieses Feld nicht angekreuzt, würde <app>Orca</app> auch nach Drücken von <key>Runter</key> die Kontrolle behalten, wodurch es möglich ist, den Eintrag zu verlassen und weiterzulesen.</p>
       <p>Vorgabewert: nicht aktiviert</p>
       <note style="tip">
-        <title>Manuell zwischen Stöbern-Modus und Fokus-Modus wechseln</title>
-        <p>Um die Interaktion mit dem fokussierten Formularfeld zu beginnen oder zu beenden, verwenden Sie <keyseq><key>Orca-Zusatztaste</key><key>A</key></keyseq>, um zwischen Stöbern-Modus und Fokus-Modus zu wechseln.</p>
+        <title>Manuell zwischen Stöbern-Modus und Fokussieren-Modus wechseln</title>
+        <p>Um die Interaktion mit dem fokussierten Formularfeld zu beginnen oder zu beenden, verwenden Sie <keyseq><key>Orca-Zusatztaste</key><key>A</key></keyseq>, um zwischen Stöbern-Modus und Fokussieren-Modus zu wechseln.</p>
        </note>
     </section>
     <section id="page_navigation_structural">
@@ -74,8 +74,8 @@
       <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> automatisch den Fokus-Modus einschalten, wenn Sie sich mittels Strukturennavigation in ein Formularfeld bewegen. Durch Drücken von <key>E</key> könnten Sie beispielsweise einen Eintrag betreten und den Fokus dorthin bewegen; dadurch würden Sie in den Fokus-Modus wechseln, sodass nachfolgendes Drücken von <key>E</key> ein »e« in den Eintrag einfügen würde. Ist dieses Feld nicht angekreuzt, würde <app>Orca</app> Sie im Stöbern-Modus verbleiben lassen, und der nächste Druck von <key>E</key> würde Sie zum nächsten Eintrag führen.</p>
       <p>Vorgabewert: nicht aktiviert</p>
       <note style="tip">
-        <title>Manuell zwischen Stöbern-Modus und Fokus-Modus wechseln</title>
-        <p>Um die Interaktion mit dem fokussierten Formularfeld zu beginnen oder zu beenden, verwenden Sie <keyseq><key>Orca-Zusatztaste</key><key>A</key></keyseq>, um zwischen Stöbern-Modus und Fokus-Modus zu wechseln.</p>
+        <title>Manuell zwischen Stöbern-Modus und Fokussieren-Modus wechseln</title>
+        <p>Um die Interaktion mit dem fokussierten Formularfeld zu beginnen oder zu beenden, verwenden Sie <keyseq><key>Orca-Zusatztaste</key><key>A</key></keyseq>, um zwischen Stöbern-Modus und Fokussieren-Modus zu wechseln.</p>
        </note>
     </section>
     <section id="page_navigation_speak">

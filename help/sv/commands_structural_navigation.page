@@ -233,11 +233,7 @@
           <p>Visa en lista över bilder: <keyseq><key>Alt</key><key>Skift</key><key>G</key></keyseq></p>
         </item>
         <item>
-          <p>
-            Start and end of current container:
-            <keyseq><key>Shift</key><key>Comma</key></keyseq> and
-            <keyseq><key>Comma</key></keyseq>
-          </p>
+          <p>Början och slut på aktuell behållare: <keyseq><key>Skift</key><key>Komma</key></keyseq> och <keyseq><key>Komma</key></keyseq></p>
         </item>
       </list>
     </section>

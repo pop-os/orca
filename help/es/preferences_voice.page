@@ -53,9 +53,9 @@
       <title>Estilo de uso de mayúsculas</title>
       <p>Esta caja combinada le permite elegir qué estilo de uso de mayúsculas de «Speech Dispatcher» quiere usar además de la voz de <app>Orca</app>. Las opciones, usando la terminología de nombres de «Speech Dispatcher», son:</p>
      <list>
-       <item><p><gui>Icon</gui>: Plays a tone</p></item>
-       <item><p><gui>Spell</gui>: Speaks the word "capital"</p></item>
-       <item><p><gui>None</gui></p></item>
+       <item><p><gui>Icono</gui>: reproduce un tono</p></item>
+       <item><p><gui>Deletrear</gui>: habla la palabra «mayúscula»</p></item>
+       <item><p><gui>Ninguno</gui></p></item>
     </list>
     <note style="tip">
       <title>Esta configuración se puede cambiar al vuelo</title>

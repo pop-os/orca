@@ -35,7 +35,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Braille-Einstellungen</title>
@@ -101,13 +101,8 @@
       <p>Vorgabewert: nicht aktiviert</p>
     </section>
     <section id="flashMessageSettings_duration">
-      <title>Duration (secs)</title>
-      <p>
-        The amount of time <app>Orca</app> will wait before removing the message and
-        restoring the original contents of your display can be set in the <gui>
-        Duration (secs)</gui> spin button. Note that the value of this
-        setting will be ignored if you have enabled persistent flash messages.
-      </p>
+      <title>Dauer (Sekunden)</title>
+      <p>Die Länge der Zeit, die <app>Orca</app> warten wird, bevor eine Meldung ausgeblendet und die ursprünglichen Inhalte auf der Zeile wiederhergestellt werden, kann im Einstellknopf <gui>Dauer (Sekunden)</gui> festgelegt werden. Beachten Sie, dass dieser Wert ignoriert wird, wenn Sie dauerhafte Meldungseinblendungen aktiviert haben.</p>
       <p>Vorgabewert: 5</p>
     </section>
   </section>

@@ -36,7 +36,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Befehle zu »Wo bin ich«</title>
@@ -44,7 +44,7 @@
   <p><app>Orca</app> unterstützt die folgenden Wo bin ich Befehle:</p>
   <list>
     <item>
-      <p>Perform basic Where Am I:</p>
+      <p>Die einfache »Wo bin ich«-Funktion ausführen:</p>
       <list>
         <item>
           <p>Desktop: <key>Eingabetaste (Nmblck)</key></p>
@@ -55,7 +55,7 @@
       </list>
     </item>
     <item>
-      <p>Perform detailed Where Am I:</p>
+      <p>Die detaillierte »Wo bin ich«-Funktion ausführen:</p>
       <list>
         <item>
           <p>Desktop: <key>Eingabetaste (Nmblck)</key> (Doppelklick)</p>

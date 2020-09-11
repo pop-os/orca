@@ -35,7 +35,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Steuerung und Bedienung von Orca</title>
@@ -65,16 +65,10 @@
     <p>Im Lernmodus wird <app>Orca</app> jedes gedrückten Tastenkürzel zusammen mit dem dazugehörigen zugewiesenen <app>Orca</app>-Befehl ankündigen. In diesem Modus können Sie ebenfalls eine Liste mit den Tastenkürzeln aller verwendbaren <app>Orca</app>-Befehle erhalten.</p>
     <list>
       <item>
-        <p>
-          Enter Learn Mode:
-          <keyseq><key>Orca Modifier</key><key>H</key></keyseq>
-        </p>
+        <p>Lernmodus starten: <keyseq><key>Orca-Zusatztaste</key><key>H</key></keyseq></p>
       </item>
       <item>
-        <p>
-          Exit Learn Mode:
-          <keyseq><key>Esc</key></keyseq>
-        </p>
+        <p>Lernmodus beenden: <keyseq><key>Esc</key></keyseq></p>
       </item>
     </list>
   </section>

@@ -17,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
+      <mal:years>2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2020.</mal:years>
     </mal:credit>
   </info>
   <title>Általános beállítások</title>
@@ -26,12 +26,7 @@
       <desc>Megadhatja, hogy az <app>Orkát</app> asztali vagy laptop billentyűzetkiosztással szeretné használni.</desc>
     </info>
     <title>Billentyűzetkiosztás</title>
-    <p>
-      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
-      you will be working on a desktop (i.e. with a numeric keypad) or laptop
-      keyboard. Which layout you choose will determine both the <key>Orca
-      Modifier</key> as well as a number of keyboard shortcuts for performing
-      <app>Orca</app> commands.</p>
+    <p>A <gui>Billentyűzetkiosztás</gui> választógombcsoport segítségével megadható, hogy asztali billentyűzeten vagy hordozható számítógépen dolgozik-e. A kiválasztott kiosztás meghatározza az <key>Orka módosítóbillentyűt</key> és az <app>Orka</app> parancsok gyorsbillentyűit.</p>
     <p>Alapbeállítás: <gui>Asztali</gui> kiosztás</p>
   </section>
   <section id="presenttooltips">
@@ -135,7 +130,7 @@
       <p>Alapbeállítás: 10</p>
     </section>
     <section id="progress_bar_updates_restrict">
-      <title>Applies to</title>
+      <title>Mire vonatkozik</title>
       <p>Ha a folyamatjelzők állapotának felolvasása engedélyezve van, ebben a kombinált listamezőben megadhatja, hogy milyen esetekben legyenek kimondva a folyamatjelzők állapotváltozásai. A választható lehetőségek: <gui>Mindent</gui>, <gui>Alkalmazás</gui>, és <gui>Ablak</gui>.</p>
       <p>Ha a <gui>Mindent</gui> lehetőséget választja, az <app>Orka</app> minden folyamatjelző-állapotváltozást ki fog mondani, függetlenül azok helyétől.</p>
       <p>Ha az <gui>Alkalmazás</gui> lehetőséget választja, az <app>Orka</app> ki fogja mondani a fókuszban levő aktív alkalmazás folyamatjelző-állapotváltozásait, függetlenül attól, hogy az alkalmazás ablaka aktív-e.</p>

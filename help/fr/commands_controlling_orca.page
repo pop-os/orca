@@ -77,16 +77,10 @@
     <p>En mode d’apprentissage, <app>Orca</app> annonce chaque combinaison de touches que vous réalisez ainsi que les commandes d’<app>Orca</app> associées. Dans ce mode, vous pouvez également obtenir une liste des raccourcis contenant toutes les commandes d’<app>Orca</app> que vous pouvez utiliser.</p>
     <list>
       <item>
-        <p>
-          Enter Learn Mode:
-          <keyseq><key>Orca Modifier</key><key>H</key></keyseq>
-        </p>
+        <p>Entrer dans le mode d’apprentissage : <keyseq><key>Touche de modification d’Orca</key><key>H</key></keyseq></p>
       </item>
       <item>
-        <p>
-          Exit Learn Mode:
-          <keyseq><key>Esc</key></keyseq>
-        </p>
+        <p>Quitter le mode d’apprentissage : <keyseq><key>Échap</key></keyseq></p>
       </item>
     </list>
   </section>
