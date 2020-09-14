@@ -1,3 +1,12 @@
+orca (3.38.0-1ubuntu1) UNRELEASED; urgency=medium
+
+  * Merge with Debian (LP: #1891345). Remaining changes:
+    + debian/patches/unity-a11y.patch: add hacks to better work with Unity
+  * Drop lowering of gst related dependencies to suggests, no longer present
+    in Debian.
+
+ -- Iain Lane <iain.lane@canonical.com>  Mon, 14 Sep 2020 17:44:04 +0100
+
 orca (3.38.0-1) unstable; urgency=medium
 
   * New upstream release.
