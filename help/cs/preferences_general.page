@@ -20,12 +20,7 @@
       <desc>Volba v dialogovém okně s předvolbami, která slouží k výběru rozložení klávesnice (stolní počítač nebo přenosný počíta), které má používat čtečka <app>Orca</app></desc>
     </info>
     <title>Rozložení klávesnice</title>
-    <p>
-      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
-      you will be working on a desktop (i.e. with a numeric keypad) or laptop
-      keyboard. Which layout you choose will determine both the <key>Orca
-      Modifier</key> as well as a number of keyboard shortcuts for performing
-      <app>Orca</app> commands.</p>
+    <p>Pomocí skupinových přepínačů <gui>rozložení klávesnice</gui> se určuje, jestli budete pracovat na klávesnici stolního počítače (tj. s numerickou částí klávesnice) nebo přenosného počítače. Výběr rozložení klávesnice ovlivní <key>Modifikátor Orca</key> a počet klávesových zkratek pro provádění příkazů <app>Orca</app>.</p>
     <p>Výchozí hodnota: <gui>Stolní počítač</gui></p>
   </section>
   <section id="presenttooltips">
@@ -129,7 +124,7 @@
       <p>Výchozí hodnota: 10</p>
     </section>
     <section id="progress_bar_updates_restrict">
-      <title>Applies to</title>
+      <title>Použít na</title>
       <p>Tento rozbalovací seznam vám umožňuje řídit, které ukazatele průběhu by měly být prezentovány, což předpokládá, že prezentování aktualizace ukazatele průběhu je zapnuto. Na výběr je <gui>Vše</gui>, <gui>Aplikace</gui> a <gui>Okno</gui>.</p>
       <p>Výsledkem volby <gui>Vše</gui> je, že <app>Orca</app> bude prezentovat aktualizace všech ukazatelů průběhu, bez ohledu na to, kde se nachází.</p>
       <p>Výsledkem volby <gui>Aplikace</gui> je, že <app>Orca</app> bude prezentovat aktualizace ukazatelů průběhu, které se nachází v aktivní aplikaci, i když třeba v neaktivním okně.</p>

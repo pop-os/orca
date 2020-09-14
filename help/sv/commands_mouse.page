@@ -25,15 +25,7 @@
   <title>Mus/pekar-relaterade kommandon</title>
   <p><app>Orca</app> tillhandahåller flera kommandon som kan användas för att manipulera muspekaren och läsa innehållet under den. Alla kommandona är ”bundna” till tangenttryckningar med ett undantag: Växla musgranskningsläge. Se <link xref="howto_key_bindings">Ändra tangentbindningar</link> för information om hur du kan binda detta kommando till en tangenttryckning.</p>
   <note style="tip">
-    <p>
-      Below you will see several references to "KP". All
-      "KP" keys are located on the numeric keypad. You will also notice that
-      there are different keystrokes depending upon whether you are using a
-      desktop or a laptop -- or more accurately, whether you are using
-      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
-      For additional information, please see the
-      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
-    </p>
+    <p>Nedan kommer du se flera referenser till ”KP”. Alla ”KP”-tangenter finns på det numeriska tangentbordet (keypad). Du kommer också se att det finns olika tangenttryckningar beroende på om du använder en stationär eller en bärbar dator -- eller mer korrekt, huruvida du använder <app>Orca</app>s tangentbordslayout för stationär eller bärbar dator. För mer information se ämnet <link xref="howto_keyboard_layout">Tangentbordslayout</link>.</p>
   </note>
   <list>
     <item>

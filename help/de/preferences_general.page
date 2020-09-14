@@ -35,7 +35,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Allgemeine Einstellungen</title>
@@ -44,12 +44,7 @@
       <desc>Optionen des Einstellungsdialoges zur Auswahl, welches Tastaturlayout, Desktop oder Laptop, <app>Orca</app> verwenden soll.</desc>
     </info>
     <title>Tastaturbelegung</title>
-    <p>
-      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
-      you will be working on a desktop (i.e. with a numeric keypad) or laptop
-      keyboard. Which layout you choose will determine both the <key>Orca
-      Modifier</key> as well as a number of keyboard shortcuts for performing
-      <app>Orca</app> commands.</p>
+    <p>Die Auswahlknopf-Gruppe <gui>Tastaturlayout</gui> erlaubt Ihnen zu anzugeben, ob Sie an einer Desktop- (sprich, mit Nummernblock) oder Laptoptastatur arbeiten. Die Wahl des Layouts bestimmt die <key>Orca-Zusatztaste</key> sowie eine Anzahl an Tastenkürzeln zum Ausführen von <app>Orca</app>-Befehlen.</p>
     <p>Vorgabewert: <gui>Desktop</gui></p>
   </section>
   <section id="presenttooltips">
@@ -153,7 +148,7 @@
       <p>Vorgabewert: 10</p>
     </section>
     <section id="progress_bar_updates_restrict">
-      <title>Applies to</title>
+      <title>Gilt für</title>
       <p>Dieses Auswahlfeld ermöglicht Ihnen einzustellen, welche Fortschrittsanzeigen vorgelesen werden sollen, unter der Annahme, dass die Angabe von Aktualisierungen von Fortschrittsanzeigen aktiviert ist. Mögliche Werte sind <gui>Alle</gui>, <gui>Anwendung</gui> und <gui>Fenster</gui>.</p>
       <p>Ist <gui>Alle</gui> gewählt, wird <app>Orca</app> Aktualisierungen für alle Fortschrittsanzeigen angeben, unabhängig davon, wo sich die Fortschrittsanzeige befindet.</p>
       <p>Ist <gui>Anwendung</gui> gewählt, wird <app>Orca</app> Aktualisierungen für Fortschrittsanzeigen in der aktiven Anwendung angeben, auch wenn sie nicht im aktiven Fenster sind.</p>

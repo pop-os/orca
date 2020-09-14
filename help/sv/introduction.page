@@ -27,11 +27,7 @@
     <p>För att starta <app>Orca</app>:</p>
     <list>
       <item>
-        <p>
-          The method for configuring <app>Orca</app> to be launched
-          automatically as your preferred screen reader will depend upon
-          which desktop environment you use.
-        </p>
+        <p>Metoden för att ställa in <app>Orca</app> att startas automatiskt som din föredragna skärmläsare beror på vilken skrivbordsmiljö du använder.</p>
       </item>
       <item>
         <p>För att slå på och av <app>Orca</app> i GNOME, tryck <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>

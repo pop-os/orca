@@ -56,15 +56,7 @@
   <title>Commandes de lecture</title>
   <p>En plus des commandes de navigation au curseur qui font partie de GNOME, <app>Orca</app> fournit des commandes que vous pouvez utiliser pour lire un document.</p>
   <note style="tip">
-    <p>
-      Below you will see several references to "KP". All
-      "KP" keys are located on the numeric keypad. You will also notice that
-      there are different keystrokes depending upon whether you are using a
-      desktop or a laptop -- or more accurately, whether you are using
-      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
-      For additional information, please see the
-      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
-    </p>
+    <p>Vous trouverez ci-dessous plusieurs références à « PN ». Toutes les touches « PN » se trouvent dans le pavé numérique. Vous remarquerez qu’il existe des combinaisons de touches différentes si vous utilisez un clavier d’ordinateur de bureau ou de portable - ou pour être plus précis, si vous utilisez l’agencement de clavier ordinateur de bureau ou portable d’<app>Orca</app>. Pour plus d’informations, consultez la rubrique <link xref="howto_keyboard_layout">Agencement de clavier</link>.</p>
   </note>
   <section id="flat_review">
     <title>Lecture de l’emplacement actuel</title>
@@ -163,13 +155,13 @@
   </section>
   <section id="attributes_and_selection">
     <title>Attributs de texte et texte sélectionné</title>
-    <p><app>Orca</app> dispose d’une commande dédiée pour obtenir les attributs du texte à l’emplacement de curseur. De plus, si vous utilisez les commandes « où suis-je » d’<app>Orca</app> depuis un objet texte dans lequel du texte est sélectionné, <app>Orca</app> lit alors le texte sélectionné. La commande d’<app>Orca</app> permettant de lire la sélection actuelle exécute également cette fonction dans un objet texte.</p>
+    <p><app>Orca</app> dispose d’une commande dédiée pour obtenir les attributs du texte à l’emplacement de curseur. De plus, si vous utilisez les commandes « Où suis-je » d’<app>Orca</app> depuis un objet texte dans lequel du texte est sélectionné, <app>Orca</app> lit alors le texte sélectionné. La commande d’<app>Orca</app> permettant de lire la sélection actuelle exécute également cette fonction dans un objet texte.</p>
     <list>
       <item>
         <p>Présenter les attributs du texte : <keyseq><key>Touche de modification d’Orca</key><key>F</key></keyseq></p>
       </item>
       <item>
-        <p>Perform basic Where Am I:</p>
+        <p>Effectuer l’opération « Où suis-je » de base :</p>
         <list>
           <item>
             <p>Ordinateur de bureau : <key>PN Entrée</key></p>
@@ -180,7 +172,7 @@
         </list>
     </item>
     <item>
-      <p>Perform detailed Where Am I:</p>
+      <p>Effectuer l’opération « Où suis-je » détaillée :</p>
       <list>
         <item>
           <p>Ordinateur de bureau : <key>PN Entrée</key> (double-clic)</p>
@@ -197,14 +189,7 @@
   </section>
   <section id="link_details">
     <title>Détails du lien</title>
-    <p>
-      If you are on a link, <app>Orca</app>'s Basic Where Am I command can be
-      used to announce the details associated with the link such as the link type,
-      if the link is visited, the site description, and file size. If you would
-      instead prefer dedicated command for this purpose, you can bind <app>Orca</app>'s
-      Speaks Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
-      Modifying Keybindings</link> for information on how to do so.
-    </p>
+    <p>Si vous vous trouvez sur un lien, la commande de base d’<app>Orca</app> « Où suis-je » peut être utilisée pour annoncer les détails associés au lien, comme le type de lien, si le lien a été visité, la description du site et la taille de fichier. Si vous préférez plutôt une commande dédiée pour cela, vous pouvez lier la commande Lire les détails du lien d’<app>Orca</app> à une combinaison de touches. Consultez <link xref="howto_key_bindings">Modifier les combinaisons de touches</link> pour plus d’informations sur la procédure.</p>
     <list>
       <item>
         <p>Lire les détails du lien : (non liée)</p>
@@ -219,16 +204,10 @@
         <p>Basculer entre les modes de navigation et de focus : <keyseq><key>Touche de modification d’Orca</key><key>A</key></keyseq></p>
       </item>
       <item>
-        <p>
-          Enable sticky focus mode:
-          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (double-clicked)
-        </p>
+        <p>Activer le mode focus permanent : <keyseq><key>Touche de modification d’Orca</key><key>A</key></keyseq> (double-clic)</p>
       </item>
       <item>
-        <p>
-          Enable sticky browse mode:
-          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (triple-clicked)
-        </p>
+        <p>Activer le mode navigation permanent : <keyseq><key>Touche de modification d’Orca</key><key>A</key></keyseq> (triple-clic)</p>
       </item>
     </list>
   </section>

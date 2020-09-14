@@ -1,3 +1,9 @@
+orca (3.38.0-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 11 Sep 2020 19:14:55 +0200
+
 orca (3.37.90-1ubuntu1) groovy; urgency=medium
 
   * New upstream release.
@@ -22,6 +28,18 @@ orca (3.37.1-1) experimental; urgency=medium
   * New upstream alpha release.
 
  -- Samuel Thibault <sthibault@debian.org>  Thu, 23 Apr 2020 23:28:01 +0200
+
+orca (3.36.6-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 31 Aug 2020 18:17:26 +0200
+
+orca (3.36.5-1) unstable; urgency=medium
+
+  * New upstream release (Closes: #968248)
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 12 Aug 2020 03:37:29 +0200
 
 orca (3.36.4-1) unstable; urgency=medium
 

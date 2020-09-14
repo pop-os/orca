@@ -26,15 +26,7 @@
   <title>Läskommandon</title>
   <p>Förutom markörnavigeringskommandona som är en del av GNOME tillhandahåller <app>Orca</app> ett antal kommandon som du kan använda för att läsa ett dokument.</p>
   <note style="tip">
-    <p>
-      Below you will see several references to "KP". All
-      "KP" keys are located on the numeric keypad. You will also notice that
-      there are different keystrokes depending upon whether you are using a
-      desktop or a laptop -- or more accurately, whether you are using
-      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
-      For additional information, please see the
-      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
-    </p>
+    <p>Nedan kommer du se flera referenser till ”KP”. Alla ”KP”-tangenter finns på det numeriska tangentbordet (keypad). Du kommer också se att det finns olika tangenttryckningar beroende på om du använder en stationär eller en bärbar dator -- eller mer korrekt, huruvida du använder <app>Orca</app>s tangentbordslayout för stationär eller bärbar dator. För mer information se ämnet <link xref="howto_keyboard_layout">Tangentbordslayout</link>.</p>
   </note>
   <section id="flat_review">
     <title>Läsa din aktuella position</title>
@@ -139,7 +131,7 @@
         <p>Presentera textattributen: <keyseq><key>Orca-modifierare</key><key>F</key></keyseq></p>
       </item>
       <item>
-        <p>Perform basic Where Am I:</p>
+        <p>Utför grundläggande ”Var är jag”:</p>
         <list>
           <item>
             <p>Stationär dator: <key>KP Enter</key></p>
@@ -150,7 +142,7 @@
         </list>
     </item>
     <item>
-      <p>Perform detailed Where Am I:</p>
+      <p>Utför detaljerad ”Var är jag”:</p>
       <list>
         <item>
           <p>Stationär dator: <key>KP Enter</key> (dubbelklickat)</p>
@@ -167,14 +159,7 @@
   </section>
   <section id="link_details">
     <title>Länkdetaljer</title>
-    <p>
-      If you are on a link, <app>Orca</app>'s Basic Where Am I command can be
-      used to announce the details associated with the link such as the link type,
-      if the link is visited, the site description, and file size. If you would
-      instead prefer dedicated command for this purpose, you can bind <app>Orca</app>'s
-      Speaks Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
-      Modifying Keybindings</link> for information on how to do so.
-    </p>
+    <p>Om du är på en länk kan <app>Orca</app>s grundläggande ”Var är jag”-kommando användas för att annonsera detaljerna som är associerade med länken, som länktypen, om länken är besökt, beskrivning av webbplatsen och filstorlek. Om du istället skulle föredra ett speciellt avsett kommando för detta syfte kan du binda <app>Orca</app>s kommando ”Läs upp länkdetaljer” till en tangenttryckning. Se <link xref="howto_key_bindings">Ändra tangentbindningar</link> för information om hur du kan göra det.</p>
     <list>
       <item>
         <p>Läs upp länkdetaljerna: (Inte bunden)</p>
@@ -189,16 +174,10 @@
         <p>Växla mellan bläddrings- och fokusläge: <keyseq><key>Orca-modifierare</key><key>A</key></keyseq></p>
       </item>
       <item>
-        <p>
-          Enable sticky focus mode:
-          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (double-clicked)
-        </p>
+        <p>Aktivera klistrigt fokusläge: <keyseq><key>Orca-modifierare</key><key>A</key></keyseq> (dubbelklickat)</p>
       </item>
       <item>
-        <p>
-          Enable sticky browse mode:
-          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (triple-clicked)
-        </p>
+        <p>Aktivera klistrigt bläddringsläge: <keyseq><key>Orca-modifierare</key><key>A</key></keyseq> (trippelklickat)</p>
       </item>
     </list>
   </section>

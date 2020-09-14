@@ -26,11 +26,7 @@
       <p>Om du använder layouten för bärbar dator kommer Orca-modifieraren som standard vara <key>CapsLock</key></p>
     </item>
     <item>
-      <p>
-        If you are using the Desktop layout, the Orca Modifier will be both
-        <key>Insert</key> and <key>KP_Insert</key>, the latter being the
-        same key as <key>KP_0</key>.
-      </p>
+      <p>Om du använder layouten för stationär dator kommer Orca-modifieraren vara både <key>Insert</key> och <key>KP_Insert</key>, där den senare är samma tangent som <key>KP_0</key>.</p>
     </item>
   </list>
   <p>Layouten avgör också tangenttryckningarna som är associerade med ett antal av <app>Orca</app>s kommandon, speciellt kring platt granskning, ”Var är jag” och Läs upp allt.</p>

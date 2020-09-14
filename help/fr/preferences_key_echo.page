@@ -72,10 +72,7 @@
     </section>
     <section id="keyecho_enable_space">
       <title>Activer l’espace</title>
-      <p>
-        This option controls whether or not <key>Space</key> should be
-        spoken when pressed.
-      </p>
+      <p>Cette option contrôle si la <key>barre d’espace</key> doit être lue quand elle est pressée.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="keyecho_enable_modifier">
@@ -90,12 +87,7 @@
     </section>
     <section id="keyecho_enable_action">
       <title>Activer les touches d’action</title>
-      <p>
-        This option controls whether or not <key>BackSpace</key>, <key>Delete
-        </key>, <key>Return</key>, <key>Esc</key>, <key>Tab</key>, <key>Page
-        Up</key>, <key>Page Down</key>, <key>Home</key>, and <key>End</key>
-        should be spoken when pressed.
-      </p>
+      <p>Cette option contrôle si les touches <key>Retour arrière</key>, <key>Suppr</key>, <key>Entrée</key>, <key>Échap</key>, <key>Tab</key>, <key>Page Haut</key>, <key>Page bas</key>, <key>Origine</key> et <key>Fin</key> doivent être lues quand elles sont pressées.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="keyecho_enable_navigation">

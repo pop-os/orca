@@ -20,21 +20,13 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
+      <mal:years>2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2020.</mal:years>
     </mal:credit>
   </info>
   <title>Felolvasással kapcsolatos parancsok</title>
   <p>A GNOME részét képező mutatónavigációval kapcsolatos billentyűparancsokon túl az <app>Orka</app> számos billentyűparanccsal rendelkezik, amelyekkel egy dokumentumot felolvastathat.</p>
   <note style="tip">
-    <p>
-      Below you will see several references to "KP". All
-      "KP" keys are located on the numeric keypad. You will also notice that
-      there are different keystrokes depending upon whether you are using a
-      desktop or a laptop -- or more accurately, whether you are using
-      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
-      For additional information, please see the
-      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
-    </p>
+    <p>A következő listákban rengeteg „Numpad” kifejezés látható. Minden „Numpad” kifejezéssel jelölt billentyű a numerikus billentyűzeten található. Talán már tudja, hogy a billentyűparancsok különbözhetnek, attól függően, hogy asztali vagy hordozható számítógépet használ. Pontosabban a billentyűparancsok közötti különbség attól függ, hogy az <app>Orka</app> képernyőolvasót asztali vagy laptop kiosztással használja-e. További információkért olvassa el a <link xref="howto_keyboard_layout">Billentyűzetkiosztás</link> című fejezetet.</p>
   </note>
   <section id="flat_review">
     <title>A jelenlegi elem helyének felolvasása</title>
@@ -139,7 +131,7 @@
         <p>A szöveges attribútumok ismertetése: <keyseq><key>Orka módosító</key><key>F</key></keyseq></p>
       </item>
       <item>
-        <p>Perform basic Where Am I:</p>
+        <p>Egyszerű hol vagyok művelet végrehajtása:</p>
         <list>
           <item>
             <p>Asztali kiosztás: <key>Numpad Enter</key></p>
@@ -150,7 +142,7 @@
         </list>
     </item>
     <item>
-      <p>Perform detailed Where Am I:</p>
+      <p>Részletesebb hol vagyok művelet végrehajtása:</p>
       <list>
         <item>
           <p>Asztali kiosztás: <key>Numpad Enter</key> (kétszer gyorsan megnyomva)</p>
@@ -167,14 +159,7 @@
   </section>
   <section id="link_details">
     <title>Részletes információ egy hivatkozásról</title>
-    <p>
-      If you are on a link, <app>Orca</app>'s Basic Where Am I command can be
-      used to announce the details associated with the link such as the link type,
-      if the link is visited, the site description, and file size. If you would
-      instead prefer dedicated command for this purpose, you can bind <app>Orca</app>'s
-      Speaks Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
-      Modifying Keybindings</link> for information on how to do so.
-    </p>
+    <p>Ha egy hivatkozáson áll és az <app>Orka</app> egyszerű hol vagyok műveletét használja, információkat kaphat az adott hivatkozásról. Megtudhatja például a hivatkozás típusát, meglátogatta-e már az adott hivatkozást, az oldal leírását és a fájl méretét. Ha erre a célra inkább egy önálló billentyűparancsot szeretne használni, hozzon létre billentyűtársítást a „Kimondja a hivatkozás részleteit” parancshoz. Ha billentyűtársítást szeretne hozzárendelni ehhez a parancshoz, olvassa el a <link xref="howto_key_bindings">Billentyűtársítások módosítása</link> című fejezetet.</p>
     <list>
       <item>
         <p>Kimondja a hivatkozás részleteit: nincs előre meghatározott billentyűtársítás</p>
@@ -189,16 +174,10 @@
         <p>Váltás a böngészőmód és a fókuszmód között: <keyseq><key>Orka módosító</key><key>A</key></keyseq></p>
       </item>
       <item>
-        <p>
-          Enable sticky focus mode:
-          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (double-clicked)
-        </p>
+        <p>A rögzített fókuszmód engedélyezése: <keyseq><key>Orka módosító</key><key>A</key></keyseq> (kétszer gyorsan megnyomva)</p>
       </item>
       <item>
-        <p>
-          Enable sticky browse mode:
-          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (triple-clicked)
-        </p>
+        <p>A rögzített böngészőmód engedélyezése: <keyseq><key>Orka módosító</key><key>A</key></keyseq> (háromszor gyorsan megnyomva)</p>
       </item>
     </list>
   </section>

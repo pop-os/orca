@@ -18,7 +18,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
+      <mal:years>2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2020.</mal:years>
     </mal:credit>
   </info>
   <title>Szövegattribútumok beállításai</title>
@@ -44,36 +44,20 @@
   </section>
   <section id="reset">
      <title>A változtatások visszavonása</title>
-     <p>
-       Beneath the list of text attributes, there is a <gui>Reset</gui> button
-       (<keyseq><key>Alt</key><key>R</key></keyseq>) which will restore
-       the values of the table to what they were when the dialog was
-       first displayed.
-    </p>
+     <p>A Visszaállítás (<keyseq><key>Alt</key><key>V</key></keyseq>) gomb megnyomásakor az attribútumlista a szöveges attribútum párbeszédablak első megjelenésének megfelelő kiinduló helyzetbe áll.</p>
   </section>
   <section id="rearranging">
      <title>Az attribútumok sorrendjének megváltoztatása</title>
-     <p>
-        When you initially display the <gui>Text Attributes</gui> page, all of your enabled
-        attributes are placed at the top of the table in the order in which they
-        will be spoken. There are four buttons which can be used to rearrange
-        the order of presentation.
-    </p>
+     <p>Ha először jelenik meg a szöveges attribútumok párbeszédablak, akkor az összes engedélyezett attribútum a lista elején található. A szöveges attribútumok a sorrendnek megfelelően kerülnek kimondásra és megjelenítésre a Braille-kijelzőn. Négy gombot használhat a sorrend módosítására:</p>
     <list>
       <item>
         <p>„<gui>A tetejére</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>): a kiválasztott attribútumot a lista tetejére mozgatja.</p>
       </item>
       <item>
-        <p>
-          <gui>Move up</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>):
-          moves the selected attribute up one row.
-        </p>
+        <p><gui>Eggyel feljebb</gui> (<keyseq><key>Alt</key><key>F</key></keyseq>): a kiválasztott attribútumot egy sorral feljebb mozgatja.</p>
       </item>
       <item>
-        <p>
-          <gui>Move down</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>):
-          moves the selected attribute down one row.
-        </p>
+        <p><gui>Eggyel lejjebb</gui> (<keyseq><key>Alt</key><key>L</key></keyseq>): a kiválasztott attribútumot egy sorral lejjebb mozgatja.</p>
       </item>
       <item>
         <p><gui>Az aljára</gui> (<keyseq><key>Alt</key><key>R</key></keyseq>): a kiválasztott attribútumot a lista aljára helyezi.</p>

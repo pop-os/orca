@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#getting_started"/>
     <link type="next" xref="howto_keyboard_layout"/>
-    <title type="sort">5. Learn Mode</title>
+    <title type="sort">5. Inlärningsläge</title>
     <desc>Upptäcka <app>Orca</app>s kommandon</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -19,7 +19,7 @@
       <mal:years>2015, 2016, 2017, 2018</mal:years>
     </mal:credit>
   </info>
-  <title>Learn Mode</title>
+  <title>Inlärningsläge</title>
   <p>I inlärningsläge kommer <app>Orca</app> läsa upp varje tangent du tryckt ner tillsammans med eventuella associerade <app>Orca</app>-kommandon som den tangenten är bunden till. I detta läge kan du också få en lista över genvägar som innehåller alla <app>Orca</app>-kommandon du kan använda.</p>
   <steps>
     <title>Använda inlärningsläge</title>

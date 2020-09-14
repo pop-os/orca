@@ -20,11 +20,7 @@
       <p>Pokud používáte rozložení Přenosný počítač, výchozím modifikátorem Orca bude <key>CapsLock</key>.</p>
     </item>
     <item>
-      <p>
-        If you are using the Desktop layout, the Orca Modifier will be both
-        <key>Insert</key> and <key>KP_Insert</key>, the latter being the
-        same key as <key>KP_0</key>.
-      </p>
+      <p>Pokud používáte rozložení Stolní počítač, výchozími modifikátory Orca budou <key>Insert</key> a <key>Ins</key> na numerické klávesnici, což je stejná klávesa, jako <key>0</key> na numerické klávesnici.</p>
     </item>
   </list>
   <p>Rozvržení rovněž určuje klávesové kombinace přidružené k některým příkazům <app>Orca</app>, hlavně týkajících se plošného náhledu, funkce „Kde se nacházím“ a plynulého čtení.</p>

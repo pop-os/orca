@@ -3,7 +3,7 @@
   <info>
     <link type="guide" xref="index#getting_started"/>
     <link type="next" xref="howto_keyboard_layout"/>
-    <title type="sort">5. Learn Mode</title>
+    <title type="sort">5. Výukový režim</title>
     <desc>Jak prozkoumat příkazy čtečky <app>Orca</app></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
@@ -13,7 +13,7 @@
       <p>Creative Commons Share Alike 3.0</p>
     </license>
   </info>
-  <title>Learn Mode</title>
+  <title>Výukový režim</title>
   <p>Ve výukovém režimu bude <app>Orca</app> oznamovat všechny klávesy, které zmáčknete, spolu s příkazem <app>Orca</app>, který je k nim přiřazen. V tomto režimu můžete také získat seznam klávesových zkratek obsahující všechny příkazy <app>Orca</app>, které můžete použít.</p>
   <steps>
     <title>Používání výukového režimu</title>

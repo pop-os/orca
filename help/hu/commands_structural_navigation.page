@@ -18,7 +18,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2011, 2012, 2013, 2014, 2015, 2016.</mal:years>
+      <mal:years>2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2020.</mal:years>
     </mal:credit>
   </info>
   <title>A strukturált Orka navigáció billentyűparancsai</title>
@@ -233,11 +233,7 @@
           <p>Képek listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>G</key></keyseq></p>
         </item>
         <item>
-          <p>
-            Start and end of current container:
-            <keyseq><key>Shift</key><key>Comma</key></keyseq> and
-            <keyseq><key>Comma</key></keyseq>
-          </p>
+          <p>Ugrás az aktuális elemblokk elejére vagy végére: <keyseq><key>Shift</key><key>vessző</key></keyseq> és <keyseq><key>vessző</key></keyseq></p>
         </item>
       </list>
     </section>

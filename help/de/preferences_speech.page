@@ -35,7 +35,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Einstellungen für Sprache</title>
@@ -157,33 +157,18 @@
       <p>Vorgabewert: aktiviert</p>
     </section>
     <section id="speak_full_row_in_gui_tables">
-      <title>Speak full row in GUI tables</title>
-      <p>
-        If <gui>Speak full row in GUI tables</gui> is checked, as you arrow up
-        and down in application tables such as the list of messages in your
-        Inbox, <app>Orca</app> will speak the entire row. If you would prefer
-        to hear only the cell with focus, you should uncheck this checkbox.
-      </p>
+      <title>Ganze Zeile in GUI-Tabellen vorlesen</title>
+      <p>Ist das Feld <gui>Ganze Zeile in GUI-Tabellen vorlesen</gui> angekreuzt, wird <app>Orca</app> die gesamte Zeile vorlesen, während Sie sich hoch und runter in Anwendungstabellen bewegen, wie zum Beispiel der Nachrichtenliste im Posteingang. Falls Sie bevorzugen, nur die fokussierte Zelle zu hören, sollten Sie dieses Feld nicht ankreuzen.</p>
       <p>Vorgabewert: aktiviert</p>
     </section>
     <section id="speak_full_row_in_document_tables">
-      <title>Speak full row in document tables</title>
-      <p>
-        If <gui>Speak full row in document tables</gui> is checked, as you arrow
-        up and down in tables such as those found in <app>Writer</app> and web
-        documents, <app>Orca</app> will speak the entire row. If you would prefer
-        to hear only the cell with focus, you should uncheck this checkbox.
-      </p>
+      <title>Ganze Zeile in Dokument-Tabellen vorlesen</title>
+      <p>Ist das Feld <gui>Ganze Zeile in Dokument-Tabellen vorlesen</gui> angekreuzt, wird <app>Orca</app> die gesamte Zeile vorlesen, während Sie sich hoch und runter in Tabellen wie denen in <app>Writer</app> und Webdokumenten bewegen. Falls Sie bevorzugen, nur die fokussierte Zelle zu hören, sollten Sie dieses Feld nicht ankreuzen.</p>
       <p>Vorgabewert: aktiviert</p>
     </section>
     <section id="speak_full_row_in_spreadsheets">
-      <title>Speak full row in spreadsheets</title>
-      <p>
-        If <gui>Speak full row in spreadsheets</gui> is checked, as you arrow
-        up and down in spreadsheets, <app>Orca</app> will speak the entire
-        row. If you would prefer to hear only the cell with focus, you should
-        uncheck this checkbox.
-      </p>
+      <title>Ganze Zeile in Tabellenblättern vorlesen</title>
+      <p>Ist das Feld <gui>Ganze Zeile in Tabellenblättern vorlesen</gui> angekreuzt, wird <app>Orca</app> die gesamte Zeile vorlesen, während Sie sich hoch und runter in Tabellenblättern bewegen. Falls Sie bevorzugen, nur die fokussierte Zelle zu hören, sollten Sie dieses Feld nicht ankreuzen.</p>
       <p>Vorgabewert: nicht aktiviert</p>
     </section>
   </section>

@@ -34,7 +34,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Tastenkürzel</title>
@@ -110,7 +110,7 @@
       <p>Wechseln Sie nun zum Reiter <gui>Tastenbelegung</gui>.</p>
     </item>
     <item>
-      <p>Navigieren sie auf die Zelle, welche die Belegung enthält, die Sie löschen wollen, und drücken Sie <key>Eingabe</key>.</p>
+      <p>Navigieren Sie auf die Zelle, welche die Belegung enthält, die Sie löschen wollen, und drücken Sie <key>Eingabe</key>.</p>
     </item>
     <item>
       <p>Wenn Sie zur Eingabe der neuen Tastenbelegung aufgefordert werden, drücken Sie <key>Entfernen</key> oder die <key>Rücktaste</key>. Ihnen wird mitgeteilt, dass die Tastenbelegung gelöscht wurde.</p>

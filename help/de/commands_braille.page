@@ -36,11 +36,11 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Braille-Befehle</title>
-  <p>Führen Sie folgende Befehle zur Kontrolle von <app>Orca</app> besser über die Braillezeile anstatt über die Tastatur aus:</p>
+  <p>Führen Sie folgende Befehle zur Steuerung von <app>Orca</app> besser über die Braillezeile anstatt über die Tastatur aus:</p>
   <list>
     <item><p>Braillezeille nach links schwenken: Zeile links</p></item>
     <item><p>Braillezeile nach rechts schwenken: Zeile rechts</p></item>

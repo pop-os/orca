@@ -36,12 +36,12 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Profilbefehle</title>
     <p>Profile ermöglichen das Laden und Speichern verschiedener Konfigurationen. Dadurch können Sie jede benötigte Einstellung schnell einrichten.</p>
-    <p>Der folgende Befehl ist nicht einem Tastenkürzel zugewiesen. Möchten Sie es zuweisen, lesen Sie <link xref="howto_key_bindings">Tastaturkürzel bearbeiten</link>.</p>
+    <p>Der folgende Befehl ist keinem Tastenkürzel zugewiesen. Möchten Sie es zuweisen, lesen Sie <link xref="howto_key_bindings">Tastaturkürzel bearbeiten</link>.</p>
     <list>
       <item>
         <p>Zum nächsten Profil wechseln: (Nicht zugewiesen)</p>

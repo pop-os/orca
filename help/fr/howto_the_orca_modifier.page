@@ -57,11 +57,7 @@
       <p>Si vous utilisez l’agencement ordinateur portable, la touche de modification d’Orca par défaut est <key>Verr. maj.</key></p>
     </item>
     <item>
-      <p>
-        If you are using the Desktop layout, the Orca Modifier will
-        be both <key>Insert</key> and <key>KP_Insert</key>, the
-        latter being the same key as <key>KP_0</key>.
-      </p>
+      <p>Si vous utilisez l’agencement ordinateur de bureau, les touches de modification d’Orca par défaut sont à la fois les touches <key>Inser</key> et <key>Inser du pavé numérique</key>, cette dernière étant la même touche que le <key>0 du pavé numérique</key>.</p>
     </item>
   </list>
   <p>Si vous souhaitez conserver votre agencement de clavier actuel et sélectionner une autre touche de modification, vous pouvez le faire en suivant les étapes ci-dessous :</p>

@@ -34,7 +34,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Tim Sabsch</mal:name>
       <mal:email>tim@sabsch.com</mal:email>
-      <mal:years>2018-2019</mal:years>
+      <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
   <title>Tastaturbelegung</title>
@@ -44,11 +44,7 @@
       <p>Falls Sie das Laptop-Layout verwenden, wird die voreingestellte Orca-Zusatztaste die <key>Feststelltaste</key> sein</p>
     </item>
     <item>
-      <p>
-        If you are using the Desktop layout, the Orca Modifier will be both
-        <key>Insert</key> and <key>KP_Insert</key>, the latter being the
-        same key as <key>KP_0</key>.
-      </p>
+      <p>Falls Sie das Desktop-Layout verwenden, wird die Orca-Zusatztaste sowohl <key>Einfügen</key> als auch <key>Einfügen (Nummernblock)</key> sein, wobei Letztere die gleiche Taste wie <key>0 (Nummernblock)</key> ist.</p>
     </item>
   </list>
   <p>Das Layout bestimmt auch die Zuweisung einiger Tastenkürzel zu <app>Orca</app>-Befehlen, inbesondere in der Übersicht, »Wo bin ich« und »Alles vorlesen«.</p>

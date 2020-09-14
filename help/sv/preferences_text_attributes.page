@@ -44,36 +44,20 @@
   </section>
   <section id="reset">
      <title>Ångra ändringar</title>
-     <p>
-       Beneath the list of text attributes, there is a <gui>Reset</gui> button
-       (<keyseq><key>Alt</key><key>R</key></keyseq>) which will restore
-       the values of the table to what they were when the dialog was
-       first displayed.
-    </p>
+     <p>Under listan med textattribut finns en <gui>Återställ</gui>-knapp (<keyseq><key>Alt</key><key>R</key></keyseq>) som återställer värdena i tabellen till vad de var då dialogen först visades.</p>
   </section>
   <section id="rearranging">
      <title>Arrangera om presentationsordning</title>
-     <p>
-        When you initially display the <gui>Text Attributes</gui> page, all of your enabled
-        attributes are placed at the top of the table in the order in which they
-        will be spoken. There are four buttons which can be used to rearrange
-        the order of presentation.
-    </p>
+     <p>Då du först visar sidan <gui>Textattribut</gui> så är alla dina aktiverade attribut högst upp i tabellen i den ordning som de kommer läsas upp. Det finns fyra knappar som kan användas för att ändra presentationsordningen.</p>
     <list>
       <item>
         <p><gui>Flytta överst</gui> (<keyseq><key>Alt</key><key>T</key></keyseq>): flyttar det markerade attributet högst upp i listan.</p>
       </item>
       <item>
-        <p>
-          <gui>Move up</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>):
-          moves the selected attribute up one row.
-        </p>
+        <p><gui>Flytta uppåt</gui> (<keyseq><key>Alt</key><key>U</key></keyseq>): flyttar det markerade attributet en rad uppåt.</p>
       </item>
       <item>
-        <p>
-          <gui>Move down</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>):
-          moves the selected attribute down one row.
-        </p>
+        <p><gui>Flytta nedåt</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>): flyttar det markerade attributet en rad nedåt.</p>
       </item>
       <item>
         <p><gui>Flytta nederst</gui> (<keyseq><key>Alt</key><key>B</key></keyseq>): flyttar det markerade attributet längst ner i listan.</p>
