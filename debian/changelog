@@ -1,4 +1,4 @@
-orca (3.38.0-1ubuntu1) UNRELEASED; urgency=medium
+orca (3.38.0-1ubuntu1) groovy; urgency=medium
 
   * Merge with Debian (LP: #1891345). Remaining changes:
     + debian/patches/unity-a11y.patch: add hacks to better work with Unity
@@ -8,7 +8,7 @@ orca (3.38.0-1ubuntu1) UNRELEASED; urgency=medium
     Previous versions missed this, which caused configuring to fail.  This is
     just to ensure we go to dep-wait, and can be reverted for future uploads.
 
- -- Iain Lane <iain.lane@canonical.com>  Mon, 14 Sep 2020 18:12:52 +0100
+ -- Iain Lane <iain.lane@canonical.com>  Mon, 14 Sep 2020 18:15:36 +0100
 
 orca (3.38.0-1) unstable; urgency=medium
 
