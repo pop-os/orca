@@ -4,8 +4,11 @@ orca (3.38.0-1ubuntu1) UNRELEASED; urgency=medium
     + debian/patches/unity-a11y.patch: add hacks to better work with Unity
   * Drop lowering of gst related dependencies to suggests, no longer present
     in Debian.
+  * control: Bump BD on at-spi2-atk, needed to have libatk1.0-dev available.
+    Previous versions missed this, which caused configuring to fail.  This is
+    just to ensure we go to dep-wait, and can be reverted for future uploads.
 
- -- Iain Lane <iain.lane@canonical.com>  Mon, 14 Sep 2020 17:44:04 +0100
+ -- Iain Lane <iain.lane@canonical.com>  Mon, 14 Sep 2020 18:12:52 +0100
 
 orca (3.38.0-1) unstable; urgency=medium
 
