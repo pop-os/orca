@@ -1,3 +1,9 @@
+orca (3.38.0-3) UNRELEASED; urgency=medium
+
+  * Bump debhelper compat from 11 to 12.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 08 Nov 2020 01:23:29 +0100
+
 orca (3.38.0-2) unstable; urgency=medium
 
   [ Colomban Wendling ]
