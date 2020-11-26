@@ -43,6 +43,7 @@ Depends: ${misc:Depends},
          gsettings-desktop-schemas,
          xkbset,
 Recommends: xbrlapi
+Suggests: brltty
 Breaks: gnome-orca (<< 3.26.0-4~)
 Replaces: gnome-orca (<< 3.26.0-4~)
 Description: Scriptable screen reader

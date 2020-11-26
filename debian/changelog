@@ -1,6 +1,7 @@
 orca (3.38.0-3) UNRELEASED; urgency=medium
 
   * Bump debhelper compat from 11 to 12.
+  * control: Suggest brltty, for Braille support.
 
  -- Samuel Thibault <sthibault@debian.org>  Sun, 08 Nov 2020 01:23:29 +0100
 
