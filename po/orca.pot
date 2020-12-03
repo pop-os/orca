@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orca 3.39.1pre\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/orca/issues\n"
-"POT-Creation-Date: 2020-08-31 13:38+0200\n"
+"POT-Creation-Date: 2020-11-12 14:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1805,7 +1805,7 @@ msgstr ""
 #. For example, the information may include the name of the current pushbutton
 #. with focus as well as its mnemonic.
 #: src/orca/cmdnames.py:73
-msgid "Performs the basic Where Am I operation."
+msgid "Perform the basic Where Am I operation"
 msgstr ""
 
 #. Translators: the "Where Am I" feature of Orca allows a user to press a key and
@@ -1813,7 +1813,7 @@ msgstr ""
 #. For example, the information may include the name of the current pushbutton
 #. with focus as well as its mnemonic.
 #: src/orca/cmdnames.py:79
-msgid "Performs the detailed Where Am I operation."
+msgid "Perform the detailed Where Am I operation"
 msgstr ""
 
 #. Translators: This is the description of a dedicated command to speak the
@@ -8733,7 +8733,7 @@ msgstr ""
 #. A user can choose to have no echo, one type of echo, or multiple types of
 #. echo and can cycle through the various levels quickly via a command.
 #: src/orca/messages.py:691
-msgid "Key echo set to key."
+msgid "Echo set to key."
 msgstr ""
 
 #. Translators: Orca has an "echo" setting which allows the user to configure
@@ -8764,7 +8764,7 @@ msgstr ""
 #. A user can choose to have no echo, one type of echo, or multiple types of
 #. echo and can cycle through the various levels quickly via a command.
 #: src/orca/messages.py:717
-msgid "Key echo set to None."
+msgid "Echo set to None."
 msgstr ""
 
 #. Translators: Orca has an "echo" setting which allows the user to configure
@@ -8795,7 +8795,7 @@ msgstr ""
 #. A user can choose to have no echo, one type of echo, or multiple types of
 #. echo and can cycle through the various levels quickly via a command.
 #: src/orca/messages.py:743
-msgid "Key echo set to key and word."
+msgid "Echo set to key and word."
 msgstr ""
 
 #. Translators: Orca has an "echo" setting which allows the user to configure
@@ -8826,7 +8826,7 @@ msgstr ""
 #. A user can choose to have no echo, one type of echo, or multiple types of
 #. echo and can cycle through the various levels quickly via a command.
 #: src/orca/messages.py:769
-msgid "Key echo set to sentence."
+msgid "Echo set to sentence."
 msgstr ""
 
 #. Translators: Orca has an "echo" setting which allows the user to configure
@@ -8857,7 +8857,7 @@ msgstr ""
 #. A user can choose to have no echo, one type of echo, or multiple types of
 #. echo and can cycle through the various levels quickly via a command.
 #: src/orca/messages.py:795
-msgid "Key echo set to word."
+msgid "Echo set to word."
 msgstr ""
 
 #. Translators: Orca has an "echo" setting which allows the user to configure
@@ -8888,7 +8888,7 @@ msgstr ""
 #. A user can choose to have no echo, one type of echo, or multiple types of
 #. echo and can cycle through the various levels quickly via a command.
 #: src/orca/messages.py:821
-msgid "Key echo set to word and sentence."
+msgid "Echo set to word and sentence."
 msgstr ""
 
 #. Translators: This phrase is spoken to inform the user of all of the MathML
@@ -12841,7 +12841,7 @@ msgid "Enable echo by _sentence"
 msgstr ""
 
 #: src/orca/orca-setup.ui:2861
-msgid "Key Echo"
+msgid "Echo"
 msgstr ""
 
 #: src/orca/orca-setup.ui:2885
