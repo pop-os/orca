@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orca 3.39.1pre\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/orca/issues\n"
-"POT-Creation-Date: 2020-11-12 14:17+0100\n"
+"POT-Creation-Date: 2020-12-10 12:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1871,7 +1871,7 @@ msgstr ""
 #. sequence of words in a sequence of lines.  The flat review feature allows
 #. the user to explore this text by the {previous,next} {line,word,character}.
 #: src/orca/cmdnames.py:121
-msgid "Enter and exits flat review mode"
+msgid "Enter and exit flat review mode"
 msgstr ""
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
