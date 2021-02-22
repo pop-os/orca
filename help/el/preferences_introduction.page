@@ -22,8 +22,17 @@
   <title>Εισαγωγή στις προτιμήσεις του <app>Orca</app></title>
   <section id="orca">
     <title>Προτιμήσεις Orca</title>
-    <p>Οι προτιμήσεις orca επιτρέπουν την προσαρμογή της λειτουργικότητας στο <app>Orca</app> που εφαρμόζεται σε όλες τις εφαρμογές. Ένα παράδειγμα της προτίμησης Orca είναι η ηχώ πλήκτρου επειδή η ηχώ πλήκτρου είναι κάτι που εφαρμόζεται σε όλες τις εφαρμογές.</p>
-    <p>Σημειώστε ότι οι προτιμήσεις orca μπορούν να προσαρμοστούν σε μια βάση για κάθε εφαρμογή. Για παράδειγμα, μπορείτε να ορίσετε την προεπιλεγμένη ηχώ πλήκτρου σε λέξεις και έπειτα να ορίσετε την ηχώ πλήκτρου για το Pidgin σε καμία. Έχοντας κάνει έτσι, το <app>Orca</app> θα ηχεί πάντοτε κάθε λέξη που πληκτρολογείτε, εκτός και ήσαστε στο Pidgin.</p>
+    <p>
+      Orca preferences allow you to customize functionality in <app>Orca</app>
+      which applies to all applications. An example of an Orca preference is
+      echo because echo is something that applies to all applications.
+    </p>
+    <p>
+      Note that Orca preferences can be customized on an application-by-application
+      basis. For instance you can set the default echo to words and then
+      set the echo for Pidgin to be none. Having done so, <app>Orca</app>
+      would always echo each word that you typed, unless you were in Pidgin.
+    </p>
     <note style="tip">
       <title>Συντομεύσεις πληκτρολογίου για μετάβαση στους διαλόγους προτιμήσεων</title>
       <list>

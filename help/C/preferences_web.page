@@ -1,25 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
-<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="gl">
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_web">
   <info>
-    <link type="guide" xref="preferences#application"/>
-    <link type="next" xref="preferences_table_navigation"/>
-    <title type="sort">1. Navegación con Gecko</title>
-    <title type="link">Gecko Navigation</title>
+    <link type="guide" xref="preferences#application" />
+    <link type="next" xref="preferences_table_navigation" />
+    <title type="sort">1. Web Navigation</title>
+    <title type="link">Web Navigation</title>
     <desc>
-      Configuring <app>Orca</app>'s support for <app>Firefox</app> and
-      <app>Thunderbird</app>
+      Configuring <app>Orca</app>'s support for <app>Firefox</app>,
+      <app>Thunderbird</app>, and <app>Chrome</app>/<app>Chromium</app>
     </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Compartir Igual 3.0</p>
+      <p>Creative Commons Share Alike 3.0</p>
     </license>
   </info>
-  <title>Preferencias de navegación en Gecko</title>
+  <title>Web Navigation Preferences</title>
   <section id="page_navigation">
-    <title>Navegación de páxina</title>
+    <title>Page Navigation</title>
     <p>
       The <gui>Page Navigation</gui> group of controls make it possible for you
       to customize how <app>Orca</app> presents, and allow you to interact with,
@@ -30,10 +29,12 @@
       <p>
         This checkbox toggles <app>Orca</app>'s caret navigation on and off.
         When it is on, <app>Orca</app> takes control of the caret as you arrow
-        around within a page; when it is off, Gecko's native caret navigation is
+        around within a page; when it is off, the browser's native caret navigation is
         active.
       </p>
-      <p>Valor por omisión: marcado</p>
+      <p>
+        Default value: checked
+      </p>
       <note style="tip">
         <title>This setting can be toggled on the fly</title>
         <p>
@@ -54,7 +55,9 @@
         would continue to control what happens when you press <key>Down</key>,
         thus making it possible to arrow out of the entry and continue reading.
       </p>
-      <p>Valor predeterminado: non marcado</p>
+      <p>
+        Default value: not checked
+      </p>
       <note style="tip">
         <title>Manually switching between browse mode and focus mode</title>
         <p>
@@ -72,7 +75,9 @@
         on and off. Structural Navigation allows you to navigate by elements
         such as headings, links, and form fields.
       </p>
-      <p>Valor por omisión: marcado</p>
+      <p>
+        Default value: checked
+      </p>
       <note style="tip">
         <title>This setting can be toggled on the fly</title>
         <p>
@@ -92,7 +97,32 @@
         checked, then <app>Orca</app> will leave you in browse mode and your next
         press of <key>E</key> would move you to the next entry on the page.
       </p>
-      <p>Valor predeterminado: non marcado</p>
+      <p>
+        Default value: not checked
+      </p>
+      <note style="tip">
+        <title>Manually switching between browse mode and focus mode</title>
+        <p>
+          In order to start or stop interacting with the focused form field,
+          use <keyseq><key>Orca Modifier</key><key>A</key></keyseq> to switch
+          between browse mode and focus mode.
+        </p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_native">
+      <title>Automatic focus mode during native navigation</title>
+      <p>
+        If this checkbox is checked, <app>Orca</app> will automatically turn on
+        focus mode when you use native browser navigation commands to navigate to a
+        form field. For example, pressing <key>Tab</key> to move to the next entry
+        would move focus there and also turn focus mode on so that your next press
+        of <key>E</key> would type an "e" into that entry. If this checkbox is not
+        checked, then <app>Orca</app> will leave you in browse mode and your next
+        press of <key>E</key> would move you to the next entry on the page.
+      </p>
+      <p>
+        Default value: checked
+      </p>
       <note style="tip">
         <title>Manually switching between browse mode and focus mode</title>
         <p>
@@ -132,7 +162,9 @@
         will treat objects such as links and form fields as if they were on separate
         lines, both for presentation and navigation.
       </p>
-      <p>Valor por omisión: marcado</p>
+      <p>
+        Default value: checked
+      </p>
     </section>
   </section>
   <section id="table_options">
@@ -146,19 +178,21 @@
     </note>
   </section>
   <section id="find_options">
-    <title>Opcións de busca</title>
+    <title>Find Options</title>
     <p>
       The <gui>Find Options</gui> group of controls make it possible for you to
       customize how <app>Orca</app> presents the results of a search conducted
       using the application's built-in search functionality.
     </p>
     <section id="find_options_speak_during_find">
-      <title>Ler os resultados durante a busca</title>
+      <title>Speak results during find</title>
       <p>
          If this checkbox is checked, <app>Orca</app> will read the line which
          matches your current search query.
       </p>
-      <p>Valor por omisión: marcado</p>
+      <p>
+         Default value: checked
+      </p>
     </section>
     <section id="find_options_speak_changed_lines_during_find">
       <title>Only speak changed lines during find</title>
@@ -168,7 +202,9 @@
           option is designed to prevent "chattiness" on a line with multiple
           instances of the string for which you are searching.
       </p>
-      <p>Valor predeterminado: non marcado</p>
+      <p>
+         Default value: not checked
+      </p>
     </section>
     <section id="find_options_minimum_match_length">
       <title>Minimum length of matched text</title>
@@ -179,7 +215,9 @@
         as there are many matches when you first begin typing the string
         for which you are searching.
       </p>
-      <p>Valor por omisión: 4</p>
+      <p>
+        Default value: 4
+      </p>
     </section>
   </section>
 </page>

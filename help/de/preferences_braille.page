@@ -92,7 +92,13 @@
     </section>
     <section id="flashMessageSettings_detailed">
       <title>Meldungen sind detailliert</title>
-      <p>Ist <gui>Meldungen sind detailliert</gui> angekreuzt, wird <app>Orca</app> Ihnen ausführliche Meldungen in Braille anzeigen. Falls Sie zum Beispiel den <app>Orca</app>-Befehl zur Änderung des Tastaturechos verwendet haben, wird <app>Orca</app> »Tastaturecho auf Taste gesetzt.« anzeigen. Sollten Sie kürzere Meldungen bevorzugen, wie zum Beispiel »Wort«, sollten Sie dieses Feld nicht ankreuzen.</p>
+      <p>
+        If <gui>Messages are detailed</gui> is checked, <app>Orca</app> will
+        present detailed messages to you in braille. For instance, if you
+        use <app>Orca</app>'s command to change echo, <app>Orca</app> might
+        display "Echo set to word." If you would prefer shorter messages,
+        such as simply "word," you should uncheck this checkbox.
+      </p>
       <p>Vorgabewert: aktiviert</p>
     </section>
     <section id="flashMessageSettings_persistent">

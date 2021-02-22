@@ -40,8 +40,17 @@
   <title>Einführung in die Einstellungen von <app>Orca</app></title>
   <section id="orca">
     <title>Orca-Einstellungen</title>
-    <p>Orca-Einstellungen erlauben Ihnen, Funktionen in <app>Orca</app> anzupassen, die für alle Anwendungen gelten. Ein Beispiel einer Orca-Einstellung ist das Tastaturecho, da das Tastaturecho für alle Anwendungen gilt.</p>
-    <p>Beachten Sie. dass Orca-Einstellungen von Anwendung zu Anwendung angepasst werden können. Beispielweise können Sie den Vorgabewert für das Tastaturecho auf wortweises Echo setzen, und in Pidgin auf »kein« setzen. In diesem Fall würde <app>Orca</app> jedes eingetippte Wort vorlesen, außer, Sie befänden sich in Pidgin.</p>
+    <p>
+      Orca preferences allow you to customize functionality in <app>Orca</app>
+      which applies to all applications. An example of an Orca preference is
+      echo because echo is something that applies to all applications.
+    </p>
+    <p>
+      Note that Orca preferences can be customized on an application-by-application
+      basis. For instance you can set the default echo to words and then
+      set the echo for Pidgin to be none. Having done so, <app>Orca</app>
+      would always echo each word that you typed, unless you were in Pidgin.
+    </p>
     <note style="tip">
       <title>Tastaturkürzel zum Gelangen in den Orca-Einstellungen-Dialog</title>
       <list>

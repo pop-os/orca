@@ -425,6 +425,8 @@ def loadUserSettings(script=None, inputEvent=None, skipReloadMessage=False):
     _settingsManager.loadAppSettings(script)
 
     if _settingsManager.getSetting('enableSpeech'):
+        msg = 'ORCA: About to enable speech'
+        debug.println(debug.LEVEL_INFO, msg, True)
         try:
             speech.init()
             if reloaded and not skipReloadMessage:
@@ -436,12 +438,18 @@ def loadUserSettings(script=None, inputEvent=None, skipReloadMessage=False):
         debug.println(debug.LEVEL_INFO, msg, True)
 
     if _settingsManager.getSetting('enableBraille'):
+        msg = 'ORCA: About to enable braille'
+        debug.println(debug.LEVEL_INFO, msg, True)
         try:
             braille.init(_processBrailleEvent)
         except:
             debug.printException(debug.LEVEL_WARNING)
             msg = 'ORCA: Could not initialize connection to braille.'
             debug.println(debug.LEVEL_WARNING, msg, True)
+    else:
+        msg = 'ORCA: Braille is not enabled in settings'
+        debug.println(debug.LEVEL_INFO, msg, True)
+
 
     if _settingsManager.getSetting('enableMouseReview'):
         mouse_review.reviewer.activate()
@@ -574,6 +582,7 @@ def init(registry):
     global _initialized
 
     if _initialized and _settingsManager.isScreenReaderServiceEnabled():
+        debug.println(debug.LEVEL_INFO, 'ORCA: Already initialized', True)
         return False
 
     # Do not hang on initialization if we can help it.
@@ -599,8 +608,7 @@ def init(registry):
     return True
 
 def start(registry, cacheValues):
-    """Starts Orca.
-    """
+    """Starts Orca."""
 
     debug.println(debug.LEVEL_INFO, 'ORCA: Starting', True)
 
@@ -650,8 +658,8 @@ def die(exitCode=1):
 def timeout(signum=None, frame=None):
     msg = 'TIMEOUT: something has hung. Aborting.'
     debug.println(debug.LEVEL_SEVERE, msg, True)
-    debug.printStack(debug.LEVEL_ALL)
-    debug.examineProcesses()
+    debug.printStack(debug.LEVEL_SEVERE)
+    debug.examineProcesses(force=True)
     die(EXIT_CODE_HANG)
 
 def shutdown(script=None, inputEvent=None):
@@ -674,7 +682,7 @@ def shutdown(script=None, inputEvent=None):
         signal.signal(signal.SIGALRM, settings.timeoutCallback)
         signal.alarm(settings.timeoutTime)
 
-    orca_state.activeScript.presentMessage(messages.STOP_ORCA)
+    orca_state.activeScript.presentMessage(messages.STOP_ORCA, resetStyles=False)
 
     _scriptManager.deactivate()
     _eventManager.deactivate()
@@ -706,7 +714,14 @@ exitCount = 0
 def shutdownOnSignal(signum, frame):
     global exitCount
 
-    msg = 'ORCA: Shutting down and exiting due to signal=%d' % signum
+    try:
+        # Requires python 3.8
+        signalString = '(%s)' % signal.strsignal(signum)
+    except:
+        signalString = ''
+
+    msg = 'ORCA: Shutting down and exiting due to signal=%d %s' % \
+        (signum, signalString)
     debug.println(debug.LEVEL_INFO, msg, True)
 
     # Well...we'll try to exit nicely, but if we keep getting called,
@@ -754,8 +769,13 @@ def main(cacheValues=True):
     an exit code of 0 means normal completion and an exit code of 50
     means Orca exited because of a hang."""
 
+    msg = "ORCA: Launching version %s" % orca_platform.version
+    if orca_platform.revision:
+        msg += " (rev %s)" % orca_platform.revision
+    debug.println(debug.LEVEL_INFO, msg, True)
+
     if debug.debugFile and os.path.exists(debug.debugFile.name):
-        faulthandler.enable(file=debug.debugFile, all_threads=False)
+        faulthandler.enable(file=debug.debugFile, all_threads=True)
     else:
         faulthandler.enable(all_threads=False)
 
@@ -771,10 +791,13 @@ def main(cacheValues=True):
     signal.signal(signal.SIGQUIT, shutdownOnSignal)
     signal.signal(signal.SIGSEGV, crashOnSignal)
 
+    debug.println(debug.LEVEL_INFO, "ORCA: Enabling accessibility (if needed).", True)
     if not _settingsManager.isAccessibilityEnabled():
         _settingsManager.setAccessibility(True)
 
+    debug.println(debug.LEVEL_INFO, "ORCA: Initializing ATSPI registry.", True)
     init(pyatspi.Registry)
+    debug.println(debug.LEVEL_INFO, "ORCA: ATSPI registry initialized.", True)
 
     try:
         message = messages.START_ORCA
@@ -804,8 +827,10 @@ def main(cacheValues=True):
                 _scriptManager.setActiveScript(script, "Found focused object.")
 
     try:
+        debug.println(debug.LEVEL_INFO, "ORCA: Starting ATSPI registry.", True)
         start(pyatspi.Registry, cacheValues) # waits until we stop the registry
     except:
+        debug.println(debug.LEVEL_SEVERE, "ORCA: Exception starting ATSPI registry.", True)
         die(EXIT_CODE_HANG)
     return 0
 

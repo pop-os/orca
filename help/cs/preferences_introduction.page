@@ -16,8 +16,17 @@
   <title>Úvod do předvoleb čtečky <app>Orca</app></title>
   <section id="orca">
     <title>Předvolby Orca</title>
-    <p>Předvolby Orca vám umožňují přizpůsobit si funkcionalitu čtečky <app>Orca</app>, která se použije pro všechny aplikace. Příkladem předvolby je oznamování kláves, protože to se použije u všech aplikací.</p>
-    <p>Všimněte si, že předvolby Orca lze přizpůsobit i pro jednotlivé aplikace. Například můžete nastavit odezvu pro oznamování kláves na celá slova a pro aplikaci Pidgin pak oznamování kláves vypnout. Když tak učiníte, bude <app>Orca</app> vždy po dopsání slova hlásit jednotlivé klávesy, vyjma situace, kdy budete v komunikátoru Pidgin.</p>
+    <p>
+      Orca preferences allow you to customize functionality in <app>Orca</app>
+      which applies to all applications. An example of an Orca preference is
+      echo because echo is something that applies to all applications.
+    </p>
+    <p>
+      Note that Orca preferences can be customized on an application-by-application
+      basis. For instance you can set the default echo to words and then
+      set the echo for Pidgin to be none. Having done so, <app>Orca</app>
+      would always echo each word that you typed, unless you were in Pidgin.
+    </p>
     <note style="tip">
       <title>Klávesové zkratky pro získání dialogového okna s předvolbami</title>
       <list>

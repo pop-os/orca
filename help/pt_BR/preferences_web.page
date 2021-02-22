@@ -1,46 +1,56 @@
-<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko">
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_web" xml:lang="pt-BR">
   <info>
-    <link type="guide" xref="preferences#application" />
-    <link type="next" xref="preferences_table_navigation" />
-    <title type="sort">1. Gecko Navigation</title>
-    <title type="link">Gecko Navigation</title>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_table_navigation"/>
+    <title type="sort">1. Web Navigation</title>
+    <title type="link">Web Navigation</title>
     <desc>
-      Configuring <app>Orca</app>'s support for <app>Firefox</app> and
-      <app>Thunderbird</app>
+      Configuring <app>Orca</app>'s support for <app>Firefox</app>,
+      <app>Thunderbird</app>, and <app>Chrome</app>/<app>Chromium</app>
     </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Share Alike 3.0</p>
+      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
     </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alexandre Conte</mal:name>
+      <mal:email>alente.alemao@gmail.com</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>José Vilmar Estácio De Souza</mal:name>
+      <mal:email>vilmar@informal.com.br</mal:email>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Enrico Nicoletto</mal:name>
+      <mal:email>liverig@gmail.com</mal:email>
+      <mal:years>2013.</mal:years>
+    </mal:credit>
   </info>
-  <title>Gecko Navigation Preferences</title>
+  <title>Web Navigation Preferences</title>
   <section id="page_navigation">
-    <title>Page Navigation</title>
-    <p>
-      The <gui>Page Navigation</gui> group of controls make it possible for you
-      to customize how <app>Orca</app> presents, and allow you to interact with,
-      text and other content.
-    </p>
+    <title>Navegação por página</title>
+    <p>O grupo de controles da <gui>navegação da página</gui> possibilita que você personalize como o <app>Orca</app> apresenta textos e outros conteúdos, e como permite-lhe interagir com eles.</p>
     <section id="page_navigation_control_caret">
       <title>Control caret navigation</title>
       <p>
         This checkbox toggles <app>Orca</app>'s caret navigation on and off.
         When it is on, <app>Orca</app> takes control of the caret as you arrow
-        around within a page; when it is off, Gecko's native caret navigation is
+        around within a page; when it is off, the browser's native caret navigation is
         active.
       </p>
-      <p>
-        Default value: checked
-      </p>
+      <p>Valor padrão: selecionada</p>
       <note style="tip">
-        <title>This setting can be toggled on the fly</title>
-        <p>
-          To toggle this setting on the fly without saving it, use
-          <keyseq><key>Orca Modifier</key><key>F12</key></keyseq>.
-        </p>
+        <title>Esta configuração pode ser ativada a qualquer momento</title>
+        <p>Para ativar esta configuração temporariamente sem a salvar, use a <keyseq><key>Tecla modificadora do Orca</key><key>F12</key></keyseq>.</p>
        </note>
     </section>
     <section id="page_navigation_focus_caret">
@@ -55,9 +65,7 @@
         would continue to control what happens when you press <key>Down</key>,
         thus making it possible to arrow out of the entry and continue reading.
       </p>
-      <p>
-        Default value: not checked
-      </p>
+      <p>Valor padrão: desmarcado</p>
       <note style="tip">
         <title>Manually switching between browse mode and focus mode</title>
         <p>
@@ -69,21 +77,11 @@
     </section>
     <section id="page_navigation_structural">
       <title>Enable structural navigation</title>
-      <p>
-        This checkbox toggles <app>Orca</app>'s
-        <link xref="howto_structural_navigation">Structural Navigation</link>
-        on and off. Structural Navigation allows you to navigate by elements
-        such as headings, links, and form fields.
-      </p>
-      <p>
-        Default value: checked
-      </p>
+      <p>Esta caixa de seleção habilita/desabilita a <link xref="howto_structural_navigation">Navegação Estrutural</link> do <app>Orca</app>. A navegação estrutural permite-lhe navegar pelos elementos como cabeçalhos, links e campos de formulário.</p>
+      <p>Valor padrão: selecionada</p>
       <note style="tip">
-        <title>This setting can be toggled on the fly</title>
-        <p>
-          To toggle this setting on the fly without saving it, use
-          <keyseq><key>Orca Modifier</key><key>Z</key></keyseq>.
-        </p>
+        <title>Esta configuração pode ser ativada a qualquer momento</title>
+        <p>Para ativar esta configuração temporariamente sem a salvar, use a <keyseq><key>Tecla modificadora do Orca</key><key>Z</key></keyseq>.</p>
        </note>
     </section>
     <section id="page_navigation_focus_structural">
@@ -97,9 +95,28 @@
         checked, then <app>Orca</app> will leave you in browse mode and your next
         press of <key>E</key> would move you to the next entry on the page.
       </p>
+      <p>Valor padrão: desmarcado</p>
+      <note style="tip">
+        <title>Manually switching between browse mode and focus mode</title>
+        <p>
+          In order to start or stop interacting with the focused form field,
+          use <keyseq><key>Orca Modifier</key><key>A</key></keyseq> to switch
+          between browse mode and focus mode.
+        </p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_native">
+      <title>Automatic focus mode during native navigation</title>
       <p>
-        Default value: not checked
+        If this checkbox is checked, <app>Orca</app> will automatically turn on
+        focus mode when you use native browser navigation commands to navigate to a
+        form field. For example, pressing <key>Tab</key> to move to the next entry
+        would move focus there and also turn focus mode on so that your next press
+        of <key>E</key> would type an "e" into that entry. If this checkbox is not
+        checked, then <app>Orca</app> will leave you in browse mode and your next
+        press of <key>E</key> would move you to the next entry on the page.
       </p>
+      <p>Valor padrão: selecionada</p>
       <note style="tip">
         <title>Manually switching between browse mode and focus mode</title>
         <p>
@@ -139,9 +156,7 @@
         will treat objects such as links and form fields as if they were on separate
         lines, both for presentation and navigation.
       </p>
-      <p>
-        Default value: checked
-      </p>
+      <p>Valor padrão: selecionada</p>
     </section>
   </section>
   <section id="table_options">
@@ -155,36 +170,20 @@
     </note>
   </section>
   <section id="find_options">
-    <title>Find Options</title>
-    <p>
-      The <gui>Find Options</gui> group of controls make it possible for you to
-      customize how <app>Orca</app> presents the results of a search conducted
-      using the application's built-in search functionality.
-    </p>
+    <title>Opções de busca</title>
+    <p>O grupo de controles das <gui>opções de busca</gui> permite-lhe personalizar como o <app>Orca</app> apresenta o resultado de uma pesquisa realizada com as funcionalidades de busca próprias do aplicativo.</p>
     <section id="find_options_speak_during_find">
-      <title>Speak results during find</title>
-      <p>
-         If this checkbox is checked, <app>Orca</app> will read the line which
-         matches your current search query.
-      </p>
-      <p>
-         Default value: checked
-      </p>
+      <title>Falar resultados durante a busca</title>
+      <p>Se esta caixa de seleção for marcada, o <app>Orca</app> lerá a linha que combina com a sua pesquisa atual.</p>
+      <p>Valor padrão: selecionada</p>
     </section>
     <section id="find_options_speak_changed_lines_during_find">
-      <title>Only speak changed lines during find</title>
-      <p>
-          If this checkbox is checked, <app>Orca</app> will not present the
-          matching line if it is the same line as the previous match. This
-          option is designed to prevent "chattiness" on a line with multiple
-          instances of the string for which you are searching.
-      </p>
-      <p>
-         Default value: not checked
-      </p>
+      <title>Somente falar as linhas alteradas durante a pesquisa</title>
+      <p>Se esta caixa de seleção for marcada, o <app>Orca</app> não apresentará a linha correspondente se esta for idêntica a correspondência anterior. Esta opção foi criada para prevenir excesso de fala em uma linha com várias instâncias de um texto que você esteja buscando.</p>
+      <p>Valor padrão: desmarcado</p>
     </section>
     <section id="find_options_minimum_match_length">
-      <title>Minimum length of matched text</title>
+      <title>Tamanho mínimo de textos encontrados</title>
       <p>
         This editable spin button is where you can specify the number of
         characters which must match before <app>Orca</app> announces the
@@ -192,9 +191,7 @@
         as there are many matches when you first begin typing the string
         for which you are searching.
       </p>
-      <p>
-        Default value: 4
-      </p>
+      <p>Valor padrão: 4</p>
     </section>
   </section>
 </page>

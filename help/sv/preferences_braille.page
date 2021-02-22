@@ -74,7 +74,7 @@
     </section>
     <section id="flashMessageSettings_detailed">
       <title>Meddelanden är detaljerade</title>
-      <p>Om <gui>Meddelanden är detaljerade</gui> är ikryssad kommer <app>Orca</app> presentera detaljerade meddelanden till dig i punktskrift. Till exempel, om du använder <app>Orca</app>s kommando för att ändra tangenteko kan <app>Orca</app> visa ”Tangenteko satt till ord”. Om du föredrar kortare meddelanden, som exempelvis bara ”ord”, ska du avmarkera denna kryssruta.</p>
+      <p>Om <gui>Meddelanden är detaljerade</gui> är ikryssad kommer <app>Orca</app> presentera detaljerade meddelanden till dig i punktskrift. Till exempel, om du använder <app>Orca</app>s kommando för att ändra eko kan <app>Orca</app> visa ”Eko satt till ord”. Om du föredrar kortare meddelanden, som exempelvis bara ”ord”, ska du avmarkera denna kryssruta.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
     <section id="flashMessageSettings_persistent">

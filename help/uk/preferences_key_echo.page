@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="uk">
   <info>
-    <title type="link">Озвучення клавіш</title>
-    <title type="sort">4. Озвучення клавіш</title>
+    <title type="link">Озвучення</title>
+    <title type="sort">4. Озвучення</title>
     <desc>Налаштовування озвучення під час друку на клавіатурі</desc>
     <link type="guide" xref="preferences#orca"/>
     <link type="next" xref="preferences_key_bindings"/>
@@ -20,7 +20,7 @@
       <mal:years>2020</mal:years>
     </mal:credit>
   </info>
-  <title>Параметри озвучення клавіш</title>
+  <title>Параметри озвучення</title>
   <section id="keyecho">
     <title>Увімкнути озвучення клавіш</title>
     <p>Параметр озвучування клавіш Orca керує тим, що відбуватиметься кожного разу, коли ви натискатимете клавішу. Щоб увімкнути озвучення клавіш, позначте пункт «Увімкнути озвучення клавіш». Після позначення стануть доступними додаткові пункти, за допомогою яких ви можете визначити, які саме клавіші слід озвучувати і не слід озвучувати так, щоб вам працювалося комфортніше.</p>

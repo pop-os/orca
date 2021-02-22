@@ -75,6 +75,21 @@ AUTO_FOCUS_MODE_STRUCT_NAV = _("Automatic focus mode during structural navigatio
 # of the entry.
 AUTO_FOCUS_MODE_CARET_NAV = _("Automatic focus mode during caret navigation")
 
+# Translators: Orca has a number of commands that override the default behavior
+# within an application. For instance, if you are at the bottom of an entry and
+# press Down arrow, should you leave the entry? It depends on if you want to
+# resume reading content or if you are editing the text in the entry. Because
+# Orca doesn't know what you want to do, it has two modes: In browse mode, Orca
+# treats key presses as commands to read the content; in focus mode, Orca treats
+# key presses as something that should be handled by the focused widget. Orca
+# optionally can attempt to detect which mode is appropriate for the current
+# situation and switch automatically. This string is a label for a GUI option to
+# enable such automatic switching when native navigation commands are used.
+# Here "native" means "not Orca"; it could be a browser navigation command such
+# as the Tab key, or it might be a web page behavior, such as the search field
+# automatically gaining focus when the page loads.
+AUTO_FOCUS_MODE_NATIVE_NAV = _("Automatic focus mode during native navigation")
+
 # Translators: A single braille cell on a refreshable braille display consists
 # of 8 dots. Dot 7 is the dot in the bottom left corner. If the user selects 
 # this option, Dot 7 will be used to 'underline' text of interest, e.g. when
@@ -370,14 +385,6 @@ PROFILE_SAVE_AS_TITLE = _("Save Profile As")
 # following string is the label for a text entry in which the user enters the
 # name of a new settings profile being saved via the 'Save Profile As' dialog.
 PROFILE_NAME_LABEL = _("_Profile Name:")
-
-# Translators: Profiles in Orca make it possible for users to quickly switch
-# amongst a group of pre-defined settings (e.g. an 'English' profile for reading
-# text written in English using an English-language speech synthesizer and
-# braille rules, and a similar 'Spanish' profile for reading Spanish text.
-# The following is a title in a dialog informing the user that he/she
-# is about to remove a user profile, and action that cannot be undone.
-PROFILE_REMOVE_TITLE = _("Remove User Profile")
 
 # Translators: Profiles in Orca make it possible for users to quickly switch
 # amongst a group of pre-defined settings (e.g. an 'English' profile for reading

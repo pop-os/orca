@@ -28,8 +28,17 @@
   <title>Въведение в настройките на <app>Orca</app></title>
   <section id="orca">
     <title>Настройки на Orca</title>
-    <p>Настройките на Orca ви позволяват да настройвате функционалността на <app>Orca</app>, която се отнася за всички приложения. Пример за настройка на Orca е изговарянето на въведените знаци, понеже това е нещо, което е валидно във всички приложения.</p>
-    <p>Обърнете внимание, че настройките на Orca могат да бъдат задавани отделно за всяко приложение. Например, може да зададете изговарянето на въведените знаци по подразбиране на думи и след това да зададете изговарянето на въведените знаци за Pidgin да бъде изключено. Правейки така, <app>Orca</app> ще ви прочита всяка дума, която въведете, освен ако не се намирате в Pidgin.</p>
+    <p>
+      Orca preferences allow you to customize functionality in <app>Orca</app>
+      which applies to all applications. An example of an Orca preference is
+      echo because echo is something that applies to all applications.
+    </p>
+    <p>
+      Note that Orca preferences can be customized on an application-by-application
+      basis. For instance you can set the default echo to words and then
+      set the echo for Pidgin to be none. Having done so, <app>Orca</app>
+      would always echo each word that you typed, unless you were in Pidgin.
+    </p>
     <note style="tip">
       <title>Клавиатурни команди за отваряне на прозорците за настройка</title>
       <list>

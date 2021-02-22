@@ -32,6 +32,7 @@ import inspect
 import traceback
 import os
 import pyatspi
+import re
 import subprocess
 import sys
 
@@ -338,7 +339,7 @@ def attributesToString(acc, indent=""):
     except:
         return "%sattributes=(exception)" % indent
 
-    return "%sattributes='%s'" % (indent, " ".join(attributes))
+    return "%sattributes='%s'" % (indent, re.sub("\s+", " ", ", ".join(attributes)))
 
 def getAccessibleDetails(level, acc, indent="", includeApp=True):
     """Returns a string, suitable for printing, that describes the
@@ -371,14 +372,24 @@ def getAccessibleDetails(level, acc, indent="", includeApp=True):
         string = indent
 
     try:
-        name_string = "name='%s'" % acc.name
+        name_string = "name='%s'".replace("\n", "\\n") % acc.name
     except:
         name_string = "name=(exception)"
+
+    try:
+        desc_string = "%sdescription='%s'".replace("\n", "\\n") % (indent, acc.description)
+    except:
+        desc_string = "%sdescription=(exception)" % indent
 
     try:
         role_string = "role='%s'" % acc.getRoleName()
     except:
         role_string = "role=(exception)"
+
+    try:
+        path_string = "%spath=%s" % (indent, pyatspi.getPath(acc))
+    except:
+        path_string = "%spath=(exception)" % indent
 
     state_string = statesToString(acc, indent)
     rel_string = relationsToString(acc, indent)
@@ -386,8 +397,9 @@ def getAccessibleDetails(level, acc, indent="", includeApp=True):
     attr_string = attributesToString(acc, indent)
 
     try:
-        string += "%s %s \n%s \n%s \n%s \n%s" \
-                  % (name_string, role_string, state_string, rel_string, iface_string, attr_string)
+        string += "%s %s\n%s\n%s\n%s\n%s\n%s\n%s\n" \
+                  % (name_string, role_string, desc_string, state_string, rel_string,
+                     iface_string, attr_string, path_string)
     except:
         string += "(exception fetching data)"
 
@@ -515,9 +527,14 @@ def pidOf(procName):
     openFile.close()
     return [int(p) for p in pids.split()]
 
-def examineProcesses():
+def examineProcesses(force=False):
+    if force:
+        level = LEVEL_OFF
+    else:
+        level = LEVEL_ALL
+
     desktop = pyatspi.Registry.getDesktop(0)
-    println(LEVEL_ALL, 'INFO: Desktop has %i apps:' % desktop.childCount)
+    println(level, 'INFO: Desktop has %i apps:' % desktop.childCount, True)
     for i, app in enumerate(desktop):
         pid = app.get_process_id()
         cmd = getCmdline(pid)
@@ -529,19 +546,19 @@ def examineProcesses():
         else:
             if name == '':
                 name = 'WARNING: Possible hang'
-        println(LEVEL_ALL, '%3i. %s (pid: %s) %s file descriptors: %i' \
-                    % (i+1, name, pid, cmd, fds))
+        println(level, '%3i. %s (pid: %s) %s file descriptors: %i' \
+                    % (i+1, name, pid, cmd, fds), True)
 
     # Other 'suspect' processes which might not show up as accessible apps.
     otherApps = ['apport']
     for app in otherApps:
         pids = pidOf(app)
         if not pids:
-            println(LEVEL_ALL, 'INFO: no pid for %s' % app)
+            println(level, 'INFO: no pid for %s' % app, True)
             continue
 
         for pid in pids:
             cmd = getCmdline(pid)
             fds = getOpenFDCount(pid)
-            println(LEVEL_ALL, 'INFO: %s (pid: %s) %s file descriptors: %i' \
-                        % (app, pid, cmd, fds))
+            println(level, 'INFO: %s (pid: %s) %s file descriptors: %i' \
+                        % (app, pid, cmd, fds), True)

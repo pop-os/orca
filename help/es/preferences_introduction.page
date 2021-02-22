@@ -28,8 +28,17 @@
   <title>Introducción a las preferencias de <app>Orca</app></title>
   <section id="orca">
     <title>Preferencias de Orca</title>
-    <p>Las preferencias de Orca le permiten personalizar la funcionalidad de <app>Orca</app> que se usa en todas las aplicaciones. Un ejemplo de preferencia de Orca es el eco de teclas, ya que es algo que se usa en todas las aplicaciones.</p>
-    <p>Note que las preferencias de Orca se pueden personalizar para cada aplicación. Por ejemplo, puede establecer el eco predeterminado por palabras y después, no establecer ningún eco para Pidgin. Habiendo hecho esto, <app>Orca</app> siempre leerá las palabras que escriba, a menos que use Pidgin.</p>
+    <p>
+      Orca preferences allow you to customize functionality in <app>Orca</app>
+      which applies to all applications. An example of an Orca preference is
+      echo because echo is something that applies to all applications.
+    </p>
+    <p>
+      Note that Orca preferences can be customized on an application-by-application
+      basis. For instance you can set the default echo to words and then
+      set the echo for Pidgin to be none. Having done so, <app>Orca</app>
+      would always echo each word that you typed, unless you were in Pidgin.
+    </p>
     <note style="tip">
       <title>Atajos de teclado para entrar en los diálogos de preferencias</title>
       <list>

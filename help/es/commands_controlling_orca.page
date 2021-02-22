@@ -53,10 +53,16 @@
     <p>En el modo de aprendizaje, <app>Orca</app> anunciará cada pulsación de tecla que pulse junto con cualquier comando asociado de <app>Orca</app> que esté vinculado a una pulsación de tecla. En este modo, puede obtener una de lista de todos los atajos que contiene todos los comandos de <app>Orca</app> que puede usar.</p>
     <list>
       <item>
-        <p>Entrar en modo de aprendizaje: <keyseq><key>Modificador de Orca</key><key>H</key></keyseq></p>
+        <p>
+          Enter Learn Mode:
+          <keyseq><key>Orca Modifier</key><key>H</key></keyseq>
+        </p>
       </item>
       <item>
-        <p>Salir del modo de aprendizaje: <keyseq><key>Esc</key></keyseq></p>
+        <p>
+          Exit Learn Mode:
+          <keyseq><key>Esc</key></keyseq>
+        </p>
       </item>
     </list>
   </section>

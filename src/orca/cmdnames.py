@@ -70,13 +70,13 @@ SAY_ALL_FLAT_REVIEW = _("Speak entire window using flat review")
 # then have information about their current context spoken and brailled to them.
 # For example, the information may include the name of the current pushbutton
 # with focus as well as its mnemonic.
-WHERE_AM_I_BASIC = _("Performs the basic Where Am I operation.")
+WHERE_AM_I_BASIC = _("Perform the basic Where Am I operation")
 
 # Translators: the "Where Am I" feature of Orca allows a user to press a key and
 # then have information about their current context spoken and brailled to them.
 # For example, the information may include the name of the current pushbutton
 # with focus as well as its mnemonic.
-WHERE_AM_I_DETAILED = _("Performs the detailed Where Am I operation.")
+WHERE_AM_I_DETAILED = _("Perform the detailed Where Am I operation")
 
 # Translators: This is the description of a dedicated command to speak the
 # current selection / highlighted object(s). For instance, in a text object,
@@ -118,7 +118,7 @@ FIND_PREVIOUS = _("Search for the previous instance of a string")
 # the text from all objects in a window (e.g., buttons, labels, etc.) as a
 # sequence of words in a sequence of lines.  The flat review feature allows
 # the user to explore this text by the {previous,next} {line,word,character}.
-TOGGLE_FLAT_REVIEW = _("Enter and exits flat review mode")
+TOGGLE_FLAT_REVIEW = _("Enter and exit flat review mode")
 
 # Translators: the 'flat review' feature of Orca allows the blind user to
 # explore the text in a window in a 2D fashion.  That is, Orca treats all

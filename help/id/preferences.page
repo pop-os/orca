@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="guide" id="preferences" xml:lang="id">
+  <info>
+    <link type="next" xref="preferences_introduction"/>
+    <link type="guide" xref="index#quick_reference"/>
+    <title type="link">Preferensi</title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Andika Triwidada</mal:name>
+      <mal:email>andika@gmail.com</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
+  </info>
+  <title><app>Orca</app>'s Preferences Dialogs</title>
+  <section id="orca" style="2column">
+    <title>Preferensi Orca</title>
+  </section>
+  <section id="application" style="2column">
+    <title>Application-Unique Preferences</title>
+  </section>
+</page>

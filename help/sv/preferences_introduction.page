@@ -22,8 +22,8 @@
   <title>Introduktion till <app>Orca</app>s inställningar</title>
   <section id="orca">
     <title>Orca-inställningar</title>
-    <p>Orca-inställningar låter dig anpassa funktionalitet i <app>Orca</app> som gäller för alla program. Ett exempel på en Orca-inställning är tangenteko eftersom tangenteko är något som gäller för alla program.</p>
-    <p>Notera att Orca-inställningar kan anpassas program för program. Till exempel kan du ställa in tangenteko till ord som standard och sedan ställa in tangenteko för Pidgin till inget. Då du gjort detta kommer <app>Orca</app> alltid upprepa varje ord du skriver, förutom om du är i Pidgin.</p>
+    <p>Orca-inställningar låter dig anpassa funktionalitet i <app>Orca</app> som gäller för alla program. Ett exempel på en Orca-inställning är eko eftersom eko är något som gäller för alla program.</p>
+    <p>Notera att Orca-inställningar kan anpassas program för program. Till exempel kan du ställa in eko till ord som standard och sedan ställa in eko för Pidgin till inget. Då du gjort detta kommer <app>Orca</app> alltid upprepa varje ord du skriver, förutom om du är i Pidgin.</p>
     <note style="tip">
       <title>Tangentbordsgenvägar för att komma till inställningsdialogerna</title>
       <list>

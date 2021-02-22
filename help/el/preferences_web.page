@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="el">
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_web" xml:lang="el">
   <info>
     <link type="guide" xref="preferences#application"/>
     <link type="next" xref="preferences_table_navigation"/>
-    <title type="sort">1. Περιήγηση Gecko</title>
-    <title type="link">Περιήγηση Gecko</title>
-    <desc>Ρύθμιση της υποστήριξης του <app>Orca</app> για <app>Firefox</app> και <app>Thunderbird</app></desc>
+    <title type="sort">1. Web Navigation</title>
+    <title type="link">Web Navigation</title>
+    <desc>
+      Configuring <app>Orca</app>'s support for <app>Firefox</app>,
+      <app>Thunderbird</app>, and <app>Chrome</app>/<app>Chromium</app>
+    </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -20,13 +23,18 @@
       <mal:years>2012-2015</mal:years>
     </mal:credit>
   </info>
-  <title>Προτιμήσεις περιήγησης Gecko</title>
+  <title>Web Navigation Preferences</title>
   <section id="page_navigation">
     <title>Περιήγηση σελίδας</title>
     <p>Η ομάδα <gui>περιήγηση σελίδας</gui> των ελέγχων κάνει δυνατή την προσαρμογή της παρουσίασης του <app>Orca</app> και επιτρέπει την αλληλεπίδραση με κείμενο και άλλο περιεχόμενο.</p>
     <section id="page_navigation_control_caret">
       <title>Έλεγχος περιήγησης δρομέα</title>
-      <p>Αυτό το πλαίσιο ελέγχου εναλλάσσει την περιήγηση δρομέα του <app>Orca</app> ενεργό/ανενεργό. Όταν είναι ενεργό, το <app>Orca</app> ελέγχει τον δρομέα καθώς μετακινείστε στη σελίδα· όταν είναι ανενεργό, η γηγενής περιήγηση δρομέα του Gecko είναι ενεργή.</p>
+      <p>
+        This checkbox toggles <app>Orca</app>'s caret navigation on and off.
+        When it is on, <app>Orca</app> takes control of the caret as you arrow
+        around within a page; when it is off, the browser's native caret navigation is
+        active.
+      </p>
       <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
       <note style="tip">
         <title>Αυτή η ρύθμιση μπορεί να εναλλαχθεί άμεσα</title>
@@ -55,6 +63,23 @@
       <title>Αυτόματη λειτουργία εστίασης κατά τη δομική πλοήγηση</title>
       <p>Αν αυτό το πλαίσιο ελέγχου είναι σημειωμένο, το <app>Orca</app> θα μεταβεί αυτόματα σε κατάσταση εστίασης, όταν χρησιμοποιήσετε δομικές εντολές περιήγησης για να περιηγηθείτε σε ένα πεδίο φόρμας. Παραδείγματος χάρη, πατώντας το πλήκτρο <key>E</key> για να μετακινηθείτε στην επόμενη καταχώριση θα μετακινήσει την εστίαση εκεί και θα μεταβεί επίσης στην κατάσταση εστίασης έτσι ώστε το επόμενό σας πάτημα του πλήκτρου <key>E</key> να πληκτρολογήσει ένα "e (αν είσαστε στο αγγλικό πληκτρολόγιο)" σε αυτήν την καταχώριση. Αν αυτό το πλαίσιο ελέγχου δεν είναι σημειωμένο, τότε το <app>Orca</app> θα σας αφήσει στην κατάσταση περιήγησης και το επόμενο πάτημα του πλήκτρου <key>E</key> θα σας μεταφέρει στην επόμενη καταχώριση της σελίδας.</p>
       <p>Προεπιλεγμένη τιμή: ασημείωτη</p>
+      <note style="tip">
+        <title>Χειροκίνητη εναλλαγή μεταξύ κατάστασης περιήγησης και εστίασης</title>
+        <p>Για να ξεκινήσετε ή να σταματήσετε την αλληλεπίδραση με το εστιασμένο πεδίο φόρμας, χρησιμοποιήστε τον <keyseq><key>τροποποιητή Orca</key><key>A</key></keyseq> για εναλλαγή μεταξύ κατάστασης περιήγησης και εστίασης.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_native">
+      <title>Automatic focus mode during native navigation</title>
+      <p>
+        If this checkbox is checked, <app>Orca</app> will automatically turn on
+        focus mode when you use native browser navigation commands to navigate to a
+        form field. For example, pressing <key>Tab</key> to move to the next entry
+        would move focus there and also turn focus mode on so that your next press
+        of <key>E</key> would type an "e" into that entry. If this checkbox is not
+        checked, then <app>Orca</app> will leave you in browse mode and your next
+        press of <key>E</key> would move you to the next entry on the page.
+      </p>
+      <p>Προεπιλεγμένη τιμή: σημειωμένη</p>
       <note style="tip">
         <title>Χειροκίνητη εναλλαγή μεταξύ κατάστασης περιήγησης και εστίασης</title>
         <p>Για να ξεκινήσετε ή να σταματήσετε την αλληλεπίδραση με το εστιασμένο πεδίο φόρμας, χρησιμοποιήστε τον <keyseq><key>τροποποιητή Orca</key><key>A</key></keyseq> για εναλλαγή μεταξύ κατάστασης περιήγησης και εστίασης.</p>

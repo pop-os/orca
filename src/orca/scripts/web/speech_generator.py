@@ -317,15 +317,19 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
            and not self._script.utilities.isContentSuggestion(obj):
             return []
 
-        if self._script.inSayAll() and obj == args.get('priorObj'):
+        priorObj = args.get("priorObj")
+        if obj == priorObj:
             return []
 
-        if self._script.utilities.isContentEditableWithEmbeddedObjects(obj):
+        if priorObj and priorObj in self._script.utilities.labelsForObject(obj):
+            return []
+
+        if self._script.utilities.isContentEditableWithEmbeddedObjects(obj) \
+           or self._script.utilities.isDocument(obj):
             lastKey, mods = self._script.utilities.lastKeyAndModifiers()
             if lastKey in ["Home", "End", "Up", "Down", "Left", "Right", "Page_Up", "Page_Down"]:
                 return []
 
-        priorObj = args.get("priorObj")
         if priorObj and priorObj.getRole() == pyatspi.ROLE_PAGE_TAB and priorObj.name == obj.name:
             return []
 
@@ -341,6 +345,11 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             result.extend(self.voice(speech_generator.DEFAULT))
             return result
 
+        if obj.getRole() == pyatspi.ROLE_CHECK_BOX:
+            gridCell = pyatspi.findAncestor(obj, self._script.utilities.isGridCell)
+            if gridCell:
+                return super()._generateLabelOrName(gridCell, **args)
+
         return super()._generateLabelOrName(obj, **args)
 
     def _generateName(self, obj, **args):
@@ -352,6 +361,14 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
            and not self._script.utilities.isDPub(obj) \
            and not args.get('inFlatReview'):
             return []
+
+        if self._script.utilities.isFigure(obj) and args.get('ancestorOf'):
+            caption = args.get('ancestorOf')
+            if caption.getRole() != pyatspi.ROLE_CAPTION:
+                isCaption = lambda x: x and x.getRole() == pyatspi.ROLE_CAPTION
+                caption = pyatspi.findAncestor(caption, isCaption)
+            if caption and hash(obj) in self._script.utilities.labelTargets(caption):
+                return []
 
         role = args.get('role', obj.getRole())
 
@@ -474,7 +491,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if not self._script.utilities.inDocumentContent(obj):
             return super()._generateRoleName(obj, **args)
 
-        if self._script.inSayAll() and obj == args.get('priorObj'):
+        if obj == args.get('priorObj'):
             return []
 
         result = []
@@ -754,9 +771,6 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if not 'priorObj' in args:
             args['priorObj'] = self._script.utilities.getPriorContext()[0]
 
-        if self._script.utilities.isLabellingContents(obj):
-            result = list(filter(lambda x: x, self.generateContext(obj, **args)))
-
         if not result:
             result = list(filter(lambda x: x, super().generateSpeech(obj, **args)))
 
@@ -789,7 +803,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                 args['priorObj'] = obj
 
         if not result:
-            if self._script.inSayAll():
+            if self._script.inSayAll(treatInterruptedAsIn=False) \
+               or not _settingsManager.getSetting('speakBlankLines'):
                 string = ""
             else:
                 string = messages.BLANK
