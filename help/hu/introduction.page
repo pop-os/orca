@@ -16,12 +16,12 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2020.</mal:years>
+      <mal:years>2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2020, 2021.</mal:years>
     </mal:credit>
   </info>
   <title>Üdvözöljük az Orkában</title>
   <p>Az <app>Orka</app> egy rugalmas, nyílt forráskódú, bővíthető és hatékony képernyőolvasó, amely a beszéd- és Braille-támogatás felhasználó által személyre szabható kombinációjának használatával teszi elérhetővé az asztali környezetet.</p>
-  <p>Az <app>Orka</app> együttműködik azokkal az alkalmazásokkal és eszközkészletekkel, amelyek támogatják az Assistive Technology Service Provider Interface (AT-SPI) szabványt, amely az elsődleges akadálymentesítési infrastruktúra Linuxhoz és Solarishoz. Az AT-SPI szabványt támogató alkalmazások és eszközkészletek például a GNOME GTK+ eszközkészlete, a Java platform Swing eszközkészlete, a LibreOffice, a Gecko, és a WebKitGtk. Az AT-SPI szabvány támogatása a KDE Qt eszközkészlethez még nem valósult meg.</p>
+  <p>Az <app>Orka</app> együttműködik azokkal az alkalmazásokkal és eszközkészletekkel, amelyek támogatják az Assistive Technology Service Provider Interface (AT-SPI) szabványt, amely az elsődleges akadálymentesítési infrastruktúra Linuxhoz és Solarishoz. Az AT-SPI szabványt támogató alkalmazások és eszközkészletek például a GNOME GTK+ eszközkészlete, a Qt eszközkészlet, a Java platform Swing eszközkészlete, a LibreOffice, a Gecko, a WebKitGtk eszközkészlet, és a Chrome/Chromium.</p>
   <section id="launching">
     <title>Az <app>Orka</app> elindítása</title>
     <p>Az <app>Orka</app> elindításához tegye a következőket:</p>

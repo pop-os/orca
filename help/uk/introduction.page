@@ -21,7 +21,7 @@
   </info>
   <title>Вітаємо у Orca</title>
   <p><app>Orca</app> є вільною програмою з відкритим кодом, гнучкими налаштуваннями та можливістю розширення для читання з екрана. Програма надає доступ до графічної стільниці за допомогою технологій озвучування тексту та дисплея брайля.</p>
-  <p><app>Orca</app> працює із програмами та бібліотеками, у яких передбачено підтримку Assistive Technology Service Provider Interface (AT-SPI). Цей інтерфейс є основною допоміжною технологічною інфраструктурою для Linux і Solaris. Серед програм та бібліотек, у яких передбачено підтримку AT-SPI, набір бібліотек GNOME Gtk+, набір бібліотек Swing для платформи Java, LibreOffice, Gecko, та WebKitGtk. Триває робота над забезпеченням повної підтримки AT-SPI у наборі бібліотек Qt та KDE.</p>
+  <p><app>Orca</app> працює із програмами та бібліотеками, у яких передбачено підтримку Assistive Technology Service Provider Interface (AT-SPI). Цей інтерфейс є основною допоміжною технологічною інфраструктурою для Linux і Solaris. Серед програм та бібліотек, у яких передбачено підтримку AT-SPI, набір бібліотек GNOME Gtk+, Qt, Java Swing, LibreOffice, Gecko, WebKitGtk та Chrome/Chromium.</p>
   <section id="launching">
     <title>Запуск <app>Orca</app></title>
     <p>Щоб запустити <app>Orca</app>, виконайте такі дії:</p>

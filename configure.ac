@@ -1,8 +1,4 @@
-m4_define([orca_major_version], [3])
-m4_define([orca_minor_version], [38])
-m4_define([orca_micro_version], [2])
-m4_define([orca_version],
-          [orca_major_version.orca_minor_version.orca_micro_version])
+m4_define([orca_version], [40.beta])
 
 m4_define(pygobject_required_version, 3.18)
 m4_define(atspi_required_version, 2.26)
@@ -67,6 +63,9 @@ if test x$louis_available = "xyes"; then
   LOUIS_TABLE_DIR=`pkg-config --variable=tablesdir liblouis`
 fi
 AC_SUBST(LOUIS_TABLE_DIR)
+
+REVISION=`git rev-parse --short HEAD 2> /dev/null`
+AC_SUBST(REVISION)
 
 dnl Check for the OS. On *Solaris systems the PATH must be set
 PLATFORM=`uname -a`

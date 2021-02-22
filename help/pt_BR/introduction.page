@@ -33,7 +33,13 @@
   </info>
   <title>Bem-vindo ao Orca</title>
   <p>O <app>Orca</app> é um leitor de telas livre, de código aberto, flexível, e extensível que fornece acesso ao ambiente de trabalho gráfico através de fala e braille atualizável.</p>
-  <p>O <app>Orca</app> funciona com aplicativos e kits de ferramentas que possuem suporte à interface de provedor de serviços de tecnologia assistiva (AT-SPI), que é a principal infra-estrutura de tecnologia assistiva para Linux e Solaris. Aplicativos e kits de ferramentas que suportam o AT-SPI incluem o kit de ferramentas Gtk+ do GNOME, o kit de ferramentas Swing da plataforma Java, LibreOffice, Gecko, e o WebKitGtk. O suporte a AT-SPI para a ferramenta KDE Qt está sendo desenvolvida.</p>
+  <p>
+    <app>Orca</app> works with applications and toolkits that support
+    the Assistive Technology Service Provider Interface (AT-SPI), which
+    is the primary assistive technology infrastructure for Linux and
+    Solaris. Applications and toolkits supporting the AT-SPI include
+    Gtk+, Qt, Java Swing, LibreOffice, Gecko, WebKitGtk, and Chrome/Chromium.
+  </p>
   <section id="launching">
     <title>Executando o <app>Orca</app></title>
     <p>Para executar o <app>Orca</app>:</p>

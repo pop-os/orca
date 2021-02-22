@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="cs">
   <info>
-    <title type="link">Oznamování kláves</title>
-    <title type="sort">4. Oznamování kláves</title>
+    <title type="link">Echo</title>
+    <title type="sort">4. Echo</title>
     <desc>Jak nastavit, co se má číst, když píšete</desc>
     <link type="guide" xref="preferences#orca"/>
     <link type="next" xref="preferences_key_bindings"/>
@@ -14,7 +14,7 @@
       <p>Creative Commons Share Alike 3.0</p>
     </license>
   </info>
-  <title>Předvolby pro oznamování kláves</title>
+  <title>Echo Preferences</title>
   <section id="keyecho">
     <title>Oznamovat klávesy</title>
     <p>Nastavení oznamování kláves řídí, co se má stát pokaždé, když zmáčknete klávesu. Pro zapnutí oznamování kláves zaškrtněte políčko „Oznamovat klávesy“. Tím se také zpřístupní další zaškrtávací políčka, pomocí kterých můžete podle svých potřeb přesněji zvolit, které klávesy mají být oznamovány a které ne.</p>

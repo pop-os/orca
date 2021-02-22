@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="pt-BR">
   <info>
-    <title type="link">Eco de tecla</title>
-    <title type="sort">4. Eco de teclas</title>
+    <title type="link">Echo</title>
+    <title type="sort">4. Echo</title>
     <desc>Configurando o que é falado enquanto você digita</desc>
     <link type="guide" xref="preferences#orca"/>
     <link type="next" xref="preferences_key_bindings"/>
@@ -32,7 +32,7 @@
       <mal:years>2013.</mal:years>
     </mal:credit>
   </info>
-  <title>Preferências de eco de teclas</title>
+  <title>Echo Preferences</title>
   <section id="keyecho">
     <title>Habilitar eco de teclas</title>
     <p>As configurações de eco de teclas do Orca controlam o que acontece cada vez que você pressiona uma tecla. Para habilitar o eco de teclas, marque a caixa de seleção "Habilitar eco de tecla". Ao fazer isso, caixas de seleção adicionais ficarão disponíveis através das quais você poderá escolher exatamente quais teclas devem ou não haver o eco, para melhor adequar-se às suas necessidades.</p>

@@ -74,6 +74,7 @@ class Script(default.Script):
         self._lastCommandWasCaretNav = False
         self._lastCommandWasStructNav = False
         self._lastCommandWasMouseButton = False
+        self._lastMouseButtonContext = None, -1
         self._lastMouseOverObject = None
         self._preMouseOverContext = None, -1
         self._inMouseOverObject = False
@@ -103,6 +104,7 @@ class Script(default.Script):
         self._structuralNavigationCheckButton = None
         self._autoFocusModeStructNavCheckButton = None
         self._autoFocusModeCaretNavCheckButton = None
+        self._autoFocusModeNativeNavCheckButton = None
         self._layoutModeCheckButton = None
 
         self.attributeNamesDict["invalid"] = "text-spelling"
@@ -120,6 +122,7 @@ class Script(default.Script):
         self._lastCommandWasCaretNav = False
         self._lastCommandWasStructNav = False
         self._lastCommandWasMouseButton = False
+        self._lastMouseButtonContext = None, -1
         self._lastMouseOverObject = None
         self._preMouseOverContext = None, -1
         self._inMouseOverObject = False
@@ -359,23 +362,29 @@ class Script(default.Script):
         self._autoFocusModeStructNavCheckButton.set_active(value)
         generalGrid.attach(self._autoFocusModeStructNavCheckButton, 0, 3, 1, 1)
 
+        label = guilabels.AUTO_FOCUS_MODE_NATIVE_NAV
+        value = _settingsManager.getSetting('nativeNavTriggersFocusMode')
+        self._autoFocusModeNativeNavCheckButton = Gtk.CheckButton.new_with_mnemonic(label)
+        self._autoFocusModeNativeNavCheckButton.set_active(value)
+        generalGrid.attach(self._autoFocusModeNativeNavCheckButton, 0, 4, 1, 1)
+
         label = guilabels.READ_PAGE_UPON_LOAD
         value = _settingsManager.getSetting('sayAllOnLoad')
         self._sayAllOnLoadCheckButton = Gtk.CheckButton.new_with_mnemonic(label)
         self._sayAllOnLoadCheckButton.set_active(value)
-        generalGrid.attach(self._sayAllOnLoadCheckButton, 0, 4, 1, 1)
+        generalGrid.attach(self._sayAllOnLoadCheckButton, 0, 5, 1, 1)
 
         label = guilabels.PAGE_SUMMARY_UPON_LOAD
         value = _settingsManager.getSetting('pageSummaryOnLoad')
         self._pageSummaryOnLoadCheckButton = Gtk.CheckButton.new_with_mnemonic(label)
         self._pageSummaryOnLoadCheckButton.set_active(value)
-        generalGrid.attach(self._pageSummaryOnLoadCheckButton, 0, 5, 1, 1)
+        generalGrid.attach(self._pageSummaryOnLoadCheckButton, 0, 6, 1, 1)
 
         label = guilabels.CONTENT_LAYOUT_MODE
         value = _settingsManager.getSetting('layoutMode')
         self._layoutModeCheckButton = Gtk.CheckButton.new_with_mnemonic(label)
         self._layoutModeCheckButton.set_active(value)
-        generalGrid.attach(self._layoutModeCheckButton, 0, 6, 1, 1)
+        generalGrid.attach(self._layoutModeCheckButton, 0, 7, 1, 1)
 
         tableFrame = Gtk.Frame()
         grid.attach(tableFrame, 0, 1, 1, 1)
@@ -487,6 +496,7 @@ class Script(default.Script):
             'structNavTriggersFocusMode': self._autoFocusModeStructNavCheckButton.get_active(),
             'caretNavigationEnabled': self._controlCaretNavigationCheckButton.get_active(),
             'caretNavTriggersFocusMode': self._autoFocusModeCaretNavCheckButton.get_active(),
+            'nativeNavTriggersFocusMode': self._autoFocusModeNativeNavCheckButton.get_active(),
             'speakCellCoordinates': self._speakCellCoordinatesCheckButton.get_active(),
             'layoutMode': self._layoutModeCheckButton.get_active(),
             'speakCellSpan': self._speakCellSpanCheckButton.get_active(),
@@ -528,6 +538,8 @@ class Script(default.Script):
         # won't know to dump the generator cache. See bgo#618827.
         self.generatorCache = {}
 
+        self._lastMouseButtonContext = None, -1
+
         handler = self.keyBindings.getInputHandler(keyboardEvent)
         if handler and self.caretNavigation.handles_navigation(handler):
             consumes = self.useCaretNavigationModel(keyboardEvent)
@@ -551,9 +563,11 @@ class Script(default.Script):
             self._lastCommandWasMouseButton = False
             return consumes
 
-        self._lastCommandWasCaretNav = False
-        self._lastCommandWasStructNav = False
-        self._lastCommandWasMouseButton = False
+        if not keyboardEvent.isModifierKey():
+            self._lastCommandWasCaretNav = False
+            self._lastCommandWasStructNav = False
+            self._lastCommandWasMouseButton = False
+
         return super().consumesKeyboardEvent(keyboardEvent)
 
     def consumesBrailleEvent(self, brailleEvent):
@@ -609,15 +623,18 @@ class Script(default.Script):
             else:
                 contents = self.utilities.getLineContentsAtOffset(obj, characterOffset)
             self._sayAllContents = contents
-            for content in contents:
+            for i, content in enumerate(contents):
+                obj, startOffset, endOffset, text = content
+                msg = "WEB SAY ALL CONTENT: %i. %s '%s' (%i-%i)" % (i, obj, text, startOffset, endOffset)
+                debug.println(debug.LEVEL_INFO, msg, True)
+
                 if self.utilities.isInferredLabelForContents(content, contents):
                     continue
 
-                obj, startOffset, endOffset, text = content
                 if startOffset == endOffset:
                     continue
 
-                if self.utilities.isLabellingContents(obj):
+                if self.utilities.isLabellingInteractiveElement(obj):
                     continue
 
                 if self.utilities.isLinkAncestorOfImageInContents(obj, contents):
@@ -634,6 +651,8 @@ class Script(default.Script):
                 for i, element in enumerate(elements):
                     context = speechserver.SayAllContext(
                         obj, element, startOffset, endOffset)
+                    msg = "WEB %s" % context
+                    debug.println(debug.LEVEL_INFO, msg, True)
                     self._sayAllContexts.append(context)
                     eventsynthesizer.scrollIntoView(obj, startOffset, endOffset)
                     yield [context, voices[i]]
@@ -806,6 +825,11 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
+        if self.inSayAll():
+            msg = "WEB: Not using focus mode because we're in SayAll."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
         if not _settingsManager.getSetting('structNavTriggersFocusMode') \
            and self._lastCommandWasStructNav:
             msg = "WEB: Not using focus mode due to struct nav settings"
@@ -821,6 +845,12 @@ class Script(default.Script):
             msg = "WEB: Not using focus mode due to caret nav settings"
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
+
+        if not _settingsManager.getSetting('nativeNavTriggersFocusMode') \
+           and not (self._lastCommandWasStructNav or self._lastCommandWasCaretNav):
+            msg = "WEB: Not changing focus/browse mode due to native nav settings"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return self._inFocusMode
 
         if self.utilities.isFocusModeWidget(obj):
             msg = "WEB: Using focus mode because %s is a focus mode widget" % obj
@@ -888,6 +918,8 @@ class Script(default.Script):
         else:
             self.speakContents(contents)
 
+        self.pointOfReference["lastTextUnitSpoken"] = "char"
+
     def sayWord(self, obj):
         """Speaks the word at the current caret position."""
 
@@ -905,6 +937,7 @@ class Script(default.Script):
         textObj, startOffset, endOffset, word = wordContents[0]
         self.speakMisspelledIndicator(textObj, startOffset)
         self.speakContents(wordContents)
+        self.pointOfReference["lastTextUnitSpoken"] = "word"
 
     def sayLine(self, obj):
         """Speaks the line at the current caret position."""
@@ -921,6 +954,7 @@ class Script(default.Script):
         obj, offset = self.utilities.getCaretContext(documentFrame=None)
         contents = self.utilities.getLineContentsAtOffset(obj, offset, useCache=not isEditable)
         self.speakContents(contents, priorObj=priorObj)
+        self.pointOfReference["lastTextUnitSpoken"] = "line"
 
     def presentObject(self, obj, **args):
         if not self.utilities.inDocumentContent(obj):
@@ -1258,7 +1292,13 @@ class Script(default.Script):
         self.updateBraille(newFocus)
         orca.emitRegionChanged(newFocus, caretOffset)
 
-        if self.utilities.isContentEditableWithEmbeddedObjects(newFocus) \
+        if self._lastCommandWasMouseButton and event \
+             and event.type.startswith("object:text-caret-moved"):
+            msg = "WEB: Last input event was mouse button. Generating line contents."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
+            utterances = self.speechGenerator.generateContents(contents, priorObj=oldFocus)
+        elif self.utilities.isContentEditableWithEmbeddedObjects(newFocus) \
            and not (newFocus.getRole() == pyatspi.ROLE_TABLE_CELL and newFocus.name):
             msg = "WEB: New focus %s content editable. Generating line contents." % newFocus
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -1297,12 +1337,6 @@ class Script(default.Script):
         elif self.utilities.lastInputEventWasLineNav() and event \
              and event.type.startswith("object:children-changed"):
             msg = "WEB: Last input event was line nav and children changed. Generating line contents."
-            debug.println(debug.LEVEL_INFO, msg, True)
-            contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
-            utterances = self.speechGenerator.generateContents(contents)
-        elif self._lastCommandWasMouseButton and event \
-             and event.type.startswith("object:text-caret-moved"):
-            msg = "WEB: Last input event was mouse button. Generating line contents."
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
             utterances = self.speechGenerator.generateContents(contents)
@@ -1517,23 +1551,19 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
+        if self.utilities.eventIsBrowserUIAutocompleteNoise(event):
+            msg = "WEB: Ignoring event believed to be browser UI autocomplete noise"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
         if not self.utilities.inDocumentContent(event.source):
             msg = "WEB: Event source is not in document content"
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        obj, offset = self.utilities.getCaretContext(getZombieReplicant=False)
+        obj, offset = self.utilities.getCaretContext(getZombieReplicant=False, searchIfNeeded=False)
         msg = "WEB: Context: %s, %i (focus: %s)" % (obj, offset, orca_state.locusOfFocus)
         debug.println(debug.LEVEL_INFO, msg, True)
-
-        if not obj or self.utilities.isZombie(obj):
-            obj, offset = self.utilities.findFirstCaretContext(event.source, event.detail1)
-            if obj:
-                msg = "WEB: Event handled by updating locusOfFocus and context"
-                debug.println(debug.LEVEL_INFO, msg, True)
-                orca.setLocusOfFocus(event, obj, True)
-                self.utilities.setCaretContext(obj, offset)
-                return True
 
         if self._lastCommandWasCaretNav:
             msg = "WEB: Event ignored: Last command was caret nav"
@@ -1546,10 +1576,20 @@ class Script(default.Script):
             return True
 
         if self._lastCommandWasMouseButton:
-            if (event.source, event.detail1) == self.utilities.getCaretContext():
+            msg = "WEB: Last command was mouse button"
+            debug.println(debug.LEVEL_INFO, msg, True)
+
+            if (event.source, event.detail1) == (obj, offset):
                 msg = "WEB: Event is for current caret context."
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
+
+            if (event.source, event.detail1) == self._lastMouseButtonContext:
+                msg = "WEB: Event is for last mouse button context."
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
+
+            self._lastMouseButtonContext = event.source, event.detail1
 
             msg = "WEB: Event handled: Last command was mouse button"
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -1559,6 +1599,22 @@ class Script(default.Script):
             if orca_state.locusOfFocus == event.source:
                 self.updateBraille(event.source)
             return True
+
+        if self.utilities.lastInputEventWasTab():
+            msg = "WEB: Last input event was Tab."
+            debug.println(debug.LEVEL_INFO, msg, True)
+
+            if self.utilities.isDocument(event.source):
+                msg = "WEB: Event ignored: Caret moved in document due to Tab."
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
+
+            if event.source.getRole() == pyatspi.ROLE_ENTRY \
+               and event.source.getState().contains(pyatspi.STATE_FOCUSED) \
+               and event.source != orca_state.locusOfFocus:
+                msg = "WEB: Event ignored: Entry is not (yet) the locus of focus. Waiting for focus event."
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
 
         if self.utilities.inFindContainer():
             msg = "WEB: Event handled: Presenting find results"
@@ -1628,7 +1684,7 @@ class Script(default.Script):
         debug.println(debug.LEVEL_INFO, msg, True)
         self.utilities.setCaretContext(obj, offset)
         orca.setLocusOfFocus(event, obj, notify, force)
-        return False
+        return handled
 
     def onCheckedChanged(self, event):
         """Callback for object:state-changed:checked accessibility events."""
@@ -1669,25 +1725,33 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
+        isLiveRegion = self.utilities.isLiveRegion(event.source)
         document = self.utilities.getDocumentForObject(event.source)
-        if document:
-            msg = "WEB: Clearing structural navigation cache for %s" % document
-            debug.println(debug.LEVEL_INFO, msg, True)
-            self.structuralNavigation.clearCache(document)
+        if document and not isLiveRegion:
+            if event.source == orca_state.locusOfFocus:
+                msg = "WEB: Dumping cache and context: source is focus %s" % orca_state.locusOfFocus
+                debug.println(debug.LEVEL_INFO, msg, True)
+                self.utilities.dumpCache(document, preserveContext=False)
+            elif pyatspi.findAncestor(orca_state.locusOfFocus, lambda x: x == event.source):
+                msg = "WEB: Dumping cache: source is ancestor of focus %s" % orca_state.locusOfFocus
+                debug.println(debug.LEVEL_INFO, msg, True)
+                self.utilities.dumpCache(document, preserveContext=True)
+            else:
+                msg = "WEB: Not dumping cache. Focus is %s" % orca_state.locusOfFocus
+                debug.println(debug.LEVEL_INFO, msg, True)
         else:
             msg = "WEB: Could not get document for event source"
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        if self.utilities.handleAsLiveRegion(event):
-            msg = "WEB: Event to be handled as live region"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            self.liveRegionManager.handleEvent(event)
-            return True
-
-        if self.utilities.isLiveRegion(event.source):
-            msg = "WEB: Ignoring because live region event not to be handled."
-            debug.println(debug.LEVEL_INFO, msg, True)
+        if isLiveRegion:
+            if self.utilities.handleAsLiveRegion(event):
+                msg = "WEB: Event to be handled as live region"
+                debug.println(debug.LEVEL_INFO, msg, True)
+                self.liveRegionManager.handleEvent(event)
+            else:
+                msg = "WEB: Ignoring because live region event not to be handled."
+                debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
         if self._loadingDocumentContent:
@@ -1720,19 +1784,6 @@ class Script(default.Script):
             msg = "WEB: Event handled by updating locusOfFocus and context to child."
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
-
-        obj, offset = self.utilities.getCaretContext(getZombieReplicant=False)
-        msg = "WEB: Context: %s, %i (focus: %s)" % (obj, offset, orca_state.locusOfFocus)
-        debug.println(debug.LEVEL_INFO, msg, True)
-
-        if self.utilities.isZombie(obj):
-            obj, offset = self.utilities.searchForCaretContext(event.source)
-            if obj:
-                msg = "WEB: Event handled by updating locusOfFocus and context"
-                debug.println(debug.LEVEL_INFO, msg, True)
-                orca.setLocusOfFocus(event, obj, False)
-                self.utilities.setCaretContext(obj, offset)
-                return True
 
         childRole = event.any_data.getRole()
         if childRole == pyatspi.ROLE_ALERT:
@@ -1778,19 +1829,27 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        if self.utilities.handleEventForRemovedChild(event):
-            msg = "WEB: Event handled for removed child."
+        if self.utilities.isLiveRegion(event.source):
+            msg = "WEB: Ignoring removal from live region."
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        # TODO - JD: Handle this case.
-        if event.source == orca_state.locusOfFocus:
-            msg = "WEB: Parent is locusOfFocus."
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return False
+        document = self.utilities.getDocumentForObject(event.source)
+        if document:
+            if event.source == orca_state.locusOfFocus:
+                msg = "WEB: Dumping cache and context: source is focus %s" % orca_state.locusOfFocus
+                debug.println(debug.LEVEL_INFO, msg, True)
+                self.utilities.dumpCache(document, preserveContext=False)
+            elif pyatspi.findAncestor(orca_state.locusOfFocus, lambda x: x == event.source):
+                msg = "WEB: Dumping cache: source is ancestor of focus %s" % orca_state.locusOfFocus
+                debug.println(debug.LEVEL_INFO, msg, True)
+                self.utilities.dumpCache(document, preserveContext=True)
+            else:
+                msg = "WEB: Not dumping cache. Focus is %s" % orca_state.locusOfFocus
+                debug.println(debug.LEVEL_INFO, msg, True)
 
-        if self.utilities.isLiveRegion(event.source):
-            msg = "WEB: Ignoring removal from live region."
+        if self.utilities.handleEventForRemovedChild(event):
+            msg = "WEB: Event handled for removed child."
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -2400,6 +2459,7 @@ class Script(default.Script):
         self._lastCommandWasCaretNav = False
         self._lastCommandWasStructNav = False
         self._lastCommandWasMouseButton = False
+        self._lastMouseButtonContext = None, -1
         return False
 
     def getTransferableAttributes(self):

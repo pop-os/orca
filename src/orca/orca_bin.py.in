@@ -39,9 +39,12 @@ sys.prefix = '@prefix@'
 pythondir = '@pythondir@'.replace('${prefix}', '@prefix@')
 sys.path.insert(1, pythondir)
 
+# Do not import Orca here. It is imported in main(). The reason why is that
+# start-up failures due to imports in orca.py are not getting output, making
+# them challenging to debug when they cannot be reproduced locally.
+
 from orca import debug
 from orca import messages
-from orca import orca
 from orca import settings
 from orca.orca_platform import version
 
@@ -182,6 +185,8 @@ def inGraphicalDesktop():
 
     # TODO - JD: Make this desktop environment agnostic
     try:
+        import gi
+        gi.require_version("Gdk", "3.0")
         from gi.repository import Gdk
         display = Gdk.Display.get_default()
     except:
@@ -192,7 +197,7 @@ def inGraphicalDesktop():
 def otherOrcas():
     """Returns the pid of any other instances of Orca owned by this user."""
 
-    openFile = subprocess.Popen('pgrep -u %s orca' % os.getuid(),
+    openFile = subprocess.Popen('pgrep -u %s -x orca' % os.getuid(),
                                 shell=True,
                                 stdout=subprocess.PIPE).stdout
     pids = openFile.read()
@@ -243,11 +248,16 @@ def main():
         print(messages.CLI_NO_DESKTOP_ERROR)
         return 1
 
+    debug.println(debug.LEVEL_INFO, "INFO: Preparing to launch.", True)
+
+    from orca import orca
     manager = orca.getSettingsManager()
+
     if not manager:
         print(messages.CLI_SETTINGS_MANAGER_ERROR)
         return 1
 
+    debug.println(debug.LEVEL_INFO, "INFO: About to activate settings manager.", True)
     manager.activate(args.user_prefs, settingsDict)
     sys.path.insert(0, manager.getPrefsDir())
 
@@ -266,6 +276,7 @@ def main():
         print(messages.CLI_OTHER_ORCAS_ERROR)
         return 1
 
+    debug.println(debug.LEVEL_INFO, "INFO: About to launch Orca.", True)
     return orca.main()
 
 if __name__ == "__main__":

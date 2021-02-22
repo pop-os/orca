@@ -342,8 +342,8 @@ class Generator:
                 elif obj.parent and obj.parent.getRole() == pyatspi.ROLE_LINK:
                     link = obj.parent
                 if link:
-                    basename = self._script.utilities.linkBasename(link)
-                    if basename and basename.isalpha():
+                    basename = self._script.utilities.linkBasenameToName(link)
+                    if basename:
                         result.append(basename)
         # To make the unlabeled icons in gnome-panel more accessible.
         try:
@@ -401,11 +401,10 @@ class Generator:
         If the label cannot be found, the name will be used instead.
         If the name cannot be found, an empty array will be returned.
         """
-        result = []
-        result.extend(self._generateLabel(obj, **args))
+        result = self._generateLabel(obj, **args)
         if not result:
-            if obj.name and (len(obj.name)):
-                result.append(obj.name)
+            result = self._generateName(obj, **args)
+
         return result
 
     def _generateDescription(self, obj, **args):
@@ -1281,6 +1280,8 @@ class Generator:
         if self._script.utilities.isContentSuggestion(obj):
             return 'ROLE_CONTENT_SUGGESTION'
         if self._script.utilities.isLandmark(obj):
+            if self._script.utilities.isLandmarkRegion(obj):
+                return 'ROLE_REGION'
             return pyatspi.ROLE_LANDMARK
         if self._script.utilities.isFocusableLabel(obj):
             return pyatspi.ROLE_LIST_ITEM

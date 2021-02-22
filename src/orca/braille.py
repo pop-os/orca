@@ -31,41 +31,12 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2005-2009 Sun Microsystems Inc."
 __license__   = "LGPL"
 
+import locale
 import signal
 import os
 import re
 
 from gi.repository import GLib
-
-try:
-    import louis
-except ImportError:
-    louis = None
-
-try:
-    import brlapi
-
-    _brlAPI = None
-    _brlAPIAvailable = True
-    _brlAPIRunning = False
-    _brlAPISourceId = 0
-except:
-    _brlAPIAvailable = False
-    _brlAPIRunning = False
-
-from . import settings
-from . import settings_manager
-_settingsManager = settings_manager.getManager()
-
-try:
-    # This can fail due to gtk not being available.  We want to
-    # be able to recover from that if possible.  The main driver
-    # for this is to allow "orca --text-setup" to work even if
-    # the desktop is not running.
-    #
-    from . import brlmon
-except:
-    settings.enableBrailleMonitor = False
 
 from . import brltablenames
 from . import cmdnames
@@ -73,40 +44,69 @@ from . import debug
 from . import eventsynthesizer
 from . import logger
 from . import orca_state
+from . import settings
+from . import settings_manager
+
+from .orca_platform import tablesdir
 
 _logger = logger.getLogger()
 log = _logger.newLog("braille")
-
-# Right now, the orca autogen.sh/configure needs a priori knowledge of
-# where the liblouis tables are.  When running autogen.sh/configure,
-# orca_platform.py:tablesdir will be set to point to the liblouis table
-# location.  If not found, it will be the empty string.  We need to
-# capture that error condition, otherwise braille contraction will
-# just plain fail.  See also bgo#610134.  [[TODO: WDW - see if the
-# liblouis bindings can give us the tablesdir information at runtime
-# http://code.google.com/p/liblouis/issues/detail?id=9]]
-#
-from .orca_platform import tablesdir
-if louis and not tablesdir:
-    debug.println(debug.LEVEL_SEVERE,
-                  "Contraction tables for liblouis cannot be found.")
-    debug.println(debug.LEVEL_SEVERE,
-                  "This usually means orca was built before")
-    debug.println(debug.LEVEL_SEVERE,
-                  "liblouis was installed. Contracted braille will")
-    debug.println(debug.LEVEL_SEVERE,
-                  "not be available.")
-    louis = None
-    
-# The braille monitor
-#
 _monitor = None
+_settingsManager = settings_manager.getManager()
+
+try:
+    msg = "BRAILLE: About to import brlapi."
+    debug.println(debug.LEVEL_INFO, msg, True)
+
+    import brlapi
+    _brlAPI = None
+    _brlAPIAvailable = True
+    _brlAPIRunning = False
+    _brlAPISourceId = 0
+except:
+    msg = "BRAILLE: Could not import brlapi."
+    debug.println(debug.LEVEL_INFO, msg, True)
+    _brlAPIAvailable = False
+    _brlAPIRunning = False
+else:
+    msg = "BRAILLE: brlapi imported %s" % brlapi
+    debug.println(debug.LEVEL_INFO, msg, True)
+
+try:
+    msg = "BRAILLE: About to import louis."
+    debug.println(debug.LEVEL_INFO, msg, True)
+    import louis
+except:
+    msg = "BRAILLE: Could not import liblouis"
+    debug.println(debug.LEVEL_INFO, msg, True)
+    louis = None
+else:
+    msg = "BRAILLE: liblouis imported %s" % louis
+    debug.println(debug.LEVEL_INFO, msg, True)
+
+    msg = "BRAILLE: tables location: %s" % tablesdir
+    debug.println(debug.LEVEL_INFO, msg, True)
+
+    # TODO: Can we get the tablesdir info at runtime?
+    if not tablesdir:
+        msg = "BRAILLE: Disabling liblouis due to unknown table location." \
+              "This usually means orca was built before liblouis was installed."
+        debug.println(debug.LEVEL_INFO, msg, True)
+        louis = None
+
+try:
+    from . import brlmon
+except:
+    settings.enableBrailleMonitor = False
+
 
 # brlapi keys which are not allowed to interrupt speech:
 #
 dontInteruptSpeechKeys = []
 if _brlAPIAvailable:
-    dontInteruptSpeechKeys = [brlapi.KEY_CMD_FWINLT, brlapi.KEY_CMD_FWINRT, \
+    dontInteruptSpeechKeys = [ \
+        brlapi.KEY_CMD_HWINLT, brlapi.KEY_CMD_HWINRT, \
+        brlapi.KEY_CMD_FWINLT, brlapi.KEY_CMD_FWINRT, \
         brlapi.KEY_CMD_FWINLTSKIP, brlapi.KEY_CMD_FWINRTSKIP, \
         brlapi.KEY_CMD_LNUP, brlapi.KEY_CMD_LNDN]
 
@@ -116,8 +116,10 @@ if _brlAPIAvailable:
 command_name = {}
 
 if _brlAPIAvailable:
+    command_name[brlapi.KEY_CMD_HWINLT]     = cmdnames.BRAILLE_LINE_LEFT
     command_name[brlapi.KEY_CMD_FWINLT]     = cmdnames.BRAILLE_LINE_LEFT
     command_name[brlapi.KEY_CMD_FWINLTSKIP] = cmdnames.BRAILLE_LINE_LEFT
+    command_name[brlapi.KEY_CMD_HWINRT]     = cmdnames.BRAILLE_LINE_RIGHT
     command_name[brlapi.KEY_CMD_FWINRT]     = cmdnames.BRAILLE_LINE_RIGHT
     command_name[brlapi.KEY_CMD_FWINRTSKIP] = cmdnames.BRAILLE_LINE_RIGHT
     command_name[brlapi.KEY_CMD_LNUP]       = cmdnames.BRAILLE_LINE_UP
@@ -245,18 +247,59 @@ def listTables():
     return tables
 
 def getDefaultTable():
-    try:
-        for fname in os.listdir(tablesdir):
-            if fname[-4:] in (".utb", ".ctb"):
-                if fname.startswith("en-us"):
-                    return os.path.join(tablesdir, fname)
-    except OSError:
-        pass
+    userLocale = locale.getlocale(locale.LC_MESSAGES)[0]
+    msg = "BRAILLE: User locale is %s" % userLocale
+    debug.println(debug.LEVEL_INFO, msg, True)
 
-    return ""
+    if userLocale in (None, "C"):
+        userLocale = locale.getdefaultlocale()[0]
+        msg = "BRAILLE: Default locale is %s" % userLocale
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+    if userLocale in (None, "C"):
+        msg = "BRAILLE: Locale cannot be determined. Falling back on 'en-us'"
+        debug.println(debug.LEVEL_INFO, msg, True)
+        language = "en-us"
+    else:
+        language = "-".join(userLocale.split("_")).lower()
+
+    try:
+        tables = [x for x in os.listdir(tablesdir) if x[-4:] in (".utb", ".ctb")]
+    except OSError:
+        msg = "BRAILLE: Exception calling os.listdir for %s" % tablesdir
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return ""
+
+    # Some of the tables are probably not a good choice for default table....
+    exclude = ["interline", "mathtext"]
+
+    # Some of the tables might be a better default than others. For instance, someone who
+    # can read grade 2 braille presumably can read grade 1; the reverse is not necessarily
+    # true. Literary braille might be easier for some users to read than computer braille.
+    # We can adjust this based on user feedback, but in general the goal is a sane default
+    # for the largest group of users; not the perfect default for all users.
+    prefer = ["g1", "g2", "comp6", "comp8"]
+
+    isCandidate = lambda t: t.startswith(language) and not any(e in t for e in exclude)
+    tables = list(filter(isCandidate, tables))
+    msg = "BRAILLE: %i candidate tables for locale found: %s" % (len(tables), ", ".join(tables))
+    debug.println(debug.LEVEL_INFO, msg, True)
+
+    if not tables:
+        return ""
+
+    for p in prefer:
+        for table in tables:
+            if p in table:
+                return os.path.join(tablesdir, table)
+
+    # If we couldn't find a preferred match, just go with the first match for the locale.
+    return os.path.join(tablesdir, tables[0])
 
 if louis:
     _defaultContractionTable = getDefaultTable()
+    msg = "BRAILLE: Default contraction table is: %s" % _defaultContractionTable
+    debug.println(debug.LEVEL_INFO, msg, True)
 
 def _printBrailleEvent(level, command):
     """Prints out a Braille event.  The given level may be overridden
@@ -289,8 +332,7 @@ class Region:
             string = ""
 
         # If louis is None, then we don't go into contracted mode.
-        self.contracted = settings.enableContractedBraille and \
-                          louis is not None
+        self.contracted = settings.enableContractedBraille and louis is not None
 
         self.expandOnCursor = expandOnCursor
 
@@ -299,13 +341,23 @@ class Region:
         self.rawLine = string.strip("\n")
 
         if self.contracted:
-            self.contractionTable = settings.brailleContractionTable or \
-                                    _defaultContractionTable
+            self.contractionTable = settings.brailleContractionTable or _defaultContractionTable
+            if string.strip():
+                msg = "BRAILLE: Contracting '%s' with table %s" % (string, self.contractionTable)
+                debug.println(debug.LEVEL_INFO, msg, True)
 
             self.string, self.inPos, self.outPos, self.cursorOffset = \
                          self.contractLine(self.rawLine,
                                            cursorOffset, expandOnCursor)
         else:
+            if string.strip():
+                if not settings.enableContractedBraille:
+                    msg = "BRAILLE: Not contracting '%s' because contracted braille is not enabled." % string
+                    debug.println(debug.LEVEL_INFO, msg, True)
+                else:
+                    msg = "BRAILLE: Not contracting '%s' due to problem with liblouis." % string
+                    debug.println(debug.LEVEL_INFO, msg, True)
+
             self.string = self.rawLine
             self.cursorOffset = cursorOffset
 
@@ -395,8 +447,7 @@ class Region:
 
     def setContractedBraille(self, contracted):
         if contracted:
-            self.contractionTable = settings.brailleContractionTable or \
-                                    _defaultContractionTable
+            self.contractionTable = settings.brailleContractionTable or _defaultContractionTable
             self.contractRegion()
         else:
             self.expandRegion()
@@ -1081,15 +1132,22 @@ def setFocus(region, panToFocus=True, getLinkMask=True):
 def _idleBraille():
     """Try to hand off control to other screen readers without completely
     shutting down the BrlAPI connection"""
+
     global idle
 
     if not idle:
         try:
+            msg = "BRAILLE: Attempting to idle braille."
+            debug.println(debug.LEVEL_INFO, msg, True)
             _brlAPI.setParameter(brlapi.PARAM_CLIENT_PRIORITY, 0, False, 0)
             idle = True
         except:
-            # BrlAPI before 0.8
+            msg = "BRAILLE: Idling braille failled. This requires BrlAPI >= 0.8."
+            debug.println(debug.LEVEL_INFO, msg, True)
             pass
+        else:
+            msg = "BRAILLE: Idling braille succeeded."
+            debug.println(debug.LEVEL_INFO, msg, True)
 
     return idle
 
@@ -1114,27 +1172,45 @@ def _enableBraille():
     """Re-enable Braille output after making it idle or clearing it"""
     global idle
 
+    msg = "BRAILLE: Enabling braille. BrlAPI running: %s" % _brlAPIRunning
+    debug.println(debug.LEVEL_INFO, msg, True)
+
     if not _brlAPIRunning:
+        msg = "BRAILLE: Need to initialize first."
+        debug.println(debug.LEVEL_INFO, msg, True)
         init(_callback)
 
     if _brlAPIRunning:
         if idle:
+            msg = "BRAILLE: Is running, but idling."
+            debug.println(debug.LEVEL_INFO, msg, True)
             try:
                 # Restore default priority
+                msg = "BRAILLE: Attempting to de-idle braille."
+                debug.println(debug.LEVEL_INFO, msg, True)
                 _brlAPI.setParameter(brlapi.PARAM_CLIENT_PRIORITY, 0, False, 50)
                 idle = False
             except:
                 msg = "BRAILLE: could not restore priority"
                 debug.println(debug.LEVEL_INFO, msg, True)
+            else:
+                msg = "BRAILLE: De-idle succeeded."
+                debug.println(debug.LEVEL_INFO, msg, True)
 
 def disableBraille():
     """Hand off control to other screen readers, shutting down the BrlAPI
     connection if needed"""
+
     global idle
 
+    msg = "BRAILLE: Disabling braille. BrlAPI running: %s" % _brlAPIRunning
+    debug.println(debug.LEVEL_INFO, msg, True)
+
     if _brlAPIRunning and not idle:
-        if not _idleBraille() and \
-            not _settingsManager.getSetting('enableBraille'):
+        msg = "BRAILLE: BrlApi running and not idle."
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        if not _idleBraille() and not _settingsManager.getSetting('enableBraille'):
             # BrlAPI before 0.8 and we really want to shut down
             msg = "BRAILLE: could not go idle, completely shut down"
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -1142,6 +1218,10 @@ def disableBraille():
 
 def checkBrailleSetting():
     """Disable Braille if it got disabled in the preferences"""
+
+    msg = "BRAILLE: Checking braille setting."
+    debug.println(debug.LEVEL_INFO, msg, True)
+
     if not _settingsManager.getSetting('enableBraille'):
         disableBraille()
 
@@ -1725,25 +1805,36 @@ def setupKeyRanges(keys):
     Arguments:
     -keys: a list of BrlAPI commands.
     """
+
+    msg = "BRAILLE: Setting up key ranges."
+    debug.println(debug.LEVEL_INFO, msg, True)
+
     if not _brlAPIRunning:
         init(_callback)
+
     if not _brlAPIRunning:
+        msg = "BRAILLE: Not setting up key ranges: BrlAPI not running."
+        debug.println(debug.LEVEL_INFO, msg, True)
         return
 
-    # First, start by ignoring everything.
-    #
+    msg = "BRAILLE: Ignoring all key ranges."
+    debug.println(debug.LEVEL_INFO, msg, True)
     _brlAPI.ignoreKeys(brlapi.rangeType_all, [0])
 
-    # Next, enable cursor routing keys.
-    #
     keySet = [brlapi.KEY_TYPE_CMD | brlapi.KEY_CMD_ROUTE]
 
-    # Finally, enable the commands we care about.
-    #
+    msg = "BRAILLE: Enabling commands:"
+    debug.println(debug.LEVEL_INFO, msg, True)
+
     for key in keys:
         keySet.append(brlapi.KEY_TYPE_CMD | key)
 
+    msg = "BRAILLE: Sending keys to BrlAPI."
+    debug.println(debug.LEVEL_INFO, msg, True)
     _brlAPI.acceptKeys(brlapi.rangeType_command, keySet)
+
+    msg = "BRAILLE: Key ranges set up."
+    debug.println(debug.LEVEL_INFO, msg, True)
 
 def init(callback=None):
     """Initializes the braille module, connecting to the BrlTTY driver.
@@ -1754,6 +1845,9 @@ def init(callback=None):
     not been enabled.
     """
 
+    if not settings.enableBraille:
+        return False
+
     global _brlAPI
     global _brlAPIRunning
     global _brlAPISourceId
@@ -1761,95 +1855,112 @@ def init(callback=None):
     global _callback
     global _monitor
 
-    if _brlAPIRunning:
-        return True
+    msg = "BRAILLE: Initializing. Callback: %s" % callback
+    debug.println(debug.LEVEL_INFO, msg, True)
 
-    if not settings.enableBraille:
-        return False
+    if _brlAPIRunning:
+        msg = "BRAILLE: BrlAPI is already running."
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return True
 
     _callback = callback
 
+    msg = "BRAILLE: WINDOWPATH=%s" % os.environ.get("WINDOWPATH")
+    debug.println(debug.LEVEL_INFO, msg, True)
+
+    msg = "BRAILLE: XDG_VTNR=%s" % os.environ.get("XDG_VTNR")
+    debug.println(debug.LEVEL_INFO, msg, True)
+
     try:
+        msg = "BRAILLE: Attempting connection with BrlAPI."
+        debug.println(debug.LEVEL_INFO, msg, True)
+
         _brlAPI = brlapi.Connection()
+        msg = "BRAILLE: Connection established with BrlAPI: %s" % _brlAPI
+        debug.println(debug.LEVEL_INFO, msg, True)
 
-        try:
-            windowPath = os.environ["WINDOWPATH"]
-            _brlAPI.enterTtyModeWithPath()
-            _brlAPIRunning = True
-            debug.println(\
-                debug.LEVEL_CONFIGURATION,
-                "Braille module has been initialized using WINDOWPATH=" \
-                + "%s" % windowPath)
-        except:
-            try:
-                vtnr = os.environ["XDG_VTNR"]
-                _brlAPI.enterTtyModeWithPath()
-                _brlAPIRunning = True
-                debug.println(
-                    debug.LEVEL_CONFIGURATION,
-                    "Braille module has been initialized using XDG_VTNR=" \
-                    + "%s" % vtnr)
-            except:
-                _brlAPI.enterTtyModeWithPath()
-                _brlAPIRunning = True
-                debug.println(
-                    debug.LEVEL_CONFIGURATION,
-                    "Braille module has been initialized using no WINDOWPATH or XDG_VTNR")
+        msg = "BRAILLE: Attempting to enter TTY mode."
+        debug.println(debug.LEVEL_INFO, msg, True)
 
-        # [[[TODO: WDW - For some reason, BrlTTY wants to say the height of the
-        # Vario is 40 so we hardcode it to 1 for now.]]]
-        #
-        #_displaySize = (brl.getDisplayWidth(), brl.getDisplayHeight())
+        _brlAPI.enterTtyModeWithPath()
+        msg = "BRAILLE: TTY mode entered."
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        _brlAPIRunning = True
+
         (x, y) = _brlAPI.displaySize
+        msg = "BRAILLE: Display size: (%i,%i)" % (x, y)
+        debug.println(debug.LEVEL_INFO, msg, True)
+
         if x == 0:
-            # Braille device not plugged yet
+            msg = "BRAILLE: Error - 0 cells suggests display is not yet plugged in."
+            debug.println(debug.LEVEL_INFO, msg, True)
             raise Exception
 
         _brlAPISourceId = GLib.io_add_watch(_brlAPI.fileDescriptor,
                                             GLib.PRIORITY_DEFAULT,
                                             GLib.IO_IN,
                                             _brlAPIKeyReader)
+
     except NameError:
-        debug.println(debug.LEVEL_CONFIGURATION, "BrlApi is not defined")
+        msg = "BRAILLE: Initialization failed: BrlApi is not defined."
+        debug.println(debug.LEVEL_INFO, msg, True)
         return False
     except:
-        debug.println(debug.LEVEL_CONFIGURATION,
-                      "Could not initialize BrlTTY:")
-        debug.printException(debug.LEVEL_CONFIGURATION)
-        try:
-            _brlAPI.leaveTtyMode()
-        except:
-            pass
-        try:
-            _brlAPI.closeConnection()
-        except:
-            pass
-        _brlAPI = None
+        msg = "BRAILLE: Initialization failed."
+        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printException(debug.LEVEL_INFO)
+
         _brlAPIRunning = False
+
+        if not _brlAPI:
+            return False
+
+        try:
+            msg = "BRAILLE: Attempting to leave TTY mode."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            _brlAPI.leaveTtyMode()
+            msg = "BRAILLE: TTY mode exited."
+            debug.println(debug.LEVEL_INFO, msg, True)
+        except:
+            msg = "BRAILLE: Exception leaving TTY mode."
+            debug.println(debug.LEVEL_INFO, msg, True)
+
+        try:
+            msg = "BRAILLE: Attempting to close connection."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            _brlAPI.closeConnection()
+            msg = "BRAILLE: Connection closed."
+            debug.println(debug.LEVEL_INFO, msg, True)
+        except:
+            msg = "BRAILLE: Exception closing connection."
+            debug.println(debug.LEVEL_INFO, msg, True)
+
+        _brlAPI = None
         return False
 
     _displaySize = [x, 1]
     idle = False
 
     # The monitor will be created in refresh if needed.
-    #
     if _monitor:
         _monitor.destroy()
         _monitor = None
 
-    debug.println(debug.LEVEL_CONFIGURATION,
-                  "braille display size = (%d, %d)" \
-                  % (_displaySize[0], _displaySize[1]))
-
     clear()
     refresh(True)
 
+    msg = "BRAILLE: Initialized"
+    debug.println(debug.LEVEL_INFO, msg, True)
     return True
 
 def shutdown():
     """Shuts down the braille module.   Returns True if the shutdown procedure
     was run.
     """
+
+    msg = "BRAILLE: Attempting braille shutdown."
+    debug.println(debug.LEVEL_INFO, msg, True)
 
     global _brlAPI
     global _brlAPIRunning
@@ -1859,22 +1970,46 @@ def shutdown():
 
     if _brlAPIRunning:
         _brlAPIRunning = False
+
+        msg = "BRAILLE: Removing BrlAPI Source ID."
+        debug.println(debug.LEVEL_INFO, msg, True)
+
         GLib.source_remove(_brlAPISourceId)
         _brlAPISourceId = 0
+
         try:
+            msg = "BRAILLE: Attempting to leave TTY mode."
+            debug.println(debug.LEVEL_INFO, msg, True)
             _brlAPI.leaveTtyMode()
         except:
-            pass
+            msg = "BRAILLE: Exception leaving TTY mode."
+            debug.println(debug.LEVEL_INFO, msg, True)
+        else:
+            msg = "BRAILLE: Leaving TTY mode succeeded."
+            debug.println(debug.LEVEL_INFO, msg, True)
+
         try:
+            msg = "BRAILLE: Attempting to close connection."
+            debug.println(debug.LEVEL_INFO, msg, True)
             _brlAPI.closeConnection()
         except:
-            pass
+            msg = "BRAILLE: Exception closing connection."
+            debug.println(debug.LEVEL_INFO, msg, True)
+        else:
+            msg = "BRAILLE: Closing connection succeeded."
+            debug.println(debug.LEVEL_INFO, msg, True)
+
         _brlAPI = None
+
         if _monitor:
             _monitor.destroy()
             _monitor = None
         _displaySize = [DEFAULT_DISPLAY_SIZE, 1]
     else:
+        msg = "BRAILLE: Braille was not running."
+        debug.println(debug.LEVEL_INFO, msg, True)
         return False
 
+    msg = "BRAILLE: Braille shutdown complete."
+    debug.println(debug.LEVEL_INFO, msg, True)
     return True

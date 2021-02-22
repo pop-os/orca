@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="el">
   <info>
-    <title type="link">Ηχώ πλήκτρου</title>
-    <title type="sort">4. Ηχώ πλήκτρου</title>
+    <title type="link">Echo</title>
+    <title type="sort">4. Echo</title>
     <desc>Ρύθμιση της εκφώνησης κατά την πληκτρολόγηση</desc>
     <link type="guide" xref="preferences#orca"/>
     <link type="next" xref="preferences_key_bindings"/>
@@ -20,7 +20,7 @@
       <mal:years>2012-2015</mal:years>
     </mal:credit>
   </info>
-  <title>Προτιμήσεις ηχούς πλήκτρου</title>
+  <title>Echo Preferences</title>
   <section id="keyecho">
     <title>Ενεργοποίηση ηχούς πλήκτρου</title>
     <p>Η ηχώ πλήκτρου του Orca ορίζει ελέγχους που συμβαίνουν κάθε φορά που πατάτε ένα πλήκτρο. Για ενεργοποίηση της ηχούς πλήκτρου, σημειώστε το πλαίσιο ελέγχου "ενεργοποίηση ηχούς πλήκτρου". Κάνοντας το, γίνονται πρόσθετα πλαίσια ελέγχου διαθέσιμα μέσα από τα οποία μπορείτε να επιλέξτε ακριβώς ποια πλήκτρα θα πρέπει να ηχήσουν για βέλτιστη προσαρμογή στις ανάγκες σας.</p>

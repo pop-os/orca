@@ -16,8 +16,17 @@
   <title>Uvod v možnosti <app>Orke</app>.</title>
   <section id="orca">
     <title>Možnosti Orke</title>
-    <p>Možnosti Orke vam omogočajo prilagajanje zmožnosti v <app>Orki</app>, ki so uveljavljene za vse programe. Primer možnosti Orke je odmev tipk, ker je odmev tipk uveljavljen za vse programe. </p>
-    <p>Možnosti Orke lahko prilagodite za posamezen program. Tako lahko na primer nastavitev privzeti odmev tipk na besede in nato nastavite odmev tipk za Pidgin na brez. V tem primeru bo <app>Orka</app> odmevala vse napisane besede razen besed napisanih v Pidginu.</p>
+    <p>
+      Orca preferences allow you to customize functionality in <app>Orca</app>
+      which applies to all applications. An example of an Orca preference is
+      echo because echo is something that applies to all applications.
+    </p>
+    <p>
+      Note that Orca preferences can be customized on an application-by-application
+      basis. For instance you can set the default echo to words and then
+      set the echo for Pidgin to be none. Having done so, <app>Orca</app>
+      would always echo each word that you typed, unless you were in Pidgin.
+    </p>
     <note style="tip">
       <title>Tipkovne bližnjice za vstop v pogovorno okno možnosti</title>
       <list>

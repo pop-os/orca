@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="es">
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_web" xml:lang="es">
   <info>
     <link type="guide" xref="preferences#application"/>
     <link type="next" xref="preferences_table_navigation"/>
-    <title type="sort">1. Navegación Gecko</title>
-    <title type="link">Navegación Gecko</title>
-    <desc>Configurar el soporte de <app>Orca</app> para <app>Firefox</app> y <app>Thunderbird</app></desc>
+    <title type="sort">1. Web Navigation</title>
+    <title type="link">Web Navigation</title>
+    <desc>
+      Configuring <app>Orca</app>'s support for <app>Firefox</app>,
+      <app>Thunderbird</app>, and <app>Chrome</app>/<app>Chromium</app>
+    </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -26,13 +29,18 @@
       <mal:years>2011</mal:years>
     </mal:credit>
   </info>
-  <title>Preferencias de la navegación Gecko</title>
+  <title>Web Navigation Preferences</title>
   <section id="page_navigation">
     <title>Navegación por páginas</title>
     <p>El grupo de controles <gui>Navegación por páginas</gui> le permite personalizar cómo se presenta <app>Orca</app>, y le permite interactuar con el texto y otros contenidos.</p>
     <section id="page_navigation_control_caret">
       <title>Controlar la navegación de cursor</title>
-      <p>Esta casilla activa o desactiva la navegación de cursor de <app>Orca</app>. Cuando está activada, <app>Orca</app> toma el control del cursor a mientras se mueve por una página; cuando está desactivada, la navegación del cursor nativa de Gecko está activa.</p>
+      <p>
+        This checkbox toggles <app>Orca</app>'s caret navigation on and off.
+        When it is on, <app>Orca</app> takes control of the caret as you arrow
+        around within a page; when it is off, the browser's native caret navigation is
+        active.
+      </p>
       <p>Valor predeterminado: marcado</p>
       <note style="tip">
         <title>Esta configuración se puede cambiar al vuelo</title>
@@ -61,6 +69,23 @@
       <title>Modo de foco automático durante la navegación estructural</title>
       <p>Si esta casilla está marcada, <app>Orca</app> activará automáticamente el modo foco cuando use los comandos de navegación estructural para navegar al campo de un formulario. Por ejemplo, al pulsar la tecla <key>E</key> para moverse a la siguiente entrada se moverá el foco y se activará el modo foco, por lo que la siguiente pulsación de la tecla <key>E</key> escribirá una «e» en la entrada. Si esta casilla no está marcada <app>Orca</app> permanecerá en modo navegación, y la siguiente pulsación de la tecla <key>E</key> le moverá a la siguiente entrada en la página.</p>
       <p>Valor predeterminado: no marcado</p>
+      <note style="tip">
+        <title>Cambiar manualmente entre modo navegación y modo foco</title>
+        <p>Para iniciar o detener la interacción con el campo del formulario que tiene el foco, use <keyseq><key>Modificador de Orca</key><key>A</key></keyseq> para cambiar entre el modo navegación y el modo foco.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_native">
+      <title>Automatic focus mode during native navigation</title>
+      <p>
+        If this checkbox is checked, <app>Orca</app> will automatically turn on
+        focus mode when you use native browser navigation commands to navigate to a
+        form field. For example, pressing <key>Tab</key> to move to the next entry
+        would move focus there and also turn focus mode on so that your next press
+        of <key>E</key> would type an "e" into that entry. If this checkbox is not
+        checked, then <app>Orca</app> will leave you in browse mode and your next
+        press of <key>E</key> would move you to the next entry on the page.
+      </p>
+      <p>Valor predeterminado: marcado</p>
       <note style="tip">
         <title>Cambiar manualmente entre modo navegación y modo foco</title>
         <p>Para iniciar o detener la interacción con el campo del formulario que tiene el foco, use <keyseq><key>Modificador de Orca</key><key>A</key></keyseq> para cambiar entre el modo navegación y el modo foco.</p>

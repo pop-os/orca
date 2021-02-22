@@ -26,7 +26,15 @@
     </mal:credit>
   </info>
   <title>Bloq Mayús en distribución de portátil</title>
-  <p>Orca tiene dos distribuciones de teclado: escritorio y portátil. La distribución que elija afecta a qué tecla se usa como «modificador de Orca». Si está usando la distribución de portátil, el «modificador de Orca» predeterminado será <key>Bloq Mayús</key>. Si está usando la distribución de escritorio, y quiere bloquear o desbloquear el <key>Bloq Mayús</key>, puede hacerlo bien pulsando <key>Bloq Mayús</key> dos veces (requiere at-spi2 2.32 . superior) o siguiendo estos pasos:</p>
+  <p>
+    Orca has two keyboard layouts: Desktop and Laptop. The layout you choose
+    impacts which key is used as the Orca Modifier. If you are using the Laptop
+    layout, the default Orca Modifier will be <key>CapsLock</key>. If you are
+    using <app>Orca</app>'s Laptop Layout and want to lock or unlock
+    <key>CapsLock</key>, you can do so by either pressing <key>CapsLock</key>
+    twice (requires at-spi2 version 2.32 or later), or by performing the
+    following steps:
+  </p>
   <steps>
     <title>Alternar el «Bloq Mayús» en la distribución de portátil</title>
     <item>

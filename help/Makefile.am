@@ -45,7 +45,7 @@ HELP_FILES = \
 	introduction.page \
 	preferences_braille.page \
 	preferences_chat.page \
-	preferences_gecko.page \
+	preferences_web.page \
 	preferences_general.page \
 	preferences_introduction.page \
 	preferences_key_bindings.page \
@@ -58,4 +58,4 @@ HELP_FILES = \
 	preferences_text_attributes.page \
 	preferences_voice.page
 
-HELP_LINGUAS = bg cs de el es fr gl hu pt_BR sl sv uk
+HELP_LINGUAS = bg cs de el es fr gl hu id pt_BR sl sv uk
