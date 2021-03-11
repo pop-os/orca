@@ -3,12 +3,9 @@
   <info>
     <link type="guide" xref="preferences#application"/>
     <link type="next" xref="preferences_table_navigation"/>
-    <title type="sort">1. Web Navigation</title>
-    <title type="link">Web Navigation</title>
-    <desc>
-      Configuring <app>Orca</app>'s support for <app>Firefox</app>,
-      <app>Thunderbird</app>, and <app>Chrome</app>/<app>Chromium</app>
-    </desc>
+    <title type="sort">1. Web-Navigation</title>
+    <title type="link">Web-Navigation</title>
+    <desc>Einstellungen der <app>Orca</app>-Unterstützung für <app>Firefox</app>, <app>Thunderbird</app> und <app>Chrome</app>/<app>Chromium</app></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -20,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Mario Blättermann</mal:name>
       <mal:email>mario.blaettermann@gmail.com</mal:email>
-      <mal:years>2011, 2012</mal:years>
+      <mal:years>2011, 2012, 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -41,18 +38,13 @@
       <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
-  <title>Web Navigation Preferences</title>
+  <title>Einstellungen für Web-Navigation</title>
   <section id="page_navigation">
     <title>Seitennavigation</title>
     <p>Die Einstellungen zur <gui>Seitennavigation</gui> ermöglichen Ihnen anzupassen, wie <app>Orca</app> Ihnen Text und anderen Inhalt vorliest und erlaubt, damit zu interagieren.</p>
     <section id="page_navigation_control_caret">
       <title>Caret-Navigation verwenden</title>
-      <p>
-        This checkbox toggles <app>Orca</app>'s caret navigation on and off.
-        When it is on, <app>Orca</app> takes control of the caret as you arrow
-        around within a page; when it is off, the browser's native caret navigation is
-        active.
-      </p>
+      <p>Dieses Ankreuzfeld schaltet <app>Orca</app>s Caret-Navigation ein oder aus. Ist sie eingeschaltet, übernimmt <app>Orca</app> die Kontrolle über den Textcursor, während Sie sich auf einer Seite bewegen; ist sie ausgeschaltet, übernimmt die native Caret-Navigation des Browsers.</p>
       <p>Vorgabewert: aktiviert</p>
       <note style="tip">
         <title>Diese Einstellung kann im laufenden Betrieb ein-/ausgeschaltet werden</title>
@@ -87,16 +79,8 @@
        </note>
     </section>
     <section id="page_navigation_focus_native">
-      <title>Automatic focus mode during native navigation</title>
-      <p>
-        If this checkbox is checked, <app>Orca</app> will automatically turn on
-        focus mode when you use native browser navigation commands to navigate to a
-        form field. For example, pressing <key>Tab</key> to move to the next entry
-        would move focus there and also turn focus mode on so that your next press
-        of <key>E</key> would type an "e" into that entry. If this checkbox is not
-        checked, then <app>Orca</app> will leave you in browse mode and your next
-        press of <key>E</key> would move you to the next entry on the page.
-      </p>
+      <title>Automatischer Fokus-Modus während der nativen Navigation</title>
+      <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> automatisch den Fokus-Modus einschalten, wenn Sie sich mittels nativer Navigation des Browsers in ein Formularfeld bewegen. Durch Drücken der <key>Tabulatortaste</key> könnten Sie beispielsweise einen Eintrag betreten und den Fokus dorthin bewegen; dadurch würden Sie in den Fokus-Modus wechseln, sodass nachfolgendes Drücken von <key>E</key> ein »e« in den Eintrag einfügen würde. Ist dieses Feld nicht angekreuzt, würde <app>Orca</app> Sie im Stöbern-Modus verbleiben lassen, und der nächste Druck von <key>E</key> würde Sie zum nächsten Eintrag führen.</p>
       <p>Vorgabewert: aktiviert</p>
       <note style="tip">
         <title>Manuell zwischen Stöbern-Modus und Fokussieren-Modus wechseln</title>

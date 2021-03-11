@@ -2114,6 +2114,13 @@ class Utilities:
            and not self.isInOpenMenuBarMenu(root):
             return [root]
 
+        if role == pyatspi.ROLE_FILLER and not root.childCount:
+            msg = "INFO: %s is empty filler. Clearing cache." % root
+            debug.println(debug.LEVEL_INFO, msg, True)
+            root.clearCache()
+            msg = "INFO: %s reports %i children" % (root, root.childCount)
+            debug.println(debug.LEVEL_INFO, msg, True)
+
         if extents is None:
             try:
                 component = root.queryComponent()
@@ -2250,7 +2257,8 @@ class Utilities:
         start = time.time()
         items = self._script.pointOfReference.get('statusBarItems')
         if not items:
-            items = self.getOnScreenObjects(obj)
+            include = lambda x: x and x.getRole() != pyatspi.ROLE_STATUS_BAR
+            items = list(filter(include, self.getOnScreenObjects(obj)))
             self._script.pointOfReference['statusBarItems'] = items
 
         end = time.time()
@@ -2333,7 +2341,7 @@ class Utilities:
 
         stopAtRoles = self._topLevelRoles()
 
-        while obj and obj.parent \
+        while obj and obj.parent and obj != obj.parent \
               and not obj.getRole() in stopAtRoles \
               and not obj.parent.getRole() == pyatspi.ROLE_APPLICATION:
             obj = obj.parent
@@ -4927,6 +4935,8 @@ class Utilities:
         return False
 
     def findReplicant(self, root, obj):
+        msg = "INFO: Searching for replicant for %s in %s" % (obj, root)
+        debug.println(debug.LEVEL_INFO, msg, True)
         if not (root and obj):
             return None
 

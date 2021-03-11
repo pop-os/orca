@@ -1021,7 +1021,7 @@ class Script(default.Script):
             super().updateBraille(obj, **args)
             return
 
-        obj, offset = self.utilities.getCaretContext(documentFrame=None)
+        obj, offset = self.utilities.getCaretContext(documentFrame=None, getZombieReplicant=True)
         if offset > 0 and isContentEditable:
             text = self.utilities.queryNonEmptyText(obj)
             if text:
@@ -1299,6 +1299,7 @@ class Script(default.Script):
             contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
             utterances = self.speechGenerator.generateContents(contents, priorObj=oldFocus)
         elif self.utilities.isContentEditableWithEmbeddedObjects(newFocus) \
+           and (self._lastCommandWasCaretNav or self._lastCommandWasStructNav) \
            and not (newFocus.getRole() == pyatspi.ROLE_TABLE_CELL and newFocus.name):
             msg = "WEB: New focus %s content editable. Generating line contents." % newFocus
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -1732,6 +1733,10 @@ class Script(default.Script):
                 msg = "WEB: Dumping cache and context: source is focus %s" % orca_state.locusOfFocus
                 debug.println(debug.LEVEL_INFO, msg, True)
                 self.utilities.dumpCache(document, preserveContext=False)
+            elif self.utilities.isDead(orca_state.locusOfFocus):
+                msg = "WEB: Dumping cache: dead focus %s" % orca_state.locusOfFocus
+                debug.println(debug.LEVEL_INFO, msg, True)
+                self.utilities.dumpCache(document, preserveContext=True)
             elif pyatspi.findAncestor(orca_state.locusOfFocus, lambda x: x == event.source):
                 msg = "WEB: Dumping cache: source is ancestor of focus %s" % orca_state.locusOfFocus
                 debug.println(debug.LEVEL_INFO, msg, True)
@@ -1840,6 +1845,10 @@ class Script(default.Script):
                 msg = "WEB: Dumping cache and context: source is focus %s" % orca_state.locusOfFocus
                 debug.println(debug.LEVEL_INFO, msg, True)
                 self.utilities.dumpCache(document, preserveContext=False)
+            elif self.utilities.isDead(orca_state.locusOfFocus):
+                msg = "WEB: Dumping cache: dead focus %s" % orca_state.locusOfFocus
+                debug.println(debug.LEVEL_INFO, msg, True)
+                self.utilities.dumpCache(document, preserveContext=True)
             elif pyatspi.findAncestor(orca_state.locusOfFocus, lambda x: x == event.source):
                 msg = "WEB: Dumping cache: source is ancestor of focus %s" % orca_state.locusOfFocus
                 debug.println(debug.LEVEL_INFO, msg, True)
@@ -2357,7 +2366,11 @@ class Script(default.Script):
         self.utilities.clearContentCache()
 
         document = self.utilities.getDocumentForObject(event.source)
-        if document:
+        if self.utilities.isDead(orca_state.locusOfFocus):
+            msg = "WEB: Dumping cache: dead focus %s" % orca_state.locusOfFocus
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self.utilities.dumpCache(document, preserveContext=True)
+        else:
             msg = "WEB: Clearing structural navigation cache for %s" % document
             debug.println(debug.LEVEL_INFO, msg, True)
             self.structuralNavigation.clearCache(document)
