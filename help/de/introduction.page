@@ -16,7 +16,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Mario Blättermann</mal:name>
       <mal:email>mario.blaettermann@gmail.com</mal:email>
-      <mal:years>2011, 2012</mal:years>
+      <mal:years>2011, 2012, 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -39,13 +39,7 @@
   </info>
   <title>Willkommen bei Orca</title>
   <p><app>Orca</app> ist ein kostenloser, quelloffener, flexibler und erweiterbarer Bildschirmleser, der Zugriff auf die grafische Arbeitsumgebung über Sprache und Braillezeile bietet.</p>
-  <p>
-    <app>Orca</app> works with applications and toolkits that support
-    the Assistive Technology Service Provider Interface (AT-SPI), which
-    is the primary assistive technology infrastructure for Linux and
-    Solaris. Applications and toolkits supporting the AT-SPI include
-    Gtk+, Qt, Java Swing, LibreOffice, Gecko, WebKitGtk, and Chrome/Chromium.
-  </p>
+  <p><app>Orca</app> funktioniert bei Anwendungen und Toolkits, die das »Assistive Technology Service Provider Interface« (AT-SPI) unterstützen, das die wichtigste Infrastruktur für Hilfstechnologien in Linux und Solaris darstellt. Zu den Anwendungen und Toolkits, die das AT-SPI unterstützen, gehören GTK+, Qt, Java Swing, LibreOffice, Gecko, WebKitGTK und Chrome/Chromium.</p>
   <section id="launching">
     <title><app>Orca</app> starten</title>
     <p>So starten Sie <app>Orca</app>:</p>

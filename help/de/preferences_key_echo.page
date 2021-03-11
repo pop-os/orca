@@ -17,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Mario Blättermann</mal:name>
       <mal:email>mario.blaettermann@gmail.com</mal:email>
-      <mal:years>2011, 2012</mal:years>
+      <mal:years>2011, 2012, 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -38,7 +38,7 @@
       <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
-  <title>Echo Preferences</title>
+  <title>Echo-Einstellungen</title>
   <section id="keyecho">
     <title>Tastaturecho aktivieren</title>
     <p>Orcas Einstellung zum Tastaturecho beeinflusst, was passiert, wenn Sie eine Taste drücken. Um das Tastaturecho zu aktivieren, kreuzen Sie die Box »Tastaturecho aktivieren« an. Hierbei werden weitere Ankreuzfelder zur Verfügung gestellt, mit denen Sie genau auswählen können, welche Tasten beim Drücken vorgelesen oder nicht vorgelesen werden sollen.</p>
