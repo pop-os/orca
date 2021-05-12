@@ -104,7 +104,13 @@
     </section>
     <section id="flashMessageSettings_detailed">
       <title>Les messages sont détaillés</title>
-      <p>Si <gui>Les messages sont détaillés</gui> est coché, <app>Orca</app> présentera des messages détaillés en braille. Par exemple, si vous utilisez la commande d’<app>Orca</app> pour modifier l’écho des touches, <app>Orca</app> pourrait afficher « écho de touche défini par mot ». Si vous préférez des messages plus courts, comme par exemple « mot », vous devriez décocher cette case.</p>
+      <p>
+        If <gui>Messages are detailed</gui> is checked, <app>Orca</app> will
+        present detailed messages to you in braille. For instance, if you
+        use <app>Orca</app>'s command to change echo, <app>Orca</app> might
+        display "Echo set to word." If you would prefer shorter messages,
+        such as simply "word," you should uncheck this checkbox.
+      </p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="flashMessageSettings_persistent">

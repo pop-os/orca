@@ -2,7 +2,7 @@
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_text_attributes" xml:lang="de">
   <info>
     <link type="guide" xref="preferences#orca"/>
-    <link type="next" xref="preferences_gecko"/>
+    <link type="next" xref="preferences_web"/>
     <link type="seealso" xref="howto_text_attributes"/>
     <title type="sort">8. Textattribute</title>
     <title type="link">Textattribute</title>
@@ -18,7 +18,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Mario Blättermann</mal:name>
       <mal:email>mario.blaettermann@gmail.com</mal:email>
-      <mal:years>2011, 2012</mal:years>
+      <mal:years>2011, 2012, 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">

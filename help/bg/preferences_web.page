@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="bg">
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_web" xml:lang="bg">
   <info>
     <link type="guide" xref="preferences#application"/>
     <link type="next" xref="preferences_table_navigation"/>
-    <title type="sort">1. Придвижване в Gecko</title>
-    <title type="link">Придвижване в Gecko</title>
-    <desc>Настройка на поддръжката на <app>Orca</app> за <app>Firefox</app> и <app>Thunderbird</app></desc>
+    <title type="sort">1. Web Navigation</title>
+    <title type="link">Web Navigation</title>
+    <desc>
+      Configuring <app>Orca</app>'s support for <app>Firefox</app>,
+      <app>Thunderbird</app>, and <app>Chrome</app>/<app>Chromium</app>
+    </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -26,13 +29,18 @@
       <mal:years>2016</mal:years>
     </mal:credit>
   </info>
-  <title>Настройки на придвижването в Gecko</title>
+  <title>Web Navigation Preferences</title>
   <section id="page_navigation">
     <title>Придвижване в страниците</title>
     <p>Групата графични обекти <gui>Придвижване в страниците</gui> позволява настройката на начина по който <app>Orca</app> ви представя и ви позволява да си взаимодействате с текста и другото съдържание.</p>
     <section id="page_navigation_control_caret">
       <title>Придвижване с курсора на Orca</title>
-      <p>Това поле за отметка превключва придвижването с курсора на <app>Orca</app>. Когато има отметка, <app>Orca</app> ще управлява курсора докато се придвижвате в страниците. Ако е изключена, ще се използва вграденото придвижване с курсора на Gecko.</p>
+      <p>
+        This checkbox toggles <app>Orca</app>'s caret navigation on and off.
+        When it is on, <app>Orca</app> takes control of the caret as you arrow
+        around within a page; when it is off, the browser's native caret navigation is
+        active.
+      </p>
       <p>Стойност по подразбиране: с отметка</p>
       <note style="tip">
         <title>Тази настройка може да бъде превключвана в движение</title>
@@ -61,6 +69,23 @@
       <title>Режим на автоматичен фокус при придвижване по структура</title>
       <p>Ако това поле е отметнато, <app>Orca</app> автоматично ще превключва към режим на взаимодействие след придвижване по структурата до поле във формуляр. Например, натискането на <key>E</key>, за да се придвижите до следващото поле, ще включва режима на взаимодействие и следващото натискане на <key>E</key> ще въведе „e“ в полето. Ако това поле не е отметнато, <app>Orca</app> ще остава в режим на четене и следващото натискане на <key>E</key> ще ви придвижи до следващото поле на страницата.</p>
       <p>Стойност по подразбиране: без отметка</p>
+      <note style="tip">
+        <title>Ръчно превключване между режимите на четене и взаимодействие</title>
+        <p>За да започнете или да спрете работата по поле във формуляр, натиснете <keyseq><key>Orca Modifier</key><key>A</key></keyseq>, за да превключите между режимите на четене и взаимодействие.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_native">
+      <title>Automatic focus mode during native navigation</title>
+      <p>
+        If this checkbox is checked, <app>Orca</app> will automatically turn on
+        focus mode when you use native browser navigation commands to navigate to a
+        form field. For example, pressing <key>Tab</key> to move to the next entry
+        would move focus there and also turn focus mode on so that your next press
+        of <key>E</key> would type an "e" into that entry. If this checkbox is not
+        checked, then <app>Orca</app> will leave you in browse mode and your next
+        press of <key>E</key> would move you to the next entry on the page.
+      </p>
+      <p>Стойност по подразбиране: с отметка</p>
       <note style="tip">
         <title>Ръчно превключване между режимите на четене и взаимодействие</title>
         <p>За да започнете или да спрете работата по поле във формуляр, натиснете <keyseq><key>Orca Modifier</key><key>A</key></keyseq>, за да превключите между режимите на четене и взаимодействие.</p>

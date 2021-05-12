@@ -85,7 +85,13 @@
     </section>
     <section id="flashMessageSettings_detailed">
       <title>Подробни съобщения</title>
-      <p>Ако <gui>Подробни съобщения</gui> е отметнато, <app>Orca</app> ще извежда детайлни съобщения по брайл. Например, ако използвате командата на <app>Orca</app> за смяна на прочитането на клавиши, <app>Orca</app> ще произнесе „Прочитане по клавиши“. Ако предпочитате кратки съобщения като „по думи“, настройката трябва да не е отметната.</p>
+      <p>
+        If <gui>Messages are detailed</gui> is checked, <app>Orca</app> will
+        present detailed messages to you in braille. For instance, if you
+        use <app>Orca</app>'s command to change echo, <app>Orca</app> might
+        display "Echo set to word." If you would prefer shorter messages,
+        such as simply "word," you should uncheck this checkbox.
+      </p>
       <p>Стойност по подразбиране: с отметка</p>
     </section>
     <section id="flashMessageSettings_persistent">

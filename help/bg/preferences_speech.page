@@ -120,7 +120,13 @@
     </section>
     <section id="system_messages_are_detailed">
       <title>Подробни системни съобщения</title>
-      <p>Ако <gui>Подробни системни съобщения</gui> е отметнато, <app>Orca</app> ще прочита детайлни съобщения. Например, ако използвате командата на <app>Orca</app> за смяна на прочитането на клавиши, <app>Orca</app> ще произнесе „Прочитане по клавиши“. Ако предпочитате кратки съобщения като „по думи“, настройката трябва да не е отметната.</p>
+      <p>
+        If <gui>System messages are detailed</gui> is checked, <app>Orca</app> will
+        present detailed messages to you in speech. For instance, if you use
+        <app>Orca</app>'s command to change echo, <app>Orca</app> might
+        speak "Echo set to word." If you would prefer shorter messages,
+        such as simply "word," you should uncheck this checkbox.
+      </p>
       <p>Стойност по подразбиране: с отметка</p>
     </section>
     <section id="speak_colors_as_names">

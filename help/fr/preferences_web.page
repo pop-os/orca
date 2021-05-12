@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="fr">
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_web" xml:lang="fr">
   <info>
     <link type="guide" xref="preferences#application"/>
     <link type="next" xref="preferences_table_navigation"/>
-    <title type="sort">1. Navigation Gecko</title>
-    <title type="link">Navigation Gecko</title>
-    <desc>Configurer la prise en charge de <app>Firefox</app> et <app>Thunderbird</app> par <app>Orca</app></desc>
+    <title type="sort">1. Web Navigation</title>
+    <title type="link">Web Navigation</title>
+    <desc>
+      Configuring <app>Orca</app>'s support for <app>Firefox</app>,
+      <app>Thunderbird</app>, and <app>Chrome</app>/<app>Chromium</app>
+    </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -50,13 +53,18 @@
       <mal:years>2020</mal:years>
     </mal:credit>
   </info>
-  <title>Préférences de navigation Gecko</title>
+  <title>Web Navigation Preferences</title>
   <section id="page_navigation">
     <title>Navigation à travers la page</title>
     <p>Le groupement de contrôles <gui>Navigation à travers la page</gui> vous permet de personnaliser comment <app>Orca</app> prononce et vous permet d’interagir avec le texte et d’autres types de contenu.</p>
     <section id="page_navigation_control_caret">
       <title>Contrôler la navigation au curseur d’Orca</title>
-      <p>Cette case à cocher bascule la navigation au curseur d’<app>Orca</app>. Quand elle est activée, Orca prend le contrôle du curseur lorsque vous vous déplacez dans la page ; quand elle est désactivée, la navigation au curseur native de Gecko est active.</p>
+      <p>
+        This checkbox toggles <app>Orca</app>'s caret navigation on and off.
+        When it is on, <app>Orca</app> takes control of the caret as you arrow
+        around within a page; when it is off, the browser's native caret navigation is
+        active.
+      </p>
       <p>Valeur par défaut : cochée</p>
       <note style="tip">
         <title>Ce paramètre peut être activé à la volée</title>
@@ -85,6 +93,23 @@
       <title>Mode focus automatique durant la navigation par structure</title>
       <p>Si cette case est cochée, <app>Orca</app> active automatiquement le mode focus lorsque vous utilisez des commandes de navigation par structure pour naviguer vers un champ de formulaire. Par exemple, appuyer sur <key>E</key> pour passer à la saisie suivante déplacera le focus à cet endroit et activera aussi le mode focus afin que le prochain appui sur <key>E</key> écrive un caractère « e » dans le champ de saisie. Si cette case n’est pas cochée, <app>Orca</app> reste en mode navigation et le prochain appui sur <key>E</key> vous fera passer à la zone de saisie suivante de la page.</p>
       <p>Valeur par défaut : non cochée</p>
+      <note style="tip">
+        <title>Basculement automatique entre les modes navigation et focus</title>
+        <p>Afin de démarrer ou d’arrêter l’interaction avec un champ de formulaire ayant le focus, utilisez <keyseq><key>Touche de modification d’Orca</key><key>A</key></keyseq> pour basculer entre les modes navigation et focus.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_native">
+      <title>Automatic focus mode during native navigation</title>
+      <p>
+        If this checkbox is checked, <app>Orca</app> will automatically turn on
+        focus mode when you use native browser navigation commands to navigate to a
+        form field. For example, pressing <key>Tab</key> to move to the next entry
+        would move focus there and also turn focus mode on so that your next press
+        of <key>E</key> would type an "e" into that entry. If this checkbox is not
+        checked, then <app>Orca</app> will leave you in browse mode and your next
+        press of <key>E</key> would move you to the next entry on the page.
+      </p>
+      <p>Valeur par défaut : cochée</p>
       <note style="tip">
         <title>Basculement automatique entre les modes navigation et focus</title>
         <p>Afin de démarrer ou d’arrêter l’interaction avec un champ de formulaire ayant le focus, utilisez <keyseq><key>Touche de modification d’Orca</key><key>A</key></keyseq> pour basculer entre les modes navigation et focus.</p>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="bg">
   <info>
-    <title type="link">Прочитане на клавиши</title>
-    <title type="sort">4. Прочитане на клавиши</title>
+    <title type="link">Echo</title>
+    <title type="sort">4. Echo</title>
     <desc>Настройка на това което се изговаря при натискане на клавиши</desc>
     <link type="guide" xref="preferences#orca"/>
     <link type="next" xref="preferences_key_bindings"/>
@@ -26,7 +26,7 @@
       <mal:years>2016</mal:years>
     </mal:credit>
   </info>
-  <title>Настройки на изговарянето на натиснатите клавиши</title>
+  <title>Echo Preferences</title>
   <section id="keyecho">
     <title>Включване на прочитането на клавишите</title>
     <p>Настройката за прочитането на клавишите на Orca определя какво се случва когато натиснете клавиш. За да включите изговарянето на натиснатите клавиши, сложете отметка в полето „Включване на прочитане на клавиши“. Това действие води до появата на допълнителни полета за отметка чрез които може да избирате точно кои клавиши трябва да бъдат изговаряни и кои не, за да се постигне максимален комфорт.</p>

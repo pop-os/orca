@@ -2,7 +2,7 @@
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_text_attributes" xml:lang="gl">
   <info>
     <link type="guide" xref="preferences#orca"/>
-    <link type="next" xref="preferences_gecko"/>
+    <link type="next" xref="preferences_web"/>
     <link type="seealso" xref="howto_text_attributes"/>
     <title type="sort">8. Atributos de texto</title>
     <title type="link">Text Attributes</title>

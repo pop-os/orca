@@ -937,6 +937,12 @@ class Utilities:
     def isFigure(self, obj):
         return False
 
+    def isGrid(self, obj):
+        return False
+
+    def isGridCell(self, obj):
+        return False
+
     def supportsLandmarkRole(self):
         return False
 
@@ -1760,6 +1766,19 @@ class Utilities:
 
         return list(filter(isNotAncestor, result))
 
+    def linkBasenameToName(self, obj):
+        basename = self.linkBasename(obj)
+        if not basename:
+            return ""
+
+        basename = re.sub(r"[-_]", " ", basename)
+        tokens = basename.split()
+        for token in tokens:
+            if not token.isalpha():
+                return ""
+
+        return basename
+
     @staticmethod
     def linkBasename(obj):
         """Returns the relevant information from the URI.  The idea is
@@ -1968,7 +1987,7 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        if box.x < 0 and box.y < 0:
+        if box.x < 0 and box.y < 0 and tuple(box) != (-1, -1, -1, -1):
             msg = "INFO: %s has negative coordinates" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
@@ -1988,7 +2007,7 @@ class Utilities:
         if boundingbox is None or not self._boundsIncludeChildren(obj.parent):
             return True
 
-        if not self.containsRegion(box, boundingbox):
+        if not self.containsRegion(box, boundingbox) and tuple(box) != (-1, -1, -1, -1):
             msg = "INFO: %s %s not in %s" % (obj, box, boundingbox)
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
@@ -2094,6 +2113,13 @@ class Utilities:
         if root.parent and root.parent.getRole() == pyatspi.ROLE_MENU_BAR \
            and not self.isInOpenMenuBarMenu(root):
             return [root]
+
+        if role == pyatspi.ROLE_FILLER and not root.childCount:
+            msg = "INFO: %s is empty filler. Clearing cache." % root
+            debug.println(debug.LEVEL_INFO, msg, True)
+            root.clearCache()
+            msg = "INFO: %s reports %i children" % (root, root.childCount)
+            debug.println(debug.LEVEL_INFO, msg, True)
 
         if extents is None:
             try:
@@ -2231,7 +2257,8 @@ class Utilities:
         start = time.time()
         items = self._script.pointOfReference.get('statusBarItems')
         if not items:
-            items = self.getOnScreenObjects(obj)
+            include = lambda x: x and x.getRole() != pyatspi.ROLE_STATUS_BAR
+            items = list(filter(include, self.getOnScreenObjects(obj)))
             self._script.pointOfReference['statusBarItems'] = items
 
         end = time.time()
@@ -2314,7 +2341,7 @@ class Utilities:
 
         stopAtRoles = self._topLevelRoles()
 
-        while obj and obj.parent \
+        while obj and obj.parent and obj != obj.parent \
               and not obj.getRole() in stopAtRoles \
               and not obj.parent.getRole() == pyatspi.ROLE_APPLICATION:
             obj = obj.parent
@@ -3854,14 +3881,20 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return []
 
-        msg = "INFO: %s reports %i selected children" % (obj, count)
+        msg = "INFO: %s reports %i selected child(ren)" % (obj, count)
         debug.println(debug.LEVEL_INFO, msg, True)
 
         children = []
         for x in range(count):
             child = selection.getSelectedChild(x)
+            msg = "INFO: Child %i: %s" % (x, child)
+            debug.println(debug.LEVEL_INFO, msg, True)
             if not self.isZombie(child):
                 children.append(child)
+
+        if count and not children:
+            msg = "INFO: Selected children not retrieved via selection interface."
+            debug.println(debug.LEVEL_INFO, msg, True)
 
         role = obj.getRole()
         if role == pyatspi.ROLE_MENU and not children:
@@ -4492,6 +4525,95 @@ class Utilities:
         chunks = list(filter(lambda x: x.strip(), string.split("\n\n")))
         return len(chunks) > 1
 
+    def getWordAtOffsetAdjustedForNavigation(self, obj, offset=None):
+        try:
+            text = obj.queryText()
+            if offset is None:
+                offset = text.caretOffset
+        except:
+            return "", 0, 0
+
+        word, start, end = self.getWordAtOffset(obj, offset)
+        prevObj, prevOffset = self._script.pointOfReference.get("penultimateCursorPosition", (None, -1))
+        if prevObj != obj:
+            return word, start, end
+
+        # If we're in an ongoing series of native navigation-by-word commands, just present the
+        # newly-traversed string.
+        prevWord, prevStart, prevEnd = self.getWordAtOffset(prevObj, prevOffset)
+        if self._script.pointOfReference.get("lastTextUnitSpoken") == "word":
+            if self.lastInputEventWasPrevWordNav():
+                start = offset
+                end = prevOffset
+            elif self.lastInputEventWasNextWordNav():
+                start = prevOffset
+                end = offset
+
+            word = text.getText(start, end)
+            msg = "INFO: Adjusted word at offset %i for ongoing word nav is '%s' (%i-%i)" \
+                % (offset, word.replace("\n", "\\n"), start, end)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return word, start, end
+
+        # Otherwise, attempt some smarts so that the user winds up with the same presentation
+        # they would get were this an ongoing series of native navigation-by-word commands.
+        if self.lastInputEventWasPrevWordNav():
+            # If we moved left via native nav, this should be the start of a native-navigation
+            # word boundary, regardless of what ATK/AT-SPI2 tells us.
+            start = offset
+
+            # The ATK/AT-SPI2 word typically ends in a space; if the ending is neither a space,
+            # nor an alphanumeric character, then suspect that character is a navigation boundary
+            # where we would have landed before via the native previous word command.
+            if not (word[-1].isspace() or word[-1].isalnum()):
+                end -= 1
+
+        elif self.lastInputEventWasNextWordNav():
+            # If we moved right via native nav, this should be the end of a native-navigation
+            # word boundary, regardless of what ATK/AT-SPI2 tells us.
+            end = offset
+
+            # This suggests we just moved to the end of the previous word.
+            if word != prevWord and prevStart < offset <= prevEnd:
+                start = prevStart
+
+            # If the character to the left of our present position is neither a space, nor
+            # an alphanumeric character, then suspect that character is a navigation boundary
+            # where we would have landed before via the native next word command.
+            lastChar = text.getText(offset - 1, offset)
+            if not (lastChar.isspace() or lastChar.isalnum()):
+                start = offset - 1
+
+        word = text.getText(start, end)
+
+        # We only want to present the newline character when we cross a boundary moving from one
+        # word to another. If we're in the same word, strip it out.
+        if "\n" in word and word == prevWord:
+            if word.startswith("\n"):
+                start += 1
+            elif word.endswith("\n"):
+                end -= 1
+            word = text.getText(start, end)
+
+        word = text.getText(start, end)
+        msg = "INFO: Adjusted word at offset %i for new word nav is '%s' (%i-%i)" \
+            % (offset, word.replace("\n", "\\n"), start, end)
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return word, start, end
+
+    def getWordAtOffset(self, obj, offset=None):
+        try:
+            text = obj.queryText()
+            if offset is None:
+                offset = text.caretOffset
+        except:
+            return "", 0, 0
+
+        word, start, end = text.getTextAtOffset(offset, pyatspi.TEXT_BOUNDARY_WORD_START)
+        msg = "INFO: Word at %i is '%s' (%i-%i)" % (offset, word.replace("\n", "\\n"), start, end)
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return word, start, end
+
     def textAtPoint(self, obj, x, y, coordType=None, boundary=None):
         text = self.queryNonEmptyText(obj)
         if not text:
@@ -4813,6 +4935,8 @@ class Utilities:
         return False
 
     def findReplicant(self, root, obj):
+        msg = "INFO: Searching for replicant for %s in %s" % (obj, root)
+        debug.println(debug.LEVEL_INFO, msg, True)
         if not (root and obj):
             return None
 
@@ -4907,6 +5031,7 @@ class Utilities:
             layoutRoles = [pyatspi.ROLE_SEPARATOR, pyatspi.ROLE_TEAROFF_MENU_ITEM]
             isNotLayoutOnly = lambda x: not (self.isZombie(x) or x.getRole() in layoutRoles)
             siblings = list(filter(isNotLayoutOnly, siblings))
+
         if not (siblings and obj in siblings):
             return -1, -1
 
@@ -4919,7 +5044,7 @@ class Utilities:
         setSize = len(siblings)
         return position, setSize
 
-    def getRoleDescription(self, obj):
+    def getRoleDescription(self, obj, isBraille=False):
         return ""
 
     def getCachedTextSelection(self, obj):
@@ -5081,6 +5206,20 @@ class Utilities:
 
         return mods & keybindings.CTRL_MODIFIER_MASK
 
+    def lastInputEventWasPrevWordNav(self):
+        keyString, mods = self.lastKeyAndModifiers()
+        if not keyString == "Left":
+            return False
+
+        return mods & keybindings.CTRL_MODIFIER_MASK
+
+    def lastInputEventWasNextWordNav(self):
+        keyString, mods = self.lastKeyAndModifiers()
+        if not keyString == "Right":
+            return False
+
+        return mods & keybindings.CTRL_MODIFIER_MASK
+
     def lastInputEventWasLineNav(self):
         keyString, mods = self.lastKeyAndModifiers()
         if not keyString in ["Up", "Down"]:
@@ -5199,6 +5338,21 @@ class Utilities:
             return False
 
         return mods & keybindings.CTRL_MODIFIER_MASK
+
+    def lastInputEventWasTab(self):
+        keyString, mods = self.lastKeyAndModifiers()
+        if keyString not in ["Tab", "ISO_Left_Tab"]:
+            return False
+
+        if mods & keybindings.CTRL_MODIFIER_MASK \
+           or mods & keybindings.ALT_MODIFIER_MASK \
+           or mods & keybindings.ORCA_MODIFIER_MASK:
+            return False
+
+        return True
+
+    def lastInputEventWasMouseButton(self):
+        return isinstance(orca_state.lastInputEvent, input_event.MouseButtonEvent)
 
     def lastInputEventWasPrimaryMouseClick(self):
         event = orca_state.lastInputEvent

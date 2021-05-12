@@ -1,3 +1,188 @@
+40.0 - 19 March 2021
+
+New and updated translations (THANKS EVERYONE!!!):
+
+  cs              Czech                     Marek Černocký
+  da              Danish                    Ask Hjorth Larsen
+  it              Italian                   Milo Casagrande
+  sv              Swedish                   Anders Jonsson
+  zh_CN           Chinese (China)           Boyuan Yang
+
+=========
+
+40.rc - 11 March 2021
+
+Web:
+
+* Improve handling of, and recovery from, element destruction, e.g.
+  to find the new location and contents more accurately and quickly
+
+* Don't generate line contents when tabbing into editable with
+  descendants (chattiness)
+
+General:
+
+* Prevent hang generating statusbar content
+
+* Prevent hang resulting from accessible objects which claim to be
+  their own parent
+
+* Try to detect and avoid selection-changed event flood from apps
+  like Caja which can make Orca not responsive
+
+* Work around lack of children-changed accessibility events from
+  fillers which report 0 children
+
+New and updated translations (THANKS EVERYONE!!!):
+
+  de              German                    Mario Blättermann
+  eu              Basque                    Asier Sarasua Garmendia
+  fi              Finnish                   Jiri Grönroos
+  gl              Galician                  Fran Dieguez
+  id              Indonesian                Kukuh Syafaat
+  pl              Polish                    Piotr Drąg
+  pt              Portuguese                Hugo Carvalho
+
+=========
+
+40.beta - 22 February 2021
+
+Web:
+
+ * Add initial support for aria-braillelabel and aria-brailleroledescription
+
+ * Add option to control automatic focus mode during native navigation
+
+ * Improve presentation of, and fix bugs related to, offscreen text
+   which is exposed to us as one or two characters per line
+
+ * Make more roles descendable in browse mode to improve content in
+   which use ARIA widget roles are applied without any associated
+   keyboard navigation
+
+ * Fix bugs in which we get stuck or skip an element due to stale cache
+
+ * Prevent getting stuck when up arrowing with multiple newline chars
+
+ * Don't collapse newlines from a single text object into one line
+
+ * Respect speakBlankLines setting
+
+ * Ensure figcaptions and descendants are presented only once
+
+ * Fix issue in which caret-moved events preceding focus events cause
+   Orca to not present a newly-focused entry
+
+ * Use posinset and setsize attributes for menus, even in browser gui
+
+ * Eliminate double-presentation of caption children in SayAll
+
+ * Work harder to turn inaccessible links into something presentable
+
+ * Prevent focus mode from being entered if we're in SayAll
+
+ * Fix presentation of table row when caret moves due to mouse click
+
+ * Ensure we say something when using caret nav to interrupt SayAll
+
+ * Skip useless empty elements when seeking first context in document
+
+ * Fall back on gridcell name when generating name for nameless checkboxes
+
+ * Miscellaneous chattiness fixes
+
+Chromium:
+
+ * Work around bogus/misleading selected state in browser menus
+
+ * Fix chattiness issue arrowing up/down in Omnibox popup
+
+ * Fix bogus presentation of posinset and setsize in popup menus
+
+Braille:
+
+ * Attempt to be smarter about the default contraction table, prefering
+   the current locale and literary braille tables
+
+ * Fix bug in presentation of tree items
+
+General:
+
+ * Fix Orca not launching due to braille-related timeout
+
+ * Use AT-SPI2's cache for children (improves performance)
+
+ * Improve presentation of native-app navigation by word
+
+ * Fix issue preventing us from recognizing a Tab input event
+
+ * Announce "non selected" when focus does not follow selected in a listbox
+
+ * Only speak newline during word nav if spoken indentation is enabled
+
+ * Handle exception initializing mouse review with null display
+
+New and updated translations (THANKS EVERYONE!!!):
+
+  ca              Catalan                        Jordi Mas
+  ca              Catalan                        Jordi Mas i Hernandez
+  cs              Czech                          Marek Černocký
+  de              German                         Christian Kirbach
+  de              German                         Tim Sabsch
+  en_GB           British English                Stephan Woidowski
+  es              Spanish                        Daniel Mustieles
+  fi              Finnish                        Timo Jyrinki
+  fr              French                         Charles Monzat
+  fr              French                         Claude Paroz
+  gl              Galician                       Fran Dieguez
+  hr              Croatian                       Goran Vidović
+  hu              Hungarian                      Attila Hammer
+  it              Italian                        Milo Casagrande
+  lt              Lithuanian                     Aurimas Černius
+  nb              Norwegian Bokmål               Kjartan Maraas
+  pl              Polish                         Piotr Drąg
+  pt_BR           Brazilian Portuguese           Henrique Machado Campos
+  pt_BR           Brazilian Portuguese           Rafael Fontenelle
+  pt              Portuguese                     Juliano Camargo
+  ro              Romanian                       Florentina Mușat
+  sl              Slovenian                      Matej Urbančič
+  sr              Serbian                        Марко Костић
+  sr              Serbian                        Мирослав Николић
+  sv              Swedish                        Anders Jonsson
+  tr              Turkish                        Emin Tufan Çetin
+  uk              Ukrainian                      Yuri Chornoivan
+  zh_CN           Chinese (China)                Boyuan Yang
+
+=========
+
+3.38.2 - 22 December 2020
+
+General:
+
+ * Don't treat unknown coordinates as definitely off-screen. Should
+   fix the problem seen with flat review resulting from a change in
+   Gtk+ 3.24.24
+
+=========
+
+3.38.1 - 3 December 2020
+
+Web:
+
+ * Fix crash when generating speech for childless math element
+
+General:
+
+ * Fix bug causing the new radio button group to not be presented
+   when the group was first entered
+
+New and updated translations (THANKS EVERYONE!!!):
+
+   pt            Portuguese              Juliano de Souza Camargo
+   pt_BR         Brazilian Portuguese    Henrique Machado Campos
+
+=========
+
 3.38.0 - 11 September 2020
 
 Web:

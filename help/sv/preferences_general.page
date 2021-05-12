@@ -31,10 +31,10 @@
   </section>
   <section id="presenttooltips">
     <info>
-      <desc>Alternativ för inställningsdialogruta för att aktivera presentation av verktygstips som dyker upp som ett resultat av mushovring.</desc>
+      <desc>Alternativ för inställningsdialogruta för att aktivera presentation av inforutor som dyker upp som ett resultat av mushovring.</desc>
     </info>
-    <title>Presentera verktygstips</title>
-    <p>När detta alternativ är kryssat kommer det säga till <app>Orca</app> att presentera information om verktygstips då de dyker upp till resultat av mushovring. Särskilda åtgärder för att tvinga verktygstips att dyka upp, som att trycka <keyseq> <key>Ctrl</key><key>F1</key></keyseq> då ett objekt har fokus kommer alltid resultera i att verktygstips visas, oberoende av denna inställning.</p>
+    <title>Presentera inforutor</title>
+    <p>När detta alternativ är kryssat kommer det säga till <app>Orca</app> att presentera information om inforutor då de dyker upp till resultat av mushovring. Särskilda åtgärder för att tvinga inforutor att dyka upp, som att trycka <keyseq> <key>Ctrl</key><key>F1</key></keyseq> då ett objekt har fokus kommer alltid resultera i att inforutor visas, oberoende av denna inställning.</p>
     <p>Standardvärde: inte ikryssad</p>
   </section>
   <section id="objectundermouse">

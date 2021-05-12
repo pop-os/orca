@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="hu">
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_web" xml:lang="hu">
   <info>
     <link type="guide" xref="preferences#application"/>
     <link type="next" xref="preferences_table_navigation"/>
-    <title type="sort">1. Gecko navigáció</title>
-    <title type="link">Gecko navigáció</title>
-    <desc>Az <app>Orka</app> <app>Firefox</app> és <app>Thunderbird</app> támogatásának konfigurálása</desc>
+    <title type="sort">1. Webes navigáció</title>
+    <title type="link">Webes navigáció</title>
+    <desc>Az <app>Orka</app> <app>Firefox</app>, <app>Thunderbird</app>és <app>Chrome</app>/<app>Chromium</app> támogatásának konfigurálása</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -17,16 +17,16 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Hammer Attila</mal:name>
       <mal:email>hammera at pickup dot hu</mal:email>
-      <mal:years>2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2020.</mal:years>
+      <mal:years>2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2020, 2021.</mal:years>
     </mal:credit>
   </info>
-  <title>A Gecko navigáció beállításai</title>
+  <title>Webes navigációval kapcsolatos beállítások</title>
   <section id="page_navigation">
     <title>Oldalnavigáció</title>
     <p>Az <gui>Oldalnavigáció</gui> alatti vezérlőelemek segítségével személyre szabhatja a szöveges és más tartalmak <app>Orka</app> általi ismertetését.</p>
     <section id="page_navigation_control_caret">
       <title>Mutatónavigáció irányítása</title>
-      <p>Ez a jelölőnégyzet be- vagy kikapcsolja az <app>Orka</app> mutatónavigációt. Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> vezérli a mutatót, amikor navigál egy weboldalon. Ha ez a jelölőnégyzet nincs bejelölve, a beépített Gecko mutatónavigáció lesz aktív.</p>
+      <p>Ez a jelölőnégyzet be- vagy kikapcsolja az <app>Orka</app> mutatónavigációt. Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> vezérli a mutatót, amikor navigál egy weboldalon. Ha ez a jelölőnégyzet nincs bejelölve, a böngésző beépített mutatónavigációja lesz aktív.</p>
       <p>Alapbeállítás: bejelölve</p>
       <note style="tip">
         <title>A beállítás menet közben módosítható</title>
@@ -55,6 +55,15 @@
       <title>A fókuszmód automatikus bekapcsolása a strukturált navigáció használatakor</title>
       <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> automatikusan fókuszmódba fog kerülni, amikor az <app>Orka</app> strukturált navigációs parancsait használja egy űrlapmezőre navigáláshoz. Tegyük fel, hogy az <key>E</key> billentyű lenyomásával a következő szerkesztőmezőre szeretne lépni. Ha újra lenyomja az <key>E</key> billentyűt, mivel az <app>Orka</app> már fókuszmódba került, a fókuszban levő szerkesztőmezőbe be fog íródni az <key>E</key> betű. Ha ez a jelölőnégyzet nincs bejelölve, akkor az <app>Orka</app> böngészőmódban marad, és a következő lenyomott <key>E</key> billentyű hatására a következő szerkesztőmezőre kerül a weboldalon.</p>
       <p>Alapbeállítás: nincs bejelölve</p>
+      <note style="tip">
+        <title>Manuális váltás a böngészőmód és a fókuszmód között</title>
+        <p>Annak érdekében, hogy meg tudjon kezdeni vagy be tudjon fejezni egy műveletet az éppen fókuszban levő űrlapmezővel, használja az <keyseq><key>Orka módosító</key><key>A</key></keyseq> billentyűkombinációt. Ezzel a billentyűkombinációval váltani tud a fókuszmód és a böngészőmód között.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_native">
+      <title>A fókuszmód automatikus bekapcsolása a natív navigáció használatakor</title>
+      <p>Ha ez a jelölőnégyzet be van jelölve, az <app>Orka</app> automatikusan fókuszmódba fog kerülni, amikor a böngésző natív navigációs parancsait használja egy űrlapmezőre navigáláshoz. Tegyük fel, hogy a <key>TAB</key> billentyű lenyomásával a következő szerkesztőmezőre szeretne lépni. Ha újra lenyomja az <key>E</key> billentyűt, mivel az <app>Orka</app> már fókuszmódba került, a fókuszban levő szerkesztőmezőbe be fog íródni az <key>E</key> betű. Ha ez a jelölőnégyzet nincs bejelölve, akkor az <app>Orka</app> böngészőmódban marad, és a következő lenyomott <key>E</key> billentyű hatására a következő szerkesztőmezőre kerül a weboldalon.</p>
+      <p>Alapbeállítás: bejelölve</p>
       <note style="tip">
         <title>Manuális váltás a böngészőmód és a fókuszmód között</title>
         <p>Annak érdekében, hogy meg tudjon kezdeni vagy be tudjon fejezni egy műveletet az éppen fókuszban levő űrlapmezővel, használja az <keyseq><key>Orka módosító</key><key>A</key></keyseq> billentyűkombinációt. Ezzel a billentyűkombinációval váltani tud a fókuszmód és a böngészőmód között.</p>

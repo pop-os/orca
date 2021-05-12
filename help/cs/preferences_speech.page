@@ -94,7 +94,7 @@
     </section>
     <section id="system_messages_are_detailed">
       <title>Systémové zprávy jsou podrobné</title>
-      <p>Když je zaškrtnuté <gui>Systémové zprávy jsou podrobné</gui>, bude <app>Orca</app> prezentovat podrobné zprávy na hlasovém výstupu. Například, když použijete příkaz <app>Orca</app> ke změně oznamování kláves, může vám říci „Oznamování kláves je nastavené na slova.“ Jestli dáváte přednost kratším zprávám, jako je prosté „slovo“, neměli byste mít toto políčko zaškrtnuté.</p>
+      <p>Když je zaškrtnuté <gui>Systémové zprávy jsou podrobné</gui>, bude <app>Orca</app> prezentovat podrobné zprávy na hlasovém výstupu. Například, když použijete příkaz <app>Orca</app> ke změně oznamování, může vám říci „Oznamování je nastavené na slova.“ Jestli dáváte přednost kratším zprávám, jako je prostá zpráva „slovo“, neměli byste mít toto políčko zaškrtnuté.</p>
       <p>Výchozí hodnota: zaškrtnuto</p>
     </section>
     <section id="speak_colors_as_names">

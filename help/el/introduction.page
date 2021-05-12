@@ -21,7 +21,13 @@
   </info>
   <title>Καλώς ήρθατε στο Orca</title>
   <p>Το <app>Orca</app> είναι ένας ελεύθερος, ανοικτού λογισμικού, ευέλικτος και επεκτάσιμος αναγνώστης οθόνης που παρέχει πρόσβαση στη γραφική επιφάνεια εργασίας μέσα από ομιλία και ανανεώσιμο Μπράιγ.</p>
-  <p>Το <app>Orca</app> δουλεύει με εφαρμογές και εργαλειοθήκες που υποστηρίζουν τη διεπαφή παρόχου υπηρεσιών τεχνολογίας υποβοήθησης (AT-SPI), που είναι η κύρια τεχνολογία υποβοήθησης υποδομής για Linux και Solaris. Οι εφαρμογές και οι εργαλειοθήκες που υποστηρίζουν το AT-SPI περιλαμβάνουν το πακέτο εργαλείων GNOME Gtk+, το πακέτο εργαλείων Swing της πλατφόρμας Java, το LibreOffice, το Gecko, και το WebKitGtk. Η υποστήριξη AT-SPI για το πακέτο εργαλείων KDE Qt επιδιώκεται.</p>
+  <p>
+    <app>Orca</app> works with applications and toolkits that support
+    the Assistive Technology Service Provider Interface (AT-SPI), which
+    is the primary assistive technology infrastructure for Linux and
+    Solaris. Applications and toolkits supporting the AT-SPI include
+    Gtk+, Qt, Java Swing, LibreOffice, Gecko, WebKitGtk, and Chrome/Chromium.
+  </p>
   <section id="launching">
     <title>Έναρξη του <app>Orca</app></title>
     <p>Για την έναρξη του <app>Orca</app>:</p>

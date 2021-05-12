@@ -21,7 +21,7 @@
   </info>
   <title>Välkommen till Orca</title>
   <p><app>Orca</app> är en fri, flexibel och utökningsbar skärmläsare som är öppen källkod och erbjuder åtkomst till det grafiska skrivbordet genom tal och punktskriftsskärm.</p>
-  <p><app>Orca</app> fungerar med program och verktygslådor som stöder gränssnittet Assistive Technology Service Provider Interface (AT-SPI), som är den primära infrastrukturen för hjälpmedelsteknik för Linux och Solaris. Program och verktygslådor som stöder AT-SPI inkluderar verktygslådan Gtk+ för GNOME, verktygslådan Swing för Java-plattformen, LibreOffice, Gecko och WebKitGtk. AT-SPI-stöd är ett mål för KDE:s Qt-verktygslåda.</p>
+  <p><app>Orca</app> fungerar med program och verktygslådor som stöder gränssnittet Assistive Technology Service Provider Interface (AT-SPI), som är den primära infrastrukturen för hjälpmedelsteknik för Linux och Solaris. Program och verktygslådor som stöder AT-SPI inkluderar Gtk+, Qt, Java Swing, LibreOffice, Gecko, WebKitGtk och Chrome/Chromium.</p>
   <section id="launching">
     <title>Starta <app>Orca</app></title>
     <p>För att starta <app>Orca</app>:</p>

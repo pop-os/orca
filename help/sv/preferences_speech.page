@@ -100,7 +100,7 @@
     </section>
     <section id="system_messages_are_detailed">
       <title>Systemmeddelanden är detaljerade</title>
-      <p>Om <gui>Systemmeddelanden är detaljerade</gui> är ikryssad kommer <app>Orca</app> läsa upp detaljerade meddelanden för dig. Till exempel, om du använder <app>Orca</app>s kommando för att ändra tangenteko kan <app>Orca</app> säga ”Tangenteko inställt till tangent”. Om du skulle föredra kortare meddelanden, som bara ”ord”, ska du avmarkera denna kryssruta.</p>
+      <p>Om <gui>Systemmeddelanden är detaljerade</gui> är ikryssad kommer <app>Orca</app> läsa upp detaljerade meddelanden för dig. Till exempel, om du använder <app>Orca</app>s kommando för att ändra eko kan <app>Orca</app> säga ”Eko inställt till ord”. Om du skulle föredra kortare meddelanden, som bara ”ord”, ska du avmarkera denna kryssruta.</p>
       <p>Standardvärde: ikryssad</p>
     </section>
     <section id="speak_colors_as_names">

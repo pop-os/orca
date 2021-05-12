@@ -1,34 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="sl">
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_web" xml:lang="id">
   <info>
     <link type="guide" xref="preferences#application"/>
     <link type="next" xref="preferences_table_navigation"/>
-    <title type="sort">1. Krmarjenje Gecka</title>
-    <title type="link">Krmarjenje Gecka</title>
-    <desc>Nastavljanje <app>Orkine</app> podpore za <app>Firefox</app> in <app>Thunderbird</app>.</desc>
+    <title type="sort">1. Navigasi Web</title>
+    <title type="link">Navigasi Web</title>
+    <desc>
+      Configuring <app>Orca</app>'s support for <app>Firefox</app>,
+      <app>Thunderbird</app>, and <app>Chrome</app>/<app>Chromium</app>
+    </desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons deljenje pod enakimi pogoji 3.0</p>
+      <p>Creative Commons Share Alike 3.0</p>
     </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Andika Triwidada</mal:name>
+      <mal:email>andika@gmail.com</mal:email>
+      <mal:years>2020</mal:years>
+    </mal:credit>
   </info>
-  <title>Možnosti krmarjenja Gecko</title>
+  <title>Preferensi Navigasi Web</title>
   <section id="page_navigation">
-    <title>Krmarjenje po strani</title>
-    <p>Skupni nadzornikov <gui>Krmarjenje strani</gui> vam omogoča prilagajanje <app>Orkinega</app> prikaza in možnosti sporazumevanja z besedilom in drugo vsebino.</p>
+    <title>Navigasi Halaman</title>
+    <p>
+      The <gui>Page Navigation</gui> group of controls make it possible for you
+      to customize how <app>Orca</app> presents, and allow you to interact with,
+      text and other content.
+    </p>
     <section id="page_navigation_control_caret">
-      <title>Control caret navigation</title>
-      <p>To izbirno polje vklopi in izklopi <app>Okrino</app> krmarjenje kazalke. Ko je krmarjenje vklopljeno, <app>Orka</app> prevzame nadzor nad kazalko medtem ko se premikate po strani. Ko je krmarjenje izklopljeno je dejavna Geckovo lastno krmarjenje kazalke.</p>
-      <p>Privzeta vrednost: izbrano</p>
+      <title>Kendalikan navigasi karet</title>
+      <p>
+        This checkbox toggles <app>Orca</app>'s caret navigation on and off.
+        When it is on, <app>Orca</app> takes control of the caret as you arrow
+        around within a page; when it is off, the browser's native caret navigation is
+        active.
+      </p>
+      <p>
+        Default value: checked
+      </p>
       <note style="tip">
-        <title>To nastavitev lahko preklapljate sproti</title>
-        <p>Za sproten preklop te nastavitve brez shranjevanja uporabite <keyseq><key>Pomožna tipka Orka</key><key>F12</key></keyseq></p>
+        <title>This setting can be toggled on the fly</title>
+        <p>
+          To toggle this setting on the fly without saving it, use
+          <keyseq><key>Orca Modifier</key><key>F12</key></keyseq>.
+        </p>
        </note>
     </section>
     <section id="page_navigation_focus_caret">
-      <title>Automatic focus mode during caret navigation</title>
+      <title>Mode fokus otomatis selama navigasi karet</title>
       <p>
         If this checkbox is checked, <app>Orca</app> will automatically turn on
         focus mode when you use caret navigation commands to navigate to a form
@@ -39,7 +62,9 @@
         would continue to control what happens when you press <key>Down</key>,
         thus making it possible to arrow out of the entry and continue reading.
       </p>
-      <p>Prikazana vrednost: ni izbrano</p>
+      <p>
+        Default value: not checked
+      </p>
       <note style="tip">
         <title>Manually switching between browse mode and focus mode</title>
         <p>
@@ -51,15 +76,25 @@
     </section>
     <section id="page_navigation_structural">
       <title>Enable structural navigation</title>
-      <p>To izbirno polje vklopi in izklopi <app>Orkino</app>'s <link xref="howto_structural_navigation">Strukturno krmarjenje</link>. Structural Navigation allows you to navigate by elements such as headings, links, and form fields.</p>
-      <p>Privzeta vrednost: izbrano</p>
+      <p>
+        This checkbox toggles <app>Orca</app>'s
+        <link xref="howto_structural_navigation">Structural Navigation</link>
+        on and off. Structural Navigation allows you to navigate by elements
+        such as headings, links, and form fields.
+      </p>
+      <p>
+        Default value: checked
+      </p>
       <note style="tip">
-        <title>To nastavitev lahko preklapljate sproti</title>
-        <p>Za sproten preklop te nastavitve brez shranjevanja uporabite <keyseq><key>Pomožna tipka Orka</key><key>Z</key></keyseq></p>
+        <title>This setting can be toggled on the fly</title>
+        <p>
+          To toggle this setting on the fly without saving it, use
+          <keyseq><key>Orca Modifier</key><key>Z</key></keyseq>.
+        </p>
        </note>
     </section>
     <section id="page_navigation_focus_structural">
-      <title>Automatic focus mode during structural navigation</title>
+      <title>Mode fokus otomatis selama navigasi struktural</title>
       <p>
         If this checkbox is checked, <app>Orca</app> will automatically turn on
         focus mode when you use structural navigation commands to navigate to a
@@ -69,7 +104,32 @@
         checked, then <app>Orca</app> will leave you in browse mode and your next
         press of <key>E</key> would move you to the next entry on the page.
       </p>
-      <p>Prikazana vrednost: ni izbrano</p>
+      <p>
+        Default value: not checked
+      </p>
+      <note style="tip">
+        <title>Manually switching between browse mode and focus mode</title>
+        <p>
+          In order to start or stop interacting with the focused form field,
+          use <keyseq><key>Orca Modifier</key><key>A</key></keyseq> to switch
+          between browse mode and focus mode.
+        </p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_native">
+      <title>Automatic focus mode during native navigation</title>
+      <p>
+        If this checkbox is checked, <app>Orca</app> will automatically turn on
+        focus mode when you use native browser navigation commands to navigate to a
+        form field. For example, pressing <key>Tab</key> to move to the next entry
+        would move focus there and also turn focus mode on so that your next press
+        of <key>E</key> would type an "e" into that entry. If this checkbox is not
+        checked, then <app>Orca</app> will leave you in browse mode and your next
+        press of <key>E</key> would move you to the next entry on the page.
+      </p>
+      <p>
+        Default value: checked
+      </p>
       <note style="tip">
         <title>Manually switching between browse mode and focus mode</title>
         <p>
@@ -101,7 +161,7 @@
       </p>
     </section>
     <section id="page_navigation_layout_mode">
-      <title>Enable layout mode for content</title>
+      <title>Fungsikan mode tata letak bagi isi</title>
       <p>
         If this checkbox is checked, <app>Orca</app>'s caret navigation will respect
         the on-screen layout of the content and present the full line, including any
@@ -109,7 +169,9 @@
         will treat objects such as links and form fields as if they were on separate
         lines, both for presentation and navigation.
       </p>
-      <p>Privzeta vrednost: izbrano</p>
+      <p>
+        Default value: checked
+      </p>
     </section>
   </section>
   <section id="table_options">
@@ -123,20 +185,36 @@
     </note>
   </section>
   <section id="find_options">
-    <title>Možnosti iskanja</title>
-    <p>Skupina nadzornikom <gui>Možnosti iksanja</gui> vam omogočajo prilagajanje <app>Orkine</app> predstavitve rezultatov iskanja z uporabo programove vgrajene zmožnosti iskanja.</p>
+    <title>Opsi Pencarian</title>
+    <p>
+      The <gui>Find Options</gui> group of controls make it possible for you to
+      customize how <app>Orca</app> presents the results of a search conducted
+      using the application's built-in search functionality.
+    </p>
     <section id="find_options_speak_during_find">
-      <title>Izgovori rezultate med iskanjem</title>
-      <p>V primeru, da je izbrano to izbirno polje, bo <app>Orka</app> prebrala vrstico, ki se ujema z vašo poizvedbo iskanja.</p>
-      <p>Privzeta vrednost: izbrano</p>
+      <title>Speak results during find</title>
+      <p>
+         If this checkbox is checked, <app>Orca</app> will read the line which
+         matches your current search query.
+      </p>
+      <p>
+         Default value: checked
+      </p>
     </section>
     <section id="find_options_speak_changed_lines_during_find">
-      <title>Izgovori le spremenjene vrstice med iskanjem</title>
-      <p>V primeru da je to izbiro polje izbrano, <app>Orka</app> ne bo predstavila ujemajoče vrstice, če je enaka vrstica kot predhodni zadetek. Ta možnost je zasnovana za preprečevanje "klepetavosti" v vrstici z več primeri niza, ki ga iščete.</p>
-      <p>Prikazana vrednost: ni izbrano</p>
+      <title>Only speak changed lines during find</title>
+      <p>
+          If this checkbox is checked, <app>Orca</app> will not present the
+          matching line if it is the same line as the previous match. This
+          option is designed to prevent "chattiness" on a line with multiple
+          instances of the string for which you are searching.
+      </p>
+      <p>
+         Default value: not checked
+      </p>
     </section>
     <section id="find_options_minimum_match_length">
-      <title>Najmanjša dolžina ujemajočega se besedila</title>
+      <title>Minimum length of matched text</title>
       <p>
         This editable spin button is where you can specify the number of
         characters which must match before <app>Orca</app> announces the
@@ -144,7 +222,9 @@
         as there are many matches when you first begin typing the string
         for which you are searching.
       </p>
-      <p>Privzeta vrednost: 4</p>
+      <p>
+        Default value: 4
+      </p>
     </section>
   </section>
 </page>

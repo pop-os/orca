@@ -26,9 +26,13 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc."
 __license__   = "LGPL"
 
-# $ORCA_MAJOR_VERSION.$ORCA_MINOR_VERSION.$ORCA_MICRO_VERSION
+# $ORCA_VERSION
 #
 version     = "@VERSION@"
+
+# The revision if built from git; otherwise an empty string
+#
+revision = "@REVISION@"
 
 # "--prefix" parameter used when configuring the build.
 #

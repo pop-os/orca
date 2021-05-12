@@ -30,9 +30,10 @@ __copyright__ = "Copyright (c) 2004-2009 Sun Microsystems Inc." \
                 "Copyright (c) 2010 Joanmarie Diggs"
 __license__   = "LGPL"
 
+import pyatspi
+import re
 import time
 
-import pyatspi
 import orca.braille as braille
 import orca.cmdnames as cmdnames
 import orca.debug as debug
@@ -116,7 +117,6 @@ class Script(script.Script):
         #
         self.currentReviewContents = ""
 
-        self._lastWord = ""
         self._lastWordCheckedForSpelling = ""
 
         self._inSayAll = False
@@ -124,8 +124,7 @@ class Script(script.Script):
         self._sayAllContexts = []
 
         if app:
-            app.setCacheMask(
-                pyatspi.cache.DEFAULT ^ pyatspi.cache.CHILDREN ^ pyatspi.cache.NAME ^ pyatspi.cache.DESCRIPTION)
+            app.setCacheMask(pyatspi.cache.DEFAULT ^ pyatspi.cache.NAME ^ pyatspi.cache.DESCRIPTION)
 
     def setupInputEventHandlers(self):
         """Defines InputEventHandler fields for this script that can be
@@ -684,12 +683,20 @@ class Script(script.Script):
         Returns a dictionary where the keys are BrlTTY commands and the
         values are InputEventHandler instances.
         """
+
+        msg = 'DEFAULT: Getting braille bindings.'
+        debug.println(debug.LEVEL_INFO, msg, True)
+
         brailleBindings = script.Script.getBrailleBindings(self)
         try:
+            brailleBindings[braille.brlapi.KEY_CMD_HWINLT]     = \
+                self.inputEventHandlers["panBrailleLeftHandler"]
             brailleBindings[braille.brlapi.KEY_CMD_FWINLT]     = \
                 self.inputEventHandlers["panBrailleLeftHandler"]
             brailleBindings[braille.brlapi.KEY_CMD_FWINLTSKIP] = \
                 self.inputEventHandlers["panBrailleLeftHandler"]
+            brailleBindings[braille.brlapi.KEY_CMD_HWINRT]     = \
+                self.inputEventHandlers["panBrailleRightHandler"]
             brailleBindings[braille.brlapi.KEY_CMD_FWINRT]     = \
                 self.inputEventHandlers["panBrailleRightHandler"]
             brailleBindings[braille.brlapi.KEY_CMD_FWINRTSKIP] = \
@@ -721,6 +728,10 @@ class Script(script.Script):
             msg = 'ERROR: Exception getting braille bindings in %s' % self
             debug.println(debug.LEVEL_INFO, msg, True)
             debug.printException(debug.LEVEL_CONFIGURATION)
+
+        msg = 'DEFAULT: Finished getting braille bindings.'
+        debug.println(debug.LEVEL_INFO, msg, True)
+
         return brailleBindings
 
     def deactivate(self):
@@ -852,11 +863,17 @@ class Script(script.Script):
     def activate(self):
         """Called when this script is activated."""
 
+        msg = 'DEFAULT: activating script for %s' % self.app
+        debug.println(debug.LEVEL_INFO, msg, True)
+
         _settingsManager.loadAppSettings(self)
         braille.checkBrailleSetting()
         braille.setupKeyRanges(self.brailleBindings.keys())
         speech.updatePunctuationLevel()
         speech.updateCapitalizationStyle()
+
+        msg = 'DEFAULT: Script for %s activated' % self.app
+        debug.println(debug.LEVEL_INFO, msg, True)
 
     def updateBraille(self, obj, **args):
         """Updates the braille display to show the give object.
@@ -2527,7 +2544,8 @@ class Script(script.Script):
         state = obj.getState()
 
         if self.utilities.handlePasteLocusOfFocusChange():
-            orca.setLocusOfFocus(event, event.source, False)
+            if self.utilities.topLevelObjectIsActiveAndCurrent(event.source):
+                orca.setLocusOfFocus(event, event.source, False)
         elif self.utilities.handleContainerSelectionChange(event.source):
             return
         else:
@@ -3111,7 +3129,7 @@ class Script(script.Script):
         if text.getNSelections() > 0:
             text.setSelection(0, context.currentOffset, context.currentOffset)
 
-    def inSayAll(self):
+    def inSayAll(self, treatInterruptedAsIn=True):
         if self._inSayAll:
             msg = "DEFAULT: In SayAll"
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -3120,7 +3138,7 @@ class Script(script.Script):
         if self._sayAllIsInterrupted:
             msg = "DEFAULT: SayAll is interrupted"
             debug.println(debug.LEVEL_INFO, msg, True)
-            return True
+            return treatInterruptedAsIn
 
         msg = "DEFAULT: Not in SayAll"
         debug.println(debug.LEVEL_INFO, msg, True)
@@ -3321,6 +3339,8 @@ class Script(script.Script):
             self.speakMisspelledIndicator(obj, offset)
             self.speakCharacter(character)
 
+        self.pointOfReference["lastTextUnitSpoken"] = "char"
+
     def sayLine(self, obj):
         """Speaks the line of an AccessibleText object that contains the
         caret, unless the line is empty in which case it's ignored.
@@ -3352,6 +3372,8 @@ class Script(script.Script):
             # Speak blank line if appropriate.
             #
             self.sayCharacter(obj)
+
+        self.pointOfReference["lastTextUnitSpoken"] = "line"
 
     def sayPhrase(self, obj, startOffset, endOffset):
         """Speaks the text of an Accessible object between the start and
@@ -3386,57 +3408,45 @@ class Script(script.Script):
         else:
             self.speakCharacter(phrase)
 
+        self.pointOfReference["lastTextUnitSpoken"] = "phrase"
+
     def sayWord(self, obj):
-        """Speaks the word at the caret.
+        """Speaks the word at the caret, taking into account the previous caret position."""
 
-        Arguments:
-        - obj: an Accessible object that implements the AccessibleText
-               interface
-        """
-
-        text = obj.queryText()
-        offset = text.caretOffset
-        lastKey, mods = self.utilities.lastKeyAndModifiers()
-        lastWord = self._lastWord
-
-        [word, startOffset, endOffset] = \
-            text.getTextAtOffset(offset,
-                                 pyatspi.TEXT_BOUNDARY_WORD_START)
-
-        msg = "DEFAULT: Word at offset %i is '%s' (%i-%i)" % (offset, word, startOffset, endOffset)
-        debug.println(debug.LEVEL_INFO, msg, True)
-
-        if not word:
+        try:
+            text = obj.queryText()
+            offset = text.caretOffset
+        except:
             self.sayCharacter(obj)
             return
 
-        # Speak a newline if a control-right-arrow or control-left-arrow
-        # was used to cross a line boundary. Handling is different for
-        # the two keys since control-right-arrow places the cursor after
-        # the last character in a word, but control-left-arrow places
-        # the cursor at the beginning of a word.
-        #
-        if lastKey == "Right" and len(lastWord) > 0:
-            lastChar = lastWord[len(lastWord) - 1]
-            if lastChar == "\n" and lastWord != word:
+        word, startOffset, endOffset = self.utilities.getWordAtOffsetAdjustedForNavigation(obj, offset)
+
+        # Announce when we cross a hard line boundary.
+        if "\n" in word:
+            if _settingsManager.getSetting('enableSpeechIndentation'):
                 self.speakCharacter("\n")
+            if word.startswith("\n"):
+                startOffset += 1
+            elif word.endswith("\n"):
+                endOffset -= 1
+            word = text.getText(startOffset, endOffset)
 
-        if lastKey == "Left" and len(word) > 0:
-            lastChar = word[len(word) - 1]
-            if lastChar == "\n" and lastWord != word:
-                self.speakCharacter("\n")
+        # sayPhrase is useful because it handles punctuation verbalization, but we don't want
+        # to trigger its whitespace presentation.
+        matches = list(re.finditer(r"\S+", word))
+        if matches:
+            startOffset += matches[0].start()
+            endOffset -= len(word) - matches[-1].end()
+            word = text.getText(startOffset, endOffset)
 
-        orca.emitRegionChanged(obj, startOffset, endOffset, orca.CARET_TRACKING)
-
-        self.speakMisspelledIndicator(obj, startOffset)
-        voice = self.speechGenerator.voice(string=word)
-        word = self.utilities.adjustForRepeats(word)
-
-        msg = "DEFAULT: Word adjusted for repeats: '%s'" % word
+        msg = "DEFAULT: Final word at offset %i is '%s' (%i-%i)" \
+            % (offset, word.replace("\n", "\\n"), startOffset, endOffset)
         debug.println(debug.LEVEL_INFO, msg, True)
 
-        self._lastWord = word
-        speech.speak(word, voice)
+        self.speakMisspelledIndicator(obj, startOffset)
+        self.sayPhrase(obj, startOffset, endOffset)
+        self.pointOfReference["lastTextUnitSpoken"] = "word"
 
     def presentObject(self, obj, **args):
         interrupt = args.get("interrupt", False)
@@ -3697,6 +3707,8 @@ class Script(script.Script):
 
                 context = speechserver.SayAllContext(
                     obj, lineString, startOffset, endOffset)
+                msg = "DEFAULT %s" % context
+                debug.println(debug.LEVEL_INFO, msg, True)
                 self._sayAllContexts.append(context)
                 eventsynthesizer.scrollIntoView(obj, startOffset, endOffset)
                 yield [context, voice]
@@ -3732,12 +3744,18 @@ class Script(script.Script):
 
         try:
             text = obj.queryText()
+            offset = text.caretOffset
+            characterCount = text.characterCount
         except NotImplementedError:
+            return ["", 0, 0]
+        except:
+            msg = "DEFAULT: Exception getting offset and length for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
             return ["", 0, 0]
 
         targetOffset = startOffset
         if targetOffset is None:
-            targetOffset = max(0, text.caretOffset)
+            targetOffset = max(0, offset)
 
         # The offset might be positioned at the very end of the text area.
         # In these cases, calling text.getTextAtOffset on an offset that's
@@ -3753,14 +3771,14 @@ class Script(script.Script):
         # to see if that character is a newline - if it is, we'll treat it
         # as the line.
         #
-        if targetOffset == text.characterCount:
+        if targetOffset == characterCount:
             fixedTargetOffset = max(0, targetOffset - 1)
             character = text.getText(fixedTargetOffset, fixedTargetOffset + 1)
         else:
             fixedTargetOffset = targetOffset
             character = None
 
-        if (targetOffset == text.characterCount) \
+        if (targetOffset == characterCount) \
             and (character == "\n"):
             lineString = ""
             startOffset = fixedTargetOffset
@@ -3770,12 +3788,12 @@ class Script(script.Script):
             # do this because Gecko's implementation of getTextAtOffset
             # is broken if there is just one character in the string.]]]
             #
-            if (text.characterCount == 1):
+            if (characterCount == 1):
                 lineString = text.getText(fixedTargetOffset, fixedTargetOffset + 1)
                 startOffset = fixedTargetOffset
             else:
                 if fixedTargetOffset == -1:
-                    fixedTargetOffset = text.characterCount
+                    fixedTargetOffset = characterCount
                 try:
                     [lineString, startOffset, endOffset] = text.getTextAtOffset(
                         fixedTargetOffset, pyatspi.TEXT_BOUNDARY_LINE_START)
@@ -3814,7 +3832,9 @@ class Script(script.Script):
         - caretOffset: the cursor position within this object
         """
 
-        self.pointOfReference["lastCursorPosition"] = [obj, caretOffset]
+        prevObj, prevOffset = self.pointOfReference.get("lastCursorPosition", (None, -1))
+        self.pointOfReference["penultimateCursorPosition"] = prevObj, prevOffset
+        self.pointOfReference["lastCursorPosition"] = obj, caretOffset
 
     def systemBeep(self):
         """Rings the system bell. This is really a hack. Ideally, we want

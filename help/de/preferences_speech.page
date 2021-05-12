@@ -17,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Mario Blättermann</mal:name>
       <mal:email>mario.blaettermann@gmail.com</mal:email>
-      <mal:years>2011, 2012</mal:years>
+      <mal:years>2011, 2012, 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -118,7 +118,7 @@
     </section>
     <section id="system_messages_are_detailed">
       <title>Systemmeldungen sind detailliert</title>
-      <p>Ist das Feld <gui>Systemmeldungen sind detailliert</gui> angekreuzt, wird <app>Orca</app> Ihnen detaillierte Nachrichten vorlesen. Falls Sie beispielsweise <app>Orca</app>s Befehl fürs Tastaturecho verwenden, könnte <app>Orca</app> »Tastaturecho gesetzt auf Wort.« vorlesen. Falls Sie kürzere Nachrichten bevorzugen, wie zum Beispiel »Wort«, sollten Sie dieses Feld nicht ankreuzen.</p>
+      <p>Ist das Feld <gui>Systemmeldungen sind detailliert</gui> angekreuzt, wird <app>Orca</app> Ihnen detaillierte Nachrichten vorlesen. Falls Sie beispielsweise <app>Orca</app>s Befehl für das Echo verwenden, könnte <app>Orca</app> »Echo gesetzt auf Wort.« vorlesen. Falls Sie kürzere Nachrichten bevorzugen, wie zum Beispiel »Wort«, sollten Sie dieses Feld nicht ankreuzen.</p>
       <p>Vorgabewert: aktiviert</p>
     </section>
     <section id="speak_colors_as_names">

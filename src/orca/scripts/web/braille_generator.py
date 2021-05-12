@@ -46,7 +46,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         if not self._script.utilities.inDocumentContent(obj):
             return super().getLocalizedRoleName(obj, **args)
 
-        roledescription = self._script.utilities.getRoleDescription(obj)
+        roledescription = self._script.utilities.getRoleDescription(obj, True)
         if roledescription:
             return roledescription
 
@@ -58,7 +58,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         if not self._script.utilities.inDocumentContent(obj):
             return super()._generateRoleName(obj, **args)
 
-        roledescription = self._script.utilities.getRoleDescription(obj)
+        roledescription = self._script.utilities.getRoleDescription(obj, True)
         if roledescription:
             return [roledescription]
 
@@ -121,13 +121,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
            and self._script.utilities.isCodeDescendant(obj):
             return []
 
-        if obj.name:
-            name = obj.name
-            if not self._script.utilities.hasExplicitName(obj):
-                name = name.strip()
-            return [name]
-
-        return super()._generateLabelOrName(obj, **args)
+        return self._generateName(obj, **args)
 
     def _generateLabel(self, obj, **args):
         if not self._script.utilities.inDocumentContent(obj):
@@ -165,6 +159,10 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         if not self._script.utilities.inDocumentContent(obj):
             return super()._generateName(obj, **args)
 
+        brailleLabel = self._script.utilities.objectAttributes(obj).get("braillelabel")
+        if brailleLabel:
+            return [brailleLabel]
+
         if self._script.utilities.preferDescriptionOverName(obj):
             return [obj.description]
 
@@ -174,6 +172,10 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         result = super()._generateName(obj, **args)
         if result and result[0] and not self._script.utilities.hasExplicitName(obj):
             result[0] = result[0].strip()
+        elif not result and obj.getRole() == pyatspi.ROLE_CHECK_BOX:
+            gridCell = pyatspi.findAncestor(obj, self._script.utilities.isGridCell)
+            if gridCell:
+                return super()._generateName(gridCell, **args)
 
         return result
 

@@ -114,7 +114,13 @@ class SpeechGenerator(generator.Generator):
         globalsDict['voice'] = self.voice
 
     def generateSpeech(self, obj, **args):
-        return self.generate(obj, **args)
+        rv = self.generate(obj, **args)
+        if rv and not list(filter(lambda x: not isinstance(x, Pause), rv)):
+            msg = 'SPEECH GENERATOR: Results for %s are pauses only' % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            rv = []
+
+        return rv
 
     def _resultElementToString(self, element, includeAll=True):
         if debug.LEVEL_ALL < debug.debugLevel:
@@ -1058,6 +1064,28 @@ class SpeechGenerator(generator.Generator):
 
         return result
 
+    def _generateUnselectedStateIfSelectable(self, obj, **args):
+        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+            return []
+
+        if args.get('inMouseReview'):
+            return []
+
+        if not obj:
+            return []
+
+        if not (obj.parent and 'Selection' in pyatspi.listInterfaces(obj.parent)):
+            return []
+
+        state = obj.getState()
+        if state.contains(pyatspi.STATE_SELECTED):
+            return []
+
+        result = [object_properties.STATE_UNSELECTED_LIST_ITEM]
+        result.extend(self.voice(STATE))
+
+        return result
+
     def _generateUnselectedCell(self, obj, **args):
         """Returns an array of strings (and possibly voice and audio
         specifications) if this is an icon within an layered pane or a
@@ -1817,6 +1845,7 @@ class SpeechGenerator(generator.Generator):
                     pyatspi.ROLE_LANDMARK,
                     pyatspi.ROLE_LIST,
                     pyatspi.ROLE_PANEL,
+                    'ROLE_REGION',
                     pyatspi.ROLE_TABLE,
                     pyatspi.ROLE_TOOL_TIP]
 
@@ -1844,7 +1873,7 @@ class SpeechGenerator(generator.Generator):
             if _settingsManager.getSetting('speakContextBlockquote'):
                 enabled.append(pyatspi.ROLE_BLOCK_QUOTE)
             if _settingsManager.getSetting('speakContextLandmark'):
-                enabled.extend([pyatspi.ROLE_LANDMARK, 'ROLE_DPUB_LANDMARK'])
+                enabled.extend([pyatspi.ROLE_LANDMARK, 'ROLE_DPUB_LANDMARK', 'ROLE_REGION'])
             if _settingsManager.getSetting('speakContextList'):
                 enabled.append(pyatspi.ROLE_LIST)
             if _settingsManager.getSetting('speakContextPanel'):
@@ -2087,7 +2116,8 @@ class SpeechGenerator(generator.Generator):
             presentedRoles.append(altRole)
             count = ancestorRoles.count(altRole)
             self._overrideRole(altRole, args)
-            result.append(self.generate(x, formatType='focused', role=altRole, leaving=leaving, count=count))
+            result.append(self.generate(x, formatType='focused', role=altRole, leaving=leaving, count=count,
+                                        ancestorOf=obj))
             self._restoreRole(altRole, args)
 
         if not leaving:
@@ -2132,6 +2162,7 @@ class SpeechGenerator(generator.Generator):
                                'ROLE_DPUB_SECTION',
                                pyatspi.ROLE_LIST,
                                pyatspi.ROLE_PANEL,
+                               'ROLE_REGION',
                                pyatspi.ROLE_TABLE,
                                pyatspi.ROLE_TOOL_TIP]
 
@@ -2368,6 +2399,9 @@ class SpeechGenerator(generator.Generator):
 
         result = []
         for child in items:
+            if child == statusBar:
+                continue
+
             childResult = self.generate(child, includeContext=False)
             if childResult:
                 result.extend(childResult)
@@ -2510,7 +2544,10 @@ class SpeechGenerator(generator.Generator):
 
     def _generateMath(self, obj, **args):
         result = []
-        children = [child for child in obj] or [obj]
+        children = [child for child in obj]
+        if not children and not self._script.utilities.isMathTopLevel(obj):
+            children = [obj]
+
         for child in children:
             if self._script.utilities.isMathLayoutOnly(child) and child.childCount:
                 result.extend(self._generateMath(child))

@@ -17,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Mario Blättermann</mal:name>
       <mal:email>mario.blaettermann@gmail.com</mal:email>
-      <mal:years>2011, 2012</mal:years>
+      <mal:years>2011, 2012, 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -92,7 +92,7 @@
     </section>
     <section id="flashMessageSettings_detailed">
       <title>Meldungen sind detailliert</title>
-      <p>Ist <gui>Meldungen sind detailliert</gui> angekreuzt, wird <app>Orca</app> Ihnen ausführliche Meldungen in Braille anzeigen. Falls Sie zum Beispiel den <app>Orca</app>-Befehl zur Änderung des Tastaturechos verwendet haben, wird <app>Orca</app> »Tastaturecho auf Taste gesetzt.« anzeigen. Sollten Sie kürzere Meldungen bevorzugen, wie zum Beispiel »Wort«, sollten Sie dieses Feld nicht ankreuzen.</p>
+      <p>Ist <gui>Meldungen sind detailliert</gui> angekreuzt, wird <app>Orca</app> Ihnen ausführliche Meldungen in Braille anzeigen. Falls Sie zum Beispiel den <app>Orca</app>-Befehl zur Änderung des Echos verwendet haben, wird <app>Orca</app> »Echo auf Taste gesetzt.« anzeigen. Sollten Sie kürzere Meldungen bevorzugen, wie zum Beispiel »Wort«, sollten Sie dieses Feld nicht ankreuzen.</p>
       <p>Vorgabewert: aktiviert</p>
     </section>
     <section id="flashMessageSettings_persistent">

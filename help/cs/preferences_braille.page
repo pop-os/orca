@@ -68,7 +68,7 @@
     </section>
     <section id="flashMessageSettings_detailed">
       <title>Zprávy jsou podrobné</title>
-      <p>Když je zaškrtnuté <gui>Zprávy jsou podrobné</gui>, bude <app>Orca</app> prezentovat podrobné zprávy na braillském řádku. Například, když použijete příkaz <app>Orca</app> ke změně oznamování kláves, může vám oznámit „Oznamování kláves je nastavené na slova.“ Jestli dáváte přednost kratším zprávám, jako je prosté „slovo“, neměli byste mít toto políčko zaškrtnuté.</p>
+      <p>Když je zaškrtnuté <gui>Zprávy jsou podrobné</gui>, bude <app>Orca</app> prezentovat podrobné zprávy na braillském řádku. Například, když použijete příkaz <app>Orca</app> ke změně oznamování, může vám oznámit „Oznamování je nastavené na slova.“ Jestli dáváte přednost kratším zprávám, jako je prostá zpráva „slovo“, neměli byste mít toto políčko zaškrtnuté.</p>
       <p>Výchozí hodnota: zaškrtnuto</p>
     </section>
     <section id="flashMessageSettings_persistent">

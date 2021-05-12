@@ -1,3 +1,43 @@
+orca (40.0-1) experimental; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 19 Mar 2021 13:22:46 +0100
+
+orca (40~rc-1) experimental; urgency=medium
+
+  * New upstream beta release.
+  * watch: Support beta and rc markers.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 11 Mar 2021 19:53:09 +0100
+
+orca (40~beta-1) experimental; urgency=medium
+
+  * New upstream beta release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 22 Feb 2021 15:41:01 +0100
+
+orca (3.38.2-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 23 Dec 2020 22:02:25 +0100
+
+orca (3.38.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Bump debhelper compat from 11 to 12.
+  * control: Suggest brltty, for Braille support.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 03 Dec 2020 18:35:16 +0100
+
+orca (3.38.0-2) unstable; urgency=medium
+
+  [ Colomban Wendling ]
+  * control: Add xkbset dependency (Closes: #972621).
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 01 Nov 2020 02:25:03 +0100
+
 orca (3.38.0-1ubuntu1) groovy; urgency=medium
 
   * Merge with Debian (LP: #1891345). Remaining changes:

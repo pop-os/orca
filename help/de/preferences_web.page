@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_gecko" xml:lang="de">
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_web" xml:lang="de">
   <info>
     <link type="guide" xref="preferences#application"/>
     <link type="next" xref="preferences_table_navigation"/>
-    <title type="sort">1. Gecko-Navigation</title>
-    <title type="link">Gecko-Navigation</title>
-    <desc>Einstellungen der <app>Orca</app>-Unterstützung für <app>Firefox</app> und <app>Thunderbird</app></desc>
+    <title type="sort">1. Web-Navigation</title>
+    <title type="link">Web-Navigation</title>
+    <desc>Einstellungen der <app>Orca</app>-Unterstützung für <app>Firefox</app>, <app>Thunderbird</app> und <app>Chrome</app>/<app>Chromium</app></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -17,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Mario Blättermann</mal:name>
       <mal:email>mario.blaettermann@gmail.com</mal:email>
-      <mal:years>2011, 2012</mal:years>
+      <mal:years>2011, 2012, 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -38,13 +38,13 @@
       <mal:years>2018-2020</mal:years>
     </mal:credit>
   </info>
-  <title>Einstellungen für Gecko-Navigation</title>
+  <title>Einstellungen für Web-Navigation</title>
   <section id="page_navigation">
     <title>Seitennavigation</title>
     <p>Die Einstellungen zur <gui>Seitennavigation</gui> ermöglichen Ihnen anzupassen, wie <app>Orca</app> Ihnen Text und anderen Inhalt vorliest und erlaubt, damit zu interagieren.</p>
     <section id="page_navigation_control_caret">
       <title>Caret-Navigation verwenden</title>
-      <p>Dieses Ankreuzfeld schaltet <app>Orca</app>s Caret-Navigation ein oder aus. Ist sie eingeschaltet, übernimmt <app>Orca</app> die Kontrolle über den Textcursor, während Sie sich auf einer Seite bewegen; ist sie ausgeschaltet, übernimmt Geckos eigene Caret-Navigation.</p>
+      <p>Dieses Ankreuzfeld schaltet <app>Orca</app>s Caret-Navigation ein oder aus. Ist sie eingeschaltet, übernimmt <app>Orca</app> die Kontrolle über den Textcursor, während Sie sich auf einer Seite bewegen; ist sie ausgeschaltet, übernimmt die native Caret-Navigation des Browsers.</p>
       <p>Vorgabewert: aktiviert</p>
       <note style="tip">
         <title>Diese Einstellung kann im laufenden Betrieb ein-/ausgeschaltet werden</title>
@@ -73,6 +73,15 @@
       <title>Automatischer Fokus-Modus während Strukturnavigation</title>
       <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> automatisch den Fokus-Modus einschalten, wenn Sie sich mittels Strukturennavigation in ein Formularfeld bewegen. Durch Drücken von <key>E</key> könnten Sie beispielsweise einen Eintrag betreten und den Fokus dorthin bewegen; dadurch würden Sie in den Fokus-Modus wechseln, sodass nachfolgendes Drücken von <key>E</key> ein »e« in den Eintrag einfügen würde. Ist dieses Feld nicht angekreuzt, würde <app>Orca</app> Sie im Stöbern-Modus verbleiben lassen, und der nächste Druck von <key>E</key> würde Sie zum nächsten Eintrag führen.</p>
       <p>Vorgabewert: nicht aktiviert</p>
+      <note style="tip">
+        <title>Manuell zwischen Stöbern-Modus und Fokussieren-Modus wechseln</title>
+        <p>Um die Interaktion mit dem fokussierten Formularfeld zu beginnen oder zu beenden, verwenden Sie <keyseq><key>Orca-Zusatztaste</key><key>A</key></keyseq>, um zwischen Stöbern-Modus und Fokussieren-Modus zu wechseln.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_native">
+      <title>Automatischer Fokus-Modus während der nativen Navigation</title>
+      <p>Ist dieses Feld angekreuzt, wird <app>Orca</app> automatisch den Fokus-Modus einschalten, wenn Sie sich mittels nativer Navigation des Browsers in ein Formularfeld bewegen. Durch Drücken der <key>Tabulatortaste</key> könnten Sie beispielsweise einen Eintrag betreten und den Fokus dorthin bewegen; dadurch würden Sie in den Fokus-Modus wechseln, sodass nachfolgendes Drücken von <key>E</key> ein »e« in den Eintrag einfügen würde. Ist dieses Feld nicht angekreuzt, würde <app>Orca</app> Sie im Stöbern-Modus verbleiben lassen, und der nächste Druck von <key>E</key> würde Sie zum nächsten Eintrag führen.</p>
+      <p>Vorgabewert: aktiviert</p>
       <note style="tip">
         <title>Manuell zwischen Stöbern-Modus und Fokussieren-Modus wechseln</title>
         <p>Um die Interaktion mit dem fokussierten Formularfeld zu beginnen oder zu beenden, verwenden Sie <keyseq><key>Orca-Zusatztaste</key><key>A</key></keyseq>, um zwischen Stöbern-Modus und Fokussieren-Modus zu wechseln.</p>
