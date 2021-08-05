@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="fr">
   <info>
-    <title type="link">Echo</title>
-    <title type="sort">4. Echo</title>
+    <title type="link">Écho</title>
+    <title type="sort">4. Écho</title>
     <desc>Configurer ce qui est dit lors de la saisie</desc>
     <link type="guide" xref="preferences#orca"/>
     <link type="next" xref="preferences_key_bindings"/>
@@ -50,7 +50,7 @@
       <mal:years>2020</mal:years>
     </mal:credit>
   </info>
-  <title>Echo Preferences</title>
+  <title>Préférences de « Écho »</title>
   <section id="keyecho">
     <title>Activer l’écho des touches</title>
     <p>Les paramètres de « Écho de touche » contrôlent ce qui se passe à chaque fois que vous appuyez sur une touche du clavier. Pour activer l’écho des touches, cochez la case « Activer l’écho des touches ». Plusieurs autres cases à cocher sont alors activées ; à l’aide de celles-ci, vous pouvez configurer exactement selon vos besoins les touches soumises à l’écho.</p>

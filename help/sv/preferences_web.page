@@ -106,7 +106,7 @@
     </section>
     <section id="find_options_minimum_match_length">
       <title>Minimal längd på matchande text</title>
-      <p>I denna redigerbara snurrknapp kan du ange antalet tecken som måste matcha innan <app>Orca</app> annonserar den matchande raden. Detta alternativ är också designat för att förhindra ”pratsamhet” eftersom det finns många matchningar då du först börjar skriva strängen som du söker efter.</p>
+      <p>I denna redigerbara stegningsruta kan du ange antalet tecken som måste matcha innan <app>Orca</app> annonserar den matchande raden. Detta alternativ är också designat för att förhindra ”pratsamhet” eftersom det finns många matchningar då du först börjar skriva strängen som du söker efter.</p>
       <p>Standardvärde: 4</p>
     </section>
   </section>

@@ -20,7 +20,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Daniel Mustieles</mal:name>
       <mal:email>daniel.mustieles@gmail.com</mal:email>
-      <mal:years>2012 - 2020</mal:years>
+      <mal:years>2012 - 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -145,7 +145,7 @@
         <p>Presentar los atributos del texto: <keyseq><key>Modificador de Orca</key><key>F</key></keyseq></p>
       </item>
       <item>
-        <p>Perform basic Where Am I:</p>
+        <p>Realizar el «dónde estoy» básico:</p>
         <list>
           <item>
             <p>Sobremesa: <key>TN Intro</key></p>
@@ -156,7 +156,7 @@
         </list>
     </item>
     <item>
-      <p>Perform detailed Where Am I:</p>
+      <p>Realizar el «dónde estoy» detallado:</p>
       <list>
         <item>
           <p>Sobremesa: <key>TN Intro</key> (doble pulsación)</p>

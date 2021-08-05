@@ -1237,15 +1237,14 @@ class Utilities:
     def activeDocument(self, window=None):
         return self.getTopLevelDocumentForObject(orca_state.locusOfFocus)
 
-    def getTopLevelDocumentForObject(self, obj):
-        document = self.getDocumentForObject(obj)
-        while document:
-            ancestor = pyatspi.findAncestor(document, self.isDocument)
-            if not ancestor or ancestor == document:
-                break
-            document = ancestor
+    def isTopLevelDocument(self, obj):
+        return self.isDocument(obj) and not pyatspi.findAncestor(obj, self.isDocument)
 
-        return document
+    def getTopLevelDocumentForObject(self, obj):
+        if self.isTopLevelDocument(obj):
+            return obj
+
+        return pyatspi.findAncestor(obj, self.isTopLevelDocument)
 
     def getDocumentForObject(self, obj):
         if not obj:
@@ -3919,6 +3918,8 @@ class Utilities:
             return obj
 
         rolemap = {
+            pyatspi.ROLE_CANVAS: [pyatspi.ROLE_LAYERED_PANE],
+            pyatspi.ROLE_ICON: [pyatspi.ROLE_LAYERED_PANE],
             pyatspi.ROLE_LIST_ITEM: [pyatspi.ROLE_LIST_BOX],
             pyatspi.ROLE_TREE_ITEM: [pyatspi.ROLE_TREE, pyatspi.ROLE_TREE_TABLE],
             pyatspi.ROLE_TABLE_CELL: [pyatspi.ROLE_TABLE, pyatspi.ROLE_TREE_TABLE],
@@ -4210,6 +4211,9 @@ class Utilities:
 
     def detailsFor(self, obj):
         return []
+
+    def hasVisibleCaption(self, obj):
+        return False
 
     def popupType(self, obj):
         return ''

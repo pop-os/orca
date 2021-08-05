@@ -17,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Daniel Mustieles</mal:name>
       <mal:email>daniel.mustieles@gmail.com</mal:email>
-      <mal:years>2012 - 2020</mal:years>
+      <mal:years>2012 - 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -95,7 +95,7 @@
       <p>Valor predeterminado: no marcado</p>
     </section>
     <section id="flashMessageSettings_duration">
-      <title>Duration (secs)</title>
+      <title>Duración (segs)</title>
       <p>
         The amount of time <app>Orca</app> will wait before removing the message and
         restoring the original contents of your display can be set in the <gui>

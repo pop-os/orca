@@ -892,7 +892,8 @@ class Script(default.Script):
             super().sayCharacter(obj)
             return
 
-        obj, offset = self.utilities.getCaretContext(documentFrame=None)
+        document = self.utilities.getTopLevelDocumentForObject(obj)
+        obj, offset = self.utilities.getCaretContext(documentFrame=document)
         if not obj:
             return
 
@@ -928,12 +929,13 @@ class Script(default.Script):
             super().sayWord(obj)
             return
 
-        obj, offset = self.utilities.getCaretContext(documentFrame=None)
+        document = self.utilities.getTopLevelDocumentForObject(obj)
+        obj, offset = self.utilities.getCaretContext(documentFrame=document)
         keyString, mods = self.utilities.lastKeyAndModifiers()
         if keyString == "Right":
             offset -= 1
 
-        wordContents = self.utilities.getWordContentsAtOffset(obj, offset, useCache=not isEditable)
+        wordContents = self.utilities.getWordContentsAtOffset(obj, offset, useCache=True)
         textObj, startOffset, endOffset, word = wordContents[0]
         self.speakMisspelledIndicator(textObj, startOffset)
         self.speakContents(wordContents)
@@ -947,12 +949,13 @@ class Script(default.Script):
             super().sayLine(obj)
             return
 
+        document = self.utilities.getTopLevelDocumentForObject(obj)
         priorObj = None
         if self._lastCommandWasCaretNav or isEditable:
-            priorObj, priorOffset = self.utilities.getPriorContext()
+            priorObj, priorOffset = self.utilities.getPriorContext(documentFrame=document)
 
-        obj, offset = self.utilities.getCaretContext(documentFrame=None)
-        contents = self.utilities.getLineContentsAtOffset(obj, offset, useCache=not isEditable)
+        obj, offset = self.utilities.getCaretContext(documentFrame=document)
+        contents = self.utilities.getLineContentsAtOffset(obj, offset, useCache=True)
         self.speakContents(contents, priorObj=priorObj)
         self.pointOfReference["lastTextUnitSpoken"] = "line"
 
@@ -1003,7 +1006,8 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, "BRAILLE: disabled", True)
             return
 
-        if not self.utilities.inDocumentContent(obj):
+        document = args.get("documentFrame", self.utilities.getTopLevelDocumentForObject(obj))
+        if not document:
             msg = "WEB: updating braille for non-document object %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             super().updateBraille(obj, **args)
@@ -1021,16 +1025,16 @@ class Script(default.Script):
             super().updateBraille(obj, **args)
             return
 
-        obj, offset = self.utilities.getCaretContext(documentFrame=None, getZombieReplicant=True)
+        obj, offset = self.utilities.getCaretContext(documentFrame=document, getZombieReplicant=True)
         if offset > 0 and isContentEditable:
             text = self.utilities.queryNonEmptyText(obj)
             if text:
                 offset = min(offset, text.characterCount)
 
         contents = self.utilities.getLineContentsAtOffset(obj, offset)
-        self.displayContents(contents)
+        self.displayContents(contents, documentFrame=document)
 
-    def displayContents(self, contents):
+    def displayContents(self, contents, **args):
         """Displays contents in braille."""
 
         if not _settingsManager.getSetting('enableBraille') \
@@ -1039,7 +1043,8 @@ class Script(default.Script):
             return
 
         line = self.getNewBrailleLine(clearBraille=True, addLine=True)
-        contents = self.brailleGenerator.generateContents(contents)
+        document = args.get("documentFrame")
+        contents = self.brailleGenerator.generateContents(contents, documentFrame=document)
         if not contents:
             return
 
@@ -1229,8 +1234,8 @@ class Script(default.Script):
             self.presentMessage(messages.MODE_OBJECT)
         _settingsManager.setSetting('layoutMode', layoutMode)
 
-    def togglePresentationMode(self, inputEvent):
-        [obj, characterOffset] = self.utilities.getCaretContext()
+    def togglePresentationMode(self, inputEvent, documentFrame=None):
+        [obj, characterOffset] = self.utilities.getCaretContext(documentFrame)
         if self._inFocusMode:
             try:
                 parentRole = obj.parent.getRole()
@@ -1262,7 +1267,11 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        if not self.utilities.inDocumentContent(newFocus):
+        document = self.utilities.getTopLevelDocumentForObject(newFocus)
+        if not document and self.utilities.isDocument(newFocus):
+            document = newFocus
+
+        if not document:
             msg = "WEB: Locus of focus changed to non-document obj"
             self._madeFindAnnouncement = False
             self._inFocusMode = False
@@ -1275,7 +1284,7 @@ class Script(default.Script):
         caretOffset = 0
         if self.utilities.inFindContainer(oldFocus) \
            or (self.utilities.isDocument(newFocus) and oldFocus == orca_state.activeWindow):
-            contextObj, contextOffset = self.utilities.getCaretContext()
+            contextObj, contextOffset = self.utilities.getCaretContext(documentFrame=document)
             if contextObj and not self.utilities.isZombie(contextObj):
                 newFocus, caretOffset = contextObj, contextOffset
 
@@ -1288,8 +1297,8 @@ class Script(default.Script):
         if text and (0 <= text.caretOffset <= text.characterCount):
             caretOffset = text.caretOffset
 
-        self.utilities.setCaretContext(newFocus, caretOffset)
-        self.updateBraille(newFocus)
+        self.utilities.setCaretContext(newFocus, caretOffset, document)
+        self.updateBraille(newFocus, documentFrame=document)
         orca.emitRegionChanged(newFocus, caretOffset)
 
         if self._lastCommandWasMouseButton and event \
@@ -1357,7 +1366,7 @@ class Script(default.Script):
         if not self._focusModeIsSticky \
            and not self._browseModeIsSticky \
            and self.useFocusMode(newFocus, oldFocus) != self._inFocusMode:
-            self.togglePresentationMode(None)
+            self.togglePresentationMode(None, document)
 
         return True
 
@@ -1547,22 +1556,23 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        if self.utilities.eventIsBrowserUINoise(event):
-            msg = "WEB: Ignoring event believed to be browser UI noise"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return True
+        document = self.utilities.getTopLevelDocumentForObject(event.source)
+        if not document:
+            if self.utilities.eventIsBrowserUINoise(event):
+                msg = "WEB: Ignoring event believed to be browser UI noise"
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
 
-        if self.utilities.eventIsBrowserUIAutocompleteNoise(event):
-            msg = "WEB: Ignoring event believed to be browser UI autocomplete noise"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return True
+            if self.utilities.eventIsBrowserUIAutocompleteNoise(event):
+                msg = "WEB: Ignoring event believed to be browser UI autocomplete noise"
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
 
-        if not self.utilities.inDocumentContent(event.source):
             msg = "WEB: Event source is not in document content"
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        obj, offset = self.utilities.getCaretContext(getZombieReplicant=False, searchIfNeeded=False)
+        obj, offset = self.utilities.getCaretContext(document, False, False)
         msg = "WEB: Context: %s, %i (focus: %s)" % (obj, offset, orca_state.locusOfFocus)
         debug.println(debug.LEVEL_INFO, msg, True)
 
@@ -1641,7 +1651,7 @@ class Script(default.Script):
             self._saveLastCursorPosition(event.source, event.detail1)
             return True
 
-        if self.utilities.eventIsAutocompleteNoise(event):
+        if self.utilities.eventIsAutocompleteNoise(event, document):
             msg = "WEB: Event ignored: Autocomplete noise"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
@@ -1678,12 +1688,12 @@ class Script(default.Script):
             notify = force = handled = True
 
         elif self.utilities.lastInputEventWasCaretNav():
-            msg = "WEB: Caret moved to due native caret navigation."
+            msg = "WEB: Caret moved due to native caret navigation."
             debug.println(debug.LEVEL_INFO, msg, True)
 
         msg = "WEB: Setting context and focus to: %s, %i" % (obj, offset)
         debug.println(debug.LEVEL_INFO, msg, True)
-        self.utilities.setCaretContext(obj, offset)
+        self.utilities.setCaretContext(obj, offset, document)
         orca.setLocusOfFocus(event, obj, notify, force)
         return handled
 
@@ -1727,7 +1737,7 @@ class Script(default.Script):
             return True
 
         isLiveRegion = self.utilities.isLiveRegion(event.source)
-        document = self.utilities.getDocumentForObject(event.source)
+        document = self.utilities.getTopLevelDocumentForObject(event.source)
         if document and not isLiveRegion:
             if event.source == orca_state.locusOfFocus:
                 msg = "WEB: Dumping cache and context: source is focus %s" % orca_state.locusOfFocus
@@ -1744,12 +1754,7 @@ class Script(default.Script):
             else:
                 msg = "WEB: Not dumping cache. Focus is %s" % orca_state.locusOfFocus
                 debug.println(debug.LEVEL_INFO, msg, True)
-        else:
-            msg = "WEB: Could not get document for event source"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return False
-
-        if isLiveRegion:
+        elif isLiveRegion:
             if self.utilities.handleAsLiveRegion(event):
                 msg = "WEB: Event to be handled as live region"
                 debug.println(debug.LEVEL_INFO, msg, True)
@@ -1758,6 +1763,10 @@ class Script(default.Script):
                 msg = "WEB: Ignoring because live region event not to be handled."
                 debug.println(debug.LEVEL_INFO, msg, True)
             return True
+        else:
+            msg = "WEB: Could not get document for event source"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
 
         if self._loadingDocumentContent:
             msg = "WEB: Ignoring because document content is being loaded."
@@ -1835,11 +1844,15 @@ class Script(default.Script):
             return True
 
         if self.utilities.isLiveRegion(event.source):
-            msg = "WEB: Ignoring removal from live region."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            if self.utilities.handleEventForRemovedChild(event):
+                msg = "WEB: Event handled for removed live-region child."
+                debug.println(debug.LEVEL_INFO, msg, True)
+            else:
+                msg = "WEB: Ignoring removal from live region."
+                debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        document = self.utilities.getDocumentForObject(event.source)
+        document = self.utilities.getTopLevelDocumentForObject(event.source)
         if document:
             if event.source == orca_state.locusOfFocus:
                 msg = "WEB: Dumping cache and context: source is focus %s" % orca_state.locusOfFocus
@@ -1937,6 +1950,15 @@ class Script(default.Script):
             msg = "WEB: Event source is not in document content"
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
+
+        obj, offset = self.utilities.getCaretContext(searchIfNeeded=False)
+        msg = "WEB: Caret context is %s, %i (focus: %s)" % (obj, offset, orca_state.locusOfFocus)
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        if not obj or self.utilities.isZombie(obj) and event.source == orca_state.locusOfFocus:
+            msg = "WEB: Setting caret context to event source"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self.utilities.setCaretContext(event.source, 0)
 
         return False
 
@@ -2247,16 +2269,6 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        if self.utilities.textEventIsDueToDeletion(event):
-            msg = "WEB: Event believed to be due to editable text deletion"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return False
-
-        if self.utilities.textEventIsDueToInsertion(event):
-            msg = "WEB: Ignoring event believed to be due to text insertion"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return True
-
         if self.utilities.eventIsSpinnerNoise(event):
             msg = "WEB: Ignoring: Event believed to be spinner noise"
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -2264,6 +2276,20 @@ class Script(default.Script):
 
         if self.utilities.eventIsAutocompleteNoise(event):
             msg = "WEB: Ignoring event believed to be autocomplete noise"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        msg = "WEB: Clearing content cache due to text deletion"
+        debug.println(debug.LEVEL_INFO, msg, True)
+        self.utilities.clearContentCache()
+
+        if self.utilities.textEventIsDueToDeletion(event):
+            msg = "WEB: Event believed to be due to editable text deletion"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if self.utilities.textEventIsDueToInsertion(event):
+            msg = "WEB: Ignoring event believed to be due to text insertion"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -2287,10 +2313,6 @@ class Script(default.Script):
         if self.utilities.isZombie(obj):
             msg = "WEB: Unable to get non-null, non-zombie context object"
             debug.println(debug.LEVEL_INFO, msg, True)
-
-        msg = "WEB: Clearing content cache due to text deletion"
-        debug.println(debug.LEVEL_INFO, msg, True)
-        self.utilities.clearContentCache()
 
         document = self.utilities.getDocumentForObject(event.source)
         if document:
@@ -2365,7 +2387,7 @@ class Script(default.Script):
         debug.println(debug.LEVEL_INFO, msg, True)
         self.utilities.clearContentCache()
 
-        document = self.utilities.getDocumentForObject(event.source)
+        document = self.utilities.getTopLevelDocumentForObject(event.source)
         if self.utilities.isDead(orca_state.locusOfFocus):
             msg = "WEB: Dumping cache: dead focus %s" % orca_state.locusOfFocus
             debug.println(debug.LEVEL_INFO, msg, True)
