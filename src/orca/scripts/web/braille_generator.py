@@ -204,9 +204,6 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         if not self._script.utilities.inDocumentContent(obj):
             return super()._generateTableCellRow(obj, **args)
 
-        if not self._script.inFocusMode():
-            return super()._generateTableCellRow(obj, **args)
-
         if not self._script.utilities.shouldReadFullRow(obj):
             return self._generateRealTableCell(obj, **args)
 
@@ -269,7 +266,8 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         result = []
         contents = self._script.utilities.filterContentsForPresentation(contents, True)
 
-        obj, offset = self._script.utilities.getCaretContext(documentFrame=None)
+        document = args.get("documentFrame")
+        obj, offset = self._script.utilities.getCaretContext(documentFrame=document)
         index = self._script.utilities.findObjectInContents(obj, offset, contents)
 
         lastRegion = None

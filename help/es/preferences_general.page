@@ -17,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Daniel Mustieles</mal:name>
       <mal:email>daniel.mustieles@gmail.com</mal:email>
-      <mal:years>2012 - 2020</mal:years>
+      <mal:years>2012 - 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -141,7 +141,7 @@
       <p>Valor predeterminado: 10</p>
     </section>
     <section id="progress_bar_updates_restrict">
-      <title>Applies to</title>
+      <title>Se aplica a</title>
       <p>Este cuadro combinado le permite controlar qué barras de progreso se deberían presentar, asumiendo que la presentación de actualización de barras de progreso se ha activado. Las opciones son <gui>Todo</gui>, <gui>Aplicación</gui> y <gui>Ventana</gui>.</p>
       <p>Seleccionar <gui>Todo</gui> dará lugar a que <app>Orca</app> presente actualizaciones para todas las barras de progreso, con independencia de la ubicación en que se encuentren las mismas.</p>
       <p>Seleccionar <gui>Aplicación</gui> dará lugar a que <app>Orca</app> presente actualizaciones de las barras de progreso para la aplicación activa, incluso si las mismas no están en la ventana activa.</p>

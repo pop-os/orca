@@ -3,8 +3,8 @@
   <info>
     <link type="guide" xref="preferences#application"/>
     <link type="next" xref="preferences_table_navigation"/>
-    <title type="sort">1. Web Navigation</title>
-    <title type="link">Web Navigation</title>
+    <title type="sort">1. Navegación Web</title>
+    <title type="link">Navegación Weg</title>
     <desc>
       Configuring <app>Orca</app>'s support for <app>Firefox</app>,
       <app>Thunderbird</app>, and <app>Chrome</app>/<app>Chromium</app>
@@ -20,7 +20,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Daniel Mustieles</mal:name>
       <mal:email>daniel.mustieles@gmail.com</mal:email>
-      <mal:years>2012 - 2020</mal:years>
+      <mal:years>2012 - 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -29,7 +29,7 @@
       <mal:years>2011</mal:years>
     </mal:credit>
   </info>
-  <title>Web Navigation Preferences</title>
+  <title>Preferencias de la navegación Web</title>
   <section id="page_navigation">
     <title>Navegación por páginas</title>
     <p>El grupo de controles <gui>Navegación por páginas</gui> le permite personalizar cómo se presenta <app>Orca</app>, y le permite interactuar con el texto y otros contenidos.</p>
@@ -75,7 +75,7 @@
        </note>
     </section>
     <section id="page_navigation_focus_native">
-      <title>Automatic focus mode during native navigation</title>
+      <title>Foco automático durante la navegación nativa</title>
       <p>
         If this checkbox is checked, <app>Orca</app> will automatically turn on
         focus mode when you use native browser navigation commands to navigate to a

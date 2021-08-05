@@ -126,7 +126,7 @@
     </section>
     <section id="progress_bar_updates_frequency">
       <title>Frekvens (sekunder)</title>
-      <p>Denna snurrknapp avgör hur ofta uppdateringar presenteras.</p>
+      <p>Denna stegningsruta avgör hur ofta uppdateringar presenteras.</p>
       <p>Standardvärde: 10</p>
     </section>
     <section id="progress_bar_updates_restrict">

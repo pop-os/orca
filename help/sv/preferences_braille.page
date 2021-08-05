@@ -84,7 +84,7 @@
     </section>
     <section id="flashMessageSettings_duration">
       <title>Längd (sek)</title>
-      <p>Tidsperioden som <app>Orca</app> kommer vänta innan meddelandet tas bort och det ursprungliga innehållet på din skärm återställs kan ställas in i snurrknappen <gui>Längd (sek)</gui>. Notera att värdet på denna inställning kommer ignoreras om du har aktiverat beständiga blixtmeddelanden.</p>
+      <p>Tidsperioden som <app>Orca</app> kommer vänta innan meddelandet tas bort och det ursprungliga innehållet på din skärm återställs kan ställas in i stegningsrutan <gui>Längd (sek)</gui>. Notera att värdet på denna inställning kommer ignoreras om du har aktiverat beständiga blixtmeddelanden.</p>
       <p>Standardvärde: 5</p>
     </section>
   </section>
