@@ -1,8 +1,8 @@
-orca (40.0-2) UNRELEASED; urgency=medium
+orca (40.0-2) unstable; urgency=medium
 
   * Upload to unstable
 
- -- Samuel Thibault <sthibault@debian.org>  Sun, 15 Aug 2021 20:27:38 +0200
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 15 Aug 2021 20:32:48 +0200
 
 orca (40.0-1) experimental; urgency=medium
 
