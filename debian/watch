@@ -1,4 +1,4 @@
 version=4
-opts="uversionmangle=s/.beta/~beta/;s/.rc/~rc/" \
+opts="uversionmangle=s/.alpha/~alpha/;s/.beta/~beta/;s/.rc/~rc/" \
 https://download.gnome.org/sources/@PACKAGE@/([\d\.]+[0-9])/ \
 	@PACKAGE@@ANY_VERSION@@ARCHIVE_EXT@
