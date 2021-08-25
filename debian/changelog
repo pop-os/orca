@@ -1,3 +1,9 @@
+orca (41~beta-2) experimental; urgency=medium
+
+  * patches/git-keyhandling: Fix reverting to legacy key snooping.
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 25 Aug 2021 15:21:20 +0200
+
 orca (41~beta-1) experimental; urgency=medium
 
   * New upstream beta release.
