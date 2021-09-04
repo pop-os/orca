@@ -1,6 +1,7 @@
 orca (41~rc-1) experimental; urgency=medium
 
   * New upstream RC release.
+    - patches/git-keyhandling: Upstreamed.
 
  -- Samuel Thibault <sthibault@debian.org>  Sat, 04 Sep 2021 15:19:57 +0200
 
