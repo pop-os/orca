@@ -32,12 +32,7 @@
       <desc>Opción del cuadro de diálogo de preferencias para seleccionar qué disposición del teclado de <app>Orca</app> usar, sobremesa o portátil.</desc>
     </info>
     <title>Distribución del teclado</title>
-    <p>
-      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
-      you will be working on a desktop (i.e. with a numeric keypad) or laptop
-      keyboard. Which layout you choose will determine both the <key>Orca
-      Modifier</key> as well as a number of keyboard shortcuts for performing
-      <app>Orca</app> commands.</p>
+    <p>El grupo de botones de radio <gui>distribución de teclado</gui> le permite especificar si trabajará en un equipo sobremesa (es decir, con un teclado numérico) o con un teclado de portátil. La distribución que elija determinará tanto el <key>Modificador de Orca</key> como cierto número de atajos de teclado para los comandos de <app>Orca</app>.</p>
     <p>Valor predeterminado: <gui>Escritorio</gui></p>
   </section>
   <section id="presenttooltips">

@@ -30,10 +30,7 @@
   <title>Preferencias de las asociaciones de teclas</title>
   <section id="orca_modifier_keys">
     <title>Teclas modificadoras de Orca</title>
-    <p>
-      The <gui>Screen Reader Modifier Key(s)</gui> combo box allows you to select which
-      key or keys will serve as the Orca Modifier. The available options are:
-    </p>
+    <p>La caja combinada <gui>Teclas modificadoras de Orca</gui> le permite elegir qué tecla o teclas servirán como «Modificador de Orca». Las opciones disponibles son:</p>
     <list>
       <item>
         <p><gui>TN Ins</gui> (la misma que el <key>0</key> en el teclado numérico)</p></item>
@@ -47,20 +44,13 @@
     <p>La tabla de asociaciones de teclas proporciona una lista de las operaciones de <application>Orca</application> y de las teclas que están asociadas a ellas.</p>
     <list>
       <item>
-        <p>
-          The <gui>Command</gui> column contains a description of the
-          <app>Orca</app> command to be performed.
-        </p>
+        <p>La columna <gui>Función</gui> es una descripción del comando de <app>Orca</app> que se ejecutará</p>
       </item>
       <item>
         <p>La columna <gui>Asociación de teclas</gui> contiene el atajo de teclado asignado actualmente al comando de <app>Orca</app>. Puede modificar el valor de esta columna pulsando <key>Intro</key>, pulsando después las teclas para el nuevo atajo, y pulsando <key>Intro</key> de nuevo.</p>
       </item>
       <item>
-        <p>
-          The <gui>Modified</gui> column serves both as an indicator to what
-          has been changed and as a way to restore the default bindings
-          associated with that command.
-        </p>
+        <p>La columna <gui>Modificado</gui> sirve tanto como un indicador para lo que se ha cambiado, así como una forma de restaurar las asociaciones predeterminadas con esa función.</p>
       </item>
     </list>
     <p>Bajo la lista de atajos de teclado de <app>Orca</app> encontrará un grupo de comandos «sin asociar». Estos son comandos muy útiles para algunos usuarios, pero no necesarios para otros muchos. En lugar de «usar» una pulsación de tecla para esos comandos, se han dejado sin asignar de forma predeterminada. Al final de la lista están los atajos de teclado Braille, para usarlos con un dispositivo actualizable Braille.</p>

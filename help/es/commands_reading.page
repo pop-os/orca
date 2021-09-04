@@ -32,15 +32,7 @@
   <title>Comandos de lectura</title>
   <p>Además de los comandos de navegación del cursor que forman parte de GNOME, <app>Orca</app> proporciona varios comandos que puede usar para leer un documento.</p>
   <note style="tip">
-    <p>
-      Below you will see several references to "KP". All
-      "KP" keys are located on the numeric keypad. You will also notice that
-      there are different keystrokes depending upon whether you are using a
-      desktop or a laptop -- or more accurately, whether you are using
-      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
-      For additional information, please see the
-      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
-    </p>
+    <p>En la lista que se muestra a continuación, observará varias referencias a «TN». Todas las teclas «TN» se ubican en el teclado numérico. También notará que hay diferentes pulsaciones de teclas dependiendo de si está usando un ordenador de escritorio o un portátil o, para ser más preciso, si está usando la distribución de escritorio de <app>Orca</app> o su distribución de portátil. Para obtener más información, consulte el tema <link xref="howto_keyboard_layout">distribución del teclado</link>.</p>
   </note>
   <section id="flat_review">
     <title>Leer su ubicación actual</title>
@@ -173,7 +165,7 @@
   </section>
   <section id="link_details">
     <title>Detalles del enlace</title>
-    <p>Si está sobre un enlace, el comando de <app>Orca</app> Dónde estoy básico se puede usar para hablar los detalles asociados al enlace como su tipo, si se ha visitado, la descripción del sitio y el tamaño del archivo. Si en vez de esto, prefiere un comando para este propósito, puede vincular el comando de <app>Orca</app> Hablar los detalles del enlace a una pulsación de teclas. Consulte cómo <link xref="howto_key_bindings">Modificar las asociaciones de teclas</link> para obtener información sobre cómo hacerlo.</p>
+    <p>Si está sobre un enlace, el comando de <app>Orca</app> Dónde estoy básico se puede usar para anunciar los detalles asociados al enlace como su tipo, si se ha visitado, la descripción del sitio y el tamaño del archivo. Si en vez de esto, prefiere un comando para este propósito, puede vincular el comando de <app>Orca</app> Hablar los detalles del enlace a una pulsación de teclas. Consulte cómo <link xref="howto_key_bindings">Modificar las asociaciones de teclas</link> para obtener información sobre cómo hacerlo.</p>
     <list>
       <item>
         <p>Hablar los detalles del enlace: (sin asociar)</p>
@@ -182,22 +174,16 @@
   </section>
   <section id="browse_and_focus_modes">
     <title>Modos de navegación y de foco</title>
-    <p>Los modos de foco y navegación de <app>Orca</app> le permiten cambiar entre leer e interactual con el contenido web.</p>
+    <p>Los modos de foco y navegación de <app>Orca</app> le permiten cambiar entre leer e interactuar con el contenido web.</p>
     <list>
       <item>
         <p>Cambiar entre modo navegación y modo foco: <keyseq><key>Modificador de Orca</key><key>A</key></keyseq></p>
       </item>
       <item>
-        <p>
-          Enable sticky focus mode:
-          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (double-clicked)
-        </p>
+        <p>Activa el modo de foco «pegajoso»: <keyseq><key>Modificador de Orca</key><key>A</key></keyseq> (doble pulsación)</p>
       </item>
       <item>
-        <p>
-          Enable sticky browse mode:
-          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (triple-clicked)
-        </p>
+        <p>Activa el modo de navegación «pegajoso»: <keyseq><key>Modificador de Orca</key><key>A</key></keyseq> (triple pulsación)</p>
       </item>
     </list>
   </section>
