@@ -106,13 +106,7 @@
     </section>
     <section id="system_messages_are_detailed">
       <title>Los mensajes del sistema son detallados</title>
-      <p>
-        If <gui>System messages are detailed</gui> is checked, <app>Orca</app> will
-        present detailed messages to you in speech. For instance, if you use
-        <app>Orca</app>'s command to change echo, <app>Orca</app> might
-        speak "Echo set to word." If you would prefer shorter messages,
-        such as simply "word," you should uncheck this checkbox.
-      </p>
+      <p>Si la opción <gui>Los mensajes son del sistema son detallados</gui> está activada, <app>Orca</app> mostrará mensajes detalladados al hablar. Por ejemplo, si usa el comando de <app>Orca</app> para cambiar el eco de las teclas, <app>Orca</app> puede hablar «Eco de tecla establecido a palabra». Si prefiere mensajes más cortos, como simplemente «palabra», debe desmarcar esta casilla.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
     <section id="speak_colors_as_names">
@@ -152,32 +146,17 @@
     </section>
     <section id="speak_full_row_in_gui_tables">
       <title>Hablar la fila completa en tablas de la IGU</title>
-      <p>
-        If <gui>Speak full row in GUI tables</gui> is checked, as you arrow up
-        and down in application tables such as the list of messages in your
-        Inbox, <app>Orca</app> will speak the entire row. If you would prefer
-        to hear only the cell with focus, you should uncheck this checkbox.
-      </p>
+      <p>Si la opción <gui>Leer fila completa el tablas de la IGU</gui> está marcada, a medida que sube y baja en las tablas de la aplicación, tales como la lista de mensajes de la bandeja de entrada, <app>Orca</app> hablará la fila completa. Si prefiere escuchar sólo la celda con el foco, debe desmarcar esta casilla.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
     <section id="speak_full_row_in_document_tables">
       <title>Hablar la fila completa en tablas del documento</title>
-      <p>
-        If <gui>Speak full row in document tables</gui> is checked, as you arrow
-        up and down in tables such as those found in <app>Writer</app> and web
-        documents, <app>Orca</app> will speak the entire row. If you would prefer
-        to hear only the cell with focus, you should uncheck this checkbox.
-      </p>
+      <p>Si la opción <gui>Leer fila completa el tablas del documento</gui> está marcada, a medida que sube y baja en las tablas como las de <app>writer</app> y en documentos web, <app>Orca</app> hablará la fila completa. Si prefiere escuchar sólo la celda con el foco, debe desmarcar esta casilla.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
     <section id="speak_full_row_in_spreadsheets">
       <title>Hablar la fila completa en hojas de cálculo</title>
-      <p>
-        If <gui>Speak full row in spreadsheets</gui> is checked, as you arrow
-        up and down in spreadsheets, <app>Orca</app> will speak the entire
-        row. If you would prefer to hear only the cell with focus, you should
-        uncheck this checkbox.
-      </p>
+      <p>Si la casilla <gui>Hablar fila completa en hojas de cálculo</gui> está marcada, a medida que sube y baja en la hoja de cálculo <app>Orca</app> hablará la fila completa. Si prefiere escuchar sólo la celda que tiene el foco, debe desmarcar esta casilla.</p>
       <p>Valor predeterminado: no marcado</p>
     </section>
   </section>

@@ -35,12 +35,7 @@
     <p>El grupo de controles <gui>Navegación por páginas</gui> le permite personalizar cómo se presenta <app>Orca</app>, y le permite interactuar con el texto y otros contenidos.</p>
     <section id="page_navigation_control_caret">
       <title>Controlar la navegación de cursor</title>
-      <p>
-        This checkbox toggles <app>Orca</app>'s caret navigation on and off.
-        When it is on, <app>Orca</app> takes control of the caret as you arrow
-        around within a page; when it is off, the browser's native caret navigation is
-        active.
-      </p>
+      <p>Esta casilla activa o desactiva la navegación de cursor de <app>Orca</app>. Cuando está activada, <app>Orca</app> toma el control del cursor a mientras se mueve por una página; cuando está desactivada, la navegación del cursor nativa de Gecko está activa.</p>
       <p>Valor predeterminado: marcado</p>
       <note style="tip">
         <title>Esta configuración se puede cambiar al vuelo</title>
@@ -76,15 +71,7 @@
     </section>
     <section id="page_navigation_focus_native">
       <title>Foco automático durante la navegación nativa</title>
-      <p>
-        If this checkbox is checked, <app>Orca</app> will automatically turn on
-        focus mode when you use native browser navigation commands to navigate to a
-        form field. For example, pressing <key>Tab</key> to move to the next entry
-        would move focus there and also turn focus mode on so that your next press
-        of <key>E</key> would type an "e" into that entry. If this checkbox is not
-        checked, then <app>Orca</app> will leave you in browse mode and your next
-        press of <key>E</key> would move you to the next entry on the page.
-      </p>
+      <p>Si esta casilla está marcada, <app>Orca</app> activará automáticamente el modo foco cuando use los comandos de navegación estructural para navegar al campo de un formulario. Por ejemplo, al pulsar la tecla <key>E</key> para moverse a la siguiente entrada se moverá el foco y se activará el modo foco, por lo que la siguiente pulsación de la tecla <key>E</key> escribirá una «e» en la entrada. Si esta casilla no está marcada <app>Orca</app> permanecerá en modo navegación, y la siguiente pulsación de la tecla <key>E</key> le moverá a la siguiente entrada en la página.</p>
       <p>Valor predeterminado: marcado</p>
       <note style="tip">
         <title>Cambiar manualmente entre modo navegación y modo foco</title>
