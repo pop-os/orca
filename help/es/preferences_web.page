@@ -5,10 +5,7 @@
     <link type="next" xref="preferences_table_navigation"/>
     <title type="sort">1. Navegación Web</title>
     <title type="link">Navegación Weg</title>
-    <desc>
-      Configuring <app>Orca</app>'s support for <app>Firefox</app>,
-      <app>Thunderbird</app>, and <app>Chrome</app>/<app>Chromium</app>
-    </desc>
+    <desc>Configurar el soporte de <app>Orca</app> para <app>Firefox,</app> <app>Thunderbird,</app> y <app>Chrome</app> <app>Chromium</app></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
