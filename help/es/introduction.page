@@ -16,7 +16,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Daniel Mustieles</mal:name>
       <mal:email>daniel.mustieles@gmail.com</mal:email>
-      <mal:years>2012 - 2020</mal:years>
+      <mal:years>2012 - 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -27,23 +27,13 @@
   </info>
   <title>Bienvenido a Orca</title>
   <p><app>Orca</app> es un lector de pantalla libre, de código abierto, flexible y ampliable que proporciona acceso al escritorio gráfico a través de voz y Braille actualizable.</p>
-  <p>
-    <app>Orca</app> works with applications and toolkits that support
-    the Assistive Technology Service Provider Interface (AT-SPI), which
-    is the primary assistive technology infrastructure for Linux and
-    Solaris. Applications and toolkits supporting the AT-SPI include
-    Gtk+, Qt, Java Swing, LibreOffice, Gecko, WebKitGtk, and Chrome/Chromium.
-  </p>
+  <p><app>Orca</app> funciona con aplicaciones y kits de herramientas que soportan la interfaz del proveedor de servicios de tecnologías de asistencia (AT-SPI), que es la infraestructura principal de tecnologías de asistencia para Linux y Solaris. Las aplicaciones y kits de herramientas que soportan la AT-SPI incluyen el kit de herramientas GTK+ de GNOME, el kit de herramientas Swing de la plataforma Java, LibreOffice, Gecko, WebKitGtk, y Chrome/Chromium. Se está intentando que el kit de herramientas Qt de KDE también tenga soporte.</p>
   <section id="launching">
     <title>Lanzando <app>Orca</app></title>
     <p>Para lanzar <app>Orca</app>:</p>
     <list>
       <item>
-        <p>
-          The method for configuring <app>Orca</app> to be launched
-          automatically as your preferred screen reader will depend upon
-          which desktop environment you use.
-        </p>
+        <p>El método para configurar <app>Orca</app> para que se lance como su lector de pantalla preferido dependerá de qué entorno de escritorio use.</p>
       </item>
       <item>
         <p>Para activar y desactivar <app>Orca</app> en GNOME, pulse <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>

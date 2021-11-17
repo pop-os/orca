@@ -1237,15 +1237,14 @@ class Utilities:
     def activeDocument(self, window=None):
         return self.getTopLevelDocumentForObject(orca_state.locusOfFocus)
 
-    def getTopLevelDocumentForObject(self, obj):
-        document = self.getDocumentForObject(obj)
-        while document:
-            ancestor = pyatspi.findAncestor(document, self.isDocument)
-            if not ancestor or ancestor == document:
-                break
-            document = ancestor
+    def isTopLevelDocument(self, obj):
+        return self.isDocument(obj) and not pyatspi.findAncestor(obj, self.isDocument)
 
-        return document
+    def getTopLevelDocumentForObject(self, obj):
+        if self.isTopLevelDocument(obj):
+            return obj
+
+        return pyatspi.findAncestor(obj, self.isTopLevelDocument)
 
     def getDocumentForObject(self, obj):
         if not obj:
@@ -2814,6 +2813,12 @@ class Utilities:
         child = hyperlink.getObject(0)
         msg = "INFO: Hyperlink object at index %i for %s is %s" % (index, obj, child)
         debug.println(debug.LEVEL_INFO, msg, True)
+
+        if offset != hyperlink.startIndex:
+            msg = "ERROR: The hyperlink start index (%i) should match the offset (%i)" \
+                % (hyperlink.startIndex, offset)
+            debug.println(debug.LEVEL_INFO, msg, True)
+
         return child
 
     def characterOffsetInParent(self, obj):
@@ -3919,6 +3924,8 @@ class Utilities:
             return obj
 
         rolemap = {
+            pyatspi.ROLE_CANVAS: [pyatspi.ROLE_LAYERED_PANE],
+            pyatspi.ROLE_ICON: [pyatspi.ROLE_LAYERED_PANE],
             pyatspi.ROLE_LIST_ITEM: [pyatspi.ROLE_LIST_BOX],
             pyatspi.ROLE_TREE_ITEM: [pyatspi.ROLE_TREE, pyatspi.ROLE_TREE_TABLE],
             pyatspi.ROLE_TABLE_CELL: [pyatspi.ROLE_TABLE, pyatspi.ROLE_TREE_TABLE],
@@ -4210,6 +4217,9 @@ class Utilities:
 
     def detailsFor(self, obj):
         return []
+
+    def hasVisibleCaption(self, obj):
+        return False
 
     def popupType(self, obj):
         return ''
@@ -5719,7 +5729,19 @@ class Utilities:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
+        if self.isKeyGrabEvent(event):
+            msg = "INFO: Last key was consumed. Probably a bogus event from a key grab"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
         return True
+
+    def isKeyGrabEvent(self, event):
+        """ Returns True if this event appears to be a side-effect of an
+        X11 key grab. """
+        if not isinstance(orca_state.lastInputEvent, input_event.KeyboardEvent):
+            return False
+        return orca_state.lastInputEvent.didConsume() and not orca_state.openingDialog
 
     def presentFocusChangeReason(self):
         if self.handleUndoLocusOfFocusChange():

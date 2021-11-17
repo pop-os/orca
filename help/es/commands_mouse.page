@@ -19,7 +19,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Daniel Mustieles</mal:name>
       <mal:email>daniel.mustieles@gmail.com</mal:email>
-      <mal:years>2012 - 2020</mal:years>
+      <mal:years>2012 - 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -31,15 +31,7 @@
   <title>Comandos relacionados con el ratón/puntero</title>
   <p><app>Orca</app> proporciona varios comandos que se pueden usar para manipular el puntero del ratón y leer el contenido bajo este. Todos los comandos están «asociados» a pulsaciones de teclas con una excepción: alternar el modo de revisión del ratón. Consulte <link xref="howto_key_bindings">Modificar asociaciones de teclas</link> para obtener más información sobre cómo asociar este comando a una pulsación de tecla.</p>
   <note style="tip">
-    <p>
-      Below you will see several references to "KP". All
-      "KP" keys are located on the numeric keypad. You will also notice that
-      there are different keystrokes depending upon whether you are using a
-      desktop or a laptop -- or more accurately, whether you are using
-      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
-      For additional information, please see the
-      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
-    </p>
+    <p>En la lista que se muestra a continuación, observará varias referencias a «TN». Todas las teclas «TN» se ubican en el teclado numérico. También notará que hay diferentes pulsaciones de teclas dependiendo de si está usando un ordenador de escritorio o un portátil o, para ser más preciso, si está usando la distribución de escritorio de <app>Orca</app> o su distribución de portátil. Para obtener más información, consulte el tema <link xref="howto_keyboard_layout">distribución del teclado</link>.</p>
   </note>
   <list>
     <item>

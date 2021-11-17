@@ -25,6 +25,9 @@ __copyright__ = "Copyright (c) 2011. Orca Team."
 __license__   = "LGPL"
 
 from gi.repository import GLib
+import gi
+gi.require_version('Atspi', '2.0') 
+from gi.repository import Atspi
 import pyatspi
 import queue
 import threading
@@ -62,15 +65,47 @@ class EventManager:
                                'object:state-changed:defunct',
                                'object:property-change:accessible-parent']
         self._parentsOfDefunctDescendants = []
+
+        orca_state.device = None
+        self.newKeyHandlingActive = False
+        self.legacyKeyHandlingActive = False
+        self.forceLegacyKeyHandling = False
+
         debug.println(debug.LEVEL_INFO, 'Event manager initialized', True)
 
     def activate(self):
         """Called when this event manager is activated."""
 
         debug.println(debug.LEVEL_INFO, 'EVENT MANAGER: Activating', True)
-        self.registerKeystrokeListener(self._processKeyboardEvent)
+        self.setKeyHandling(False)
+
         self._active = True
         debug.println(debug.LEVEL_INFO, 'EVENT MANAGER: Activated', True)
+
+    def activateNewKeyHandling(self):
+        if not self.newKeyHandlingActive:
+            try:
+                orca_state.device = Atspi.Device.new()
+            except:
+                self.forceLegacyKeyHandling = True
+                self.activateLegacyKeyHandling()
+                return
+            orca_state.device.event_count = 0
+            orca_state.device.key_watcher = orca_state.device.add_key_watcher(self._processNewKeyboardEvent)
+            self.newKeyHandlingActive = True
+
+    def activateLegacyKeyHandling(self):
+        if not self.legacyKeyHandlingActive:
+            self.registerKeystrokeListener(self._processKeyboardEvent)
+            self.legacyKeyHandlingActive = True
+
+    def setKeyHandling(self, new):
+        if new and not self.forceLegacyKeyHandling:
+            self.deactivateLegacyKeyHandling()
+            self.activateNewKeyHandling()
+        else:
+            self.deactivateNewKeyHandling()
+            self.activateLegacyKeyHandling()
 
     def deactivate(self):
         """Called when this event manager is deactivated."""
@@ -80,8 +115,18 @@ class EventManager:
         for eventType in self._scriptListenerCounts.keys():
             self.registry.deregisterEventListener(self._enqueue, eventType)
         self._scriptListenerCounts = {}
-        self.deregisterKeystrokeListener(self._processKeyboardEvent)
+        self.deactivateLegacyKeyHandling()
         debug.println(debug.LEVEL_INFO, 'EVENT MANAGER: Deactivated', True)
+
+    def deactivateNewKeyHandling(self):
+        if self.newKeyHandlingActive:
+            orca_state.device = None
+            self.newKeyHandlingActive = False;
+
+    def deactivateLegacyKeyHandling(self):
+        if self.legacyKeyHandlingActive:
+            self.deregisterKeystrokeListener(self._processKeyboardEvent)
+            self.legacyKeyHandlingActive = False;
 
     def ignoreEventTypes(self, eventTypeList):
         for eventType in eventTypeList:
@@ -129,6 +174,11 @@ class EventManager:
             msg = 'EVENT MANAGER: Not ignoring because event type is never ignored'
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
+
+        if self._inDeluge() and self._ignoreDuringDeluge(event):
+            msg = 'EVENT MANAGER: Ignoring event type due to deluge'
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
 
         script = orca_state.activeScript
         if event.type.startswith('object:children-changed'):
@@ -326,7 +376,7 @@ class EventManager:
         if debug.debugEventQueue:
             debug.println(debug.LEVEL_ALL, "           ...released")
 
-    def _queuePrintln(self, e, isEnqueue=True):
+    def _queuePrintln(self, e, isEnqueue=True, isPrune=None):
         """Convenience method to output queue-related debugging info."""
 
         if isinstance(e, input_event.KeyboardEvent):
@@ -342,7 +392,11 @@ class EventManager:
         else:
             return
 
-        if isEnqueue:
+        if isPrune:
+            string = "EVENT MANAGER: Pruning %s %s" % (e.type, data)
+        elif isPrune is not None:
+            string = "EVENT MANAGER: Not pruning %s %s" % (e.type, data)
+        elif isEnqueue:
             string = "EVENT MANAGER: Queueing %s %s" % (e.type, data)
         else:
             string = "EVENT MANAGER: Dequeued %s %s" % (e.type, data)
@@ -378,6 +432,11 @@ class EventManager:
             return
 
         self._queuePrintln(e)
+
+        if self._inFlood() and self._prioritizeDuringFlood(e):
+            msg = 'EVENT MANAGER: Pruning event queue due to flood.'
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self._pruneEventsDuringFlood()
 
         asyncMode = self._asyncMode
         if isObjectEvent:
@@ -690,8 +749,18 @@ class EventManager:
             return True, "The script insists it should be activated for this event."
 
         eType = event.type
+
         if eType.startswith('window:activate'):
-            return True, "window:activate event"
+            windowActivation = True
+        else:
+            windowActivation = eType.startswith('object:state-changed:active') \
+                and event.detail1 and role == pyatspi.ROLE_FRAME
+
+        if windowActivation:
+            if event.source != orca_state.activeWindow:
+                return True, "Window activation"
+            else:
+                return False, "Window activation for already-active window"
 
         if eType.startswith('focus') \
            or (eType.startswith('object:state-changed:focused')
@@ -710,6 +779,107 @@ class EventManager:
             return True, "Modal panel is showing."
 
         return False, "No reason found to activate a different script."
+
+    def _ignoreDuringDeluge(self, event):
+        """Returns true if this event should be ignored during a deluge."""
+
+        ignore = ["object:text-changed:delete",
+                  "object:text-changed:insert",
+                  "object:text-changed:delete:system",
+                  "object:text-changed:insert:system",
+                  "object:children-changed:add",
+                  "object:children-changed:add:system",
+                  "object:state-changed:showing",
+                  "object:state-changed:sensitive"]
+
+        if event.type not in ignore:
+            return False
+
+        return event.source != orca_state.locusOfFocus
+
+    def _inDeluge(self):
+        size = self._eventQueue.qsize()
+        if size > 100:
+            msg = 'EVENT MANAGER: DELUGE! Queue size is %i' % size
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        return False
+
+    def _processDuringFlood(self, event):
+        """Returns true if this event should be processed during a flood."""
+
+        ignore = ["object:text-changed:delete",
+                  "object:text-changed:insert",
+                  "object:text-changed:delete:system",
+                  "object:text-changed:insert:system",
+                  "object:children-changed:add",
+                  "object:children-changed:add:system",
+                  "object:state-changed:showing",
+                  "object:state-changed:sensitive"]
+
+        if event.type not in ignore:
+            return True
+
+        return event.source == orca_state.locusOfFocus
+
+    def _prioritizeDuringFlood(self, event):
+        """Returns true if this event should be prioritized during a flood."""
+
+        if event.type.startswith("object:state-changed:focused"):
+            return event.detail1
+
+        if event.type.startswith("object:state-changed:selected"):
+            return event.detail1
+
+        if event.type.startswith("window:activate"):
+            return True
+
+        if event.type.startswith("window:deactivate"):
+            return True
+
+        if event.type.startswith("object:state-changed:active"):
+            return event.source.getRole() in [pyatspi.ROLE_FRAME, pyatspi.ROLE_WINDOW]
+
+        if event.type.startswith("document:load-complete"):
+            return True
+
+        if event.type.startswith("object:state-changed:busy"):
+            return not event.detail1
+
+        return False
+
+    def _pruneEventsDuringFlood(self):
+        """Gets rid of events we don't care about during a flood."""
+
+        oldSize = self._eventQueue.qsize()
+
+        newQueue = queue.Queue(0)
+        while not self._eventQueue.empty():
+            try:
+                event = self._eventQueue.get()
+            except Empty:
+                continue
+
+            if self._processDuringFlood(event):
+                newQueue.put(event)
+                self._queuePrintln(event, isPrune=False)
+            self._eventQueue.task_done()
+
+        self._eventQueue = newQueue
+        newSize = self._eventQueue.qsize()
+
+        msg = 'EVENT MANAGER: %i events pruned. New size: %i' % ((oldSize - newSize), newSize)
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+    def _inFlood(self):
+        size = self._eventQueue.qsize()
+        if size > 50:
+            msg = 'EVENT MANAGER: FLOOD? Queue size is %i' % size
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        return False
 
     def _processObjectEvent(self, event):
         """Handles all object events destined for scripts.
@@ -764,6 +934,11 @@ class EventManager:
 
         if state and state.contains(pyatspi.STATE_ICONIFIED):
             msg = 'EVENT MANAGER: Ignoring iconified object: %s' % event.source
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return
+
+        if self._inFlood() and not self._processDuringFlood(event):
+            msg = 'EVENT MANAGER: Not processing this event due to flood.'
             debug.println(debug.LEVEL_INFO, msg, True)
             return
 
@@ -823,6 +998,29 @@ class EventManager:
         for key, value in attributes.items():
             msg = 'EVENT MANAGER: %s: %s' % (key, value)
             debug.println(debug.LEVEL_INFO, msg, True)
+
+    def _processNewKeyboardEvent(self, device, pressed, keycode, keysym, state, text):
+        event = Atspi.DeviceEvent()
+        if pressed:
+            event.type = pyatspi.KEY_PRESSED_EVENT
+        else:
+            event.type = pyatspi.KEY_RELEASED_EVENT
+        event.hw_code = keycode
+        event.id = keysym
+        event.modifiers = state
+        event.event_string = text
+        if event.event_string is None:
+            event.event_string = ""
+        event.timestamp = device.event_count
+        device.event_count = device.event_count + 1
+
+        if not pressed and text == "Num_Lock" and "KP_Insert" in settings.orcaModifierKeys and orca_state.activeSWcript is not None:
+            orca_state.activeScript.refreshKeyGrabs()
+
+        if pressed:
+            orca_state.openingDialog = (text == "space" and (state & ~(1 << pyatspi.MODIFIER_NUMLOCK)))
+
+        self._processKeyboardEvent(event)
 
     def _processKeyboardEvent(self, event):
         keyboardEvent = input_event.KeyboardEvent(event)

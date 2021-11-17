@@ -130,13 +130,7 @@
     </section>
     <section id="system_messages_are_detailed">
       <title>Les messages systèmes sont détaillés</title>
-      <p>
-        If <gui>System messages are detailed</gui> is checked, <app>Orca</app> will
-        present detailed messages to you in speech. For instance, if you use
-        <app>Orca</app>'s command to change echo, <app>Orca</app> might
-        speak "Echo set to word." If you would prefer shorter messages,
-        such as simply "word," you should uncheck this checkbox.
-      </p>
+      <p>Si la case <gui>Les messages systèmes sont détaillés</gui> est cochée, <app>Orca</app> annonce des messages détaillés en synthèse vocale. Par exemple, si vous utilisez la commande d’<app>Orca</app> pour changer l’écho, <app>Orca</app> pourrait annoncer « Écho défini par mot ». Si vous préférez des messages plus courts, tels que simplement « mot », vous devriez décocher cette case.</p>
       <p>Valeur par défaut : cochée</p>
     </section>
     <section id="speak_colors_as_names">

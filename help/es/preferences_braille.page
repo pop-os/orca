@@ -17,7 +17,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Daniel Mustieles</mal:name>
       <mal:email>daniel.mustieles@gmail.com</mal:email>
-      <mal:years>2012 - 2020</mal:years>
+      <mal:years>2012 - 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -80,13 +80,7 @@
     </section>
     <section id="flashMessageSettings_detailed">
       <title>Los mensajes son detallados</title>
-      <p>
-        If <gui>Messages are detailed</gui> is checked, <app>Orca</app> will
-        present detailed messages to you in braille. For instance, if you
-        use <app>Orca</app>'s command to change echo, <app>Orca</app> might
-        display "Echo set to word." If you would prefer shorter messages,
-        such as simply "word," you should uncheck this checkbox.
-      </p>
+      <p>Si la opción <gui>Los mensajes son detallados</gui> está activada, <app>Orca</app> presentará mensajes detallados en Braille. Por ejemplo, si usa el comando de <app>Orca</app> para cambiar el eco de la tecla, <app>Orca</app> puede mostrar «Eco de teclado establecido a palabra». Si prefiere mensajes más cortos, como simplemente «palabra», debe desmarcar esta casilla.</p>
       <p>Valor predeterminado: marcado</p>
     </section>
     <section id="flashMessageSettings_persistent">
@@ -95,13 +89,8 @@
       <p>Valor predeterminado: no marcado</p>
     </section>
     <section id="flashMessageSettings_duration">
-      <title>Duration (secs)</title>
-      <p>
-        The amount of time <app>Orca</app> will wait before removing the message and
-        restoring the original contents of your display can be set in the <gui>
-        Duration (secs)</gui> spin button. Note that the value of this
-        setting will be ignored if you have enabled persistent flash messages.
-      </p>
+      <title>Duración (segs)</title>
+      <p>La cantidad de tiempo que <app>Orca</app> esperará antes de eliminar el mensaje y restaurar el contenido original de la pantalla se puede configurar con el botón <gui>Duración del mensaje (segs)</gui>. Tenga en cuenta que el valor de esta opción se ignorará si los mensajes temporales son persistentes.</p>
       <p>Valor predeterminado: 5</p>
     </section>
   </section>

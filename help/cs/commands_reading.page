@@ -153,7 +153,7 @@
   </section>
   <section id="link_details">
     <title>Podrobnosti k odkazu</title>
-    <p>Když se nacházíte na odkazu, můžete použít příkaz čtečky <app>Orca</app> „Kde se nacházím“ k oznámení informací patřících k odkazu, jako typ odkazu, jestli byl již navštíven, popis webu a velikost souboru. Pokud byste pro tento účel měli raději vyhrazený příkaz, můžete navázat příkaz „Přečíst podrobnosti k odkazu“ na klávesovou zkratku. Jak to udělat, najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
+    <p>Když se nacházíte na odkazu, můžete použít příkaz čtečky <app>Orca</app> „Kde se nacházím“ k oznámení informací patřících k odkazu, jako je typ odkazu, jestli byl již navštíven, popis webu a velikost souboru. Pokud byste pro tento účel měli raději vyhrazený příkaz, můžete navázat příkaz „Přečíst podrobnosti k odkazu“ na klávesovou zkratku. Jak to udělat, najdete v kapitole <link xref="howto_key_bindings">Změna klávesových zkratek</link>.</p>
     <list>
       <item>
         <p>Přečíst podrobnosti k odkazu: (bez klávesové zkratky)</p>

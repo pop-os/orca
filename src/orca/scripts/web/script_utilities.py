@@ -77,8 +77,10 @@ class Utilities(script_utilities.Utilities):
         self._elementLinesAreSingleWords= {}
         self._hasNoSize = {}
         self._hasLongDesc = {}
+        self._hasVisibleCaption = {}
         self._hasDetails = {}
         self._isDetails = {}
+        self._isNonInteractiveDescendantOfControl = {}
         self._hasUselessCanvasDescendant = {}
         self._isClickableElement = {}
         self._isAnchor = {}
@@ -168,9 +170,11 @@ class Utilities(script_utilities.Utilities):
         self._elementLinesAreSingleWords= {}
         self._hasNoSize = {}
         self._hasLongDesc = {}
+        self._hasVisibleCaption = {}
         self._hasDetails = {}
         self._isDetails = {}
         self._hasUselessCanvasDescendant = {}
+        self._isNonInteractiveDescendantOfControl = {}
         self._isClickableElement = {}
         self._isAnchor = {}
         self._isEditableComboBox = {}
@@ -721,9 +725,6 @@ class Utilities(script_utilities.Utilities):
             obj, offset = self.getCaretContext()
 
         nextobj, nextoffset = self.findNextCaretInOrder(obj, offset)
-        if (obj, offset) == (nextobj, nextoffset):
-            nextobj, nextoffset = self.findNextCaretInOrder(nextobj, nextoffset)
-
         if skipSpace:
             text = self.queryNonEmptyText(nextobj)
             while text and text.getText(nextoffset, nextoffset + 1) in [" ", "\xa0"]:
@@ -737,9 +738,6 @@ class Utilities(script_utilities.Utilities):
             obj, offset = self.getCaretContext()
 
         prevobj, prevoffset = self.findPreviousCaretInOrder(obj, offset)
-        if (obj, offset) == (prevobj, prevoffset):
-            prevobj, prevoffset = self.findPreviousCaretInOrder(prevobj, prevoffset)
-
         if skipSpace:
             text = self.queryNonEmptyText(prevobj)
             while text and text.getText(prevoffset, prevoffset + 1) in [" ", "\xa0"]:
@@ -1030,7 +1028,7 @@ class Utilities(script_utilities.Utilities):
         if not self.inDocumentContent(obj):
             return rv
 
-        if rv and self._treatObjectAsWhole(obj) and obj.name and not self.isCellWithNameFromHeader(obj):
+        if rv and self._treatObjectAsWhole(obj, -1) and obj.name and not self.isCellWithNameFromHeader(obj):
             msg = "WEB: Treating %s as non-text: named object treated as whole." % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             rv = False
@@ -1094,7 +1092,41 @@ class Utilities(script_utilities.Utilities):
         self._hasNameAndActionAndNoUsefulChildren[hash(obj)] = rv
         return rv
 
-    def _treatObjectAsWhole(self, obj):
+    def isNonInteractiveDescendantOfControl(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return False
+
+        rv = self._isNonInteractiveDescendantOfControl.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        try:
+            role = obj.getRole()
+            state = obj.getState()
+        except:
+            msg = "WEB: Exception getting role and state for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        rv = False
+        roles = self._textBlockElementRoles()
+        roles.extend([pyatspi.ROLE_IMAGE, pyatspi.ROLE_CANVAS])
+        if role in roles and not state.contains(pyatspi.STATE_FOCUSABLE):
+            controls = [pyatspi.ROLE_CHECK_BOX,
+                        pyatspi.ROLE_CHECK_MENU_ITEM,
+                        pyatspi.ROLE_LIST_BOX,
+                        pyatspi.ROLE_MENU_ITEM,
+                        pyatspi.ROLE_RADIO_MENU_ITEM,
+                        pyatspi.ROLE_RADIO_BUTTON,
+                        pyatspi.ROLE_PUSH_BUTTON,
+                        pyatspi.ROLE_TOGGLE_BUTTON,
+                        pyatspi.ROLE_TREE_ITEM]
+            rv = pyatspi.findAncestor(obj, lambda x: x and x.getRole() in controls)
+
+        self._isNonInteractiveDescendantOfControl[hash(obj)] = rv
+        return rv
+
+    def _treatObjectAsWhole(self, obj, offset=None):
         always = [pyatspi.ROLE_CHECK_BOX,
                   pyatspi.ROLE_CHECK_MENU_ITEM,
                   pyatspi.ROLE_LIST_BOX,
@@ -1102,21 +1134,24 @@ class Utilities(script_utilities.Utilities):
                   pyatspi.ROLE_RADIO_MENU_ITEM,
                   pyatspi.ROLE_RADIO_BUTTON,
                   pyatspi.ROLE_PUSH_BUTTON,
-                  pyatspi.ROLE_TOGGLE_BUTTON,
-                  pyatspi.ROLE_TREE_ITEM]
+                  pyatspi.ROLE_TOGGLE_BUTTON]
 
         descendable = [pyatspi.ROLE_MENU,
                        pyatspi.ROLE_MENU_BAR,
                        pyatspi.ROLE_TOOL_BAR,
-                       pyatspi.ROLE_TREE,
-                       pyatspi.ROLE_TREE_TABLE]
+                       pyatspi.ROLE_TREE_ITEM]
 
         role = obj.getRole()
         if role in always:
             return True
 
         if role in descendable:
-            return self._script.inFocusMode()
+            if self._script.inFocusMode():
+                return True
+
+            # This should cause us to initially stop at the large containers before
+            # allowing the user to drill down into them in browse mode.
+            return offset == -1
 
         if role == pyatspi.ROLE_ENTRY:
             if obj.childCount == 1 and self.isFakePlaceholderForEntry(obj[0]):
@@ -1140,7 +1175,7 @@ class Utilities(script_utilities.Utilities):
         if role == pyatspi.ROLE_COMBO_BOX:
             return True
 
-        if role == pyatspi.ROLE_EMBEDDED:
+        if role in [pyatspi.ROLE_EMBEDDED, pyatspi.ROLE_TREE, pyatspi.ROLE_TREE_TABLE]:
             return not self._script.browseModeIsSticky()
 
         if role == pyatspi.ROLE_LINK:
@@ -1693,8 +1728,12 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             return []
 
-        text = self.queryNonEmptyText(obj)
         offset = max(0, offset)
+        if obj.getRole() == pyatspi.ROLE_TOOL_BAR and not self._treatObjectAsWhole(obj):
+            child = self.getChildAtOffset(obj, offset)
+            if child:
+                obj = child
+                offset = 0
 
         if useCache:
             if self.findObjectInContents(obj, offset, self._currentLineContents, usingCache=True) != -1:
@@ -1738,6 +1777,9 @@ class Utilities(script_utilities.Utilities):
                         # This happens with dynamic skip links such as found on Wikipedia.
                         return False
                 elif self.isBlockListDescendant(obj) != self.isBlockListDescendant(xObj):
+                    return False
+                elif obj.getRole() in [pyatspi.ROLE_TREE, pyatspi.ROLE_TREE_ITEM] \
+                     and xObj.getRole() in [pyatspi.ROLE_TREE, pyatspi.ROLE_TREE_ITEM]:
                     return False
 
             if self.isMathTopLevel(xObj) or self.isMath(obj):
@@ -1872,6 +1914,16 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.getLineContentsAtOffset(obj, offset, layoutMode, useCache)
 
+        if line == contents:
+            start, end = self.getHyperlinkRange(obj)
+            msg = "WEB: Got same line. %s has range in %s of %i-%i" % (obj, obj.parent, start, end)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            if start >= 0:
+                obj, offset = self.previousContext(obj.parent, start, True)
+                msg = "WEB: Trying again with %s, %i" % (obj, offset)
+                debug.println(debug.LEVEL_INFO, msg, True)
+                contents = self.getLineContentsAtOffset(obj, offset, layoutMode, useCache)
+
         return contents
 
     def getNextLineContents(self, obj=None, offset=-1, layoutMode=None, useCache=True):
@@ -1920,6 +1972,16 @@ class Utilities(script_utilities.Utilities):
             msg = "WEB: Got same line. Trying again with %s, %i" % (obj, offset)
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.getLineContentsAtOffset(obj, offset, layoutMode, useCache)
+
+        if line == contents:
+            start, end = self.getHyperlinkRange(obj)
+            msg = "WEB: Got same line. %s has range in %s of %i-%i" % (obj, obj.parent, start, end)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            if end >= 0:
+                obj, offset = self.nextContext(obj.parent, end, True)
+                msg = "WEB: Trying again with %s, %i" % (obj, offset)
+                debug.println(debug.LEVEL_INFO, msg, True)
+                contents = self.getLineContentsAtOffset(obj, offset, layoutMode, useCache)
 
         if not contents:
             msg = "WEB: Could not get line contents for %s, %i" % (obj, offset)
@@ -3381,6 +3443,10 @@ class Utilities(script_utilities.Utilities):
 
         return self.queryNonEmptyText(obj) is None
 
+    def isEmptyToolTip(self, obj):
+        return obj and obj.getRole() == pyatspi.ROLE_TOOL_TIP \
+            and self.queryNonEmptyText(obj) is None
+
     def isBrowserUIAlert(self, obj):
         if not (obj and obj.getRole() == pyatspi.ROLE_ALERT):
             return False
@@ -3907,7 +3973,7 @@ class Utilities(script_utilities.Utilities):
         return rv
 
     def hasValidName(self, obj):
-        if not obj.name:
+        if not (obj and obj.name):
             return False
 
         if len(obj.name.split()) > 1:
@@ -4009,6 +4075,23 @@ class Utilities(script_utilities.Utilities):
         rv = "showlongdesc" in names
 
         self._hasLongDesc[hash(obj)] = rv
+        return rv
+
+    def hasVisibleCaption(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return super().hasVisibleCaption(obj)
+
+        if not (self.isFigure(obj) or "Table" in pyatspi.listInterfaces(obj)):
+            return False
+
+        rv = self._hasVisibleCaption.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        labels = self.labelsForObject(obj)
+        pred = lambda x: x and x.getRole() == pyatspi.ROLE_CAPTION and self.isShowingAndVisible(x)
+        rv = bool(list(filter(pred, labels)))
+        self._hasVisibleCaption[hash(obj)] = rv
         return rv
 
     def hasDetails(self, obj):
@@ -4241,8 +4324,9 @@ class Utilities(script_utilities.Utilities):
 
         return False
 
-    def eventIsAutocompleteNoise(self, event):
-        if not self.inDocumentContent(event.source):
+    def eventIsAutocompleteNoise(self, event, documentFrame=None):
+        inContent = documentFrame or self.inDocumentContent(event.source)
+        if not inContent:
             return False
 
         isListBoxItem = lambda x: x and x.parent and x.parent.getRole() == pyatspi.ROLE_LIST_BOX
@@ -4251,7 +4335,7 @@ class Utilities(script_utilities.Utilities):
 
         if event.source.getState().contains(pyatspi.STATE_EDITABLE) \
            and event.type.startswith("object:text-"):
-            obj, offset = self.getCaretContext()
+            obj, offset = self.getCaretContext(documentFrame)
             if isListBoxItem(obj) or isMenuItem(obj):
                 return True
 
@@ -4336,8 +4420,16 @@ class Utilities(script_utilities.Utilities):
         return True
 
     def eventIsFromLocusOfFocusDocument(self, event):
-        source = self.getDocumentForObject(event.source)
-        focus = self.getDocumentForObject(orca_state.locusOfFocus)
+        if orca_state.locusOfFocus == orca_state.activeWindow:
+            focus = self.activeDocument()
+            source = self.getTopLevelDocumentForObject(event.source)
+        else:
+            focus = self.getDocumentForObject(orca_state.locusOfFocus)
+            source = self.getDocumentForObject(event.source)
+
+        msg = "WEB: Event doc: %s. Focus doc: %s." % (source, focus)
+        debug.println(debug.LEVEL_INFO, msg, True)
+
         if not (source and focus):
             return False
 
@@ -4596,6 +4688,10 @@ class Utilities(script_utilities.Utilities):
             msg = "WEB: Empty anchor cannot have caret context %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
+        if self.isEmptyToolTip(obj):
+            msg = "WEB: Empty tool tip cannot have caret context %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
         if self.hasNoSize(obj):
             msg = "WEB: Allowing sizeless object to have caret context %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -4616,6 +4712,10 @@ class Utilities(script_utilities.Utilities):
             msg = "WEB: Fake placeholder for entry cannot have caret context %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
+        if self.isNonInteractiveDescendantOfControl(obj):
+            msg = "WEB: Non interactive descendant of control cannot have caret context %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
 
         return True
 
@@ -4623,11 +4723,17 @@ class Utilities(script_utilities.Utilities):
         return False
 
     def searchForCaretContext(self, obj):
+        msg = "WEB: Searching for caret context in %s" % obj
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        container = obj
         contextObj, contextOffset = None, -1
         while obj:
             try:
                 offset = obj.queryText().caretOffset
             except:
+                msg = "WEB: Exception getting caret offset of %s" % obj
+                debug.println(debug.LEVEL_INFO, msg, True)
                 obj = None
             else:
                 contextObj, contextOffset = obj, offset
@@ -4637,8 +4743,11 @@ class Utilities(script_utilities.Utilities):
                 else:
                     break
 
-        if contextObj:
+        if contextObj and not self.isHidden(contextObj):
             return self.findNextCaretInOrder(contextObj, max(-1, contextOffset - 1))
+
+        if self.isDocument(container):
+            return container, 0
 
         return None, -1
 
@@ -4657,7 +4766,7 @@ class Utilities(script_utilities.Utilities):
         return obj, offset
 
     def getCaretContext(self, documentFrame=None, getZombieReplicant=False, searchIfNeeded=True):
-        msg = "WEB: Getting caret context"
+        msg = "WEB: Getting caret context for %s" % documentFrame
         debug.println(debug.LEVEL_INFO, msg, True)
 
         if not documentFrame or self.isZombie(documentFrame):
@@ -4675,7 +4784,7 @@ class Utilities(script_utilities.Utilities):
             return obj, offset
 
         context = self._caretContexts.get(hash(documentFrame.parent))
-        if not context or documentFrame != self.getTopLevelDocumentForObject(context[0]):
+        if not context or not self.isTopLevelDocument(documentFrame):
             if not searchIfNeeded:
                 return None, -1
             obj, offset = self.searchForCaretContext(documentFrame)
@@ -4769,11 +4878,14 @@ class Utilities(script_utilities.Utilities):
         return True
 
     def handleEventForRemovedChild(self, event):
-        if event.any_data != orca_state.locusOfFocus:
+        if event.any_data == orca_state.locusOfFocus:
+            msg = "WEB: Removed child is locusOfFocus."
+            debug.println(debug.LEVEL_INFO, msg, True)
+        elif pyatspi.findAncestor(orca_state.locusOfFocus, lambda x: x == event.any_data):
+            msg = "WEB: Removed child is ancestor of locusOfFocus."
+            debug.println(debug.LEVEL_INFO, msg, True)
+        else:
             return False
-
-        msg = "WEB: Removed child is locusOfFocus."
-        debug.println(debug.LEVEL_INFO, msg, True)
 
         if event.detail1 == -1:
             msg = "WEB: Event detail1 is useless."
@@ -4825,6 +4937,8 @@ class Utilities(script_utilities.Utilities):
             self.setCaretContext(obj, offset)
             return True
 
+        msg = "WEB: Unable to find context for child removed from %s" % event.source
+        debug.println(debug.LEVEL_INFO, msg, True)
         return False
 
     def findContextReplicant(self, documentFrame=None, matchRole=True, matchName=True):
@@ -5000,20 +5114,23 @@ class Utilities(script_utilities.Utilities):
                 allText = text.getText(0, -1)
                 for i in range(offset + 1, len(allText)):
                     child = self.getChildAtOffset(obj, i)
+                    if child and allText[i] != self.EMBEDDED_OBJECT_CHARACTER:
+                        msg = "ERROR: Child %s found at offset with char '%s'" % \
+                            (child, allText[i].replace("\n", "\\n"))
+                        debug.println(debug.LEVEL_INFO, msg, True)
                     if self._canHaveCaretContext(child):
-                        if self._treatObjectAsWhole(child):
+                        if self._treatObjectAsWhole(child, -1):
                             return child, 0
                         return self.findNextCaretInOrder(child, -1)
                     if allText[i] not in (self.EMBEDDED_OBJECT_CHARACTER, self.ZERO_WIDTH_NO_BREAK_SPACE):
                         return obj, i
-            elif obj.childCount and not self._treatObjectAsWhole(obj):
+            elif obj.childCount and not self._treatObjectAsWhole(obj, offset):
                 return self.findNextCaretInOrder(obj[0], -1)
             elif offset < 0 and not self.isTextBlockElement(obj):
                 return obj, 0
 
         # If we're here, start looking up the tree, up to the document.
-        documentFrame = self.documentFrame()
-        if self.isSameObject(obj, documentFrame):
+        if self.isTopLevelDocument(obj):
             return None, -1
 
         while obj and obj.parent:
@@ -5066,20 +5183,23 @@ class Utilities(script_utilities.Utilities):
                     offset = len(allText)
                 for i in range(offset - 1, -1, -1):
                     child = self.getChildAtOffset(obj, i)
+                    if child and allText[i] != self.EMBEDDED_OBJECT_CHARACTER:
+                        msg = "ERROR: Child %s found at offset with char '%s'" % \
+                            (child, allText[i].replace("\n", "\\n"))
+                        debug.println(debug.LEVEL_INFO, msg, True)
                     if self._canHaveCaretContext(child):
-                        if self._treatObjectAsWhole(child):
+                        if self._treatObjectAsWhole(child, -1):
                             return child, 0
                         return self.findPreviousCaretInOrder(child, -1)
                     if allText[i] not in (self.EMBEDDED_OBJECT_CHARACTER, self.ZERO_WIDTH_NO_BREAK_SPACE):
                         return obj, i
-            elif obj.childCount and not self._treatObjectAsWhole(obj):
+            elif obj.childCount and not self._treatObjectAsWhole(obj, offset):
                 return self.findPreviousCaretInOrder(obj[obj.childCount - 1], -1)
             elif offset < 0 and not self.isTextBlockElement(obj):
                 return obj, 0
 
         # If we're here, start looking up the tree, up to the document.
-        documentFrame = self.documentFrame()
-        if self.isSameObject(obj, documentFrame):
+        if self.isTopLevelDocument(obj):
             return None, -1
 
         while obj and obj.parent:

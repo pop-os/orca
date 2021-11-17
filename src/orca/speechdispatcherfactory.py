@@ -248,10 +248,11 @@ class SpeechServer(speechserver.SpeechServer):
 
     def _set_family(self, acss_family):
         lang, dialect = self._get_language_and_dialect(acss_family)
-        self._send_command(self._client.set_language, lang)
-        if dialect:
-            # Try to set precise dialect
-            self._send_command(self._client.set_language, lang + '-' + dialect)
+        if lang:
+            self._send_command(self._client.set_language, lang)
+            if dialect:
+                # Try to set precise dialect
+                self._send_command(self._client.set_language, lang + '-' + dialect)
 
         try:
             # This command is not available with older SD versions.
@@ -260,7 +261,8 @@ class SpeechServer(speechserver.SpeechServer):
             pass
         else:
             name = acss_family.get(speechserver.VoiceFamily.NAME)
-            self._send_command(set_synthesis_voice, name)
+            if name != self._default_voice_name:
+                self._send_command(set_synthesis_voice, name)
 
     def _debug_sd_values(self, prefix=""):
         if debug.debugLevel > debug.LEVEL_INFO:
@@ -371,6 +373,7 @@ class SpeechServer(speechserver.SpeechServer):
         # Note2: we assume that text mangling below leave U+E000 untouched
         last_begin = None
         last_end = None
+        is_numeric = None
         marks_offsets = []
         marks_endoffsets = []
         marked_text = ""
@@ -386,12 +389,33 @@ class SpeechServer(speechserver.SpeechServer):
                 # Word begin
                 marked_text += '\ue000'
                 last_begin = i
+                is_numeric = c.isnumeric()
 
-            if c.isspace() and last_begin != None:
-                # Word end, add a mark
-                marks_offsets.append(last_begin)
-                marks_endoffsets.append(i)
-                last_begin = None
+            elif c.isspace() and last_begin != None:
+                # Word end
+                if is_numeric:
+                    # We had a wholy numeric word, possibly next word is as well.
+                    # Skip to next word
+                    for j in range(i+1, len(text)):
+                        if not text[j].isspace():
+                            break
+                    else:
+                        is_numeric = False
+                    # Check next word
+                    while is_numeric and j < len(text) and not text[j].isspace():
+                        if not text[j].isnumeric():
+                            is_numeric = False
+                        j += 1
+
+                if not is_numeric:
+                    # add a mark
+                    marks_offsets.append(last_begin)
+                    marks_endoffsets.append(i)
+                    last_begin = None
+                    is_numeric = None
+
+            elif is_numeric and not c.isnumeric():
+                is_numeric = False
 
             marked_text += c
 

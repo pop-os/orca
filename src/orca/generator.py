@@ -78,7 +78,7 @@ class Generator:
         self._activeProgressBars = {}
         self._methodsDict = {}
         for method in \
-            [z for z in [getattr(self, y).__get__(self, self.__class__) for y in [x for x in dir(self) if x.startswith(METHOD_PREFIX)]] if isinstance(z, collections.Callable)]:
+            [z for z in [getattr(self, y).__get__(self, self.__class__) for y in [x for x in dir(self) if x.startswith(METHOD_PREFIX)]] if isinstance(z, collections.abc.Callable)]:
             name = method.__name__[len(METHOD_PREFIX):]
             name = name[0].lower() + name[1:]
             self._methodsDict[name] = method
@@ -920,8 +920,16 @@ class Generator:
             return []
 
         rows, cols = self._script.utilities.rowAndColumnCount(obj)
+
+        # This suggests broken or missing table interface.
         if rows < 0 or cols < 0:
             return []
+
+        # This can happen if an author uses ARIA incorrectly, e.g. a grid whose
+        # immediate child is a gridcell rather than a row. In that case, just
+        # announce the role name.
+        if rows == 0 and cols == 0:
+            return self._generateRoleName(obj, **args)
 
         return [messages.tableSize(rows, cols)]
 

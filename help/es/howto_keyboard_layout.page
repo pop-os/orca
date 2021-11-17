@@ -16,7 +16,7 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Daniel Mustieles</mal:name>
       <mal:email>daniel.mustieles@gmail.com</mal:email>
-      <mal:years>2012 - 2020</mal:years>
+      <mal:years>2012 - 2021</mal:years>
     </mal:credit>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -32,11 +32,7 @@
       <p>Si está usando la distribución de portátil, el Modificador de Orca predeterminado será <key>Bloq Mayús</key></p>
     </item>
     <item>
-      <p>
-        If you are using the Desktop layout, the Orca Modifier will be both
-        <key>Insert</key> and <key>KP_Insert</key>, the latter being the
-        same key as <key>KP_0</key>.
-      </p>
+      <p>Si está usando la distribución de escritorio, el Modificador de Orca será tanto <key>Insertar</key> como <key>TN Insertar</key>, esta última es la misma tecla que <key>TN 0</key>.</p>
     </item>
   </list>
   <p>La distribución también determina las pulsaciones de teclas asociadas a un número de comandos de <app>Orca</app>, especialmente en las áreas de «Revisión», «¿Dónde estoy?» y «Hablar todo».</p>

@@ -92,14 +92,14 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                                pyatspi.ROLE_EMBEDDED,
                                pyatspi.ROLE_INTERNAL_FRAME,
                                pyatspi.ROLE_MATH,
-                               pyatspi.ROLE_MENU_BAR,
-                               pyatspi.ROLE_TOOL_BAR]
+                               pyatspi.ROLE_MENU_BAR]
         args['skipRoles'] = [pyatspi.ROLE_PARAGRAPH,
                              pyatspi.ROLE_HEADING,
                              pyatspi.ROLE_LABEL,
                              pyatspi.ROLE_LINK,
                              pyatspi.ROLE_LIST_ITEM,
                              pyatspi.ROLE_TEXT]
+        args['stopAfterRoles'] = [pyatspi.ROLE_TOOL_BAR]
 
         if self._script.utilities.isEditableDescendantOfComboBox(obj):
             args['skipRoles'].append(pyatspi.ROLE_COMBO_BOX)
@@ -360,6 +360,9 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
            and not self._script.utilities.isLandmark(obj) \
            and not self._script.utilities.isDPub(obj) \
            and not args.get('inFlatReview'):
+            return []
+
+        if self._script.utilities.hasVisibleCaption(obj):
             return []
 
         if self._script.utilities.isFigure(obj) and args.get('ancestorOf'):
@@ -688,6 +691,10 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if self._script.utilities.isEditableComboBox(obj):
             return []
 
+        if args.get('formatType') not in ['basicWhereAmI', 'detailedWhereAmI']:
+            if args.get('priorObj') == obj:
+                return []
+
         position = self._script.utilities.getPositionInSet(obj)
         total = self._script.utilities.getSetSize(obj)
         if position is None or total is None:
@@ -706,6 +713,12 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                "total" : total})
         result.extend(self.voice(speech_generator.SYSTEM))
         return result
+
+    def _generateUnselectedCell(self, obj, **args):
+        if not self._script.inFocusMode():
+            return []
+
+        return super()._generateUnselectedCell(obj, **args)
 
     def _generateRealTableCell(self, obj, **args):
         result = super()._generateRealTableCell(obj, **args)
@@ -769,7 +782,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             oldRole = self._overrideRole(self._getAlternativeRole(obj, **args), args)
 
         if not 'priorObj' in args:
-            args['priorObj'] = self._script.utilities.getPriorContext()[0]
+            document = self._script.utilities.getTopLevelDocumentForObject(obj)
+            args['priorObj'] = self._script.utilities.getPriorContext(document)[0]
 
         if not result:
             result = list(filter(lambda x: x, super().generateSpeech(obj, **args)))

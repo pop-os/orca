@@ -1,3 +1,35 @@
+orca (41.0-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 18 Sep 2021 23:30:44 +0200
+
+orca (41~rc-1) experimental; urgency=medium
+
+  * New upstream RC release.
+    - patches/git-keyhandling: Upstreamed.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 04 Sep 2021 15:19:57 +0200
+
+orca (41~beta-2) experimental; urgency=medium
+
+  * patches/git-keyhandling: Fix reverting to legacy key snooping.
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 25 Aug 2021 15:21:20 +0200
+
+orca (41~beta-1) experimental; urgency=medium
+
+  * New upstream beta release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 24 Aug 2021 14:27:38 +0200
+
+orca (41~alpha-1) experimental; urgency=medium
+
+  * New upstream alpha release.
+  * control: Set Rules-Requires-Root to no.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 05 Aug 2021 16:11:51 +0200
+
 orca (40.0-1ubuntu1) impish; urgency=medium
 
   * Merge with Debian. Remaining changes:
@@ -81,7 +113,7 @@ orca (3.37.90-1) experimental; urgency=medium
 
 orca (3.37.2-1) experimental; urgency=medium
 
-  * New upstream alpha release.
+  * New upstream alpha release (Closes: #910649, #914123).
 
  -- Samuel Thibault <sthibault@debian.org>  Mon, 01 Jun 2020 21:44:52 +0200
 
