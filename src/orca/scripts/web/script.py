@@ -1492,6 +1492,15 @@ class Script(default.Script):
             return True
 
         self.utilities.clearCachedObjects()
+        if self.utilities.isDead(obj):
+            obj = None
+
+        if not self.utilities.isDead(orca_state.locusOfFocus) \
+           and not self.utilities.inDocumentContent(orca_state.locusOfFocus) \
+           and orca_state.locusOfFocus.getState().contains(pyatspi.STATE_FOCUSED):
+            msg = "WEB: Not presenting content, focus is outside of document"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
 
         if _settingsManager.getSetting('pageSummaryOnLoad') and shouldPresent:
             obj = obj or event.source
@@ -1646,7 +1655,7 @@ class Script(default.Script):
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
 
-            if event.source.getRole() == pyatspi.ROLE_ENTRY \
+            if event.source.getRole() in [pyatspi.ROLE_ENTRY, pyatspi.ROLE_SPIN_BUTTON] \
                and event.source.getState().contains(pyatspi.STATE_FOCUSED) \
                and event.source != orca_state.locusOfFocus:
                 msg = "WEB: Event ignored: Entry is not (yet) the locus of focus. Waiting for focus event."
@@ -1778,8 +1787,10 @@ class Script(default.Script):
                 debug.println(debug.LEVEL_INFO, msg, True)
                 self.utilities.dumpCache(document, preserveContext=True)
             else:
-                msg = "WEB: Not dumping cache. Focus is %s" % orca_state.locusOfFocus
+                msg = "WEB: Not dumping full cache. Focus is %s" % orca_state.locusOfFocus
                 debug.println(debug.LEVEL_INFO, msg, True)
+                self.utilities.clearCachedObjects()
+
         elif isLiveRegion:
             if self.utilities.handleAsLiveRegion(event):
                 msg = "WEB: Event to be handled as live region"
@@ -1893,8 +1904,9 @@ class Script(default.Script):
                 debug.println(debug.LEVEL_INFO, msg, True)
                 self.utilities.dumpCache(document, preserveContext=True)
             else:
-                msg = "WEB: Not dumping cache. Focus is %s" % orca_state.locusOfFocus
+                msg = "WEB: Not dumping full cache. Focus is %s" % orca_state.locusOfFocus
                 debug.println(debug.LEVEL_INFO, msg, True)
+                self.utilities.clearCachedObjects()
 
         if self.utilities.handleEventForRemovedChild(event):
             msg = "WEB: Event handled for removed child."

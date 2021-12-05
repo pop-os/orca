@@ -386,8 +386,8 @@ formatting = {
             'detailedWhereAmI': 'label + readOnly + textRole + textContentWithAttributes + anyTextSelection + ' + MNEMONIC
             },
         pyatspi.ROLE_PROGRESS_BAR: {
-            'focused': 'progressBarIndex + progressBarValue',
-            'unfocused': 'progressBarIndex + labelAndName + progressBarValue'
+            'focused': 'progressBarIndex + (progressBarValue or roleName)',
+            'unfocused': 'progressBarIndex + labelAndName + (progressBarValue or roleName)'
             },
         pyatspi.ROLE_PUSH_BUTTON: {
             'focused': 'expandableState',
@@ -456,6 +456,12 @@ formatting = {
         pyatspi.ROLE_STATUS_BAR: {
             'focused': 'labelAndName + roleName',
             'unfocused': 'labelAndName + roleName + pause + statusBar',
+            },
+        pyatspi.ROLE_SUBSCRIPT: {
+            'unfocused': 'roleName + currentLineText + allTextSelection',
+            },
+        pyatspi.ROLE_SUPERSCRIPT: {
+            'unfocused': 'roleName + currentLineText + allTextSelection',
             },
         'ROLE_SWITCH': {
             'focused': 'switchState',

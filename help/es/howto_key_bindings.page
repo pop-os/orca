@@ -42,9 +42,9 @@
       <p>Pulse una vez a la derecha. Esto situará el foco en la columna <gui>Asociación de teclas</gui>. Pulse <key>Intro</key>.</p>
     </item>
     <item>
-      <p>Pulse la combinación de teclas que quiere.</p></item>
+      <p>Pulse el atajo del teclado que quiere.</p></item>
     <item>
-      <p>Pulse <key>Intro</key> para confirmar la nueva combinación. La nueva pulsación de tecla se guardará y la casilla de verificación en la última columna (la columna <gui>Modificado</gui>) indicará que se ha modificado la asociación de teclas.</p>
+      <p>Pulse <key>Intro</key> para confirmar el nuevo atajo. La nueva pulsación de tecla se guardará y la casilla de verificación en la última columna (la columna <gui>Modificado</gui>) indicará que se ha modificado el atajo.</p>
     </item>
     <item>
       <p>Pulse el botón <gui>Aplicar</gui>.</p>
@@ -62,10 +62,10 @@
       <p>Vaya a la celda que contiene la asociación que quiere cambiar y pulse <key>Intro</key>.</p>
     </item>
     <item>
-        <p>Pulse la combinación de teclas que quiere.</p>
+        <p>Pulse el atajo del teclado que quiere.</p>
     </item>
     <item>
-      <p>Pulse <key>Intro</key> para confirmar la nueva combinación. La nueva pulsación de tecla se guardará y la casilla de verificación en la última columna (la columna <gui>Modificado</gui>) indicará que se ha modificado la asociación de teclas.</p>
+      <p>Pulse <key>Intro</key> para confirmar el nuevo atajo. La nueva pulsación de tecla se guardará y la casilla de verificación en la última columna (la columna <gui>Modificado</gui>) indicará que se ha modificado el atajo.</p>
     </item>
     <item>
       <p>Pulse el botón <gui>Aplicar</gui>.</p>

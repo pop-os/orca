@@ -94,6 +94,7 @@ class Utilities(script_utilities.Utilities):
         self._isListDescendant = {}
         self._isNonNavigablePopup = {}
         self._isNonEntryTextWidget = {}
+        self._isCustomImage = {}
         self._isUselessImage = {}
         self._isRedundantSVG = {}
         self._isUselessEmptyElement = {}
@@ -187,6 +188,7 @@ class Utilities(script_utilities.Utilities):
         self._isListDescendant = {}
         self._isNonNavigablePopup = {}
         self._isNonEntryTextWidget = {}
+        self._isCustomImage = {}
         self._isUselessImage = {}
         self._isRedundantSVG = {}
         self._isUselessEmptyElement = {}
@@ -1187,6 +1189,9 @@ class Utilities(script_utilities.Utilities):
         if self.isFakePlaceholderForEntry(obj):
             return True
 
+        if self.isCustomImage(obj):
+            return True
+
         return False
 
     def __findRange(self, text, offset, start, end, boundary):
@@ -1450,9 +1455,11 @@ class Utilities(script_utilities.Utilities):
         boundary = pyatspi.TEXT_BOUNDARY_SENTENCE_START
         objects = self._getContentsForObj(obj, offset, boundary)
         state = obj.getState()
-        if state.contains(pyatspi.STATE_EDITABLE) \
-           and state.contains(pyatspi.STATE_FOCUSED):
-            return objects
+        if state.contains(pyatspi.STATE_EDITABLE):
+            if state.contains(pyatspi.STATE_FOCUSED):
+                return objects
+            if self.isContentEditableWithEmbeddedObjects(obj):
+                return objects
 
         def _treatAsSentenceEnd(x):
             xObj, xStart, xEnd, xString = x
@@ -1781,9 +1788,15 @@ class Utilities(script_utilities.Utilities):
                 elif obj.getRole() in [pyatspi.ROLE_TREE, pyatspi.ROLE_TREE_ITEM] \
                      and xObj.getRole() in [pyatspi.ROLE_TREE, pyatspi.ROLE_TREE_ITEM]:
                     return False
+                elif obj.getRole() == pyatspi.ROLE_HEADING and self.hasNoSize(obj):
+                    return False
+                elif xObj.getRole() == pyatspi.ROLE_HEADING and self.hasNoSize(xObj):
+                    return False
 
             if self.isMathTopLevel(xObj) or self.isMath(obj):
                 onSameLine = self.extentsAreOnSameLine(extents, xExtents, extents[3])
+            elif self.isTextSubscriptOrSuperscript(xObj):
+                onSameLine = self.extentsAreOnSameLine(extents, xExtents, xExtents[3])
             else:
                 onSameLine = self.extentsAreOnSameLine(extents, xExtents)
             return onSameLine
@@ -2125,13 +2138,19 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
+        if role == pyatspi.ROLE_LIST_ITEM:
+            rv = pyatspi.findAncestor(obj, lambda x: x and x.getRole() == pyatspi.ROLE_LIST_BOX)
+            if rv:
+                msg = "WEB: %s is focus mode widget because it's a listbox descendant" % obj
+                debug.println(debug.LEVEL_INFO, msg, True)
+            return rv
+
         if self.isButtonWithPopup(obj):
             msg = "WEB: %s is focus mode widget because it's a button with popup" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
         focusModeRoles = [pyatspi.ROLE_EMBEDDED,
-                          pyatspi.ROLE_LIST_ITEM,
                           pyatspi.ROLE_TABLE_CELL,
                           pyatspi.ROLE_TABLE]
 
@@ -2295,6 +2314,8 @@ class Utilities(script_utilities.Utilities):
             rv = False
         elif role in [pyatspi.ROLE_DOCUMENT_FRAME, pyatspi.ROLE_DOCUMENT_WEB]:
             rv = True
+        elif self.isCustomImage(obj):
+            rv = False
         elif not state.contains(pyatspi.STATE_FOCUSABLE) and not state.contains(pyatspi.STATE_FOCUSED):
             rv = not self.hasNameAndActionAndNoUsefulChildren(obj)
         else:
@@ -2445,6 +2466,10 @@ class Utilities(script_utilities.Utilities):
             pass
 
         return 'suggestion' in self._getXMLRoles(obj)
+
+    def isCustomElement(self, obj):
+        tag = self._getTag(obj)
+        return tag and '-' in tag
 
     def isInlineIframe(self, obj):
         if not (obj and obj.getRole() == pyatspi.ROLE_INTERNAL_FRAME):
@@ -3088,6 +3113,8 @@ class Utilities(script_utilities.Utilities):
             rv = not self.hasExplicitName(obj)
         elif role == pyatspi.ROLE_TABLE_ROW and not state.contains(pyatspi.STATE_EXPANDABLE):
             rv = not self.hasExplicitName(obj)
+        elif self.isCustomImage(obj):
+            rv = False
         else:
             rv = super().isLayoutOnly(obj)
 
@@ -3888,6 +3915,12 @@ class Utilities(script_utilities.Utilities):
         self._hasUselessCanvasDescendant[hash(obj)] = rv
         return rv
 
+    def isTextSubscriptOrSuperscript(self, obj):
+        if self.isMath(obj):
+            return False
+
+        return obj.getRole() in [pyatspi.ROLE_SUBSCRIPT, pyatspi.ROLE_SUPERSCRIPT]
+
     def isSwitch(self, obj):
         if not (obj and self.inDocumentContent(obj)):
             return super().isSwitch(obj)
@@ -3929,6 +3962,28 @@ class Utilities(script_utilities.Utilities):
                 rv = self.intersection(objExtents, largestExtents) == tuple(objExtents)
 
         self._isRedundantSVG[hash(obj)] = rv
+        return rv
+
+    def isCustomImage(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return False
+
+        rv = self._isCustomImage.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        rv = False
+        if self.isCustomElement(obj) and self.hasExplicitName(obj) \
+           and 'Text' in pyatspi.listInterfaces(obj) \
+           and not re.search(r'[^\s\ufffc]', obj.queryText().getText(0, -1)):
+            for child in obj:
+                if child.getRole() not in [pyatspi.ROLE_IMAGE, pyatspi.ROLE_CANVAS] \
+                   and self._getTag(child) != 'svg':
+                    break
+            else:
+                rv = True
+
+        self._isCustomImage[hash(obj)] = rv
         return rv
 
     def isUselessImage(self, obj):
