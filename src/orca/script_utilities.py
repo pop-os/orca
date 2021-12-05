@@ -555,7 +555,7 @@ class Utilities:
             if self.EMBEDDED_OBJECT_CHARACTER in displayedText:
                 displayedText = None
 
-        if not displayedText and role != pyatspi.ROLE_COMBO_BOX:
+        if not displayedText and role not in [pyatspi.ROLE_COMBO_BOX, pyatspi.ROLE_SPIN_BUTTON]:
             # TODO - JD: This should probably get nuked. But all sorts of
             # existing code might be relying upon this bogus hack. So it
             # will need thorough testing when removed.
@@ -1184,6 +1184,12 @@ class Utilities:
             msg = "ERROR: Exception getting value for %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return None
+
+        if obj.getState().contains(pyatspi.STATE_INDETERMINATE):
+            msg = "INFO: %s has state indeterminate and value of %s" % (obj, val)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            if val <= 0:
+                return None
 
         if maxval == minval == val:
             if 1 <= val <= 100:
@@ -5764,7 +5770,17 @@ class Utilities:
         if role in [pyatspi.ROLE_COMBO_BOX, pyatspi.ROLE_MENU]:
             return False
 
+        selection = obj.querySelection()
+        if not selection.nSelectedChildren:
+            return False
+
         if self.selectedChildCount(obj) == obj.childCount:
+            # The selection interface gives us access to what is selected, which might
+            # not actually be a direct child.
+            child = selection.getSelectedChild(0)
+            if child not in obj:
+                return False
+
             msg = "INFO: All %i children believed to be selected" % obj.childCount
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
