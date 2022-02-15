@@ -8,15 +8,13 @@
     <link type="seealso" xref="howto_whereami"/>
     <title type="sort">1. Leitura</title>
     <title type="link">Leitura</title>
-    <desc>
-      Commands for accessing document content
-    </desc>
+    <desc>Comandos para acessar o conteúdo do documento</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+      <p>Atribuição Compartilhada Igual 3.0 — Creative Commons</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -34,21 +32,19 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Enrico Nicoletto</mal:name>
       <mal:email>liverig@gmail.com</mal:email>
-      <mal:years>2013.</mal:years>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Leônidas Araújo</mal:name>
+      <mal:email>leorusvellt@hotmail.com</mal:email>
+      <mal:years>2022</mal:years>
     </mal:credit>
   </info>
   <title>Comandos de leitura</title>
   <p>Além dos comandos de navegação do cursor que fazem parte do GNOME, o <app>Orca</app> fornece uma série de comandos que você pode usar para ler documentos.</p>
   <note style="tip">
-    <p>
-      Below you will see several references to "KP". All
-      "KP" keys are located on the numeric keypad. You will also notice that
-      there are different keystrokes depending upon whether you are using a
-      desktop or a laptop -- or more accurately, whether you are using
-      <app>Orca</app>'s Desktop keyboard layout or its Laptop keyboard layout.
-      For additional information, please see the
-      <link xref="howto_keyboard_layout">Keyboard Layout</link> topic.
-    </p>
+    <p>Abaixo você verá várias referências a "NUM". Todas as teclas "NUM" estão localizadas no teclado numérico. Você também notará que há diferentes pressionamentos de tecla, a depender se você está usando um desktop ou um laptop — ou mais precisamente, se você está usando o layout de teclado Desktop ou Laptop do <app>Orca</app>. Para obter informações adicionais, consulte o tópico <link xref="howto_keyboard_layout">Disposição de Teclado</link>.</p>
   </note>
   <section id="flat_review">
     <title>Lendo sua localização atual</title>
@@ -58,10 +54,10 @@
         <p>Lê a linha atual:</p>
         <list>
           <item>
-            <p>Computador de mesa: <keyseq><key>NUM 8</key></keyseq></p>
+            <p>Desktop: <keyseq><key>NUM 8</key></keyseq></p>
           </item>
           <item>
-            <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>I</key></keyseq></p>
+            <p>Notebook: <keyseq><key>Tecla Modificadora do Orca</key><key>I</key></keyseq></p>
           </item>
         </list>
       </item>
@@ -69,10 +65,10 @@
         <p>Lê a palavra atual:</p>
         <list>
           <item>
-            <p>Computador de mesa: <keyseq><key>NUM 5</key></keyseq></p>
+            <p>Desktop: <keyseq><key>NUM 5</key></keyseq></p>
           </item>
           <item>
-            <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>K</key></keyseq></p>
+            <p>Notebook: <keyseq><key>Tecla Modificadora do Orca</key><key>K</key></keyseq></p>
           </item>
         </list>
       </item>
@@ -80,10 +76,10 @@
         <p>Soletra a palavra atual:</p>
         <list>
           <item>
-            <p>Computador de mesa: <keyseq><key>NUM 5</key></keyseq> (pressionada duas vezes)</p>
+            <p>Desktop: <keyseq><key>NUM 5</key></keyseq> (clique duas vezes)</p>
           </item>
           <item>
-            <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>K</key></keyseq> (pressionada duas vezes)</p>
+            <p>Notebook: <keyseq><key>Tecla Modificadora do Orca</key><key>K</key></keyseq> (clique duas vezes)</p>
           </item>
         </list>
       </item>
@@ -91,10 +87,10 @@
         <p>Soletra foneticamente a palavra atual:</p>
         <list>
           <item>
-            <p>Computador de mesa: <keyseq><key>NUM 5</key></keyseq> (pressionada três vezes)</p>
+            <p>Desktop: <keyseq><key>NUM 5</key></keyseq> (clique três vezes)</p>
           </item>
           <item>
-            <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>K</key></keyseq> (pressionada três vezes)</p>
+            <p>Notebook: <keyseq><key>Tecla Modificadora do Orca</key><key>K</key></keyseq> (pressionada três vezes)</p>
           </item>
         </list>
       </item>
@@ -102,10 +98,10 @@
         <p>Lê o caractere atual:</p>
         <list>
           <item>
-            <p>Computador de mesa: <keyseq><key>NUM 2</key></keyseq></p>
+            <p>Desktop: <keyseq><key>NUM 2</key></keyseq></p>
           </item>
           <item>
-            <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Vírgula</key></keyseq></p>
+            <p>Notebook: <keyseq><key>Tecla Modificadora do Orca</key><key>Vírgula</key></keyseq></p>
           </item>
         </list>
       </item>
@@ -113,21 +109,21 @@
         <p>Fala foneticamente o caractere atual:</p>
         <list>
           <item>
-            <p>Computador de mesa: <keyseq><key>NUM 2</key></keyseq> (pressionada duas vezes)</p>
+            <p>Desktop: <keyseq><key>NUM 2</key></keyseq> (clique duas vezes)</p>
           </item>
           <item>
-            <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Virgula</key></keyseq> (pressionada duas vezes)</p>
+            <p>Notebook: <keyseq><key>Tecla Modificadora do Orca</key><key>Virgula</key></keyseq> (clique duas vezes)</p>
           </item>
         </list>
       </item>
       <item>
-        <p>Speak the Unicode value of current character:</p>
+        <p>Fala o valor Unicode do caractere atual:</p>
         <list>
           <item>
-            <p>Computador de mesa: <keyseq><key>NUM 2</key></keyseq> (pressionada três vezes)</p>
+            <p>Desktop: <keyseq><key>NUM 2</key></keyseq> (clique três vezes)</p>
           </item>
           <item>
-            <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Vírgula</key></keyseq> (pressionada três vezes)</p>
+            <p>Notebook: <keyseq><key>Tecla Modificadora do Orca</key><key>Vírgula</key></keyseq> (pressionada três vezes)</p>
           </item>
         </list>
       </item>
@@ -138,119 +134,78 @@
     <p>O comando do Orca Ler tudo fará o <app>Orca</app> falar o documento inteiro, iniciando da sua posição atual.</p>
     <list>
       <item>
-        <p>Computador de mesa: <key>NUM Mais</key></p>
+        <p>Desktop: <key>NUM Mais</key></p>
       </item>
       <item>
-        <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Ponto e vírgula</key></keyseq></p>
+        <p>Notebook: <keyseq><key>Tecla Modificadora do Orca</key><key>Ponto e vírgula</key></keyseq></p>
       </item>
     </list>
   </section>
   <section id="attributes_and_selection">
     <title>Atributos do texto e texto selecionado</title>
-    <p>
-      <app>Orca</app> has a dedicated command for obtaining the attributes of the
-      text at the caret location. In addition, if you use <app>Orca</app>'s
-      Where Am I commands from within a text object in which text has been
-      selected, <app>Orca</app> will announce the selected text. <app>Orca</app>'s
-      command to speak the current selection will also perform this function in a
-      text object.
-    </p>
+    <p>O Orca tem um comando específico para obtenção dos atributos do texto na posição do cursor. Além disso, se você usar os comandos Onde Estou do <app>Orca</app> dentro de um objeto de texto no qual o texto tenha sido selecionado, o <app>Orca</app> anunciará o texto selecionado.</p>
     <list>
       <item>
-        <p>Apresenta os atributos do texto: <keyseq><key>Tecla modificadora do Orca</key><key>F</key></keyseq></p>
+        <p>Apresenta os atributos do texto: <keyseq><key>Tecla Modificadora do Orca</key><key>F</key></keyseq></p>
       </item>
       <item>
-        <p>Perform basic Where Am I:</p>
+        <p>Executa o comando Onde Estou básico:</p>
         <list>
           <item>
-            <p>Computador de mesa: <key>NUM Enter</key></p>
+            <p>Desktop: <key>NUM Enter</key></p>
           </item>
           <item>
-            <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Enter</key></keyseq></p>
+            <p>Notebook: <keyseq><key>Tecla Modificadora do Orca</key><key>Enter</key></keyseq></p>
           </item>
         </list>
     </item>
     <item>
-      <p>Perform detailed Where Am I:</p>
+      <p>Executa o comando Onde Estou detalhado:</p>
       <list>
         <item>
-          <p>Computador de mesa: <key>NUM Enter</key> (pressionada duas vezes)</p>
+          <p>Desktop: <key>NUM Enter</key> (clique duas vezes)</p>
         </item>
         <item>
-          <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Enter</key></keyseq> (pressionada duas vezes)</p>
+          <p>Notebook: <keyseq><key>Tecla Modificadora do Orca</key><key>Enter</key></keyseq> (clique duas vezes)</p>
         </item>
       </list>
     </item>
     <item>
-      <p>
-        Speak current selection:
-        <keyseq><key>Orca Modifier</key><key>Shift</key><key>Up</key></keyseq>
-      </p>
+      <p>Fala a seleção atual: <keyseq><key>Tecla Modificadora do Orca</key><key>Shift</key><key>Para Cima</key></keyseq></p>
     </item>
   </list>
   </section>
   <section id="link_details">
-    <title>Link Details</title>
-    <p>
-      If you are on a link, <app>Orca</app>'s Basic Where Am I command can be
-      used to announce the details associated with the link such as the link type,
-      if the link is visited, the site description, and file size. If you would
-      instead prefer a dedicated command for this purpose, you can bind <app>Orca</app>'s
-      Speak Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
-      Modifying Keybindings</link> for information on how to do so.
-    </p>
+    <title>Detalhes do Link</title>
+    <p>Se você estiver em um link, o comando Onde Estou Básico do <app>Orca</app> pode ser usado para anunciar os detalhes associados ao link, como o tipo de link, se o link foi visitado, a descrição do site e tamanho do arquivo. Se você preferir um comando dedicado para essa finalidade, você pode vincular o comando Falar detalhes do link do <app>Orca</app> a um pressionamento de tecla. Consulte <link xref="howto_key_bindings"> Associações de teclas</link> para obter informações sobre como fazê-lo.</p>
     <list>
       <item>
-        <p>Speak the link details: (Unbound)</p>
+        <p>Fale os detalhes do link: (Sem atalho definido)</p>
       </item>
     </list>
   </section>
   <section id="browse_and_focus_modes">
-    <title>Browse and Focus Modes</title>
-    <p>
-      <app>Orca</app>'s Browse and Focus modes let you switch between reading and
-      interacting with web content.
-    </p>
+    <title>Modos de Navegação e Foco</title>
+    <p>Os modos de Navegação e Foco do <app>Orca</app> permitem alternar entre ler e interagir com o conteúdo da web.</p>
     <list>
       <item>
-        <p>
-          Switch between browse mode and focus mode:
-          <keyseq><key>Orca Modifier</key><key>A</key></keyseq>
-        </p>
+        <p>Alterna entre o modo de navegação e o modo de foco: <keyseq><key>Tecla Modificadora do Orca</key><key>A</key></keyseq></p>
       </item>
       <item>
-        <p>
-          Enable sticky focus mode:
-          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (double-clicked)
-        </p>
+        <p>Habilita o modo de foco fixo: <keyseq><key>Tecla Modificadora do Orca</key><key>A</key></keyseq> (clique duas vezes)</p>
       </item>
       <item>
-        <p>
-          Enable sticky browse mode:
-          <keyseq><key>Orca Modifier</key><key>A</key></keyseq> (triple-clicked)
-        </p>
+        <p>Habilita o modo de navegação fixo: <keyseq><key>Tecla Modificadora do Orca</key><key>A</key></keyseq> (clique três vezes)</p>
       </item>
     </list>
   </section>
   <section id="toggling_layout_mode">
-    <title>Toggling Layout Mode</title>
-    <p>
-      When Layout mode is enabled, <app>Orca</app>'s caret navigation will respect
-      the on-screen layout of the content and present the full line, including any
-      links or form fields on that line. When Layout mode is disabled, <app>Orca</app>
-      will treat objects such as links and form fields as if they were on separate
-      lines, both for presentation and navigation.
-    </p>
-    <p>
-      <app>Orca</app> provides a command to switch between Layout mode and Object mode.
-      This command is unbound by default. Please see <link xref="howto_key_bindings">Modifying
-      Keybindings</link> for information on how to bind unbound commands.
-    </p>
+    <title>Alterna o Modo de Layout</title>
+    <p>Quando o Modo Layout está ativado, a navegação por cursor do <app>Orca</app> respeitará o layout do conteúdo na tela e apresentará a linha completa, incluindo quaisquer links ou campos de formulário nessa linha. Quando o Modo Layout está desabilitado, o <app>Orca</app> tratará objetos como links e campos de formulário como se estivessem em linhas separadas, tanto para apresentação quanto para navegação.</p>
+    <p>O <app>Orca</app> fornece um comando para alternar entre o modo Layout e o modo Objeto. Este comando não possui atalho definido por padrão. Consulte <link xref="howto_key_bindings">Associações de teclas</link> para obter informações sobre como vincular comandos Sem atalho definidos.</p>
     <list>
       <item>
-        <p>
-          Switch between Layout mode and Object mode: (Unbound)
-        </p>
+        <p>Alterna entre o Modo de Layout e o Modo de Objeto: (Sem atalho definido)</p>
       </item>
     </list>
   </section>

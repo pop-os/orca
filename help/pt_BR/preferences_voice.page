@@ -3,17 +3,15 @@
   <info>
     <link type="guide" xref="preferences#orca"/>
     <link type="next" xref="preferences_speech"/>
-    <title type="sort">2.0 Voice</title>
-    <title type="link">Voice</title>
-    <desc>
-      Configuring the voice used by <app>Orca</app>
-    </desc>
+    <title type="sort">2.0 Voz</title>
+    <title type="link">Voz</title>
+    <desc>Configurando a voz usada pelo <app>Orca</app></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+      <p>Atribuição Compartilhada Igual 3.0 — Creative Commons</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -31,31 +29,29 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Enrico Nicoletto</mal:name>
       <mal:email>liverig@gmail.com</mal:email>
-      <mal:years>2013.</mal:years>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Leônidas Araújo</mal:name>
+      <mal:email>leorusvellt@hotmail.com</mal:email>
+      <mal:years>2022</mal:years>
     </mal:credit>
   </info>
-  <title>Voice Preferences</title>
+  <title>Preferências de Voz</title>
   <section id="voice_type_settings">
-    <title>Voice Type Settings</title>
+    <title>Configurações do Tipo de Voz</title>
     <section id="voice_type">
-      <title>Voice type</title>
+      <title>Tipo de voz</title>
       <p>Esta caixa de combinação lhe permite utilizar diferentes vozes já que vocêpode melhor distinguir textos com maiúsculas ou vinculados de outros textos, etextos na tela de textos adicionados pelo <app>Orca</app>.</p>
       <note style="tip">
-        <title>Configurando várias vozes</title>
-        <p>
-          For each voice you wish to configure, first select the
-          voice in the <gui>Voice type</gui> combo box. Then
-          configure the person, rate, pitch, and volume to be used
-          for that voice.
-        </p>
+        <title>Configurando Várias Vozes</title>
+        <p>Para cada voz que você deseja configurar, primeiro selecione-a na caixa de combinação <gui>Tipo de voz</gui>. Em seguida, configure a pessoa, a velocidade, o tom e o volume a serem usados para essa voz.</p>
       </note>
     </section>
     <section id="speech_system">
       <title>Sistema de fala</title>
-      <p>
-        This combo box allows you to select your preferred speech system from
-        those you have installed, such as Speech Dispatcher.
-      </p>
+      <p>Esta caixa de combinação permite que você selecione seu sistema de fala preferido daqueles que você instalou, como o Speech Dispatcher.</p>
     </section>
     <section id="speech_synthesizer">
       <title>Sintetizador de voz</title>
@@ -66,29 +62,18 @@
       <p>Esta caixa de combinação permite-lhe definir que "personagem" ou "orador" deve ser utilizado com a voz selecionada. Por exemplo, você pode querer ter a voz David por padrão, mas possuir vínculos dinãmicos (hyperlinks) falados pela Alice. Observe que o que você localiza na caixa de combinação <gui>Personagem</gui> dependerá de quais sintetizadores de fala estiverem instalados.</p>
     </section>
     <section id="capitalization_style">
-      <title>Capitalization style</title>
-      <p>
-       This combo box allows you to choose which Speech Dispatcher capitalization
-       indication styles you wish to use in addition to <app>Orca</app>'s
-       capitalization voice. The options, which are named using Speech Dispatcher's
-       terminology, are:
-     </p>
+      <title>Estilo de letras maiúsculas</title>
+      <p>Esta caixa de combinação permite que você escolha quais estilos de indicação de letras maiúsculas do Speech Dispatcher você deseja usar além da voz de letra maiúscula do <app>Orca</app>. As opções, que são nomeadas usando a terminologia do Speech Dispatcher, são:</p>
      <list>
-       <item><p><gui>Icon</gui>: Plays a tone</p></item>
-       <item><p><gui>Spell</gui>: Speaks the word "capital"</p></item>
-       <item><p><gui>None</gui></p></item>
+       <item><p><gui>Ícone</gui>: Reproduz um som</p></item>
+       <item><p><gui>Soletrar</gui>: Fala a palavra "capitular"</p></item>
+       <item><p><gui>Nenhum</gui></p></item>
     </list>
     <note style="tip">
       <title>Esta configuração pode ser ativada a qualquer momento</title>
-      <p>
-        <app>Orca</app> also has a command to cycle through the available
-        capitalization styles. See <link xref="commands_speech_settings">
-        Speech Settings Commands</link> for more information.
-      </p>
+      <p>O <app>Orca</app> também tem um comando para alternar entre os estilos de letras maiúsculas disponíveis. Consulte <link xref="commands_speech_settings"> Comandos de Configuração de Fala</link> para obter mais informações.</p>
     </note>
-    <p>
-      Default value: none
-    </p>
+    <p>Valor padrão: nenhum</p>
     </section>
     <section id="rate_pitch_and_volume">
       <title>Velocidade, tonalidade e volume</title>
@@ -96,33 +81,21 @@
     </section>
   </section>
   <section id="global_voice_settings">
-  <title>Global Voice Settings</title>
+  <title>Configurações Globais de Voz</title>
     <section id="pauses">
       <title>Quebrar a fala em pedaços separados por pausas</title>
-      <p>Dependendo das configurações de voz ativas, o <app>Orca</app> pode ter que pausar um pouco para falar sobre um objeto particular tal como o seu nome, a sua regra, o seu status, o seu mnemônico, suas mensagens de ajuda, e assim por diante. Marcando a caixa de seleção <gui>Quebrar a fala em pedaços separados por pausas</gui> faz com que o <app>Orca</app> insira breves pausas entre os pedaços da informação.</p>
-      <p>Valor padrão: selecionada</p>
+      <p>Dependendo das configurações de fala ativadas, o <app>Orca</app> pode ter muito a dizer sobre um objeto específico, como seu nome, sua função, seu estado, seu mnemônico, sua mensagem de tutorial e assim por diante. Marcar a caixa de seleção <gui>Quebrar a fala em pedaços separados por pausas</gui> fará com que o <app>Orca</app> insira breves pausas entre cada uma dessas informações.</p>
+      <p>Valor padrão: selecionado</p>
     </section>
     <section id="multicase_strings">
       <title>Falar palavras com maiúsculas misturadas como palavras separadas</title>
-      <p>
-        In some text, and especially when working with code, one often comes
-        across a "word" consisting of several words with alternating case, such
-        as "MultiCaseString." Speech synthesizers do not always pronounce such
-        multicase strings correctly. Checking the <gui>Speak multicase strings
-        as words</gui> checkbox will cause <app>Orca</app> to break a word like
-        "MultiCaseString" into separate words ("Multi," "Case," and "String")
-        prior to passing it along to the speech synthesizer.
-      </p>
-      <p>Valor padrão: desmarcado</p>
+      <p>Em alguns textos, e especialmente ao trabalhar com código, muitas vezes encontramos uma "palavra" composta por várias palavras alternadas entre maiúsculas e minúsculas, como "MultiCaseString". Sintetizadores de voz nem sempre pronunciam essas strings maiúsculas misturadas corretamente. Marcar a caixa de seleção <gui>Fala palavras com maiúsculas misturadas como palavras separadas</gui> fará com que o <app>Orca</app> divida uma palavra como "MultiCaseString" em palavras separadas ("Multi", "Case" e "String") antes de passá-lo para o sintetizador de voz.</p>
+      <p>Valor padrão: não selecionado</p>
     </section>
     <section id="numbers_as_digits">
-      <title>Speak numbers as digits</title>
-      <p>
-        Checking the <gui>Speak numbers as digits</gui> checkbox will cause
-        <app>Orca</app> to break a number like "123" into separate digits
-        ("1," "2," and "3") prior to passing it along to the speech synthesizer.
-      </p>
-      <p>Valor padrão: desmarcado</p>
+      <title>Falar números como dígitos</title>
+      <p>Marcar a caixa de seleção <gui>Falar números como dígitos</gui> fará com que o <app>Orca</app> divida um número como "123" em dígitos separados ("1", "2" e "3") antes para passá-lo ao sintetizador de voz.</p>
+      <p>Valor padrão: não selecionado</p>
     </section>
   </section>
 </page>

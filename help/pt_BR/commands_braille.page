@@ -6,13 +6,13 @@
     <link type="seealso" xref="preferences_braille"/>
     <title type="sort">2. Braille</title>
     <title type="link">Braille</title>
-    <desc>Comandos executáveis no monitor braille</desc>
+    <desc>Comandos executáveis na linha braile</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+      <p>Atribuição Compartilhada Igual 3.0 — Creative Commons</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,23 +30,29 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Enrico Nicoletto</mal:name>
       <mal:email>liverig@gmail.com</mal:email>
-      <mal:years>2013.</mal:years>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Leônidas Araújo</mal:name>
+      <mal:email>leorusvellt@hotmail.com</mal:email>
+      <mal:years>2022</mal:years>
     </mal:credit>
   </info>
-  <title>Comandos para linhas braille</title>
-  <p>Os seguintes comandos permitem que você controle o <app>Orca</app> do seu monitor Braille atualizável ao invés do teclado:</p>
+  <title>Comandos Braille</title>
+  <p>Os seguintes comandos permitem que você controle o <app>Orca</app> da sua linha Braille atualizável ao invés do teclado:</p>
   <list>
-    <item><p>Varre o monitor Braille para a esquerda: Linha à esquerda</p></item>
-    <item><p>Varre o monitor Braille para a direita: Linha à direita</p></item>
+    <item><p>Varre a linha Braille para a esquerda: Linha à esquerda</p></item>
+    <item><p>Varre a linha Braille para a direita: Linha à direita</p></item>
     <item><p>Alterna para o modo de revisão plana: Congelar</p></item>
     <item><p>Revisa a palavra acima: Linha acima</p></item>
-    <item><p>Revisa a palavra abaixo: Linha abaixo</p></item>
-    <item><p>Revisa canto inferior esquerdo: Inferior direito</p></item>
-    <item><p>Revisa posição inicial: Superior à esquerda</p></item>
+    <item><p>Revisa a palavra abaixo: Linha Abaixo</p></item>
+    <item><p>Revisa canto inferior esquerdo: Canto inferior direito</p></item>
+    <item><p>Revisa posição inicial: Canto superior esquerdo</p></item>
     <item><p>Braille contraído: Seis pontos</p></item>
-    <item><p>Marca o início de uma seleção de texto: Iniciar corte</p></item>
-    <item><p>Marca o final de uma seleção de texto: Cortar linha</p></item>
-    <item><p>Processa uma chave de roteamento do cursor: Roteamento do cursor</p></item>
+    <item><p>Marca o início de uma seleção de texto: Início de corte</p></item>
+    <item><p>Marca o final de uma seleção de texto: Linha de corte</p></item>
+    <item><p>Processa uma chave de encaminhamento do cursor: Encaminhamento do cursor</p></item>
     <item><p>Retorna ao objeto que está com o foco do teclado: Posição do cursor</p></item>
   </list>
 </page>

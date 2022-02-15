@@ -4,17 +4,15 @@
     <link type="next" xref="commands_speech_settings"/>
     <link type="guide" xref="commands#getting_started"/>
     <link type="seealso" xref="howto_profiles"/>
-    <title type="sort">5. Profiles</title>
-    <title type="link">Profiles</title>
-    <desc>
-      Commands to access saved configurations
-    </desc>
+    <title type="sort">5. Perfis</title>
+    <title type="link">Perfis</title>
+    <desc>Comandos para acessar as configurações salvas</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+      <p>Atribuição Compartilhada Igual 3.0 — Creative Commons</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -32,23 +30,21 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Enrico Nicoletto</mal:name>
       <mal:email>liverig@gmail.com</mal:email>
-      <mal:years>2013.</mal:years>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Leônidas Araújo</mal:name>
+      <mal:email>leorusvellt@hotmail.com</mal:email>
+      <mal:years>2022</mal:years>
     </mal:credit>
   </info>
-  <title>Profile Commands</title>
-    <p>
-      Profiles allow you to save and load multiple configurations so that you
-      can quickly access the settings you need.
-    </p>
-    <p>
-     The following command is not "bound" to a keystroke. If you would like to
-     bind it, please see <link xref="howto_key_bindings">Modifying Keybindings</link>.
-    </p>
+  <title>Comandos de Perfil</title>
+    <p>Os perfis permitem que você salve e carregue várias configurações para que possa acessar rapidamente as configurações necessárias.</p>
+    <p>O comando a seguir não possui atalho de teclado vinculado. Se desejar vinculá-lo, consulte <link xref="howto_key_bindings">Associações de teclas</link>.</p>
     <list>
       <item>
-        <p>
-          Cycle to the next profile: (Unbound)
-        </p>
+        <p>Alterna para o próximo perfil: (Sem atalho definido)</p>
       </item>
     </list>
 </page>

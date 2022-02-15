@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+      <p>Atribuição Compartilhada Igual 3.0 — Creative Commons</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -28,19 +28,20 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Enrico Nicoletto</mal:name>
       <mal:email>liverig@gmail.com</mal:email>
-      <mal:years>2013.</mal:years>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Leônidas Araújo</mal:name>
+      <mal:email>leorusvellt@hotmail.com</mal:email>
+      <mal:years>2022</mal:years>
     </mal:credit>
   </info>
-  <title>Comandos de depuração</title>
-  <p>
-    You may be asked by the developers to provide some debugging information in
-    order to help them identify the source of a problem you are experiencing.
-    The following command is not "bound" to a keystroke. If you need to bind it,
-    please see <link xref="howto_key_bindings">Modifying Keybindings</link>.
-  </p>
+  <title>Comandos de Depuração</title>
+  <p>Você pode ser solicitado pelos desenvolvedores a fornecer algumas informações de depuração para ajudá-los a identificar a origem de um problema que você está enfrentando. O comando a seguir não está "vinculado" a um atalho de de teclado. Se você precisar vinculá-lo, consulte <link xref="howto_key_bindings">Associações de teclas</link>.</p>
   <list>
     <item>
-      <p>Cycle to the next debug level: (Unbound)</p>
+      <p>Alterna para o próximo nível de depuração: (Sem atalho definido)</p>
     </item>
   </list>
 </page>

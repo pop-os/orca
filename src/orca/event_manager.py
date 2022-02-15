@@ -191,13 +191,14 @@ class EventManager:
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return True
 
-        if event.type.startswith('object:text-changed') and event.type.endswith('system'):
+        if event.type.startswith('object:text-changed') \
+           and self.EMBEDDED_OBJECT_CHARACTER in event.any_data \
+           and not event.any_data.replace(self.EMBEDDED_OBJECT_CHARACTER, ""):
             # We should also get children-changed events telling us the same thing.
             # Getting a bunch of both can result in a flood that grinds us to a halt.
-            if event.any_data == self.EMBEDDED_OBJECT_CHARACTER:
-                msg = 'EVENT MANAGER: Ignoring because changed text is embedded object'
-                debug.println(debug.LEVEL_INFO, msg, True)
-                return True
+            msg = 'EVENT MANAGER: Ignoring because changed text is only embedded objects'
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
 
         try:
             # TODO - JD: For now we won't ask for the name. Simply asking for the name should
@@ -787,8 +788,11 @@ class EventManager:
                   "object:text-changed:insert",
                   "object:text-changed:delete:system",
                   "object:text-changed:insert:system",
+                  "object:text-attributes-changed",
                   "object:children-changed:add",
                   "object:children-changed:add:system",
+                  "object:property-change:accessible-name",
+                  "object:property-change:accessible-description",
                   "object:state-changed:showing",
                   "object:state-changed:sensitive"]
 
@@ -813,8 +817,11 @@ class EventManager:
                   "object:text-changed:insert",
                   "object:text-changed:delete:system",
                   "object:text-changed:insert:system",
+                  "object:text-attributes-changed",
                   "object:children-changed:add",
                   "object:children-changed:add:system",
+                  "object:property-change:accessible-name",
+                  "object:property-change:accessible-description",
                   "object:state-changed:showing",
                   "object:state-changed:sensitive"]
 
@@ -832,6 +839,9 @@ class EventManager:
         if event.type.startswith("object:state-changed:selected"):
             return event.detail1
 
+        if event.type.startswith("object:text-selection-changed"):
+            return True
+
         if event.type.startswith("window:activate"):
             return True
 
@@ -845,7 +855,7 @@ class EventManager:
             return True
 
         if event.type.startswith("object:state-changed:busy"):
-            return not event.detail1
+            return True
 
         return False
 
@@ -937,10 +947,15 @@ class EventManager:
             debug.println(debug.LEVEL_INFO, msg, True)
             return
 
-        if self._inFlood() and not self._processDuringFlood(event):
-            msg = 'EVENT MANAGER: Not processing this event due to flood.'
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return
+        if self._inFlood():
+            if not self._processDuringFlood(event):
+                msg = 'EVENT MANAGER: Not processing this event due to flood.'
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return
+            if self._prioritizeDuringFlood(event):
+                msg = 'EVENT MANAGER: Pruning event queue due to flood.'
+                debug.println(debug.LEVEL_INFO, msg, True)
+                self._pruneEventsDuringFlood()
 
         if eType.startswith('object:selection-changed') \
            and event.source in self._parentsOfDefunctDescendants:

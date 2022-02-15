@@ -27,7 +27,6 @@ __copyright__ = "Copyright (c) 2009 Sun Microsystems Inc." \
                 "Copyright (c) 2015-2016 Igalia, S.L."
 __license__   = "LGPL"
 
-import collections
 import pyatspi
 import sys
 import time
@@ -40,6 +39,12 @@ from . import messages
 from . import object_properties
 from . import settings
 from . import settings_manager
+
+# Python 3.10 compatibility:
+try:
+    import collections.abc as collections_abc
+except ImportError:
+    import collections as collections_abc
 
 def _formatExceptionInfo(maxTBlevel=5):
     cla, exc, trbk = sys.exc_info()
@@ -78,7 +83,7 @@ class Generator:
         self._activeProgressBars = {}
         self._methodsDict = {}
         for method in \
-            [z for z in [getattr(self, y).__get__(self, self.__class__) for y in [x for x in dir(self) if x.startswith(METHOD_PREFIX)]] if isinstance(z, collections.abc.Callable)]:
+            [z for z in [getattr(self, y).__get__(self, self.__class__) for y in [x for x in dir(self) if x.startswith(METHOD_PREFIX)]] if isinstance(z, collections_abc.Callable)]:
             name = method.__name__[len(METHOD_PREFIX):]
             name = name[0].lower() + name[1:]
             self._methodsDict[name] = method
@@ -236,6 +241,9 @@ class Generator:
             msg = '%s GENERATOR: Starting generation for %s' % (self._mode.upper(), obj)
             debug.println(debug.LEVEL_INFO, msg, True)
 
+            # Reset 'usedDescriptionForName' if a previous generator used it.
+            self._script.pointOfReference['usedDescriptionForName'] = False
+
             debuginfo = lambda x: self._resultElementToString(x, False)
             assert(formatting)
             while True:
@@ -267,14 +275,14 @@ class Generator:
         duration = "%.4f" % (time.time() - startTime)
         debug.println(debug.LEVEL_ALL, "%sCOMPLETION TIME: %s" % (' ' * 18, duration))
         self._debugResultInfo(result)
-        if args.get('isProgressBarUpdate') and result:
+        if args.get('isProgressBarUpdate') and result and result[0]:
             self.setProgressBarUpdateTimeAndValue(obj)
 
         return result
 
     def _resultElementToString(self, element, includeAll=True):
         if not includeAll:
-            return str(element)
+            return str(element).replace("\n", "\\n")
 
         return "\n%s'%s'" % (" " * 18, element)
 
@@ -1206,6 +1214,8 @@ class Generator:
         percent = self._script.utilities.getValueAsPercent(obj)
         lastTime, lastValue = self.getProgressBarUpdateTimeAndValue(obj, type=self)
         if percent == lastValue:
+            msg = "GENERATOR: Not presenting update for %s. Value still %s" % (obj, percent)
+            debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
         if percent == 100:

@@ -4,15 +4,15 @@
     <link type="next" xref="commands_chat"/>
     <link type="guide" xref="commands#accessing_dynamic_information"/>
     <link type="seealso" xref="howto_live_regions"/>
-    <title type="sort">1. Live Regions</title>
+    <title type="sort">1. Regiões Dinâmicas</title>
     <title type="link">Regiões dinâmicas</title>
-    <desc>Comandos para acessar regiões dinâmicas na web</desc>
+    <desc>Comandos para acessar regiões dinâmicas da web</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+      <p>Atribuição Compartilhada Igual 3.0 — Creative Commons</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,32 +30,35 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Enrico Nicoletto</mal:name>
       <mal:email>liverig@gmail.com</mal:email>
-      <mal:years>2013.</mal:years>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Leônidas Araújo</mal:name>
+      <mal:email>leorusvellt@hotmail.com</mal:email>
+      <mal:years>2022</mal:years>
     </mal:credit>
   </info>
   <title>Comandos para região dinâmica</title>
-  <p>
-    The following commands can be used to access dynamically-updated
-    content on web pages which have been made accessible through ARIA.
-  </p>
+  <p>Os comandos a seguir podem ser usados para acessar conteúdo atualizado dinamicamente em páginas web que foram disponibilizadas por meio de ARIA.</p>
   <list>
     <item>
-      <p>Monitora regiões dinâmicas: <keyseq><key>Tecla modificadora do Orca</key><key>Shift</key><key>Barra invertida</key></keyseq></p>
+      <p>Monitora regiões dinâmicas: <keyseq><key>Tecla Modificadora do Orca</key><key>Shift</key><key>Barra invertida</key></keyseq></p>
     </item>
     <item>
-      <p>Avança configuração da polidez da região dinâmica: <key>Barra invertida</key></p>
+      <p>Avança configuração da polidez da região ativa: <key>Barra invertida</key></p>
     </item>
     <item>
       <p>Ajusta o nível de refinamento para desligado: <keyseq><key>Shift</key><key>Barra invertida</key></keyseq></p>
     </item>
     <item>
-      <p>Vai para a próxima região dinâmica ou para a anterior: <keyseq><key>D</key></keyseq>/<keyseq><key>Shift</key><key>D</key></keyseq></p>
+      <p>Vai para a região dinâmica seguinte/anterior: <keyseq><key>D</key></keyseq>/<keyseq><key>Shift</key><key>D</key></keyseq></p>
     </item>
     <item>
       <p>Vai para última região dinâmica que emitiu uma mensagem: <keyseq><key>Y</key></keyseq></p>
     </item>
     <item>
-      <p>Revisa mensagens da região dinâmica: <keyseq><key>Tecla modificadora do Orca</key><key>F1</key></keyseq> até <key>F9</key></p>
+      <p>Revisa mensagens da região dinâmica: <keyseq><key>Tecla Modificadora do Orca</key><key>F1</key></keyseq> até <key>F9</key></p>
     </item>
 </list>
 </page>

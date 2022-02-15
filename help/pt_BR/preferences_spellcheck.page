@@ -2,17 +2,15 @@
 <page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_spellcheck" xml:lang="pt-BR">
   <info>
     <link type="guide" xref="preferences#application"/>
-    <title type="sort">4. Spell Check</title>
-    <title type="link">Spell Check</title>
-    <desc>
-      Configuring <app>Orca</app>'s support for Spell Check
-    </desc>
+    <title type="sort">2. Verificação Ortográfica</title>
+    <title type="link">Verificação ortográfica</title>
+    <desc>Configurando o suporte do <app>Orca</app> para verificação ortográfica</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+      <p>Atribuição Compartilhada Igual 3.0 — Creative Commons</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -30,49 +28,34 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Enrico Nicoletto</mal:name>
       <mal:email>liverig@gmail.com</mal:email>
-      <mal:years>2013.</mal:years>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Leônidas Araújo</mal:name>
+      <mal:email>leorusvellt@hotmail.com</mal:email>
+      <mal:years>2022</mal:years>
     </mal:credit>
   </info>
-  <title>Spell Check Preferences</title>
-  <p>
-    <app>Orca</app> tries to provide a consistent user experience when interacting
-     with application spell checkers. For applications where this enhanced support
-     has been provided, you will find several options which you can adjust to get
-     the verbosity level that works best for you.
-  </p>
+  <title>Preferências de Verificação Ortográfica</title>
+  <p>O <app>Orca</app> tenta fornecer uma experiência de usuário consistente ao interagir com os corretores ortográficos do aplicativo. Para aplicativos em que esse suporte aprimorado foi fornecido, você encontrará várias opções que podem ser ajustadas para obter o nível de detalhamento que funciona melhor para você.</p>
   <note style="tip">
-    <title>You can have both brief and verbose spell check information</title>
-    <p>
-      If you normally want very little verbosity when using a spell checker,
-      but occasionally need detailed information about a given error, you can
-      disable these options. When you need additional details, just use
-      <app>Orca</app>'s detailed <link xref="howto_whereami">Where Am I</link>
-      command to have <app>Orca</app> present the current error as if all of these
-      options were enabled.
-    </p>
+    <title>Você pode ter informações de verificação ortográfica breves e detalhadas</title>
+    <p>Se você normalmente deseja pouquíssima verbosidade ao usar um corretor ortográfico, mas ocasionalmente precisa de informações detalhadas sobre um determinado erro, você pode desabilitar essas opções. Quando você precisar de detalhes adicionais, basta usar o comando <link xref="howto_whereami">Onde Estou</link> detalhado do <app>Orca</app> para que o ele apresente o erro atual como se todas essas opções estivessem habilitadas.</p>
   </note>
   <section id="spell_error">
-    <title>Spell error</title>
-    <p>
-      If this checkbox is checked, <app>Orca</app> will spell out the misspelled
-      word after speaking it.
-    </p>
-    <p>Valor padrão: selecionada</p>
+    <title>Erro de ortografia</title>
+    <p>Se esta caixa de seleção estiver marcada, o <app>Orca</app> soletrará a palavra incorreta depois de pronunciá-la.</p>
+    <p>Valor padrão: selecionado</p>
   </section>
   <section id="spell_suggestion">
-    <title>Spell suggestion</title>
-    <p>
-      If this checkbox is checked, <app>Orca</app> will spell out the suggested
-      correction after speaking it.
-    </p>
-    <p>Valor padrão: selecionada</p>
+    <title>Sugestão de ortografia</title>
+    <p>Se esta caixa de seleção estiver marcada, o <app>Orca</app> soletrará a correção sugerida depois de pronunciá-la.</p>
+    <p>Valor padrão: selecionado</p>
   </section>
   <section id="error_context">
-    <title>Present context of error</title>
-    <p>
-      If this checkbox is checked, <app>Orca</app> will speak the sentence or
-      line from the document in which the error is found.
-    </p>
-    <p>Valor padrão: selecionada</p>
+    <title>Apresenta contexto do erro</title>
+    <p>Se esta caixa de seleção estiver marcada, o <app>Orca</app> falará a frase ou linha do documento em que o erro foi encontrado.</p>
+    <p>Valor padrão: selecionado</p>
   </section>
 </page>
