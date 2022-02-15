@@ -27,7 +27,6 @@ __license__   = "LGPL"
 from orca import debug
 from orca import orca
 from orca import orca_state
-from orca import speech
 from orca.scripts import default
 
 from .braille_generator import BrailleGenerator
@@ -96,8 +95,8 @@ class Script(default.Script):
         if len(newString) == 1:
             self.speakCharacter(newString)
         else:
-            voice = self.speechGenerator.voice(string=newString)
-            speech.speak(newString, voice)
+            voice = self.speechGenerator.voice(obj=event.source, string=newString)
+            self.speakMessage(newString, voice=voice)
 
         if self.flatReviewContext:
             return
@@ -138,9 +137,7 @@ class Script(default.Script):
 
         msg = "TERMINAL: Presenting keyboard event %s" % string
         debug.println(debug.LEVEL_INFO, msg, True)
-
-        voice = self.speechGenerator.voice(string=string)
-        speech.speakKeyEvent(event, voice)
+        self.speakKeyEvent(event)
         return True
 
     def skipObjectEvent(self, event):

@@ -4,17 +4,15 @@
     <link type="next" xref="commands_profiles"/>
     <link type="guide" xref="commands#getting_started"/>
     <link type="seealso" xref="howto_notifications"/>
-    <title type="sort">4. Hora, data e notificação</title>
+    <title type="sort">4. Hora, Data e Notificação</title>
     <title type="link">Hora, data e notificação</title>
-    <desc>
-      Commands for getting the time, date, and notification messages
-    </desc>
+    <desc>Comandos para obter a hora, data e mensagens de notificação</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+      <p>Atribuição Compartilhada Igual 3.0 — Creative Commons</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -32,7 +30,13 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Enrico Nicoletto</mal:name>
       <mal:email>liverig@gmail.com</mal:email>
-      <mal:years>2013.</mal:years>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Leônidas Araújo</mal:name>
+      <mal:email>leorusvellt@hotmail.com</mal:email>
+      <mal:years>2022</mal:years>
     </mal:credit>
   </info>
   <title>Comandos de hora, data e notificação</title>
@@ -41,25 +45,25 @@
     <title>Obtendo a hora e data</title>
     <list>
       <item>
-        <p>Anuncia a hora: <keyseq><key>Tecla modificadora do Orca</key><key>T</key></keyseq></p>
+        <p>Anuncia a hora: <keyseq><key>Tecla Modificadora do Orca</key><key>T</key></keyseq></p>
       </item>
       <item>
-        <p>Anuncia a data: <keyseq><key>Tecla modificadora do Orca</key><key>T</key></keyseq> (pressionada duas vezes)</p>
+        <p>Anuncia a data: <keyseq><key>Tecla Modificadora do Orca</key><key>T</key></keyseq> (clique duas vezes)</p>
       </item>
     </list>
   </section>
   <section id="notifications">
     <title>Revisando mensagens de notificação</title>
-    <p>O Orca tem três comandos sem teclas de atalho associadas para acessar <link xref="howto_notifications">mensagens de notificação</link> previamente exibidas. Por favor veja <link xref="howto_key_bindings">Modificando associação de teclas</link> para informações de como associar estes comandos a teclas de atalho.</p>
+    <p>O Orca tem três comandos sem teclas de atalho associadas para acessar <link xref="howto_notifications">mensagens de notificação</link> previamente exibidas. Por favor veja <link xref="howto_key_bindings">Associações de teclas</link> para informações de como associar estes comandos a teclas de atalho.</p>
     <list>
       <item>
-        <p>Present the last (most recent) notification message: (Unbound)</p>
+        <p>Apresente a última (mais recente) mensagem de notificação: (Sem atalho definido)</p>
       </item>
       <item>
-        <p>Present the previous notification message: (Unbound)</p>
+        <p>Apresenta a mensagem de notificação anterior: (Sem atalho definido)</p>
       </item>
       <item>
-        <p>Present list of all notification messages: (Unbound)</p>
+        <p>Apresenta uma lista de todas as mensagens de notificação: (Sem atalho definido)</p>
       </item>
     </list>
   </section>

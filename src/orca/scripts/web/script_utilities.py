@@ -932,6 +932,27 @@ class Utilities(script_utilities.Utilities):
 
         return super().localizeTextAttribute(key, value)
 
+    def adjustContentsForLanguage(self, contents):
+        rv = []
+        for content in contents:
+            split = self.splitSubstringByLanguage(*content[0:3])
+            for start, end, string, language, dialect in split:
+                rv.append([content[0], start, end, string])
+
+        return rv
+
+    def getLanguageAndDialectFromTextAttributes(self, obj, startOffset=0, endOffset=-1):
+        rv = super().getLanguageAndDialectFromTextAttributes(obj, startOffset, endOffset)
+
+        # Embedded objects such as images and certain widgets won't implement the text interface
+        # and thus won't expose text attributes. Therefore try to get the info from the parent.
+        if not rv and obj and obj.parent:
+            start, end = self.getHyperlinkRange(obj)
+            language, dialect = self.getLanguageAndDialectForSubstring(obj.parent, start, end)
+            rv.append((0, 1, language, dialect))
+
+        return rv
+
     def findObjectInContents(self, obj, offset, contents, usingCache=False):
         if not obj or not contents:
             return -1
@@ -1442,7 +1463,10 @@ class Utilities(script_utilities.Utilities):
             string = string[rangeStart:rangeEnd]
             end = start + len(string)
 
-        return [[obj, start, end, string]]
+        if boundary in [pyatspi.TEXT_BOUNDARY_WORD_START, pyatspi.TEXT_BOUNDARY_CHAR]:
+            return [[obj, start, end, string]]
+
+        return self.adjustContentsForLanguage([[obj, start, end, string]])
 
     def getSentenceContentsAtOffset(self, obj, offset, useCache=True):
         if not obj:
@@ -4896,21 +4920,6 @@ class Utilities(script_utilities.Utilities):
 
         return rv
 
-    def getObjectFromPath(self, path):
-        start = self._script.app
-        rv = None
-        for p in path:
-            if p == -1:
-                continue
-            try:
-                start = start[p]
-            except:
-                break
-        else:
-            rv = start
-
-        return rv
-
     def clearCaretContext(self, documentFrame=None):
         self.clearContentCache()
         documentFrame = documentFrame or self.documentFrame()
@@ -5010,6 +5019,11 @@ class Utilities(script_utilities.Utilities):
         else:
             notify = False
             obj, offset = self.searchForCaretContext(event.source)
+            # Risk "chattiness" if the locusOfFocus is dead and the object we've found is
+            # focused.
+            if obj and self.isDead(orca_state.locusOfFocus) \
+               and obj.getState().contains(pyatspi.STATE_FOCUSED):
+                notify = True
 
         if obj:
             msg = "WEB: Setting locusOfFocus and context to: %s, %i" % (obj, offset)
