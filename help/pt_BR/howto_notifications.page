@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+      <p>Atribuição Compartilhada Igual 3.0 — Creative Commons</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -28,12 +28,18 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Enrico Nicoletto</mal:name>
       <mal:email>liverig@gmail.com</mal:email>
-      <mal:years>2013.</mal:years>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Leônidas Araújo</mal:name>
+      <mal:email>leorusvellt@hotmail.com</mal:email>
+      <mal:years>2022</mal:years>
     </mal:credit>
   </info>
   <title>Notificações</title>
   <p>A área de trabalho do GNOME inclui uma "área de notificação" que pode ser usada por aplicativos para apresentar informação ao usuário. Exemplos de notificações são a chegada de mensagens de bate-papo, os detalhes associados com o som que seu tocador de mídia está reproduzindo, e o aviso que seu nível de bateria está ficando baixo.</p>
-  <p>Como as notificações têm a intenção de apresentar informações aos usuários sem interromper o que eles estão fazendo, essas mensagens tendem a aparecer e desaparecer relativamente rápido. Elas também não podem receber o foco. Como o <app>Orca</app> anunciará essas mensagens para você assim que elas chegarem, também será fácil interromper acidentalmente o anúncio do <app>Orca</app> continuando a escrever ou a mudar o foco. Por isto, o <app>Orca</app> tem três comandos que você pode usar para acessar as mensagens de notificações exibidas anteriormente:</p>
+  <p>Como as notificações destinam-se a apresentar informações aos usuários sem interromper o que ele está fazendo, essas mensagens tendem a aparecer e desaparecer com relativa rapidez. Elas também não são focalizáveis. Embora o <app>Orca</app> apresente-as para você à medida que elas chegam, é muito fácil interromper o anúncio acidentalmente continuando a digitar ou mudando o foco. Por esse motivo, o <app>Orca</app> possui três comandos que você pode usar para acessar as mensagens de notificação exibidas anteriormente:</p>
   <list>
     <item>
       <p>Apresenta a última (mais recente) mensagem de notificação</p>
@@ -55,5 +61,5 @@
     <item><p>Pressione um dígito para ler uma mensagem específica.</p></item>
   </list>
   <p>Observe que a mensagem recebida mais recentemente estará no topo da lista.</p>
-  <p>Cada um dos comandos de revisão de notificação do <app>Orca</app> estão, por padrão, sem atalho. Você pode associar alguns ou todos eles à tecla de atalho ou às teclas de atalho que você escolher. Como fazer isto está descrito na <link xref="howto_key_bindings">Introdução à associação de teclas</link>.</p>
+  <p>Cada um dos comandos de revisão de notificação do <app>Orca</app> é desvinculado de atalho de teclado por padrão. Você pode vincular qualquer um ou todos eles ao atalho ou atalhos que você escolher. Como fazer isso está descrito na <link xref="howto_key_bindings">Introdução aos Atalhos de Teclado</link>.</p>
 </page>

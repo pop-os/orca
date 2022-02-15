@@ -47,7 +47,6 @@ from . import orca
 from . import orca_state
 from . import script_manager
 from . import settings_manager
-from . import speech
 
 _eventManager = event_manager.getManager()
 _scriptManager = script_manager.getManager()
@@ -141,7 +140,7 @@ class _StringContext:
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
-        voice = self._script.speechGenerator.voice(string=self._string)
+        voice = self._script.speechGenerator.voice(obj=self._obj, string=self._string)
         string = self._script.utilities.adjustForRepeats(self._string)
 
         orca.emitRegionChanged(self._obj, self._start, self._end, orca.MOUSE_REVIEW)
@@ -290,7 +289,7 @@ class _ItemContext:
             self._script.presentationInterrupt()
 
         if self._frame and self._frame != prior._frame:
-            self._script.presentObject(self._frame, alreadyFocused=True, inMouseReview=True)
+            self._script.presentObject(self._frame, alreadyFocused=True, inMouseReview=True, interrupt=True)
 
         if self._script.utilities.containsOnlyEOCs(self._obj):
             msg = "MOUSE REVIEW: Not presenting object which contains only EOCs"

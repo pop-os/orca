@@ -3,14 +3,14 @@
   <info>
     <link type="guide" xref="index#reviewing"/>
     <link type="next" xref="howto_mouse_review"/>
-    <title type="sort">3. Localização do Orca</title>
+    <title type="sort">3. Busca do Orca</title>
     <desc>Pesquisando por objetos numa janela</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+      <p>Atribuição Compartilhada Igual 3.0 — Creative Commons</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -28,23 +28,29 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Enrico Nicoletto</mal:name>
       <mal:email>liverig@gmail.com</mal:email>
-      <mal:years>2013.</mal:years>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Leônidas Araújo</mal:name>
+      <mal:email>leorusvellt@hotmail.com</mal:email>
+      <mal:years>2022</mal:years>
     </mal:credit>
   </info>
   <title>Localização do Orca</title>
-  <p>O recurso Localização do <app>Orca</app> é uma pesquisa baseada na <link xref="howto_flat_review">Revisão Plana</link> projetada para ajudá-lo a localizar rapidamente objetos que estão visíveis na tela da janela atual.</p>
+  <p>O recurso Busca do <app>Orca</app> é uma pesquisa baseada em <link xref="howto_flat_review">Revisão Plana</link> projetada para ajudá-lo a localizar rapidamente objetos visíveis na tela na janela atual.</p>
   <note style="tip">
-    <title>Ativando a localização do Orca</title>
+    <title>Ativando a Busca do Orca</title>
       <p>Para abrir o diálogo <gui>Localização</gui> do Orca, use os seguintes comandos conforme a escolha de sua <link xref="howto_keyboard_layout">Disposição de teclado</link>:</p>
       <list>
         <item>
-          <p>Computador de mesa: <keyseq><key>NUM Delete</key></keyseq></p>
+          <p>Desktop: <keyseq><key>NUM Delete</key></keyseq></p>
         </item>
         <item>
-          <p>Notebook: <keyseq><key>Tecla modificadora do Orca</key><key>Fecha colchetes</key></keyseq></p>
+          <p>Notebook: <keyseq><key>Tecla Modificadora do Orca</key><key>Fecha colchetes</key></keyseq></p>
         </item>
       </list>
-      <p>Para uma lista de tarefas adicionais que você pode executar, veja <link xref="commands_find">Comandos de localização do Orca</link></p>
+      <p>Para uma lista de tarefas adicionais que você pode executar, veja <link xref="commands_find">Comandos de Busca do Orca</link></p>
   </note>
   <p>Quando você ativar a localização do Orca, você será posicionado numa caixa de diálogo.</p>
   <p>Aqui você pode especificar os seguintes itens:</p>
@@ -54,25 +60,25 @@
     </item>
     <item>
       <p>A posição de onde começar a pesquisa, que pode ser tanto a posição atual quanto o topo da janela</p>
-      <p>Valor padrão de <gui>InIciar de</gui>: <gui>Posição atual</gui></p>
+      <p>Valor padrão de <gui>Iniciar de</gui>: <gui>Posição atual</gui></p>
     </item>
     <item>
       <p>A maiusculização deve ser levada em conta quando se faz uma procura</p>
-      <p>Valor padrão de <gui>Diferenciar maiúsculas de Minúsculas</gui>: não selecionada</p>
+      <p>Valor padrão de <gui>Diferenciar maiúsculas de minúsculas</gui>: não selecionado</p>
     </item>
     <item>
       <p>Limitar ou não a pesquisa a ocorrências que coincidam com a palavra ou frase inteira.</p>
-      <p>Valor padrão de <gui>somente palavras inteiras</gui>: não selecionada</p>
+      <p>Valor padrão de <gui>Coincidir apenas palavras completas</gui>: não selecionado</p>
     </item>
     <item>
       <p>Se a localização pela próxima ocorrência deve ser feita para baixo e/ou para a direita ou para cima e/ou para a esquerda.</p>
-      <p>O valor padrão da<gui>Pesquisa para trás</gui>: desmarcado</p>
+      <p>Valor padrão de <gui>Pesquisar de trás para frente</gui>: não selecionado</p>
     </item>
     <item>
       <p>A localização pode ou não retornar ao topo ou fim da janela se não houver ocorrência encontrada a partir da posição na direção definida para pesquisa.</p>
-      <p>Valor padrão do <gui>Voltar ao Início</gui>: marcado</p>
+      <p>Valor padrão de <gui>Voltar ao Início</gui>: selecionado</p>
     </item>
   </list>
-  <p>Tendo realizado uma pesquisa, você pode rapidamente pesquisar pela próxima ocorrência ou pela ocorrência anterior sem ter que retornar para a caixa de diálogo da Localização do Orca.</p>
-  <p>Por ser a Localização do Orca um recurso de <link xref="howto_flat_review">Revisão plana</link>, quando houver uma ocorrência, automaticamente a Revisão Plana será ativada e o item procurado ou texto tornar-se-á o item atual da revisão. Observe que o foco do aplicativo não será modificado, nem o cursor será reposicionado. Se você precisar, por favor veja <link xref="commands_mouse">Comandos do Orca relacionados ao ponteiro do mouse</link>.</p>
+  <p>Depois de realizar uma pesquisa, você pode pesquisar rapidamente a correspondência seguinte ou anterior sem precisar retornar ao diálogo localizar Busca do Orca.</p>
+  <p>Por ser um recurso de <link xref="howto_flat_review">Revisão Plana</link>, quando houver uma correspondência, a Revisão Plana será ativada automaticamente e o item ou texto correspondente se tornará o item de revisão atual. Observe que o foco dentro do aplicativo não será modificado, nem o cursor será reposicionado. Se você precisar realizar qualquer um dos dois, consulte <link xref="commands_mouse">Comandos Relacionados ao Mouse/Ponteiro do Orca</link>.</p>
 </page>

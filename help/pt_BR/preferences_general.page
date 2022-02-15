@@ -11,7 +11,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+      <p>Atribuição Compartilhada Igual 3.0 — Creative Commons</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -29,22 +29,23 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Enrico Nicoletto</mal:name>
       <mal:email>liverig@gmail.com</mal:email>
-      <mal:years>2013.</mal:years>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Leônidas Araújo</mal:name>
+      <mal:email>leorusvellt@hotmail.com</mal:email>
+      <mal:years>2022</mal:years>
     </mal:credit>
   </info>
   <title>Preferências Gerais</title>
   <section id="keyboardlayout">
     <info>
-      <desc>Opção da caixa de diálogo Preferências para selecionar qual disposição de teclado será usada pelo <app>Orca</app>, computador de mesa ou notebook.</desc>
+      <desc>Opção da caixa de diálogo Preferências para selecionar qual disposição de teclado será usada pelo <app>Orca</app>, Desktop ou notebook.</desc>
     </info>
     <title>Disposição de teclado</title>
-    <p>
-      The <gui>Keyboard Layout</gui> radio button group allows you to specify if
-      you will be working on a desktop (i.e. with a numeric keypad) or laptop
-      keyboard. Which layout you choose will determine both the <key>Orca
-      Modifier</key> as well as a number of keyboard shortcuts for performing
-      <app>Orca</app> commands.</p>
-    <p>Valor Padrão: <gui>Desktop</gui></p>
+    <p>O grupo de botões de opção <gui>Disposição do teclado</gui> permite que você especifique se você estará trabalhando em um Computador de mesa (isto é com um teclado numérico) ou em um Notebook. A disposição que você escolher irá determinar tanto a <key>Tecla Modificadora do Orca</key> bem como uma série de atalhos de teclado para executar comandos.</p>
+    <p>Valor padrão: <gui>Desktop</gui></p>
   </section>
   <section id="presenttooltips">
     <info>
@@ -52,7 +53,7 @@
     </info>
     <title>Apresentar dicas</title>
     <p>Quando marcada, essa opção irá instruir o <app>Orca</app> a apresentar informações sobre dicas quando elas aparecerem como resultado de uma operação do mouse. Ações especificas que forçam as dicas a aparecerem, como pressionar <keyseq> <key>Ctrl</key><key>F1</key></keyseq> quando um objeto possui o foco, resultarão sempre na apresentação das dicas, independentemente desta definição.</p>
-    <p>Valor padrão: desmarcado</p>
+    <p>Valor padrão: não selecionado</p>
   </section>
   <section id="objectundermouse">
     <info>
@@ -60,85 +61,48 @@
     </info>
     <title>Falar o objeto sob o Mouse</title>
     <p>Quando marcada, essa opção irá instruir o <app>Orca</app> a apresentar informações sobre o objeto que está sob o ponteiro do mouse assim que você se move por ele ao redor da tela, usando o recurso de <link xref="howto_mouse_review">Revisão do mouse</link> do <app>Orca</app>.</p>
-    <p>Valor padrão: desmarcado</p>
+    <p>Valor padrão: não selecionado</p>
   </section>
   <section id="timeanddate">
     <info>
       <desc>Opção da caixa de diálogo Preferências para personalizar os formatos de hora e data usados pelo <app>Orca</app>.</desc>
     </info>
     <title>Formato de Hora e Formato de Data</title>
-    <p>As caixas de combinação <gui>Formato de Hora</gui> e <gui>Formato de Data</gui> permitem que você especifique como o <app>Orca</app> falará e exibirá em braille a hora e a data.</p>
+    <p>As caixas de combinação <gui>Formato de Hora</gui> e <gui>Formato de Data</gui> permitem que você especifique como o <app>Orca</app> falará e exibirá em Braille a hora e a data.</p>
     <p>Valor padrão: usar o formato local do sistema para cada</p>
   </section>
   <section id="navigation_in_say_all">
     <info>
-      <desc>
-        Preferences dialog box options for enabling rewind, fast forward,
-	and structural navigation during Say All.
-      </desc>
+      <desc>Opções da caixa de diálogo Preferências para Habilitar retrocesso e avanço rápido e Habilitar a navegação estrutural em Ler Tudo.</desc>
     </info>
-    <title>Navigation in Say All</title>
-    <p>
-        <app>Orca</app>'s Say All feature speaks document content from your
-        present location to the end of the document. By default, pressing any
-        key will interrupt Say All's presentation. However, if you check the
-        <gui>Enable rewind and fast forward in Say All</gui> checkbox,
-        <key>Up</key> and <key>Down</key> can be used during Say All to quickly
-        move within the document in order to re-hear something which was just
-        read or skip past text of no interest without having to restart Say All.
-    </p>
-    <p>
-       If you are reading a document within an application that has structural
-       navigation support, and you have checked the <gui>Enable structural navigation
-       in Say All</gui> checkbox, you can use the supported structural navigation
-       commands in a similar fashion: <key>H</key>/<keyseq><key>Shift</key>
-       <key>H</key></keyseq> continues reading from the next/previous heading,
-       <key>P</key>/<keyseq><key>Shift</key><key>P</key></keyseq> continues reading
-       from the next/previous paragraph, <key>T</key>/<keyseq><key>Shift</key>
-       <key>T</key></keyseq> continues reading from the next/previous table, and
-       so on.
-    </p>
-    <p>Valor padrão: desmarcado</p>
+    <title>Navegação em Ler Tudo</title>
+    <p>O recurso Ler Tudo do <app>Orca</app> fala o conteúdo do documento da sua localização atual até o final. Por padrão, pressionar qualquer tecla interromperá a apresentação do Ler Tudo. No entanto, se você marcar a caixa de seleção <gui>Ativar retrocesso e avanço rápido em Ler Tudo</gui>, <key>Cima</key> e <key>Baixo</key> podem ser usados durante Ler Tudo para mover rapidamente dentro o documento para ouvir novamente algo que acabou de ser lido ou pular o texto sem interesse sem ter que reiniciar o Ler Tudo.</p>
+    <p>Se você está lendo um documento dentro de um aplicativo que tem suporte de navegação estrutural e marcou a caixa de seleção <gui>Habilitar navegação estrutural em Ler Tudo</gui>, você pode usar os comandos de navegação estrutural suportados de maneira semelhante: <key>H</key>/<keyseq><key>Shift</key> <key>H</key></keyseq> continua a leitura do cabeçalho seguinte/anterior, <key>P</key>/<keyseq><key>Shift</key><key>P</key></keyseq> continua a leitura do parágrafo seguinte/anterior, <key>T</key>/<keyseq><key>Shift</key> <key>T</key></keyseq> continua lendo da tabela seguinte/anterior e assim por diante.</p>
+    <p>Valor padrão: não selecionado</p>
   </section>
   <section id="say_all_announce_context">
-    <title>Announce Contextual Information in Say All</title>
-    <p>
-      <app>Orca</app> can optionally provide more information about the document
-      content being spoken, such as announcing when you are entering and leaving
-      a blockquote, list, table, or other container. Whether or not these
-      announcements are made can be configured independently through the following
-      checkboxes:
-    </p>
+    <title>Anunciar Informações Contextuais em Ler Tudo</title>
+    <p>O <app>Orca</app> pode opcionalmente fornecer mais informações sobre o conteúdo do documento que está sendo falado, como anunciar quando você está entrando e saindo de um citação em bloco, lista, tabela ou outro contêiner. Se esses anúncios são feitos ou não, pode ser configurado de forma independente através das seguintes caixas de seleção:</p>
     <list>
-      <item><p>Announce blockquotes in Say All</p></item>
-      <item><p>Announce forms in Say All</p></item>
-      <item><p>Announce landmarks in Say All</p></item>
-      <item><p>Announce lists in Say All</p></item>
-      <item><p>Announce panels in Say All</p></item>
-      <item><p>Announce tables in Say All</p></item>
+      <item><p>Anunciar citações em Ler Tudo</p></item>
+      <item><p>Anunciar formulários no Ler Tudo</p></item>
+      <item><p>Anuncie marcos no Ler Tudo</p></item>
+      <item><p>Anunciar listas no Ler Tudo</p></item>
+      <item><p>Anunciar painéis em Ler Tudo</p></item>
+      <item><p>Anunciar tabelas no Ler Tudo</p></item>
     </list>
-    <p>Valor padrão: selecionada</p>
+    <p>Valor padrão: selecionado</p>
     <note style="note">
-      <p>
-        Whether or not <app>Orca</app> makes these announcements during
-        navigation is also configurable. You will find similar checkboxes
-        on the <gui>Speech</gui> page. For more information, see
-        <link xref="preferences_speech#spoken_context">Spoken Context</link>.
-      </p>
+      <p>Se o <app>Orca</app> faz ou não esses anúncios durante a navegação também é configurável. Você encontrará caixas de seleção semelhantes na página <gui>Fala</gui>. Para obter mais informações, consulte <link xref="preferences_speech#spoken_context">Contexto Falado</link>.</p>
     </note>
   </section>
   <section id="say_all_by">
    <info>
-      <desc>
-        Preferences dialog box option for customizing <app>Orca</app>'s
-	Say All presentation.
-      </desc>
+      <desc>Opção de caixa de diálogo de Preferências para personalizar a apresentação do Ler Tudo do <app>Orca</app>.</desc>
    </info>
    <title>Ler tudo por</title>
    <p>A caixa de combinação <gui>Ler tudo por</gui> permite que você especifique se o <app>Orca</app> fala uma frase ou uma linha de cada vez ao fazer um "Ler tudo" de um documento.</p>
-    <p>
-      Default value: <gui>Sentence</gui>
-    </p>
+    <p>Valor padrão: <gui>Frase</gui></p>
   </section>
   <section id="profiles">
     <info>
@@ -164,44 +128,31 @@
   <section id="progress_bar_updates">
     <title>Atualizações de barras de progresso</title>
     <section id="progress_bar_updates_speak">
-      <title>Speak updates</title>
-      <p>
-        If the <gui>Speak updates</gui> checkbox is checked <app>Orca</app> will
-        periodically speak the status of progress bars.
-      </p>
-      <p>Valor padrão: selecionada</p>
+      <title>Falar atualizações</title>
+      <p>Se a caixa de seleção <gui>Falar atualizações</gui> estiver marcada, o <app>Orca</app> falará periodicamente o status das barras de progresso.</p>
+      <p>Valor padrão: selecionado</p>
     </section>
     <section id="progress_bar_updates_braille">
-      <title>Braille updates</title>
-      <p>
-        If the <gui>Braille updates</gui> checkbox is checked <app>Orca</app> will
-        periodically display the status of progress bars on your refreshable braille
-        display.
-      </p>
-      <p>Valor padrão: desmarcado</p>
+      <title>Atualizações Braille</title>
+      <p>Se a caixa de seleção <gui>Atualizações em Braille</gui> estiver marcada, o <app>Orca</app> exibirá periodicamente o status das barras de progresso em sua linha braille atualizável.</p>
+      <p>Valor padrão: não selecionado</p>
     </section>
     <section id="progress_bar_updates_beep">
-      <title>Beep updates</title>
-      <p>
-        If the <gui>Beep updates</gui> checkbox is checked <app>Orca</app> will
-        periodically emit beeps which increase in pitch as the value of the progress
-        bar increases.
-      </p>
-      <p>Valor padrão: desmarcado</p>
+      <title>Atualizações em bipe</title>
+      <p>Se a caixa de seleção <gui>Atualizações em bipes</gui> estiver marcada, o <app>Orca</app> emitirá bipes periodicamente que aumentam de tom à medida que o valor da barra de progresso aumenta.</p>
+      <p>Valor padrão: não selecionado</p>
     </section>
     <section id="progress_bar_updates_frequency">
-      <title>Frequência (segundos)</title>
-      <p>
-        This spin button determines how often updates are presented.
-      </p>
+      <title>Frequência (segs)</title>
+      <p>Este botão giratório determina com que frequência as atualizações são apresentadas.</p>
       <p>Valor padrão: 10</p>
     </section>
     <section id="progress_bar_updates_restrict">
-      <title>Applies to</title>
+      <title>Aplica-se a</title>
       <p>Esta caixa de combinação permite-lhe controlar qual a barra de progresso que deve ser apresentada, assumindo que as atualizações de barras de progresso tenham sido ativadas. As opções são <gui>todas</gui>, <gui>Aplicativo</gui>, e <gui>Janela</gui>.</p>
-      <p>Selecionando <gui>Todas</gui> fará que o <app>Orca</app> apresente atualizações para todas as barras de progresso, independentemente de onde estas estejam localizadas.</p>
-      <p>Selecionando <gui>Aplicativo</gui> fará que o <app>Orca</app> apresente somente as atualizações do aplicativo atual, ainda que estas não estejam na janela ativa.</p>
-      <p>Selecionando <gui>Janela</gui> resulta em que o <app>Orca</app> only apresente somente as atualizações na janela corrente.</p>
+      <p>Escolher <gui>Todas</gui> fará com que o <app>Orca</app> apresente atualizações para todas as barras de progresso, independentemente de onde elas estejam localizadas.</p>
+      <p>Escolher <gui>Aplicativo</gui> fará com que o <app>Orca</app> apresente atualizações das barras de progresso no aplicativo ativo, mesmo que não estejam na janela ativa.</p>
+      <p>Escolher <gui>Janela</gui> fará com que o <app>Orca</app> apresente apenas atualizações para as barras de progresso na janela ativa.</p>
       <p>Valor padrão: <gui>Aplicativo</gui></p>
     </section>
   </section>

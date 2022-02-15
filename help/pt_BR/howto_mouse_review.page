@@ -3,14 +3,14 @@
   <info>
     <link type="guide" xref="index#reviewing"/>
     <link type="next" xref="howto_notifications"/>
-    <title type="sort">4. Revisão do mouse</title>
+    <title type="sort">4. Revisão por Mouse</title>
     <desc>Usando o ponteiro para explorar a tela</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+      <p>Atribuição Compartilhada Igual 3.0 — Creative Commons</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -28,14 +28,20 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Enrico Nicoletto</mal:name>
       <mal:email>liverig@gmail.com</mal:email>
-      <mal:years>2013.</mal:years>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Leônidas Araújo</mal:name>
+      <mal:email>leorusvellt@hotmail.com</mal:email>
+      <mal:years>2022</mal:years>
     </mal:credit>
   </info>
-  <title>Revisão do mouse</title>
-  <p>O recurso da revisão do mouse do <app>Orca</app> faz com que o <app>Orca</app> anuncie o objeto sob o ponteiro do mouse. Ao contrário do recurso da <link xref="howto_flat_review">revisão plana</link> do <app>Orca</app>, a revisão do mouse não é limitada à janela ativa; Em vez disto, o <app>Orca</app> tentará identificar objetos acessíveis, se algum for visível sob o ponteiro quando você mover o mouse. Se você moveu o ponteiro do mouse para um objeto acessível com informação para apresentar, o <app>Orca</app> anunciará aquele objeto e sua informação.</p>
-  <p>Uma vez que a habilitação da revisão do mouse faz o <app>Orca</app> captar, e então processar, todas as mudanças na posição do ponteiro do mouse, por padrão este recurso é desabilitado. Para deixar o recurso sempre habilitado, marque a caixa de seleção <gui>Falar o objeto sob o mouse</gui> encontrada na caixa de diálogo <link xref="preferences_general">página geral das preferências do <app>Orca</app></link>. Além disto, você encontrará um comando sem atalho chamado <gui>Alternância do modo de revisão do mouse</gui> na <link xref="preferences_key_bindings">página de atalhos</link> da mesma caixa de diálogo. Associando este comando, como descrito em <link xref="howto_key_bindings">Introdução à associação de teclas</link>, você pode habilitar e desabilitar a revisão do mouse sempre que necessário.</p>
+  <title>Revisão por Mouse</title>
+  <p>O recurso Revisão por Mouse do <app>Orca</app> faz com que o leitor apresente o objeto sob o ponteiro do mouse. Ao contrário do recurso <link xref="howto_flat_review">Revisão Plana</link>, a Revisão por Mouse não se limita à janela ativa; em vez disso, o <app>Orca</app> tentará identificar qual objeto acessível, se houver, está visualmente sob o ponteiro enquanto você move o mouse. Se você moveu o ponteiro sobre um objeto acessível com informações a serem apresentadas, o <app>Orca</app> apresentará esse objeto e suas informações para você.</p>
+  <p>Como habilitar a Revisão por Mouse faz com que o <app>Orca</app> escute e processe todas as alterações na posição do ponteiro do mouse, esse recurso está desabilitado por padrão. Para tê-lo sempre ativado, marque a caixa de seleção <gui>Falar o objeto sob o mouse</gui> encontrada na <link xref="preferences_general">Página geral da caixa de diálogo Preferências do <app>Orca</app></link>. Além disso, você encontrará um comando Sem atalho definido chamado <gui>Alternar modo de revisão do mouse</gui> na <link xref="preferences_key_bindings">Página de Atalhos do Teclado</link> dessa mesma caixa de diálogo. Ao vincular este comando, conforme descrito na <link xref="howto_key_bindings">Introdução aos Atalhos de Teclado</link>, você pode habilitar e desabilitar a Revisão por Mouse, conforme necessário.</p>
   <note style="tip">
-    <title>As configurações e as associações de teclas padrão são independentes de qualquer outra</title>
+    <title>As configurações padrão e as combinações de teclas são independentes umas das outras</title>
     <p>Observe que você pode ou não escolher para ter a revisão do mouse sempre habilitada e ainda assim alterná-la entre ligada e desligada por meio do teclado usando o <gui>modo de alternância da revisão do mouse</gui>. Não é necessário habilitá-la com o objetivo de alternar, porque as definições e as associações de teclas são independentes entre sí.</p>
   </note>
 </page>

@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Atribuição Compartilhada Igual 3.0 - Creative Commons</p>
+      <p>Atribuição Compartilhada Igual 3.0 — Creative Commons</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -28,7 +28,13 @@
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
       <mal:name>Enrico Nicoletto</mal:name>
       <mal:email>liverig@gmail.com</mal:email>
-      <mal:years>2013.</mal:years>
+      <mal:years>2013</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Leônidas Araújo</mal:name>
+      <mal:email>leorusvellt@hotmail.com</mal:email>
+      <mal:years>2022</mal:years>
     </mal:credit>
   </info>
   <title>Perfis</title>
@@ -39,7 +45,7 @@
       <p>Acesse a caixa de diálogo <link xref="preferences">Preferências do Orca</link>.</p>
     </item>
     <item>
-      <p>Altere todas as configurações que desejar.</p>
+      <p>Altere as configurações que desejar.</p>
     </item>
     <item>
       <p>Na aba <gui>Geral</gui>, pressione o botão <gui>Salvar como</gui>.</p>
@@ -70,7 +76,7 @@
     </item>
   </steps>
   <steps>
-    <title>Alterando um perfil existente</title>
+    <title>Alterando um Perfil Existente</title>
     <item>
       <p>Siga os passos descritos acima para carregar o perfil que você deseja alterar.</p>
     </item>
@@ -85,7 +91,7 @@
     </item>
   </steps>
   <steps>
-    <title>Alterando o <gui>Perfil de inicialização</gui></title>
+    <title>Alterando o <gui>Perfil de Inicialização</gui></title>
     <item>
       <p>Acesse a caixa de diálogo <link xref="preferences">Preferências do Orca</link>.</p>
     </item>

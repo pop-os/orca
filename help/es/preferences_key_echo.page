@@ -68,7 +68,7 @@
     </section>
     <section id="keyecho_enable_navigation">
       <title>Activar teclas de navegación</title>
-      <p>Esta opción controla si se deben leer las teclas <key>Izquierda</key>, <key>Derecha</key>, <key>Arriba</key>, y <key>Abajo</key> cuando al pulsarlas. Esta opción también se aplica a cualquier combinación de teclas en la que se pulse el <key>Modificador de Orca</key>, por ejemplo cuando se usa la revisión.</p>
+      <p>Esta opción controla si se deben leer las teclas <key>Izquierda</key>, <key>Derecha</key>, <key>Arriba</key>, y <key>Abajo</key> cuando al pulsarlas. Esta opción también se aplica a cualquier atajo del teclado en la que se pulse el <key>Modificador de Orca</key>, por ejemplo cuando se usa la revisión.</p>
       <p>Valor predeterminado: no marcado</p>
     </section>
     <section id="keyecho_enable_diacritical">
