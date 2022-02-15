@@ -1,3 +1,9 @@
+orca (42~beta-1) experimental; urgency=medium
+
+  * New upstream beta release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 15 Feb 2022 20:54:01 +0100
+
 orca (41.2-1) unstable; urgency=medium
 
   * New upstream release.
