@@ -1,4 +1,4 @@
-orca (42~beta-1ubuntu1) UNRELEASED; urgency=medium
+orca (42~beta-1ubuntu1) jammy; urgency=medium
 
   * Merge with Debian. Remaining changes:
     + debian/patches/unity-a11y.patch: add hacks to better work with Unity
@@ -6,7 +6,7 @@ orca (42~beta-1ubuntu1) UNRELEASED; urgency=medium
       universe in Ubuntu so we can't depend on it. It's silently skipped if
       not available.
 
- -- Jeremy Bicha <jeremy.bicha@canonical.com>  Tue, 15 Feb 2022 16:08:42 -0500
+ -- Jeremy Bicha <jeremy.bicha@canonical.com>  Tue, 15 Feb 2022 16:10:46 -0500
 
 orca (42~beta-1) experimental; urgency=medium
 
