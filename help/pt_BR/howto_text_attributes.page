@@ -42,14 +42,7 @@
   <section id="obtaining">
     <title>Obtendo informações de formatação</title>
     <p>Quando você pressiona <keyseq><key>Tecla Modificadora do Orca</key><key>F</key> </keyseq>, o <app>Orca</app> falará informação de texto e atributo de um objeto. Além disto, o <app>Orca</app> indicará, opcionalmente, atributos de texto "sublinhando" em Braille enquanto você navega num documento.</p>
-    <p>
-      Because the number of text attributes is large, and not everyone cares
-      about every attribute, the <link xref="preferences_text_attributes">
-      Text Attributes page of the preferences dialog</link> allows you to
-      customize which text attributes <app>Orca</app> will present in speech,
-      along with the order in which they should be presented, and which ones
-      <app>Orca</app> will indicate in braille.
-    </p>
+    <p>Como o número de atributos de texto é grande e nem todos se preocupam com cada atributo, a página <link xref="preferences_text_attributes">Atributos de Texto da caixa de diálogo de preferências</link> permite que você personalize quais atributos de texto o <app>Orca</app> apresentará em fala, juntamente com a ordem em que devem ser apresentados, e quais o <app>Orca</app> indicará em braile.</p>
     <p>Como a página <link xref="preferences_text_attributes">Atributos de Texto</link> também faz parte das configurações específicas do aplicativo, você pode personalizar a apresentação do atributo de texto, conforme necessário, para cada aplicativo usado.</p>
   </section>
   <section id="identifying_misspelled_words">
