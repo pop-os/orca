@@ -2,6 +2,3 @@
 
 %:
 	dh $@ --with gnome,python3
-
-override_dh_missing:
-	dh_missing --fail-missing
