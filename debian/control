@@ -11,18 +11,18 @@ Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.o
            Samuel Thibault <sthibault@debian.org>, Jeremy Bicha <jbicha@debian.org>, Jordi Mallach <jordi@debian.org>, Michael Biebl <biebl@debian.org>
 Build-Depends: debhelper-compat (= 12),
                dh-python,
-               gnome-pkg-tools (>= 0.10),
-               gettext (>= 0.19.8~),
-               libatk-bridge2.0-dev (>= 2.26),
-               libatspi2.0-dev (>= 2.26),
+               gnome-pkg-tools,
+               gettext,
+               libatk-bridge2.0-dev,
+               libatspi2.0-dev,
                libgstreamer1.0-dev,
                pkg-config,
-               python3 (>= 3.3),
-               python-gi-dev (>= 3.18),
-               python3-brlapi (>= 0.5.1),
-               python3-louis (>= 1.6.2), liblouis-dev,
-               python3-pyatspi (>= 2.26),
-               python3-speechd (>= 0.8),
+               python3,
+               python-gi-dev,
+               python3-brlapi,
+               python3-louis, liblouis-dev,
+               python3-pyatspi,
+               python3-speechd,
                yelp-tools
 Rules-Requires-Root: no
 Standards-Version: 4.6.0
@@ -37,22 +37,20 @@ Architecture: all
 Depends: ${misc:Depends},
          ${python3:Depends},
          gir1.2-glib-2.0,
-         gir1.2-gtk-3.0 (>= 3.6.2),
+         gir1.2-gtk-3.0,
          gir1.2-pango-1.0,
          gir1.2-wnck-3.0,
          gir1.2-gstreamer-1.0, gstreamer1.0-plugins-good,
-         python3-brlapi (>= 0.5.1),
+         python3-brlapi,
          python3-cairo,
-         python3-gi (>= 3.18),
-         python3-louis (>= 1.6.2),
-         python3-pyatspi (>= 2.26),
-         python3-speechd (>= 0.8),
-         speech-dispatcher (>= 0.8),
+         python3-gi,
+         python3-louis,
+         python3-pyatspi,
+         python3-speechd,
+         speech-dispatcher,
          gsettings-desktop-schemas,
 Recommends: xbrlapi
 Suggests: brltty
-Breaks: gnome-orca (<< 3.26.0-4~)
-Replaces: gnome-orca (<< 3.26.0-4~)
 Description: Scriptable screen reader
  A flexible, extensible, and powerful assistive technology that
  provides end-user access to applications and toolkits that support the

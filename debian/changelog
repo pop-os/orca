@@ -1,3 +1,37 @@
+orca (42.0-1ubuntu1) UNRELEASED; urgency=medium
+
+  * Merge with Debian. Remaining changes:
+    + debian/patches/unity-a11y.patch: add hacks to better work with Unity
+    + Revert "control: Add xkbset dependency (Closes #972621)" This is in
+      universe in Ubuntu so we can't depend on it. It's silently skipped if
+      not available.
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Fri, 25 Mar 2022 11:06:50 -0400
+
+orca (42.0-1) unstable; urgency=medium
+
+  [ Samuel Thibault ]
+  * New upstream release.
+
+  [ Debian Janitor ]
+  * Remove constraints unnecessary since buster:
+    + Build-Depends: Drop versioned constraint on gettext, gnome-pkg-tools,
+      libatk-bridge2.0-dev, libatspi2.0-dev, python-gi-dev, python3,
+      python3-brlapi, python3-louis, python3-pyatspi and python3-speechd.
+    + orca: Drop versioned constraint on gir1.2-gtk-3.0, python3-brlapi,
+      python3-gi, python3-louis, python3-pyatspi, python3-speechd and
+      speech-dispatcher in Depends.
+    + orca: Drop versioned constraint on gnome-orca in Replaces.
+    + orca: Drop versioned constraint on gnome-orca in Breaks.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 24 Mar 2022 00:47:37 +0100
+
+orca (42~rc-1) experimental; urgency=medium
+
+  * New upstream rc release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 12 Mar 2022 01:48:56 +0100
+
 orca (42~beta-1ubuntu1) jammy; urgency=medium
 
   * Merge with Debian. Remaining changes:
@@ -6,7 +40,7 @@ orca (42~beta-1ubuntu1) jammy; urgency=medium
       universe in Ubuntu so we can't depend on it. It's silently skipped if
       not available.
 
- -- Jeremy Bicha <jeremy.bicha@canonical.com>  Tue, 15 Feb 2022 16:10:46 -0500
+ -- Jeremy Bicha <jeremy.bicha@canonical.com> Tue, 15 Feb 2022 16:10:46 -0500 =======
 
 orca (42~beta-1) experimental; urgency=medium
 
