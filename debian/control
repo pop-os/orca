@@ -61,16 +61,3 @@ Description: Scriptable screen reader
  and key bindings, and the application specific ones. Orca provides the
  infrastructure to activate and deactivate scripts, as well as a host of
  services accessible from within the scripts.
-
-Package: gnome-orca
-Architecture: all
-Section: oldlibs
-Depends: ${misc:Depends},
-         orca
-Description: Scriptable screen reader - transitional package
- A flexible, extensible, and powerful assistive technology that
- provides end-user access to applications and toolkits that support the
- AT-SPI (e.g., the GNOME desktop).
- .
- This package is here to ensure smooth upgrades. It can be removed when
- you see fit.
