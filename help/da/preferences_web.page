@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_web" xml:lang="da">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_table_navigation"/>
+    <title type="sort">1. Webnavigation</title>
+    <title type="link">Webnavigation</title>
+    <desc>Konfiguration af <app>Orca</app>s understøttelse af <app>Firefox</app>, <app>Thunderbird</app> og <app>Chrome</app>/<app>Chromium</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Indstillinger for webnavigation</title>
+  <section id="page_navigation">
+    <title>Sidenavigation</title>
+    <p>Gruppen af styringer, <gui>Sidenavigation</gui>, giver dig mulighed for at tilpasse den måde, <app>Orca</app> præsenterer på, og giver dig mulighed for at interagere med tekst og andet indhold.</p>
+    <section id="page_navigation_control_caret">
+      <title>Styr markørnavigation</title>
+      <p>Afkrydsningsboksen slår <app>Orca</app>s markørnavigation til og fra. Når den er slået til, tager <app>Orca</app> styring over markøren, når du flytter pilen rundt på en side; når den er slået fra, er browserens indbyggede markørnavigation aktiv.</p>
+      <p>Standardværdi: tilvalgt</p>
+      <note style="tip">
+        <title>Indstillingen kan slås til/fra løbende</title>
+        <p>For straks at skifte indstillingen uden at gemme den, bruges <keyseq><key>Orca-ændringstast</key><key>F12</key></keyseq>.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_caret">
+      <title>Automatisk fokustilstand under markørnavigation</title>
+      <p>Hvis afkrydsningsboksen er tilvalgt, slår <app>Orca</app> automatisk fokustilstand til, når du bruger kommandoer for markørnavigation til at navigere til et formularfelt. F.eks. vil tryk på <key>Ned</key> give dig mulighed for at flytte ind i et tekstfelt, men når du har gjort det, skifter Orca til fokustilstand, og efterfølgende tryk på <key>Ned</key> vil blive styret af webbrowseren og ikke af Orca. Hvis afkrydsningsboksen er fravalgt, vil <app>Orca</app> fortsætte med at styre, hvad der sker, når du trykker på <key>Ned</key>, hvorved det bliver muligt at flytte pilen ud af tekstfeltet og fortsætte læsningen.</p>
+      <p>Standardværdi: fravalgt</p>
+      <note style="tip">
+        <title>Manuelt skift mellem gennemsynstilstand og fokustilstand</title>
+        <p>For at starte og stoppe interaktion med det formularfelt, som har fokus, bruges <keyseq><key>Orca-ændringstast</key><key>A</key></keyseq> til at skifte mellem gennemsyns- og fokustilstand.</p>
+       </note>
+    </section>
+    <section id="page_navigation_structural">
+      <title>Aktivér strukturel navigation</title>
+      <p>Afkrydsningsboksen slår <app>Orca</app>s <link xref="howto_structural_navigation">Strukturel navigation</link> til og fra. Strukturel navigation giver dig mulighed for at navigere mellem elementer såsom overskrifter, links og formularfelter.</p>
+      <p>Standardværdi: tilvalgt</p>
+      <note style="tip">
+        <title>Indstillingen kan slås til/fra løbende</title>
+        <p>For straks at skifte indstillingen uden at gemme den bruges <keyseq><key>Orca-ændringstast</key><key>Z</key></keyseq>.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_structural">
+      <title>Automatisk fokustilstand under strukturel navigation</title>
+      <p>Hvis afkrydsningsboksen er tilvalgt, slår <app>Orca</app> automatisk fokustilstand til, når du bruger kommandoer for strukturel navigation til at navigere til et formularfelt. F.eks. vil tryk på <key>E</key> for at flytte til det næste tekstfelt flytte fokus dertil og også slå fokustilstand til, så dit næste tryk på <key>E</key> skriver “e” i tekstfeltet. Hvis afkrydsningsboksen er fravalgt, efterlader <app>Orca</app> dig i gennemsynstilstand, og dit næste tryk på <key>E</key> flytter dig til det næste tekstfelt på siden.</p>
+      <p>Standardværdi: fravalgt</p>
+      <note style="tip">
+        <title>Manuelt skift mellem gennemsynstilstand og fokustilstand</title>
+        <p>For at starte og stoppe interaktion med det formularfelt, som har fokus, bruges <keyseq><key>Orca-ændringstast</key><key>A</key></keyseq> til at skifte mellem gennemsyns- og fokustilstand.</p>
+       </note>
+    </section>
+    <section id="page_navigation_focus_native">
+      <title>Automatisk fokustilstand under indbygget navigation</title>
+      <p>Hvis afkrydsningsboksen er tilvalgt, slår <app>Orca</app> automatisk fokustilstand til, når du bruger kommandoer for indbygget browsernavigation til at navigere til et formularfelt. F.eks. vil tryk på <key>Tab</key> for at flytte til det næste tekstfelt flytte fokus dertil og også slå fokustilstand til, så dit næste tryk på <key>E</key> skriver “e” i tekstfeltet. Hvis afkrydsningsboksen er fravalgt, efterlader <app>Orca</app> dig i gennemsynstilstand, og dit næste tryk på <key>E</key> flytter dig til det næste tekstfelt på siden.</p>
+      <p>Standardværdi: tilvalgt</p>
+      <note style="tip">
+        <title>Manuelt skift mellem gennemsynstilstand og fokustilstand</title>
+        <p>For at starte og stoppe interaktion med det formularfelt, som har fokus, bruges <keyseq><key>Orca-ændringstast</key><key>A</key></keyseq> til at skifte mellem gennemsyns- og fokustilstand.</p>
+       </note>
+    </section>
+    <section id="page_navigation_speak">
+      <title>Oplæs automatisk en side, når den først indlæses</title>
+      <p>Hvis afkrydsningsboksen er tilvalgt, udfører <app>Orca</app> en Oplæs Alt på den webside eller e-mail, som lige er blevet åbnet.</p>
+      <p>Standardværdi: tilvalgt til Firefox; fravalgt til Thunderbird</p>
+    </section>
+    <section id="page_navigation_summary">
+      <title>Præsentér opsummering af en side første gang, den indlæses</title>
+      <p>Hvis afkrydsningsboksen er tilvalgt, opsummerer <app>Orca</app> detaljer om den webside eller e-mail, som lige er blevet åbnet, såsom antallet af overskrifter, kendemærker og links.</p>
+      <p>Standardværdi: tilvalgt til Firefox; fravalgt til Thunderbird</p>
+    </section>
+    <section id="page_navigation_layout_mode">
+      <title>Aktivér layouttilstand for indhold</title>
+      <p>Hvis afkrydsningsboksen er tilvalgt, respekterer <app>Orca</app>s markørnavigation layoutet på skærmen og præsenterer hele linjen inklusive links eller formularfelter på linjen. Hvis afkrydsningsboksen er fravalgt, behandler <app>Orca</app> objekter såsom links og formularfelter som om, de er på separate linjer, både for præsentation og navigation.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+  </section>
+  <section id="table_options">
+    <title>Indstillinger for tabel</title>
+    <note>
+      <p>Yderligere oplysninger om <app>Orca</app>s indstillinger til navigation i tabeller kan findes i <link xref="preferences_table_navigation">Indstillinger for tabelnavigation</link>.</p>
+    </note>
+  </section>
+  <section id="find_options">
+    <title>Indstillinger for Find</title>
+    <p><gui>Søgeindstillinger</gui> giver dig mulighed for at tilpasse den måde, <app>Orca</app> præsenterer resultaterne af en søgning på, som er foretaget med programmets indbyggede søgefunktionalitet.</p>
+    <section id="find_options_speak_during_find">
+      <title>Oplæs resultater under søgning</title>
+      <p>Hvis afkrydsningsboksen er tilvalgt, oplæser <app>Orca</app> den linje, som matcher din nuværende søgeforespørgsel.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="find_options_speak_changed_lines_during_find">
+      <title>Oplæs kun ændrede linjer ved søgning</title>
+      <p>Hvis afkrydsningsboksen er tilvalgt, præsenterer <app>Orca</app> ikke den matchende linje, hvis det er den samme linje som det forrige match. Indstillingen er designet til at forhindre overdreven “snakkesalighed” på en linje med flere forekomster af den streng, du søger efter.</p>
+      <p>Standardværdi: fravalgt</p>
+    </section>
+    <section id="find_options_minimum_match_length">
+      <title>Minimumslængde på fundne tekst</title>
+      <p>Den redigerbare rulleknap er til at angive antallet af tegn, som skal matche, inden <app>Orca</app> bekendtgør den matchende linje. Handlingen er også designet til at forhindre “snakkesalighed”, eftersom der er mange matches, når du først begynder at skrive den streng, du søger efter.</p>
+      <p>Standardværdi: 4</p>
+    </section>
+  </section>
+</page>

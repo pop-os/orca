@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_spellcheck" xml:lang="da">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <title type="sort">4. Stavekontrol</title>
+    <title type="link">Stavekontrol</title>
+    <desc>Konfiguration af <app>Orca</app>s understøttelse af stavekontrol</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Indstillinger for stavekontrol</title>
+  <p><app>Orca</app> prøver på at give en ensartet brugeroplevelse, når der interageres med stavekontrol i programmer. I programmer, som har denne forbedrede understøttelse, finder du adskillige indstillinger, som du kan justere for at få det uddybningsniveau, der virker bedst for dig.</p>
+  <note style="tip">
+    <title>Du kan både have kortfattet og uddybet information for stavekontrol</title>
+    <p>Hvis du normalt vil have meget lavt uddybningsniveau, når der bruges en stavekontrol, men af og til har brug for detaljeret information om en given fejl, kan du deaktivere indstillingerne. Når du har brug for yderligere detaljer, så brug blot <app>Orca</app>s detaljerede <link xref="howto_whereami">Hvor Er Jeg</link>-kommando for at få <app>Orca</app> til at præsentere den nuværende fejl som om, alle indstillingerne var aktiveret.</p>
+  </note>
+  <section id="spell_error">
+    <title>Stav fejl</title>
+    <p>Hvis afkrydsningsboksen er tilvalgt, staver <app>Orca</app> det ord, som er stavet forkert, efter det er blevet læst op.</p>
+    <p>Standardværdi: tilvalgt</p>
+  </section>
+  <section id="spell_suggestion">
+    <title>Stav forslag</title>
+    <p>Hvis afkrydsningsboksen er tilvalgt, staver <app>Orca</app> den foreslåede rettelse efter, den er blevet læst op.</p>
+    <p>Standardværdi: tilvalgt</p>
+  </section>
+  <section id="error_context">
+    <title>Præsenter fejlens kontekst</title>
+    <p>Hvis afkrydsningsboksen er tilvalgt, oplæser <app>Orca</app> sætningen eller linjen fra dokumentet, hvor fejlen findes.</p>
+    <p>Standardværdi: tilvalgt</p>
+  </section>
+</page>

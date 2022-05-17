@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_echo" xml:lang="da">
+  <info>
+    <title type="link">Ekko</title>
+    <title type="sort">4. Ekko</title>
+    <desc>Konfiguration af hvad der siges, efterhånden som du skriver</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_bindings"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Indstillinger for ekko</title>
+  <section id="keyecho">
+    <title>Aktivér tasteekko</title>
+    <p>Orcas tasteekkoindstilling styrer, hvad der sker, hver gang du trykker på en tast. For at aktivere tasteekko tilvælges afkrydsningsboksen “Aktivér tasteekko”. Det gør yderligere afkrydsningsbokse tilgængelige, hvor du kan vælge præcist hvilke taster, som skal, og ikke skal, udtales, så det passer til dine behov.</p>
+    <p>Standardværdi: tilvalgt</p>  
+    <section id="keyecho_enable_alphanumeric">
+      <title>Aktivér alfabetiske taster</title>
+      <p>Indstillingen angiver, om taster såsom <key>a</key>, <key>b</key> og <key>c</key> udtales, når de trykkes.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="keyecho_enable_numeric">
+      <title>Aktivér numeriske taster</title>
+      <p>Indstillingen angiver, om taster såsom <key>1</key>, <key>2</key> og <key>3</key> udtales, når de trykkes.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="keyecho_enable_punctuation">
+      <title>Aktivér tegnsætningstaster</title>
+      <p>Indstillingen angiver, om taster såsom <key>%</key>, <key>;</key> og <key>?</key> udtales, når de trykkes.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="keyecho_enable_space">
+      <title>Aktivér mellemrum</title>
+      <p>Indstillingen angiver, om tasten <key>Mellemrum</key> udtales, når den trykkes.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="keyecho_enable_modifier">
+      <title>Aktivér ændringstaster</title>
+      <p>Indstillingen angiver, om <key>Skift</key>, <key>Ctrl</key>, <key>Alt</key> og <key>Meta</key> udtales, når de trykkes.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="keyecho_enable_function">
+      <title>Aktivér funktionstaster</title>
+      <p>Indstillingen angiver, om <key>F1</key> til <key>F12</key> udtales, når de trykkes.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="keyecho_enable_action">
+      <title>Aktivér handlingstaster</title>
+      <p>Indstillingen angiver, om <key>BackSpace</key>, <key>Delete </key>, <key>Retur</key>, <key>Esc</key>, <key>Tabulator</key>, <key>Page Up</key>, <key>Page Down</key>, <key>Home</key> og <key>End</key> udtales, når de trykkes.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="keyecho_enable_navigation">
+      <title>Aktivér navigationstaster</title>
+      <p>Indstillingen angiver, om <key>Venstre</key>, <key>Højre</key>, <key>Op</key> og <key>Ned</key> udtales, når de trykkes. Indstillingen gælder også for enhver tastekombination, hvor <key>Orca-ændringstast</key> holdes nede, f.eks. ved brug af flad gennemgang.</p>
+      <p>Standardværdi: fravalgt</p>
+    </section>
+    <section id="keyecho_enable_diacritical">
+      <title>Aktivér diakritiske taster, som ikke optager plads</title>
+      <p>Indstillingen angiver, om “døde taster”, som bruges til at danne bogstaver med accenttegn, oplæses, når de trykkes.</p>
+      <p>Standardværdi: fravalgt</p>
+    </section>
+  </section>
+  <section id="characterecho">
+    <title>Aktivér ekko et tegn ad gangen</title>
+    <p>Aktivér indstillingen for at få Orca til at oplæse det tegn, du lige skrev.</p>
+    <p>Selvom ekko et tegn ad gangen ser ud til at minde meget om tasteekkoet af alfabetiske, numeriske og tegnsætningstaster, er der vigtige forskelle især hvad angår bogstaver med accenttegn og andre symboler, hvor der ikke er nogen tilegnet tast:</p>
+    <list>
+      <item>
+        <p>Tasteekko får <app>Orca</app> til at bekendtgøre det, du lige har <em>trykket på</em>.</p>
+      </item>
+      <item>
+        <p>Tegnekko får <app>Orca</app> til at bekendtgøre det, der lige blev <em>indsat</em>.</p>
+      </item>
+    </list>
+    <p>Så for at få accenttegn oplæst efterhånden som du skriver dem, skal du aktivere tegnekko.</p>
+    <p>Standardværdi: fravalgt</p>
+    <note style="tip">
+      <title>Aktivering af både tasteekko og tegnekko</title>
+      <p>Hvis du kan lide tasteekko og du ofte skriver tegn med accenttegn, så overvej at aktivere begge dele. <app>Orca</app>s logik for tegnekko forsøger at bortfiltrere tegn, som blev oplæst pga. tasteekko, hvorved sandsynligheden for “dobbelttale” efterhånden som du skriver minimeres.</p>
+    </note>
+  </section>
+  <section id="wordandsentenceecho">
+    <title>Aktivér ekko et ord ad gangen og aktivér ekko en sætning ad gangen</title>
+    <p>Tilvalg af afkrydsningsboksen <gui>Aktivér ekko et ord ad gangen</gui> får <app>Orca</app> til at oplæse det ord, du lige har skrevet. Tilsvarende vil tilvalg af afkrydsningsboksen <gui>Aktivér ekko en sætning ad gangen</gui> få <app>Orca</app> til at oplæse den sætning, du lige har skrevet.</p>
+    <p>Standardværdi: fravalgt</p>
+  </section>
+</page>

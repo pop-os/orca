@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="guide" id="commands" xml:lang="da">
+  <info>
+    <link type="next" xref="commands_controlling_orca"/>
+    <link type="guide" xref="index#quick_reference"/>
+    <title type="sort">4. <app>Orca</app>s kommandoer</title>
+    <title type="link">Kommandoer</title>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title><app>Orca</app>s kommandoer</title>
+  <section id="getting_started" style="2column">
+    <title>Kom godt i gang</title>
+  </section>
+  <section id="speech_braille" style="2column">
+    <title>Tale og punktskrift</title>
+  </section>
+  <section id="reading_documents" style="2column">
+    <title>Læs websider og andre dokumenter</title>
+  </section>
+  <section id="reviewing_screen_contents" style="2column">
+    <title>Gennemgang af og interaktion med indholdet på skærmen</title>
+  </section>
+  <section id="accessing_dynamic_information" style="2column">
+    <title>Få adgang til dynamisk information</title>
+  </section>
+  <section id="troubleshooting">
+    <title>Problemløsning</title>
+  </section>
+</page>

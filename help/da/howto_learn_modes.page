@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_learn_modes" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_keyboard_layout"/>
+    <title type="sort">5. Tilstanden lær</title>
+    <desc>Opdagelse af <app>Orca</app>s kommandoer</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Tilstanden lær</title>
+  <p>I tilstanden lær bekendtgør <app>Orca</app> hvert tastetryk, du udfører, sammen med tilknyttede <app>Orca</app>-kommandoer, som tasterne er bundet til. I denne tilstand kan du også få en liste over genveje, som indeholder alle de <app>Orca</app>-kommandoer, du kan bruge.</p>
+  <steps>
+    <title>Brug af tilstanden lær</title>
+    <item>
+      <p>Kom ind i tilstanden lær ved at trykke på <keyseq><key>Orca-ændringstast</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Tryk på en tast eller udfør en tastekombination. <app>Orca</app> bekendtgør tasterne samt tilknyttet kommando.</p>
+    </item>
+    <item>
+      <p>Tryk på <key>Esc</key> for at forlade tilstanden lær.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Få en liste over genveje</title>
+    <item>
+      <p>Kom ind i tilstanden lær ved at trykke på <keyseq><key>Orca-ændringstast</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Tryk på <key>F2</key>, hvis du vil have en liste over genveje, som gælder for hele <app>Orca</app>, eller tryk på <key>F3</key>, hvis du vil have en liste over geneveje, som specielt er til det program, som har fokus.</p>
+    </item>
+    <item>
+      <p>Tryk på <key>Op</key> eller <key>Ned</key> for at inspicere indholdet i listen.</p>
+    </item>
+    <item>
+      <p>Tryk på <key>Esc</key> for at forlade listen.</p>
+    </item>
+  </steps>
+</page>

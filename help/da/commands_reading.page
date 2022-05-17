@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_reading" xml:lang="da">
+  <info>
+    <link type="next" xref="commands_structural_navigation"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_documents"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">1. Læsning</title>
+    <title type="link">Læsning</title>
+    <desc>Kommandoer til at få adgang til indholdet i dokumentet</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kommandoer for læsning</title>
+  <p>Ud over kommandoerne for markørnavigation, som er del af GNOME, har <app>Orca</app> en række kommandoer, du kan bruge til at læse et dokument.</p>
+  <note style="tip">
+    <p>Nedenfor ser du adskillige referencer til “NT”. “NT”-tasterne findes på det numeriske tastatur. Du vil også bemærke, at der er forskellige tastetryk afhængigt af, om du bruger en stationær eller en bærbar computer, eller mere præcist, om du bruger <app>Orca</app>s stationærtastaturlayout eller bærbartastaturlayout. Se venligst emnet <link xref="howto_keyboard_layout">Tastaturlayout</link> for yderligere information.</p>
+  </note>
+  <section id="flat_review">
+    <title>Læs din nuværende placering</title>
+    <p>Følgende <app>Orca</app> <link xref="commands_flat_review">kommandoer for flad gennemgang</link> kan bruges til at læse din nuværende placering:</p>
+    <list>
+      <item>
+        <p>Læs den nuværende linje:</p>
+        <list>
+          <item>
+            <p>Stationær: <keyseq><key>NT 8</key></keyseq></p>
+          </item>
+          <item>
+            <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>I</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Læs det nuværende ord:</p>
+        <list>
+          <item>
+            <p>Stationær: <keyseq><key>NT 5</key></keyseq></p>
+          </item>
+          <item>
+            <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>K</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Stav det nuværende ord:</p>
+        <list>
+          <item>
+            <p>Stationær: <keyseq><key>NT 5</key></keyseq> (dobbeltklikket)</p>
+          </item>
+          <item>
+            <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>K</key></keyseq> (dobbeltklikket)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Stav det nuværende ord fonetisk:</p>
+        <list>
+          <item>
+            <p>Stationær: <keyseq><key>NT 5</key></keyseq> (tripelklikket)</p>
+          </item>
+          <item>
+            <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>K</key></keyseq> (tripelklikket)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Læs det nuværende tegn:</p>
+        <list>
+          <item>
+            <p>Stationær: <keyseq><key>NT 2</key></keyseq></p>
+          </item>
+          <item>
+            <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>Komma</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Oplæs det nuværende tegn fonetisk:</p>
+        <list>
+          <item>
+            <p>Stationær: <keyseq><key>NT 2</key></keyseq> (dobbeltklikket)</p>
+          </item>
+          <item>
+            <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>Komma</key></keyseq> (dobbeltklikket)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Oplæs unicodeværdien af nuværende tegn:</p>
+        <list>
+          <item>
+            <p>Stationær: <keyseq><key>NT 2</key></keyseq> (tripelklikket)</p>
+          </item>
+          <item>
+            <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>Komma</key></keyseq> (tripelklikket)</p>
+          </item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="say_all">
+    <title>Oplæs Alt</title>
+    <p>Orcas Oplæs Alt-kommando får <app>Orca</app> til at oplæse hele dokumentet begyndende fra din nuværende placering.</p>
+    <list>
+      <item>
+        <p>Stationær: <key>NT Plus</key></p>
+      </item>
+      <item>
+        <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>Semikolon</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="attributes_and_selection">
+    <title>Tekstattributter og markeret tekst</title>
+    <p><app>Orca</app> har en særlig kommando til at angive attributterne for teksten ved markøren. Hvis du derudover bruger <app>Orca</app>s kommandoer for Hvor Er Jeg i et tekstobjekt, hvor tekst er markeret, vil <app>Orca</app> bekendtgøre den markerede tekst. <app>Orca</app>s kommando til at oplæse den nuværende markering virker også i et tekstobjekt.</p>
+    <list>
+      <item>
+        <p>Præsentér tekstattributterne: <keyseq><key>Orca-ændringstast</key><key>F</key></keyseq></p>
+      </item>
+      <item>
+        <p>Udfør simpel Hvor Er Jeg:</p>
+        <list>
+          <item>
+            <p>Stationær: <key>NT Enter</key></p>
+          </item>
+          <item>
+            <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>Retur</key></keyseq></p>
+          </item>
+        </list>
+    </item>
+    <item>
+      <p>Udfør detaljeret Hvor Er Jeg:</p>
+      <list>
+        <item>
+          <p>Stationær: <key>NT Enter</key> (dobbeltklikket)</p>
+        </item>
+        <item>
+          <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>Retur</key></keyseq> (dobbeltklikket)</p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Oplæs nuværende markering: <keyseq><key>Orca-ændringstast</key><key>Skift</key><key>Op</key></keyseq></p>
+    </item>
+  </list>
+  </section>
+  <section id="link_details">
+    <title>Linkdetaljer</title>
+    <p>
+      If you are on a link, <app>Orca</app>'s Basic Where Am I command can be
+      used to announce the details associated with the link such as the link type,
+      if the link is visited, the site description, and file size. If you would
+      instead prefer a dedicated command for this purpose, you can bind <app>Orca</app>'s
+      Speak Link Details command to a keystroke. Please see <link xref="howto_key_bindings">
+      Modifying Keybindings</link> for information on how to do so.
+    </p>
+    <list>
+      <item>
+        <p>Oplæs linkdetaljerne: (Ubundet)</p>
+      </item>
+    </list>
+  </section>
+  <section id="browse_and_focus_modes">
+    <title>Gennemsyns- og fokustilstande</title>
+    <p><app>Orca</app>s gennemsyns- og fokustilstande lader dig skifte mellem læsning og interaktion med webindhold.</p>
+    <list>
+      <item>
+        <p>Skift mellem gennemsyns- og fokustilstand: <keyseq><key>Orca-ændringstast</key><key>A</key></keyseq></p>
+      </item>
+      <item>
+        <p>Aktivér klæbende fokustilstand: <keyseq><key>Orca-ændringstast</key><key>A</key></keyseq> (dobbeltklikket)</p>
+      </item>
+      <item>
+        <p>Aktivér klæbende gennemsynstilstand: <keyseq><key>Orca-ændringstast</key><key>A</key></keyseq> (tripelklikket)</p>
+      </item>
+    </list>
+  </section>
+  <section id="toggling_layout_mode">
+    <title>Skift layouttilstand</title>
+    <p>Når layouttilstand er aktiveret, respekterer <app>Orca</app>s markørnavigation layoutet på skærmen og præsenterer hele linjen, herunder links eller formularfelter på linjen. Når layouttilstand er deaktiveret, behandler <app>Orca</app> objekter såsom links og formularfelter som om, de er på separate linjer, både for præsentation og navigation.</p>
+    <p><app>Orca</app> har en kommando til at skifte mellem layouttilstand og objekttilstand. Kommandoen er som standard ubundet. Se venligst <link xref="howto_key_bindings">Ændring af tastebindinger</link> for information om hvordan, ubundne kommandoer bindes.</p>
+    <list>
+      <item>
+        <p>Skift mellem layouttilstand og objekttilstand: (Ubundet)</p>
+      </item>
+    </list>
+  </section>
+</page>

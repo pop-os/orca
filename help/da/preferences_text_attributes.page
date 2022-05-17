@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_text_attributes" xml:lang="da">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_web"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <title type="sort">8. Tekstattributter</title>
+    <title type="link">Tekstattributter</title>
+    <desc>Konfiguration af hvilken formatering som præsenteres</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Indstillinger for tekstattributter</title>
+  <p>Begrebet “tekstattributter” refererer til al skrifttype, stil, justering og anden formatering, som er tilknyttet et givent tegn eller en serie af tegn. <app>Orca</app>s side <gui>Tekstattributter</gui> giver dig mulighed for at tilpasse hvilke tekstattributter, <app>Orca</app> præsenterer i tale, sammen med den rækkefølge, de skal præsenteres i, og hvilke af dem, <app>Orca</app> anfører i punktskrift.</p>
+  <section id="table">
+    <title>Tabellen for tekstattributter</title>
+    <p>Tabellen for tekstattributter er til at angive hvilke attributter, som præsenteres og ikke præsenteres, og under hvilke omstændigheder. Hver række består af fire kolonner.</p>
+    <list>
+      <item>
+        <p><gui>Attributnavn</gui>: Navnet på tekstattributten.</p>
+      </item>
+      <item>
+        <p><gui>Oplæs</gui>: Tilvælg afkrydsningsboksen, hvis du vil have <app>Orca</app> til at oplæse attributten, når du trykker på <keyseq><key>Orca-ændringstast</key><key>F</key></keyseq>.</p>
+      </item>
+      <item>
+        <p><gui>Mærk i punktskrift</gui>: Tilvælg afkrydsningsboksen, hvis du vil have <app>Orca</app> til at “understrege” attributten på dit punktskriftsdisplay.</p>
+      </item>
+      <item>
+        <p><gui>Præsenter med mindre</gui>: Det redigerbare felt giver dig mulighed for at angive, hvornår en aktiveret attribut ikke er af interesse.</p>
+        <p>F.eks. har tekstattributten “understreget” som standard værdien “ingen”. Dette får <app>Orca</app> til at informere dig om understreget tekst, så længe teksten faktisk er understreget. Hvis du altid vil have, at attributten oplæses, uanset om teksten er understreget eller ej, så skal kolonnen <gui>Præsenter med mindre</gui> være tom for understreget. Derudover skal du sørge for, at kolonnen <gui>Tal</gui> for understreget er tilvalgt.</p>
+      </item>
+    </list>
+  </section>
+  <section id="reset">
+     <title>Fortrydelse af ændringer</title>
+     <p>Under listen over tekstattributter er der en <gui>Nulstil</gui>-knap (<keyseq><key>Alt</key><key>U</key></keyseq>), som gendanner værdierne i tabellen til det, de var, da dialogen først blev vist.</p>
+  </section>
+  <section id="rearranging">
+     <title>Omarrangér præsentationens rækkefølge</title>
+     <p>Når du først viser siden <gui>Tekstattributter</gui>, er alle dine aktiverede attributter placeret øverst i tabellen i den rækkefølge de oplæses. Der er fire knapper, som kan bruges til at omarrangere præsentationens rækkefølge.</p>
+    <list>
+      <item>
+        <p><gui>Flyt øverst</gui> (<keyseq><key>Alt</key><key>Ø</key></keyseq>): flytter den valgte attribut øverst i listen.</p>
+      </item>
+      <item>
+        <p><gui>Flyt en op</gui> (<keyseq><key>Alt</key><key>P</key></keyseq>): flytter den valgte attribut en række op.</p>
+      </item>
+      <item>
+        <p><gui>Flyt ned</gui> (<keyseq><key>Alt</key><key>D</key></keyseq>): flytter den valgte attribut en række ned.</p>
+      </item>
+      <item>
+        <p><gui>Flyt nederst</gui> (<keyseq><key>Alt</key><key>E</key></keyseq>): flytter den valgte attribut nederst i listen.</p>
+      </item>
+    </list>
+  </section>
+  <section id="braille_indicator">
+    <title>Indstillinger til konfiguration af “understregning” i punktskrift til formatering</title>
+    <p>Under trykknapperne findes en gruppe af radioknapper kaldet <gui>Indikator for punktskrift</gui>. Her kan du vælge den celle eller de celler, som skal bruges til at angive tekst, som mindst har én af de angivne attributter.</p>
+    <list>
+      <item>
+        <p><gui>Ingen</gui>: Understreg ikke tekstattributter i punktskrift (standard)</p>
+      </item>
+      <item>
+        <p><gui>Punkt 7</gui>: Understreg kun tekstattributter med punkt 7</p>
+      </item>
+      <item>
+        <p><gui>Punkt 8</gui>: Understreg kun tekstattributter med punkt 8</p>
+      </item>
+      <item>
+        <p><gui>Punkt 7 og 8</gui>: Understreg tekstattributter med både punkt 7 og punkt 8</p>
+      </item>
+    </list>
+  </section>
+</page>

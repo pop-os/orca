@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_chat" xml:lang="da">
+  <info>
+    <link type="next" xref="commands_debugging"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="preferences_chat"/>
+    <title type="sort">2. Chat</title>
+    <title type="link">Chat</title>
+    <desc>Kommandoer til brug med IM- og IRC-klienter</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kommandoer for chat</title>
+  <p>Følgende kommandoer kan bruges til at få adgang til information i de straksbesked- og internet relay chat-klienter, som understøttes af <app>Orca</app>. Du vil bemærke, at der er adskillige af kommandoerne, som er “ubundet”. Se venligst <link xref="howto_key_bindings">Ændring af tastebindinger</link> for information om hvordan, kommandoerne bindes til tastetryk.</p>
+  <list>
+    <item>
+      <p>Præsenter tidligere meddelelser fra chatrum: <keyseq><key>Orca-ændringstast</key><key>F1</key></keyseq> til <key>F9</key></p>
+    </item>
+    <item>
+      <p>Aktivér/deaktivér bekendtgørelse af rumnavn, som har meddelelser: (Ubundet)</p>
+    </item>
+    <item>
+      <p>Aktivér/deaktivér bekendtgørelse af status for venner, som skriver: (Ubundet)</p>
+    </item>
+    <item>
+      <p>Aktivér/deaktivér rumspecifik historik: (Ubundet)</p>
+    </item>
+  </list>
+</page>

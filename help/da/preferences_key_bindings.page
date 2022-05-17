@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_bindings" xml:lang="da">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_pronunciation"/>
+    <link type="seealso" xref="howto_key_bindings"/>
+    <title type="sort">6. Tastebindinger</title>
+    <title type="link">Tastebindinger</title>
+    <desc>Konfiguration af <app>Orca</app>s tastaturgenveje</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Indstillinger for tastebindinger</title>
+  <section id="orca_modifier_keys">
+    <title>Orca-ændringstaster</title>
+    <p>Kombinationsboksen <gui>Ændringstaster for skærmlæser</gui> giver dig mulighed for at vælge hvilken tast eller taster, som skal fungere som Orca-ændringstasten. Valgmuligheder:</p>
+    <list>
+      <item>
+        <p><gui>NT_Insert</gui> (samme tast som <key>0</key> på det numeriske tastatur)</p></item>
+      <item><p><gui>Insert</gui></p></item>
+      <item><p><gui>Insert, NT_Insert</gui></p></item>
+      <item><p><gui>Caps_Lock</gui></p></item>
+    </list>
+  </section>
+  <section id="key_bindings_table">
+    <title>Tabellen for tastebindinger</title>
+    <p>Tabellen for tastebindinger giver en liste over <app>Orca</app>-handlinger og de taster, som er bundet til dem.</p>
+    <list>
+      <item>
+        <p>Kolonnen <gui>Kommando</gui> indeholder en beskrivelse af den <app>Orca</app>-kommando, som skal udføres.</p>
+      </item>
+      <item>
+        <p>Kolonnen <gui>Tastebinding</gui> indeholder den tastaturgenvej, som i øjeblikket er tilknyttet <app>Orca</app>-kommandoen. Du kan ændre værdien i kolonnen ved at trykke på <key>Retur</key>, trykke på tasterne til den nye binding og trykke på <key>Retur</key> igen.</p>
+      </item>
+      <item>
+        <p>Kolonnen <gui>Ændret</gui> fungerer både som en indikator for hvad, der er blevet ændret, og en måde til at gendanne de standardbindinger, som kommandoen er tilknyttet.</p>
+      </item>
+    </list>
+    <p>Under listen over <app>Orca</app>-tastebindinger finder du en gruppe af “ubundne” kommandoer. Det er kommandoer, som vi tror, vil være meget nyttige til visse brugere, men som de fleste brugere ikke har brug for. Frem for at “opbruge” et tastetryk til sådanne kommandoer, har vi ladet dem være ubundne som standard. I slutningen af listen findes punktskriftsbindingerne, som kan bruges med et punktskriftsdisplay, der kan opdateres.</p>
+  </section>
+</page>

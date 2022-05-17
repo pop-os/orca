@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_keyboard_layout" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_toggling_caps_lock"/>
+    <title type="sort">6. Tastaturlayout</title>
+    <desc>Valg af stationær- eller bærbarlayoutet</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Tastaturlayout</title>
+  <p>Orca har to tastaturlayouts: Stationær (dvs. med et numerisk tastatur) og bærbar. Det layout, du vælger, har betydning for hvilken tast, der bruges som Orca-ændringstasten.</p>
+  <list>
+    <item>
+      <p>Hvis du bruger bærbarlayoutet, vil Orca-ændringstasten som standard være <key>CapsLock</key></p>
+    </item>
+    <item>
+      <p>Hvis du bruger stationærlayoutet, vil Orca-ændringstasten både være <key>Insert</key> og <key>NT_Insert</key>, hvor den sidstnævnte er det samme som <key>NT_0</key>.</p>
+    </item>
+  </list>
+  <p>Layoutet afgør også de tastetryk, som er tilknyttet nogle af <app>Orca</app>s kommandoer, især i forbindelse med flad gennemgang, Hvor Er Jeg og Sig Alt.</p>
+  <steps>
+    <title>Ændring af dit tastaturlayout</title>
+    <item>
+      <p>Kom ind i dialogen <link xref="preferences">Indstillinger for Orca</link> ved at trykke på <keyseq><key>Orca-ændringstast</key><key>Mellemrum</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Flyt til gruppen af radioknapper ved <gui>Tastaturlayout</gui>.</p>
+    </item>
+    <item>
+      <p>Flyt pilen til det ønskede layout.</p>
+    </item>
+    <item>
+      <p>Tryk på knappen <gui>Anvend</gui>.</p>
+    </item>
+  </steps>
+</page>

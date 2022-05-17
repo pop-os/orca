@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_controlling_orca" xml:lang="da">
+  <info>
+    <link type="next" xref="commands_where_am_i"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <title type="sort">1. Styr og lær at bruge Orca</title>
+    <title type="link">Styr og lær at bruge Orca</title>
+    <desc>Kommandoer til at interagere med <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Lær at bruge og styre Orca</title>
+  <section id="controlling">
+    <title>Kommandoer til at styre <app>Orca</app></title>
+    <p>Følgende kommandoer kan bruges til at komme ind i <app>Orca</app>s indstillingsdialoger, slå <app>Orca</app> til og fra, og videresende <app>Orca</app>-kommandoer for at undgå konflikter med genveje i det program, der bruges.</p>
+    <list>
+      <item>
+        <p>Slå <app>Orca</app> til og fra i GNOME: <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>
+        <note style="tip">
+           <p>Hvis du bruger <app>Orca</app> i et andet skrivebordsmiljø, hvor der ikke er nogen kommando til at slå <app>Orca</app> til og fra, kan du få brug for kommandoen til at afslutte <app>Orca</app>. Kommandoen er som standard ubundet. Se venligst <link xref="howto_key_bindings">Ændring af tastebindinger</link> for information om hvordan, ubundne kommandoer bindes.</p>
+        </note>
+      </item>
+      <item>
+        <p>Dialogen <link xref="preferences">Indstillinger for Orca</link>: <keyseq><key>Orca-ændringstast</key><key>Mellemrum</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Orcas indstillingsdialog til det program, som har fokus: <keyseq><key>Ctrl</key><key>Orca-ændringstast</key><key>Mellemrum</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Videresend den næste kommando til det nuværende program: <keyseq><key>Orca-ændringstast</key><key>BackSpace</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="learning">
+    <title>Kommandoer til at lære at bruge <app>Orca</app></title>
+    <p>I tilstanden lær bekendtgør <app>Orca</app> hvert tastetryk, du udfører, sammen med tilknyttede <app>Orca</app>-kommandoer, som tasterne er bundet til. I denne tilstand kan du også få en liste over genveje, som indeholder alle de <app>Orca</app>-kommandoer, du kan bruge.</p>
+    <list>
+      <item>
+        <p>Start tilstanden lær: <keyseq><key>Orca-ændringstast</key><key>H</key></keyseq></p>
+      </item>
+      <item>
+        <p>Afslut tilstanden lær: <keyseq><key>Esc</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+</page>

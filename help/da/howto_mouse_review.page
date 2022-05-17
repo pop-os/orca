@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_mouse_review" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_notifications"/>
+    <title type="sort">4. Musegennemgang</title>
+    <desc>Brug musemarkøren til at inspicere skærmen</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Musegennemgang</title>
+  <p><app>Orca</app>s musegennemgang-funktion får <app>Orca</app> til at præsentere objektet under musemarkøren. I modsætning til <app>Orca</app>s <link xref="howto_flat_review">flad gennemgang</link>-funktion er musegennemgang ikke begrænset til det aktive vindue; <app>Orca</app> forsøger i stedet at bestemme hvilket tilgængelige objekter, der visuelt befinder sig under markøren, efterhånden som du flytter musen. Hvis du har flyttet markøren over et tilgængeligt objekt, som har information, der kan præsenteres, vil <app>Orca</app> præsentere objektet og dets information.</p>
+  <p>Da aktivering af musegennemgang får <app>Orca</app> til at lytte efter, og så behandle, alle ændringer af musemarkørens placering, er funktionen som standard deaktiveret. For altid at have den aktiveret, tilvælges afkrydsningsboksen <gui>Oplæs objekt under mus</gui>, som findes på siden <link xref="preferences_general">Generelt i <app>Orca</app>s indstillingsdialog</link>. Derudover kan du finde en ubundet kommando kaldet <gui>Tilstanden Musegennemgang til/fra</gui> på siden <link xref="preferences_key_bindings">Tastebindinger</link> i den samme dialogboks. Ved at binde kommandoen som beskrevet i <link xref="howto_key_bindings">Introduktion til tastebindinger</link>, kan du aktivere og deaktivere musegennemgang efter behov.</p>
+  <note style="tip">
+    <title>Standardindstillinger og -tastebindinger er uafhængige af hinanden</title>
+    <p>Bemærk, at du kan vælge at have musegennemgang aktiveret altid eller ej, og stadigvæk slå den til og fra ved at binde og bruge kommandoen <gui>Tilstanden Musegennemgang til/fra</gui>. Det er ikke nødvendigt at aktivere den for at slå den til/fra, da indstillinger og tastebindinger er uafhængige af hinanden.</p>
+  </note>
+</page>

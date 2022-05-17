@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_key_bindings" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_profiles"/>
+  <title type="sort">8. Tastebindinger</title>
+  <desc>Kommandoer for binding, ombinding og afbinding</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Tastebindinger</title>
+  <p>Orca har mange kommandoer, hvoraf nogle er bundet til et tastetryk, mens andre er ubundne. Du kan binde, genbinde og afbinde <app>Orca</app>s kommandoer ved at følge trinnene nedenfor.</p>
+  <steps>
+    <title>Binding af en ubundet kommando</title>
+    <item>
+      <p>Kom ind i dialogen <link xref="preferences">Indstillinger for Orca</link> ved at trykke på <keyseq><key>Orca-ændringstast</key><key>Mellemrum</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Flyt til siden <gui>Tastebindinger</gui>.</p>
+    </item>
+    <item>
+      <p>Flyt pilen til cellen, som indeholder den kommando, du vil tilknytte et tastetryk.</p>
+    </item>
+    <item>
+      <p>Flyt pilen en gang til højre. Det placerer fokus i kolonnen <gui>Tastebinding</gui>. Tryk på <key>Retur</key>.</p>
+    </item>
+    <item>
+      <p>Tryk på den ønskede tastekombination.</p></item>
+    <item>
+      <p>Tryk på <key>Retur</key> for at bekræfte den nye kombination. Det nye tastetryk gemmes, og afkrydsningsboksen i den sidste kolonne (kolonnen <gui>Ændret</gui>) angiver, at tastebindingen er blevet ændret.</p>
+    </item>
+    <item>
+      <p>Tryk på knappen <gui>Anvend</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Ændring af eksisterende bindinger</title>
+    <item>
+      <p>Kom ind i dialogen <link xref="preferences">Indstillinger for Orca</link> ved at trykke på <keyseq><key>Orca-ændringstast</key><key>Mellemrum</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Flyt til siden <gui>Tastebindinger</gui>.</p>
+    </item>
+    <item>
+      <p>Flyt pilen til cellen, som indeholder den binding, du vil ændre, og tryk på <key>Retur</key>.</p>
+    </item>
+    <item>
+        <p>Tryk på den ønskede tastekombination.</p>
+    </item>
+    <item>
+      <p>Tryk på <key>Retur</key> for at bekræfte den nye kombination. Det nye tastetryk gemmes, og afkrydsningsboksen i den sidste kolonne (kolonnen <gui>Ændret</gui>) angiver, at tastebindingen er blevet ændret.</p>
+    </item>
+    <item>
+      <p>Tryk på knappen <gui>Anvend</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Gendannelse af oprindelige bindinger</title>
+    <item>
+      <p>Kom ind i dialogen <link xref="preferences">Indstillinger for Orca</link> ved at trykke på <keyseq><key>Orca-ændringstast</key><key>Mellemrum</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Flyt til siden <gui>Tastebindinger</gui>.</p>
+    </item>
+    <item>
+      <p>Flyt pilen til kolonnen Ændret, som er tilknyttet tastebindingen.</p>
+    </item>
+    <item>
+      <p>Fravælg afkrydsningsboksen ved at trykke på <key>Mellemrum</key>.</p>
+    </item>
+    <item>
+      <p>Tryk på knappen <gui>Anvend</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Afbinding af bundne kommandoer</title>
+    <item>
+      <p>Kom ind i dialogen <link xref="preferences">Indstillinger for Orca</link> ved at trykke på <keyseq><key>Orca-ændringstast</key><key>Mellemrum</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Flyt til siden <gui>Tastebindinger</gui>.</p>
+    </item>
+    <item>
+      <p>Flyt pilen til cellen, som indeholder den binding, du vil slette, og tryk på <key>Retur</key>.</p>
+    </item>
+    <item>
+      <p>Når du bliver spurgt om den nye tastebinding, så tryk på <key>Delete</key> eller <key>BackSpace</key>. Du får at vide, at tastebindingen er blevet fjernet.</p>
+    </item>
+    <item>
+      <p>Tryk på <key>Retur</key> for at bekræfte.</p>
+    </item>
+    <item>
+      <p>Tryk på knappen <gui>Anvend</gui>.</p>
+    </item>
+  </steps>
+</page>

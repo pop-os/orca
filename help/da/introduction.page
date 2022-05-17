@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="introduction" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_setting_up_orca"/>
+    <title type="sort">1. Velkommen til Orca</title>
+    <desc>Introduktion af Skærmlæseren <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Velkommen til Orca</title>
+  <p><app>Orca</app> er en fri, open source og fleksibel skærmlæser, som understøtter udvidelser. <app>Orca</app> giver adgang til det grafiske skrivebord gennem tale og punktskrift, der kan opdateres dynamisk.</p>
+  <p><app>Orca</app> virker med programmer og toolkits, som understøtter Assistive Technology Service Provider Interface (AT-SPI), som er den primære infrastruktur for assisterende teknologier til Linux og Solaris. Programmer og toolkits som understøtter AT-SPI'et omfatter Gtk+, Qt, Java Swing, LibreOffice, Gecko, WebKitGtk og Chrome/Chromium.</p>
+  <section id="launching">
+    <title>Start af <app>Orca</app></title>
+    <p>For at starte <app>Orca</app>:</p>
+    <list>
+      <item>
+        <p>Metoden til at konfigurere <app>Orca</app> til at starte automatisk som din foretrukne skærmlæser afhænger af hvilket skrivebordsmiljø, du bruger.</p>
+      </item>
+      <item>
+        <p>For at slå <app>Orca</app> til og fra i GNOME, trykkes på <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Skriv <cmd>orca</cmd> sammen med valgfrie parametre i et terminalvindue eller i dialogen <gui>Kør</gui> og tryk på <key>Retur</key>.</p>
+      </item>
+    </list>
+  </section>
+    <section id="loadtime">
+      <title>Tilvalg på indlæsningstidspunktet</title>
+      <p>Følgende tilvalg kan angives, når <app>Orca</app> startes i et terminalvindue eller i dialogen <gui>Kør</gui>:</p>
+      <list>
+        <item>
+          <p><cmd>-h</cmd>, <cmd>--help</cmd>: Vis hjælpemeddelelsen</p>
+        </item>
+        <item>
+          <p><cmd>-v</cmd>, <cmd>--version</cmd>: Vis versionen af <app>Orca</app></p>
+        </item>
+        <item>
+          <p><cmd>-s</cmd>, <cmd>--setup</cmd>: Opsæt brugerindstillinger</p>
+        </item>
+        <item>
+          <p><cmd>-u</cmd>, <cmd>--user-prefs=<em>mappenavn</em></cmd>: Brug <em>mappenavn</em> som den alternative mappe til brugerindstillinger</p>
+        </item>
+        <item>
+          <p><cmd>-e</cmd>, <cmd>--enable=<em>tilvalg</em></cmd>: Gennemtving brugen af tilvalg, hvor <em>tilvalg</em> kan være ét af følgende:</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+          <p><cmd>-d</cmd>, <cmd>--disable=<em>tilvalg</em></cmd>: Forhindr brugen af et tilvalg, hvor <em>tilvalg</em> kan være én af følgende:</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+            <p><cmd>-p</cmd>, <cmd>--profile=<em>filnavn</em></cmd>: Importér en profil fra en angivet <app>Orca</app>-profilfil</p>
+        </item>
+        <item>
+          <p><cmd>-r</cmd>, <cmd>--replace</cmd>: Erstat en <app>Orca</app>, som i øjeblikket kører</p>
+        </item>
+        <item>
+          <p><cmd>-l</cmd>, <cmd>--list-apps</cmd>: Vis kendte kørende programmer</p>
+        </item>
+        <item>
+          <p><cmd>--debug</cmd>: Send fejlfindingsoutput til debug-ÅÅÅÅ-MM-DD-TT:MM:SS.out</p>
+        </item>
+        <item>
+          <p><cmd>--debug-file=<em>filnavn</em></cmd>: Send fejlfindingsoutput til den angivne fil</p>
+        </item>
+      </list>
+    </section>
+
+</page>

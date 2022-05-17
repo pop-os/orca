@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_documents" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_text_attributes"/>
+    <title type="sort">1. Dokumenter</title>
+    <desc>Læsning af indhold</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Dokumenter</title>
+  <p>For at læse indholdet i et dokument, bruges programmets indbyggede markørnavigationstilstand. Efterhånden som du navigerer i dokumentets tekst, præsenterer <app>Orca</app> din nye placering. Du er derfor sandsynligvis allerede bekendt med, hvordan et dokument læses med <app>Orca</app>. F.eks.:</p>
+  <list>
+    <item>
+      <p>Brug <key>Venstre</key> og <key>Højre</key> til at flytte og læse et tegn ad gangen.</p>
+    </item>
+    <item>
+      <p>Brug <keyseq><key>Ctrl</key><key>Venstre</key></keyseq> og <keyseq><key>Ctrl</key><key>Højre</key></keyseq> til at flytte og læse et ord ad gangen.</p>
+    </item>
+    <item>
+      <p>Brug <key>Op</key> og <key>Ned</key> til at flytte og læse en linje ad gangen.</p>
+    </item>
+    <item>
+      <p>Brug <key>Skift</key> i kombination med kommandoerne ovenfor for at markere og afmarkere tekst.</p>
+    </item>
+  </list>
+  <note style="tip">
+    <title>Aktivering af markørnavigation i et program</title>
+    <p>Markørnavigation er som standard ikke aktiveret i alle programmer. I mange GNOME-programmer kan markørnavigation slås til og fra ved at trykke på <key>F7</key>.</p>
+  </note>
+  <p>Ud over at læse et dokument med markørnavigation, kan du få brug for at læse, stave og få unicodeværdien af den nuværende tekst. Det kan du gøre gennem <app>Orca</app>s <link xref="howto_flat_review">flad gennemgang</link>-funktion.</p>
+  <p>Til slut kan <app>Orca</app> oplæse hele dokumentet fra din nuværende placering ved at bruge kommandoen Oplæs Alt. Den, sammen med en mere komplet liste over <app>Orca</app>s kommandoer til at få adgang til dokumenttekst, kan findes i vejledningen <link xref="commands_reading">Kommandoer for læsning</link>.</p>
+</page>
