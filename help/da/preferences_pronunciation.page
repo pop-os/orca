@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_pronunciation" xml:lang="da">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_text_attributes"/>
+    <title type="sort">7. Udtale</title>
+    <title type="link">Udtale</title>
+    <desc>Angivelse af hvordan bestemte ord bliver udtalt</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Indstillinger for udtale</title>
+  <p>Nogle gange siger din talesynthesizer bare ikke det rigtige for en given streng. Du foretrækker måske at høre “World Wide Web” frem for “WWW”, eller “og så videre” frem for “osv.”. Eller der kan være et navn eller et teknisk begreb, som synthesizeren udtaler forkert.</p>
+  <p>Siden <gui>Tegnsætning</gui> i <app>Orca</app>s indstillingsdialog giver dig mulighed for at tilføje, redigere og slette indslag i <app>Orca</app>s udtaleordbog.</p>
+  <p>Da siden <gui>Udtale</gui> også er del af de programspecifikke indstillinger, kan du tilpasse dine indslag efter behov til hvert program, du bruger.</p>
+  <steps>
+    <title>Tilføjelse af en ny ordbogsindgang</title>
+    <item>
+      <p>Tryk på knappen <gui>Ny indgang</gui> (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
+    </item>
+    <item>
+      <p>Skriv teksten til den nye indgang og tryk på <key>Retur</key> for at færdiggøre redigeringen af strengen.</p>
+    </item>
+    <item>
+      <p>Flyt til kolonnen <gui>Erstatningsstreng</gui> og tryk på <key>Retur </key> for at begynde redigeringen.</p>
+    </item>
+    <item>
+      <p>Skriv den tekst, du i stedet vil have sagt, og tryk på <key> Retur</key> for at færdiggøre redigeringen af erstatningsstrengen.</p>
+    </item>
+  </steps>
+  <steps>
+  <title>Redigering af et eksisterende ordbogsindslag</title>
+    <item>
+      <p>Flyt til den celle, du ønsker at redigere, og tryk på <key>Retur</key> for at begynde redigeringen.</p>
+    </item>
+    <item>
+      <p>Foretag dine ændringer og tryk så på <key>Retur</key> for at færdiggøre redigeringen.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Sletning af en eksisterende ordbogsindgang</title>
+    <item>
+      <p>Flyt til den indgang, du ønsker at slette.</p>
+    </item>
+    <item>
+      <p>Tryk på knappen <gui>Slet</gui> eller <keyseq><key>Alt</key><key>S</key></keyseq>.</p>
+    </item>
+  </steps>
+</page>

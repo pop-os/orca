@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_flat_review" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_orca_find"/>
+    <title type="sort">2. Flad gennemgang</title>
+    <desc>Inspicér et vindue rumligt</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Flad gennemgang</title>
+  <p><app>Orca</app>s flad gennemgang-funktion giver dig mulighed for rumligt at gennemgå indholdet i det aktive vindue — både tekst og kontroller. I denne tilstand behandler <app>Orca</app> vinduet, som om det er et todimensionelt ark med tekst, hvorved forestillingen om kontrolindlejring eller anden logisk gruppering i vinduet elimineres.</p>
+  <p>Det “fladgjorte” indhold, også kendt som flad gennemgang-konteksten, kan <link xref="commands_flat_review">navigeres</link> en linje ad gangen, et ord ad gangen, et tegn ad gangen, eller et objekt ad gangen. Derudover kan du udføre et venstreklik eller højreklik på det objekt, som gennemgås. Til slut kan du bruge <link xref="howto_orca_find">Orca Find</link> — en funktion, som er baseret på flad gennemgang — til at søge i indholdet i det aktive vindue.</p>
+  <p>Da flad gennemgang-konteksten er en rumlig repræsentation af indholdet i det aktive vindue, oprettes den, når du først kommer ind i flad gennemgang, og den indeholder kun de objekter, som er synlige. Du vil derfor ikke være i stand til at bruge flad gennemgang til at få adgang til punkter, som er i vinduet, men som i øjeblikket er uden for skærmen. Derudover, hvis indholdet i vinduet ændres af sig selv, så vil flad gennemgang-konteksten ikke blive opdateret automatisk. Du kan få bygget en ny kontekst ved at slå flad gennemgang fra og til igen.</p>
+  <p>Til slut er flad gennemgang i sin natur en tilstand, som ikke kan bruges samtidigt med, at <app>Orca</app> følger fokus. Så hvis du er i flad gennemgang og så bruger programmets navigationskommandoer til at flytte markøren eller til at give fokus til et andet objekt, så forlader du automatisk flad gennemgang.</p>
+</page>

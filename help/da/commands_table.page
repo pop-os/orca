@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_table" xml:lang="da">
+  <info>
+    <link type="next" xref="commands_flat_review"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_tables"/>
+    <title type="sort">3. Tabelnavigation</title>
+    <title type="link">Tabelnavigation</title>
+    <desc>Kommandoer til at få adgang til tabelleret information</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kommandoer for tabelnavigation</title>
+  <p>Orcas understøttelse af navigation en tabelcelle ad gangen hører under <link xref="commands_structural_navigation#tables">Kommandoer for strukturel navigation</link>. Derudover kan du:</p>
+  <list>
+    <item>
+      <p>Indstille dynamiske rækkeoverskrifter til nuværende kolonne: <keyseq><key>Orca-ændringstast</key><key>C</key></keyseq></p>
+    </item>
+    <item>
+      <p>Indstille dynamiske kolonneoverskrifter til nuværende række: <keyseq><key>Orca-ændringstast</key><key>R</key></keyseq></p>
+    </item>
+    <item>
+      <p>Rydde dynamiske rækkeoverskrifter: <keyseq><key>Orca-ændringstast</key><key>C</key></keyseq> (dobbeltklikket)</p>
+    </item>
+    <item>
+      <p>Rydde dynamiske kolonneoverskrifter: <keyseq><key>Orca-ændringstast</key><key>R</key></keyseq> (dobbeltklikket)</p>
+    </item>
+    <item>
+      <p>Skift mellem læsning af celle og række i en tabel: <keyseq><key>Orca-ændringstast</key><key>F11</key></keyseq></p>
+    </item>
+  </list>
+</page>

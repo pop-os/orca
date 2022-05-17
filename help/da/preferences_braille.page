@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_braille" xml:lang="da">
+  <info>
+    <title type="sort">3. Punktskrift</title>
+    <title type="link">Punktskrift</title>
+    <desc>Konfiguration af <app>Orca</app>s understøttelse af punktskriftsdisplay</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_key_echo"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Indstillinger for punktskrift</title>
+  <section id="braillesupport">
+    <title>Aktivér understøttelse af punktskrift</title>
+    <p>Afkrydsningsboksen skifter mellem om <app>Orca</app> bruger et punktskriftsdisplay. Hvis BrlTTY ikke kører, fortsætter <app>Orca</app> uden problemer og kommunikerer ikke med punktskriftsdisplayet.</p>
+    <p>Standardværdi: fravalgt</p>
+    <note style="tip">
+      <p>Hvis du konfigurerer BrlTTY på et senere tidspunkt, skal du genstarte <app>Orca</app> for at kunne bruge punktskrift.</p>
+    </note>
+  </section>
+  <section id="braillewordwrap">
+    <title>Aktivér ombrydning af ord</title>
+    <p>Hvis <gui>Aktivér ombrydning af ord</gui> er tilvalgt, justerer <app>Orca</app> teksten, så der kun vises hele ord på punktskriftsdisplayet. Hvis funktionen er fravalgt, bruger <app>Orca</app> alle cellerne på displayet, så der kan vises mere tekst ad gangen.</p>
+    <p>Standardværdi: fravalgt</p>
+  </section>
+  <section id="contractedbraille">
+    <title>Aktivér forkortet punktskrift</title>
+    <p>Orca understøtter forkortet punktskrift via liblouis-projektet. Da mange distributioner medtager liblouis, så vil du sandsynligvis automatisk have adgang til understøttelse af forkortet punktskrift i <app>Orca</app>.</p>
+    <p>For at aktivere forkortet punktskrift på et system, hvor liblouis er installeret, skal du sørge for, at afkrydsningsboksen <gui>Aktivér forkortet punktskrift</gui> er tilvalgt. Vælg så din ønskede oversættelsestabel i kombinationsboksen <gui>Forkortelsestabel</gui>.</p>
+    <p>Standardværdi: fravalgt</p>
+  </section>
+  <section id="rolenames">
+    <title>Forkortede rollenavne</title>
+    <p>Afkrydsningsboksen afgør måden, hvorpå rollenavne vises, og kan bruges til at hjælpe med at spare på pladsen på punktskriftsdisplayet. Hvis en skyder f.eks. har fokus, vises ordet “skyder”, hvis forkortede rollenavne er fravalgt; hvis tilvalgt, vises i stedet “skdr”.</p>
+    <p>Standardværdi: fravalgt</p>
+  </section>
+  <section id="eolindicator">
+    <title>Deaktivér linjeafslutningstegn</title>
+    <p>Tilvalg af afkrydsningsboksen fortæller <app>Orca</app>, at strengen “$l” ikke skal præsenteres i slutningen af en linje med tekst.</p>
+    <p>Standardværdi: fravalgt</p>
+  </section>
+  <section id="verbosity">
+    <title>Uddybningsniveau</title>
+    <p>Gruppen af radioknapper afgør den mængde information, som bliver vist med punktskrift i bestemte situationer. Hvis den f.eks. er indstillet til uddybet, så vises information om tastaturgenvej og rollenavn. Informationen vises ikke i tilstanden kortfattet.</p>
+    <p>Standardværdi: <gui>Uddybet</gui></p>
+  </section>
+  <section id="selectionandhyperlink">
+    <title>Indikatorer for markering og hyperlink</title>
+    <p>Grupperne af radioknapper, <gui>Indikator for markering</gui> og <gui>Indikator for hyperlink</gui> giver dig mulighed for at konfigurere <app>Orca</app>s opførsel, når der vises markeret tekst og hyperlinks. Når du støder på begge dele, vil <app>Orca</app> som standard “understrege” teksten på dit punktskriftsdisplay med punkt 7 og 8. Hvis du foretrækker det, kan du ændre indikatoren til kun at være punkt 7, kun at være punkt 8 eller slet ikke at være til stede.</p>
+    <p>Standardværdi: <gui>Punkt 7 og 8</gui></p>
+    <note style="tip">
+      <title>Indikatorer for tekstattributter</title>
+      <p>Du kan også valgfrit få tekstattributter vist i punktskrift. Aktivering af funktionen og valg af hvilke attributter, som er af interesse, foretages på siden <link xref="preferences_text_attributes"> <gui>Tekstattributter</gui></link> i indstillingsdialogen.</p>
+    </note>
+  </section>
+  <section id="flashMessageSettings">
+    <title>Indstillinger for øjebliksmeddelelser</title>
+    <p>Øjebliksmeddelelser minder i deres natur om underretninger eller bekendtgørelser: De vises kortvarigt på dit dynamiske punktskriftsdisplay, hvorefter det oprindelige indhold på punktskriftsdisplayet gendannes. <app>Orca</app> har adskillige indstillinger, som du kan bruge til at styre præsentationen af øjebliksmeddelelser.</p>
+    <section id="flashMessageSettings_enable">
+      <title>Aktivér øjebliksmeddelelser</title>
+      <p>Hvis <gui>Aktivér øjebliksmeddelelser</gui> er tilvalgt, præsenterer <app>Orca</app> meddelelser til dig i punktskrift. Hvis du foretrækker kun at få <app>Orca</app>s meddelelser læst op, så skal du fravælge afkrydsningsboksen.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="flashMessageSettings_detailed">
+      <title>Meddelelser er detaljerede</title>
+      <p>Hvis <gui>Meddelelser er detaljerede</gui> er tilvalgt, præsenterer <app>Orca</app> detaljerede meddelelser for dig i punktskrift. Hvis du f.eks. bruger <app>Orca</app>s kommando til at ændre ekko, så viser <app>Orca</app> måske “Ekko indstillet til ord”. Hvis du foretrækker kortere meddelelser såsom bare “ord”, så skal du fravælge afkrydsningsboksen.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="flashMessageSettings_persistent">
+      <title>Meddelelser er vedvarende</title>
+      <p>Som nævnt ovenfor vises øjebliksmeddelelser kun kortvarigt. Hvis du foretrækker, at meddelelser bliver vist indtil du udfører en handling, der får dit display til at opdatere, skal du tilvælge afkrydsningsboksen <gui>Meddelelser er vedvarende</gui>.</p>
+      <p>Standardværdi: fravalgt</p>
+    </section>
+    <section id="flashMessageSettings_duration">
+      <title>Varighed (sek.)</title>
+      <p>Tidsperioden som <app>Orca</app> venter, inden meddelelsen fjernes og det oprindelige indhold på dit display gendannes, kan indstilles i drejeknappen <gui> Varighed (sek.)</gui>. Bemærk, at indstillingens værdi ignoreres, hvis du har aktiveret vedvarende øjebliksmeddelelser.</p>
+      <p>Standardværdi: 5</p>
+    </section>
+  </section>
+</page>

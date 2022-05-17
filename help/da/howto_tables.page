@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_tables" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_forms"/>
+    <title type="sort">4. Tabeller</title>
+    <desc>Navigation af og indstilling af dynamiske overskrifter</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Tabeller</title>
+  <p><app>Orca</app> har flere funktioner til særligt at forbedre adgang til tabeller på websider og i andre dokumenter: læsning af celle versus række, <link xref="howto_structural_navigation">strukturel navigation</link> og dynamiske overskrifter.</p>
+  <section id="cell_row">
+    <title>Læsning af celle versus række</title>
+    <p>Lad os sige, at du vil læse meddelelserne i din indbakke. For at få Orca til at bekendtgøre afsenderen, emnet, datoen og tilstedeværelsen af vedhæftninger, skal du have <app>Orca</app> til at oplæse rækken. Modsat når der navigeres blandt rækker i et regneark, kan det være uønsket at høre hele rækken grundet det store antal celler i hver række. I det tilfælde vil du så kun have <app>Orca</app> til at oplæse den fokuserede celle. Det samme gør sig gældende i tabeller i dokumenter.</p>
+    <p><app>Orca</app> giver dig mulighed for at tilpasse, om hele rækken eller kun cellen læses.  Dette gælder for både tabeller i både brugerflader, dokumenter og regneark. Da indstillingerne er uafhængige af hinanden, behøver du ikke vælge en tabellæsningstilstand, som passer til flere typer tabeller.</p>
+    <p>Du kan angive hver af <app>Orca</app>s indstillinger for tabellæsning enten for hele <app>Orca</app> eller på program-pr.-program-basis. Hvordan begge dele gøres, er beskrevet i vejledningen på <link xref="preferences"><app>Orca</app>s indstillingsdialoger</link>. Indstillingerne kan findes på siden <link xref="preferences_speech"> <gui>Tale</gui></link>.</p>
+    <p>Til slut er der også en <app>Orca</app>-kommando, som giver dig mulighed for straks at skifte mellem læsning af celle versus række for den tabel, som i øjeblikket er aktiv: <keyseq><key>Orca-ændringstast</key><key>F11</key></keyseq>.</p>
+  </section>
+  <section id="structural_navigation">
+    <title>Strukturel navigation</title>
+    <p><app>Orca</app>s <link xref="commands_structural_navigation#tables">kommandoer for strukturel navigation til tabeller</link> giver dig mulighed for at finde tabeller hurtigt, hoppe direkte til den første eller sidste celle i en tabel og flytte til den næste celle i enhver retning.</p>
+    <p>Mens du navigerer mellem eller inden i tabeller med strukturel navigation, bekendtgør <app>Orca</app> yderligere detaljer for at hjælpe dig med at forstå din placering. Dette omfatter f.eks. dimensionerne på den tabel, du lige er kommet ind i, og om du er nået til tabellens kant i den retning, du flytter.</p>
+    <p>Derudover giver <app>Orca</app> <link xref="preferences_table_navigation">indstillinger for præsentation</link>, som fungerer sammen med strukturel navigation og giver dig mulighed for at vælge, om cellekoordinater præsenteres, om udstrækning over flere celler angives, og om celleoverskrifter bekendtgøres.</p>
+    <note style="tip">
+      <title>Husk at slå strukturel navigation til!</title>
+      <p>Afhængig af hvor du er, kan det være nødvendigt at slå strukturel navigation til manuelt. <link xref="howto_structural_navigation#toggling_required">Hvornår det er nødvendigt at slå strukturel navigation til</link>.</p>
+    </note>
+  </section>
+  <section id="dynamic_headers">
+    <title>Dynamiske overskrifter</title>
+    <p>Mange af de tabeller, du støder på mens du læser, har celler, der fungerer som overskriften for en række eller en kolonne. Om tabellens skaber har opmærket cellerne korrekt som overskrifter, er svært at sige. I mange tilfælde er teksten simpelthen formateret til at være større og/eller fed. Og selv hvis tabellen er opmærket korrekt, er der ingen garanti for, at programmet eller toolkittet gør teksten tilgængelig som overskriftsinformation for assisterende teknologier. <app>Orca</app>s understøttelse af dynamiske overskrifter gør det muligt at overkomme disse udfordringer.</p>
+    <steps>
+      <title>Indstilling af kolonneoverskrifter</title>
+      <item>
+        <p>Flyt til den række, som indeholder alle kolonneoverskrifterne.</p>
+      </item>
+      <item>
+        <p>Tryk på <keyseq><key>Orca-ændringstast</key><key>R</key></keyseq> for at fortælle <app>Orca</app>, at den nuværende række er den med overskrifterne.</p>
+      </item>
+    </steps>
+    <steps>
+      <title>Indstilling af rækkeoverskrifter</title>
+      <item>
+        <p>Flyt til den kolonne, som indeholder alle rækkeoverskrifterne.</p>
+      </item>
+      <item>
+        <p>Tryk på <keyseq><key>Orca-ændringstast</key><key>C</key></keyseq> for at fortælle <app>Orca</app>, at den nuværende kolonne er den med overskrifterne.</p>
+      </item>
+    </steps>
+    <p>Når enten kolonneoverskrifterne eller rækkeoverskrifterne er blevet indstillet, bør du opleve, at når du navigerer blandt cellerne, så præsenterer <app>Orca</app> hver overskrift, som er blevet ændret. Eller, sagt på en anden måde, så præsenterer <app>Orca</app> ikke kolonneoverskriften igen og igen efterhånden som du flytter op og ned i den nuværende kolonne. På samme måde præsenteres rækkeoverskriften ikke igen og igen efterhånden, som du flytter til venstre eller højre i den nuværende række. Men hvis du ændrer rækker, og der er rækkeoverskrifter, så præsenteres den overskrift, som er tilknyttet den nye række. Og hvis du ændrer kolonner, og der er kolonneoverskrifter, så præsenteres overskriften tilknyttet den nye kolonne.</p>
+    <p>For at rydde overskrifterne dobbeltklikkes der blot på den kommando, du brugte til at indstille dem. Så dobbeltklik på <keyseq><key>Orca-ændringstast</key><key>R</key></keyseq> fortæller <app>Orca</app>, at der ikke er nogen kolonneoverskrifter. Dobbeltklik på <keyseq><key>Orca-ændringstast</key><key>C</key></keyseq> fortæller <app>Orca</app>, at der ikke er nogen rækkeoverskrifter.</p>
+  </section>
+</page>

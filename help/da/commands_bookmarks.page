@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_bookmarks" xml:lang="da">
+  <info>
+    <link type="next" xref="commands_live_regions"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_bookmarks"/>
+    <title type="sort">4. Bogmærker</title>
+    <title type="link">Bogmærker</title>
+    <desc>Kommandoer til at bruge bogmærker og hente objekter</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kommandoer for bogmærker</title>
+  <p><app>Orca</app> har adskillige kommandoer, som kan bruges til at tilføje et “bogmærke” ved et givent objekt, så der kan navigeres tilbage til det senere.</p>
+  <list>
+    <item>
+      <p>Gem et bogmærke på en nummereret plads: <keyseq><key>Orca-ændringstast</key> <key>Alt</key><key>1</key></keyseq>–<key>6</key></p>
+    </item>
+    <item>
+      <p>Gem de angivne bogmærker i programmet eller på siden: <keyseq><key>Orca-ændringstast</key><key>Alt</key><key>B</key></keyseq></p>
+    </item>
+    <item>
+      <p>Gå til et bestemt nummereret bogmærke: <keyseq><key>Orca-ændringstast</key> <key>1</key></keyseq>–<key>6</key></p>
+    </item>
+    <item>
+      <p>Gå til det forrige bogmærke i programmet eller på siden: <keyseq><key>Orca-ændringstast</key><key>Skift</key><key>B</key> </keyseq></p>
+    </item>
+    <item>
+      <p>Gå til det næste bogmærke i programmet eller på siden: <keyseq><key>Orca-ændringstast</key><key>B</key></keyseq></p>
+    </item>
+  </list>
+</page>

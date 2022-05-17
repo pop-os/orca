@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_introduction" xml:lang="da">
+  <info>
+    <title type="sort">0. Introduktion til <app>Orca</app>s indstillinger</title>
+    <title type="link">Introduktion til <app>Orca</app>s indstillinger</title>
+    <link type="guide" xref="preferences"/>
+    <link type="next" xref="preferences_general"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Introduktion til <app>Orca</app>s indstillinger</title>
+  <section id="orca">
+    <title>Indstillinger for Orca</title>
+    <p>Orca-indstillinger giver dig mulighed for at tilpasse funktionalitet i <app>Orca</app>, som gælder for alle programmer. Et eksempel på en Orca-indstilling er ekko, da tasteekko er noget, der gælder for alle programmer.</p>
+    <p>Bemærk, at Orca-indstillinger kan tilpasses på program-pr.-program-basis. Du kan f.eks. indstille standardekkoet til ord og så indstille ekkoet for Pidgin til intet. Når det er gjort, vil <app>Orca</app> altid oplæse hvert ord, du skriver, medmindre du er i Pidgin.</p>
+    <note style="tip">
+      <title>Tastaturgenveje til at komme ind i indstillingsdialogerne</title>
+      <list>
+        <item>
+          <p><keyseq><key>Orca-ændringstast</key><key>Mellemrum</key></keyseq>: <app>Orca</app>s indstillinger</p>
+        </item>
+        <item>
+          <p><keyseq><key>Ctrl</key><key>Orca-ændringstast</key><key>Mellemrum</key> </keyseq>: <app>Orca</app>s indstillinger for det nuværende program</p>
+        </item>
+      </list>
+    </note>
+  </section>
+  <section id="application_unique">
+    <title>Programspecifikke indstillinger</title>
+      <p>Som kontrast til Orca-indstillinger er der programspecifikke indstillinger. Disse indstillinger giver dig mulighed for at tilpasse <app>Orca</app>-funktioner, som kun gælder i bestemte miljøer såsom på websider eller i chatprogrammer. Derfor er indstillingerne kun tilgængelige i de programspecifikke indstillingsdialoger og kun til de programmer, som indstillingerne gælder for.</p>
+  </section>
+</page>

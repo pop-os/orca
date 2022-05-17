@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_where_am_i" xml:lang="da">
+  <info>
+    <link type="next" xref="commands_time_date_notifications"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">3. Hvor Er Jeg</title>
+    <title type="link">Hvor Er Jeg</title>
+    <desc>Kommandoer til at lære om din placering</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kommandoer for Hvor Er Jeg</title>
+  <p><app>Orca</app>s Hvor Er Jeg-funktion giver dig kontekstafhængige detaljer om din nuværende placering. Hvis du f.eks. befinder dig i en tabel, giver Hvor Er Jeg detaljer om den nuværende tabelcelle, mens funktionen i en tekstblok præsenterer den nuværende linje samt markeret tekst. Den fulde liste over hvad <app>Orca</app> præsenterer, kan findes i <link xref="howto_whereami">Introduktion til Hvor Er Jeg</link>.</p>
+  <p><app>Orca</app> har følgende kommandoer for Hvor Er Jeg:</p>
+  <list>
+    <item>
+      <p>Udfør simpel Hvor Er Jeg:</p>
+      <list>
+        <item>
+          <p>Stationær: <key>NT Enter</key></p>
+        </item>
+        <item>
+          <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>Retur</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Udfør detaljeret Hvor Er Jeg:</p>
+      <list>
+        <item>
+          <p>Stationær: <key>NT Enter</key> (dobbeltklikket)</p>
+        </item>
+        <item>
+          <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>Retur</key></keyseq> (dobbeltklikket)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+  <p>Ud over de særlige kommandoer for Hvor Er Jeg, har <app>Orca</app> yderligere kommandoer til at få information om din nuværende placering:</p>
+  <list>
+    <item>
+      <p>Præsentér titellinjen:</p>
+      <list>
+        <item>
+          <p>Stationær: <keyseq><key>Orca-ændringstast</key><key>NT Enter</key></keyseq></p>
+        </item>
+        <item>
+          <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>Skråstreg</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Præsentér statuslinjen:</p>
+      <list>
+        <item>
+          <p>Stationær: <keyseq><key>Orca-ændringstast</key><key>NT Enter</key></keyseq> (dobbeltklikket)</p>
+        </item>
+        <item>
+          <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>Skråstreg</key></keyseq> (dobbeltklikket)</p>
+        </item>
+        <item>
+          <p>Præsentér størrelse og placering på nuværende objekt i pixels: (Ubundet)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

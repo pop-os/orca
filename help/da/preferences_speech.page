@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_speech" xml:lang="da">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_braille"/>
+    <title type="sort">2.1 Tale</title>
+    <title type="link">Tale</title>
+    <desc>Konfiguration af hvad der bliver sagt</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Indstillinger for tale</title>
+  <section id="enable_speech">
+    <title>Aktivér tale</title>
+    <p>Afkrydsningsboksen <gui>Aktivér tale</gui> styrer, om <app>Orca</app> bruger en talesynthesizer. Brugere, der kun bruger punktskrift, vil sandsynligvis fravælge afkrydsningsboksen.</p>
+    <p>Standardværdi: tilvalgt</p>
+  </section>
+  <section id="verbosity">
+    <title>Uddybningsniveau</title>
+    <p>Indstillingen <gui>Uddybningsniveau</gui> afgør mængden af information, som siges i forskellige situationer. F.eks. hvis den er indstillet til uddybet, og du flytter pilen ind i et ord, som er stavet forkert, så bekendtgør <app>Orca</app>, at ordet er stavet forkert. Når niveauet er indstillet til kortfattet, så foretages bekendtgørelsen ikke.</p>
+    <p>Standardværdi: <gui>Uddybet</gui></p>
+  </section>
+  <section id="punctuation_level">
+    <title>Tegnsætningsniveau</title>
+    <p>Radioknapgruppen <gui>Tegnsætningsniveau</gui> bruges til at justere hvilken tegnsætning, som oplæses af synthesizeren. De tilgængelige niveauer er <gui>Ingen</gui>, <gui>Nogle</gui>, <gui>Fleste</gui> og <gui>Alle</gui>.</p>
+    <p>Standardværdi: <gui>Fleste</gui></p>
+    <section id="punctuation_level_none">
+      <title>Ingen</title>
+      <p>Ved valg af tegnsætningsniveauet <gui>Ingen</gui> oplæses, som man vil forvente, ingen tegnsætning. Bemærk dog, at specielle symboler såsom sænkede og hævede tal, Unicode-brøkdele og punkttegn stadigvæk oplæses på dette niveau, selvom nogen måske betragter disse typer af symboler som tegnsætning.</p>
+    </section>
+    <section id="punctuation_level_some">
+      <title>Nogle</title>
+      <p>Ved valg af tegnsætningsniveauet <gui>Nogle</gui> oplæses alle tidligere nævnte symboler. Derudover oplæser <app>Orca</app> kendte matematiske symboler, valutasymboler og “^”, “@”, “/”, “&amp;”, “#“.</p>
+    </section>
+    <section id="punctuation_level_most">
+      <title>Fleste</title>
+      <p>Valg af tegnsætningsniveauet <gui>Fleste</gui> får alle de symboler, som tidligere er nævnt, til at blive oplæst. Derudover oplæser <app>Orca</app> alle andre kendte tegnsætningssymboler <em>bortset fra</em> “!”, “'”, “,”, “.”, “?”.</p>
+    </section>
+    <section id="punctuation_level_all">
+      <title>Alle</title>
+      <p>Valg af tegnsætningsniveauet <gui>Alle</gui> får, som forventet, <app>Orca</app> til at oplæse alle kendte tegnsætningssymboler.</p>
+    </section>
+  </section>
+  <section id="spoken_context">
+    <title>Kontekst for oplæsning</title>
+    <p>Følgende punkter styrer præsentationen af en række supplerende “system”-information om det punkt, som har fokus. Da den tilknyttede tekst ikke vises på skærmen, præsenteres informationen med <app>Orca</app>s System-stemme.</p>
+    <section id="only_speak_displayed_text">
+      <title>Oplæs kun viste tekst</title>
+      <p>Valg af afkrydsningsboksen får <app>Orca</app> til kun at oplæse den tekst, der vises på skærmen. Indstillingen er primært beregnet til brugere med nedsat syn og brugere, der har en visuel indlæringsvanskelighed.</p>
+      <p>Standardværdi: fravalgt</p>
+      <note style="note">
+        <p>Følgende punkter er ikke mulige at konfigurere, hvis afkrydsningsboksen <gui>Sig kun viste tekst</gui> er tilvalgt.</p>
+      </note>
+    </section>
+    <section id="speak_blank_lines">
+      <title>Oplæs tomme linjer</title>
+      <p>Hvis afkrydsningsboksen <gui>Oplæs tomme linjer</gui> er tilvalgt, siger <app>Orca</app> “tom” hver gang, du flytter pilen til en tom linje. Hvis den er fravalgt, siger <app>Orca</app> ikke noget, når du flytte til en tom linje.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="indentation_and_justification">
+      <title>Oplæs indrykning og justering</title>
+      <p>Når der arbejdes med kode eller ved redigering af andre dokumenter, er det ofte en god idé at opmærksom på justering og indrykning. Tilvalg af afkrydsningsboksen <gui>Oplæs indrykning og justering</gui> får <app>Orca</app> til at bekendtgøre informationen.</p>
+      <p>Standardværdi: fravalgt</p>
+    </section>
+    <section id="speak_misspelled_word_indicator">
+      <title>Oplæs markør for stavefejl</title>
+      <p>Stavefejlsmarkøren er den røde bølgelinje, som vises under ord, som er stavet forkert i redigerbare tekstfelter. Hvis afkrydsningsboksen <gui>Oplæs markør for stavefejl</gui> er tilvalgt, vil <app>Orca</app> sige “stavet forkert”, skriver et ord, som ville blive markeret som stavefejl, eller navigerer ind i et ord med stavefejlsmarkør.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="mnemonics">
+     <title>Oplæs objektets genvejstaster</title>
+      <p>Hvis afkrydsningsboksen <gui>Oplæs objektets genvejstaster</gui> er tilvalgt, vil <app>Orca</app> bekendtgøre den genvejstast, som er tilknyttet det objekt, som har fokus (såsom <keyseq><key>Alt</key><key>O</key> </keyseq> for knappen <gui>OK</gui>).</p>
+      <p>Standardværdi: fravalgt</p>
+    </section>
+    <section id="child_position">
+      <title>Oplæs placering af underpunkt</title>
+      <p>Tilvalg af afkrydsningsboksen <gui>Oplæs placeringen af underpunkt</gui> får <app>Orca</app> til at bekendtgøre placeringen af det punkt, som har fokus i menuer, lister og træer (f.eks. “9 af 16”).</p>
+      <p>Standardværdi: fravalgt</p>
+    </section>
+    <section id="speak_tutorial_messages">
+      <title>Oplæs vejledende meddelelser</title>
+      <p>Hvis afkrydsningsboksen <gui>Oplæs vejledende meddelelser</gui> er tilvalgt, vil <app>Orca</app>, efterhånden som du navigerer blandt objekter i en brugerflade, give yderligere information, såsom hvordan man interagerer med det objekt, som i øjeblikket har fokus.</p>
+      <p>Standardværdi: fravalgt</p>
+    </section>
+    <section id="speak_description">
+      <title>Oplæs beskrivelse</title>
+      <p>Hvis afkrydsningsboksen <gui>Oplæs beskrivelse</gui> er tilvalgt, vil <app>Orca</app>, efterhånden som du navigerer blandt objekter i en brugerflade, oplæse tilgængelighedsbeskrivelsen sammen med objektets tilgængelighedsnavn.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="system_messages_are_detailed">
+      <title>Systemmeddelelser er detaljerede</title>
+      <p>Hvis <gui>Systemmeddelelser er detaljerede</gui> er tilvalgt, præsenterer <app>Orca</app> detaljerede meddelelser for dig i tale. F.eks. hvis du bruger <app>Orca</app>s kommando til at ændre ekko, så siger <app>Orca</app> måske “Ekko indstillet til ord”. Hvis du foretrækker kortere meddelelser såsom blot “ord”, skal du fravælge afkrydsningsboksen.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="speak_colors_as_names">
+      <title>Oplæs farver som navne</title>
+      <p>Hvis afkrydsningsboksen <gui>Oplæs farver som navne</gui> er tilvalgt, beskriver <app>Orca</app> farver, hvor der ledes efter den, der kommer nærmest. F.eks. vil RGB 0, 27, 51 læses som “midnatsblå”. Hvis du foretrækker at høre RGB-værdien, kan du fravælge afkrydsningsboksen.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="announce_blockquotes_during_navigation">
+      <title>Bekendtgør blokcitater under navigation</title>
+      <p>Hvis <gui>Bekendtgør blokcitater under navigation</gui> er tilvalgt, fortæller <app>Orca</app> dig, når du navigerer ind i eller ud af et blokcitat. Bemærk, at indstillingen fungerer uafhængigt af, om bekendtgørelsen foretages under Oplæs Alt. Se <link xref="preferences_general#say_all_announce_context">Bekendtgør information om konteksten i Oplæs Alt</link> for mere information.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="announce_forms_during_navigation">
+      <title>Bekendtgør formularer under navigation</title>
+      <p>Hvis <gui>Bekendtgør formularer under navigation</gui> er tilvalgt, fortæller <app>Orca</app> dig, når du navigerer ind i eller ud af en formular. Bemærk, at indstillingen specifikt er til formularer, som ikke er ARIA-kendemærker. Du kan konfigurere præsentationen af ARIA-kendemærker gennem afkrydsningsboksen <gui>Bekendtgør kendemærker under navigation</gui>. Bemærk derudover, at indstillingen fungerer uafhængigt af, om bekendtgørelsen foretages under Oplæs Alt. Se <link xref="preferences_general#say_all_announce_context">Bekendtgør information om konteksten i Oplæs Alt</link> for mere information.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="announce_landmarks_during_navigation">
+      <title>Bekendtgør kendemærker under navigation</title>
+      <p>Hvis <gui>Bekendtgør kendemærker under navigation</gui> er tilvalgt, fortæller <app>Orca</app> dig, når du navigerer ind i eller ud af et ARIA-kendemærke. Bemærk, at indstillingen fungerer uafhængigt af, om bekendtgørelsen foretages under Oplæs Alt. Se <link xref="preferences_general#say_all_announce_context">Bekendtgør information om konteksten i Oplæs Alt</link> for mere information.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="announce_lists_during_navigation">
+      <title>Bekendtgør lister under navigation</title>
+      <p>Hvis <gui>Bekendtgør lister under navigation</gui> er tilvalgt, fortæller <app>Orca</app> dig, når du navigerer ind i eller ud af en liste. Bemærk, at indstillingen fungerer uafhængigt af, om bekendtgørelsen foretages under Oplæs Alt. Se <link xref="preferences_general#say_all_announce_context">Bekendtgør information om konteksten i Oplæs Alt</link> for mere information.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="announce_panels_during_navigation">
+      <title>Bekendtgør paneler under navigation</title>
+      <p>Hvis <gui>Bekendtgør paneler under navigation</gui> er tilvalgt, fortæller <app>Orca</app> dig, når du navigerer ind i eller ud af et panel. Bemærk, at indstillingen fungerer uafhængigt af, om bekendtgørelsen foretages under Oplæs Alt. Se <link xref="preferences_general#say_all_announce_context">Bekendtgør information om konteksten i Oplæs Alt</link> for mere information.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="announce_tables_during_navigation">
+      <title>Bekendtgør tabeller under navigation</title>
+      <p>Hvis <gui>Bekendtgør tabeller under navigation</gui> er tilvalgt, fortæller <app>Orca</app> dig, når du navigerer ind i eller ud af en tabel. Bemærk, at indstillingen fungerer uafhængigt af, om bekendtgørelsen foretages under Oplæs Alt. Se <link xref="preferences_general#say_all_announce_context">Bekendtgør information om konteksten i Oplæs Alt</link> for mere information.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="speak_full_row_in_gui_tables">
+      <title>Oplæs hele rækken i brugerfladens tabeller</title>
+      <p>Hvis <gui>Oplæs hele rækken i brugerfladens tabeller</gui> er tilvalgt, oplæser <app>Orca</app> hele rækken efterhånden, som du flytter pilen op og ned i programmets tabeller såsom listen over meddelelser i din indbakke. Hvis du foretrækker kun at høre den celle som har fokus, skal du fravælge afkrydsningsboksen.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="speak_full_row_in_document_tables">
+      <title>Oplæs hele rækken i dokumentets tabeller</title>
+      <p>Hvis <gui>Oplæs hele rækken i dokumentets tabeller</gui> er tilvalgt, oplæser <app>Orca</app> hele rækken, efterhånden som du flytter pilen op og ned i tabeller såsom dem, der findes i <app>Writer</app> og webdokumenter. Hvis du foretrækker kun at høre den celle, som har fokus, så skal du fravælge afkrydsningsboksen.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="speak_full_row_in_spreadsheets">
+      <title>Oplæs hele rækken i regneark</title>
+      <p>Hvis <gui>Oplæs hele rækken i regneark</gui> er tilvalgt, oplæser <app>Orca</app> hele rækken, efterhånden som du flytter pilen op og ned i regneark. Hvis du foretrækker kun at høre den celle, som har fokus, skal du fravælge afkrydsningsboksen.</p>
+      <p>Standardværdi: fravalgt</p>
+    </section>
+  </section>
+</page>

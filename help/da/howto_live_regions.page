@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_live_regions" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_whereami"/>
+    <title type="sort">6. Liveområder</title>
+    <desc>Interaktion med dynamisk webindhold</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Liveområder</title>
+  <p>Et liveområde er en del af en webside, som opdateres dynamisk. Det kan være en tabel med sportsresultater, en liste over nuværende aktiepriser, en log fra en chat eller en besked, som vises på den side, du læser. Selvom liveområder bruges ret ofte, så bruges fuldt tilgængelige websider med liveområder mindre ofte. Problemet adresseres aktivt af visse organisationer.</p>
+  <section id="politeness_levels">
+    <title>Høflighedsniveauer for liveområder</title>
+    <p>Liveområder har et tilknyttet “høflighedsniveau”, som indstilles af forfatteren som en måde til at formidle, hvor vigtig informationen er, og til at foreslå hvornår brugere skal informeres af deres assisterende teknologi om opdateringer, der sker i området. Liveområder kan være “fra”, “høflig” eller “hævdende” til punktet, hvor det bliver “uhøfligt”.</p>
+  </section>
+  <section id="orca_support">
+    <title><app>Orca</app>s understøttelse af liveområder</title>
+    <p>Da du måske ikke er enig i det høflighedsniveau, som er angivet af forfatteren på den side du viser, har <app>Orca</app> nogle <link xref="commands_live_regions">kommandoer for liveområder</link>, som giver dig mulighed for at ændre niveauet på et eller alle områderne på en side. Derudover kan du:</p>
+    <list>
+      <item>
+        <p>Slå understøttelse af liveområder til eller fra</p>
+      </item>
+      <item>
+        <p>Hoppe til det næste og forrige liveområde rumligt</p>
+      </item>
+      <item>
+        <p>Hoppe til det sidste liveområde, som præsenterede information</p>
+      </item>
+      <item>
+        <p>Gennemgå de sidste ni liveområdemeddelelser, som blev præsenteret</p>
+    </item>
+    </list>
+  </section>
+</page>

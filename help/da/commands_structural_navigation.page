@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_structural_navigation" xml:lang="da">
+  <info>
+    <link type="next" xref="commands_table"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_forms"/>
+    <title type="sort">2. Strukturel navigation</title>
+    <title type="link">Strukturel navigation</title>
+    <desc>Kommandoer til navigation et element ad gangen</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kommandoer for strukturel navigation</title>
+  <p>Følgende kommandoer kan bruges til at navigere en overskrift, et link eller et andet element ad gangen i programmer hvortil <app>Orca</app> har understøttelse af strukturel navigation.</p>
+  <list>
+    <item>
+      <p>Aktivér/deaktivér taster for strukturel navigation: <keyseq><key>Orca-ændringstast</key><key>Z</key></keyseq></p>
+    </item>
+  </list>
+  <section id="headings">
+    <title>Overskrifter</title>
+      <list>
+        <item>
+          <p>Næste og forrige overskrift: <keyseq><key>H</key></keyseq> og <keyseq><key>Skift</key><key>H</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over overskrifter: <keyseq><key>Alt</key><key>Skift</key><key>H</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige overskrift på niveau 1: <keyseq><key>1</key></keyseq> og <keyseq><key>Skift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Vis en liste over overskrifter på niveau 1: <keyseq><key>Alt</key><key>Skift</key><key>1</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige overskrift på niveau 2: <keyseq><key>2</key></keyseq> og <keyseq><key>Skift</key><key>2</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over overskrifter på niveau 2: <keyseq><key>Alt</key><key>Skift</key><key>2</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige overskrift på niveau 3: <keyseq><key>3</key></keyseq> og <keyseq><key>Skift</key><key>3</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over overskrifter på niveau 3: <keyseq><key>Alt</key><key>Skift</key><key>3</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige overskrift på niveau 4: <keyseq><key>4</key></keyseq> og <keyseq><key>Skift</key><key>4</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over overskrifter på niveau 4: <keyseq><key>Alt</key><key>Skift</key><key>4</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige overskrift på niveau 5: <keyseq><key>5</key></keyseq> og <keyseq><key>Skift</key><key>5</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over overskrifter på niveau 5: <keyseq><key>Alt</key><key>Skift</key><key>5</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige overskrift på niveau 6: <keyseq><key>6</key></keyseq> og <keyseq><key>Skift</key><key>6</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over overskrifter på niveau 6: <keyseq><key>Alt</key><key>Skift</key><key>6</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="forms">
+      <title>Formularer</title>
+      <list>
+        <item>
+          <p>Næste og forrige formularfelt: <keyseq><key>Orca-ændringstast</key><key>Tabulator</key></keyseq> og <keyseq><key>Orca-ændringstast</key><key>Skift</key><key>Tabulator</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over formularfelter: <keyseq><key>Alt</key><key>Skift</key><key>F</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige knap: <keyseq><key>B</key></keyseq> og <keyseq><key>Skift</key><key>B</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over knapper: <keyseq><key>Alt</key><key>Skift</key><key>B</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige kombinationsboks: <keyseq><key>C</key></keyseq> og <keyseq><key>Skift</key><key>C</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over kombinationsbokse: <keyseq><key>Alt</key><key>Skift</key><key>C</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige tekstfelt: <keyseq><key>E</key></keyseq> og <keyseq><key>Skift</key><key>E</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over tekstfelter: <keyseq><key>Alt</key><key>Skift</key><key>E</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige radioknap: <keyseq><key>R</key></keyseq> og <keyseq><key>Skift</key><key>R</key></keyseq></p>
+        </item>
+        <item>
+          <p>Vis en liste over radioknapper: <keyseq><key>Alt</key><key>Skift</key><key>R</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Næste og forrige afkrydsningsboks: <keyseq><key>X</key></keyseq> og <keyseq><key>Skift</key><key>X</key></keyseq></p>
+        </item>
+        <item>
+          <p>Vis en liste over afkrydsningsbokse: <keyseq><key>Alt</key><key>Skift</key><key>X</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="links">
+    <title>Links</title>
+      <list>
+        <item>
+          <p>Næste og forrige link: <keyseq><key>K</key></keyseq> og <keyseq><key>Skift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Vis en liste over links: <keyseq><key>Alt</key><key>Skift</key><key>K</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige ubesøgte link: <keyseq><key>U</key></keyseq> og <keyseq><key>Skift</key><key>U</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over ubesøgte links: <keyseq><key>Alt</key><key>Skift</key><key>U</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige besøgte link: <keyseq><key>V</key></keyseq> og <keyseq><key>Skift</key><key>V</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over besøgte links: <keyseq><key>Alt</key><key>Skift</key><key>V</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="lists">
+      <title>Lister</title>
+      <list>
+        <item>
+          <p>Næste og forrige liste: <keyseq><key>L</key></keyseq> og <keyseq><key>Skift</key><key>L</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over lister: <keyseq><key>Alt</key><key>Skift</key><key>L</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige listepunkt: <keyseq><key>I</key></keyseq> og <keyseq><key>Skift</key><key>I</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over listepunkter: <keyseq><key>Alt</key><key>Skift</key><key>I</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+    <section id="tables">
+      <title>Tabeller</title>
+      <list>
+        <item>
+          <p>Næste og forrige tabel: <keyseq><key>T</key></keyseq> og <keyseq><key>Skift</key><key>T</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over tabeller: <keyseq><key>Alt</key><key>Skift</key><key>T</key></keyseq></p>
+        </item>
+        <item>
+          <p>Celle til venstre: <keyseq><key>Alt</key><key>Skift</key><key>Venstre</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Celle til højre: <keyseq><key>Alt</key><key>Skift</key><key>Højre</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Celle ovenfor: <keyseq><key>Alt</key><key>Skift</key><key>Op</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Celle nedenfor: <keyseq><key>Alt</key><key>Skift</key><key>Ned</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Første celle i tabel: <keyseq><key>Alt</key><key>Skift</key><key>Home</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Sidste celle i tabel: <keyseq><key>Alt</key><key>Skift</key><key>End</key></keyseq></p>
+        </item> 
+      </list>
+    </section>
+    <section id="text_blocks">
+      <title>Tekstblokke</title>
+      <list>
+        <item>
+          <p>Næste og forrige afsnit: <keyseq><key>P</key></keyseq> og <keyseq><key>Skift</key><key>P</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over afsnit: <keyseq><key>Alt</key><key>Skift</key><key>P</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige blokcitat: <keyseq><key>Q</key></keyseq> og <keyseq><key>Skift</key><key>Q</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over blokcitater: <keyseq><key>Alt</key><key>Skift</key><key>Q</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige “store objekt”: <keyseq><key>O</key></keyseq> og <keyseq><key>Skift</key><key>O</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over “store objekter”: <keyseq><key>Alt</key><key>Skift</key><key>O</key></keyseq></p>
+        </item>
+       </list>
+    </section>
+    <section id="other">
+      <title>Andre elementer</title>
+      <list>
+        <item>
+          <p>Næste og forrige kendemærke: <keyseq><key>M</key></keyseq> og <keyseq><key>Skift</key><key>M</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over kendemærker: <keyseq><key>Alt</key><key>Skift</key><key>M</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige separator: <keyseq><key>S</key></keyseq> og <keyseq><key>Skift</key><key>S</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Næste og forrige “klikbare” element: <keyseq><key>A</key></keyseq> og <keyseq><key>Skift</key><key>A</key></keyseq></p>
+        </item> 
+        <item>
+          <p>Vis en liste over “klikbare” elementer: <keyseq><key>Alt</key><key>Skift</key><key>A</key></keyseq></p>
+        </item>
+        <item>
+          <p>Næste og forrige billede: <keyseq><key>G</key></keyseq> og <keyseq><key>Skift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Vis en liste over billeder: <keyseq><key>Alt</key><key>Skift</key><key>G</key></keyseq></p>
+        </item>
+        <item>
+          <p>Begyndelse og slutning på nuværende beholder: <keyseq><key>Skift</key><key>Komma</key></keyseq> og <keyseq><key>Komma</key></keyseq></p>
+        </item>
+      </list>
+    </section>
+</page>

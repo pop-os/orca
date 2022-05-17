@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_general" xml:lang="da">
+  <info>
+    <title type="sort">1. Generelt</title>
+    <title type="link">Generelt</title>
+    <desc>Konfiguration af <app>Orca</app>s fundamentale opførsel</desc>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_voice"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Generelle indstillinger</title>
+  <section id="keyboardlayout">
+    <info>
+      <desc>Indstilling til at vælge mellem stationært og bærbart <app>Orca</app>-tastaturlayout.</desc>
+    </info>
+    <title>Tastaturlayout</title>
+    <p>Radioknapgruppen <gui>Tastaturlayout</gui> giver dig mulighed for at angive, om du bruger et tastatur på en stationær (dvs. med et numerisk tastatur) eller bærbar computer. Dit valg af layout afgør både <key>Orca-ændringstasten</key> samt visse tastaturgenveje til at udføre <app>Orca</app>-kommandoer.</p>
+    <p>Standardværdi: <gui>Stationær</gui></p>
+  </section>
+  <section id="presenttooltips">
+    <info>
+      <desc>Indstilling i dialogboksen indstillinger til at aktivere præsentation af værktøjstips som vises, fordi musen holdes over.</desc>
+    </info>
+    <title>Præsentér værktøjstips</title>
+    <p>Når indstillingen er tilvalgt, fortæller den, at <app>Orca</app> skal præsentere information om værktøjstips, som vises, fordi musen holdes over. Bestemte handlinger til at tvinge værktøjstips til at blive vist, såsom at trykke på <keyseq> <key>Ctrl</key><key>F1</key></keyseq> når et objekt har fokus, resulterer altid i, at værktøjstips præsenteres, ligegyldigt hvordan indstillingen er valgt.</p>
+    <p>Standardværdi: fravalgt</p>
+  </section>
+  <section id="objectundermouse">
+    <info>
+      <desc>Indstilling til at aktivere præsentation af objektet under musemarkøren.</desc>
+    </info>
+    <title>Oplæs objekt under mus</title>
+    <p>Når indstillingen er tilvalgt, fortæller den, at <app>Orca</app> skal præsentere information om det objekt, som er under musemarkøren, efterhånden som du flytter den rundt på skærmen med <app>Orca</app>s <link xref="howto_mouse_review">Musegennemgang</link>-funktion.</p>
+    <p>Standardværdi: fravalgt</p>
+  </section>
+  <section id="timeanddate">
+    <info>
+      <desc>Indstillinger til tilpasning af de klokkeslæt- og datoformater, som bruges af <app>Orca</app>.</desc>
+    </info>
+    <title>Format for klokkeslæt og dato</title>
+    <p>Kombinationsboksene <gui>Format for klokkeslæt</gui> og <gui>Format for dato</gui> giver dig mulighed for at angive den måde, <app>Orca</app> oplæser og med punktskrift viser klokkeslættet og datoen.</p>
+    <p>Standardværdi: Brug formatet for systemets regionsindstillinger til begge</p>
+  </section>
+  <section id="navigation_in_say_all">
+    <info>
+      <desc>Indstillinger til aktivering af spol tilbage, spol fremad og strukturel navigation under Oplæs Alt.</desc>
+    </info>
+    <title>Navigation i Oplæs Alt</title>
+    <p><app>Orca</app>s Oplæs Alt-funktion oplæser indholdet i dokumentet fra din nuværende placering til slutningen af dokumentet. Tryk på en vilkårlig tast vil som standard  afbryde Oplæs Alts afvikling. Men hvis du tilvælger afkrydsningsboksen <gui>Aktivér spol tilbage og spol fremad i Oplæs Alt</gui>, kan <key>Op</key> og <key>Ned</key> bruges under Oplæs Alt til at flytte hurtigt i dokumentet for at høre noget igen, som lige blev læst, eller springe over tekst, som ikke er af interesse, uden at skulle genstarte Oplæs Alt.</p>
+    <p>Hvis du læser et dokument i et program, som har understøttelse af strukturel navigation, og du har tilvalgt afkrydsningsboksen <gui>Aktivér strukturel navigation i Oplæs Alt</gui>, kan du bruge de understøttede kommandoer for strukturel navigation på en tilsvarende måde: <key>H</key>/<keyseq><key>Skift</key> <key>H</key></keyseq> fortsætter med at læse fra den næste/forrige overskrift, <key>P</key>/<keyseq><key>Skift</key><key>P</key></keyseq> fortsætter med at læse fra det forrige/næste afsnit, <key>T</key>/<keyseq><key>Skift</key> <key>T</key></keyseq> fortsætter med at læse fra den forrige/næste tabel osv.</p>
+    <p>Standardværdi: fravalgt</p>
+  </section>
+  <section id="say_all_announce_context">
+    <title>Bekendtgør kontekstinformation i Oplæs Alt</title>
+    <p><app>Orca</app> kan valgfrit give mere information om indholdet i dokumentet, som oplæses, såsom at bekendtgøre når du kommer ind i og forlader blokcitater, lister, tabeller og andre beholdere. Om bekendtgørelserne foretages, kan konfigureres uafhængigt gennem følgende afkrydsningsbokse:</p>
+    <list>
+      <item><p>Bekendtgør blokcitater i Oplæs Alt</p></item>
+      <item><p>Bekendtgør formularer i Oplæs Alt</p></item>
+      <item><p>Bekendtgør kendemærker i Oplæs Alt</p></item>
+      <item><p>Bekendtgør lister i Oplæs Alt</p></item>
+      <item><p>Bekendtgør paneler i Oplæs Alt</p></item>
+      <item><p>Bekendtgør tabeller i Oplæs Alt</p></item>
+    </list>
+    <p>Standardværdi: tilvalgt</p>
+    <note style="note">
+      <p>Om <app>Orca</app> foretager bekendtgørelserne under navigation, kan også konfigureres. Du finder tilsvarende afkrydsningsbokse på siden <gui>Tale</gui>. Flere oplysninger kan findes under <link xref="preferences_speech#spoken_context">Kontekst for oplæsning</link>.</p>
+    </note>
+  </section>
+  <section id="say_all_by">
+   <info>
+      <desc>Indstilling i dialogboksen indstillinger til tilpasning af <app>Orca</app>s præsentation af Oplæs Alt.</desc>
+   </info>
+   <title>Oplæs Alt</title>
+   <p>Kombinationsboksen <gui>Oplæs Alt</gui> giver dig mulighed for at angive, om <app>Orca</app> læser en sætning ad gangen eller en linje ad gangen når “Oplæs Alt” bruges på et dokument.</p>
+    <p>Standardværdi: <gui>En sætning ad gangen</gui></p>
+  </section>
+  <section id="profiles">
+    <info>
+      <desc>Indstillinger til håndtering af indstillingsprofiler.</desc>
+    </info>
+    <title>Profiler</title>
+    <p>Gruppen af styringer kaldet <gui>Profiler</gui>, som vises nederst på siden <gui>Generelt</gui>, giver dig mulighed for at have og bruge flere konfigurationer.</p>
+   <list>
+      <item>
+        <p>Kombinationsboksen <gui>Aktive profil</gui> viser den nuværende profil og giver dig mulighed for at vælge en anden profil til indlæsning.</p>
+      </item>
+      <item>
+        <p>Knappen <gui>Indlæs</gui> får <app>Orca</app> til at indlæse den profil, som er valgt i kombinationsboksen <gui>Aktive profil</gui>.</p>
+      </item>
+      <item>
+        <p>Knappen <gui>Gem som</gui> giver dig mulighed for at gemme det nuværende sæt af indstillinger fra dialogboksen indstillinger til en navngivet profil.</p>
+      </item>
+      <item>
+        <p>Kombinationsboksen <gui>Opstartsprofil</gui> giver dig mulighed for at vælge den profil, som automatisk skal indlæses, hver gang du starter <app>Orca</app>.</p>
+      </item>
+    </list>
+  </section>
+  <section id="progress_bar_updates">
+    <title>Opdateringer af statuslinjer</title>
+    <section id="progress_bar_updates_speak">
+      <title>Oplæs opdateringer</title>
+      <p>Hvis afkrydsningsboksen <gui>Oplæs ved opdateringer</gui> er tilvalgt, oplæser <app>Orca</app> periodisk statuslinjernes status.</p>
+      <p>Standardværdi: tilvalgt</p>
+    </section>
+    <section id="progress_bar_updates_braille">
+      <title>Punktskrift ved opdateringer</title>
+      <p>Hvis afkrydsningsboksen <gui>Punktskrift ved opdateringer</gui> er tilvalgt, viser <app>Orca</app> periodisk statuslinjernes tilstand på dit dynamiske punktskriftsdisplay.</p>
+      <p>Standardværdi: fravalgt</p>
+    </section>
+    <section id="progress_bar_updates_beep">
+      <title>Bip ved opdateringer</title>
+      <p>Hvis afkrydsningsboksen <gui>Bip ved opdateringer</gui> er tilvalgt, udsender <app>Orca</app> periodisk bip, som stiger i tonehøjde, efterhånden som statuslinjens værdi stiger.</p>
+      <p>Standardværdi: fravalgt</p>
+    </section>
+    <section id="progress_bar_updates_frequency">
+      <title>Interval (sek.)</title>
+      <p>Rulleknappen afgør, hvor ofte opdateringer præsenteres.</p>
+      <p>Standardværdi: 10</p>
+    </section>
+    <section id="progress_bar_updates_restrict">
+      <title>Gælder for</title>
+      <p>Kombinationsboksen giver dig mulighed for at angive hvilke statuslinjer, der skal præsenteres, forudsat at præsentationen af opdateringer for statuslinjer er aktiveret. Valgene er <gui>Alle</gui>, <gui>Program</gui> og <gui>Vindue</gui>.</p>
+      <p>Valg af <gui>Alle</gui> gør, at <app>Orca</app> præsenterer opdateringer for alle statuslinjer uanset hvor, disse findes.</p>
+      <p>Valg af <gui>Program</gui> gør, at <app>Orca</app> præsenterer opdateringer fra statuslinjer i det aktive program, selv hvis de ikke befinder i det aktive vindue.</p>
+      <p>Valg af <gui>Vindue</gui> gør, at <app>Orca</app> kun præsenterer opdateringer for statuslinjer i det aktive vindue.</p>
+      <p>Standardværdi: <gui>Program</gui></p>
+    </section>
+  </section>
+</page>

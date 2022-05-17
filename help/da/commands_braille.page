@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_braille" xml:lang="da">
+  <info>
+    <link type="next" xref="commands_reading"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_braille"/>
+    <title type="sort">2. Punktskrift</title>
+    <title type="link">Punktskrift</title>
+    <desc>Kommandoer som kan køres på punktskriftsdisplays</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kommandoer for punktskrift</title>
+  <p>Følgende kommandoer giver dig mulighed for at styre <app>Orca</app> fra dit punktskriftsdisplay, der kan opdateres, frem for dit tastatur:</p>
+  <list>
+    <item><p>Panorér punktskriftsdisplay til venstre: Linje til venstre</p></item>
+    <item><p>Panorér punktskriftsdisplay til højre: Linje til højre</p></item>
+    <item><p>Tilstanden flad gennemgang til/fra: Frys</p></item>
+    <item><p>Gennemgå ordet ovenfor: Linje op</p></item>
+    <item><p>Gennemgå ordet nedenfor: Linje ned</p></item>
+    <item><p>Gennemgå nederst til venstre: Nederst til højre</p></item>
+    <item><p>Gennemgå begyndelsespositionen: Øverst til venstre</p></item>
+    <item><p>Forkortet punktskrift: Seks punkter</p></item>
+    <item><p>Angiver begyndelsen af en tekstmarkering: Klip begynd</p></item>
+    <item><p>Angiver slutningen af en tekstmarkering: Klip linje</p></item>
+    <item><p>Behandler en markørguidningstast: Markørguidning</p></item>
+    <item><p>Vender tilbage til objektet som har tastaturfokus: Markørposition</p></item>
+  </list>
+</page>

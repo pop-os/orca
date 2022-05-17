@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_orca_find" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_mouse_review"/>
+    <title type="sort">3. Orca Find</title>
+    <desc>Søg efter objekter i et vindue</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Orca Find</title>
+  <p>Funktionen <app>Orca</app>s Find er en søgning, som er baseret på <link xref="howto_flat_review">flad gennemgang</link>.  Dens formål er hurtigt at hjælpe dig med at finde objekter, som er synlige på skærmen i det nuværende vindue.</p>
+  <note style="tip">
+    <title>Aktivering af Orca Find</title>
+      <p>For at åbne dialogen Orca <gui>Find</gui> bruges følgende kommando baseret på det <link xref="howto_keyboard_layout">tastaturlayout</link>, du har valgt:</p>
+      <list>
+        <item>
+          <p>Stationær: <keyseq><key>NT Delete</key></keyseq></p>
+        </item>
+        <item>
+          <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>Venstre klamme</key></keyseq></p>
+        </item>
+      </list>
+      <p>Se <link xref="commands_find">Kommandoer for Orca Find</link> for at få en liste over yderligere handlinger, du kan udføre.</p>
+  </note>
+  <p>Når du aktiverer Orca Find, placeres du i en dialogboks.</p>
+  <p>Her kan du angive følgende punkter:</p>
+  <list>
+    <item>
+      <p>Teksten som skal findes</p>
+    </item>
+    <item>
+      <p>Placeringen hvorfra søgningen skal begynde, som enten kan være den nuværende placering eller øverst i vinduet</p>
+      <p>Standardværdien af <gui>Start fra</gui>: <gui>Nuværende placering</gui></p>
+    </item>
+    <item>
+      <p>Om søgningen skal skelne mellem store/små bogstaver</p>
+      <p>Standardværdien af <gui>Forskel på store/små bogstaver</gui>: fravalgt</p>
+    </item>
+    <item>
+      <p>Om matches skal begrænses til dem, som matcher hele ordet eller sætningen</p>
+      <p>Standardværdien af <gui>Søg kun efter hele ord</gui>: fravalgt</p>
+    </item>
+    <item>
+      <p>Om Find skal lede ned og/eller til højre for det næste match eller op og/eller til venstre.</p>
+      <p>Standardværdien af <gui>Søg baglæns</gui>: fravalgt</p>
+    </item>
+    <item>
+      <p>Om Find skal starte forfra øverst/nederst i vinduet, hvis der ikke findes noget match fra begyndelsesplaceringen i den retning, der søges i.</p>
+      <p>Standardværdien af <gui>Forfra når slutningen er nået</gui>: tilvalgt</p>
+    </item>
+  </list>
+  <p>Når en søgning er udført, kan du let søge efter det næste eller forrige match uden at skulle vende tilbage til dialogboksen Orca Find.</p>
+  <p>Da det er en funktion i <link xref="howto_flat_review">flad gennemgang</link>, aktiveres flad gennemgang automatisk, når findes et match. Punktet eller teksten, der matches, vil så blive det nuværende punkt til gennemgang. Bemærk, at fokus i programmet ikke ændres, og markørens placering ændres heller ikke. Hvis du har brug for gøre det, så se venligst <link xref="commands_mouse">Orcas kommandoer relaterede til mus/markør</link>.</p>
+</page>

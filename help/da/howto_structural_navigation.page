@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_structural_navigation" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_tables"/>
+    <title type="sort">3. Strukturel navigation</title>
+    <desc>Flyt mellem overskrifter eller andre elementer</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Strukturel navigation</title>
+  <p><app>Orca</app>-funktionen strukturel navigation giver dig mulighed for at navigere blandt elementer i et dokument. De typer elementer, du kan navigere, omfatter:</p>
+  <list>
+    <item><p>Overskrifter og andre tekstblokke</p></item>
+    <item><p>Formularstyringer</p></item>
+    <item><p>Links</p></item>
+    <item><p>Lister og listepunkter</p></item>
+    <item><p>Kendemærker, separatorer og ankre</p></item>
+    <item><p>Tabeller og tabelceller</p></item>
+  </list>
+  <p>En fuld liste over individuelle elementer og deres tilknyttede tastebindinger kan findes i <link xref="commands_structural_navigation">Kommandoer for strukturel navigation</link>.</p>
+  <section id="applications">
+      <title>Understøttede programmer</title>
+      <p>I øjeblikket er strukturel navigation fuldt implementeret for webindhold, herunder det hjælpeindhold, du læser nu. <app>Orca</app>s understøttelse af strukturel navigation for tabelceller er også blevet implementeret for <app>OpenOffice Writer</app> og <app>LibreOffice Writer</app>. Implementering af de resterende objekter til strukturel navigation til disse kontorpakker kræver, at der foretages ændringer af de respektive udviklere. Implementering strukturel navigation i <app>Evince</app> kræver en tilsvarende indsats fra dets udviklere.</p>
+      <note style="tip">
+        <title>Husk at slå strukturel navigation til!</title>
+        <p>Afhængig af hvor du er, kan det være nødvendigt at slå strukturel navigation til manuelt.</p>
+      </note>
+      <section id="toggling_required">
+        <title>Hvornår det er nødvendigt at slå strukturel navigation til</title>
+        <p>På websider er det generelt ikke nødvendigt at slå strukturel navigation til, da din interaktion med dokumentet i store træk består i at læse dets indhold. Så der er ikke nogen tvivl om hvorvidt det “H”, du lige trykkede på, var ment som en skrivekommando eller en navigationskommando.</p>
+        <p>Modsat, i dokumenter som kan redigeres såsom dem, der findes i <app>OpenOffice</app> og <app>LibreOffice</app>, er det langt sværere for <app>Orca</app> præcist at forudse, hvad du forventer, der skal ske, når der trykkes på “H”. Derfor skal du, inden du kan bruge nogen kommando for strukturel navigation i et dokument, som kan redigeres, først slå strukturel navigation til ved at trykke på <keyseq><key>Orca-ændringstast</key><key>Z</key></keyseq>. Når du er færdig med at navigere og er klar til at genoptage læsning, så tryk på <keyseq><key>Orca-ændringstast</key><key>Z</key></keyseq> igen for at slå strukturel navigation fra.</p>
+      </section>
+  </section>
+  <section id="settings">
+    <title>Tilgængelige indstillinger</title>
+    <p>Ud over kommandoerne nævnt ovenfor har <app>Orca</app> en række særlige indstillinger for programmer, som understøtter strukturel navigation.</p>
+    <steps>
+      <title>Konfiguration af strukturel navigation</title>
+      <item>
+        <p>Giv fokus til et program, hvortil <app>Orca</app> har understøttelse af strukturel navigation.</p>
+      </item>
+      <item>
+        <p>Kom ind i dialogboksen <link xref="preferences">Indstillinger for Orca</link> for det nuværende program ved at trykke på <keyseq> <key>Ctrl</key><key>Orca-ændringstast</key><key>Mellemrum</key> </keyseq>.</p>
+      </item>
+      <item>
+        <p>Navigér til den sidste side i dialogboksen, som bør være navngivet efter dit nuværende program.</p>
+      </item>
+      <item>
+        <p>Inspicér og ændr indstillingerne, som du synes.</p>
+      </item>
+      <item>
+        <p>Tryk på knappen <gui>OK</gui>.</p>
+      </item>
+    </steps>
+  </section>
+</page>
