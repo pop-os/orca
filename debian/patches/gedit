@@ -10,5 +10,5 @@
               'pluma': 'gedit',
 +             'org.gnome.gedit': 'gedit',
              }
- 
-         self.setActiveScript(None, "__init__")
+         self._toolkitNames = \
+             {'WebKitGTK': 'WebKitGtk'}
