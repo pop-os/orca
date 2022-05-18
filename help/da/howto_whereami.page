@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_whereami" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#reviewing"/>
+    <link type="next" xref="howto_flat_review"/>
+    <title type="sort">3. Hvor Er Jeg</title>
+    <desc>Lær om din placering</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Hvor Er Jeg</title>
+  <p>Ud over særlige kommandoer til at læse titellinjen og statuslinjen har Orca to kontekstafhængige kommandoer for Hvor Er Jeg: simpel Hvor Er Jeg og detaljeret Hvor Er Jeg. Simpel Hvor Er Jeg er implementeret til alle objekter. Detaljeret Hvor Er Jeg er implementeret netop til de objekter, hvor der er en betydelig mængde information, som du måske ønsker at vide, men sandsynligvis ikke altid ønsker at vide.</p>
+  <p>Den bedste måde til at blive bekendt med hvad Hvor Er Jeg præsenterer er ved at prøve <link xref="commands_where_am_i">kommandoer for Hvor Er Jeg</link>. Men for bedre at give dig en ide om den kontekstafhængige natur i <app>Orca</app>s Hvor Er Jeg-funktion, så betragt følgende:</p>
+  <p>For de fleste kontroller får du mindst etiketten og/eller navnet, kontrollens type eller rolle og genvejstasten og/eller tastaturgenvejstasten at vide, hvis de findes. Derudover:</p>
+  <list>
+    <item>
+      <p>Hvis kontrollen er tekst, og du udfører en simpel Hvor Er Jeg, så får du den nuværende linje at vide, hvis der ikke er markeret noget tekst. Men hvis der er markeret tekst, så vil en simpel Hvor Er Jeg fortælle dig hvilken tekst, der er markeret. En detaljeret Hvor Er Jeg i teksten omfatter også tekstattributterne.</p>
+    </item>
+    <item>
+      <p>Hvis kontrollen kan tilvælges, som det er tilfældet med afkrydsningsbokse og radioknapper, så medtages tilvalgstilstanden.</p>
+    </item>
+    <item>
+      <p>Hvis kontrollen er en liste eller et listelignende objekt såsom en kombinationsboks, gruppe af radioknapper eller liste med faneblade til sider, så medtages placeringen af det nuværende punkt.</p>
+    </item>
+    <item>
+      <p>Hvis kontrollen er hierarkisk såsom et træ, og du er på en knude, som kan udfoldes, så får du at vide, om knuden er udfoldet eller ej. Hvis den er udfoldet, får du også at vide hvor mange underpunkter, den indeholder. Derudover angives indlejringsniveauet også.</p>
+    </item>
+    <item>
+      <p>Hvis kontrollen er en statuslinje eller en skyder, får du den nuværende procentdel at vide.</p>
+    </item>
+    <item>
+      <p>Hvis kontrollen er et ikon i en gruppe af ikoner, vil en simpel Hvor Er Jeg medtage det objekt du er i, det punkt du er på samt antallet af punkter, som er valgt. I en detaljeret Hvor Er Jeg vil du også få at vide hvilke punkter, som er valgt.</p>
+    </item>
+    <item>
+      <p>Hvis du er på et link, medtages linkets type (samme websted, andet websted, FTP-link, osv.).</p>
+    </item>
+    <item>
+      <p>Hvis du er i en tabelcelle, medtages cellens og celleoverskrifternes koordinater.</p>
+    </item>
+    <item>
+      <p>Hvis du er i stavekontrollen i et program, hvor <app>Orca</app> har forbedret understøttelse, så gentager en simpel Hvor Er Jeg fejlen, mens dine <link xref="preferences_spellcheck">indstillinger for stavekontrol</link> respekteres. En detaljeret Hvor Er Jeg får <app>Orca</app> til at præsentere fejlens fulde detaljer.</p>
+    </item>
+  </list>
+  <p>Osv. Igen er målet i <app>Orca</app>s Hvor Er Jeg at give dig de detaljer, du mest sandsynligt er interesseret i at vide om det objekt, du i øjeblikket er i. Se også listen over <link xref="commands_where_am_i">Kommandoer for Hvor Er Jeg</link>.</p>
+</page>

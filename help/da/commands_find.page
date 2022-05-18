@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_find" xml:lang="da">
+  <info>
+    <link type="next" xref="commands_mouse"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_orca_find"/>
+    <title type="sort">2. Orca Find</title>
+    <title type="link">Orca Find</title>
+    <desc>Kommandoer til at søge i indholdet i vinduet</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kommandoer for Orca Find</title>
+  <p><app>Orca</app>s <link xref="howto_orca_find">Find-funktion</link> giver dig mulighed for at søge i <link xref="howto_flat_review">flad gennemgang</link>-konteksten efter elementer i det nuværende vindue.</p>
+  <list>
+    <item>
+      <p>Åbn dialogen <app>Orca</app> Find:</p>
+      <list>
+        <item>
+          <p>Stationær: <keyseq><key>NT Delete</key></keyseq></p>
+        </item>
+        <item>
+          <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>Venstre klamme</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Flyt flad gennemgang til den næste forekomst af en streng:</p>
+      <list>
+        <item>
+          <p>Stationær: <keyseq><key>Orca-ændringstast</key><key>NT Delete</key></keyseq></p>
+        </item>
+        <item>
+          <p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>Højre klamme</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Flyt flad gennemgang til den forrige forekomst af en streng:</p>
+      <list>
+        <item>
+          <p>Stationær: <keyseq> <key>Orca-ændringstast</key><key>Skift</key><key>NT Delete</key> </keyseq></p>
+        </item>
+        <item>
+          <p>Bærbar: <keyseq> <key>Orca-ændringstast</key><key>Ctrl</key><key>Højre klamme</key> </keyseq></p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

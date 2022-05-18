@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_text_attributes" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_structural_navigation"/>
+    <title type="sort">2. Tekstattributter</title>
+    <desc>Inspicér tekstformatering</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Tekstattributter</title>
+  <p>Begrebet “tekstattributter” refererer til al information vedrørende skrifttype, stil, justering og anden formatering, som er tilknyttet et givent tegn eller en serie af tegn.</p>
+  <section id="obtaining">
+    <title>Få information om formatering</title>
+    <p>Når du trykker på <keyseq><key>Orca-ændringstast</key><key>F</key> </keyseq>, bekendtgør <app>Orca</app> et objekts tekstattributter. Derudover vil <app>Orca</app> valgfrit angive tekstattributter i punktskrift ved at “understrege” dem efterhånden, som du navigerer et dokument.</p>
+    <p>Da antallet af tekstattributter er stort, og alle ikke er interesserede i hver attribut, giver <link xref="preferences_text_attributes">siden Tekstattributter i indstillingsdialogen</link> dig mulighed for at tilpasse hvilke tekstattributter, <app>Orca</app> præsenterer i tale, sammen med den rækkefølge, de skal præsenteres i, og hvilke af dem <app>Orca</app> angiver i punktskrift.</p>
+    <p>Da <link xref="preferences_text_attributes">siden Tekstattributter</link> også er del af de programspecifikke indstillinger, kan du tilpasse præsentation for tekstattributter efter behov til hvert program, du bruger.</p>
+  </section>
+  <section id="identifying_misspelled_words">
+    <title>Find stavefejl</title>
+    <p>De fleste programmer og værktøjer angiver stavefejl ved at understrege ord med rød bølgelinje. Tilstedeværelsen af denne linje gøres typisk tilgængelig for assisterende teknologier som en tekstattribut. Derfor finder du stavefejl blandt de tekstattributter, du kan vælge. Attributten stavefejl er som standard aktiveret for både tale og punktskrift, og præsenteres derfor sammen med andre attributter, der er aktiveret på tilsvarende vis.</p>
+    <p>Foruden angivelse af stavefejl som tekstattribut, vil <app>Orca</app> med tasteekko og/eller ordekko aktiveret bekendtgøre “stavet forkert” så snart, et ord staves forkert. Dermed kan du straks gå tilbage og rette fejlen.</p>
+    <p>Til slut, når du navigerer i et dokument og markøren flyttes ind i et ord, som er stavet forkert, så bekendtgør <app>Orca</app> stavefejlen.</p>
+  </section>
+</page>

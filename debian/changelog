@@ -1,3 +1,27 @@
+orca (42.1-1ubuntu1) UNRELEASED; urgency=medium
+
+  * Merge with Debian (LP: #1971076). Remaining changes:
+    + debian/patches/unity-a11y.patch: add hacks to better work with Unity
+    + Revert "control: Add xkbset dependency (Closes #972621)" This is in
+      universe in Ubuntu so we can't depend on it. It's silently skipped if
+      not available.
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Fri, 25 Mar 2022 11:08:11 -0400
+
+orca (42.1-1) unstable; urgency=medium
+
+  [ Samuel Thibault ]
+  * New upstream release.
+  * control: Drop gnome-orca transition package, fixed since stretch.
+    - orca.install: drop etc and usr, already installed.
+
+  [ Debian Janitor ]
+  * Bump debhelper from old 12 to 13.
+    + debian/rules: Drop --fail-missing argument to dh_missing, which is now the
+      default.
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 18 May 2022 00:55:57 +0200
+
 orca (42.0-1ubuntu1) jammy; urgency=medium
 
   * Merge with Debian. Remaining changes:

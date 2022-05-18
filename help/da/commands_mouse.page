@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_mouse" xml:lang="da">
+  <info>
+    <link type="next" xref="commands_bookmarks"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <title type="sort">3. Relaterede til mus/markør</title>
+    <title type="link">Relaterede til mus/markør</title>
+    <link type="seealso" xref="howto_flat_review"/>
+    <link type="seealso" xref="howto_mouse_review"/>
+    <desc>Kommandoer til at styre markøren</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Kommandoer relaterede til mus/markør</title>
+  <p><app>Orca</app> har adskillige kommandoer, som kan bruges til at styre musemarkøren og læse det indhold, som er under den. Alle kommandoerne er “bundet” til tastetryk undtagen én: Tilstanden Musegennemgang til/fra. Se venligst <link xref="howto_key_bindings">Ændring af tastebindinger</link> for information om hvordan, kommandoen bindes til et tastetryk.</p>
+  <note style="tip">
+    <p>Nedenfor ser du adskillige referencer til “NT”. “NT”-tasterne findes på det numeriske tastatur. Du vil også bemærke, at der er forskellige tastetryk afhængigt af, om du bruger en stationær eller en bærbar computer, eller mere præcist, om du bruger <app>Orca</app>s stationærtastaturlayout eller bærbartastaturlayout. Se venligst emnet <link xref="howto_keyboard_layout">Tastaturlayout</link> for yderligere information.</p>
+  </note>
+  <list>
+    <item>
+      <p>Venstreklik på nuværende punkt:</p>
+      <list>
+        <item><p>Stationær: <keyseq><key>NT Division</key></keyseq></p></item>
+        <item><p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>7</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Højreklik på nuværende punkt:</p>
+      <list>
+        <item><p>Stationær: <keyseq><key>NT Multiplikation</key></keyseq></p></item>
+        <item><p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>8</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Guid markør til nuværende punkt:</p>
+      <list>
+        <item><p>Stationær: <keyseq><key>Orca-ændringstast</key><key>NT Division</key></keyseq></p></item>
+        <item><p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>9</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Flyt fokus ind i eller væk fra det, som musen på nuværende tidspunkt er over (kun web):</p>
+      <list>
+        <item><p>Stationær: <keyseq><key>Orca-ændringstast</key><key>NT Multiplikation</key></keyseq></p></item>
+        <item><p>Bærbar: <keyseq><key>Orca-ændringstast</key><key>0</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Aktivér/deaktivér tilstanden musegennemgang: (Ubundet)</p>
+    </item>
+  </list>
+</page>

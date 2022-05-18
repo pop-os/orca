@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_forms" xml:lang="da">
+  <info>
+    <link type="guide" xref="index#reading"/>
+     <link type="next" xref="howto_live_regions"/>
+    <title type="sort">5. Udfyldning af formularer</title>
+    <desc>Få adgang til kontroller, der er indlejret i dokumenter</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Udfyldning af formularer</title>
+  <p>Når <app>Orca</app> bruges til at interagere med websider og andre dokumenter, interagerer du med selve dokumentet; ikke en kopi af dokumentet fra en buffer. <app>Orca</app>s gennemsyns- og fokustilstande lader dig skifte mellem læsning og udfyldning af formularer.</p>
+  <section id="navigating_amongst_form_fields">
+    <title>Navigation blandt formularfelter</title>
+    <p>Der er flere valgmuligheder til navigering blandt formularfelter:</p>
+    <list>
+      <item>
+        <p>Brug <key>Tabulator</key> og <keyseq><key>Skift</key><key>Tabulator</key></keyseq> til at navigere blandt objekter, som kan modtage fokus, uanset type.</p>
+      </item>
+      <item>
+        <p>Brug <app>Orca</app>s <link xref="commands_structural_navigation#forms"> Kommandoer for strukturel navigation til formularer</link>.</p>
+      </item>
+      <item>
+        <p>Afhængig af formularen og programmet, kan du også bruge piletasterne til at navigere til et givent formularfelt.</p>
+      </item>
+   </list>
+   <note style="tip">
+     <p>For at bruge <app>Orca</app>s kommandoer for markørnavigation eller strukturel navigation til at navigere til et formularfelt, skal du være i gennemsynstilstand. Hvis du er i fokustilstand, kan du skifte til gennemsynstilstand ved at trykke på <keyseq><key>Orca-ændringstast</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+  <section id="exiting_form_fields">
+    <title>Forlad formularfelter</title>
+    <p>For at forlade et formularfelt har du flere valgmuligheder:</p>
+    <list>
+      <item>
+        <p>Brug <key>Tabulator</key>/<keyseq><key>Skift</key><key>Tabulator</key></keyseq> hvis du ønsker at forlade det formularfelt, som i øjeblikket har fokus, og flytte til det næste/forrige objekt, som kan modtage fokus, uanset type.</p>
+      </item>
+      <item>
+        <p>Brug <app>Orca</app>s <link xref="commands_structural_navigation#forms"> Kommandoer for strukturel navigation til formularer</link> til at flytte til det næste eller forrige felt.</p>
+      </item>
+      <item>
+        <p>Afhængig af formularen og programmet, kan du også bruge piletasterne til at navigere ud af et givent formularfelt.</p>
+      </item>
+    </list>
+   <note style="tip">
+     <p>For at bruge <app>Orca</app>s kommandoer for markørnavigation eller strukturel navigation til at forlade et formularfelt, skal du være i gennemsynstilstand. Hvis du er i fokustilstand, kan du skifte til gennemsynstilstand ved at trykke på <keyseq><key>Orca-ændringstast</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+</page>

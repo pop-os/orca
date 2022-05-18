@@ -8,8 +8,8 @@ Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 XSBC-Original-Maintainer: Debian Accessibility Team <pkg-a11y-devel@alioth-lists.debian.net>
 Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>,
-           Samuel Thibault <sthibault@debian.org>, Jeremy Bicha <jbicha@debian.org>, Jordi Mallach <jordi@debian.org>, Michael Biebl <biebl@debian.org>
-Build-Depends: debhelper-compat (= 12),
+           Samuel Thibault <sthibault@debian.org>, Jordi Mallach <jordi@debian.org>, Josselin Mouette <joss@debian.org>, Michael Biebl <biebl@debian.org>
+Build-Depends: debhelper-compat (= 13),
                dh-python,
                gnome-pkg-tools,
                gettext,
@@ -63,16 +63,3 @@ Description: Scriptable screen reader
  and key bindings, and the application specific ones. Orca provides the
  infrastructure to activate and deactivate scripts, as well as a host of
  services accessible from within the scripts.
-
-Package: gnome-orca
-Architecture: all
-Section: oldlibs
-Depends: ${misc:Depends},
-         orca
-Description: Scriptable screen reader - transitional package
- A flexible, extensible, and powerful assistive technology that
- provides end-user access to applications and toolkits that support the
- AT-SPI (e.g., the GNOME desktop).
- .
- This package is here to ensure smooth upgrades. It can be removed when
- you see fit.

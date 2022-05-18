@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_chat" xml:lang="da">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <link type="next" xref="preferences_spellcheck"/>
+    <title type="sort">3. Chat</title>
+    <title type="link">Chat</title>
+    <desc>Konfiguration af <app>Orca</app>s understøttelse af IM og IRC</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Deling på samme vilkår 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>scootergrisen</mal:name>
+      <mal:email/>
+      <mal:years>2020-2022&lt;</mal:years>
+    </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Ask Hjorth Larsen</mal:name>
+      <mal:email>asklarsen@gmail.com</mal:email>
+      <mal:years>2022</mal:years>
+    </mal:credit>
+  </info>
+  <title>Indstillinger for chat</title>
+  <p>Følgende indstillinger giver dig mulighed for at tilpasse den måde, <app>Orca</app> opfører sig på, når der gives adgang til straksbesked- og internet relay chat-klienter.</p>
+  <section id="speak_name">
+    <title>Oplæs navnet på chatrummet</title>
+    <p>Hvis afkrydsningsboksen er tilvalgt, indleder <app>Orca</app> indgående meddelelser med navnet på det rum eller den ven, de kommer fra, medmindre de kommer fra den samtale, som i øjeblikket har fokus.</p>
+    <p>Standardværdi: fravalgt</p>
+  </section>
+  <section id="announce_typing">
+    <title>Bekendtgør, når dine venner skriver</title>
+    <p>Hvis afkrydsningsboksen er tilvalgt, og <app>Orca</app> har tilstrækkelig information til at se, at din ven skriver, så bekendtgør <app>Orca</app> ændringer i skrivestatus.</p>
+    <p>Standardværdi: fravalgt</p>
+  </section>
+  <section id="message_histories">
+    <title>Giv meddelelseshistorik, som er chatrumsspecifik</title>
+    <p>Hvis afkrydsningsboksen er tilvalgt, gælder <app>Orca</app>s kommandoer til gennemgang af seneste meddelelser kun for den samtale, som i øjeblikket har fokus. Ellers vil historikken indeholde de nyeste meddelelser uanset hvilken samtale, de kom fra.</p>
+    <p>Standardværdi: fravalgt</p>
+  </section>
+  <section id="speak_messages_from">
+    <title>Oplæs meddelelser fra</title>
+    <p>Denne gruppe af radioknapper giver dig mulighed for at bestemme hvornår, <app>Orca</app> præsenterer en indgående meddelelse til dig. Dine valg er:</p>
+    <list>
+      <item>
+        <p><gui>Alle kanaler</gui></p>
+      </item>
+      <item>
+        <p><gui>Kun én kanal, hvis dens vindue er aktivt</gui></p>
+      </item>
+      <item>
+        <p><gui>Alle kanaler, når et vilkårligt chatvindue er aktivt</gui></p>
+      </item>
+    </list>
+    <p>Standardværdi: alle kanaler</p>
+  </section>
+</page>
