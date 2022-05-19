@@ -1,4 +1,4 @@
-orca (42.1-2) unstable; urgency=medium
+orca (42.1-2) unstable; urgency=high
 
   * debian/patches/git-webkitgtk2: Fix screen reading of webkitgtk 2.36 which
     doesn't implement Collection any more.
