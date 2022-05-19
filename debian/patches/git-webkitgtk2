@@ -1,0 +1,43 @@
+commit e9d8a3e5faa71531a615002dc37bcfda12d15abb
+Author: Joanmarie Diggs <jdiggs@igalia.com>
+Date:   Tue May 17 14:14:09 2022 +0200
+
+    Structural Navigation: Handle unimplemented collection interface error
+    
+    The collection interface is something applications and toolkits get
+    "for free" from AT-SPI2. However, applications/toolkits that provide
+    their own implementation of AT-SPI2 (e.g. WebKitGtk) presumably need
+    to also implement AtspiCollection themselves, or do something so that
+    the default AT-SPI2 implementation is used. Currently, in WebKitGtk
+    version 2.36, a non-implemented error occurs when querying the
+    collection interface on the document. We were not handling this error,
+    causing Orca to be silent when structural navigation commands were
+    used. This commit handles the error. It cannot solve the missing
+    implementation, however. Thus in WebKitGtk apps,  Orca will now announce
+    things like "no more headings" when there are in fact headings present.
+    
+    See issue #244
+
+diff --git a/src/orca/structural_navigation.py b/src/orca/structural_navigation.py
+index 676efc808..920e03e71 100644
+--- a/src/orca/structural_navigation.py
++++ b/src/orca/structural_navigation.py
+@@ -868,7 +868,17 @@ class StructuralNavigation:
+         if matches:
+             return matches.copy(), criteria
+ 
+-        col = document.queryCollection()
++        try:
++            col = document.queryCollection()
++        except NotImplementedError:
++            msg = "STRUCTURAL NAVIGATION: %s does not implement collection" % document
++            debug.println(debug.LEVEL_INFO, msg, True)
++            return [], None
++        except:
++            msg = "STRUCTURAL NAVIGATION: Exception querying collection on %s" % document
++            debug.println(debug.LEVEL_INFO, msg, True)
++            return [], None
++
+         criteria = structuralNavigationObject.criteria(col, arg)
+         rule = col.createMatchRule(criteria.states.raw(),
+                                    criteria.matchStates,
