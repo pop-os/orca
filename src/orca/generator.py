@@ -28,6 +28,7 @@ __copyright__ = "Copyright (c) 2009 Sun Microsystems Inc." \
 __license__   = "LGPL"
 
 import pyatspi
+import re
 import sys
 import time
 import traceback
@@ -242,8 +243,10 @@ class Generator:
                 (self._mode.upper(), args.get('formatType'), obj, args.get('role'))
             debug.println(debug.LEVEL_INFO, msg, True)
 
-            # Reset 'usedDescriptionForName' if a previous generator used it.
+            # Reset 'usedDescriptionFor*' if a previous generator used it.
             self._script.pointOfReference['usedDescriptionForName'] = False
+            self._script.pointOfReference['usedDescriptionForUnrelatedLabels'] = False
+            self._script.pointOfReference['usedDescriptionForAlert'] = False
 
             debuginfo = lambda x: self._resultElementToString(x, False)
             assert(formatting)
@@ -397,12 +400,26 @@ class Generator:
             descendant = self._script.utilities.realActiveDescendant(obj)
             name = self._generateName(descendant)
 
+        # If we don't have a label, always use the name.
+        if not label:
+            return name
+
         result.extend(label)
-        if not len(label):
-            result.extend(name)
-        elif len(name) and name[0].split() != label[0].split() \
-             and not label[0].startswith(name[0]):
-            result.extend(name)
+        if not name:
+            return result
+
+        # Try to eliminate names which are redundant to the label.
+        # Convert all non-alphanumeric characters to space and get the words.
+        nameWords = re.sub(r"[\W_]", " ", name[0]).split()
+        labelWords = re.sub(r"[\W_]", " ", label[0]).split()
+
+        # If all of the words in the name are in the label, the name is redundant.
+        if set(nameWords).issubset(set(labelWords)):
+            msg = "GENERATOR: name '%s' is redundant to label '%s'" % (name[0], label[0])
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return result
+
+        result.extend(name)
         return result
 
     def _generateLabelOrName(self, obj, **args):
@@ -416,6 +433,18 @@ class Generator:
 
         return result
 
+    def _generateUnrelatedLabelsOrDescription(self, obj, **args):
+        result = self._generateUnrelatedLabels(obj, **args)
+        if result:
+            self._script.pointOfReference['usedDescriptionForUnrelatedLabels'] = False
+            return result
+
+        result = self._generateDescription(obj, **args)
+        if result:
+            self._script.pointOfReference['usedDescriptionForUnrelatedLabels'] = True
+
+        return result
+
     def _generateDescription(self, obj, **args):
         """Returns an array of strings fo use by speech and braille that
         represent the description of the object, if that description
@@ -423,6 +452,12 @@ class Generator:
         """
 
         if self._script.pointOfReference.get('usedDescriptionForName'):
+            return []
+
+        if self._script.pointOfReference.get('usedDescriptionForAlert'):
+            return []
+
+        if self._script.pointOfReference.get('usedDescriptionForUnrelatedLabels'):
             return []
 
         role = args.get('role', obj.getRole())
@@ -475,6 +510,9 @@ class Generator:
         """Returns an array of strings that represent a status bar."""
 
         return self._generateStatusBar(obj, **args)
+
+    def _generateTermValueCount(self, obj, **args):
+        return []
 
     #####################################################################
     #                                                                   #
@@ -931,7 +969,8 @@ class Generator:
         rows, cols = self._script.utilities.rowAndColumnCount(obj)
 
         # This suggests broken or missing table interface.
-        if rows < 0 or cols < 0:
+        if (rows < 0 or cols < 0) \
+           and not self._script.utilities.rowOrColumnCountUnknown(obj):
             return []
 
         # This can happen if an author uses ARIA incorrectly, e.g. a grid whose
@@ -1304,6 +1343,10 @@ class Generator:
             return pyatspi.ROLE_DESCRIPTION_TERM
         if self._script.utilities.isDescriptionListDescription(obj):
             return pyatspi.ROLE_DESCRIPTION_VALUE
+        if self._script.utilities.isFeedArticle(obj):
+            return 'ROLE_ARTICLE_IN_FEED'
+        if self._script.utilities.isFeed(obj):
+            return 'ROLE_FEED'
         if self._script.utilities.isLandmark(obj):
             if self._script.utilities.isLandmarkRegion(obj):
                 return 'ROLE_REGION'

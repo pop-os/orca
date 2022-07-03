@@ -43,6 +43,41 @@ M	src/orca/speech_generator.py
 
 M	src/orca/scripts/web/speech_generator.py
 
+2022-06-25 18:31:24 +0000 Aleksandr Melman <Alexmelman88@gmail.com>
+
+        Update Russian translation
+
+M	po/ru.po
+
+2022-06-22 16:59:08 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Handle description lists with extra stuff in the accessibility tree
+
+M	src/orca/script_utilities.py
+
+2022-06-22 16:36:02 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Support presentation of child position for description list values
+
+M	src/orca/formatting.py
+M	src/orca/script_utilities.py
+M	src/orca/scripts/toolkits/Chromium/script_utilities.py
+
+2022-06-22 15:42:49 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Support presentation of child position for description list terms
+
+M	src/orca/formatting.py
+M	src/orca/script_utilities.py
+M	src/orca/scripts/web/script_utilities.py
+M	src/orca/scripts/web/speech_generator.py
+
+2022-06-22 13:38:00 +0000 Hugo Carvalho <hugokarvalho@hotmail.com>
+
+        Update Portuguese translation
+
+M	po/pt.po
+
 2022-06-22 11:57:57 +0200 Joanmarie Diggs <jdiggs@igalia.com>
 
         Web: Eliminate chattiness from newly-expanded/shown listbox
@@ -50,11 +85,127 @@ M	src/orca/scripts/web/speech_generator.py
 M	src/orca/scripts/web/speech_generator.py
 M	src/orca/speech_generator.py
 
+2022-06-22 11:51:55 +0200 Daniel Mustieles <daniel.mustieles@gmail.com>
+
+        Updated Spanish translation
+
+M	po/es.po
+
+2022-06-22 06:02:04 +0000 Yuri Chornoivan <yurchor@ukr.net>
+
+        Update Ukrainian translation
+
+M	po/uk.po
+
+2022-06-22 05:33:59 +0000 Zurab Kargareteli <zuraxt@gmail.com>
+
+        Add Georgian translation
+
+M	po/LINGUAS
+A	po/ka.po
+
+2022-06-21 20:54:08 +0000 Anders Jonsson <anders.jonsson@norsjovallen.se>
+
+        Update Swedish translation
+
+M	po/sv.po
+
+2022-06-21 17:31:35 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Improve presentation of articles in feeds
+
+M	src/orca/formatting.py
+M	src/orca/generator.py
+M	src/orca/messages.py
+M	src/orca/script_utilities.py
+M	src/orca/scripts/web/script.py
+M	src/orca/scripts/web/script_utilities.py
+M	src/orca/scripts/web/speech_generator.py
+M	src/orca/speech_generator.py
+
+2022-06-21 06:38:33 +0000 Yuri Chornoivan <yurchor@ukr.net>
+
+        Update Ukrainian translation
+
+M	po/uk.po
+
+2022-06-20 21:10:32 +0000 Hugo Carvalho <hugokarvalho@hotmail.com>
+
+        Update Portuguese translation
+
+M	po/pt.po
+
+2022-06-20 21:59:58 +0300 Aurimas Černius <aurisc4@gmail.com>
+
+        Updated Lithuanian translation
+
+M	po/lt.po
+
+2022-06-20 18:44:54 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Don't depend on browser exposure of both rowindex and colindex
+
+M	src/orca/scripts/web/script_utilities.py
+
+2022-06-20 17:32:13 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Improve presentation of unknown setsize and row/column count
+
+M	src/orca/formatting.py
+M	src/orca/generator.py
+M	src/orca/messages.py
+M	src/orca/object_properties.py
+M	src/orca/script_utilities.py
+M	src/orca/scripts/web/script_utilities.py
+M	src/orca/scripts/web/speech_generator.py
+
+2022-06-19 16:57:14 +0000 Anders Jonsson <anders.jonsson@norsjovallen.se>
+
+        Update Swedish translation
+
+M	po/sv.po
+
+2022-06-18 21:24:58 +0000 Aleksandr Melman <Alexmelman88@gmail.com>
+
+        Update Russian translation
+
+M	po/ru.po
+
+2022-06-17 17:54:56 +0000 Yuri Chornoivan <yurchor@ukr.net>
+
+        Update Ukrainian translation
+
+M	po/uk.po
+
 2022-06-17 18:07:38 +0200 Joanmarie Diggs <jdiggs@igalia.com>
 
         Add null check for description-list role methods
 
 M	src/orca/script_utilities.py
+
+2022-06-17 15:49:35 +0000 Michael Weghorn <m.weghorn@posteo.de>
+
+        Consider alerts as dialogs in 'frameAndDialog'
+
+M	src/orca/script_utilities.py
+
+2022-06-17 17:40:05 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Present the number of values present for a given dl term
+
+M	src/orca/braille_generator.py
+M	src/orca/formatting.py
+M	src/orca/generator.py
+M	src/orca/messages.py
+M	src/orca/script_utilities.py
+M	src/orca/speech_generator.py
+
+2022-06-17 16:39:37 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Add new message for entering a description list
+
+M	src/orca/messages.py
+M	src/orca/scripts/web/speech_generator.py
 
 2022-06-17 15:28:02 +0200 Joanmarie Diggs <jdiggs@igalia.com>
 
@@ -73,11 +224,36 @@ M	src/orca/speech_generator.py
 
 M	src/orca/scripts/web/speech_generator.py
 
+2022-06-01 12:29:58 +0000 Danial Behzadi <dani.behzi@ubuntu.com>
+
+        Update Persian translation
+
+M	po/fa.po
+
 2022-05-19 07:49:37 +0000 Pawan Chitrakar <chautari@gmail.com>
 
         Update Nepali translation
 
 M	po/ne.po
+
+2022-05-17 17:13:17 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Script+Event Managers: Take active window into account for mouse button events
+
+M	src/orca/event_manager.py
+M	src/orca/script_manager.py
+
+2022-05-17 16:21:06 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Event Manager: Process mouse button events asynchronously
+
+M	src/orca/event_manager.py
+
+2022-05-17 16:12:38 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Don't depend on mouse release being emitted prior to caret-moved event
+
+M	src/orca/scripts/default.py
 
 2022-05-17 14:14:09 +0200 Joanmarie Diggs <jdiggs@igalia.com>
 
@@ -85,31 +261,33 @@ M	po/ne.po
 
 M	src/orca/structural_navigation.py
 
-2022-05-17 13:18:34 +0200 Joanmarie Diggs <jdiggs@igalia.com>
-
-        Post-release version bump
-
-M	README.md
-M	configure.ac
-
-2022-05-17 13:12:11 +0200 Joanmarie Diggs <jdiggs@igalia.com>
-
-        Prep for 42.1 release
-
-M	NEWS
-
-2022-04-20 13:59:36 +0200 Joanmarie Diggs <jdiggs@igalia.com>
-
-        Web: Don't attempt to infer labels for ARIA widgets
-
-M	src/orca/scripts/web/script_utilities.py
-
 2022-05-17 12:21:11 +0200 Joanmarie Diggs <jdiggs@igalia.com>
 
         Handle WebKitGtk's change in toolkit name casing
 
 M	src/orca/script_manager.py
 M	src/orca/scripts/toolkits/WebKitGtk/script_utilities.py
+
+2022-05-13 13:57:38 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Prevent double-presentation of description when used static text
+
+M	src/orca/formatting.py
+M	src/orca/generator.py
+M	src/orca/speech_generator.py
+
+2022-05-02 16:45:21 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Improve behavior when "activating" an element in the nav list
+
+M	src/orca/orca_gui_navlist.py
+
+2022-05-02 15:29:10 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Improve recovery related to locusOfFocus destruction
+
+M	src/orca/script_utilities.py
+M	src/orca/scripts/web/script_utilities.py
 
 2022-05-02 14:25:15 +0200 Joanmarie Diggs <jdiggs@igalia.com>
 
@@ -129,35 +307,205 @@ M	src/orca/scripts/web/script_utilities.py
 
 M	src/orca/scripts/web/script_utilities.py
 
+2022-04-27 10:56:14 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        gnome-shell: fix regression related to not saying "window"
+
+M	src/orca/scripts/apps/gnome-shell/script.py
+
+2022-04-25 16:44:54 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Include focusable elements with clickancestor action as clickable
+
+M	src/orca/scripts/web/script_utilities.py
+
+2022-04-25 17:37:27 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Remove the not-focusable requirement for clickables in collection match rule
+
+M	src/orca/structural_navigation.py
+
+2022-04-25 17:14:32 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Fix (unused) predicate for link matches in structural navigation
+
+M	src/orca/structural_navigation.py
+
+2022-04-25 16:42:00 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Debugging: Include actions in the object info
+
+M	src/orca/debug.py
+
+2022-04-25 15:15:00 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Stop using obsolete macros in configure.ac
+
+M	configure.ac
+
+2022-04-25 12:43:00 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Make sure we have an event before checking its type
+
+M	src/orca/scripts/apps/gnome-shell/script.py
+
+2022-04-21 14:30:12 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Event manager: Ignore children-changed when the child is a menu item
+
+M	src/orca/event_manager.py
+
+2022-04-21 14:18:24 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Event manager: Ignore selected-changed false on push buttons
+
+M	src/orca/event_manager.py
+
+2022-04-21 13:05:02 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Event manager: Ignore state-showing true from nameless panels
+
+M	src/orca/event_manager.py
+
+2022-04-21 12:55:56 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Event manager: Ignore state-showing false from panels
+
+M	src/orca/event_manager.py
+
+2022-04-21 12:37:14 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Event manager: Ignore state-changed:sensitive from inactive apps
+
+M	src/orca/event_manager.py
+
+2022-04-21 12:27:50 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Event manager: prune events from dead objects during flood
+
+M	src/orca/event_manager.py
+
+2022-04-20 18:03:24 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        gnome-shell: don't announce nameless window if we have pending focus event
+
+M	src/orca/scripts/apps/gnome-shell/script.py
+
+2022-04-20 15:23:58 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Don't speak contents if new focus has died and focus event queued
+
+M	src/orca/scripts/web/script.py
+
+2022-04-20 15:07:28 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Add ability for scripts to check if there's a pending event
+
+M	src/orca/script.py
+
+2022-04-20 14:23:15 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Don't repeat posinset when a list item is split into chunks
+
+M	src/orca/scripts/web/speech_generator.py
+
+2022-04-20 13:59:36 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Don't attempt to infer labels for ARIA widgets
+
+M	src/orca/scripts/web/script_utilities.py
+
+2022-04-20 13:28:59 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Handle text insertion events preceding focus events for entries
+
+M	src/orca/orca.py
+M	src/orca/scripts/web/script.py
+
 2022-04-20 12:13:13 +0200 Joanmarie Diggs <jdiggs@igalia.com>
 
         Fix KeyError resulting from existing "string" argument
 
 M	src/orca/speech_generator.py
 
-2022-04-18 17:00:19 +0200 Ask Hjorth Larsen <asklarsen@gmail.com>
+2022-04-18 16:58:39 +0200 Ask Hjorth Larsen <asklarsen@gmail.com>
 
         Updated Danish translation
 
 A	help/da/da.po
 
-2022-04-18 17:00:19 +0200 Ask Hjorth Larsen <asklarsen@gmail.com>
+2022-04-18 16:58:39 +0200 Ask Hjorth Larsen <asklarsen@gmail.com>
 
         add da to LINGUAS
 
 M	help/Makefile.am
 
-2022-04-18 16:52:57 +0200 Ask Hjorth Larsen <asklarsen@gmail.com>
+2022-04-18 16:53:20 +0200 Ask Hjorth Larsen <asklarsen@gmail.com>
 
         Updated Danish translation
 
 M	po/da.po
+
+2022-04-12 18:26:18 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Improve recovery from destroyed focused entry
+
+M	src/orca/scripts/web/script.py
+
+2022-04-12 17:55:05 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Ignore text selection changes in entries preceding focus/caret-moved
+
+M	src/orca/scripts/web/script.py
+
+2022-04-12 17:52:06 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Handle dead start object in _getSubtree
+
+M	src/orca/script_utilities.py
+
+2022-04-12 14:07:23 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Filter out redundant described-by targets
+
+M	src/orca/script_utilities.py
+
+2022-04-12 12:32:21 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Improve logic to filter redundant names
+
+M	src/orca/generator.py
+
+2022-04-01 14:20:16 +0200 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Don't treat expandable links as focus-mode widgets
+
+M	src/orca/scripts/web/script_utilities.py
 
 2022-03-25 09:46:39 +0000 Nathan Follens <nfollens@gnome.org>
 
         Update Dutch translation
 
 M	po/nl.po
+
+2022-03-24 12:46:27 +0100 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Web: Eliminate some chattiness from ARIA page tabs
+
+M	src/orca/scripts/default.py
+
+2022-03-23 17:12:06 +0100 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Eliminate some chattiness from text insertions
+
+M	src/orca/script_utilities.py
+
+2022-03-23 13:56:43 +0100 Joanmarie Diggs <jdiggs@igalia.com>
+
+        Post-branch version bump
+
+M	README.md
+M	configure.ac
 
 2022-03-22 17:13:49 +0100 Joanmarie Diggs <jdiggs@igalia.com>
 

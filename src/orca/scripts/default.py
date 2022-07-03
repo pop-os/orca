@@ -845,6 +845,8 @@ class Script(script.Script):
             hash(obj), state.contains(pyatspi.STATE_CHECKED)
         self.pointOfReference['selectedChange'] = \
             hash(obj), state.contains(pyatspi.STATE_SELECTED)
+        self.pointOfReference['expandedChange'] = \
+            hash(obj), state.contains(pyatspi.STATE_EXPANDED)
 
     def locusOfFocusChanged(self, event, oldLocusOfFocus, newLocusOfFocus):
         """Called when the visual object with focus changes.
@@ -3101,10 +3103,11 @@ class Script(script.Script):
             self.sayLine(obj)
             return
 
-        if self.utilities.lastInputEventWasPrimaryMouseRelease():
+        if self.utilities.lastInputEventWasPrimaryMouseClick() \
+           or self.utilities.lastInputEventWasPrimaryMouseRelease():
             start, end, string = self.utilities.getCachedTextSelection(event.source)
             if not string:
-                msg = "DEFAULT: Presenting result of primary mouse button release"
+                msg = "DEFAULT: Presenting result of primary mouse button event"
                 debug.println(debug.LEVEL_INFO, msg, True)
                 self.sayLine(obj)
                 return
