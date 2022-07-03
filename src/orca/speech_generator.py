@@ -1032,7 +1032,8 @@ class SpeechGenerator(generator.Generator):
         self._restoreRole(oldRole, args)
         if not (result and result[0]) \
            and _settingsManager.getSetting('speakBlankLines') \
-           and not args.get('readingRow', False):
+           and not args.get('readingRow', False) \
+           and args.get('formatType') != 'ancestor':
             result.append(messages.BLANK)
             if result:
                 result.extend(self.voice(DEFAULT, obj=obj, **args))
@@ -1106,6 +1107,15 @@ class SpeechGenerator(generator.Generator):
 
         return result
 
+    def _generateNewColumn(self, obj, **args):
+        if not self._script.utilities.cellColumnChanged(obj):
+            return []
+
+        if args.get('readingRow'):
+            return []
+
+        return self._generateColumn(obj, **args)
+
     def _generateColumn(self, obj, **args):
         """Returns an array of strings (and possibly voice and audio
         specifications) reflecting the column number of a cell.
@@ -1117,7 +1127,7 @@ class SpeechGenerator(generator.Generator):
         col = -1
         if obj.parent.getRole() == pyatspi.ROLE_TABLE_CELL:
             obj = obj.parent
-        parent = obj.parent
+        parent = self._script.utilities.getTable(obj)
         try:
             table = parent.queryTable()
         except:
@@ -1132,6 +1142,15 @@ class SpeechGenerator(generator.Generator):
             result.extend(self.voice(SYSTEM, obj=obj, **args))
         return result
 
+    def _generateNewRow(self, obj, **args):
+        if not self._script.utilities.cellRowChanged(obj):
+            return []
+
+        if args.get('readingRow'):
+            return []
+
+        return self._generateRow(obj, **args)
+
     def _generateRow(self, obj, **args):
         """Returns an array of strings (and possibly voice and audio
         specifications) reflecting the row number of a cell.
@@ -1143,7 +1162,7 @@ class SpeechGenerator(generator.Generator):
         row = -1
         if obj.parent.getRole() == pyatspi.ROLE_TABLE_CELL:
             obj = obj.parent
-        parent = obj.parent
+        parent = self._script.utilities.getTable(obj)
         try:
             table = parent.queryTable()
         except:
@@ -1170,7 +1189,7 @@ class SpeechGenerator(generator.Generator):
         result = []
         if obj.parent.getRole() == pyatspi.ROLE_TABLE_CELL:
             obj = obj.parent
-        parent = obj.parent
+        parent = self._script.utilities.getTable(obj)
         try:
             table = parent.queryTable()
         except:
@@ -1230,7 +1249,8 @@ class SpeechGenerator(generator.Generator):
 
         [text, caretOffset, startOffset] = self._script.getTextLineAtCaret(obj)
         if text == '\n' and _settingsManager.getSetting('speakBlankLines') \
-           and not self._script.inSayAll() and args.get('total', 1) == 1:
+           and not self._script.inSayAll() and args.get('total', 1) == 1 \
+           and args.get('formatType') != 'ancestor':
             result = [messages.BLANK]
             result.extend(self.voice(string=text, obj=obj, **args))
             return result
@@ -1507,7 +1527,8 @@ class SpeechGenerator(generator.Generator):
 
         result.extend(self.voice(DEFAULT, obj=obj, **args))
         if result[0] in ['\n', ''] and _settingsManager.getSetting('speakBlankLines') \
-           and not self._script.inSayAll() and args.get('total', 1) == 1:
+           and not self._script.inSayAll() and args.get('total', 1) == 1 \
+           and args.get('formatType') != 'ancestor':
             result[0] = messages.BLANK
 
         if self._script.utilities.shouldVerbalizeAllPunctuation(obj):
@@ -1814,6 +1835,7 @@ class SpeechGenerator(generator.Generator):
                     'ROLE_CONTENT_SUGGESTION',
                     'ROLE_DPUB_LANDMARK',
                     'ROLE_DPUB_SECTION',
+                    pyatspi.ROLE_DESCRIPTION_LIST,
                     pyatspi.ROLE_FORM,
                     pyatspi.ROLE_LANDMARK,
                     pyatspi.ROLE_LIST,
@@ -1830,6 +1852,7 @@ class SpeechGenerator(generator.Generator):
                 enabled.extend([pyatspi.ROLE_LANDMARK, 'ROLE_DPUB_LANDMARK'])
             if _settingsManager.getSetting('sayAllContextList'):
                 enabled.append(pyatspi.ROLE_LIST)
+                enabled.append(pyatspi.ROLE_DESCRIPTION_LIST)
             if _settingsManager.getSetting('sayAllContextPanel'):
                 enabled.extend([pyatspi.ROLE_PANEL,
                                 pyatspi.ROLE_TOOL_TIP,
@@ -1849,6 +1872,7 @@ class SpeechGenerator(generator.Generator):
                 enabled.extend([pyatspi.ROLE_LANDMARK, 'ROLE_DPUB_LANDMARK', 'ROLE_REGION'])
             if _settingsManager.getSetting('speakContextList'):
                 enabled.append(pyatspi.ROLE_LIST)
+                enabled.append(pyatspi.ROLE_DESCRIPTION_LIST)
             if _settingsManager.getSetting('speakContextPanel'):
                 enabled.extend([pyatspi.ROLE_PANEL,
                                 pyatspi.ROLE_TOOL_TIP,
@@ -1884,7 +1908,8 @@ class SpeechGenerator(generator.Generator):
                 result.append(messages.leavingNBlockquotes(count))
             else:
                 result.append(messages.LEAVING_BLOCKQUOTE)
-        elif role == pyatspi.ROLE_LIST and self._script.utilities.isDocumentList(obj):
+        elif role in [pyatspi.ROLE_LIST, pyatspi.ROLE_DESCRIPTION_LIST] \
+            and self._script.utilities.isDocumentList(obj):
             if count > 1:
                 result.append(messages.leavingNLists(count))
             else:
@@ -2089,8 +2114,8 @@ class SpeechGenerator(generator.Generator):
             presentedRoles.append(altRole)
             count = ancestorRoles.count(altRole)
             self._overrideRole(altRole, args)
-            result.append(self.generate(x, formatType='focused', role=altRole, leaving=leaving, count=count,
-                                        ancestorOf=obj))
+            result.append(self.generate(x, formatType='ancestor', role=altRole, leaving=leaving, count=count,
+                                        ancestorOf=obj, priorObj=priorObj))
             self._restoreRole(altRole, args)
 
         if not leaving:
@@ -2125,6 +2150,7 @@ class SpeechGenerator(generator.Generator):
 
         args['leaving'] = True
         args['includeOnly'] = [pyatspi.ROLE_BLOCK_QUOTE,
+                               pyatspi.ROLE_DESCRIPTION_LIST,
                                pyatspi.ROLE_FORM,
                                pyatspi.ROLE_LANDMARK,
                                'ROLE_CONTENT_DELETION',

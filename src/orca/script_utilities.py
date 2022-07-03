@@ -1201,8 +1201,17 @@ class Utilities:
     def isBlockquote(self, obj):
         return obj and obj.getRole() == pyatspi.ROLE_BLOCK_QUOTE
 
+    def isDescriptionList(self, obj):
+        return obj and obj.getRole() == pyatspi.ROLE_DESCRIPTION_LIST
+
+    def isDescriptionListTerm(self, obj):
+        return obj and obj.getRole() == pyatspi.ROLE_DESCRIPTION_TERM
+
+    def isDescriptionListDescription(self, obj):
+        return obj and obj.getRole() == pyatspi.ROLE_DESCRIPTION_VALUE
+
     def isDocumentList(self, obj):
-        if not (obj and obj.getRole() == pyatspi.ROLE_LIST):
+        if not (obj and obj.getRole() in [pyatspi.ROLE_LIST, pyatspi.ROLE_DESCRIPTION_LIST]):
             return False
 
         try:
@@ -4443,14 +4452,18 @@ class Utilities:
         rowIndex = table.getRowAtIndex(index)
         return table.getRowHeader(rowIndex)
 
-    def coordinatesForCell(self, obj, preferAttribute=True):
+    def coordinatesForCell(self, obj, preferAttribute=True, findCellAncestor=False):
         roles = [pyatspi.ROLE_TABLE_CELL,
                  pyatspi.ROLE_TABLE_COLUMN_HEADER,
                  pyatspi.ROLE_TABLE_ROW_HEADER,
                  pyatspi.ROLE_COLUMN_HEADER,
                  pyatspi.ROLE_ROW_HEADER]
         if not (obj and obj.getRole() in roles):
-            return -1, -1
+            if not findCellAncestor:
+                return -1, -1
+
+            cell = pyatspi.findAncestor(obj, lambda x: x and x.getRole() in roles)
+            return self.coordinatesForCell(cell, preferAttribute, False)
 
         isTable = lambda x: x and 'Table' in pyatspi.listInterfaces(x)
         parent = pyatspi.findAncestor(obj, isTable)
