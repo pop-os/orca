@@ -158,6 +158,9 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if not self._script.utilities.inDocumentContent(obj):
             return []
 
+        if self._script.utilities.isFeedArticle(obj):
+            return []
+
         if not args.get('mode', None):
             args['mode'] = self._mode
 
@@ -458,22 +461,31 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         # We handle things even for non-document content due to issues in
         # other toolkits (e.g. exposing list items to us that are not
         # exposed to sighted users)
+        roles = [pyatspi.ROLE_DESCRIPTION_LIST,
+                 pyatspi.ROLE_LIST,
+                 pyatspi.ROLE_LIST_BOX,
+                 'ROLE_FEED']
         role = args.get('role', obj.getRole())
-        if role not in [pyatspi.ROLE_LIST, pyatspi.ROLE_LIST_BOX, pyatspi.ROLE_DESCRIPTION_LIST]:
+        if role not in roles:
             return super()._generateNumberOfChildren(obj, **args)
 
         setsize = self._script.utilities.getSetSize(obj[0])
         if setsize is None:
             if self._script.utilities.isDescriptionList(obj):
-                children = [x for x in obj if self._script.utilities.isDescriptionListTerm(x)]
-            else:
+                children = self._script.utilities.descriptionListTerms(obj)
+            elif role in [pyatspi.ROLE_LIST, pyatspi.ROLE_LIST_BOX]:
                 children = [x for x in obj if x.getRole() == pyatspi.ROLE_LIST_ITEM]
             setsize = len(children)
 
         if not setsize:
             return []
 
-        result = [messages.listItemCount(setsize)]
+        if self._script.utilities.isDescriptionList(obj):
+            result = [messages.descriptionListTermCount(setsize)]
+        elif role == 'ROLE_FEED':
+            result = [messages.feedArticleCount(setsize)]
+        else:
+            result = [messages.listItemCount(setsize)]
         result.extend(self.voice(speech_generator.SYSTEM, obj=obj, **args))
         return result
 
@@ -696,6 +708,12 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if obj.getRole() in menuRoles:
             return super()._generatePositionInList(obj, **args)
 
+        if obj.getRole() == pyatspi.ROLE_LIST_ITEM:
+            thisObjIndex = args.get('index', 0)
+            objCount = args.get('total', 1)
+            if thisObjIndex + 1 < objCount:
+                return []
+
         if self._script.utilities.isEditableComboBox(obj):
             return []
 
@@ -710,13 +728,19 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         position = int(position)
         total = int(total)
-        if position < 0 or total < 0:
+        if position < 0:
             return []
+
+        stringType = 'groupindex'
+        if total < 0:
+            if not self._script.utilities.setSizeUnknown(obj):
+                return []
+            stringType += 'totalunknown'
 
         result = []
         result.append(self._script.formatting.getString(
             mode='speech',
-            stringType='groupindex') \
+            stringType=stringType) \
             % {"index" : position,
                "total" : total})
         result.extend(self.voice(speech_generator.SYSTEM, obj=obj, **args))

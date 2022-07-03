@@ -1291,6 +1291,11 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
+        if newFocus and self.utilities.isDead(newFocus):
+            msg = "WEB: New focus is dead: %s" % newFocus
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
         document = self.utilities.getTopLevelDocumentForObject(newFocus)
         if not document and self.utilities.isDocument(newFocus):
             document = newFocus
@@ -1344,7 +1349,9 @@ class Script(default.Script):
             msg = "WEB: New focus %s is anchor. Generating line contents." % newFocus
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(newFocus, 0)
-        elif self.utilities.lastInputEventWasPageNav() and not self.utilities.getTable(newFocus):
+        elif self.utilities.lastInputEventWasPageNav() \
+             and not self.utilities.getTable(newFocus) \
+             and not self.utilities.isFeedArticle(newFocus):
             msg = "WEB: New focus %s was scrolled to. Generating line contents." % newFocus
             debug.println(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
@@ -1373,6 +1380,14 @@ class Script(default.Script):
             msg = "WEB: New focus %s is not a special case. Generating speech." % newFocus
             debug.println(debug.LEVEL_INFO, msg, True)
             args['priorObj'] = oldFocus
+
+        if newFocus and self.utilities.isDead(newFocus):
+            msg = "WEB: New focus has since died: %s" % newFocus
+            debug.println(debug.LEVEL_INFO, msg, True)
+            if self._getQueuedEvent("object:state-changed:focused", True):
+                msg = "WEB: Have matching focused event. Not speaking contents"
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return True
 
         if contents:
             self.speakContents(contents, **args)
@@ -2425,11 +2440,20 @@ class Script(default.Script):
         debug.println(debug.LEVEL_INFO, msg, True)
         self.utilities.clearContentCache()
 
+        state = event.source.getState()
+
         document = self.utilities.getTopLevelDocumentForObject(event.source)
         if self.utilities.isDead(orca_state.locusOfFocus):
             msg = "WEB: Dumping cache: dead focus %s" % orca_state.locusOfFocus
             debug.println(debug.LEVEL_INFO, msg, True)
             self.utilities.dumpCache(document, preserveContext=True)
+
+            if state.contains(pyatspi.STATE_FOCUSED):
+                msg = "WEB: Event handled: Setting locusOfFocus to event source"
+                debug.println(debug.LEVEL_INFO, msg, True)
+                orca.setLocusOfFocus(None, event.source, force=True)
+                return True
+
         else:
             msg = "WEB: Clearing structural navigation cache for %s" % document
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -2441,7 +2465,6 @@ class Script(default.Script):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        state = event.source.getState()
         if not state.contains(pyatspi.STATE_EDITABLE):
             if event.source != orca_state.locusOfFocus:
                 msg = "WEB: Done processing non-editable, non-locusOfFocus source"
@@ -2453,6 +2476,13 @@ class Script(default.Script):
                 debug.println(debug.LEVEL_INFO, msg, True)
                 orca.setLocusOfFocus(None, event.source, force=True)
                 return True
+
+        if event.source.getRole() in [pyatspi.ROLE_ENTRY, pyatspi.ROLE_SPIN_BUTTON] \
+           and event.source.getState().contains(pyatspi.STATE_FOCUSED) \
+           and event.source != orca_state.locusOfFocus:
+            msg = "WEB: Focused entry is not the locus of focus. Waiting for focus event."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
 
         return False
 
@@ -2498,6 +2528,13 @@ class Script(default.Script):
         text = self.utilities.queryNonEmptyText(event.source)
         if not text:
             msg = "WEB: Ignoring: Event source is not a text object"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        if event.source.getRole() in [pyatspi.ROLE_ENTRY, pyatspi.ROLE_SPIN_BUTTON] \
+           and event.source.getState().contains(pyatspi.STATE_FOCUSED) \
+           and event.source != orca_state.locusOfFocus:
+            msg = "WEB: Focused entry is not the locus of focus. Waiting for focus event."
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 

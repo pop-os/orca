@@ -234,6 +234,11 @@ class SpeechGenerator(generator.Generator):
                 alreadyUsed = self._script.pointOfReference.pop('usedDescriptionForAlert')
             except:
                 pass
+        else:
+            try:
+                alreadyUsed = self._script.pointOfReference.pop('usedDescriptionForUnrelatedLabels')
+            except:
+                pass
 
         if alreadyUsed:
             return []
@@ -1662,6 +1667,16 @@ class SpeechGenerator(generator.Generator):
                 result.extend(self.voice(DEFAULT, obj=obj, **args))
         return result
 
+    def _generateTermValueCount(self, obj, **args):
+        count = self._script.utilities.getValueCountForTerm(obj)
+        # If we have a simple 1-term, 1-value situation, this announcment is chatty.
+        if count in (-1, 1):
+            return []
+
+        result = [messages.valueCountForTerm(count)]
+        result.extend(self.voice(SYSTEM, obj=obj, **args))
+        return result
+
     def _generateNumberOfChildren(self, obj, **args):
         """Returns an array of strings (and possibly voice and audio
         specifications) that represents the number of children the
@@ -1836,6 +1851,7 @@ class SpeechGenerator(generator.Generator):
                     'ROLE_DPUB_LANDMARK',
                     'ROLE_DPUB_SECTION',
                     pyatspi.ROLE_DESCRIPTION_LIST,
+                    'ROLE_FEED',
                     pyatspi.ROLE_FORM,
                     pyatspi.ROLE_LANDMARK,
                     pyatspi.ROLE_LIST,
@@ -1853,6 +1869,7 @@ class SpeechGenerator(generator.Generator):
             if _settingsManager.getSetting('sayAllContextList'):
                 enabled.append(pyatspi.ROLE_LIST)
                 enabled.append(pyatspi.ROLE_DESCRIPTION_LIST)
+                enabled.append('ROLE_FEED')
             if _settingsManager.getSetting('sayAllContextPanel'):
                 enabled.extend([pyatspi.ROLE_PANEL,
                                 pyatspi.ROLE_TOOL_TIP,
@@ -1873,6 +1890,7 @@ class SpeechGenerator(generator.Generator):
             if _settingsManager.getSetting('speakContextList'):
                 enabled.append(pyatspi.ROLE_LIST)
                 enabled.append(pyatspi.ROLE_DESCRIPTION_LIST)
+                enabled.append('ROLE_FEED')
             if _settingsManager.getSetting('speakContextPanel'):
                 enabled.extend([pyatspi.ROLE_PANEL,
                                 pyatspi.ROLE_TOOL_TIP,
@@ -1914,10 +1932,10 @@ class SpeechGenerator(generator.Generator):
                 result.append(messages.leavingNLists(count))
             else:
                 result.append(messages.LEAVING_LIST)
+        elif role == 'ROLE_FEED':
+            result.append(messages.LEAVING_FEED)
         elif role == pyatspi.ROLE_PANEL:
-            if self._script.utilities.isFeed(obj):
-                result.append(messages.LEAVING_FEED)
-            elif self._script.utilities.isFigure(obj):
+            if self._script.utilities.isFigure(obj):
                 result.append(messages.LEAVING_FIGURE)
             elif self._script.utilities.isDocumentPanel(obj):
                 result.append(messages.LEAVING_PANEL)
@@ -2159,6 +2177,7 @@ class SpeechGenerator(generator.Generator):
                                'ROLE_CONTENT_SUGGESTION',
                                'ROLE_DPUB_LANDMARK',
                                'ROLE_DPUB_SECTION',
+                               'ROLE_FEED',
                                pyatspi.ROLE_LIST,
                                pyatspi.ROLE_PANEL,
                                'ROLE_REGION',

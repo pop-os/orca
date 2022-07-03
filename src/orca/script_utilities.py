@@ -475,7 +475,20 @@ class Utilities:
 
         describedBy = lambda x: x.getRelationType() == pyatspi.RELATION_DESCRIBED_BY
         relation = filter(describedBy, relations)
-        return [r.getTarget(i) for r in relation for i in range(r.getNTargets())]
+        descriptions = [r.getTarget(i) for r in relation for i in range(r.getNTargets())]
+        if not descriptions:
+            return []
+
+        labelledBy = lambda x: x.getRelationType() == pyatspi.RELATION_LABELLED_BY
+        relation = filter(labelledBy, relations)
+        labels = [r.getTarget(i) for r in relation for i in range(r.getNTargets())]
+
+        if descriptions == labels:
+            msg = "INFO: %s's described-by targets are the same as labelled-by targets" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return []
+
+        return descriptions
 
     def detailsContentForObject(self, obj):
         details = self.detailsForObject(obj)
@@ -648,12 +661,15 @@ class Utilities:
         if obj.getRole() == pyatspi.ROLE_FRAME:
             results[0] = obj
 
+        dialog_roles = [pyatspi.ROLE_DIALOG, pyatspi.ROLE_FILE_CHOOSER]
+        if self._treatAlertsAsDialogs():
+            dialog_roles.append(pyatspi.ROLE_ALERT)
+
         parent = obj.parent
         while parent and (parent.parent != parent):
             if parent.getRole() == pyatspi.ROLE_FRAME:
                 results[0] = parent
-            if parent.getRole() in [pyatspi.ROLE_DIALOG,
-                                    pyatspi.ROLE_FILE_CHOOSER]:
+            if parent.getRole() in dialog_roles:
                 results[1] = parent
             parent = parent.parent
 
@@ -934,6 +950,9 @@ class Utilities:
     def isFeed(self, obj):
         return False
 
+    def isFeedArticle(self, obj):
+        return False
+
     def isFigure(self, obj):
         return False
 
@@ -1209,6 +1228,14 @@ class Utilities:
 
     def isDescriptionListDescription(self, obj):
         return obj and obj.getRole() == pyatspi.ROLE_DESCRIPTION_VALUE
+
+    def descriptionListTerms(self, obj):
+        if not self.isDescriptionList(obj):
+            return []
+
+        _include = self.isDescriptionListTerm
+        _exclude = self.isDescriptionList
+        return self.findAllDescendants(obj, _include, _exclude)
 
     def isDocumentList(self, obj):
         if not (obj and obj.getRole() in [pyatspi.ROLE_LIST, pyatspi.ROLE_DESCRIPTION_LIST]):
@@ -1693,6 +1720,13 @@ class Utilities:
         # The first item in all paths, even valid ones, is -1.
         path1 = path1[1:]
         path2 = path2[1:]
+
+        # If the object is being destroyed and the replacement is too, which
+        # sadly can happen in at least Firefox, both will have an index of -1.
+        # If the rest of the paths are valid and match, it's probably ok.
+        if path1[-1] == -1 and path2[-1] == -1:
+            path1 = path1[:-1]
+            path2 = path2[:-1]
 
         # If both have invalid child indices, all bets are off.
         if path1.count(-1) and path2.count(-1):
@@ -4490,6 +4524,12 @@ class Utilities:
         row, col = table.getRowAtIndex(index), table.getColumnAtIndex(index)
         return table.getRowExtentAt(row, col), table.getColumnExtentAt(row, col)
 
+    def setSizeUnknown(self, obj):
+        return obj.getState().contains(pyatspi.STATE_INDETERMINATE)
+
+    def rowOrColumnCountUnknown(self, obj):
+        return obj.getState().contains(pyatspi.STATE_INDETERMINATE)
+
     def rowAndColumnCount(self, obj, preferAttribute=True):
         try:
             table = obj.queryTable()
@@ -5102,7 +5142,7 @@ class Utilities:
 
         return obj.childCount
 
-    def getFunctionalChildren(self, obj):
+    def getFunctionalChildren(self, obj, sibling=None):
         if not obj:
             return None
 
@@ -5112,6 +5152,12 @@ class Utilities:
         if relations:
             r = relations[0]
             result = [r.getTarget(i) for i in range(r.getNTargets())]
+
+        if not result:
+            if self.isDescriptionListTerm(sibling):
+                return self.descriptionListTerms(obj)
+            if self.isDescriptionListDescription(sibling):
+                return self.valuesForTerm(self.termForValue(sibling))
 
         return result or [child for child in obj]
 
@@ -5154,7 +5200,7 @@ class Utilities:
         if childCount > 100 and parent == obj.parent:
             return obj.getIndexInParent(), childCount
 
-        siblings = self.getFunctionalChildren(parent)
+        siblings = self.getFunctionalChildren(parent, obj)
         if len(siblings) < 100 and not pyatspi.utils.findAncestor(obj, isComboBox):
             layoutRoles = [pyatspi.ROLE_SEPARATOR, pyatspi.ROLE_TEAROFF_MENU_ITEM]
             isNotLayoutOnly = lambda x: not (self.isZombie(x) or x.getRole() in layoutRoles)
@@ -5171,6 +5217,48 @@ class Utilities:
         position = siblings.index(obj)
         setSize = len(siblings)
         return position, setSize
+
+    def termForValue(self, obj):
+        if not self.isDescriptionListDescription(obj):
+            return None
+
+        try:
+            index = obj.getIndexInParent()
+        except:
+            msg = "ERROR: Exception getting index and sibling count for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return None
+
+        for i in range(index - 1, -1, -1):
+            child = obj.parent[i]
+            if self.isDescriptionListTerm(child):
+                return child
+
+        return None
+
+    def valuesForTerm(self, obj):
+        if not self.isDescriptionListTerm(obj):
+            return []
+
+        try:
+            index = obj.getIndexInParent()
+            total = obj.parent.childCount
+        except:
+            msg = "ERROR: Exception getting index and sibling count for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return []
+
+        values = []
+        for i in range(index + 1, total):
+            child = obj.parent[i]
+            if not self.isDescriptionListDescription(child):
+                break
+            values.append(child)
+
+        return values
+
+    def getValueCountForTerm(self, obj):
+        return len(self.valuesForTerm(obj))
 
     def getRoleDescription(self, obj, isBraille=False):
         return ""
@@ -5623,7 +5711,7 @@ class Utilities:
             return True
 
         if self.isDead(orca_state.locusOfFocus):
-            return True
+            return state.contains(pyatspi.STATE_FOCUSED)
 
         msg = "INFO: Event is not being presented due to lack of cause"
         debug.println(debug.LEVEL_INFO, msg, True)
@@ -5970,6 +6058,11 @@ class Utilities:
 
     def _getSubtree(self, startObj, endObj):
         if not (startObj and endObj):
+            return []
+
+        if self.isDead(startObj):
+            msg = "INFO: Cannot get subtree: Start object is dead."
+            debug.println(debug.LEVEL_INFO, msg, True)
             return []
 
         _include = lambda x: x
