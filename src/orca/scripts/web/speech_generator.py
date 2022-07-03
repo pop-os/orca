@@ -81,14 +81,14 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             if priorDoc != doc and not self._script.utilities.getDocumentForObject(doc):
                 result = [super()._generateName(doc)]
 
-        if self._script.utilities.isLink(obj) \
-           or self._script.utilities.isLandmark(obj) \
-           or self._script.utilities.isMath(obj) \
-           or obj.getRole() in [pyatspi.ROLE_TOOL_TIP, pyatspi.ROLE_STATUS_BAR]:
+        if not self._script.utilities.getTable(obj) \
+           and (self._script.utilities.isLink(obj) \
+                or self._script.utilities.isLandmark(obj) \
+                or self._script.utilities.isMath(obj) \
+                or obj.getRole() in [pyatspi.ROLE_TOOL_TIP, pyatspi.ROLE_STATUS_BAR]):
             return result
 
-        args['stopAtRoles'] = [pyatspi.ROLE_DOCUMENT_FRAME,
-                               pyatspi.ROLE_DOCUMENT_WEB,
+        args['stopAtRoles'] = [pyatspi.ROLE_DOCUMENT_WEB,
                                pyatspi.ROLE_EMBEDDED,
                                pyatspi.ROLE_INTERNAL_FRAME,
                                pyatspi.ROLE_MATH,
@@ -324,6 +324,13 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if priorObj and priorObj in self._script.utilities.labelsForObject(obj):
             return []
 
+        descendant = args.get("ancestorOf")
+        if descendant and priorObj and obj.name and obj.name == priorObj.name:
+            msg = "WEB: %s's ancestor %s has same name as priorObj %s. Not generating labelOrName." \
+                % (descendant, obj, priorObj)
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return []
+
         if self._script.utilities.isContentEditableWithEmbeddedObjects(obj) \
            or self._script.utilities.isDocument(obj):
             lastKey, mods = self._script.utilities.lastKeyAndModifiers()
@@ -452,12 +459,15 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         # other toolkits (e.g. exposing list items to us that are not
         # exposed to sighted users)
         role = args.get('role', obj.getRole())
-        if role not in [pyatspi.ROLE_LIST, pyatspi.ROLE_LIST_BOX]:
+        if role not in [pyatspi.ROLE_LIST, pyatspi.ROLE_LIST_BOX, pyatspi.ROLE_DESCRIPTION_LIST]:
             return super()._generateNumberOfChildren(obj, **args)
 
         setsize = self._script.utilities.getSetSize(obj[0])
         if setsize is None:
-            children = [x for x in obj if x.getRole() == pyatspi.ROLE_LIST_ITEM]
+            if self._script.utilities.isDescriptionList(obj):
+                children = [x for x in obj if self._script.utilities.isDescriptionListTerm(x)]
+            else:
+                children = [x for x in obj if x.getRole() == pyatspi.ROLE_LIST_ITEM]
             setsize = len(children)
 
         if not setsize:
@@ -823,7 +833,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         if not result:
             if self._script.inSayAll(treatInterruptedAsIn=False) \
-               or not _settingsManager.getSetting('speakBlankLines'):
+               or not _settingsManager.getSetting('speakBlankLines') \
+               or args.get('formatType') == 'ancestor':
                 string = ""
             else:
                 string = messages.BLANK
