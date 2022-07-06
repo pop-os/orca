@@ -111,18 +111,21 @@ formatting = {
 
     'speech': {
         'prefix': {
+            'ancestor': '[]',
             'focused': 'detailsFor',
             'unfocused': 'oldAncestors + newAncestors',
             'basicWhereAmI': 'toolbar',
             'detailedWhereAmI' : '[]'
             },
         'suffix': {
+            'ancestor': '[]',
             'focused': '[]',
             'unfocused': 'newNodeLevel + unselectedCell + clickable + pause + hasLongDesc + hasDetails + detailsFor +' + TUTORIAL + ' + description + pause + hasPopup',
             'basicWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description + pause + hasPopup + pause + detailsFor + pause + allDetails',
             'detailedWhereAmI': TUTORIAL + ' + clickable + hasLongDesc + description + pause + hasPopup + detailsFor + pause + allDetails'
             },
         'default': {
+            'ancestor': '[]',
             'focused': '[]',
             'unfocused': 'labelOrName + roleName + availability + ' + MNEMONIC + ' + accelerator + childWidget',
             'basicWhereAmI': 'labelOrName + roleName',
@@ -200,11 +203,15 @@ formatting = {
         'ROLE_CONTENT_SUGGESTION': {
             'focused': 'leaving or roleName',
             },
+        pyatspi.ROLE_DESCRIPTION_LIST: {
+            'focused' : 'leaving or (labelOrName + pause + (numberOfChildren or roleName) + pause + nestingLevel)',
+            'unfocused': 'labelOrName + pause + focusedItem + pause + multiselectableState + (numberOfChildren or roleName) + pause'
+            },
         pyatspi.ROLE_DESCRIPTION_TERM: {
-            'unfocused': '(labelOrName or (displayedText + allTextSelection))',
+            'unfocused': '(labelOrName or (displayedText + allTextSelection) + roleName)',
             },
         pyatspi.ROLE_DESCRIPTION_VALUE: {
-            'unfocused': '(labelOrName or (displayedText + allTextSelection))',
+            'unfocused': '(labelOrName or (displayedText + allTextSelection) + roleName)',
             },
         pyatspi.ROLE_DIAL: {
             'focused': 'value',
@@ -474,6 +481,7 @@ formatting = {
             'basicWhereAmI': 'labelAndName + pause + table'
             },
         pyatspi.ROLE_TABLE_CELL: {
+            'ancestor': 'newRowHeader + newColumnHeader + pause + newRow + pause + newColumn',
             'focused': '((tableCell2ChildLabel + tableCell2ChildToggle) or cellCheckedState) + pause + (expandableState and (expandableState + pause + numberOfChildren + pause))',
             'unfocused': 'tableCellRow + pause',
             'basicWhereAmI': 'parentRoleName + pause + columnHeader + pause + rowHeader + pause + roleName + pause + cellCheckedState + pause + (realActiveDescendantDisplayedText or imageDescription + image) + pause + columnAndRow + pause + expandableState + pause + nodeLevel + pause',
@@ -1052,6 +1060,12 @@ class Formatting(dict):
             return self[args['mode']][args['role']][args['formatType']]
         except:
             pass
+
+        if args.get('formatType') == 'ancestor':
+            try:
+                return self[args['mode']][args['role']]['focused']
+            except:
+                pass
 
         if args.get('formatType') == 'detailedWhereAmI':
             try:
