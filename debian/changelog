@@ -1,3 +1,11 @@
+orca (42.3-1) unstable; urgency=high
+
+  * New upstream quickfix release.
+    - Avoids chattiness, see
+    https://mail.gnome.org/archives/orca-list/2022-July/msg00008.html
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 08 Jul 2022 19:08:47 +0200
+
 orca (42.2-1) unstable; urgency=medium
 
   * New upstream release.
