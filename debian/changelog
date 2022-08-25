@@ -1,3 +1,13 @@
+orca (42.3-1ubuntu1) kinetic; urgency=medium
+
+  * Merge with Debian. Remaining changes:
+    + debian/patches/unity-a11y.patch: add hacks to better work with Unity
+    + Revert "control: Add xkbset dependency (Closes #972621)" This is in
+      universe in Ubuntu so we can't depend on it. It's silently skipped if
+      not available.
+
+ -- Marco Trevisan (Treviño) <marco@ubuntu.com>  Thu, 25 Aug 2022 12:48:29 +0200
+
 orca (42.3-1) unstable; urgency=high
 
   * New upstream quickfix release.
