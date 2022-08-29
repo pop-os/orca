@@ -66,6 +66,7 @@ class Utilities(script_utilities.Utilities):
         self._isEntryDescendant = {}
         self._isGridDescendant = {}
         self._isLabelDescendant = {}
+        self._isModalDialogDescendant = {}
         self._isMenuDescendant = {}
         self._isNavigableToolTipDescendant = {}
         self._isToolBarDescendant = {}
@@ -164,6 +165,7 @@ class Utilities(script_utilities.Utilities):
         self._isGridDescendant = {}
         self._isLabelDescendant = {}
         self._isMenuDescendant = {}
+        self._isModalDialogDescendant = {}
         self._isNavigableToolTipDescendant = {}
         self._isToolBarDescendant = {}
         self._isWebAppDescendant = {}
@@ -2556,6 +2558,24 @@ class Utilities(script_utilities.Utilities):
         displayStyle = self._getDisplayStyle(obj)
         return "inline" in displayStyle
 
+    def isTextField(self, obj):
+        try:
+            role = obj.getRole()
+        except:
+            msg = "ERROR: Exception getting role for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if role in [pyatspi.ROLE_ENTRY,
+                    pyatspi.ROLE_PASSWORD_TEXT,
+                    pyatspi.ROLE_SPIN_BUTTON]:
+            return True
+
+        if role == pyatspi.ROLE_COMBO_BOX:
+            return self.isEditableComboBox(obj)
+
+        return False
+
     def isFirstItemInInlineContentSuggestion(self, obj):
         suggestion = pyatspi.findAncestor(obj, self.isInlineSuggestion)
         if not (suggestion and suggestion.childCount):
@@ -3103,6 +3123,18 @@ class Utilities(script_utilities.Utilities):
         isMenu = lambda x: x and x.getRole() == pyatspi.ROLE_MENU
         rv = pyatspi.findAncestor(obj, isMenu) is not None
         self._isMenuDescendant[hash(obj)] = rv
+        return rv
+
+    def isModalDialogDescendant(self, obj):
+        if not obj:
+            return False
+
+        rv = self._isModalDialogDescendant.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        rv = super().isModalDialogDescendant(obj)
+        self._isModalDialogDescendant[hash(obj)] = rv
         return rv
 
     def isNavigableToolTipDescendant(self, obj):
