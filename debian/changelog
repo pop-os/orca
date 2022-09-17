@@ -1,3 +1,9 @@
+orca (43~beta-2) UNRELEASED; urgency=medium
+
+  * control: Make Multi-Arch: foreign.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 17 Sep 2022 04:18:09 +0200
+
 orca (43~beta-1) experimental; urgency=medium
 
   * New upstream beta release.
