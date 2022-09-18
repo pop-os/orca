@@ -1,6 +1,8 @@
 orca (43~beta-2) UNRELEASED; urgency=medium
 
   * control: Make Multi-Arch: foreign.
+  * control, rules: Replace dh-python and --with python3 with
+    dh-sequence-python3.
 
  -- Samuel Thibault <sthibault@debian.org>  Sat, 17 Sep 2022 04:18:09 +0200
 
