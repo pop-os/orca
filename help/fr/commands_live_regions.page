@@ -6,13 +6,13 @@
     <link type="seealso" xref="howto_live_regions"/>
     <title type="sort">1. Zones dynamiques</title>
     <title type="link">Zones dynamiques</title>
-    <desc>Commandes d’accès aux zones Web dynamiques</desc>
+    <desc>Commandes d’accès aux zones web dynamiques</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+      <p>Creative Commons Paternité - Partage dans les Mêmes Conditions 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -52,7 +52,7 @@
     </mal:credit>
   </info>
   <title>Commandes de zone dynamique</title>
-  <p>Les commandes suivantes peuvent être utilisées pour accéder à du contenu mis à jour dynamiquement sur des pages Web rendues accessibles grâce à ARIA.</p>
+  <p>Les commandes suivantes peuvent être utilisées pour accéder à du contenu mis à jour dynamiquement sur des pages web rendues accessibles grâce à ARIA.</p>
   <list>
     <item>
       <p>Surveiller les zones dynamiques : <keyseq><key>Touche de modification d’Orca</key><key>Maj</key><key>Barre oblique inversée</key></keyseq></p>

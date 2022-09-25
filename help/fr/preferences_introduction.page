@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+      <p>Creative Commons Paternité - Partage dans les Mêmes Conditions 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -68,6 +68,6 @@
   </section>
   <section id="application_unique">
     <title>Préférences spécifiques aux applications</title>
-      <p>En supplément des préférences d’Orca, il existe des préférences spécifiques aux applications. Ces préférences vous permettent de personnaliser les fonctions d’<app>Orca</app> qui ne s’appliquent qu’à certains environnements, tels que des pages Web ou des applications de discussion. Ces options ne sont disponibles que dans la boîte de dialogue des préférences spécifiques de l’application et seulement pour les applications auxquelles elles s’appliquent.</p>
+      <p>En supplément des préférences d’Orca, il existe des préférences spécifiques aux applications. Ces préférences vous permettent de personnaliser les fonctions d’<app>Orca</app> qui ne s’appliquent qu’à certains environnements, tels que des pages web ou des applications de discussion. Ces options ne sont disponibles que dans la boîte de dialogue des préférences spécifiques de l’application et seulement pour les applications auxquelles elles s’appliquent.</p>
   </section>
 </page>

@@ -26,7 +26,7 @@
       <desc>Alternativ för inställningsdialogruta för att välja vilken tangentbordslayout <app>Orca</app> ska använda, bärbar dator eller stationär dator.</desc>
     </info>
     <title>Tangentbordslayout</title>
-    <p>Radioknappsgruppen <gui>Tangentbordslayout</gui> låter dig ange om du kommer arbeta på ett tangentbord för en stationär dator (d.v.s. med ett numeriskt tangentbord) eller för en bärbar dator. Vilken layout du väljer kommer avgöra både <key>Orca-modifieraren</key> så väl som ett antal tangentbordsgenvägar för att utföra <app>Orca</app>-kommandon.</p>
+    <p>Radioknappsgruppen <gui>Tangentbordslayout</gui> låter dig ange om du kommer arbeta på ett tangentbord för en stationär dator (d.v.s. med ett numeriskt tangentbord) eller för en bärbar dator. Vilken layout du väljer kommer avgöra både <key>Orca-modifieraren</key> såväl som ett antal tangentbordsgenvägar för att utföra <app>Orca</app>-kommandon.</p>
     <p>Standardvärde: <gui>Stationär dator</gui></p>
   </section>
   <section id="presenttooltips">
@@ -64,7 +64,7 @@
   </section>
   <section id="say_all_announce_context">
     <title>Annonsera sammanhangsberoende information i Läs upp allt</title>
-    <p><app>Orca</app> kan valfritt tillhandahålla mer information om dokumentinnehållet som läses upp, så som att annonsera när du går in i eller ut ur blockcitat, listor, tabeller eller andra behållare. Huruvida dessa annonseringar görs eller inte kan ställas in oberoende genom följande kryssrutor:</p>
+    <p><app>Orca</app> kan valfritt tillhandahålla mer information om dokumentinnehållet som läses upp, såsom att annonsera när du går in i eller ut ur blockcitat, listor, tabeller eller andra behållare. Huruvida dessa annonseringar görs eller inte kan ställas in oberoende genom följande kryssrutor:</p>
     <list>
       <item><p>Annonsera blockcitat i Läs upp allt</p></item>
       <item><p>Annonsera formulär i Läs upp allt</p></item>
