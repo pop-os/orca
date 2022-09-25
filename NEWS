@@ -1,31 +1,67 @@
-42.3 - 7 July 2022 (The apology release)
+43.0 - 23 September 2022
 
-Web:
+General:
 
-* Make cell ancestor presentation optional
+* Prevent double-presentation of notifications
 
-  In issue #253, Orca's failure to present cell ancestor information
-  when tabbing among interactive descendants of a cell was reported
-  as a bug. The fix for that bug was included in the stable (42.2)
-  release. Multiple users have subsequently reported that this "fix"
-  introduced unexpected/unwanted chattiness and requested that the
-  presentation be configurable.
+* Fix presentation of Nautilus items for Gtk 4
 
-  In order to accomplish configurability without introducing new
-  settings (and strings, and UI), this presentation now respects the
-  table-related options found on Orca's app-specific preferences for
-  web browsers. Those options had been intended just for structural
-  navigation within tables, but seem to be applicable here. Because
-  they are enabled by default, users who find the ancestor information
-  too chatty will need to opt out by disabling that presentation.
+* Fix bug causing the wrong voice to be used
 
-  It is my hope that this solution meets everyone's needs. Feedback
-  on the Orca mailing list and/or in gitlab is encouraged. If need be,
-  a new stable release reverting the fix entirely will be done.
+New and updated translations (THANKS EVERYONE!!!):
+
+  bg              Bulgarian                 Alexander Shopov
+  ca              Catalan                   Jordi Mas
+  da              Danish                    Alan Mortensen
+  fr              French                    Charles Monzat
+  kk              Kazakh                    Baurzhan Muftakhidinov
+  lv              Latvian                   Rūdolfs Mazurs
+  ne              Nepali                    Pawan Chitrakar
+  pt_BR           Brazilian Portuguese      Leônidas Araújo
+  sl              Slovenian                 Matej Urbančič
+  sv              Swedish                   Anders Jonsson
+  tr              Turkish                   Sabri Ünal
+  zh_CN           Chinese (China)           Boyuan Yang
 
 =========
 
-42.2 - 1 July 2022
+43.beta - 29 August 2022
+
+Web:
+
+* Fix issue causing Orca to remain silent with autofocused inputs
+
+* Prevent structural navigation exiting current modal dialog
+
+* Make cell ancestor presentation optional
+
+General:
+
+* Fix issue causing the description to not be presented
+
+* Fix several popup menu-related issues
+
+* Fix issue causing certain static text in dialogs to not be presented
+
+New and updated translations (THANKS EVERYONE!!!):
+
+  ab              Abkhazian                 Nart Tlisha
+  ca              Catalan                   Jordi Mas
+  cs              Czech                     Marek Černocký
+  de              German                    Jürgen Benvenuti
+  eu              Basque                    Asier Sarasua Garmendia
+  fr              French                    Claude Paroz
+  gl              Galician                  Fran Dieguez
+  hu              Hungarian                 Attila Hammer
+  lt              Lithuanian                Aurimas Černius
+  pl              Polish                    Piotr Drąg
+  sr              Serbian                   Марко Костић
+  tr              Turkish                   Emin Tufan Çetin
+  zh_CN           Chinese (China)           Luming Zh
+
+=========
+
+43.alpha - 1 July 2022
 
 Web:
 
@@ -34,43 +70,83 @@ Web:
 
 * Improve support for description lists
 
+* Improve presentation of articles in feeds
+
+* Improve presentation of unknown setsize and row/column count
+
+* Fix several "chattiness" issues related to ARIA widgets
+
 * Fix SayAll presentation of time element inside link
 
 * Fix presentation of the FluentUI react dialog (and any other
   dialog which has an ARIA document-role descendant
 
-* Eliminate chattiness from newly-expanded/shown listbox
+* Improve performance in large rich-text editors
+
+* Include focusable elements with clickancestor action in the
+  list of "clickables"
 
 WebKitGtk:
+
+* Fix issue causing WebKitGtk 2.36 content to not be handled by Orca's
+  webkit support
 
 * Fail gracefully when structural navigation commands are used in
   WebKitGtk 2.36.x (the collection interface won't be supported
   until 2.26.4)
 
-New and updated translations (THANKS EVERYONE!!!):
+General:
 
-  ne              Nepali                    Pawan Chitrakar
+* Add more event-flood handling to improve performance in general,
+  but especially for gnome-shell
 
-=========
-
-42.1 - 17 May 2022
-
-Web (Chromium + Gecko):
-
- * Fix several performance issues impacting Google Docs.
-
- * Fix bug in which Orca failed to speak when clicking on a line.
-
-WebKitGtk:
-
- * Handle WebKitGtk's change in toolkit name casing so that
-   older versions of Orca continue to work with newer versions
-   of WebKitGtk.
+* Fix bug related to which script responded to a mouse-button event
 
 New and updated translations (THANKS EVERYONE!!!):
 
+  bg              Bulgarian                 Alexander Shopov
+  ca              Catalan                   Jordi Mas
+  ca              Catalan                   Jordi Mas i Hernandez
+  cs              Czech                     Marek Černocký
+  da              Danish                    Alan Mortensen
   da              Danish                    Ask Hjorth Larsen
+  de              German                    Mario Blättermann
+  de              German                    Philipp Kiemle
+  de              German                    Tim Sabsch
+  es              Spanish                   Daniel Mustieles
+  es              Spanish                   Francisco Javier Dorado
+  eu              Basque                    Asier Sarasua Garmendia
+  fa              Persian                   Danial Behzadi
+  fi              Finnish                   Jiri Grönroos
+  fr              French                    Charles Monzat
+  fr              French                    Claude Paroz
+  gl              Galician                  Fran Dieguez
+  he              Hebrew                    Yaron Shahrabani
+  hu              Hungarian                 Attila Hammer
+  id              Indonesian                Kukuh Syafaat
+  it              Italian                   Milo Casagrande
+  kk              Kazakh                    Baurzhan Muftakhidinov
+  lt              Lithuanian                Aurimas Černius
+  lv              Latvian                   Rūdolfs Mazurs
+  nb              Norwegian Bokmål          Kjartan Maraas
+  ne              Nepali                    Pawan Chitrakar
   nl              Dutch                     Nathan Follens
+  oc              Occitan                   Quentin PAGÈS
+  pl              Polish                    Piotr Drąg
+  pt_BR           Brazilian Portuguese      Leônidas Araújo
+  pt_BR           Brazilian Portuguese      Matheus Barbosa
+  pt_BR           Brazilian Portuguese      Tiago Casal
+  pt              Portuguese                Hugo Carvalho
+  ro              Romanian                  Daniel Șerbănescu
+  ru              Russian                   Aleksandr Melman
+  sl              Slovenian                 Matej Urbančič
+  sr              Serbian                   Марко Костић
+  sv              Swedish                   Anders Jonsson
+  sv              Swedish                   Luna Jernberg
+  tr              Turkish                   Emin Tufan Çetin
+  uk              Ukrainian                 Yuri Chornoivan
+  zh_CN           Chinese (China)           Boyuan Yang
+  zh_CN           Chinese (China)           Luming Zh
 
 =========
 

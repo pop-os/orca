@@ -10,8 +10,8 @@ XSBC-Original-Maintainer: Debian Accessibility Team <pkg-a11y-devel@alioth-lists
 Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>,
            Samuel Thibault <sthibault@debian.org>, Jordi Mallach <jordi@debian.org>, Josselin Mouette <joss@debian.org>, Michael Biebl <biebl@debian.org>
 Build-Depends: debhelper-compat (= 13),
-               dh-python,
-               gnome-pkg-tools,
+               dh-sequence-python3,
+               dh-sequence-gnome, gnome-pkg-tools,
                gettext,
                libatk-bridge2.0-dev,
                libatspi2.0-dev,
@@ -34,6 +34,7 @@ Homepage: https://wiki.gnome.org/Projects/Orca
 
 Package: orca
 Architecture: all
+Multi-Arch: foreign
 Depends: ${misc:Depends},
          ${python3:Depends},
          gir1.2-glib-2.0,

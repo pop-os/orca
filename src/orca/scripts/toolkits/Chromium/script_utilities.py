@@ -160,22 +160,6 @@ class Utilities(web.Utilities):
 
         return result
 
-    def isMenuWithNoSelectedChild(self, obj):
-        if not obj:
-            return False
-
-        try:
-            role = obj.getRole()
-        except:
-            msg = "CHROMIUM: Exception getting role for %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return False
-
-        if role != pyatspi.ROLE_MENU:
-            return False
-
-        return not self.selectedChildCount(obj)
-
     def isMenuInCollapsedSelectElement(self, obj):
         try:
             role = obj.getRole()
@@ -224,10 +208,7 @@ class Utilities(web.Utilities):
         if not self.treatAsMenu(orca_state.locusOfFocus):
             return False
 
-        if obj.name and obj.name == orca_state.locusOfFocus.name:
-            return obj.getRole() == pyatspi.ROLE_MENU
-
-        return False
+        return super().isPopupMenuForCurrentItem(obj)
 
     def isFrameForPopupMenu(self, obj):
         try:
@@ -543,6 +524,12 @@ class Utilities(web.Utilities):
         return False
 
     def _shouldCalculatePositionAndSetSize(self, obj):
+        # Chromium calculates posinset and setsize for description lists based on the
+        # number of terms present. If we want to present the number of values associated
+        # with a given term, we need to work those values out ourselves.
+        if self.isDescriptionListDescription(obj):
+            return True
+
         # Chromium has accessible menu items which are not focusable and therefore do not
         # have a posinset and setsize calculated. But they may claim to be the selected
         # item when an accessible child is selected (e.g. "zoom" when "+" or "-" gains focus.

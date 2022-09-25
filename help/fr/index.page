@@ -8,7 +8,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+      <p>Creative Commons Paternité - Partage dans les Mêmes Conditions 3.0</p>
     </license>
 
     <desc>Orca est un lecteur d’écran extensible, gratuit, libre et flexible qui donne accès au bureau graphique via synthèse vocale et plage braille.</desc>
@@ -61,7 +61,7 @@
     <title>Premier pas</title>
   </section>
   <section id="reading" style="2column">
-    <title>Lecture de documents ou de pages Web</title>
+    <title>Lecture de documents ou de pages web</title>
   </section>
   <section id="reviewing" style="2column">
     <title>Examen et interaction avec le contenu de l’écran</title>

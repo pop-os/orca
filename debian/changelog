@@ -1,4 +1,4 @@
-orca (42.3-1ubuntu1) kinetic; urgency=medium
+orca (43.0-1ubuntu1) UNRELEASED; urgency=medium
 
   * Merge with Debian. Remaining changes:
     + debian/patches/unity-a11y.patch: add hacks to better work with Unity
@@ -6,15 +6,28 @@ orca (42.3-1ubuntu1) kinetic; urgency=medium
       universe in Ubuntu so we can't depend on it. It's silently skipped if
       not available.
 
- -- Marco Trevisan (Treviño) <marco@ubuntu.com>  Thu, 25 Aug 2022 12:48:29 +0200
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Sun, 25 Sep 2022 19:32:43 -0400
 
-orca (42.3-1) unstable; urgency=high
+orca (43.0-1) unstable; urgency=medium
 
-  * New upstream quickfix release.
-    - Avoids chattiness, see
-    https://mail.gnome.org/archives/orca-list/2022-July/msg00008.html
+  * New upstream release.
+  * control: Make Multi-Arch: foreign.
+  * control, rules: Replace dh-python and --with python3 with
+    dh-sequence-python3.
 
- -- Samuel Thibault <sthibault@debian.org>  Fri, 08 Jul 2022 19:08:47 +0200
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 26 Sep 2022 00:50:48 +0200
+
+orca (43~beta-1) experimental; urgency=medium
+
+  * New upstream beta release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 29 Aug 2022 16:40:12 +0200
+
+orca (43~alpha-1) experimental; urgency=medium
+
+  * New upstream alpha release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 03 Jul 2022 23:07:43 +0200
 
 orca (42.2-1ubuntu1) kinetic; urgency=medium
 

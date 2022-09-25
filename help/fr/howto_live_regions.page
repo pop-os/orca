@@ -4,13 +4,13 @@
     <link type="guide" xref="index#reading"/>
     <link type="next" xref="howto_whereami"/>
     <title type="sort">6. Zones dynamiques</title>
-    <desc>Interagir avec du contenu Web dynamique</desc>
+    <desc>Interagir avec du contenu web dynamique</desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+      <p>Creative Commons Paternité - Partage dans les Mêmes Conditions 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -50,7 +50,7 @@
     </mal:credit>
   </info>
   <title>Zones dynamiques</title>
-  <p>Une zone dynamique est une portion de page Web mise à jour dynamiquement, comme un tableau de statistiques sportives, une liste d’actions courantes, le journal d’une discussion ou un avertissement affiché par la page que vous lisez. Bien que les zones dynamiques soient assez fréquentes, les pages Web possédant des zones dynamiques complètement accessibles sont rencontrées beaucoup moins souvent. De nombreuses organisations s’occupent activement de ce problème.</p>
+  <p>Une zone dynamique est une portion de page web mise à jour dynamiquement, comme un tableau de statistiques sportives, une liste d’actions courantes, le journal d’une discussion ou un avertissement affiché par la page que vous lisez. Bien que les zones dynamiques soient assez fréquentes, les pages web possédant des zones dynamiques complètement accessibles sont rencontrées beaucoup moins souvent. De nombreuses organisations s’occupent activement de ce problème.</p>
   <section id="politeness_levels">
     <title>Niveaux de politesse de zone dynamique</title>
     <p>Les zones dynamiques possèdent un niveau de « politesse » configuré par l’auteur qui permet de transmettre l’importance de l’information et de suggérer quand les utilisateurs doivent être informés par leur technologie d’assistance des nouvelles informations présentes dans cette zone dynamique. Les zones dynamiques peuvent être « désactivées », « polies » ou « affirmatives » jusqu’à être « péremptoires ».</p>

@@ -66,6 +66,7 @@ class Utilities(script_utilities.Utilities):
         self._isEntryDescendant = {}
         self._isGridDescendant = {}
         self._isLabelDescendant = {}
+        self._isModalDialogDescendant = {}
         self._isMenuDescendant = {}
         self._isNavigableToolTipDescendant = {}
         self._isToolBarDescendant = {}
@@ -106,6 +107,8 @@ class Utilities(script_utilities.Utilities):
         self._inferredLabels = {}
         self._labelsForObject = {}
         self._labelTargets = {}
+        self._descriptionListTerms = {}
+        self._valuesForTerm = {}
         self._displayedLabelText = {}
         self._mimeType = {}
         self._preferDescriptionOverName = {}
@@ -162,6 +165,7 @@ class Utilities(script_utilities.Utilities):
         self._isGridDescendant = {}
         self._isLabelDescendant = {}
         self._isMenuDescendant = {}
+        self._isModalDialogDescendant = {}
         self._isNavigableToolTipDescendant = {}
         self._isToolBarDescendant = {}
         self._isWebAppDescendant = {}
@@ -201,6 +205,8 @@ class Utilities(script_utilities.Utilities):
         self._inferredLabels = {}
         self._labelsForObject = {}
         self._labelTargets = {}
+        self._descriptionListTerms = {}
+        self._valuesForTerm = {}
         self._displayedLabelText = {}
         self._mimeType = {}
         self._preferDescriptionOverName = {}
@@ -2152,7 +2158,8 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        if state.contains(pyatspi.STATE_EXPANDABLE) and state.contains(pyatspi.STATE_FOCUSABLE):
+        if state.contains(pyatspi.STATE_EXPANDABLE) and state.contains(pyatspi.STATE_FOCUSABLE) \
+           and role != pyatspi.ROLE_LINK:
             msg = "WEB: %s is focus mode widget because it's expandable and focusable" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
@@ -2550,6 +2557,24 @@ class Utilities(script_utilities.Utilities):
 
         displayStyle = self._getDisplayStyle(obj)
         return "inline" in displayStyle
+
+    def isTextField(self, obj):
+        try:
+            role = obj.getRole()
+        except:
+            msg = "ERROR: Exception getting role for %s" % obj
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        if role in [pyatspi.ROLE_ENTRY,
+                    pyatspi.ROLE_PASSWORD_TEXT,
+                    pyatspi.ROLE_SPIN_BUTTON]:
+            return True
+
+        if role == pyatspi.ROLE_COMBO_BOX:
+            return self.isEditableComboBox(obj)
+
+        return False
 
     def isFirstItemInInlineContentSuggestion(self, obj):
         suggestion = pyatspi.findAncestor(obj, self.isInlineSuggestion)
@@ -2998,12 +3023,37 @@ class Utilities(script_utilities.Utilities):
             cell = pyatspi.findAncestor(obj, lambda x: x and x.getRole() in roles)
             return self.coordinatesForCell(cell, preferAttribute, False)
 
-        if preferAttribute:
-            rowindex, colindex = self._rowAndColumnIndices(obj)
-            if rowindex is not None and colindex is not None:
-                return int(rowindex) - 1, int(colindex) - 1
+        if not preferAttribute:
+            return super().coordinatesForCell(obj, preferAttribute)
 
-        return super().coordinatesForCell(obj, preferAttribute)
+        rvRow = rvCol = None
+        rowindex, colindex = self._rowAndColumnIndices(obj)
+        if rowindex is None or colindex is None:
+            nativeRowindex, nativeColindex = super().coordinatesForCell(obj, False)
+            if rowindex is not None:
+                rvRow = int(rowindex) - 1
+            else:
+                rvRow = nativeRowindex
+            if colindex is not None:
+                rvCol = int(colindex) - 1
+            else:
+                rvCol = nativeColindex
+
+        return rvRow, rvCol
+
+    def setSizeUnknown(self, obj):
+        if super().setSizeUnknown(obj):
+            return True
+
+        attrs = self.objectAttributes(obj)
+        return attrs.get('setsize') == '-1'
+
+    def rowOrColumnCountUnknown(self, obj):
+        if super().rowOrColumnCountUnknown(obj):
+            return True
+
+        attrs = self.objectAttributes(obj)
+        return attrs.get('rowcount') == '-1' or attrs.get('colcount') == '-1'
 
     def rowAndColumnCount(self, obj, preferAttribute=True):
         rows, cols = super().rowAndColumnCount(obj)
@@ -3073,6 +3123,18 @@ class Utilities(script_utilities.Utilities):
         isMenu = lambda x: x and x.getRole() == pyatspi.ROLE_MENU
         rv = pyatspi.findAncestor(obj, isMenu) is not None
         self._isMenuDescendant[hash(obj)] = rv
+        return rv
+
+    def isModalDialogDescendant(self, obj):
+        if not obj:
+            return False
+
+        rv = self._isModalDialogDescendant.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        rv = super().isModalDialogDescendant(obj)
+        self._isModalDialogDescendant[hash(obj)] = rv
         return rv
 
     def isNavigableToolTipDescendant(self, obj):
@@ -3601,10 +3663,12 @@ class Utilities(script_utilities.Utilities):
             return False
 
         rv = False
-        if not obj.getState().contains(pyatspi.STATE_FOCUSABLE) \
-           and not self.isFocusModeWidget(obj):
+        if not self.isFocusModeWidget(obj):
             names = self._getActionNames(obj)
-            rv = "click" in names
+            if not obj.getState().contains(pyatspi.STATE_FOCUSABLE):
+                rv = "click" in names
+            else:
+                rv = "clickancestor" in names
 
         if rv and not obj.name and "Text" in pyatspi.listInterfaces(obj):
             string = obj.queryText().getText(0, -1)
@@ -3649,6 +3713,36 @@ class Utilities(script_utilities.Utilities):
             return True
 
         return self._getTag(obj) == "dd"
+
+    def descriptionListTerms(self, obj):
+        if not obj:
+            return []
+
+        rv = self._descriptionListTerms.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        rv = super().descriptionListTerms(obj)
+        if not self.inDocumentContent(obj):
+            return rv
+
+        self._descriptionListTerms[hash(obj)] = rv
+        return rv
+
+    def valuesForTerm(self, obj):
+        if not obj:
+            return []
+
+        rv = self._valuesForTerm.get(hash(obj))
+        if rv is not None:
+            return rv
+
+        rv = super().valuesForTerm(obj)
+        if not self.inDocumentContent(obj):
+            return rv
+
+        self._valuesForTerm[hash(obj)] = rv
+        return rv
 
     def getComboBoxValue(self, obj):
         attrs = self.objectAttributes(obj, False)
@@ -3914,6 +4008,15 @@ class Utilities(script_utilities.Utilities):
 
     def isFeed(self, obj):
         return 'feed' in self._getXMLRoles(obj)
+
+    def isFeedArticle(self, obj):
+        if not (obj and self.inDocumentContent(obj)):
+            return False
+
+        if obj.getRole() != pyatspi.ROLE_ARTICLE:
+            return False
+
+        return pyatspi.findAncestor(obj, self.isFeed) is not None
 
     def isFigure(self, obj):
         return 'figure' in self._getXMLRoles(obj) or self._getTag(obj) == 'figure'
@@ -5040,6 +5143,9 @@ class Utilities(script_utilities.Utilities):
             debug.println(debug.LEVEL_INFO, msg, True)
         elif pyatspi.findAncestor(orca_state.locusOfFocus, lambda x: x == event.any_data):
             msg = "WEB: Removed child is ancestor of locusOfFocus."
+            debug.println(debug.LEVEL_INFO, msg, True)
+        elif self.isSameObject(event.any_data, orca_state.locusOfFocus, True, True):
+            msg = "WEB: Removed child appears to be replicant oflocusOfFocus."
             debug.println(debug.LEVEL_INFO, msg, True)
         else:
             return False

@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+      <p>Creative Commons Paternité - Partage dans les Mêmes Conditions 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -57,7 +57,7 @@
     <title>Synthèse vocale et braille</title>
   </section>
   <section id="reading_documents" style="2column">
-    <title>Lecture de pages Web ou d’autres documents</title>
+    <title>Lecture de pages web ou d’autres documents</title>
   </section>
   <section id="reviewing_screen_contents" style="2column">
     <title>Examen et interaction avec le contenu de l’écran</title>
