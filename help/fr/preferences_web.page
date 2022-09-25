@@ -3,15 +3,15 @@
   <info>
     <link type="guide" xref="preferences#application"/>
     <link type="next" xref="preferences_table_navigation"/>
-    <title type="sort">1. Navigation Web</title>
-    <title type="link">Navigation Web</title>
+    <title type="sort">1. Navigation web</title>
+    <title type="link">Navigation web</title>
     <desc>Configurer la prise en charge de <app>Firefox</app>, <app>Thunderbird</app> et <app>Chrome</app>/<app>Chromium</app> par <app>Orca</app></desc>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+      <p>Creative Commons Paternité - Partage dans les Mêmes Conditions 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -50,7 +50,7 @@
       <mal:years>2020</mal:years>
     </mal:credit>
   </info>
-  <title>Préférences de navigation Web</title>
+  <title>Préférences de navigation web</title>
   <section id="page_navigation">
     <title>Navigation à travers la page</title>
     <p>Le groupement de contrôles <gui>Navigation à travers la page</gui> vous permet de personnaliser comment <app>Orca</app> prononce et vous permet d’interagir avec le texte et d’autres types de contenu.</p>
@@ -65,7 +65,7 @@
     </section>
     <section id="page_navigation_focus_caret">
       <title>Mode focus automatique durant la navigation au curseur</title>
-      <p>Si cette case est cochée, <app>Orca</app> active automatiquement le mode focus lorsque vous utilisez des commandes de navigation au curseur pour naviguer vers un champ de formulaire. Par exemple, un appui sur <key>Flèche bas</key> vous permettrait de passer dans la zone de saisie, mais après cela, Orca passerait en mode focus et les pressions suivantes sur la touche <key>Flèche bas</key> seraient contrôlées par le navigateur Web et plus par Orca. Si cette case n’est pas cochée, <app>Orca</app> continue de contrôler ce qui se passe lorsque vous pressez à nouveau sur <key>Flèche bas</key>, ce qui permet de sortir de la zone avec les touches fléchées et de continuer ainsi la lecture.</p>
+      <p>Si cette case est cochée, <app>Orca</app> active automatiquement le mode focus lorsque vous utilisez des commandes de navigation au curseur pour naviguer vers un champ de formulaire. Par exemple, un appui sur <key>Flèche bas</key> vous permettrait de passer dans la zone de saisie, mais après cela, Orca passerait en mode focus et les pressions suivantes sur la touche <key>Flèche bas</key> seraient contrôlées par le navigateur web et plus par Orca. Si cette case n’est pas cochée, <app>Orca</app> continue de contrôler ce qui se passe lorsque vous pressez à nouveau sur <key>Flèche bas</key>, ce qui permet de sortir de la zone avec les touches fléchées et de continuer ainsi la lecture.</p>
       <p>Valeur par défaut : non cochée</p>
       <note style="tip">
         <title>Basculement automatique entre les modes navigation et focus</title>
@@ -101,12 +101,12 @@
     </section>
     <section id="page_navigation_speak">
       <title>Lancement automatique de la lecture à haute voix d’une page quand il est chargé pour la première fois</title>
-      <p>Si cette case est cochée, <app>Orca</app> effectue un « Tout lire » sur la page Web ou le courriel qui viennent d’être ouverts.</p>
+      <p>Si cette case est cochée, <app>Orca</app> effectue un « Tout lire » sur la page web ou le courriel qui viennent d’être ouverts.</p>
       <p>Valeur par défaut : cochée pour Firefox, non cochée pour Thunderbird</p>
     </section>
     <section id="page_navigation_summary">
       <title>Présenter le résumé d’une page lorsqu’elle est chargée pour la première fois</title>
-      <p>Si cette case est cochée, <app>Orca</app> résume les détails de la page Web ou du courriel que vous venez d’ouvrir, tels que le nombre d’en-têtes, de points de repère et de liens.</p>
+      <p>Si cette case est cochée, <app>Orca</app> résume les détails de la page web ou du courriel que vous venez d’ouvrir, tels que le nombre d’en-têtes, de points de repère et de liens.</p>
       <p>Valeur par défaut : cochée pour Firefox, non cochée pour Thunderbird</p>
     </section>
     <section id="page_navigation_layout_mode">

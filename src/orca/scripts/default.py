@@ -845,6 +845,8 @@ class Script(script.Script):
             hash(obj), state.contains(pyatspi.STATE_CHECKED)
         self.pointOfReference['selectedChange'] = \
             hash(obj), state.contains(pyatspi.STATE_SELECTED)
+        self.pointOfReference['expandedChange'] = \
+            hash(obj), state.contains(pyatspi.STATE_EXPANDED)
 
     def locusOfFocusChanged(self, event, oldLocusOfFocus, newLocusOfFocus):
         """Called when the visual object with focus changes.
@@ -2689,6 +2691,8 @@ class Script(script.Script):
         obj = event.source
         role = obj.getRole()
         if role == pyatspi.ROLE_NOTIFICATION:
+            if not event.detail1:
+                return
             speech.speak(self.speechGenerator.generateSpeech(obj))
             visibleOnly = not self.utilities.isStatusBarNotification(obj)
             labels = self.utilities.unrelatedLabels(obj, visibleOnly, 1)
@@ -3101,10 +3105,11 @@ class Script(script.Script):
             self.sayLine(obj)
             return
 
-        if self.utilities.lastInputEventWasPrimaryMouseRelease():
+        if self.utilities.lastInputEventWasPrimaryMouseClick() \
+           or self.utilities.lastInputEventWasPrimaryMouseRelease():
             start, end, string = self.utilities.getCachedTextSelection(event.source)
             if not string:
-                msg = "DEFAULT: Presenting result of primary mouse button release"
+                msg = "DEFAULT: Presenting result of primary mouse button event"
                 debug.println(debug.LEVEL_INFO, msg, True)
                 self.sayLine(obj)
                 return
@@ -3823,6 +3828,9 @@ class Script(script.Script):
         except:
             msg = "DEFAULT: Exception getting offset and length for %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
+            return ["", 0, 0]
+
+        if characterCount == 0:
             return ["", 0, 0]
 
         targetOffset = startOffset

@@ -10,7 +10,7 @@
       <email>joanied@gnome.org</email>
     </credit>
     <license>
-      <p>Creative Commons Partage des Conditions Initiales à l’Identique 3.0</p>
+      <p>Creative Commons Paternité - Partage dans les Mêmes Conditions 3.0</p>
     </license>
   
     <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
@@ -50,7 +50,7 @@
     </mal:credit>
   </info>
   <title>Tableaux</title>
-  <p><app>Orca </app> propose plusieurs fonctionnalités conçues spécialement pour améliorer l’accès aux tableaux trouvés dans les pages Web et autres documents : configuration de la lecture par cellule ou par ligne, <link xref="howto_structural_navigation">Navigation par structure</link> et en-têtes dynamiques.</p>
+  <p><app>Orca </app> propose plusieurs fonctionnalités conçues spécialement pour améliorer l’accès aux tableaux trouvés dans les pages web et autres documents : configuration de la lecture par cellule ou par ligne, <link xref="howto_structural_navigation">Navigation par structure</link> et en-têtes dynamiques.</p>
   <section id="cell_row">
     <title>Lecture par cellule ou par ligne</title>
     <p>Songez au processus d’analyse de la liste des messages dans votre boîte aux lettres. Pour que Orca lise l’expéditeur, le sujet, la date et la présence d’une pièce jointe, vous avez besoin que <app>Orca</app> lise la ligne. D’un autre côté, lorsque vous parcourez les lignes d’une feuille de calcul, entendre la ligne entière n’est pas toujours souhaitable au vu par exemple du grand nombre de cellules dans chaque ligne. Dans ce cas, vous préférerez que <app>Orca</app> ne lise que la cellule qui a le focus. Des situations similaires se produisent dans les tableaux inclus dans des documents.</p>
