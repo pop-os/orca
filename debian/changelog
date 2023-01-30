@@ -1,3 +1,9 @@
+orca (43.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 29 Jan 2023 16:25:52 +0100
+
 orca (43.0-1ubuntu1) kinetic; urgency=medium
 
   * Merge with Debian. Remaining changes:
