@@ -40,7 +40,7 @@
   <steps>
     <title>Ændring af Orca-ændringstasten</title>
     <item>
-      <p>Kom ind i dialogen <link xref="preferences">Indstillinger for Orca</link> ved at trykke på <keyseq><key>Orca-ændringstast</key><key>Mellemrum</key></keyseq>.</p>
+      <p>Kom ind i dialogen <link xref="preferences">Indstillinger for Orca</link> ved at trykke på <keyseq><key>Orca-ændringstast</key><key>Mellemrum</key></keyseq>. Alternativt kan du starte Orca fra en terminal med indstillingsdialogen åben: tast <cmd>orca -s</cmd> og tryk <key>Retur</key>.</p>
     </item>
     <item>
       <p>Flyt til siden <gui>Tastebindinger</gui>.</p>

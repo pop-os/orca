@@ -64,7 +64,7 @@
   <steps>
     <title>Modification de la Touche de modification d’Orca</title>
     <item>
-      <p>Appuyez sur <keyseq><key>Touche de modification d’Orca</key><key>Barre d’espace</key></keyseq> pour accéder à la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>.</p>
+      <p>Appuyez sur <keyseq><key>Touche de modification d’Orca</key><key>Barre d’espace</key></keyseq> pour accéder à la boîte de dialogue <link xref="preferences">Préférences d’Orca</link>. Autrement vous pouvez lancer Orca avec la fenêtre des préférences ouverte depuis un terminal en tapant <cmd>orca -s</cmd> et en pressant la touche <key>Entrée</key>.</p>
     </item>
     <item>
       <p>Allez dans l’onglet <gui>Raccourcis clavier</gui>.</p>

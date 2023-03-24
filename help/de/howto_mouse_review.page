@@ -36,6 +36,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Maus-Sprachauswertung</title>
   <p><app>Orca</app>s Maus-Sprachauswertung-Funktion lässt <app>Orca</app> die Objekte unterhalb des Mauszeigers vorlesen. Im Gegensatz zu <app>Orca</app>s <link xref="howto_flat_review">Übersicht</link>s-Funktion ist die Maus-Sprachauswertung nicht auf das fokussierte Fenster beschränkt; stattdessen versucht <app>Orca</app> zu identifizieren, welches zugängliche Objekt sich bei einer Mausbewegung visuell unter dem Zeiger befindet. Wenn Sie den Zeiger über ein zugängliches Objekt bewegt haben, das Informationen zum vorlesen enthält, liest Ihnen <app>Orca</app> dieses Objekt und dessen Informationen vor.</p>

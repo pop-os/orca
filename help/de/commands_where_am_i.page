@@ -38,6 +38,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Befehle zu »Wo bin ich«</title>
   <p><app>Orcas</app> »Wo bin ich«-Funktion gibt Ihnen kontextsensitive Details über Ihre aktuelle Position. In Tabellen zum Beispiel gibt Ihnen »Wo bin ich« Details über die Zelle aus, in der Sie sich befinden. In einem Text jedoch gibt es Ihnen Informationen zur aktuellen Zeile mit dem ausgewählten Text aus. Eine vollständige Liste, was <app>Orca</app> Ihnen ausgeben kann, können Sie hier lesen: <link xref="howto_whereami">Einführung in Wo bin ich</link>.</p>

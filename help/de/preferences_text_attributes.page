@@ -38,6 +38,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Einstellungen für Textattribute</title>
   <p>Der Begriff »Textattribute« bezieht sich auf alle Formatierungen von Schrift, Stil, Anordnung und anderen im Bezug auf einen Buchstaben oder eine Gruppe von Buchstaben. Die Seite <gui>Textattribute</gui> von <app>Orca</app> ermöglicht es einzustellen, welche Textattribute <app>Orca</app> vorlesen soll, in welcher Reihenfolge vorgelesen werden soll, und welche <app>Orca</app> als Braille ausgeben soll.</p>

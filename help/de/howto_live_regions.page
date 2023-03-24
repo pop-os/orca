@@ -36,6 +36,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Dynamische Bereiche</title>
   <p>Ein dynamischer Bereich ist ein dynamisch aktualisierter Teil einer Webseite, zum Beispiel eine Tabelle mit Spielergebnissen aus dem Sport, eine Liste aktueller Börsenkurse, ein Chat-Protokoll oder Benachrichtigungen einer Seite, die Sie gerade lesen. Während dynamische Bereiche recht häufig aktualisiert werden, sind vollständig erfassbare Webseiten mit dynamischen Bereichen eher selten anzutreffen. Dieses Problem wird aktiv von einer Reihe von Organisationen diskutiert.</p>
