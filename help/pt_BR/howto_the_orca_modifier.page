@@ -52,7 +52,10 @@
   <steps>
     <title>Alterando a Tecla Modificadora Orca</title>
     <item>
-      <p>Acesse o diálogo <link xref="preferences">Preferências do Orca</link> pressionando <keyseq><key>Tecla Modificadora do Orca</key><key>Barra de espaço</key></keyseq>.</p>
+      <p>
+        Get into the <link xref="preferences">Orca Preferences</link> dialog by
+        pressing <keyseq><key>Orca Modifier</key><key>Space</key></keyseq>. Alternatively, you can start Orca with the preferences dialog open from a terminal: type <cmd>orca -s</cmd> and press <key>Return</key>.
+      </p>
     </item>
     <item>
       <p>Vá para a aba <gui>Atalhos</gui>.</p>

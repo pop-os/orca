@@ -36,6 +36,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Die Feststelltaste im Laptop-Layout</title>
   <p>Orca kennt zwei Tastaturlayouts: Desktop und Laptop. Die Wahl des Layouts beeinflusst, welche Taste als Orca-Zusatztaste verwendet wird. Falls Sie das Laptop-Layout verwenden, wird die voreingestellte Orca-Zusatztaste die <key>Feststelltaste</key> sein. Falls Sie <app>Orca</app>s Laptop-Layout verwenden und die <key>Feststelltaste</key> ein-/ausschalten wollen, können Sie entweder zweimal die <key>Feststelltaste</key> drücken (erfordert mindestens at-spi2-Version 2.32), oder die folgenden Schritte ausführen:</p>

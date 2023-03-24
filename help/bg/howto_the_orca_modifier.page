@@ -44,7 +44,10 @@
   <steps>
     <title>Промяна на модификатора на Orca</title>
     <item>
-      <p>Отидете в <link xref="preferences">Настройки на Orca</link> като натиснете <keyseq><key>Модификатор на Orca</key><key>Интервал</key></keyseq>.</p>
+      <p>
+        Get into the <link xref="preferences">Orca Preferences</link> dialog by
+        pressing <keyseq><key>Orca Modifier</key><key>Space</key></keyseq>. Alternatively, you can start Orca with the preferences dialog open from a terminal: type <cmd>orca -s</cmd> and press <key>Return</key>.
+      </p>
     </item>
     <item>
       <p>Придвижете се до страницата <gui>Функции на клавишите</gui>.</p>

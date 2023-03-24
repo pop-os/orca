@@ -36,6 +36,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Textattribute</title>
   <p>Der Begriff »Textattribute« bezieht sich auf alle Formatierungen von Schrift, Stil, Anordnung und andere im Bezug auf einen Buchstaben oder eine Gruppe von Buchstaben.</p>

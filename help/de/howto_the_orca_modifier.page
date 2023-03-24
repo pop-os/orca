@@ -36,6 +36,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Die Orca-Zusatztaste</title>
   <p>Orca hat eine spezielle Zusatztaste, welche ähnlich funktioniert wie <key>Umschalt</key>, <key>Strg</key> und <key>Alt</key>. Die dient dazu einen bestimmten <app>Orca</app>-Befehl auszuführen, ohne dabei im Konflikt mit den Tastenkombinationen einer Anwendung zu stehen.</p>
@@ -52,7 +58,7 @@
   <steps>
     <title>Die Orca-Zusatztaste ändern</title>
     <item>
-      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq> drücken.</p>
+      <p>Rufen Sie den Dialog <link xref="preferences">Orca-Einstellungen</link> auf, indem Sie <keyseq><key>Orca-Zusatztaste</key><key>Leertaste</key></keyseq> drücken. Alternativ können Sie Orca mit geöffnetem Einstellungen-Dialog aus einem Terminal heraus starten: Tippen Sie dazu <cmd>orca -s</cmd> und drücken Sie <key>Eingabe</key>.</p>
     </item>
     <item>
       <p>Wechseln Sie nun zum Reiter <gui>Tastenbelegung</gui>.</p>

@@ -36,6 +36,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Dokumente</title>
   <p>Um die Inhalte eines Dokuments zu lesen, benutzen Sie den eingebauten Caret-Navigationsmodus. Navigieren Sie zu einem Text des Dokuments, wird <app>Orca</app> den neuen Ort anzeigen. Infolgedessen sind Sie bereits vertraut mit dem Lesen eines Dokumentes mit <app>Orca</app>. Zum Beispiel:</p>

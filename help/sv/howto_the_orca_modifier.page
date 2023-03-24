@@ -34,7 +34,7 @@
   <steps>
     <title>Ändra Orca-modifieraren</title>
     <item>
-      <p>Gå till dialogen <link xref="preferences">Orca-inställningar</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq>.</p>
+      <p>Gå till <link xref="preferences">Orcas inställningsdialog</link> genom att trycka <keyseq><key>Orca-modifierare</key><key>Blanksteg</key></keyseq>. Alternativt kan du starta Orca med inställningsdialogen öppen från en terminal: skriv <cmd>orca -s</cmd> och tryck <key>Retur</key>.</p>
     </item>
     <item>
       <p>Flytta till sidan <gui>Tangentbindningar</gui>.</p>

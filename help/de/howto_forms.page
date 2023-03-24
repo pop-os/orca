@@ -36,6 +36,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Ausfüllen von Formularen</title>
   <p>Wenn Sie mit Webseiten und anderen Dokumenten mittels <app>Orca</app> interagieren, interagieren Sie mit dem Dokument selbst; keiner gepufferten Kopie davon. <app>Orca</app>s Stöbern- und Fokussieren-Modi lassen Sie zwischen dem Lesen und Ausfüllen von Dokumenten wechseln.</p>

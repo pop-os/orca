@@ -36,6 +36,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Tastenkürzel</title>
   <p>Bei <app>Orca</app> gibt es viele Befehle, von denen einige mit Tastenkombinationen ausgelöst werden können, während andere unbelegt sind. Sie können <app>Orca</app>-Befehle auf folgende Weise zuweisen, verändern und löschen.</p>
