@@ -36,6 +36,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Tabellen</title>
   <p><app>Orca</app> bietet mehrere Funktionen, die speziell entwickelt wurden, um den Zugriff auf Tabellen in Webseiten und anderen Dokumenten zu verbessern: Konfigurierbares Lesen von Zellen versus Zeilen, <link xref="howto_structural_navigation">Strukturennavigation</link> und dynamische Überschriften.</p>

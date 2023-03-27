@@ -37,6 +37,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Einstellungen für Aussprache</title>
   <p>Manchmal sagt der Sprachsynthesizer einfach nicht das Richtige für einen Ausdruck. Sie könnten bevorzugen, »Lacht laut auf« statt »LOL« zu hören, oder »Barrierefreiheit« statt »a11y«. Oder der Synthesizer könnte einen Namen oder technischen Ausdruck falsch aussprechen.</p>

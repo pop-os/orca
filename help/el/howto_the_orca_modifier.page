@@ -38,7 +38,10 @@
   <steps>
     <title>Αλλαγή του τροποποιητή Orca</title>
     <item>
-      <p>Πηγαίνετε στο διάλογο <link xref="preferences">προτιμήσεις Orca</link> πατώντας τον <keyseq><key>τροποποιητή Orca</key><key>πλήκτρο διαστήματος</key></keyseq>.</p>
+      <p>
+        Get into the <link xref="preferences">Orca Preferences</link> dialog by
+        pressing <keyseq><key>Orca Modifier</key><key>Space</key></keyseq>. Alternatively, you can start Orca with the preferences dialog open from a terminal: type <cmd>orca -s</cmd> and press <key>Return</key>.
+      </p>
     </item>
     <item>
       <p>Μετάβαση στη σελίδα <gui>συνδυασμοί πλήκτρων</gui>.</p>

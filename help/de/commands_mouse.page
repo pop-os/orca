@@ -39,6 +39,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Maus- und Zeigegerät-Befehle</title>
   <p><app>Orca</app> unterstützt verschiedene Befehle, die zur Manipulation des Mauszeigers dienen und die Inhalte unter ihm ausgeben können. Allen Befehlen sind Tastenkürzel zugewiesen, jedoch mit einer Ausnahme: Ein- und Ausschalten der Maus-Sprachauswertung. Lesen Sie dazu <link xref="howto_key_bindings">Tastaturkürzel anpassen</link> um herauszufinden, wie dieser Befehl einem Tastenkürzel zugewiesen werden kann.</p>

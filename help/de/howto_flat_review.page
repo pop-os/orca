@@ -36,6 +36,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Übersicht</title>
   <p><app>Orca</app>s Übersichtsfunktion erlaubt Ihnen, die Inhalte im aktiven Fenster, also Text und Widgets, räumlich vorzulesen. In diesem Modus behandelt <app>Orca</app> das Fenster so, als wäre es ein zweidimensionales Blatt mit Text, wodurch das Konzept einer Widget-Hierarchie oder einer anderen logischen Gruppierung innerhalb des Fensters aufgehoben wird.</p>

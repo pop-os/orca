@@ -34,7 +34,7 @@
   <steps>
     <title>Зміна модифікатора Orca</title>
     <item>
-      <p>Відкрийте вікно <link xref="preferences">Параметри Orca</link> натисканням комбінації клавіш <keyseq><key>Модифікатор Orca</key><key>Пробіл</key></keyseq>.</p>
+      <p>Відкрийте вікно <link xref="preferences">Параметри Orca</link> натисканням комбінації клавіш <keyseq><key>Модифікатор Orca</key><key>Пробіл</key></keyseq>. Крім того, ви можете відкрити вікно налаштувань Orca з термінала: наберіть <cmd>orca -s</cmd> і натисніть клавішу <key>Enter</key>.</p>
     </item>
     <item>
       <p>Перейдіть на сторінку <gui>Прив'язки клавіш</gui>.</p>

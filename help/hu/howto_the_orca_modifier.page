@@ -34,7 +34,7 @@
   <steps>
     <title>Az Orka módosítóbillentyű megváltoztatása</title>
     <item>
-      <p>Az <link xref="preferences">Orka beállítások</link> párbeszédpanel megnyitásához nyomja meg az <keyseq><key>Orka módosító</key><key>Szóköz</key></keyseq> billentyűkombinációt.</p>
+      <p>Az <link xref="preferences">Orka beállítások</link> párbeszédpanel megnyitásához nyomja meg az <keyseq><key>Orka módosító</key><key>Szóköz</key></keyseq> billentyűkombinációt. Alternatív megoldásként megjelenítheti az Orka beállítások  párbeszédablakát, ha a Terminálban begépeli az <cmd>orca -s</cmd> parancsot, majd lenyomja az <key>ENTER</key> billentyűt.</p>
     </item>
     <item>
       <p>Lépjen a <gui>Billentyűtársítások</gui> lapra.</p>

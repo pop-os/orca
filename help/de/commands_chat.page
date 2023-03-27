@@ -38,6 +38,12 @@
       <mal:email>tim@sabsch.com</mal:email>
       <mal:years>2018-2020</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Jürgen Benvenuti</mal:name>
+      <mal:email>gastornis@posteo.org</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Chat-Befehle</title>
   <p>Folgende Befehle können zum Erhalt von Informationen über den Sofortnachrichtendienst und IRC unterstützt durch <app>Orca</app> verwendet werden. Sie werden feststellen, dass es sich bei vielen dieser Befehle um nicht zugewiesene Befehle handelt. Bitte klicken Sie auf <link xref="howto_key_bindings">Tastenkombinationen verändern</link>, um Informationen darüber zu erhalten, wie Sie diesen Befehlen Tastenkombinationen zuweisen.</p>
