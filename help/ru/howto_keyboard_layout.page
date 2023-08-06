@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_keyboard_layout" xml:lang="ru">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_toggling_caps_lock"/>
+    <title type="sort">6. Раскладка клавиатуры</title>
+    <desc>Выбор раскладки «Настольный компьютер» или «Ноутбук»</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Раскладка клавиатуры</title>
+  <p>В Orca имеются две раскладки клавиатуры: «Настольный компьютер» (то есть с цифровой клавиатурой) и «Ноутбук». Выбор раскладки влияет на то, какая клавиша используется в качестве модификатора Orca.</p>
+  <list>
+    <item>
+      <p>Если используется раскладка «Ноутбук», модификатором Orca по умолчанию будет клавиша<key>CapsLock</key></p>
+    </item>
+    <item>
+      <p>Если используется раскладка «Настольный компьютер», модификатором Orca будет как клавиша <key>Insert</key>, так и клавиша <key>Insert на ЦК</key> (та же клавиша, что и <key>0 на ЦК</key>).</p>
+    </item>
+  </list>
+  <p>Раскладка также определяет клавиши, связанные с рядом команд <app>Orca</app>, в частности в категориях «Общий осмотр», «Где я» и «Читать всё».</p>
+  <steps>
+    <title>Смена раскладки клавиатуры</title>
+    <item>
+      <p>Откройте диалоговое окно <link xref="preferences">параметров Orca</link> с помощью комбинации клавиш <keyseq><key>Модификатор Orca</key><key>Пробел</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Перейдите к группе переключателей <gui>Раскладка клавиатуры</gui>.</p>
+    </item>
+    <item>
+      <p>С помощью клавиш со стрелками выберите нужную раскладку.</p>
+    </item>
+    <item>
+      <p>Нажмите кнопку <gui>Применить</gui>.</p>
+    </item>
+  </steps>
+</page>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_documents" xml:lang="ru">
+  <info>
+    <link type="guide" xref="index#reading"/>
+    <link type="next" xref="howto_text_attributes"/>
+    <title type="sort">1. Документы</title>
+    <desc>Чтение содержимого</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Документы</title>
+  <p>Для чтения содержимого документов следует использовать встроенный режим курсорной навигации приложения. По мере перемещения по тексту документа <app>Orca</app> будет сообщать новое положение. Поэтому вы, скорее всего, уже знаете, как читать документ с помощью <app>Orca</app>. Например:</p>
+  <list>
+    <item>
+      <p>Используйте клавиши <key>Стрелка влево</key> и <key>Стрелка вправо</key> для перемещения и чтения по символам.</p>
+    </item>
+    <item>
+      <p>Используйте комбинации клавиш <keyseq><key>Ctrl</key><key>Стрелка влево</key></keyseq> и <keyseq><key>Ctrl</key><key>Стрелка вправо</key></keyseq> для перемещения и чтения по словам.</p>
+    </item>
+    <item>
+      <p>Используйте клавиши <key>Стрелка вверх</key> и <key>Стрелка вниз</key> для перемещения и чтения по строкам.</p>
+    </item>
+    <item>
+      <p>Используйте клавишу <key>Shift</key> в сочетании с приведёнными выше командами для выделения и снятия выделения текста.</p>
+    </item>
+  </list>
+  <note style="tip">
+    <title>Включение курсорной навигации в приложении</title>
+    <p>Курсорная навигация включена по умолчанию не во всех приложениях. Во многих приложениях GNOME её можно включать и отключать нажатием клавиши <key>F7</key>.</p>
+  </note>
+  <p>В режиме курсорной навигации можно не только читать документ, но и работать с текущим текстом — озвучить, озвучить по буквам, а также получить юникодное значение. Это можно сделать с помощью <link xref="howto_flat_review">функции общего осмотра</link> <app>Orca</app>.</p>
+  <p>Наконец, чтобы программа <app>Orca</app> произнесла весь документ, начиная с текущего положения, используйте команду «Читать всё». Сведения о ней, как и более полный перечень команд <app>Orca</app> для доступа к тексту документа, доступны в разделе <link xref="commands_reading">Команды чтения</link>.</p>
+</page>

@@ -20,13 +20,15 @@
 """Provides the default implementation for bookmarks in Orca."""
 
 import pickle
-import pyatspi
 import os
 import urllib.parse
 
+from . import cmdnames
+from . import keybindings
+from . import input_event
 from . import messages
-from . import orca_state
 from . import settings_manager
+from .ax_object import AXObject
 
 _settingsManager = settings_manager.getManager()
 
@@ -39,6 +41,93 @@ class Bookmarks:
         self._loadObservers = []
         self._loadBookmarks() 
         self._currentbookmarkindex = None
+        self._handlers = self._setup_handlers()
+        self._bindings = self._setup_bindings()
+
+    def get_bindings(self):
+        """Returns the bookmark keybindings."""
+
+        return self._bindings
+
+    def get_handlers(self):
+        """Returns the bookmark handlers."""
+
+        return self._handlers
+
+    def _setup_handlers(self):
+        """Sets up and returns the bookmark input event handlers."""
+
+        handlers = {}
+
+        handlers["goToPrevBookmark"] = \
+            input_event.InputEventHandler(
+                self.goToPrevBookmark,
+                cmdnames.BOOKMARK_GO_TO_PREVIOUS)
+
+        handlers["goToNextBookmark"] = \
+            input_event.InputEventHandler(
+                self.goToNextBookmark,
+                cmdnames.BOOKMARK_GO_TO_NEXT)
+
+        handlers["goToBookmark"] = \
+            input_event.InputEventHandler(
+                self.goToBookmark,
+                cmdnames.BOOKMARK_GO_TO)
+
+        handlers["addBookmark"] = \
+            input_event.InputEventHandler(
+                self.addBookmark,
+                cmdnames.BOOKMARK_ADD)
+
+        handlers["saveBookmarks"] = \
+            input_event.InputEventHandler(
+                self.saveBookmarks,
+                cmdnames.BOOKMARK_SAVE)
+
+        return handlers
+
+    def _setup_bindings(self):
+        """Sets up and returns the date-and-time-presenter key bindings."""
+
+        bindings = keybindings.KeyBindings()
+
+        bindings.add(
+            keybindings.KeyBinding(
+                "b",
+                keybindings.defaultModifierMask,
+                keybindings.ORCA_MODIFIER_MASK,
+                self._handlers.get("goToNextBookmark")))
+
+        bindings.add(
+            keybindings.KeyBinding(
+                "b",
+                keybindings.defaultModifierMask,
+                keybindings.ORCA_SHIFT_MODIFIER_MASK,
+                self._handlers.get("goToPrevBookmark")))
+
+        bindings.add(
+            keybindings.KeyBinding(
+                "b",
+                keybindings.defaultModifierMask,
+                keybindings.ORCA_ALT_MODIFIER_MASK,
+                self._handlers.get("saveBookmarks")))
+
+        for i in range(6):
+            bindings.add(
+                keybindings.KeyBinding(
+                    str(i + 1),
+                    keybindings.defaultModifierMask,
+                    keybindings.ORCA_MODIFIER_MASK,
+                    self._handlers.get("goToBookmark")))
+
+            bindings.add(
+                keybindings.KeyBinding(
+                    str(i + 1),
+                    keybindings.defaultModifierMask,
+                    keybindings.ORCA_ALT_MODIFIER_MASK,
+                    self._handlers.get("addBookmark")))
+
+        return bindings
 
     def addSaveObserver(self, observer):
         self._saveObservers.append(observer)
@@ -46,7 +135,7 @@ class Bookmarks:
     def addLoadObserver(self, observer):
         self._loadObservers.append(observer)
 
-    def goToBookmark(self, inputEvent, index=None):
+    def goToBookmark(self, script, inputEvent, index=None):
         """ Go to the bookmark indexed by inputEvent.hw_code """
         # establish the _bookmarks index
         index = index or inputEvent.hw_code
@@ -58,23 +147,22 @@ class Bookmarks:
                                 context_info['word'], context_info['char'])
             self._bookmarks[index] = context_info
         except KeyError:
-            self._script.systemBeep()
+            self._script.presentMessage(messages.BOOKMARK_NOT_FOUND)
             return
 
-        self._script.flatReviewContext = context
-        self._script.reviewCurrentItem(inputEvent)
+        self._script.flatReviewPresenter.present_item(script, inputEvent)
 
         # update the currentbookmark
         self._currentbookmarkindex = index
 
-    def addBookmark(self, inputEvent):
+    def addBookmark(self, script, inputEvent):
         """ Add an in-page accessible object bookmark for this key. """
         context = self._script.getFlatReviewContext()
         self._bookmarks[inputEvent.hw_code] = self._contextToBookmark(context)
         self._script.presentMessage(messages.BOOKMARK_ENTERED)
 
-    def saveBookmarks(self, inputEvent):
-        """ Save the bookmarks for this script. """        
+    def saveBookmarks(self, script, inputEvent):
+        """ Save the bookmarks for this script. """
         try:
             self.saveBookmarksToDisk(self._bookmarks)
             self._script.presentMessage(messages.BOOKMARKS_SAVED)
@@ -85,7 +173,7 @@ class Bookmarks:
         for o in self._saveObservers:
             o()
 
-    def goToNextBookmark(self, inputEvent):
+    def goToNextBookmark(self, script, inputEvent):
         """ Go to the next bookmark location.  If no bookmark has yet to be
         selected, the first bookmark will be used.  """
 
@@ -94,14 +182,14 @@ class Bookmarks:
 
         # no bookmarks have been entered
         if len(hwkeys) == 0:
-            self._script.systemBeep()
+            self._script.presentMessage(messages.BOOKMARKS_NOT_FOUND)
             return
         # only 1 bookmark or we are just starting out
         elif len(hwkeys) == 1 or self._currentbookmarkindex is None:
             self.goToBookmark(None, index=hwkeys[0])
             return
 
-        # find current bookmark hw_code in our sorted list.  
+        # find current bookmark hw_code in our sorted list.
         # Go to next one if possible
         try:
             index = hwkeys.index(self._currentbookmarkindex)
@@ -109,20 +197,20 @@ class Bookmarks:
         except (ValueError, KeyError, IndexError):
             self.goToBookmark(None, index=hwkeys[0])
 
-    def goToPrevBookmark(self, inputEvent):
+    def goToPrevBookmark(self, script, inputEvent):
         # get the hardware keys that have registered bookmarks
         hwkeys = sorted(self._bookmarks.keys())
 
         # no bookmarks have been entered
         if len(hwkeys) == 0:
-            self._script.systemBeep()
+            self._script.presentMessage(messages.BOOKMARKS_NOT_FOUND)
             return
         # only 1 bookmark or we are just starting out
         elif len(hwkeys) == 1 or self._currentbookmarkindex is None:
             self.goToBookmark(None, index=hwkeys[0])
             return
 
-        # find current bookmark hw_code in our sorted list.  
+        # find current bookmark hw_code in our sorted list.
         # Go to previous one if possible
         try:
             index = hwkeys.index(self._currentbookmarkindex)
@@ -203,10 +291,9 @@ class Bookmarks:
         document frame). """
         returnobj = self._script.utilities.documentFrame()
         for childnumber in path:
-            try:
-                returnobj = returnobj[childnumber]
-            except IndexError:
-                return None
+            returnobj = AXObject.get_child(returnobj, childnumber)
+            if not returnobj:
+                break
 
         return returnobj
 
@@ -223,13 +310,13 @@ class Bookmarks:
             return []
 
         path = []
-        path.append(start_obj.getIndexInParent())
-        p = start_obj.parent
+        path.append(AXObject.get_index_in_parent(start_obj))
+        p = AXObject.get_parent(start_obj)
         while p:
             if self._script.utilities.isDocument(p):
                 path.reverse()
                 return path
-            path.append(p.getIndexInParent())
-            p = p.parent
+            path.append(AXObject.get_index_in_parent(p))
+            p = AXObject.get_parent(p)
 
         return []

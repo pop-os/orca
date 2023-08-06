@@ -25,12 +25,11 @@ __date__      = ""
 __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc."
 __license__   = "LGPL"
 
-import pyatspi
-
 import orca.messages as messages
 import orca.scripts.default as default
 import orca.settings as settings
-import orca.notification_messages as notification_messages
+from orca.ax_utilities import AXUtilities
+
 
 ########################################################################
 #                                                                      #
@@ -43,12 +42,11 @@ class Script(default.Script):
     def onWindowCreated(self, event):
         """Callback for window:create accessibility events."""
 
-        hasRole = lambda x: x and x.getRole() == pyatspi.ROLE_LABEL
-        allLabels = self.utilities.findAllDescendants(event.source, hasRole)
+        allLabels = AXUtilities.find_all_labels(event.source)
         texts = [self.utilities.displayedText(acc) for acc in allLabels]
         text = '%s %s' % (messages.NOTIFICATION, ' '.join(texts))
 
         voice = self.speechGenerator.voice(obj=event.source, string=text)
         self.speakMessage(text, voice=voice)
         self.displayBrailleMessage(text, flashTime=settings.brailleFlashTime)
-        notification_messages.saveMessage(text)
+        self.notificationPresenter.save_notification(text)

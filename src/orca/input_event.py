@@ -27,8 +27,11 @@ __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
                 "Copyright (c) 2011-2016 Igalia, S.L."
 __license__   = "LGPL"
 
+import gi
+gi.require_version("Atspi", "2.0")
+from gi.repository import Atspi
+
 import math
-import pyatspi
 import time
 from gi.repository import Gdk
 from gi.repository import GLib
@@ -37,9 +40,12 @@ from . import debug
 from . import keybindings
 from . import keynames
 from . import messages
+from . import orca
 from . import orca_state
 from . import script_manager
 from . import settings
+from .ax_object import AXObject
+from .ax_utilities import AXUtilities
 
 KEYBOARD_EVENT     = "keyboard"
 BRAILLE_EVENT      = "braille"
@@ -65,14 +71,14 @@ class InputEvent:
         pass
 
 def _getXkbStickyKeysState():
-    from subprocess import check_output, CalledProcessError
+    from subprocess import check_output
 
     try:
         output = check_output(['xkbset', 'q'])
         for line in output.decode('ASCII', errors='ignore').split('\n'):
             if line.startswith('Sticky-Keys = '):
                 return line.endswith('On')
-    except:
+    except Exception:
         pass
     return False
 
@@ -232,8 +238,8 @@ class KeyboardEvent(InputEvent):
         self.type = event.type
         self.hw_code = event.hw_code
         self.modifiers = event.modifiers & Gdk.ModifierType.MODIFIER_MASK
-        if event.modifiers & (1 << pyatspi.MODIFIER_NUMLOCK):
-            self.modifiers |= (1 << pyatspi.MODIFIER_NUMLOCK)
+        if event.modifiers & (1 << Atspi.ModifierType.NUMLOCK):
+            self.modifiers |= (1 << Atspi.ModifierType.NUMLOCK)
         self.event_string = event.event_string
         self.keyval_name = Gdk.keyval_name(event.id)
         if self.event_string  == "":
@@ -270,18 +276,20 @@ class KeyboardEvent(InputEvent):
         # trying to heuristically hack around this just by looking at the event
         # is not reliable. Ditto regarding asking Gdk for the numlock state.
         if self.keyval_name.startswith("KP"):
-            if event.modifiers & (1 << pyatspi.MODIFIER_NUMLOCK):
+            if event.modifiers & (1 << Atspi.ModifierType.NUMLOCK):
                 self._is_kp_with_numlock = True
 
         if self._script:
             self._app = self._script.app
             if not self._window:
-                self._window = orca_state.activeWindow = self._script.utilities.activeWindow()
+                orca.setActiveWindow(self._script.utilities.activeWindow())
+                self._window = orca_state.activeWindow
                 msg = 'INPUT EVENT: Updated window and active window to %s' % self._window
                 debug.println(debug.LEVEL_INFO, msg, True)
 
-        if self._window and self._app != self._window.getApplication():
-            self._script = script_manager.getManager().getScript(self._window.getApplication())
+        if self._window and self._app != AXObject.get_application(self._window):
+            self._script = script_manager.getManager().getScript(
+                AXObject.get_application(self._window))
             self._app = self._script.app
             msg = 'INPUT EVENT: Updated script to %s' % self._script
             debug.println(debug.LEVEL_INFO, msg, True)
@@ -293,13 +301,9 @@ class KeyboardEvent(InputEvent):
 
         self.keyType = None
 
-        _isPressed = event.type == pyatspi.KEY_PRESSED_EVENT
-
-        try:
-            role = self._obj.getRole()
-        except:
-            role = None
-        _mayEcho = _isPressed or role == pyatspi.ROLE_TERMINAL
+        _isPressed = event.type == Atspi.EventType.KEY_PRESSED_EVENT
+        role = AXObject.get_role(self._obj)
+        _mayEcho = _isPressed or role == Atspi.Role.TERMINAL
 
         if KeyboardEvent.stickyKeys and not self.isOrcaModifier() \
            and not KeyboardEvent.lastOrcaModifierAlone:
@@ -332,7 +336,8 @@ class KeyboardEvent(InputEvent):
                 if KeyboardEvent.lastOrcaModifierAlone:
                     if _isPressed:
                         KeyboardEvent.secondOrcaModifierTime = now
-                    if KeyboardEvent.secondOrcaModifierTime < KeyboardEvent.lastOrcaModifierAloneTime + 0.5:
+                    if (KeyboardEvent.secondOrcaModifierTime <
+                        KeyboardEvent.lastOrcaModifierAloneTime + 0.5):
                         # double-orca, let the real action happen
                         self._bypassOrca = True
                     if not _isPressed:
@@ -344,8 +349,10 @@ class KeyboardEvent(InputEvent):
                         KeyboardEvent.currentOrcaModifierAlone = True
                         KeyboardEvent.currentOrcaModifierAloneTime = now
                     else:
-                        KeyboardEvent.lastOrcaModifierAlone = KeyboardEvent.currentOrcaModifierAlone
-                        KeyboardEvent.lastOrcaModifierAloneTime = KeyboardEvent.currentOrcaModifierAloneTime
+                        KeyboardEvent.lastOrcaModifierAlone = \
+                            KeyboardEvent.currentOrcaModifierAlone
+                        KeyboardEvent.lastOrcaModifierAloneTime = \
+                            KeyboardEvent.currentOrcaModifierAloneTime
         elif self.isFunctionKey():
             self.keyType = KeyboardEvent.TYPE_FUNCTION
             self.shouldEcho = _mayEcho and settings.enableFunctionKeys
@@ -425,7 +432,7 @@ class KeyboardEvent(InputEvent):
         if self.is_duplicate:
             return
 
-        if self.type == pyatspi.KEY_RELEASED_EVENT:
+        if self.type == Atspi.EventType.KEY_RELEASED_EVENT:
             return
 
         if self._clickCount < 3:
@@ -467,12 +474,7 @@ class KeyboardEvent(InputEvent):
              + ("                 shouldEcho=%s\n" % self.shouldEcho)
 
     def _shouldObscure(self):
-        try:
-            role = self._obj.getRole()
-        except:
-            return False
-
-        if role != pyatspi.ROLE_PASSWORD_TEXT:
+        if not AXUtilities.is_password_text(self._obj):
             return False
 
         if not self.isPrintableKey():
@@ -570,11 +572,11 @@ class KeyboardEvent(InputEvent):
             return self.keyType in KeyboardEvent.TYPE_LOCKING
 
         lockingKeys = ["Caps_Lock", "Shift_Lock", "Num_Lock", "Scroll_Lock"]
-        if not self.event_string in lockingKeys:
+        if self.event_string not in lockingKeys:
             return False
 
         if not orca_state.bypassNextCommand and not self._bypassOrca:
-            return not self.event_string in settings.orcaModifierKeys
+            return self.event_string not in settings.orcaModifierKeys
 
         return True
 
@@ -646,7 +648,7 @@ class KeyboardEvent(InputEvent):
     def isPressedKey(self):
         """Returns True if the key is pressed"""
 
-        return self.type == pyatspi.KEY_PRESSED_EVENT
+        return self.type == Atspi.EventType.KEY_PRESSED_EVENT
 
     def isPunctuationKey(self):
         """Return True if this is a punctuation key."""
@@ -683,9 +685,6 @@ class KeyboardEvent(InputEvent):
         if not self.isPrintableKey():
             return False
 
-        if orca_state.learnModeEnabled:
-            return False
-
         script = orca_state.activeScript
         return script and script.utilities.willEchoCharacter(self)
 
@@ -698,11 +697,11 @@ class KeyboardEvent(InputEvent):
             return None
 
         if self.event_string == "Caps_Lock":
-            mod = pyatspi.MODIFIER_SHIFTLOCK
+            mod = Atspi.ModifierType.SHIFTLOCK
         elif self.event_string == "Shift_Lock":
-            mod = pyatspi.MODIFIER_SHIFT
+            mod = Atspi.ModifierType.SHIFT
         elif self.event_string == "Num_Lock":
-            mod = pyatspi.MODIFIER_NUMLOCK
+            mod = Atspi.ModifierType.NUMLOCK
         else:
             return None
 
@@ -731,21 +730,26 @@ class KeyboardEvent(InputEvent):
 
         return self._obj
 
+    def getHandler(self):
+        """Returns the handler associated with this key event."""
+
+        return self._handler
+
     def _getUserHandler(self):
         # TODO - JD: This should go away once plugin support is in place.
         try:
             bindings = settings.keyBindingsMap.get(self._script.__module__)
-        except:
+        except Exception:
             bindings = None
         if not bindings:
             try:
                 bindings = settings.keyBindingsMap.get("default")
-            except:
+            except Exception:
                 bindings = None
 
         try:
             handler = bindings.getInputHandler(self)
-        except:
+        except Exception:
             handler = None
 
         return handler
@@ -779,30 +783,14 @@ class KeyboardEvent(InputEvent):
         if self._isReleaseForLastNonModifierKeyEvent():
             return scriptConsumes, 'Is release for last non-modifier keyevent'
 
-        if orca_state.learnModeEnabled:
-            if self.event_string == 'Escape':
-                self._consumer = self._script.exitLearnMode
-                return True, 'Exiting Learn Mode'
-
-            if self.event_string == 'F1' and not self.modifiers:
-                self._consumer = self._script.showHelp
-                return True, 'Showing Help'
-
-            if self.event_string in ['F2', 'F3'] and not self.modifiers:
-                self._consumer = self._script.listOrcaShortcuts
-                return True, 'Listing shortcuts'
-
-            self._consumer = self._presentHandler
+        if self._script.learnModePresenter.is_active():
+            self._consumer = self._script.learnModePresenter.handle_event
             return True, 'In Learn Mode'
 
         if self.isModifierKey():
             if not self.isOrcaModifier():
                 return False, 'Non-Orca modifier not in Learn Mode'
             return True, 'Orca modifier'
-
-        if orca_state.listNotificationsModeEnabled:
-            self._consumer = self._script.listNotifications
-            return True, 'Listing notifications'
 
         if not self._handler:
             return False, 'No handler'
@@ -827,16 +815,10 @@ class KeyboardEvent(InputEvent):
         if self.isPressedKey():
             self._script.presentationInterrupt()
 
-        return self._script.presentKeyboardEvent(self)
-
-    def _presentHandler(self, input_event=None):
-        if not self._handler:
+        if self._script.learnModePresenter.is_active():
             return False
 
-        if self._handler.learnModeEnabled and self._handler.description:
-            self._script.presentMessage(self._handler.description)
-
-        return True
+        return self._script.presentKeyboardEvent(self)
 
     def process(self):
         """Processes this input event."""
@@ -891,7 +873,7 @@ class KeyboardEvent(InputEvent):
         if self._bypassOrca:
             if (self.event_string == "Caps_Lock" \
                 or self.event_string == "Shift_Lock") \
-               and self.type == pyatspi.KEY_PRESSED_EVENT:
+               and self.type == Atspi.EventType.KEY_PRESSED_EVENT:
                     self._lock_mod()
                     self.keyType = KeyboardEvent.TYPE_LOCKING
                     self._present()
@@ -941,22 +923,22 @@ class KeyboardEvent(InputEvent):
             def lockit():
                 try:
                     if modifiers & modifier:
-                        lock = pyatspi.KEY_UNLOCKMODIFIERS
+                        lock = Atspi.KeySynthType.UNLOCKMODIFIERS
                         debug.println(debug.LEVEL_INFO, "Unlocking capslock", True)
                     else:
-                        lock = pyatspi.KEY_LOCKMODIFIERS
+                        lock = Atspi.KeySynthType.LOCKMODIFIERS
                         debug.println(debug.LEVEL_INFO, "Locking capslock", True)
-                    pyatspi.Registry.generateKeyboardEvent(modifier, None, lock)
+                    Atspi.generate_keyboard_event(modifier, "", lock)
                     debug.println(debug.LEVEL_INFO, "Done with capslock", True)
-                except:
+                except Exception:
                     debug.println(debug.LEVEL_INFO, "Could not trigger capslock, " \
                         "at-spi2-core >= 2.32 is needed for triggering capslock", True)
                     pass
             return lockit
         if self.event_string == "Caps_Lock":
-            modifier = 1 << pyatspi.MODIFIER_SHIFTLOCK
+            modifier = 1 << Atspi.ModifierType.SHIFTLOCK
         elif self.event_string == "Shift_Lock":
-            modifier = 1 << pyatspi.MODIFIER_SHIFT
+            modifier = 1 << Atspi.ModifierType.SHIFT
         else:
             msg = "Unknown locking key %s" % self.event_string
             debug.println(debug.LEVEL_WARNING, msg, True)
@@ -1007,7 +989,7 @@ class MouseButtonEvent(InputEvent):
         display = Gdk.Display.get_default()
         seat = Gdk.Display.get_default_seat(display)
         _pointer = seat.get_pointer()
-    except:
+    except Exception:
         _pointer = None
 
     def __init__(self, event):
@@ -1102,11 +1084,7 @@ class InputEventHandler:
         return (self.function == other.function)
 
     def processInputEvent(self, script, inputEvent):
-        """Processes an input event.  If learnModeEnabled is True,
-        this will merely present the description of the input event via
-        If learnModeEnabled is False, this will call the function bound
-        to this InputEventHandler instance, passing the inputEvent as
-        the sole argument to the function.
+        """Processes an input event.
 
         This function is expected to return True if it consumes the
         event; otherwise it is expected to return False.
@@ -1118,15 +1096,9 @@ class InputEventHandler:
         """
 
         consumed = False
-
-        if orca_state.learnModeEnabled and self._learnModeEnabled:
-            if self.description:
-                script.presentMessage(self.description)
-                consumed = True
-        else:
-            try:
-                consumed = self.function(script, inputEvent)
-            except:
-                debug.printException(debug.LEVEL_SEVERE)
+        try:
+            consumed = self.function(script, inputEvent)
+        except Exception:
+            debug.printException(debug.LEVEL_SEVERE)
 
         return consumed

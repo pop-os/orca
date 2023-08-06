@@ -26,7 +26,6 @@ __license__   = "LGPL"
 
 from orca import debug
 from orca import orca
-from orca import orca_state
 from orca.scripts import default
 
 from .braille_generator import BrailleGenerator
@@ -57,7 +56,7 @@ class Script(default.Script):
         return SpeechGenerator(self)
 
     def getUtilities(self):
-        """Returns the utilites for this script."""
+        """Returns the utilities for this script."""
 
         return Utilities(self)
 
@@ -98,19 +97,21 @@ class Script(default.Script):
             voice = self.speechGenerator.voice(obj=event.source, string=newString)
             self.speakMessage(newString, voice=voice)
 
-        if self.flatReviewContext:
+        if self.flatReviewPresenter.is_active():
+            msg = "TERMINAL: Flat review presenter is active. Ignoring insertion"
+            debug.println(debug.LEVEL_INFO, msg, True)
             return
 
         try:
             text = event.source.queryText()
-        except:
+        except Exception:
             pass
         else:
             self._saveLastCursorPosition(event.source, text.caretOffset)
             self.utilities.updateCachedTextSelection(event.source)
 
     def presentKeyboardEvent(self, event):
-        if orca_state.learnModeEnabled or not event.isPrintableKey():
+        if not event.isPrintableKey():
             return super().presentKeyboardEvent(event)
 
         if event.isPressedKey():
@@ -118,7 +119,7 @@ class Script(default.Script):
 
         self._sayAllIsInterrupted = False
         self.utilities.clearCachedCommandState()
-        if event.shouldEcho == False or event.isOrcaModified() or event.isCharacterEchoable():
+        if not event.shouldEcho or event.isOrcaModified() or event.isCharacterEchoable():
             return False
 
         # We have no reliable way of knowing a password is being entered into
@@ -128,7 +129,7 @@ class Script(default.Script):
             offset = text.caretOffset
             prevChar = text.getText(offset - 1, offset)
             char = text.getText(offset, offset + 1)
-        except:
+        except Exception:
             return False
 
         string = event.event_string

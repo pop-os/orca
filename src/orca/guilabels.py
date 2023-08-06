@@ -274,6 +274,16 @@ KB_HEADER_KEY_BINDING = _("Key Binding")
 # to, for instance, web browsing.
 KB_GROUP_DEFAULT = C_("keybindings", "Default")
 
+# Translators: This string is a label for the group of Orca commands which
+# are related to its "learn mode". Please use the same translation as done
+# in cmdnames.py
+KB_GROUP_LEARN_MODE = C_("keybindings", "Learn mode")
+
+# Translators: This string is a label for the group of Orca commands which
+# are related to presenting and performing the accessible actions associated
+# with the current object.
+KB_GROUP_ACTIONS = _("Actions")
+
 # Translators: An external braille device has buttons on it that permit the
 # user to create input gestures from the braille device. The braille bindings
 # are what determine the actions Orca will take when the user presses these
@@ -281,8 +291,60 @@ KB_GROUP_DEFAULT = C_("keybindings", "Default")
 KB_GROUP_BRAILLE = _("Braille Bindings")
 
 # Translators: This string is a label for the group of Orca commands which
+# are related to saving and jumping among objects via "bookmarks".
+KB_GROUP_BOOKMARKS = _("Bookmarks")
+
+# Translators: This string is a label for the group of Orca commands which
+# are related to presenting the date and time.
+KB_GROUP_DATE_AND_TIME = _("Date and time")
+
+# Translators: This string is a label for the group of Orca commands which
+# are related to presenting the object under the mouse pointer in speech
+# and/or braille. The translation should be consistent with the string
+# used in cmdnames.py.
+KB_GROUP_MOUSE_REVIEW = _("Mouse review")
+
+# Translators: This string is a label for the group of Orca commands which
+# are related to object navigation.
+KB_GROUP_OBJECT_NAVIGATION = _("Object navigation")
+
+# Translators: This string is a label for the group of Orca commands which
+# are related to presenting information about the current location, such as
+# the title, status bar, and default button of the current window; the
+# name, role, and location of the currently-focused object; the selected
+# text in the currently-focused object; etc.
+KB_GROUP_WHERE_AM_I = _("Object details")
+
+# Translators: This string is a label for the group of Orca commands which
 # do not currently have an associated key binding.
 KB_GROUP_UNBOUND = _("Unbound")
+
+# Translators: This string is a label for the group of Orca commands which
+# are related to Orca's "flat review" feature. This feature allows the blind
+# user to explore the text in a window in a 2D fashion. That is, Orca treats
+# all the text from all objects in a window (e.g., buttons, labels, etc.) as
+# a sequence of words in a sequence of lines.  The flat review feature allows
+# the user to explore this text by the {previous,next} {line,word,character}.
+# Those commands are all listed under this group label.
+KB_GROUP_FLAT_REVIEW = _("Flat review")
+
+# Translators: This string is a label for the group of Orca commands which
+# are related to Orca's speech and verbosity settings. This group of commands
+# allows on-the-fly configuration of how much (or little) Orca says about a
+# particular object, as well certain aspects of the voice with which things
+# are spoken.
+KB_GROUP_SPEECH_VERBOSITY = _("Speech and verbosity")
+
+# Translators: the 'flat review' feature of Orca allows the blind user to
+# explore the text in a window in a 2D fashion.  That is, Orca treats all
+# the text from all objects in a window (e.g., buttons, labels, etc.) as a
+# sequence of words in a sequence of lines.  The flat review feature allows
+# the user to explore this text by the {previous,next} {line,word,character}.
+# Normally the contents are navigated without leaving the application being
+# reviewed. There is a command which will place the entire contents of the
+# flat review representation into a text view to make it easy to review
+# and copy the text. This string is the title of the window with the text view.
+FLAT_REVIEW_CONTENTS = _("Flat review contents")
 
 # Translators: Modified is a table column header in Orca's preferences dialog.
 # This column contains a checkbox which indicates whether a key binding
@@ -292,6 +354,23 @@ KB_MODIFIED = C_("keybindings", "Modified")
 
 # Translators: This label refers to the keyboard layout (desktop or laptop).
 KEYBOARD_LAYOUT_DESKTOP = _("_Desktop")
+
+# Translators: This is a column header for a list of notification messages.
+# It will appear over the message text.
+NOTIFICATIONS_COLUMN_HEADER = C_("notification presenter", "Notifications")
+
+# Translators: This is a title for a dialog that will present a list of
+# notification messages.
+NOTIFICATIONS_COUNT = C_("notification presenter", "%d Notifications")
+
+# Translators: This is a column header for a list of notification messages.
+# It will appear over the time a particular notification was received. The
+# time will be relative (e.g. "10 minutes ago") or absolute.
+NOTIFICATIONS_RECEIVED_TIME = C_("notification presenter", "Received")
+
+# Translators: This string is a label for the group of Orca commands which
+# are associated with presenting notifications.
+KB_GROUP_NOTIFICATIONS = _("Notification presenter")
 
 # Translators: Orca's preferences can be configured on a per-application basis,
 # allowing users to customize Orca's behavior, keybindings, etc. to work one
@@ -493,6 +572,12 @@ SN_HEADER_HEADING = C_("structural navigation", "Heading")
 # Translators: Orca has a command that presents a list of structural navigation
 # objects in a dialog box so that users can navigate more quickly than they
 # could with native keyboard navigation. This is the title for a column which
+# contains the title associated with an iframe.
+SN_HEADER_IFRAME = C_("structural navigation", "Internal Frame")
+
+# Translators: Orca has a command that presents a list of structural navigation
+# objects in a dialog box so that users can navigate more quickly than they
+# could with native keyboard navigation. This is the title for a column which
 # contains the text (alt text, title, etc.) associated with an image.
 SN_HEADER_IMAGE = C_("structural navigation", "Image")
 
@@ -631,6 +716,11 @@ SN_TITLE_FORM_FIELD = C_("structural navigation", "Form Fields")
 # objects in a dialog box so that users can navigate more quickly than they
 # could with native keyboard navigation. This is the title of such a dialog box.
 SN_TITLE_HEADING = C_("structural navigation", "Headings")
+
+# Translators: Orca has a command that presents a list of structural navigation
+# objects in a dialog box so that users can navigate more quickly than they
+# could with native keyboard navigation. This is the title of such a dialog box.
+SN_TITLE_IFRAME = C_("structural navigation", "Interal Frames")
 
 # Translators: Orca has a command that presents a list of structural navigation
 # objects in a dialog box so that users can navigate more quickly than they

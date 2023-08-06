@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_spellcheck" xml:lang="ru">
+  <info>
+    <link type="guide" xref="preferences#application"/>
+    <title type="sort">4. Проверка правописания</title>
+    <title type="link">Проверка правописания</title>
+    <desc>Настройка поддержки <app>Orca</app> для проверки правописания</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Параметры правописания</title>
+  <p>Программа <app>Orca</app> нацелена на предоставление постоянной поддержки пользователя при работе со средствами проверки орфографии приложений. Если для конкретного приложения предусмотрена такая расширенная поддержка, будут доступны несколько параметров, которые позволят вам настроить уровень информативности наиболее подходящим образом.</p>
+  <note style="tip">
+    <title>Можно получать и краткие, и подробные сведения об ошибках</title>
+    <p>Эти параметры можно отключить, если обычно при проверке орфографии вам требуется минимальное количество информации и только иногда бывают нужны подробные сведения об определённых ошибках. Для получения подробных сведений просто воспользуйтесь командой <app>Orca</app> <link xref="howto_whereami">Где я</link>, которая предназначена для подробного сообщения положения, и тогда <app>Orca</app> сообщит о текущей ошибке таким образом, как если бы все эти параметры были включены.</p>
+  </note>
+  <section id="spell_error">
+    <title>Произносить ошибку по буквам</title>
+    <p>Если этот флажок установлен, после озвучивания слова с ошибкой <app>Orca</app> будет произносить его по буквам.</p>
+    <p>Значение по умолчанию: отмечено</p>
+  </section>
+  <section id="spell_suggestion">
+    <title>Произносить вариант по буквам</title>
+    <p>Если этот флажок установлен, после озвучивания варианта исправления <app>Orca</app> будет произносить его по буквам.</p>
+    <p>Значение по умолчанию: отмечено</p>
+  </section>
+  <section id="error_context">
+    <title>Предоставлять контекст ошибки</title>
+    <p>Если этот флажок установлен, <app>Orca</app> будет озвучивать предложение или строку из документа, в котором обнаружена ошибка.</p>
+    <p>Значение по умолчанию: отмечено</p>
+  </section>
+</page>

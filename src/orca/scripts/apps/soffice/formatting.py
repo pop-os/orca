@@ -25,18 +25,23 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2005-2009 Sun Microsystems Inc."
 __license__   = "LGPL"
 
-# pylint: disable-msg=C0301
+# If we were to adhere to the line-length requirements of 100 characters,
+# this file would be even more cumbersome to look at than it already is.
+# We shall respect the line-length requirements for all files that are not
+# formatting.py.
+# ruff: noqa: E501
 
 import copy
-
-import pyatspi
+import gi
+gi.require_version("Atspi", "2.0")
+from gi.repository import Atspi
 
 import orca.formatting
 import orca.settings
 
 formatting = {
     'speech': {
-        pyatspi.ROLE_TABLE_CELL: {
+        Atspi.Role.TABLE_CELL: {
             'focused': 'endOfTableIndicator + pause + tableCellRow + pause',
             'unfocused': 'endOfTableIndicator + pause + tableCellRow + pause',
             'basicWhereAmI': 'parentRoleName + pause + columnHeader + pause + rowHeader + pause + roleName + pause + cellCheckedState + pause + (realActiveDescendantDisplayedText or imageDescription + image) + pause + columnAndRow + pause + expandableState + pause + nodeLevel + pause',
@@ -54,11 +59,11 @@ formatting = {
             },
     },
     'braille': {
-        pyatspi.ROLE_LIST: {
+        Atspi.Role.LIST: {
             'unfocused': '[Component(obj,\
                                      asString(labelOrName + roleName + required))]'
         },
-        pyatspi.ROLE_SCROLL_PANE: {
+        Atspi.Role.SCROLL_PANE: {
             'unfocused': 'asPageTabOrScrollPane\
                           + (childTab\
                              and ([Region(" ")] + childTab) or [])'

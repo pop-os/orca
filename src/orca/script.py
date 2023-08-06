@@ -39,24 +39,37 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2005-2009 Sun Microsystems Inc."
 __license__   = "LGPL"
 
-import pyatspi
+import gi
+gi.require_version("Atspi", "2.0")
+from gi.repository import Atspi
 
+from . import ax_event_synthesizer
+from . import action_presenter
 from . import braille_generator
+from . import date_and_time_presenter
 from . import debug
 from . import event_manager
+from . import flat_review_presenter
 from . import formatting
-from . import label_inference
 from . import keybindings
+from . import label_inference
+from . import learn_mode_presenter
+from . import mouse_review
+from . import notification_presenter
+from . import object_navigator
 from . import orca_state
 from . import script_manager
 from . import script_utilities
 from . import settings
 from . import settings_manager
 from . import sound_generator
+from . import speech_and_verbosity_manager
 from . import speech_generator
 from . import structural_navigation
 from . import bookmarks
 from . import tutorialgenerator
+from . import where_am_i_presenter
+from .ax_object import AXObject
 
 _eventManager = event_manager.getManager()
 _scriptManager = script_manager.getManager()
@@ -77,12 +90,7 @@ class Script:
         self.app = app
 
         if app:
-            try:
-                self.name = self.app.name
-            except (LookupError, RuntimeError):
-                msg = 'ERROR: Could not get name of script app %s'
-                debug.println(debug.LEVEL_INFO, msg, True)
-                self.name = "default"
+            self.name = AXObject.get_name(self.app) or "default"
         else:
             self.name = "default"
 
@@ -100,6 +108,16 @@ class Script:
         self.caretNavigation = self.getCaretNavigation()
         self.bookmarks = self.getBookmarks()
         self.liveRegionManager = self.getLiveRegionManager()
+        self.notificationPresenter = self.getNotificationPresenter()
+        self.flatReviewPresenter = self.getFlatReviewPresenter()
+        self.speechAndVerbosityManager = self.getSpeechAndVerbosityManager()
+        self.dateAndTimePresenter = self.getDateAndTimePresenter()
+        self.objectNavigator = self.getObjectNavigator()
+        self.whereAmIPresenter = self.getWhereAmIPresenter()
+        self.learnModePresenter = self.getLearnModePresenter()
+        self.mouseReviewer = self.getMouseReviewer()
+        self.eventSynthesizer = self.getEventSynthesizer()
+        self.actionPresenter = self.getActionPresenter()
 
         self.chat = self.getChat()
         self.inputEventHandlers = {}
@@ -198,8 +216,7 @@ class Script:
         return None
 
     def getUtilities(self):
-        """Returns the utilites for this script.
-        """
+        """Returns the utilities for this script."""
         return script_utilities.Utilities(self)
 
     def getLabelInference(self):
@@ -222,7 +239,37 @@ class Script:
         """Returns the live region support for this script."""
         return None
 
-    def useStructuralNavigationModel(self):
+    def getNotificationPresenter(self):
+        return notification_presenter.getPresenter()
+
+    def getFlatReviewPresenter(self):
+        return flat_review_presenter.getPresenter()
+
+    def getDateAndTimePresenter(self):
+        return date_and_time_presenter.getPresenter()
+
+    def getObjectNavigator(self):
+        return object_navigator.getNavigator()
+
+    def getSpeechAndVerbosityManager(self):
+        return speech_and_verbosity_manager.getManager()
+
+    def getWhereAmIPresenter(self):
+        return where_am_i_presenter.getPresenter()
+
+    def getLearnModePresenter(self):
+        return learn_mode_presenter.getPresenter()
+
+    def getActionPresenter(self):
+        return action_presenter.getPresenter()
+
+    def getMouseReviewer(self):
+        return mouse_review.getReviewer()
+
+    def getEventSynthesizer(self):
+        return ax_event_synthesizer.getSynthesizer()
+
+    def useStructuralNavigationModel(self, debugOutput=True):
         """Returns True if we should use structural navigation. Most
         scripts will have no need to override this.  Gecko does however
         because within an HTML document there are times when we do want
@@ -293,10 +340,9 @@ class Script:
         - event: the Event
         """
 
-        try:
-            role = event.source.getRole()
-        except (LookupError, RuntimeError):
-            msg = 'ERROR: Exception getting role for %s' % event.source
+        role = AXObject.get_role(event.source)
+        if role == Atspi.Role.INVALID:
+            msg = 'ERROR: Not processing object event for invalid object'
             debug.println(debug.LEVEL_INFO, msg, True)
             return
 
@@ -304,7 +350,7 @@ class Script:
         #
         processEvent = (orca_state.activeScript == self \
                         or self.presentIfInactive)
-        if role == pyatspi.ROLE_PROGRESS_BAR \
+        if role == Atspi.Role.PROGRESS_BAR \
            and not processEvent \
            and settings.progressBarVerbosity == settings.PROGRESS_BAR_ALL:
             processEvent = True

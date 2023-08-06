@@ -28,7 +28,6 @@ __license__   = "LGPL"
 
 from orca import debug
 from orca import orca
-from orca import orca_state
 from orca.scripts import default
 
 from .script_utilities import Utilities
@@ -42,7 +41,7 @@ class Script(default.Script):
         super().__init__(app)
 
     def getUtilities(self):
-        """Returns the utilites for this script."""
+        """Returns the utilities for this script."""
 
         return Utilities(self)
 
@@ -71,9 +70,10 @@ class Script(default.Script):
         debug.println(debug.LEVEL_INFO, msg, True)
 
         self.presentationInterrupt()
-        orca_state.activeWindow = self.utilities.topLevelObject(event.source)
+        orca.setActiveWindow(self.utilities.topLevelObject(event.source))
         orca.setLocusOfFocus(event, event.source, False)
-        self.presentMessage(self.utilities.getSelectionName(event.source), resetStyles=False, force=True)
+        self.presentMessage(self.utilities.getSelectionName(event.source),
+                            resetStyles=False, force=True)
         return True
 
     def onFocusedChanged(self, event):

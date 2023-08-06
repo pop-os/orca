@@ -8,6 +8,15 @@ gfxdir=$(datadir)/orca/gfx
 orca_python_PYTHON = \
 	__init__.py \
 	acss.py \
+	action_presenter.py \
+	ax_collection.py \
+	ax_event_synthesizer.py \
+	ax_object.py \
+	ax_selection.py \
+	ax_utilities.py \
+	ax_utilities_collection.py \
+	ax_utilities_role.py \
+	ax_utilities_state.py \
 	bookmarks.py \
 	braille.py \
 	braille_generator.py \
@@ -20,31 +29,34 @@ orca_python_PYTHON = \
 	cmdnames.py \
 	colornames.py \
 	common_keyboardmap.py \
+	date_and_time_presenter.py \
 	debug.py \
 	desktop_keyboardmap.py \
 	event_manager.py \
-	eventsynthesizer.py \
 	find.py \
 	flat_review.py \
+	flat_review_presenter.py \
 	formatting.py \
 	generator.py \
 	guilabels.py \
+	highlighter.py \
 	input_event.py \
 	keybindings.py \
 	keynames.py \
 	label_inference.py \
 	laptop_keyboardmap.py \
+	learn_mode_presenter.py \
 	liveregions.py \
 	logger.py \
 	mathsymbols.py \
 	messages.py \
 	mouse_review.py \
-	notification_messages.py \
+	notification_presenter.py \
+	object_navigator.py \
 	object_properties.py \
 	orca.py \
 	orca_gtkbuilder.py \
 	orca_gui_find.py \
-	orca_gui_commandlist.py \
 	orca_gui_navlist.py \
 	orca_gui_prefs.py \
 	orca_gui_profile.py \
@@ -61,6 +73,7 @@ orca_python_PYTHON = \
 	settings_manager.py \
 	sound.py \
 	sound_generator.py \
+	speech_and_verbosity_manager.py \
 	speech.py \
 	spellcheck.py \
 	speechdispatcherfactory.py \
@@ -68,7 +81,8 @@ orca_python_PYTHON = \
 	speechserver.py \
 	structural_navigation.py \
 	text_attribute_names.py \
-	tutorialgenerator.py
+	tutorialgenerator.py \
+	where_am_i_presenter.py
 
 orca_pythondir=$(pkgpythondir)
 

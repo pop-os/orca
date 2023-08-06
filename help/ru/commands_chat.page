@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_chat" xml:lang="ru">
+  <info>
+    <link type="next" xref="commands_debugging"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="preferences_chat"/>
+    <title type="sort">2. Беседа</title>
+    <title type="link">Беседа</title>
+    <desc>Команды для использования при работе с клиентами обмена мгновенными сообщениями и IRC-клиентами</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команды беседы</title>
+  <p>Следующие команды можно использовать для доступа к информации в клиентах обмена мгновенными сообщениями и IRC-клиентах, которые поддерживаются <app>Orca</app>. Некоторые из этих команд не имеют привязок к клавишам. Обратитесь к разделу <link xref="howto_key_bindings">Изменение привязок клавиш</link> для получения сведений о том, как привязать эти команды к клавишам.</p>
+  <list>
+    <item>
+      <p>Предоставить предыдущие сообщения беседы: <keyseq><key>Модификатор Orca</key><key>F1</key></keyseq> по <key>F9</key></p>
+    </item>
+    <item>
+      <p>Включить/отключить озвучивание названия беседы с сообщениями: (Не задано)</p>
+    </item>
+    <item>
+      <p>Включить/отключить уведомление о том, что собеседник печатает: (Не задано)</p>
+    </item>
+    <item>
+      <p>Включить/отключить историю сообщений для каждой беседы: (Не задано)</p>
+    </item>
+  </list>
+</page>

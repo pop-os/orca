@@ -89,17 +89,28 @@ WHERE_AM_I_SELECTION = _("Speak the current selection")
 # about a link, such as the uri and type of link.
 WHERE_AM_I_LINK = _("Speak link details")
 
-# Translators: This command will cause the window's status bar contents to be
-# spoken.
-PRESENT_STATUS_BAR = _("Speak the status bar")
+# Translators: This command will cause the dialog's default button name to be
+# spoken and displayed in braille. The "default" button in a dialog box is the
+# button that gets activated when Enter is pressed anywhere within that dialog
+# box.
+PRESENT_DEFAULT_BUTTON = _("Present the default button")
 
-# Translators: This command will cause the window's title to be spoken.
-PRESENT_TITLE = _("Speak the title bar")
+# Translators: This command will cause the window's status bar contents to be
+# spoken and displayed in braille.
+PRESENT_STATUS_BAR = _("Present the status bar")
+
+# Translators: This command will cause the window's title to be spoken and
+# displayed in braille.
+PRESENT_TITLE = _("Present the title bar")
 
 # Translators: the Orca "Find" dialog allows a user to search for text in a
 # window and then move focus to that text. For example, they may want to find
 # the "OK" button.
 SHOW_FIND_GUI = _("Open the Find dialog")
+
+# Translators: Orca has a command which presents a menu with accessible actions
+# that can be performed on the current object. This is the name of that command.
+SHOW_ACTIONS_MENU = _("Show actions menu")
 
 # Translators: the Orca "Find" dialog allows a user to search for text in a
 # window and then move focus to that text. For example, they may want to find
@@ -119,6 +130,14 @@ FIND_PREVIOUS = _("Search for the previous instance of a string")
 # sequence of words in a sequence of lines.  The flat review feature allows
 # the user to explore this text by the {previous,next} {line,word,character}.
 TOGGLE_FLAT_REVIEW = _("Enter and exit flat review mode")
+
+# Translators: the 'flat review' feature of Orca allows the blind user to
+# explore the text in a window in a 2D fashion.  That is, Orca treats all
+# the text from all objects in a window (e.g., buttons, labels, etc.) as a
+# sequence of words in a sequence of lines.  The flat review feature allows
+# the user to explore this text by the {previous,next} {line,word,character}.
+# This switch allows the user to restrict the flat review function to a specific object.
+TOGGLE_RESTRICT_FLAT_REVIEW = _("Toggle restricting flat review to the current object")
 
 # Translators: the 'flat review' feature of Orca allows the blind user to
 # explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -331,6 +350,17 @@ FLAT_REVIEW_COPY = _("Copy the contents under flat review to the clipboard")
 # the existing contents of the clipboard.
 FLAT_REVIEW_APPEND = \
     _("Append the contents under flat review to the clipboard")
+
+# Translators: the 'flat review' feature of Orca allows the blind user to
+# explore the text in a window in a 2D fashion.  That is, Orca treats all
+# the text from all objects in a window (e.g., buttons, labels, etc.) as a
+# sequence of words in a sequence of lines.  The flat review feature allows
+# the user to explore this text by the {previous,next} {line,word,character}.
+# Normally the contents are navigated without leaving the application being
+# reviewed. There is a command which will place the entire contents of the
+# flat review representation into a text view to make it easy to review
+# and copy the text. This string describes that command.
+FLAT_REVIEW_SHOW_CONTENTS = _("Show flat review contents")
 
 # Translators: when users are navigating a table, they sometimes want the
 # entire row of a table read; other times they just want the current cell
@@ -656,6 +686,10 @@ NOTIFICATION_MESSAGES_LIST = _("Present notification messages list")
 # notification message.
 NOTIFICATION_MESSAGES_PREVIOUS = _("Present previous notification message")
 
+# Translators: this is a command which causes Orca to present the next
+# notification message.
+NOTIFICATION_MESSAGES_NEXT = _("Present next notification message")
+
 # Translators: this is a command related to navigating within a document.
 CARET_NAVIGATION_NEXT_CHAR = _("Go to next character")
 
@@ -877,6 +911,15 @@ HEADING_AT_LEVEL_NEXT = _("Go to next heading at level %d")
 # <h1> is a heading at level 1, <h2> is a heading at level 2, etc.
 HEADING_AT_LEVEL_LIST = _("Display a list of headings at level %d")
 
+# Translators: this is for navigating among iframes in a document.
+IFRAME_PREV = _("Go to previous internal frame")
+
+# Translators: this is for navigating among iframes in a document.
+IFRAME_NEXT = _("Go to next internal frame")
+
+# Translators: this is for navigating among images in a document.
+IFRAME_LIST = _("Display a list of internal frames")
+
 # Translators: this is for navigating among images in a document.
 IMAGE_PREV = _("Go to previous image")
 
@@ -957,6 +1000,31 @@ LIVE_REGION_NEXT = _("Go to next live region")
 # region is an area of a web page that is periodically updated, e.g. a stock
 # ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
 LIVE_REGION_LAST = _("Go to the last live region which made an announcement")
+
+# Translators: the object navigator allows users to explore UI objects presented
+# as a hierarchy.
+NAVIGATOR_UP = _("Go to the parent of the object with navigator focus.")
+
+# Translators: the object navigator allows users to explore UI objects presented
+# as a hierarchy.
+NAVIGATOR_DOWN = _("Go to the first child of the object with navigator focus.")
+
+# Translators: the object navigator allows users to explore UI objects presented
+# as a hierarchy.
+NAVIGATOR_NEXT = _("Go to the next sibling of the object with navigator focus.")
+
+# Translators: the object navigator allows users to explore UI objects presented
+# as a hierarchy.
+NAVIGATOR_PREVIOUS = _("Go to the previous sibling of the object with navigator focus.")
+
+# Translators: the object navigator allows users to explore UI objects presented
+# as a hierarchy. Users are also able to synthesize a click on the objects.
+NAVIGATOR_PERFORM_ACTION = _("Click on the object with navigator focus.")
+
+# Translators: the object navigator allows users to explore UI objects presented
+# as a hierarchy. This hierarchy can be simplified, and the simplification can be
+# toggled on and off.
+NAVIGATOR_TOGGLE_SIMPLIFIED = _("Toggle simplified object navigation.")
 
 # Translators: this is for navigating among paragraphs in a document.
 PARAGRAPH_PREV = _("Go to previous paragraph")

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_toggling_caps_lock" xml:lang="ru">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_key_bindings"/>
+    <title type="sort">7. CapsLock в раскладке «Ноутбук»</title>
+    <desc>Переключение этой клавиши, когда она является <key>модификатором Orca</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>CapsLock в раскладке «Ноутбук»</title>
+  <p>В Orca имеются две раскладки клавиатуры: «Настольный компьютер» и «Ноутбук». Выбор раскладки влияет на то, какая клавиша используется в качестве модификатора Orca. При использовании раскладки «Ноутбук» по умолчанию модификатором Orca будет клавиша <key>CapsLock</key>. Если вы используете эту раскладку <app>Orca</app> и хотите заблокировать или разблокировать клавишу <key>CapsLock</key>, это можно сделать двумя способами: дважды нажав клавишу <key>CapsLock</key> (требуется версия at-spi2 2.32 или выше) или выполнив следующие действия:</p>
+  <steps>
+    <title>Включение и отключение клавиши CapsLock в раскладке «Ноутбук»</title>
+    <item>
+      <p>Используйте команду прямой передачи — нажмите комбинацию клавиш <keyseq><key>Модификатор Orca</key><key>Backspace</key></keyseq>, чтобы сообщить <app>Orca</app> о том, что следующую команду следует проигнорировать.</p>
+    </item>
+    <item>
+      <p>Нажмите клавишу <key>CapsLock</key>, чтобы переключить состояние её блокировки.</p>
+    </item>
+  </steps>
+</page>

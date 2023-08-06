@@ -31,11 +31,14 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2018-2019 Igalia, S.L."
 __license__   = "LGPL"
 
-import pyatspi
+import gi
+gi.require_version("Atspi", "2.0")
+from gi.repository import Atspi
 
 from orca import debug
-from orca import orca_state
 from orca.scripts import web
+from orca.ax_object import AXObject
+from orca.ax_utilities import AXUtilities
 
 
 class SpeechGenerator(web.SpeechGenerator):
@@ -57,7 +60,7 @@ class SpeechGenerator(web.SpeechGenerator):
     def _generateListBoxItemWidgets(self, obj, **args):
         # The list which descends from a combobox should be a menu, and its children
         # menuitems. We can remove this once that change is made in Chromium.
-        if pyatspi.findAncestor(obj, lambda x: x and x.getRole() == pyatspi.ROLE_COMBO_BOX):
+        if AXObject.find_ancestor(obj, AXUtilities.is_combo_box):
             msg = "CHROMIUM: Not generating listbox item widgets for combobox child %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
             return []
@@ -65,11 +68,11 @@ class SpeechGenerator(web.SpeechGenerator):
         return super()._generateListBoxItemWidgets(obj, **args)
 
     def _generateLabelOrName(self, obj, **args):
-        if obj.getRole() == pyatspi.ROLE_FRAME:
+        if AXUtilities.is_frame(obj):
             document = self._script.utilities.activeDocument(obj)
             if document and not self._script.utilities.documentFrameURI(document):
                 # Eliminates including "untitled" in the frame name.
-                return super()._generateLabelOrName(obj.parent)
+                return super()._generateLabelOrName(AXObject.get_parent(obj))
 
         return super()._generateLabelOrName(obj, **args)
 
@@ -87,7 +90,7 @@ class SpeechGenerator(web.SpeechGenerator):
         if self._script.utilities.treatAsMenu(obj):
             msg = "CHROMIUM: HACK? Speaking menu item as menu %s" % obj
             debug.println(debug.LEVEL_INFO, msg, True)
-            oldRole = self._overrideRole(pyatspi.ROLE_MENU, args)
+            oldRole = self._overrideRole(Atspi.Role.MENU, args)
 
         result = super().generateSpeech(obj, **args)
         if oldRole is not None:

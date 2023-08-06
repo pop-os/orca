@@ -63,6 +63,9 @@
         <p>Apresenta a mensagem de notificação anterior: (Sem atalho definido)</p>
       </item>
       <item>
+        <p>Present the next notification message: (Unbound)</p>
+      </item>
+      <item>
         <p>Apresenta uma lista de todas as mensagens de notificação: (Sem atalho definido)</p>
       </item>
     </list>

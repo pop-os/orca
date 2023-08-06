@@ -73,7 +73,11 @@
       <title>Formuláře</title>
       <list>
         <item>
-          <p>Následující a předchozí pole formuláře: <keyseq><key>Modifikátor Orca</key><key>Tab</key></keyseq> a <keyseq><key>Modifikátor Orca</key><key>Shift</key><key>Tab</key></keyseq></p>
+          <p>
+            Next and previous form field:
+            <keyseq><key>F</key></keyseq> and
+            <keyseq><key>Shift</key><key>F</key></keyseq>
+          </p>
         </item> 
         <item>
           <p>Zobrazit seznam polí formuláře: <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq></p>
