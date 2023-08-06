@@ -1,3 +1,9 @@
+orca (45~alpha-1) experimental; urgency=medium
+
+  * New upstream alpha release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 06 Aug 2023 13:44:01 +0200
+
 orca (44.1-1) experimental; urgency=medium
 
   * New upstream release.
