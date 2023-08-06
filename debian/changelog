@@ -1,6 +1,7 @@
 orca (45~alpha-1) experimental; urgency=medium
 
   * New upstream alpha release.
+    - control: Bump libatspi2.0-dev build-dep to at least version 2.48.
 
  -- Samuel Thibault <sthibault@debian.org>  Sun, 06 Aug 2023 13:44:01 +0200
 
