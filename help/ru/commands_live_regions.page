@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_live_regions" xml:lang="ru">
+  <info>
+    <link type="next" xref="commands_chat"/>
+    <link type="guide" xref="commands#accessing_dynamic_information"/>
+    <link type="seealso" xref="howto_live_regions"/>
+    <title type="sort">1. Изменяющаяся область</title>
+    <title type="link">Изменяющиеся области</title>
+    <desc>Команды для доступа к сетевым изменяющимся областям</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команды изменяющихся областей</title>
+  <p>Следующие команды можно использовать для доступа к динамически обновляемому содержимому веб-страниц, которое было сделано доступным для чтения с помощью ARIA.</p>
+  <list>
+    <item>
+      <p>Следить за изменяющимися областями: <keyseq><key>Модификатор Orca</key><key>Shift</key><key>Обратная косая черта</key></keyseq></p>
+    </item>
+    <item>
+      <p>Расширенные настройки работы с изменяющимися областями: <key>Обратная косая черта</key></p>
+    </item>
+    <item>
+      <p>Отключить вежливое напоминание об изменяющихся областях: <keyseq><key>Shift</key><key>Обратная косая черта</key></keyseq></p>
+    </item>
+    <item>
+      <p>Перейти к следующей/предыдущей изменяющейся области: <keyseq><key>D</key></keyseq>/<keyseq><key>Shift</key><key>D</key></keyseq></p>
+    </item>
+    <item>
+      <p>Перейти к последней объявленной изменяющейся области: <keyseq><key>Y</key></keyseq></p>
+    </item>
+    <item>
+      <p>Повторить предыдущие сообщения об изменяющихся областях: <keyseq><key>Модификатор Orca</key><key>F1</key></keyseq> по <key>F9</key></p>
+    </item>
+</list>
+</page>

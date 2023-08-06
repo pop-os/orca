@@ -79,7 +79,7 @@
       <title>Űrlap-navigációs parancsok</title>
       <list>
         <item>
-          <p>Ugrás a következő vagy az előző űrlapmezőre: <keyseq><key>Orka módosító</key><key>Tab</key></keyseq> és <keyseq><key>Orka módosító</key><key>Shift</key><key>Tab</key></keyseq></p>
+          <p>Ugrás a következő vagy előző űrlapmezőre: <keyseq><key>F</key></keyseq> és <keyseq><key>Shift</key><key>F</key></keyseq></p>
         </item> 
         <item>
           <p>Űrlapmezők listájának megjelenítése: <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq></p>

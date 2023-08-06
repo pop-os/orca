@@ -27,15 +27,19 @@ __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
                 "Copyright (c) 2016 Igalia, S.L."
 __license__   = "LGPL"
 
-import pyatspi
+import gi
+gi.require_version("Atspi", "2.0")
+from gi.repository import Atspi
 import re
 
 from . import braille
 from . import debug
-from . import eventsynthesizer
-from . import messages
+from . import orca
 from . import orca_state
 from . import settings
+from .ax_event_synthesizer import AXEventSynthesizer
+from .ax_object import AXObject
+from .ax_utilities import AXUtilities
 
 EMBEDDED_OBJECT_CHARACTER = '\ufffc'
 
@@ -106,14 +110,18 @@ class Word:
 
         try:
             text = self.zone.accessible.queryText()
-        except:
+        except Exception:
             text = None
 
         chars = []
         for i, char in enumerate(self.string):
             start = i + self.startOffset
             if text:
-                extents = text.getRangeExtents(start, start+1, pyatspi.DESKTOP_COORDS)
+                try:
+                    extents = text.getRangeExtents(start, start+1, Atspi.CoordType.SCREEN)
+                except Exception as e:
+                    msg = "FLAT REVIEW: Exception in getRangeExtents: %s" % e
+                    debug.println(debug.LEVEL_INFO, msg, True)
             chars.append(Char(self, i, start, char, *extents))
 
         return chars
@@ -150,7 +158,7 @@ class Zone:
         self.y = y
         self.width = width
         self.height = height
-        self.role = role or accessible.getRole()
+        self.role = role or AXObject.get_role(accessible)
         self._words = []
 
     def __str__(self):
@@ -182,14 +190,14 @@ class Zone:
     def _shouldFakeText(self):
         """Returns True if we should try to fake the text interface"""
 
-        textRoles = [pyatspi.ROLE_LABEL,
-                     pyatspi.ROLE_MENU,
-                     pyatspi.ROLE_MENU_ITEM,
-                     pyatspi.ROLE_CHECK_MENU_ITEM,
-                     pyatspi.ROLE_RADIO_MENU_ITEM,
-                     pyatspi.ROLE_PAGE_TAB,
-                     pyatspi.ROLE_PUSH_BUTTON,
-                     pyatspi.ROLE_TABLE_CELL]
+        textRoles = [Atspi.Role.LABEL,
+                     Atspi.Role.MENU,
+                     Atspi.Role.MENU_ITEM,
+                     Atspi.Role.CHECK_MENU_ITEM,
+                     Atspi.Role.RADIO_MENU_ITEM,
+                     Atspi.Role.PAGE_TAB,
+                     Atspi.Role.PUSH_BUTTON,
+                     Atspi.Role.TABLE_CELL]
 
         if self.role in textRoles:
             return True
@@ -220,17 +228,15 @@ class Zone:
     def onSameLine(self, zone):
         """Returns True if we treat this Zone and zone as being on one line."""
 
-        if pyatspi.ROLE_SCROLL_BAR in [self.role, zone.role]:
+        if Atspi.Role.SCROLL_BAR in [self.role, zone.role]:
             return self.accessible == zone.accessible
 
-        try:
-            thisParentRole = self.accessible.parent.getRole()
-            zoneParentRole = zone.accessible.parent.getRole()
-        except:
-            pass
-        else:
-            if pyatspi.ROLE_MENU_BAR in [thisParentRole, zoneParentRole]:
-                return self.accessible.parent == zone.accessible.parent
+        thisParent = AXObject.get_parent(self.accessible)
+        thisParentRole = AXObject.get_role(thisParent)
+        zoneParent = AXObject.get_parent(zone.accessible)
+        zoneParentRole = AXObject.get_role(zoneParent)
+        if Atspi.Role.MENU_BAR in [thisParentRole, zoneParentRole]:
+            return thisParent == zoneParent
 
         return self._extentsAreOnSameLine(zone)
 
@@ -275,14 +281,14 @@ class TextZone(Zone):
     def __getattribute__(self, attr):
         """To ensure we update the content."""
 
-        if not attr in ["words", "string"]:
+        if attr not in ["words", "string"]:
             return super().__getattribute__(attr)
 
         string = self._itext.getText(self.startOffset, self.endOffset)
         words = []
         for i, word in enumerate(re.finditer(self.WORDS_RE, string)):
             start, end = map(lambda x: x + self.startOffset, word.span())
-            extents = self._itext.getRangeExtents(start, end, pyatspi.DESKTOP_COORDS)
+            extents = self._itext.getRangeExtents(start, end, Atspi.CoordType.SCREEN)
             words.append(Word(self, i, start, word.group(), *extents))
 
         self._string = string
@@ -406,19 +412,19 @@ class Line:
                 # The 'isinstance(zone, TextZone)' test is a sanity check
                 # to handle problems with Java text. See Bug 435553.
                 if isinstance(zone, TextZone) and \
-                   ((zone.accessible.getRole() in \
-                         (pyatspi.ROLE_TEXT,  
-                          pyatspi.ROLE_PASSWORD_TEXT,
-                          pyatspi.ROLE_TERMINAL)) or \
+                   ((AXObject.get_role(zone.accessible) in \
+                         (Atspi.Role.TEXT,  
+                          Atspi.Role.PASSWORD_TEXT,
+                          Atspi.Role.TERMINAL)) or \
                     # [[[TODO: Eitan - HACK: 
                     # This is just to get FF3 cursor key routing support.
                     # We really should not be determining all this stuff here,
                     # it should be in the scripts. 
                     # Same applies to roles above.]]]
-                    (zone.accessible.getRole() in \
-                         (pyatspi.ROLE_PARAGRAPH,
-                          pyatspi.ROLE_HEADING,
-                          pyatspi.ROLE_LINK))):
+                    (AXObject.get_role(zone.accessible) in \
+                         (Atspi.Role.PARAGRAPH,
+                          Atspi.Role.HEADING,
+                          Atspi.Role.LINK))):
                     region = braille.ReviewText(zone.accessible,
                                                 zone.string,
                                                 zone.startOffset,
@@ -426,7 +432,7 @@ class Line:
                 else:
                     try:
                         brailleString = zone.brailleString
-                    except:
+                    except Exception:
                         brailleString = zone.string
                     region = braille.ReviewComponent(zone.accessible,
                                                      brailleString,
@@ -471,7 +477,7 @@ class Context:
     WRAP_TOP_BOTTOM = 1 << 1
     WRAP_ALL        = (WRAP_LINE | WRAP_TOP_BOTTOM)
 
-    def __init__(self, script):
+    def __init__(self, script, root=None):
         """Create a new Context for script."""
 
         self.script = script
@@ -484,20 +490,33 @@ class Context:
         self.targetCharInfo = None
         self.focusZone = None
         self.container = None
-        self.focusObj = orca_state.locusOfFocus
-        self.topLevel = script.utilities.topLevelObject(self.focusObj)
+        self.focusObj = orca.getActiveModeAndObjectOfInterest()[1] or orca_state.locusOfFocus
+        self.topLevel = None
         self.bounds = 0, 0, 0, 0
+
+        frame, dialog = script.utilities.frameAndDialog(self.focusObj)
+        if root is not None:
+            self.topLevel = root
+            msg = "FLAT REVIEW: Restricting flat review to %s" % root
+            debug.println(debug.LEVEL_INFO, msg, True)
+        else:
+            self.topLevel = dialog or frame
+        msg = "FLAT REVIEW: Frame: %s Dialog: %s. Top level: %s" % (frame, dialog, self.topLevel)
+        debug.println(debug.LEVEL_INFO, msg, True)
 
         try:
             component = self.topLevel.queryComponent()
-            self.bounds = component.getExtents(pyatspi.DESKTOP_COORDS)
-        except:
+            self.bounds = component.getExtents(Atspi.CoordType.SCREEN)
+        except Exception:
             msg = "ERROR: Exception getting extents of %s" % self.topLevel
             debug.println(debug.LEVEL_INFO, msg, True)
 
-        containerRoles = [pyatspi.ROLE_MENU]
-        isContainer = lambda x: x and x.getRole() in containerRoles
-        container = pyatspi.findAncestor(self.focusObj, isContainer)
+        containerRoles = [Atspi.Role.MENU]
+
+        def isContainer(x):
+            return AXObject.get_role(x) in containerRoles
+
+        container = AXObject.find_ancestor(self.focusObj, isContainer)
         if not container and isContainer(self.focusObj):
             container = self.focusObj
 
@@ -541,7 +560,7 @@ class Context:
         substrings = [(*m.span(), m.group(0))  for m in re.finditer(r"[^\ufffc]+", string)]
         substrings = list(map(lambda x: (x[0] + startOffset, x[1] + startOffset, x[2]), substrings))
         for (start, end, substring) in substrings:
-            extents = accessible.queryText().getRangeExtents(start, end, pyatspi.DESKTOP_COORDS)
+            extents = accessible.queryText().getRangeExtents(start, end, Atspi.CoordType.SCREEN)
             if self.script.utilities.containsRegion(extents, cliprect):
                 clipping = self.script.utilities.intersection(extents, cliprect)
                 zones.append(TextZone(accessible, start, substring, *clipping))
@@ -559,7 +578,7 @@ class Context:
         lines = []
         offset = startOffset
         while offset < min(endOffset, text.characterCount):
-            result = text.getTextAtOffset(offset, pyatspi.TEXT_BOUNDARY_LINE_START)
+            result = text.getTextAtOffset(offset, Atspi.TextBoundaryType.LINE_START)
             if result[0] and result not in lines:
                 lines.append(result)
             offset = max(result[2], offset + 1)
@@ -585,17 +604,14 @@ class Context:
 
         # TODO - JD: This is here temporarily whilst I sort out the rest
         # of the text-related mess.
-        if "EditableText" in pyatspi.listInterfaces(accessible) \
-           and accessible.getState().contains(pyatspi.STATE_SINGLE_LINE):
+        if AXObject.supports_editable_text(accessible) \
+           and AXUtilities.is_single_line(accessible):
             extents = accessible.queryComponent().getExtents(0)
             return [TextZone(accessible, 0, text.getText(0, -1), *extents)]
 
-        offset = 0
-        lastEndOffset = -1
         upperMax = lowerMax = text.characterCount
         upperMid = lowerMid = int(upperMax / 2)
         upperMin = lowerMin = 0
-        upperY = lowerY = 0
         oldMid = 0
 
         # performing binary search to locate first line inside clipped area
@@ -604,7 +620,6 @@ class Context:
             [x, y, width, height] = text.getRangeExtents(upperMid,
                                                          upperMid+1,
                                                          0)
-            upperY = y
             if y > cliprect.y:
                 upperMax = upperMid
             else:
@@ -619,7 +634,6 @@ class Context:
             [x, y, width, height] = text.getRangeExtents(lowerMid,
                                                          lowerMid+1,
                                                          0)
-            lowerY = y
             if y > limit:
                 lowerMax = lowerMid
             else:
@@ -647,21 +661,21 @@ class Context:
         # right or nuke it.
 
         indicatorExtents = [extents.x, extents.y, 1, extents.height]
-        role = accessible.getRole()
-        if role == pyatspi.ROLE_TOGGLE_BUTTON:
+        role = AXObject.get_role(accessible)
+        if role == Atspi.Role.TOGGLE_BUTTON:
             zone = StateZone(accessible, *indicatorExtents, role=role)
             if zone:
                 zones.insert(0, zone)
             return
 
-        if role == pyatspi.ROLE_TABLE_CELL \
+        if role == Atspi.Role.TABLE_CELL \
            and self.script.utilities.hasMeaningfulToggleAction(accessible):
-            role = pyatspi.ROLE_CHECK_BOX
+            role = Atspi.Role.CHECK_BOX
 
-        if role not in [pyatspi.ROLE_CHECK_BOX,
-                        pyatspi.ROLE_CHECK_MENU_ITEM,
-                        pyatspi.ROLE_RADIO_BUTTON,
-                        pyatspi.ROLE_RADIO_MENU_ITEM]:
+        if role not in [Atspi.Role.CHECK_BOX,
+                        Atspi.Role.CHECK_MENU_ITEM,
+                        Atspi.Role.RADIO_BUTTON,
+                        Atspi.Role.RADIO_MENU_ITEM]:
             return
 
         zone = None
@@ -690,27 +704,27 @@ class Context:
 
         try:
             component = accessible.queryComponent()
-            extents = component.getExtents(pyatspi.DESKTOP_COORDS)
-        except:
+            extents = component.getExtents(Atspi.CoordType.SCREEN)
+        except Exception:
             return []
 
         try:
-            role = accessible.getRole()
-        except:
+            role = AXObject.get_role(accessible)
+        except Exception:
             return []
 
         zones = self.getZonesFromText(accessible, cliprect)
-        if not zones and role in [pyatspi.ROLE_SCROLL_BAR,
-                                  pyatspi.ROLE_SLIDER,
-                                  pyatspi.ROLE_PROGRESS_BAR]:
+        if not zones and role in [Atspi.Role.SCROLL_BAR,
+                                  Atspi.Role.SLIDER,
+                                  Atspi.Role.PROGRESS_BAR]:
             zones.append(ValueZone(accessible, *extents))
         elif not zones:
             string = ""
-            redundant = [pyatspi.ROLE_TABLE_ROW]
+            redundant = [Atspi.Role.TABLE_ROW]
             if role not in redundant:
                 string = self.script.speechGenerator.getName(accessible, inFlatReview=True)
 
-            useless = [pyatspi.ROLE_TABLE_CELL, pyatspi.ROLE_LABEL]
+            useless = [Atspi.Role.TABLE_CELL, Atspi.Role.LABEL]
             if not string and role not in useless:
                 string = self.script.speechGenerator.getRoleName(accessible)
             if string:
@@ -727,7 +741,69 @@ class Context:
         if child == parent:
             return True
 
-        return pyatspi.findAncestor(child, lambda x: x == parent)
+        return AXObject.find_ancestor(child, lambda x: x == parent)
+
+    def setCurrentToZoneWithObject(self, obj):
+        """Attempts to set the current zone to obj, if obj is in the current context."""
+
+        def _toString(x):
+            if AXObject.get_name(x):
+                return str(x)
+            return "%s: '%s'" % (x, self.script.utilities.displayedText(x))
+
+        msg = "FLAT REVIEW: Current %s (line: %i, zone: %i, word: %i, char: %i)" % \
+              (_toString(self.getCurrentAccessible()),
+               self.lineIndex, self.zoneIndex, self.wordIndex, self.charIndex)
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        zone = self._findZoneWithObject(obj)
+        msg = "FLAT REVIEW: Zone with %s is %s" % (obj, zone)
+        debug.println(debug.LEVEL_INFO, msg, True)
+        if zone is None:
+            return False
+
+        for i, line in enumerate(self.lines):
+            if zone in line.zones:
+                self.lineIndex = i
+                self.zoneIndex = line.zones.index(zone)
+                word, offset = zone.wordWithCaret()
+                if word:
+                    self.wordIndex = word.index
+                    self.charIndex = offset
+                msg = "FLAT REVIEW: Updated current zone."
+                debug.println(debug.LEVEL_INFO, msg, True)
+                break
+        else:
+            msg = "FLAT REVIEW: Failed to update current zone."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        msg = "FLAT REVIEW: Updated %s (line: %i, zone: %i, word: %i, char: %i)" % \
+              (_toString(self.getCurrentAccessible()),
+               self.lineIndex, self.zoneIndex, self.wordIndex, self.charIndex)
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return True
+
+    def _findZoneWithObject(self, obj):
+        """Returns the existing zone which contains obj."""
+
+        if obj is None:
+            return None
+
+        for zone in self.zones:
+            if zone.accessible == obj:
+                return zone
+
+            # Some items get pruned from the flat review tree. For instance, a
+            # tree item which has a descendant section whose text is the displayed
+            # text of the tree item, that section will be in the flat review tree
+            # but the ancestor item might not.
+            if AXObject.is_ancestor(zone.accessible, obj):
+                msg = "FLAT REVIEW: %s is ancestor of zone accessible %s" % (zone.accessible, obj)
+                debug.println(debug.LEVEL_INFO, msg, True)
+                return zone
+
+        return None
 
     def getShowingZones(self, root, boundingbox=None):
         """Returns an unsorted list of all the zones under root and the focusZone."""
@@ -807,7 +883,7 @@ class Context:
             if flatReviewType == Context.CHAR and current.chars:
                 try:
                     current = current.chars[self.charIndex]
-                except:
+                except Exception:
                     return None, -1, -1, -1, -1
 
         return current.string, current.x, current.y, current.width, current.height
@@ -846,16 +922,16 @@ class Context:
         if x < 0 or y < 0:
             return False
 
-        return eventsynthesizer.routeToPoint(x, y)
+        return AXEventSynthesizer.route_to_point(x, y)
 
     def clickCurrent(self, button=1):
         """Performs a mouse click on the current accessible."""
 
         x, y = self._getClickPoint()
-        if x >= 0 and y >= 0 and eventsynthesizer.clickPoint(x, y, button):
+        if x >= 0 and y >= 0 and AXEventSynthesizer.click_point(x, y, button):
             return True
 
-        if eventsynthesizer.clickObject(self.getCurrentAccessible(), button):
+        if AXEventSynthesizer.click_object(self.getCurrentAccessible(), button):
             return True
 
         return False

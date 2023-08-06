@@ -94,7 +94,11 @@
       <title>Obrazci</title>
       <list>
         <item>
-          <p>Naslednje in predhodno polje obrazca: <keyseq><key>Spremenilna tipka Orka</key><key>Tabulator</key></keyseq> in <keyseq><key>Spremenilna tipka Orka</key><key>Dvigalka</key><key>Tabulator</key></keyseq></p>
+          <p>
+            Next and previous form field:
+            <keyseq><key>F</key></keyseq> and
+            <keyseq><key>Shift</key><key>F</key></keyseq>
+          </p>
         </item> 
         <item>
           <p>

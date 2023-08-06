@@ -85,7 +85,11 @@
       <title>Формуляри</title>
       <list>
         <item>
-          <p>Следващо и предишно поле от формуляр: <keyseq><key>Модификатор на Orca</key><key>Tab</key></keyseq> и <keyseq><key>Модификатор на Orca</key><key>Shift</key><key>Tab</key></keyseq></p>
+          <p>
+            Next and previous form field:
+            <keyseq><key>F</key></keyseq> and
+            <keyseq><key>Shift</key><key>F</key></keyseq>
+          </p>
         </item> 
         <item>
           <p>Извеждане на списък с полета от формуляри: <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq></p>

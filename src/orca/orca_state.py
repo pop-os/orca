@@ -44,8 +44,9 @@ activeWindow = None
 #
 activeScript = None
 
-# The currently active mode (focus, say all, flat review, etc.)
+# The currently active mode (focus, say all, flat review, etc.) and obj
 activeMode = None
+objOfInterest = None
 
 # Used to capture keys to redefine key bindings by the user.
 #
@@ -69,16 +70,9 @@ bypassNextCommand = False
 #
 searchQuery = None
 
-# Assists with learn mode (what you enter when you press Insert+F1
-# and exit when you press escape.
-#
-learnModeEnabled = False
-
 # Handle to the Orca Preferences Glade GUI object.
 #
 orcaOS = None
-
-listNotificationsModeEnabled = False
 
 # Set to True if the last key opened the preferences dialog
 #

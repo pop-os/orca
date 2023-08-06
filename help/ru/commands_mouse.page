@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_mouse" xml:lang="ru">
+  <info>
+    <link type="next" xref="commands_bookmarks"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <title type="sort">3. Связанные с мышью/указателем</title>
+    <title type="link">Связанные с мышью/указателем</title>
+    <link type="seealso" xref="howto_flat_review"/>
+    <link type="seealso" xref="howto_mouse_review"/>
+    <desc>Команды для управления указателем</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команды, связанные с мышью/указателем</title>
+  <p><app>Orca</app> предоставляет несколько команд, которые можно использовать для управления указателем мыши и чтения элементов под ним. К клавишам «привязаны» все команды, кроме одной: «Произносить ли элементы под указателем мыши». Обратитесь к разделу <link xref="howto_key_bindings">Изменение привязок клавиш</link> для получения сведений о том, как привязать эту команду к клавише.</p>
+  <note style="tip">
+    <p>Ниже вы можете несколько раз встретить сокращение «ЦК». «ЦК» — это цифровая клавиатура. Также клавиши различаются в зависимости от того, что используется — настольный компьютер или ноутбук. Вернее, от того, какую раскладку <app>Orca</app> вы используете — «Настольный компьютер» или «Ноутбук». Дополнительные сведения доступны в разделе  <link xref="howto_keyboard_layout">Раскладка клавиатуры</link>.</p>
+  </note>
+  <list>
+    <item>
+      <p>Щелчок левой кнопкой мыши по текущему элементу:</p>
+      <list>
+        <item><p>Настольный компьютер: <keyseq><key>Деление на ЦК</key></keyseq></p></item>
+        <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>7</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Щелчок правой кнопкой мыши по текущему элементу:</p>
+      <list>
+        <item><p>Настольный компьютер: <keyseq><key>Умножение на ЦК</key></keyseq></p></item>
+        <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>8</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Переместить указатель на текущий элемент:</p>
+      <list>
+        <item><p>Настольный компьютер: <keyseq><key>Модификатор Orca</key><key>Деление на ЦК</key></keyseq></p></item>
+        <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>9</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Навести фокус и убрать его с элемента под мышью (только для Интернета):</p>
+      <list>
+        <item><p>Настольный компьютер: <keyseq><key>Модификатор Orca</key><key>Умножение на ЦК</key></keyseq></p></item>
+        <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>0</key></keyseq></p></item>
+      </list>
+    </item>
+    <item>
+      <p>Включить/отключить озвучивание элементов под указателем мыши: (Не задано)</p>
+    </item>
+  </list>
+</page>

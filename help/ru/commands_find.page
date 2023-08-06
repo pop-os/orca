@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_find" xml:lang="ru">
+  <info>
+    <link type="next" xref="commands_mouse"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_orca_find"/>
+    <title type="sort">2. Поиск Orca</title>
+    <title type="link">Поиск Orca</title>
+    <desc>Команды для поиска в содержимом окна</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команды поиска Orca</title>
+  <p>Предоставляемая <app>Orca</app> <link xref="howto_orca_find">функция поиска</link> позволяет выполнять поиск элементов, находящихся в текущем окне, в режиме <link xref="howto_flat_review">общего осмотра</link>.</p>
+  <list>
+    <item>
+      <p>Открыть диалоговое окно поиска <app>Orca</app>:</p>
+      <list>
+        <item>
+          <p>Настольный компьютер: <keyseq><key>Delete на ЦК</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Левая скобка</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Переместить общий осмотр на следующее вхождение строки:</p>
+      <list>
+        <item>
+          <p>Настольный компьютер: <keyseq><key>Модификатор Orca</key><key>Delete на ЦК</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Правая скобка</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Переместить общий осмотр на предыдущее вхождение строки:</p>
+      <list>
+        <item>
+          <p>Настольный компьютер: <keyseq> <key>Модификатор Orca</key><key>Shift</key><key>Delete на ЦК</key> </keyseq></p>
+        </item>
+        <item>
+          <p>Ноутбук: <keyseq> <key>Модификатор Orca</key><key>Ctrl</key><key>Правая скобка</key> </keyseq></p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

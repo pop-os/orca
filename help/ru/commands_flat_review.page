@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_flat_review" xml:lang="ru">
+  <info>
+    <link type="next" xref="commands_find"/>
+    <link type="guide" xref="commands#reviewing_screen_contents"/>
+    <link type="seealso" xref="howto_flat_review"/>
+    <title type="sort">1. Общий осмотр</title>
+    <title type="link">Общий осмотр</title>
+    <desc>Команды для пространственного осмотра окон</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команды режима общего осмотра</title>
+  <p>Команды режима <link xref="howto_flat_review">общего осмотра</link> Orca предназначены для пространственного осмотра отображаемых на экране элементов. Они также позволяют прочитать текущую строку, слово и символ при навигации в тексте документа. Большинство этих команд «привязано» к клавишам. Обратитесь к разделу <link xref="howto_key_bindings">Изменение привязок клавиш</link> для получения сведений о том, как выполнять привязку команд к клавишам.</p>
+  <section id="line">
+    <title>Команды для осмотра по строкам</title>
+    <list>
+      <item>
+        <p>Первая строка (начало):</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>Модификатор Orca</key><key>7 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Ctrl</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Предыдущая строка:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>7 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>U</key></keyseq></p></item>
+        </list>
+      </item>
+      <item>
+        <p>Текущая строка:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>8 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>I</key></keyseq></p></item>
+        </list>
+      </item>
+        <item><p>Произнести текущую строку по буквам:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>8 на ЦК</key></keyseq> (двойной щелчок)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>I</key></keyseq> (двойной щелчок)</p></item>
+        </list>
+      </item>
+      <item><p>Произнести фонетически текущую строку:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>8 на ЦК</key></keyseq> (тройной щелчок)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>I</key></keyseq> (тройной щелчок)</p></item>
+        </list>
+      </item>
+      <item><p>Следующая строка:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>9 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Последняя строка (конец):</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>Модификатор Orca</key><key>9 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Ctrl</key><key>O</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="word">
+    <title>Команды для осмотра по словам</title>
+    <list>
+      <item><p>Слово над текущим словом:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>Модификатор Orca</key><key>4 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Ctrl</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Предыдущее слово:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>4 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>J</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Текущее слово:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>5 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Произнести текущее слово:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>5 на ЦК</key></keyseq> (двойной щелчок)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>K</key></keyseq> (двойной щелчок)</p></item>
+        </list>
+      </item>
+      <item><p>Произнести фонетически текущее слово:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>5 на ЦК</key></keyseq> (тройной щелчок)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>K</key></keyseq> (тройной щелчок)</p></item>
+        </list>
+      </item>
+      <item><p>Следующее слово:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>6 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Слово под текущим словом:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>Модификатор Orca</key><key>6 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Ctrl</key><key>L</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="character">
+    <title>Команды для осмотра по символам</title>
+    <list>
+      <item><p>Предыдущий символ:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>1 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Текущий символ:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>2 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Запятая</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Произнести фонетически текущий символ:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>2 на ЦК</key></keyseq> (двойной щелчок)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Запятая</key></keyseq> (двойной щелчок)</p></item>
+        </list>
+      </item>
+      <item><p>Произнести юникодное значение текущего символа:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>2 на ЦК</key></keyseq> (тройной щелчок)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Запятая</key></keyseq> (тройной щелчок)</p></item>
+        </list>
+      </item>
+      <item><p>Следующий символ:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>3 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Точка</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Последний символ в текущей строке:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>Модификатор Orca</key><key>1 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Ctrl</key><key>M</key></keyseq></p></item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="other">
+    <title>Дополнительные команды</title>
+    <list>
+      <item><p>Переключить общий осмотр (обновить контекст общего осмотра):</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>Модификатор Orca</key><key>Вычитание на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>P</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Просмотреть текущий элемент/виджет:</p>
+        <list>
+          <item><p>Настольный компьютер: <keyseq><key>Модификатор Orca</key><key>5 на ЦК</key></keyseq></p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Ctrl</key><key>K</key></keyseq></p></item>
+        </list>
+      </item>
+      <item><p>Используйте команду «Читать всё» для осмотра текущего диалога или окна:</p>
+        <list>
+          <item><p>Настольный компьютер: <key>Сложение на ЦК</key> (двойной щелчок)</p></item>
+          <item><p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Точка с запятой</key></keyseq> (двойной щелчок)</p></item>
+        </list>
+      </item>
+      <item>
+      <p>Копировать содержимое общего осмотра в буфер обмена: (Не задано)</p>
+      </item>
+        <item>
+        <p>Добавить содержимое общего осмотра в буфер обмена: (Не задано)</p>
+      </item>
+    </list>
+  </section>
+</page>

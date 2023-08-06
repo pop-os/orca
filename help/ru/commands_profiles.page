@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_profiles" xml:lang="ru">
+  <info>
+    <link type="next" xref="commands_speech_settings"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_profiles"/>
+    <title type="sort">5. Профили</title>
+    <title type="link">Профили</title>
+    <desc>Команды для доступа к сохранённым конфигурациям</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команды для работы с профилями</title>
+    <p>С помощью профилей можно сохранять и загружать различные конфигурации, получая быстрый доступ к нужным параметрам.</p>
+    <p>Следующая команда не «привязана» к клавише. Если её следует привязать, обратитесь к разделу <link xref="howto_key_bindings">Изменение привязок клавиш</link>.</p>
+    <list>
+      <item>
+        <p>Перейти к следующему профилю: (Не задано)</p>
+      </item>
+    </list>
+</page>

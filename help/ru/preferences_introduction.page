@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_introduction" xml:lang="ru">
+  <info>
+    <title type="sort">0. Введение в параметры <app>Orca</app></title>
+    <title type="link">Введение в параметры <app>Orca</app></title>
+    <link type="guide" xref="preferences"/>
+    <link type="next" xref="preferences_general"/>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Введение в параметры <app>Orca</app></title>
+  <section id="orca">
+    <title>Параметры Orca</title>
+    <p>Параметры Orca позволяют настроить функции <app>Orca</app>, которые применяются ко всем приложениям. В качестве примера параметра Orca можно привести озвучивание, так как оно применяется ко всем приложениям.</p>
+    <p>Обратите внимание, что параметры Orca можно настроить отдельно для каждого приложения. Например, для функции озвучивания можно задать в качестве значения по умолчанию озвучивание по словам, а затем отключить функцию озвучивания для программы Pidgin. В этом случае <app>Orca</app> всегда будет озвучивать каждое набранное вами слово, за исключением слов, которые вы набираете в программе Pidgin.</p>
+    <note style="tip">
+      <title>Комбинации клавиш для перехода к диалогам настройки параметров</title>
+      <list>
+        <item>
+          <p><keyseq><key>Модификатор Orca</key><key>Пробел</key></keyseq>: Параметры <app>Orca</app></p>
+        </item>
+        <item>
+          <p><keyseq><key>Ctrl</key><key>Модификатор Orca</key><key>Пробел</key> </keyseq>: Параметры <app>Orca</app> для текущего приложения</p>
+        </item>
+      </list>
+    </note>
+  </section>
+  <section id="application_unique">
+    <title>Уникальные параметры приложения</title>
+      <p>В противоположность параметрам Orca существуют также и уникальные параметры приложений. Эти параметры позволяют настроить функции <app>Orca</app>, которые применяются только в определённой среде, например на веб-страницах или в приложениях для бесед. Поэтому они доступны только в диалогах настройки параметров конкретных приложений и только для тех приложений, к которым они применяются.</p>
+  </section>
+</page>

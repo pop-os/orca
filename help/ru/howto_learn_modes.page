@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_learn_modes" xml:lang="ru">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_keyboard_layout"/>
+    <title type="sort">5. Режим изучения</title>
+    <desc>Изучение команд <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Режим изучения</title>
+  <p>В режиме изучения <app>Orca</app> будет озвучивать каждую нажатую клавишу и связанную с ней команду <app>Orca</app> (при её наличии). В этом режиме также можно получить список комбинаций клавиш, содержащий все доступные для использования команды <app>Orca</app>.</p>
+  <steps>
+    <title>Использование режима изучения</title>
+    <item>
+      <p>Перейдите в режим изучения, нажав комбинацию клавиш <keyseq><key>Модификатор Orca</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Нажмите любую клавишу или комбинацию клавиш. <app>Orca</app> озвучит клавиши и связанную с ними команду (при её наличии).</p>
+    </item>
+    <item>
+      <p>Нажмите клавишу <key>Esc</key> для выхода из режима изучения.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Получение списка комбинаций клавиш</title>
+    <item>
+      <p>Перейдите в режим изучения, нажав комбинацию клавиш <keyseq><key>Модификатор Orca</key> <key>H</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Нажмите клавишу <key>F2</key> для получения списка комбинаций клавиш, которые действуют во всей программе <app>Orca</app>, или клавишу <key>F3</key> для получения списка комбинаций клавиш, которые предназначены специально для приложения с фокусом.</p>
+    </item>
+    <item>
+      <p>Используйте клавиши <key>Стрелка вверх</key> и <key>Стрелка вниз</key> для изучения содержимого списка.</p>
+    </item>
+    <item>
+      <p>Нажмите клавишу <key>Esc</key> для выхода из списка.</p>
+    </item>
+  </steps>
+</page>
