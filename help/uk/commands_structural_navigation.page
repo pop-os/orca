@@ -79,11 +79,7 @@
       <title>Форми</title>
       <list>
         <item>
-          <p>
-            Next and previous form field:
-            <keyseq><key>F</key></keyseq> and
-            <keyseq><key>Shift</key><key>F</key></keyseq>
-          </p>
+          <p>Наступне і попереднє поле форми: <keyseq><key>F</key></keyseq> і <keyseq><key>Shift</key><key>F</key></keyseq></p>
         </item> 
         <item>
           <p>Показати список полів форми: <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq></p>
