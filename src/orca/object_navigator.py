@@ -18,7 +18,7 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-"""Object for maintaining the state of the object navigator."""
+"""Provides ability to navigate objects hierarchically."""
 
 __id__        = "$Id$"
 __version__   = "$Revision$"
@@ -39,6 +39,8 @@ from .ax_utilities import AXUtilities
 
 
 class ObjectNavigator:
+    """Provides ability to navigate objects hierarchically."""
+
     def __init__(self):
         self._navigator_focus = None
         self._last_navigator_focus = None
@@ -152,7 +154,7 @@ class ObjectNavigator:
         """Returns True if obj should be excluded from simple navigation."""
 
         if self._include_in_simple_navigation(obj):
-            msg = "OBJECT NAVIGATOR: Not excluding %s: explicit inclusion" % obj
+            msg = f"OBJECT NAVIGATOR: Not excluding {obj}: explicit inclusion"
             debug.println(debug.LEVEL_INFO, msg, True)
             return False
 
@@ -164,11 +166,11 @@ class ObjectNavigator:
         # You do not want to exclude table cells and headers because it will make the
         # selectable items in tables non-navigable (e.g. the mail folders in Evolution)
         if script.utilities.isLayoutOnly(obj):
-            msg = "OBJECT NAVIGATOR: Excluding %s: is layout only" % obj
+            msg = f"OBJECT NAVIGATOR: Excluding {obj}: is layout only"
             debug.println(debug.LEVEL_INFO, msg, True)
             return True
 
-        msg = "OBJECT NAVIGATOR: Not excluding %s" % obj
+        msg = f"OBJECT NAVIGATOR: Not excluding {obj}"
         debug.println(debug.LEVEL_INFO, msg, True)
         return False
 
@@ -178,7 +180,7 @@ class ObjectNavigator:
         if not AXObject.get_child_count(obj):
             return []
 
-        children = [child for child in AXObject.iter_children(obj)]
+        children = list(AXObject.iter_children(obj))
         if not self._simplify:
             return children
 
@@ -225,7 +227,7 @@ class ObjectNavigator:
     def present(self, script):
         """Presents the current navigator focus to the user."""
 
-        msg = "OBJECT NAVIGATOR: Presenting %s" % self._navigator_focus
+        msg = f"OBJECT NAVIGATOR: Presenting {self._navigator_focus}"
         debug.println(debug.LEVEL_INFO, msg, True)
         orca.emitRegionChanged(self._navigator_focus, mode=orca.OBJECT_NAVIGATOR)
         script.presentObject(self._navigator_focus, priorObj=self._last_navigator_focus)
@@ -316,4 +318,6 @@ class ObjectNavigator:
 
 _navigator = ObjectNavigator()
 def getNavigator():
+    """Returns the Object Navigator"""
+
     return _navigator
