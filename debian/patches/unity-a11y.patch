@@ -1,4 +1,3 @@
-From 12dd83e60f2915a132a0d495c10e6028c808b8f0 Mon Sep 17 00:00:00 2001
 From: Luke Yelavich <themuso@ubuntu.com>
 Date: Wed, 28 Oct 2015 14:52:56 +1100
 Subject: [PATCH] Add hacks to better support Unity7
@@ -19,11 +18,11 @@ https://bugzilla.gnome.org/show_bug.cgi?id=783063
  create mode 100644 src/orca/scripts/apps/unity/script.py
  create mode 100644 src/orca/scripts/apps/unity/script_utilities.py
 
-Index: orca-3.35.3/configure.ac
-===================================================================
---- orca-3.35.3.orig/configure.ac
-+++ orca-3.35.3/configure.ac
-@@ -120,6 +120,7 @@ src/orca/scripts/apps/soffice/Makefile
+diff --git a/configure.ac b/configure.ac
+index 58664fa..878aecc 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -105,6 +105,7 @@ src/orca/scripts/apps/soffice/Makefile
  src/orca/scripts/apps/SeaMonkey/Makefile
  src/orca/scripts/apps/smuxi-frontend-gnome/Makefile
  src/orca/scripts/apps/Thunderbird/Makefile
@@ -31,11 +30,11 @@ Index: orca-3.35.3/configure.ac
  src/orca/scripts/apps/xfwm4/Makefile
  src/orca/scripts/switcher/Makefile
  src/orca/scripts/terminal/Makefile
-Index: orca-3.35.3/src/orca/script_utilities.py
-===================================================================
---- orca-3.35.3.orig/src/orca/script_utilities.py
-+++ orca-3.35.3/src/orca/script_utilities.py
-@@ -4546,6 +4546,7 @@ class Utilities:
+diff --git a/src/orca/script_utilities.py b/src/orca/script_utilities.py
+index 21953b8..c952233 100644
+--- a/src/orca/script_utilities.py
++++ b/src/orca/script_utilities.py
+@@ -4543,6 +4543,7 @@ class Utilities:
                           Atspi.Role.ALERT,
                           Atspi.Role.DIALOG,
                           Atspi.Role.LABEL, # For Unity Panel Service bug
@@ -43,11 +42,11 @@ Index: orca-3.35.3/src/orca/script_utilities.py
                           Atspi.Role.PAGE, # For Evince bug
                           Atspi.Role.WINDOW,
                           Atspi.Role.FRAME]
-Index: orca-3.35.3/src/orca/scripts/apps/Makefile.am
-===================================================================
---- orca-3.35.3.orig/src/orca/scripts/apps/Makefile.am
-+++ orca-3.35.3/src/orca/scripts/apps/Makefile.am
-@@ -27,6 +27,7 @@ SUBDIRS = \
+diff --git a/src/orca/scripts/apps/Makefile.am b/src/orca/scripts/apps/Makefile.am
+index 90df6e8..765e877 100644
+--- a/src/orca/scripts/apps/Makefile.am
++++ b/src/orca/scripts/apps/Makefile.am
+@@ -17,6 +17,7 @@ SUBDIRS = \
  	SeaMonkey \
  	smuxi-frontend-gnome \
  	Thunderbird \
@@ -55,20 +54,21 @@ Index: orca-3.35.3/src/orca/scripts/apps/Makefile.am
  	xfwm4
  
  orca_python_PYTHON = \
-Index: orca-3.35.3/src/orca/scripts/apps/__init__.py
-===================================================================
---- orca-3.35.3.orig/src/orca/scripts/apps/__init__.py
-+++ orca-3.35.3/src/orca/scripts/apps/__init__.py
-@@ -26,4 +26,5 @@ __all__ = ['Banshee',
+diff --git a/src/orca/scripts/apps/__init__.py b/src/orca/scripts/apps/__init__.py
+index 157501a..b57d670 100644
+--- a/src/orca/scripts/apps/__init__.py
++++ b/src/orca/scripts/apps/__init__.py
+@@ -16,4 +16,5 @@ __all__ = ['Banshee',
             'SeaMonkey',
             'smuxi-frontend-gnome',
             'Thunderbird',
 +           'unity',
             'xfwm4']
-Index: orca-3.35.3/src/orca/scripts/apps/unity/Makefile.am
-===================================================================
+diff --git a/src/orca/scripts/apps/unity/Makefile.am b/src/orca/scripts/apps/unity/Makefile.am
+new file mode 100644
+index 0000000..452d6b0
 --- /dev/null
-+++ orca-3.35.3/src/orca/scripts/apps/unity/Makefile.am
++++ b/src/orca/scripts/apps/unity/Makefile.am
 @@ -0,0 +1,7 @@
 +orca_python_PYTHON = \
 +	__init__.py \
@@ -77,16 +77,18 @@ Index: orca-3.35.3/src/orca/scripts/apps/unity/Makefile.am
 +
 +orca_pythondir=$(pkgpythondir)/scripts/apps/unity
 +
-Index: orca-3.35.3/src/orca/scripts/apps/unity/__init__.py
-===================================================================
+diff --git a/src/orca/scripts/apps/unity/__init__.py b/src/orca/scripts/apps/unity/__init__.py
+new file mode 100644
+index 0000000..585c964
 --- /dev/null
-+++ orca-3.35.3/src/orca/scripts/apps/unity/__init__.py
++++ b/src/orca/scripts/apps/unity/__init__.py
 @@ -0,0 +1 @@
 +from .script import Script
-Index: orca-3.35.3/src/orca/scripts/apps/unity/script.py
-===================================================================
+diff --git a/src/orca/scripts/apps/unity/script.py b/src/orca/scripts/apps/unity/script.py
+new file mode 100644
+index 0000000..3a628df
 --- /dev/null
-+++ orca-3.35.3/src/orca/scripts/apps/unity/script.py
++++ b/src/orca/scripts/apps/unity/script.py
 @@ -0,0 +1,67 @@
 +# Orca
 +#
@@ -155,10 +157,11 @@ Index: orca-3.35.3/src/orca/scripts/apps/unity/script.py
 +
 +    def getUtilities(self):
 +        return Utilities(self)
-Index: orca-3.35.3/src/orca/scripts/apps/unity/script_utilities.py
-===================================================================
+diff --git a/src/orca/scripts/apps/unity/script_utilities.py b/src/orca/scripts/apps/unity/script_utilities.py
+new file mode 100644
+index 0000000..1a4f784
 --- /dev/null
-+++ orca-3.35.3/src/orca/scripts/apps/unity/script_utilities.py
++++ b/src/orca/scripts/apps/unity/script_utilities.py
 @@ -0,0 +1,34 @@
 +# Orca
 +#

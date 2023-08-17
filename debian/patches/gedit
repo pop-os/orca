@@ -1,10 +1,16 @@
+From: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Date: Thu, 17 Aug 2023 12:23:49 -0400
+Subject: gedit
+
 ---
- src/orca/script_manager.py |    1 +
+ src/orca/script_manager.py | 1 +
  1 file changed, 1 insertion(+)
 
+diff --git a/src/orca/script_manager.py b/src/orca/script_manager.py
+index 8732a53..4f6f401 100644
 --- a/src/orca/script_manager.py
 +++ b/src/orca/script_manager.py
-@@ -57,6 +57,7 @@ class ScriptManager:
+@@ -56,6 +56,7 @@ class ScriptManager:
               'mate-notification-daemon': 'notification-daemon',
               'metacity': 'switcher',
               'pluma': 'gedit',
