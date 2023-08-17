@@ -36,13 +36,13 @@ Index: orca-3.35.3/src/orca/script_utilities.py
 --- orca-3.35.3.orig/src/orca/script_utilities.py
 +++ orca-3.35.3/src/orca/script_utilities.py
 @@ -4546,6 +4546,7 @@ class Utilities:
-                          pyatspi.ROLE_ALERT,
-                          pyatspi.ROLE_DIALOG,
-                          pyatspi.ROLE_LABEL, # For Unity Panel Service bug
-+                         pyatspi.ROLE_IMAGE, # another Unity Panel service bug
-                          pyatspi.ROLE_PAGE, # For Evince bug
-                          pyatspi.ROLE_WINDOW,
-                          pyatspi.ROLE_FRAME]
+                          Atspi.Role.ALERT,
+                          Atspi.Role.DIALOG,
+                          Atspi.Role.LABEL, # For Unity Panel Service bug
++                         Atspi.Role.IMAGE, # another Unity Panel service bug
+                          Atspi.Role.PAGE, # For Evince bug
+                          Atspi.Role.WINDOW,
+                          Atspi.Role.FRAME]
 Index: orca-3.35.3/src/orca/scripts/apps/Makefile.am
 ===================================================================
 --- orca-3.35.3.orig/src/orca/scripts/apps/Makefile.am
