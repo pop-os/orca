@@ -25,10 +25,11 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2014 Igalia, S.L."
 __license__   = "LGPL"
 
-import pyatspi
-
 import orca.debug as debug
 import orca.script_utilities as script_utilities
+from orca.ax_object import AXObject
+from orca.ax_selection import AXSelection
+from orca.ax_utilities import AXUtilities
 
 
 class Utilities(script_utilities.Utilities):
@@ -41,21 +42,14 @@ class Utilities(script_utilities.Utilities):
         self._isLayoutOnly = {}
 
     def selectedChildren(self, obj):
-        try:
-            selection = obj.querySelection()
-        except:
-            # This is a workaround for bgo#738705.
-            if obj.getRole() != pyatspi.ROLE_PANEL:
-                return []
+        if AXObject.supports_selection(obj):
+            return AXSelection.get_selected_children(obj)
 
-            isSelected = lambda x: x and x.getState().contains(pyatspi.STATE_SELECTED)
-            children = self.findAllDescendants(obj, isSelected)
-        else:
-            children = []
-            for x in range(selection.nSelectedChildren):
-                children.append(selection.getSelectedChild(x))
+        # This is a workaround for bgo#738705.
+        if not AXUtilities.is_panel(obj):
+            return []
 
-        return children
+        return AXUtilities.find_all_selected_objects(obj)
 
     def insertedText(self, event):
         if event.any_data:
@@ -69,7 +63,7 @@ class Utilities(script_utilities.Utilities):
             if text:
                 string = text.getText(0, -1)
                 if string:
-                    msg = "HACK: Returning last char in '%s'" % string
+                    msg = f"HACK: Returning last char in '{string}'"
                     debug.println(debug.LEVEL_INFO, msg, True)
                     return string[-1]
 
@@ -99,11 +93,13 @@ class Utilities(script_utilities.Utilities):
         if not root:
             return []
 
-        roles = [pyatspi.ROLE_DIALOG, pyatspi.ROLE_NOTIFICATION, pyatspi.ROLE_MENU_ITEM]
+        def hasRole(x):
+            return AXUtilities.is_dialog(x) \
+                or AXUtilities.is_notification(x) \
+                or AXUtilities.is_menu_item(x)
 
-        hasRole = lambda x: x and x.getRole() in roles
-        if not hasRole(root) and pyatspi.findAncestor(root, hasRole) is None:
-            msg = "GNOME SHELL: Not seeking unrelated labels for %s" % root
+        if not hasRole(root) and AXObject.find_ancestor(root, hasRole) is None:
+            msg = f"GNOME SHELL: Not seeking unrelated labels for {root}"
             debug.println(debug.LEVEL_INFO, msg, True)
             return []
 
@@ -115,11 +111,12 @@ class Utilities(script_utilities.Utilities):
             return rv
 
         rv = super().isLayoutOnly(obj)
-        if not rv and  obj.getRole() == pyatspi.ROLE_PANEL and obj.childCount == 1:
-            displayedLabel = self.displayedLabel(obj)
-            if displayedLabel == obj[0].name and obj[0].getRole() != pyatspi.ROLE_LABEL:
+        if not rv and AXUtilities.is_panel(obj) and AXObject.get_child_count(obj) == 1:
+            child = AXObject.get_child(obj, 0)
+            if self.displayedLabel(obj) == AXObject.get_name(child) \
+               and not AXUtilities.is_label(child):
                 rv = True
-                msg = "GNOME SHELL: %s is deemed to be layout only" % obj
+                msg = f"GNOME SHELL: {obj} is deemed to be layout only"
                 debug.println(debug.LEVEL_INFO, msg, True)
 
         self._isLayoutOnly[hash(obj)] = rv
@@ -128,7 +125,7 @@ class Utilities(script_utilities.Utilities):
 
     def isBogusWindowFocusClaim(self, event):
         if event.type.startswith('object:state-changed:focused') and event.detail1 \
-           and event.source.getRole() == pyatspi.ROLE_WINDOW \
+           and AXUtilities.is_window(event.source) \
            and not self.canBeActiveWindow(event.source):
             msg = "GNOME SHELL: Event is believed to be bogus window focus claim"
             debug.println(debug.LEVEL_INFO, msg, True)

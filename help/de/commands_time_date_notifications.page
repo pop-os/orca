@@ -69,6 +69,9 @@
         <p>Die vorhergehende Benachrichtigung anzeigen: (Nicht zugewiesen)</p>
       </item>
       <item>
+        <p>Present the next notification message: (Unbound)</p>
+      </item>
+      <item>
         <p>Die Liste aller Benachrichtigungen anzeigen: (Nicht zugewiesen)</p>
       </item>
     </list>

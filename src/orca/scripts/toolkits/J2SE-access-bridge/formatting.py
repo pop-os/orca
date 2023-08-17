@@ -27,27 +27,32 @@ __copyright__ = "Copyright (c) 2005-2009 Sun Microsystems Inc., "  \
                 "Copyright (c) 2010 Joanmarie Diggs"
 __license__   = "LGPL"
 
-import copy
+# If we were to adhere to the line-length requirements of 100 characters,
+# this file would be even more cumbersome to look at than it already is.
+# We shall respect the line-length requirements for all files that are not
+# formatting.py.
+# ruff: noqa: E501
 
-import pyatspi
+import copy
+import gi
+gi.require_version("Atspi", "2.0")
+from gi.repository import Atspi
 
 import orca.formatting
-
-# pylint: disable-msg=C0301
 
 formatting = {
     'speech': {
         # In Java, tree objects are labels, so we need to look at their
         # states in order to tell whether they are expanded or collapsed.
         #
-        pyatspi.ROLE_LABEL: {
+        Atspi.Role.LABEL: {
             'unfocused': '(displayedText or roleName) + expandableState + numberOfChildren',
             'focused': 'expandableState + numberOfChildren',
             'basicWhereAmI': '(displayedText or roleName) + expandableState + numberOfChildren + nodeLevel',
             },
     },
     'braille': {
-        pyatspi.ROLE_LABEL: {
+        Atspi.Role.LABEL: {
             'unfocused': '[Component(obj, asString(displayedText + expandableState))]'
             },
     }

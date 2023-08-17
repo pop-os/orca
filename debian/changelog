@@ -1,3 +1,22 @@
+orca (45~beta-1) experimental; urgency=medium
+
+  * New upstream beta release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 14 Aug 2023 13:57:19 +0200
+
+orca (45~alpha-1) experimental; urgency=medium
+
+  * New upstream alpha release.
+    - control: Bump libatspi2.0-dev build-dep to at least version 2.48.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 06 Aug 2023 13:44:01 +0200
+
+orca (44.1-1) experimental; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 25 May 2023 18:02:11 +0200
+
 orca (44.1-1ubuntu1) UNRELEASED; urgency=medium
 
   * Merge with Debian. Remaining changes:
@@ -7,12 +26,6 @@ orca (44.1-1ubuntu1) UNRELEASED; urgency=medium
       not available.
 
  -- Amin Bandali <bandali@ubuntu.com>  Thu, 25 May 2023 13:15:19 -0400
-
-orca (44.1-1) experimental; urgency=medium
-
-  * New upstream release.
-
- -- Samuel Thibault <sthibault@debian.org>  Thu, 25 May 2023 18:02:11 +0200
 
 orca (44.0-1ubuntu1) lunar; urgency=medium
 

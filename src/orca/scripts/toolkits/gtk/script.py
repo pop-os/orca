@@ -25,14 +25,12 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2013-2014 Igalia, S.L."
 __license__   = "LGPL"
 
-import pyatspi
-import time
-
 import orca.debug as debug
-import orca.mouse_review as mouse_review
 import orca.orca as orca
 import orca.orca_state as orca_state
 import orca.scripts.default as default
+from orca.ax_object import AXObject
+from orca.ax_utilities import AXUtilities
 
 from .script_utilities import Utilities
 
@@ -54,15 +52,13 @@ class Script(default.Script):
         """Handles changes of focus of interest to the script."""
 
         if self.utilities.isToggleDescendantOfComboBox(newFocus):
-            isComboBox = lambda x: x and x.getRole() == pyatspi.ROLE_COMBO_BOX
-            newFocus = pyatspi.findAncestor(newFocus, isComboBox) or newFocus
+            newFocus = AXObject.find_ancestor(newFocus, AXUtilities.is_combo_box) or newFocus
             orca.setLocusOfFocus(event, newFocus, False)
         elif self.utilities.isInOpenMenuBarMenu(newFocus):
             window = self.utilities.topLevelObject(newFocus)
             windowChanged = window and orca_state.activeWindow != window
             if windowChanged:
-                orca_state.activeWindow = window
-                self.windowActivateTime = time.time()
+                orca.setActiveWindow(window)
 
         super().locusOfFocusChanged(event, oldFocus, newFocus)
 
@@ -70,6 +66,8 @@ class Script(default.Script):
         """Callback for object:active-descendant-changed accessibility events."""
 
         if not self.utilities.isTypeahead(orca_state.locusOfFocus):
+            msg = "GTK: locusOfFocus is not typeahead. Passing along to default script."
+            debug.println(debug.LEVEL_INFO, msg, True)
             super().onActiveDescendantChanged(event)
             return
 
@@ -86,8 +84,7 @@ class Script(default.Script):
             return
 
         # Present changes of child widgets of GtkListBox items
-        isListBox = lambda x: x and x.getRole() == pyatspi.ROLE_LIST_BOX
-        if not pyatspi.findAncestor(obj, isListBox):
+        if not AXObject.find_ancestor(obj, AXUtilities.is_list_box):
             return
 
         self.presentObject(obj, alreadyFocused=True, interrupt=True)
@@ -105,32 +102,26 @@ class Script(default.Script):
         if self.utilities.isLayoutOnly(event.source):
             return
 
-        if event.source == mouse_review.reviewer.getCurrentItem():
+        if event.source == self.mouseReviewer.getCurrentItem():
             msg = "GTK: Event source is current mouse review item"
             debug.println(debug.LEVEL_INFO, msg, True)
             return
 
         if self.utilities.isTypeahead(orca_state.locusOfFocus) \
-           and "Table" in pyatspi.listInterfaces(event.source) \
-           and not event.source.getState().contains(pyatspi.STATE_FOCUSED):
+           and AXObject.supports_table(event.source) \
+           and not AXUtilities.is_focused(event.source):
             return
 
-        if "Table" in pyatspi.listInterfaces(event.source):
-            selectedChildren = self.utilities.selectedChildren(event.source)
-            if selectedChildren:
-                orca.setLocusOfFocus(event, selectedChildren[0])
-                return
-
-        ancestor = pyatspi.findAncestor(orca_state.locusOfFocus, lambda x: x == event.source)
+        ancestor = AXObject.find_ancestor(orca_state.locusOfFocus, lambda x: x == event.source)
         if not ancestor:
             orca.setLocusOfFocus(event, event.source)
             return
 
-        if ancestor and "Table" in pyatspi.listInterfaces(ancestor):
+        if AXObject.supports_table(ancestor):
             return
 
-        isMenu = lambda x: x and x.getRole() == pyatspi.ROLE_MENU
-        if isMenu(ancestor) and not pyatspi.findAncestor(ancestor, isMenu):
+        if AXUtilities.is_menu(ancestor) \
+           and AXObject.find_ancestor(ancestor, AXUtilities.is_menu) is None:
             return
 
         orca.setLocusOfFocus(event, event.source)
@@ -156,9 +147,8 @@ class Script(default.Script):
                 orca.setLocusOfFocus(event, None)
                 return
 
-        role = event.source.getRole()
-        if role in [pyatspi.ROLE_CANVAS, pyatspi.ROLE_ICON] \
-           and self.utilities.handleContainerSelectionChange(event.source.parent):
+        if AXUtilities.is_icon_or_canvas(event.source) \
+           and self.utilities.handleContainerSelectionChange(AXObject.get_parent(event.source)):
             return
 
         super().onSelectedChanged(event)
@@ -171,9 +161,8 @@ class Script(default.Script):
             super().onSelectionChanged(event)
             return
 
-        isFocused = event.source.getState().contains(pyatspi.STATE_FOCUSED)
-        role = event.source.getRole()
-        if role == pyatspi.ROLE_COMBO_BOX and not isFocused:
+        isFocused = AXUtilities.is_focused(event.source)
+        if AXUtilities.is_combo_box(event.source) and not isFocused:
             return
 
         if not isFocused and self.utilities.isTypeahead(orca_state.locusOfFocus):
@@ -186,7 +175,7 @@ class Script(default.Script):
                     self.presentObject(child)
             return
 
-        if role == pyatspi.ROLE_LAYERED_PANE \
+        if AXUtilities.is_layered_pane(event.source) \
            and self.utilities.selectedChildCount(event.source) > 1:
             return
 
@@ -199,10 +188,10 @@ class Script(default.Script):
             super().onShowingChanged(event)
             return
 
-        obj = event.source
-        if self.utilities.isPopOver(obj) \
-           or obj.getRole() in [pyatspi.ROLE_ALERT, pyatspi.ROLE_INFO_BAR]:
-            if obj.parent and obj.parent.getRole() == pyatspi.ROLE_APPLICATION:
+        if self.utilities.isPopOver(event.source) \
+           or AXUtilities.is_alert(event.source) \
+           or AXUtilities.is_info_bar(event.source):
+            if AXUtilities.is_application(AXObject.get_parent(event.source)):
                 return
             self.presentObject(event.source, interrupt=True)
             return
@@ -213,7 +202,7 @@ class Script(default.Script):
         """Callback for object:text-changed:delete accessibility events."""
 
         if not self.utilities.isShowingAndVisible(event.source):
-            msg = "GTK: %s is not showing and visible" % event.source
+            msg = f"GTK: {event.source} is not showing and visible"
             debug.println(debug.LEVEL_INFO, msg, True)
             return
 
@@ -223,7 +212,7 @@ class Script(default.Script):
         """Callback for object:text-changed:insert accessibility events."""
 
         if not self.utilities.isShowingAndVisible(event.source):
-            msg = "GTK: %s is not showing and visible" % event.source
+            msg = f"GTK: {event.source} is not showing and visible"
             debug.println(debug.LEVEL_INFO, msg, True)
             return
 

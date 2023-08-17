@@ -31,12 +31,13 @@ __license__   = "LGPL"
 import inspect
 import traceback
 import os
-import pyatspi
-import re
 import subprocess
 import sys
 
 from datetime import datetime
+
+from .ax_object import AXObject
+from .ax_utilities import AXUtilities
 
 # Used to turn off all debugging.
 #
@@ -156,11 +157,11 @@ TRACE_APPS = []
 #
 TRACE_EVENTS = []
 
-# What pyatspi role(s) should be traced if traceit is being used. By
+# What role(s) should be traced if traceit is being used. By
 # default, we'll trace everything. An example of what you might wish
 # to do to narrow things down, if you know buttons trigger the problem:
 #
-# TRACE_ROLES = [pyatspi.ROLE_PUSH_BUTTON, pyatspi.ROLE_TOGGLE_BUTTON]
+# TRACE_ROLES = [Atspi.Role.PUSH_BUTTON, Atspi.Role.TOGGLE_BUTTON]
 #
 TRACE_ROLES = []
 
@@ -210,15 +211,15 @@ def println(level, text="", timestamp=False):
     if level >= debugLevel:
         text = text.replace("\ufffc", "[OBJ]")
         if timestamp:
-            text = text.replace("\n", "\n%s" % (" " * 18))
-            text = "%s - %s" % (datetime.now().strftime("%H:%M:%S.%f"), text)
+            text = text.replace("\n", f"\n{' ' * 18}")
+            text = f"{datetime.now().strftime('%H:%M:%S.%f')} - {text}"
         if debugFile:
             try:
                 debugFile.writelines([text, "\n"])
             except TypeError:
                 text = "TypeError when trying to write text"
                 debugFile.writelines([text, "\n"])
-            except:
+            except Exception:
                 text = "Exception when trying to write text"
                 debugFile.writelines([text, "\n"])
         else:
@@ -227,7 +228,7 @@ def println(level, text="", timestamp=False):
             except TypeError:
                 text = "TypeError when trying to write text"
                 sys.stderr.writelines([text, "\n"])
-            except:
+            except Exception:
                 text = "Exception when trying to write text"
                 sys.stderr.writelines([text, "\n"])
 
@@ -251,8 +252,8 @@ def printResult(level, result=None):
     callString = 'CALL:   %s.%s (line %s) -> %s.%s%s' % (
         inspect.getmodulename(prev[1]), prev[3], prev[2],
         inspect.getmodulename(current[1]), current[3], fArgs)
-    string = '%s\n%s %s' % (callString, 'RESULT:', result)
-    println(level, '%s' % string)
+    string = f'{callString}\nRESULT: {result}'
+    println(level, f'{string}')
 
 def printObjectEvent(level, event, sourceInfo=None, timestamp=False):
     """Prints out an Python Event object.  The given level may be
@@ -273,14 +274,14 @@ def printObjectEvent(level, event, sourceInfo=None, timestamp=False):
 
     anydata = event.any_data
     if isinstance(anydata, str) and len(anydata) > 100:
-        anydata = "%s (...)" % anydata[0:100]
+        anydata = f"{anydata[0:100]} (...)"
 
     text = "OBJECT EVENT: %s (%d, %d, %s)" \
            % (event.type, event.detail1, event.detail2, anydata)
     println(level, text, timestamp)
 
     if sourceInfo:
-        println(level, "%s%s" % (' ' * 18, sourceInfo), timestamp)
+        println(level, f"{' ' * 18}{sourceInfo}", timestamp)
 
 def printInputEvent(level, string, timestamp=False):
     """Prints out an input event.  The given level may be overridden
@@ -309,49 +310,6 @@ def printDetails(level, indent, accessible, includeApp=True, timestamp=False):
                 getAccessibleDetails(level, accessible, indent, includeApp),
                 timestamp)
 
-def statesToString(acc, indent=""):
-    try:
-        states = acc.getState().getStates()
-    except:
-        return "%sstates=(exception)" % indent
-
-    return "%sstates='%s'" % (indent, " ".join(map(pyatspi.stateToString, states)))
-
-def relationsToString(acc, indent=""):
-    try:
-        relations = [r.getRelationType() for r in acc.getRelationSet()]
-    except:
-        return "%srelations=(exception)" % indent
-
-    return "%srelations='%s'" % (indent, " ".join(map(pyatspi.relationToString, [r for r in relations])))
-
-def interfacesToString(acc, indent=""):
-    try:
-        interfaces = pyatspi.listInterfaces(acc)
-    except:
-        return "%sinterfaces=(exception)" % indent
-
-    return "%sinterfaces='%s'" % (indent, " ".join(interfaces))
-
-def attributesToString(acc, indent=""):
-    try:
-        attributes = acc.getAttributes()
-    except:
-        return "%sattributes=(exception)" % indent
-
-    return "%sattributes='%s'" % (indent, re.sub("\s+", " ", ", ".join(attributes)))
-
-def actionsToString(acc, indent=""):
-    try:
-        action = acc.queryAction()
-        names = [action.getName(i).lower() for i in range(action.nActions)]
-    except NotImplementedError:
-        return "%sactions=(not implemented)" % indent
-    except:
-        return "%sactions=(exception)" % indent
-
-    return "%sactions='%s'" % (indent, " ".join(names))
-
 def getAccessibleDetails(level, acc, indent="", includeApp=True):
     """Returns a string, suitable for printing, that describes the
     given accessible.
@@ -366,55 +324,28 @@ def getAccessibleDetails(level, acc, indent="", includeApp=True):
         return ""
 
     if includeApp:
-        try:
-            app = acc.getApplication()
-        except:
-            string = indent + "app=(exception getting app) "
-            app = None
-        else:
-            if app:
-                try:
-                    string = indent + "app.name='%s' " % app.name
-                except (LookupError, RuntimeError):
-                    string = indent + "app.name='(exception getting name)' "
-            else:
-                string = indent + "app=None "
+        string = indent + f"app='{AXObject.application_as_string(acc)}' "
     else:
         string = indent
 
-    try:
-        name_string = "name='%s'".replace("\n", "\\n") % acc.name
-    except:
-        name_string = "name=(exception)"
+    if AXObject.is_dead(acc):
+        string += "(exception fetching data)"
+        return string
 
-    try:
-        desc_string = "%sdescription='%s'".replace("\n", "\\n") % (indent, acc.description)
-    except:
-        desc_string = "%sdescription=(exception)" % indent
+    name_string = "name='%s'".replace("\n", "\\n") % AXObject.get_name(acc)
+    desc_string = "%sdescription='%s'".replace("\n", "\\n") % \
+        (indent, AXObject.get_description(acc))
+    role_string = f"role='{AXObject.get_role_name(acc)}'"
+    path_string = f"{indent}path={AXObject.get_path(acc)}"
+    state_string = f"{indent}states='{AXObject.state_set_as_string(acc)}'"
+    rel_string = f"{indent}relations='{AXObject.relations_as_string(acc)}'"
+    actions_string = f"{indent}actions='{AXObject.actions_as_string(acc)}'"
+    iface_string = f"{indent}interfaces='{AXObject.supported_interfaces_as_string(acc)}'"
+    attr_string = f"{indent}attributes='{AXObject.attributes_as_string(acc)}'"
 
-    try:
-        role_string = "role='%s'" % acc.getRoleName()
-    except:
-        role_string = "role=(exception)"
-
-    try:
-        path_string = "%spath=%s" % (indent, pyatspi.getPath(acc))
-    except:
-        path_string = "%spath=(exception)" % indent
-
-    state_string = statesToString(acc, indent)
-    rel_string = relationsToString(acc, indent)
-    actions_string = actionsToString(acc, indent)
-    iface_string = interfacesToString(acc, indent)
-    attr_string = attributesToString(acc, indent)
-
-    try:
-        string += "%s %s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n" \
+    string += "%s %s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n" \
                   % (name_string, role_string, desc_string, state_string, rel_string,
                      actions_string, iface_string, attr_string, path_string)
-    except:
-        string += "(exception fetching data)"
-
     return string
 
 # The following code originated from the following URL:
@@ -429,7 +360,7 @@ def _getFileAndModule(frame):
     try:
         filename = frame.f_globals["__file__"]
         module = frame.f_globals["__name__"]
-    except:
+    except Exception:
         pass
     else:
         if (filename.endswith(".pyc") or filename.endswith(".pyo")):
@@ -443,16 +374,11 @@ def _shouldTraceIt():
 
     eventSource = objEvent.source
     if TRACE_APPS:
-        app = objEvent.host_application or eventSource.getApplication()
-        try:
-            app = objEvent.host_application or eventSource.getApplication()
-        except:
-            pass
-        else:
-            if not app.name in TRACE_APPS:
-                return False
+        app = AXObject.get_application(eventSource)
+        if AXObject.get_name(app) not in TRACE_APPS:
+            return False
 
-    if TRACE_ROLES and not eventSource.getRole() in TRACE_ROLES:
+    if TRACE_ROLES and AXObject.get_role(eventSource) not in TRACE_ROLES:
         return False
 
     if TRACE_EVENTS and \
@@ -463,9 +389,9 @@ def _shouldTraceIt():
 
 def traceit(frame, event, arg):
     """Line tracing utility to output all lines as they are executed by
-    the interpreter.  This is to be used by sys.settrace and is for 
+    the interpreter.  This is to be used by sys.settrace and is for
     debugging purposes.
-   
+
     Arguments:
     - frame: is the current stack frame
     - event: 'call', 'line', 'return', 'exception', 'c_call', 'c_return',
@@ -481,14 +407,14 @@ def traceit(frame, event, arg):
         return traceit
     if module in TRACE_IGNORE_MODULES:
         return traceit
-    if TRACE_MODULES and not module.split('.')[0] in TRACE_MODULES:
+    if TRACE_MODULES and module.split('.')[0] not in TRACE_MODULES:
         return traceit
-    if not event in ['call', 'line', 'return']:
+    if event not in ['call', 'line', 'return']:
         return traceit
 
     lineno = frame.f_lineno
     line = linecache.getline(filename, lineno).rstrip()
-    output = 'TRACE %s:%s: %s' % (module, lineno, line)
+    output = f'TRACE {module}:{lineno}: {line}'
 
     if event == 'call':
         argvals = inspect.getargvalues(frame)
@@ -501,13 +427,13 @@ def traceit(frame, event, arg):
             else:
                 return traceit
         for i, key in enumerate(keys):
-            output += '\n  ARG %s=%s' % (key, values[i])
+            output += f'\n  ARG {key}={values[i]}'
 
     lineElements = line.strip().split()
     if lineElements and lineElements[0] == 'return':
         if event == 'line':
             return traceit
-        output = '%s (rv: %s)' % (output, arg)
+        output = f'{output} (rv: {arg})'
 
     println(LEVEL_ALL, output)
 
@@ -522,17 +448,17 @@ def getOpenFDCount(pid):
 
 def getCmdline(pid):
     try:
-        openFile = os.popen('cat /proc/%s/cmdline' % pid)
+        openFile = os.popen(f'cat /proc/{pid}/cmdline')
         cmdline = openFile.read()
         openFile.close()
-    except:
+    except Exception:
         cmdline = '(Could not obtain cmdline)'
     cmdline = cmdline.replace('\x00', ' ')
 
     return cmdline
 
 def pidOf(procName):
-    openFile = subprocess.Popen('pgrep %s' % procName,
+    openFile = subprocess.Popen(f'pgrep {procName}',
                                 shell=True,
                                 stdout=subprocess.PIPE).stdout
     pids = openFile.read()
@@ -545,19 +471,15 @@ def examineProcesses(force=False):
     else:
         level = LEVEL_ALL
 
-    desktop = pyatspi.Registry.getDesktop(0)
-    println(level, 'INFO: Desktop has %i apps:' % desktop.childCount, True)
-    for i, app in enumerate(desktop):
-        pid = app.get_process_id()
+    desktop = AXUtilities.get_desktop()
+    println(level, 'INFO: Desktop has %i apps:' % AXObject.get_child_count(desktop), True)
+    for i, app in enumerate(AXObject.iter_children(desktop)):
+        pid = AXObject.get_process_id(app)
         cmd = getCmdline(pid)
         fds = getOpenFDCount(pid)
-        try:
-            name = app.name
-        except:
-            name = 'ERROR: Could not get name'
-        else:
-            if name == '':
-                name = 'WARNING: Possible hang'
+        name = AXObject.get_name(app)
+        if name == '':
+            name = 'WARNING: Possible hang or dead app'
         println(level, '%3i. %s (pid: %s) %s file descriptors: %i' \
                     % (i+1, name, pid, cmd, fds), True)
 
@@ -566,7 +488,7 @@ def examineProcesses(force=False):
     for app in otherApps:
         pids = pidOf(app)
         if not pids:
-            println(level, 'INFO: no pid for %s' % app, True)
+            println(level, f'INFO: no pid for {app}', True)
             continue
 
         for pid in pids:

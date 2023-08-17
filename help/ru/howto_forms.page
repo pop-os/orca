@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_forms" xml:lang="ru">
+  <info>
+    <link type="guide" xref="index#reading"/>
+     <link type="next" xref="howto_live_regions"/>
+    <title type="sort">5. Заполнение форм</title>
+    <desc>Доступ к встроенным в документы виджетам</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Заполнение форм</title>
+  <p>Когда вы открываете веб-страницы и другие документы с помощью <app>Orca</app>, вы работаете непосредственно с самим документом, а не с его сохранённой копией. Режим чтения и режим фокуса <app>Orca</app> позволяют переключаться между чтением и заполнением форм.</p>
+  <section id="navigating_amongst_form_fields">
+    <title>Навигация между полями форм</title>
+    <p>Существует несколько способов навигации между полями форм:</p>
+    <list>
+      <item>
+        <p>Используйте клавиши <key>Tab</key> и <keyseq><key>Shift</key><key>Tab</key></keyseq> для навигации между способными принимать фокус объектами, независимо от типа.</p>
+      </item>
+      <item>
+        <p>Используйте <link xref="commands_structural_navigation#forms"> команды структурной навигации для форм</link> <app>Orca</app>.</p>
+      </item>
+      <item>
+        <p>Для перехода к определённому полю формы также можно использовать клавиши со стрелками (эта возможность зависит от формы и приложения).</p>
+      </item>
+   </list>
+   <note style="tip">
+     <p>Чтобы использовать команды курсорной навигации или структурной навигации <app>Orca</app> для перехода в поле формы, необходимо находиться в режиме чтения. Если используется режим фокуса, в режим чтения можно переключиться с помощью комбинации клавиш <keyseq><key>Модификатор Orca</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+  <section id="exiting_form_fields">
+    <title>Выход из полей форм</title>
+    <p>Существует несколько вариантов выхода из поля формы:</p>
+    <list>
+      <item>
+        <p>Используйте клавиши <key>Tab</key>/<keyseq><key>Shift</key><key>Tab</key></keyseq> для выхода из поля формы с текущим фокусом и перехода к следующему/предыдущему способному принимать фокус объекту, независимо от типа.</p>
+      </item>
+      <item>
+        <p>Используйте <link xref="commands_structural_navigation#forms"> команды структурной навигации для форм</link> <app>Orca</app> для перехода к следующему или предыдущему полю формы.</p>
+      </item>
+      <item>
+        <p>Для выхода из определённого поля формы также можно использовать клавиши со стрелками (эта возможность зависит от формы и приложения).</p>
+      </item>
+    </list>
+   <note style="tip">
+     <p>Чтобы использовать команды курсорной навигации или структурной навигации <app>Orca</app> для выхода из поля формы, необходимо находиться в режиме чтения. Если используется режим фокуса, в режим чтения можно переключиться с помощью комбинации клавиш <keyseq><key>Модификатор Orca</key><key>A</key></keyseq>.</p>
+   </note>
+  </section>
+</page>

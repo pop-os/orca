@@ -31,7 +31,6 @@ import time
 
 from . import debug
 from . import logger
-from . import orca_state
 from . import settings
 from . import speech_generator
 from .speechserver import VoiceFamily
@@ -57,11 +56,11 @@ def _initSpeechServer(moduleName, speechServerInfo):
 
     factory = None
     try:
-        factory = importlib.import_module('orca.%s' % moduleName)
-    except:
+        factory = importlib.import_module(f'orca.{moduleName}')
+    except Exception:
         try:
             factory = importlib.import_module(moduleName)
-        except:
+        except Exception:
             debug.printException(debug.LEVEL_SEVERE)
 
     # Now, get the speech server we care about.
@@ -73,11 +72,11 @@ def _initSpeechServer(moduleName, speechServerInfo):
     if not _speechserver:
         _speechserver = factory.SpeechServer.getSpeechServer()
         if speechServerInfo:
-            msg = 'SPEECH: Invalid speechServerInfo: %s' % speechServerInfo
+            msg = f'SPEECH: Invalid speechServerInfo: {speechServerInfo}'
             debug.println(debug.LEVEL_INFO, msg, True)
 
     if not _speechserver:
-        raise Exception("ERROR: No speech server for factory: %s" % moduleName)
+        raise Exception(f"ERROR: No speech server for factory: {moduleName}")
 
 def init():
     debug.println(debug.LEVEL_INFO, 'SPEECH: Initializing', True)
@@ -89,7 +88,7 @@ def init():
         moduleName = settings.speechServerFactory
         _initSpeechServer(moduleName,
                           settings.speechServerInfo)
-    except:
+    except Exception:
         moduleNames = settings.speechFactoryModules
         for moduleName in moduleNames:
             if moduleName != settings.speechServerFactory:
@@ -97,11 +96,11 @@ def init():
                     _initSpeechServer(moduleName, None)
                     if _speechserver:
                         break
-                except:
+                except Exception:
                     debug.printException(debug.LEVEL_SEVERE)
 
     if _speechserver:
-        msg = 'SPEECH: Using speech server factory: %s' % moduleName
+        msg = f'SPEECH: Using speech server factory: {moduleName}'
         debug.println(debug.LEVEL_INFO, msg, True)
     else:
         msg = 'SPEECH: Not available'
@@ -123,7 +122,7 @@ def __resolveACSS(acss=None):
         family = acss.get(acss.FAMILY)
         try:
             family = VoiceFamily(family)
-        except:
+        except Exception:
             family = VoiceFamily({})
         acss[acss.FAMILY] = family
         return acss
@@ -155,7 +154,7 @@ def _speak(text, acss, interrupt):
         for key in settings.voices:
             if acss == settings.voices[key]:
                 if key != settings.DEFAULT_VOICE:
-                    extraDebug = " voice=%s" % key
+                    extraDebug = f" voice={key}"
                 break
 
     debug.println(debug.LEVEL_INFO, logLine + extraDebug + str(acss), True)
@@ -165,7 +164,7 @@ def _speak(text, acss, interrupt):
         voice = ACSS(settings.voices.get(settings.DEFAULT_VOICE))
         try:
             voice.update(__resolveACSS(acss))
-        except:
+        except Exception:
             pass
         _speechserver.speak(text, __resolveACSS(voice), interrupt)
 
@@ -187,7 +186,7 @@ def speak(content, acss=None, interrupt=True):
 
     global _timestamp
     if _timestamp:
-        msg = "SPEECH: Last spoke %.4f seconds ago" % (time.time() - _timestamp)
+        msg = f"SPEECH: Last spoke {time.time() - _timestamp:.4f} seconds ago"
         debug.println(debug.LEVEL_INFO, msg, True)
     _timestamp = time.time()
 
@@ -241,8 +240,8 @@ def speakKeyEvent(event, acss=None):
     keyname = event.getKeyName()
     lockingStateString = event.getLockingStateString()
     acss = __resolveACSS(acss)
-    msg = "%s %s" % (keyname, lockingStateString)
-    logLine = "SPEECH OUTPUT: '%s' %s" % (msg, acss)
+    msg = f"{keyname} {lockingStateString}"
+    logLine = f"SPEECH OUTPUT: '{msg.strip()}' {acss}"
     debug.println(debug.LEVEL_INFO, logLine, True)
     log.info(logLine)
 
@@ -266,7 +265,7 @@ def speakCharacter(character, acss=None):
     acss = __resolveACSS(acss)
     msg = "SPEECH OUTPUT: '" + character + "' " + str(acss)
     debug.println(debug.LEVEL_INFO, msg, True)
-    log.info("SPEECH OUTPUT: '%s'" % character)
+    log.info(f"SPEECH OUTPUT: '{character}'")
 
     if _speechserver:
         _speechserver.speakCharacter(character, acss=acss)
@@ -282,58 +281,6 @@ def stop():
     if _speechserver:
         _speechserver.stop()
 
-def updateCapitalizationStyle(script=None, inputEvent=None):
-    if _speechserver:
-        _speechserver.updateCapitalizationStyle()
-
-    return True
-
-def updatePunctuationLevel(script=None, inputEvent=None):
-    """ Punctuation level changed, inform this speechServer. """
-
-    if _speechserver:
-        _speechserver.updatePunctuationLevel()
-
-    return True
-
-def increaseSpeechRate(script=None, inputEvent=None):
-    if _speechserver:
-        _speechserver.increaseSpeechRate()
-
-    return True
-
-def decreaseSpeechRate(script=None, inputEvent=None):
-    if _speechserver:
-        _speechserver.decreaseSpeechRate()
-    else:
-        logLine = "SPEECH OUTPUT: 'slower'"
-        debug.println(debug.LEVEL_INFO, logLine)
-        log.info(logLine)
-
-    return True
-
-def increaseSpeechPitch(script=None, inputEvent=None):
-    if _speechserver:
-        _speechserver.increaseSpeechPitch()
-
-    return True
-
-def decreaseSpeechPitch(script=None, inputEvent=None):
-    if _speechserver:
-        _speechserver.decreaseSpeechPitch()
-
-    return True
-
-def increaseSpeechVolume(script=None, inputEvent=None):
-    if _speechserver:
-        _speechserver.increaseSpeechVolume()
-    return True
-
-def decreaseSpeechVolume(script=None, inputEvent=None):
-    if _speechserver:
-        _speechserver.decreaseSpeechVolume()
-    return True
-
 def shutdown():
     debug.println(debug.LEVEL_INFO, 'SPEECH: Shutting down', True)
     global _speechserver
@@ -344,3 +291,6 @@ def shutdown():
 def reset(text=None, acss=None):
     if _speechserver:
         _speechserver.reset(text, acss)
+
+def getSpeechServer():
+    return _speechserver

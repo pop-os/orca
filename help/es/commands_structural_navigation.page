@@ -85,7 +85,11 @@
       <title>Formularios</title>
       <list>
         <item>
-          <p>Campo del formulario anterior y siguiente: <keyseq><key>Modificador de Orca</key><key>Tab</key></keyseq> y <keyseq><key>Modificador de Orca</key><key>Mayús</key><key>Tab</key></keyseq></p>
+          <p>
+            Next and previous form field:
+            <keyseq><key>F</key></keyseq> and
+            <keyseq><key>Shift</key><key>F</key></keyseq>
+          </p>
         </item> 
         <item>
           <p>Mostrar una lista de campos de formulario: <keyseq><key>Alt</key><key>Mayús</key><key>F</key></keyseq></p>

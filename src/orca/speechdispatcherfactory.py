@@ -17,15 +17,6 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# # [[[TODO: richb - Pylint is giving us a bunch of warnings along these
-# lines throughout this file:
-#
-#  W0142:202:SpeechServer._send_command: Used * or ** magic
-#
-# So for now, we just disable these warnings in this module.]]]
-#
-# pylint: disable-msg=W0142
-
 """Provides an Orca speech server for Speech Dispatcher backend."""
 
 __id__ = "$Id$"
@@ -54,7 +45,7 @@ _settingsManager = settings_manager.getManager()
 
 try:
     import speechd
-except:
+except Exception:
     _speechd_available = False
 else:    
     _speechd_available = True
@@ -140,7 +131,7 @@ class SpeechServer(speechserver.SpeechServer):
         # depend on the speechd module being available.
         try:
             most = speechd.PunctuationMode.MOST
-        except:
+        except Exception:
             most = speechd.PunctuationMode.SOME
         self._PUNCTUATION_MODE_MAP = {
             settings.PUNCTUATION_STYLE_ALL:  speechd.PunctuationMode.ALL,
@@ -156,10 +147,10 @@ class SpeechServer(speechserver.SpeechServer):
             }
 
         self._default_voice_name = guilabels.SPEECH_DEFAULT_VOICE % serverId
-        
+
         try:
             self._init()
-        except:
+        except Exception:
             debug.printException(debug.LEVEL_WARNING)
             msg = 'ERROR: Speech Dispatcher service failed to connect'
             debug.println(debug.LEVEL_WARNING, msg, True)
@@ -195,7 +186,7 @@ class SpeechServer(speechserver.SpeechServer):
             debug.println(debug.LEVEL_INFO, msg, True)
             self.reset()
             self._client.set_cap_let_recogn(style)
-        except:
+        except Exception:
             pass
 
     def updatePunctuationLevel(self):
@@ -211,7 +202,7 @@ class SpeechServer(speechserver.SpeechServer):
             debug.println(debug.LEVEL_INFO, msg, True)
             self.reset()
             return command(*args, **kwargs)
-        except:
+        except Exception:
             pass
 
     def _set_rate(self, acss_rate):
@@ -273,7 +264,7 @@ class SpeechServer(speechserver.SpeechServer):
             sd_pitch = self._send_command(self._client.get_pitch)
             sd_volume = self._send_command(self._client.get_volume)
             sd_language = self._send_command(self._client.get_language)
-        except:
+        except Exception:
             sd_rate = sd_pitch = sd_volume = sd_language = "(exception occurred)"
 
         family = self._current_voice_properties.get(ACSS.FAMILY)
@@ -283,7 +274,6 @@ class SpeechServer(speechserver.SpeechServer):
                   settings.PUNCTUATION_STYLE_MOST: "MOST",
                   settings.PUNCTUATION_STYLE_ALL: "ALL"}
 
-        current = self._current_voice_properties
         msg = "SPEECH DISPATCHER: %s\n" \
               "ORCA rate %s, pitch %s, volume %s, language %s, punctuation: %s \n" \
               "SD rate %s, pitch %s, volume %s, language %s" % \
@@ -345,7 +335,7 @@ class SpeechServer(speechserver.SpeechServer):
         for symbol in symbols:
             try:
                 level, action = punctuation_settings.getPunctuationInfo(symbol)
-            except:
+            except Exception:
                 continue
 
             if level != punctuation_settings.LEVEL_NONE:
@@ -353,7 +343,7 @@ class SpeechServer(speechserver.SpeechServer):
                 #
                 continue
 
-            charName = " %s " % chnames.getCharacterName(symbol)
+            charName = f" {chnames.getCharacterName(symbol)} "
             if action == punctuation_settings.PUNCTUATION_INSERT:
                 charName += symbol
             newText = re.sub(symbol, charName, newText)
@@ -372,7 +362,6 @@ class SpeechServer(speechserver.SpeechServer):
         # Note: we need to do this before disturbing the text offsets
         # Note2: we assume that text mangling below leave U+E000 untouched
         last_begin = None
-        last_end = None
         is_numeric = None
         marks_offsets = []
         marks_endoffsets = []
@@ -385,13 +374,13 @@ class SpeechServer(speechserver.SpeechServer):
                 # know what to do of it anyway, so discard it
                 continue
 
-            if not c.isspace() and last_begin == None:
+            if not c.isspace() and last_begin is None:
                 # Word begin
                 marked_text += '\ue000'
                 last_begin = i
                 is_numeric = c.isnumeric()
 
-            elif c.isspace() and last_begin != None:
+            elif c.isspace() and last_begin is not None:
                 # Word end
                 if is_numeric:
                     # We had a wholy numeric word, possibly next word is as well.
@@ -419,7 +408,7 @@ class SpeechServer(speechserver.SpeechServer):
 
             marked_text += c
 
-        if last_begin != None:
+        if last_begin is not None:
             # Finished with a word
             marks_offsets.append(last_begin)
             marks_endoffsets.append(i + 1)
@@ -471,7 +460,7 @@ class SpeechServer(speechserver.SpeechServer):
         ssml += "</speak>"
 
         self._apply_acss(acss)
-        self._debug_sd_values("Speaking '%s' " % ssml)
+        self._debug_sd_values(f"Speaking '{ssml}' ")
         self._send_command(self._client.speak, ssml, **kwargs)
 
     def _say_all(self, iterator, orca_callback):
@@ -564,7 +553,7 @@ class SpeechServer(speechserver.SpeechServer):
         # set according to the current locale.
         from locale import getlocale, LC_MESSAGES
         locale = getlocale(LC_MESSAGES)[0]
-        if locale is None or not '_' in locale:
+        if locale is None or '_' not in locale:
             locale_language = None
         else:
             locale_lang, locale_dialect = locale.split('_')
@@ -578,7 +567,7 @@ class SpeechServer(speechserver.SpeechServer):
         else:
             try:
                 voices += self._send_command(list_synthesis_voices)
-            except:
+            except Exception:
                 pass
 
         default_lang = ""
@@ -610,6 +599,9 @@ class SpeechServer(speechserver.SpeechServer):
         return families
 
     def speak(self, text=None, acss=None, interrupt=True):
+        if not text:
+            return
+
         # In order to re-enable this, a potentially non-trivial amount of work
         # will be needed to ensure multiple utterances sent to speech.speak
         # do not result in the intial utterances getting cut off before they
@@ -626,7 +618,14 @@ class SpeechServer(speechserver.SpeechServer):
         if self._lastKeyEchoTime:
             interrupt = interrupt and (time.time() - self._lastKeyEchoTime) > 0.5
 
-        if text:
+        if len(text) == 1:
+            msg = "SPEECH DISPATCHER: Speaking '%s' as char" % text.replace("\n", "\\n")
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self._apply_acss(acss)
+            self._send_command(self._client.char, text)
+        else:
+            msg = f"SPEECH DISPATCHER: Speaking '{text}' as string"
+            debug.println(debug.LEVEL_INFO, msg, True)
             self._speak(text, acss)
 
     def sayAll(self, utteranceIterator, progressCallback):
@@ -636,6 +635,8 @@ class SpeechServer(speechserver.SpeechServer):
         self._apply_acss(acss)
         name = chnames.getCharacterName(character)
         if not name or name == character:
+            msg = "SPEECH DISPATCHER: Speaking '%s' as char" % character.replace("\n", "\\n")
+            debug.println(debug.LEVEL_INFO, msg, True)
             self._send_command(self._client.char, character)
             return
 
@@ -646,13 +647,17 @@ class SpeechServer(speechserver.SpeechServer):
 
     def speakKeyEvent(self, event, acss=None):
         event_string = event.getKeyName()
-        if orca_state.activeScript:
-            event_string = orca_state.activeScript.\
-                utilities.adjustForPronunciation(event_string)
-
         lockingStateString = event.getLockingStateString()
-        event_string = "%s %s" % (event_string, lockingStateString)
-        self.speak(event_string, acss=acss)
+        event_string = f"{event_string} {lockingStateString}".strip()
+        if len(event_string) == 1:
+            msg = f"SPEECH DISPATCHER: Speaking '{event_string}' as key"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self._apply_acss(acss)
+            self._send_command(self._client.key, event_string)
+        else:
+            msg = f"SPEECH DISPATCHER: Speaking '{event_string}' as string"
+            debug.println(debug.LEVEL_INFO, msg, True)
+            self.speak(event_string, acss=acss)
         self._lastKeyEchoTime = time.time()
 
     def increaseSpeechRate(self, step=5):
@@ -672,6 +677,94 @@ class SpeechServer(speechserver.SpeechServer):
 
     def decreaseSpeechVolume(self, step=0.5):
         self._change_default_speech_volume(step, decrease=True)
+
+    def getLanguage(self):
+        """Returns the current language."""
+
+        return self._client.get_language()
+
+    def setLanguage(self, language, dialect):
+        """Sets the current language"""
+
+        if not language:
+            return
+
+        self._client.set_language(language)
+        if dialect:
+            self._client.set_language(language + "-" + dialect)
+
+    def _normalizedLanguageAndDialect(self, language, dialect=""):
+        """Attempts to ensure consistency across inconsistent formats."""
+
+        if "-" in language:
+            normalized_language = language.split("-", 1)[0].lower()
+            normalized_dialect = language.split("-", 1)[-1].lower()
+        else:
+            normalized_language = language.lower()
+            normalized_dialect = dialect.lower()
+
+        return normalized_language, normalized_dialect
+
+    def getVoiceFamiliesForLanguage(self, language, dialect, maximum=None):
+        """Returns the families for language available in the current synthesizer."""
+
+        start = time.time()
+        target_language, target_dialect = self._normalizedLanguageAndDialect(language, dialect)
+
+        result = []
+        voices = self._client.list_synthesis_voices()
+
+        for voice in voices:
+            normalized_language, normalized_dialect = self._normalizedLanguageAndDialect(voice[1])
+            if normalized_language != target_language:
+                continue
+            if normalized_dialect == target_dialect:
+                result.append(voice)
+            elif not normalized_dialect and target_dialect == normalized_language:
+                result.append(voice)
+            if maximum is not None and len(result) >= maximum:
+                break
+
+        msg = (
+            f"SPEECH DISPATCHER: Found {len(result)} match(es) for language='{language}' "
+            f"dialect='{dialect}' in {time.time() - start:.4f}s."
+        )
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return result
+
+    def shouldChangeVoiceForLanguage(self, language, dialect=""):
+        """Returns True if we should change the voice for the specified language."""
+
+        current_language, current_dialect = self._normalizedLanguageAndDialect(self.getLanguage())
+        other_language, other_dialect = self._normalizedLanguageAndDialect(language, dialect)
+
+        msg = (
+            f"SPEECH DISPATCHER: Should change voice for language? "
+            f"Current: '{current_language}' '{current_dialect}' "
+            f"New: '{other_language}' '{other_dialect}'"
+        )
+        debug.println(debug.LEVEL_INFO, msg, True)
+
+        if current_language == other_language and current_dialect == other_dialect:
+            msg ="SPEECH DISPATCHER: No. Language and dialect are the same."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return False
+
+        families = self.getVoiceFamiliesForLanguage(other_language, other_dialect, maximum=1)
+        if families:
+            msg = f"SPEECH DISPATCHER: Yes. Found matching family {families[0]}."
+            debug.println(debug.LEVEL_INFO, msg, True)
+            return True
+
+        msg = f"SPEECH DISPATCHER: No. No matching family in {self.getOutputModule()}."
+        debug.println(debug.LEVEL_INFO, msg, True)
+        return True
+
+    def getOutputModule(self):
+        return self._client.get_output_module()
+
+    def setOutputModule(self, module):
+        self._client.set_output_module(module)
 
     def stop(self):
         self._cancel()

@@ -29,7 +29,7 @@ import orca.messages as messages
 import orca.scripts.default as default
 import orca.settings as settings
 import orca.settings_manager as settings_manager
-import orca.notification_messages as notification_messages
+from orca.ax_object import AXObject
 
 _settingsManager = settings_manager.getManager()
 
@@ -62,21 +62,20 @@ class Script(default.Script):
             value = ivalue.currentValue
         except NotImplementedError:
             value = -1
-            
-        utterances = []
+
         message = ""
-        voices = _settingsManager.getSetting('voices')
         if value < 0:
             self.speakMessage(messages.NOTIFICATION)
-            message = '%s %s' % (event.source.name, event.source.description)
+            message = '%s %s' % (AXObject.get_name(event.source),
+                                 AXObject.get_description(event.source))
         else:
             # A gauge notification, e.g. the Ubuntu volume notification that
             # appears when you press the multimedia keys.
             #
-            message = '%s %d' % (event.source.name, value)
+            message = '%s %d' % (AXObject.get_name(event.source), value)
             self.speakMessage(message)
 
         voice = self.speechGenerator.voice(obj=event.source, string=message)
         self.speakMessage(message, voice=voice)
         self.displayBrailleMessage(message, flashTime=settings.brailleFlashTime)
-        notification_messages.saveMessage(message)
+        self.notificationPresenter.save_notification(message)

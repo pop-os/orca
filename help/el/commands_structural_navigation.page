@@ -79,7 +79,11 @@
       <title>Φόρμες</title>
       <list>
         <item>
-          <p>Επόμενο και προηγούμενο πεδίο φόρμας: <keyseq><key>τροποποιητής Orca </key><key>Tab</key></keyseq> και <keyseq><key>τροποποιητής Orca</key><key>Shift</key><key>Tab</key></keyseq></p>
+          <p>
+            Next and previous form field:
+            <keyseq><key>F</key></keyseq> and
+            <keyseq><key>Shift</key><key>F</key></keyseq>
+          </p>
         </item> 
         <item>
           <p>Εμφάνιση ενός καταλόγου από πεδία φόρμας: <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq></p>

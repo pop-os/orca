@@ -66,6 +66,21 @@ BOOKMARKS_SAVED = _("bookmarks saved")
 # list of bookmarks being saved to disk.
 BOOKMARKS_SAVED_FAILURE = _("bookmarks could not be saved")
 
+# Translators: Orca has a feature in which users can store/save a particular
+# location in an application window and return to it later by pressing a
+# keystroke. These stored/saved locations are "bookmarks". This string is
+# presented to the user when they try to go to a bookmark, but don't have
+# any bookmarks.
+BOOKMARKS_NOT_FOUND = _("No bookmarks found.")
+
+# Translators: Orca has a feature in which users can store/save a particular
+# location in an application window and return to it later by pressing a
+# keystroke. These stored/saved locations are "bookmarks". This string is
+# presented to the user when they try to go to a bookmark at a particular
+# index (e.g. bookmark 1 or bookmark 2) but there is no bookmark stored at
+# that index.
+BOOKMARK_NOT_FOUND = _("Bookmark not found.")
+
 # Translators: Orca normally intercepts all keyboard commands and only passes
 # them along to the current application when they are not Orca commands. This
 # command causes the next command issued to be passed along to the current
@@ -473,8 +488,23 @@ CONTAINER_NOT_IN_A = _("Not in a container.")
 CONTAINER_SELECTED_ALL = _("all items selected")
 
 # Translators: The "default" button in a dialog box is the button that gets
-# activated when Enter is pressed anywhere within that dialog box.
+# activated when Enter is pressed anywhere within that dialog box. The string
+# substitution is the name of the button (e.g. "OK" or "Close").
 DEFAULT_BUTTON_IS = _("Default button is %s")
+
+# Translators: The "default" button in a dialog box is the button that gets
+# activated when Enter is pressed anywhere within that dialog box. This
+# message is presented when the default button was found but is insensitive /
+# grayed out / cannot be activated. The string substitution is the name of
+# the button (e.g. "OK" or "Close"). When translating "Grayed," please use
+# the same word used for the string in object_properties.py.
+DEFAULT_BUTTON_IS_GRAYED = _("Default button is %s. Grayed")
+
+# Translators: The "default" button in a dialog box is the button that gets
+# activated when Enter is pressed anywhere within that dialog box. Orca has
+# a command to present the default button. This is the message Orca will
+# present if it could not find the default button.
+DEFAULT_BUTTON_NOT_FOUND = _("Default button not found")
 
 # Translators: This string is part of the presentation of an item that includes
 # one or several consecutive subscripted characters. For example, 'X' followed
@@ -487,6 +517,11 @@ DIGITS_SUBSCRIPT =  _(" subscript %s")
 # by 'superscript 2' followed by 'superscript 3' should be presented to the user
 # as 'X superscript 23'.
 DIGITS_SUPERSCRIPT =  _(" superscript %s")
+
+# Translators: this message is presented when the user tries to perform a command
+# specific to dialog boxes, such as presenting the default button, but is not in
+# a dialog.
+DIALOG_NOT_IN_A = _("Not in a dialog")
 
 # Translators: when the user selects (highlights) or unselects text in a
 # document, Orca will speak information about what they have selected or
@@ -599,6 +634,22 @@ FLAT_REVIEW_START = _("Entering flat review.")
 # sequence of words in a sequence of lines.  This message is presented to
 # let the user know he/she just entered flat review.
 FLAT_REVIEW_STOP = _("Leaving flat review.")
+
+# Translators: the 'flat review' feature of Orca allows the blind user to
+# explore the text in a window in a 2D fashion.  That is, Orca treats all
+# the text from all objects in a window (e.g., buttons, labels, etc.) as a
+# sequence of words in a sequence of lines.  This message is presented to
+# let the user know that flat review is being restricted to the current
+# object of interest.
+FLAT_REVIEW_RESTRICTED = _("Flat review restricted to the current object")
+
+# Translators: the 'flat review' feature of Orca allows the blind user to
+# explore the text in a window in a 2D fashion.  That is, Orca treats all
+# the text from all objects in a window (e.g., buttons, labels, etc.) as a
+# sequence of words in a sequence of lines.  This message is presented to
+# let the user know that flat review is unrestricted,
+# that is, the entire window can be explored.
+FLAT_REVIEW_UNRESTRICTED = _("Flat review unrestricted")
 
 # Translators: this means a particular cell in a spreadsheet has a formula
 # (e.g., "=sum(a1:d1)")
@@ -1728,6 +1779,10 @@ MODE_LAYOUT = _("Layout mode.")
 # object-based presentation.
 MODE_OBJECT = _("Object mode.")
 
+# Translators: This message is presented to the user when the command to move
+# the mouse pointer to a particular object is believed to have succeeded.
+MOUSE_MOVED_SUCCESS = _("Pointer moved to object.")
+
 # Translators: Hovering the mouse over certain objects on a web page causes a 
 # new object to appear such as a pop-up menu. Orca has a command will move the
 # user to the object which just appeared as a result of the user hovering the
@@ -1751,6 +1806,36 @@ MOUSE_REVIEW_ENABLED = _("Mouse review enabled.")
 # from getting these objects.
 NAVIGATION_DIALOG_ERROR = _("Error: Could not create list of objects.")
 
+# Translators: the object navigator allows users to explore UI objects presented
+# as a hierarchy. This message is spoken when the current node in the hierarchy
+# has no children.
+NAVIGATOR_NO_CHILDREN = _("No children.")
+
+# Translators: the object navigator allows users to explore UI objects presented
+# as a hierarchy. This message is spoken when the current node in the hierarchy
+# has no next sibling.
+NAVIGATOR_NO_NEXT = _("No next.")
+
+# Translators: the object navigator allows users to explore UI objects presented
+# as a hierarchy. This message is spoken when the current node in the hierarchy
+# has no parent.
+NAVIGATOR_NO_PARENT = _("No parent.")
+
+# Translators: the object navigator allows users to explore UI objects presented
+# as a hierarchy. This message is spoken when the current node in the hierarchy
+# has no previous sibling.
+NAVIGATOR_NO_PREVIOUS = _("No previous.")
+
+# Translators: the object navigator allows users to explore UI objects presented
+# as a hierarchy. This hierarchy can be simplified to aid with navigation. This
+# message is spoken when the simplified view is enabled.
+NAVIGATOR_SIMPLIFIED_ENABLED = _("Simplified navigation enabled.")
+
+# Translators: the object navigator allows users to explore UI objects presented
+# as a hierarchy. This hierarchy can be simplified to aid with navigation. This
+# message is spoken when the simplified view is disabled.
+NAVIGATOR_SIMPLIFIED_DISABLED = _("Simplified navigation disabled.")
+
 # Translators: This message describes a list item in a document. Nesting level
 # is how "deep" the item is (e.g., a level of 2 represents a list item inside a
 # list that's inside another list).
@@ -1760,6 +1845,13 @@ NESTING_LEVEL = _("Nesting level %d")
 # location on a web page. If moving the mouse pointer caused an item to appear
 # such as a pop-up menu, we want to present that fact.
 NEW_ITEM_ADDED = _("New item has been added")
+
+# Translators: Orca has a command which presents a menu with accessible actions
+# that can be performed on the current object. This is the message that Orca
+# presents when the object has no actions. The string substitution will be the
+# name of the object if it has a name (e.g. "OK" or "Close") or it's accessible,
+# localized rolename if it does not.
+NO_ACTIONS_FOUND_ON = _("No actions found on: %s")
 
 # Translators: This is intended to be a short phrase to present the fact that no
 # no accessible component has keyboard focus.
@@ -1820,6 +1912,11 @@ NO_MORE_HEADINGS = _("No more headings.")
 # is a detailed message which will be presented to the user if no more headings
 # at the desired level can be found.
 NO_MORE_HEADINGS_AT_LEVEL = _("No more headings at level %d.")
+
+# Translators: This is for navigating document content by moving from iframe
+# to iframe. This is a detailed message which will be presented to the user
+# if no more iframes can be found.
+NO_MORE_IFRAMES = _("No more internal frames.")
 
 # Translators: This is for navigating document content by moving from image
 # to image. This is a detailed message which will be presented to the user
@@ -1902,24 +1999,9 @@ NOTIFICATION = _("Notification")
 # the list of notifications is reached.
 NOTIFICATION_LIST_BOTTOM = C_("notification", "Bottom")
 
-# Translators: This message is presented to the user to confirm the list of
-# notifications mode is being exited.
-NOTIFICATION_LIST_EXIT = _("Exiting list notification messages mode.")
-
 # Translators: This is a brief message presented to the user when the top of the
 # list of notifications is reached.
 NOTIFICATION_LIST_TOP = C_("notification", "Top")
-
-# Translators: This is a tutorial message for the notification list mode.
-NOTIFICATION_LIST_HELP = _("Press h for help.\n")
-
-# Translators: The following string instructs the user how to navigate within
-# the list notifications mode.
-NOTIFICATION_LIST_TUTORIAL =  \
-            _("Use Up, Down, Home or End to navigate in the list.\n"\
-              "Press Escape to exit.\n"\
-              "Press Space to repeat the last message read.\n"\
-              "Press one digit to read a specific message.\n")
 
 # Translators: This message is presented to the user when the notifications list
 # is empty.
@@ -2735,6 +2817,26 @@ def tableSize(nRows, nColumns):
                          nColumns) % nColumns
 
     return rowString + " " + colString
+
+def secondsAgo(count):
+    # Translators: This message informs the user how long ago something took
+    # place in terms of seconds.
+    return ngettext("%d second ago", "%d seconds ago", count) % count
+
+def minutesAgo(count):
+    # Translators: This message informs the user how long ago something took
+    # place in terms of minutes.
+    return ngettext("%d minute ago", "%d minutes ago", count) % count
+
+def hoursAgo(count):
+    # Translators: This message informs the user how long ago something took
+    # place in terms of hours.
+    return ngettext("%d hour ago", "%d hours ago", count) % count
+
+def daysAgo(count):
+    # Translators: This message informs the user how long ago something took
+    # place in terms of days.
+    return ngettext("%d day ago", "%d days ago", count) % count
 
 def unvisitedLinkCount(count, onlyIfFound=True):
     if not count and onlyIfFound:

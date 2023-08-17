@@ -109,7 +109,11 @@
       <title>Formulaires</title>
       <list>
         <item>
-          <p>Champ de formulaire précédent et suivant : <keyseq><key>Touche de modification d’Orca</key><key>Tab</key></keyseq> et <keyseq><key>Touche de modification d’Orca</key><key>Maj</key><key>Tab</key></keyseq></p>
+          <p>
+            Next and previous form field:
+            <keyseq><key>F</key></keyseq> and
+            <keyseq><key>Shift</key><key>F</key></keyseq>
+          </p>
         </item> 
         <item>
           <p>Afficher une liste de champs de formulaires : <keyseq><key>Alt</key><key>Maj</key><key>F</key></keyseq></p>

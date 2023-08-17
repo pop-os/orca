@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_key_bindings" xml:lang="ru">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_pronunciation"/>
+    <link type="seealso" xref="howto_key_bindings"/>
+    <title type="sort">6. Привязки клавиш</title>
+    <title type="link">Привязки клавиш</title>
+    <desc>Настройка комбинаций клавиш <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Параметры привязок клавиш</title>
+  <section id="orca_modifier_keys">
+    <title>Клавиши-модификаторы Orca</title>
+    <p>В поле со списком <gui>Клавиши-модификаторы</gui> можно выбрать клавишу или клавиши, которые будут служить в качестве модификатора Orca. Доступные варианты:</p>
+    <list>
+      <item>
+        <p><gui>Insert_на_ЦК</gui> (та же клавиша, что и <key>0</key> на цифровой клавиатуре)</p></item>
+      <item><p><gui>Insert</gui></p></item>
+      <item><p><gui>Insert, Insert_на_ЦК</gui></p></item>
+      <item><p><gui>Caps_Lock</gui></p></item>
+    </list>
+  </section>
+  <section id="key_bindings_table">
+    <title>Таблица привязок клавиш</title>
+    <p>Таблица привязок клавиш содержит список операций <app>Orca</app> и привязанных к ним клавиш.</p>
+    <list>
+      <item>
+        <p>Столбец <gui>Функция</gui> содержит описание команды <app>Orca</app>.</p>
+      </item>
+      <item>
+        <p>Столбец <gui>Привязка клавиш</gui> содержит комбинацию клавиш, которая в настоящее время назначена соответствующей команде <app>Orca</app>. Чтобы изменить значение этого столбца, нажмите клавишу <key>Ввод</key>, нажмите клавиши для новой привязки и затем снова нажмите клавишу <key>Ввод</key>.</p>
+      </item>
+      <item>
+        <p>Столбец <gui>Изменено</gui> служит как в качестве индикатора наличия изменений привязки, так и средства восстановления привязки по умолчанию.</p>
+      </item>
+    </list>
+    <p>Под списком привязок клавиш <app>Orca</app> находится группа «не заданных» команд. Эти команды могут быть очень полезны некоторым пользователям, но большинству они не требуются. Поэтому на них не были «потрачены» клавиши; по умолчанию эти команды не имеют привязок. В конце списка находятся привязки Брайля, предназначенные для использования с обновляемым брайлевским дисплеем.</p>
+  </section>
+</page>
