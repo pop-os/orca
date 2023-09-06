@@ -692,8 +692,8 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
 
         combobox.set_model(self.speechFamiliesModel)
         if i == 0:
-            msg = f"No speech family was available for {str(currentLanguage)}."
-            debug.println(debug.LEVEL_SEVERE, msg, True)
+            tokens = ["No speech family was available for", str(currentLanguage), "."]
+            debug.printTokens(debug.LEVEL_SEVERE, tokens, True)
             debug.printStack(debug.LEVEL_FINEST)
             self.speechFamiliesChoice = None
             return
@@ -756,7 +756,7 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         self.speechLanguagesChoices = []
 
         if len(self.speechFamilies) == 0:
-            debug.println(debug.LEVEL_SEVERE, "No speech voice was available.")
+            debug.printMessage(debug.LEVEL_SEVERE, "No speech voice was available.")
             debug.printStack(debug.LEVEL_FINEST)
             self.speechLanguagesChoice = None
             return
@@ -865,7 +865,7 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         self.speechServersChoices = \
                 self.speechSystemsChoice.SpeechServer.getSpeechServers()
         if len(self.speechServersChoices) == 0:
-            debug.println(debug.LEVEL_SEVERE, "Speech not available.")
+            debug.printMessage(debug.LEVEL_SEVERE, "Speech not available.")
             debug.printStack(debug.LEVEL_FINEST)
             self.speechServersChoice = None
             self.speechLanguagesChoices = []
@@ -946,7 +946,7 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
 
         self.speechSystemsChoices = []
         if len(self.workingFactories) == 0:
-            debug.println(debug.LEVEL_SEVERE, "Speech not available.")
+            debug.printMessage(debug.LEVEL_SEVERE, "Speech not available.")
             debug.printStack(debug.LEVEL_FINEST)
             self.speechSystemsChoice = None
             self.speechServersChoices = []
@@ -2466,7 +2466,7 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         voiceType = self.get_widget("voiceTypesCombo").get_active()
         self._setRateForVoiceType(voiceType, rate)
         voices = _settingsManager.getSetting('voices')
-        voices[settings.DEFAULT_VOICE][acss.ACSS.RATE] = rate
+        voices.get(settings.DEFAULT_VOICE, {})[acss.ACSS.RATE] = rate
         _settingsManager.setSetting('voices', voices)
 
     def pitchValueChanged(self, widget):
@@ -2483,7 +2483,7 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         voiceType = self.get_widget("voiceTypesCombo").get_active()
         self._setPitchForVoiceType(voiceType, pitch)
         voices = _settingsManager.getSetting('voices')
-        voices[settings.DEFAULT_VOICE][acss.ACSS.AVERAGE_PITCH] = pitch
+        voices.get(settings.DEFAULT_VOICE, {})[acss.ACSS.AVERAGE_PITCH] = pitch
         _settingsManager.setSetting('voices', voices)
 
     def volumeValueChanged(self, widget):
@@ -2500,7 +2500,7 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         voiceType = self.get_widget("voiceTypesCombo").get_active()
         self._setVolumeForVoiceType(voiceType, volume)
         voices = _settingsManager.getSetting('voices')
-        voices[settings.DEFAULT_VOICE][acss.ACSS.GAIN] = volume
+        voices.get(settings.DEFAULT_VOICE, {})[acss.ACSS.GAIN] = volume
         _settingsManager.setSetting('voices', voices)
 
     def checkButtonToggled(self, widget):
@@ -3252,10 +3252,11 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         # in case the user played with the sliders.
         #
         voices = _settingsManager.getSetting('voices')
-        defaultVoice = voices[settings.DEFAULT_VOICE]
-        defaultVoice[acss.ACSS.GAIN] = self.savedGain
-        defaultVoice[acss.ACSS.AVERAGE_PITCH] = self.savedPitch
-        defaultVoice[acss.ACSS.RATE] =  self.savedRate
+        defaultVoice = voices.get(settings.DEFAULT_VOICE)
+        if defaultVoice is not None:
+            defaultVoice[acss.ACSS.GAIN] = self.savedGain
+            defaultVoice[acss.ACSS.AVERAGE_PITCH] = self.savedPitch
+            defaultVoice[acss.ACSS.RATE] = self.savedRate
 
     def saveBasicSettings(self):
         if not self._isInitialSetup:
@@ -3295,7 +3296,7 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         """
 
         msg = "PREFERENCES DIALOG: Apply button clicked"
-        debug.println(debug.LEVEL_ALL, msg, True)
+        debug.printMessage(debug.LEVEL_ALL, msg, True)
 
         self.saveBasicSettings()
         activeProfile = self.getComboBoxList(self.profilesCombo)
@@ -3314,7 +3315,7 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         self.__initProfileCombo()
 
         msg = "PREFERENCES DIALOG: Handling Apply button click complete"
-        debug.println(debug.LEVEL_ALL, msg, True)
+        debug.printMessage(debug.LEVEL_ALL, msg, True)
 
     def cancelButtonClicked(self, widget):
         """Signal handler for the "clicked" signal for the cancelButton
@@ -3326,13 +3327,13 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         """
 
         msg = "PREFERENCES DIALOG: Cancel button clicked"
-        debug.println(debug.LEVEL_ALL, msg, True)
+        debug.printMessage(debug.LEVEL_ALL, msg, True)
 
         self.windowClosed(widget)
         self.get_widget("orcaSetupWindow").destroy()
 
         msg = "PREFERENCES DIALOG: Handling Cancel button click complete"
-        debug.println(debug.LEVEL_ALL, msg, True)
+        debug.printMessage(debug.LEVEL_ALL, msg, True)
 
     def okButtonClicked(self, widget=None):
         """Signal handler for the "clicked" signal for the okButton
@@ -3348,14 +3349,14 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         """
 
         msg = "PREFERENCES DIALOG: OK button clicked"
-        debug.println(debug.LEVEL_ALL, msg, True)
+        debug.printMessage(debug.LEVEL_ALL, msg, True)
 
         self.applyButtonClicked(widget)
         self._cleanupSpeechServers()
         self.get_widget("orcaSetupWindow").destroy()
 
         msg = "PREFERENCES DIALOG: Handling OK button click complete"
-        debug.println(debug.LEVEL_ALL, msg, True)
+        debug.printMessage(debug.LEVEL_ALL, msg, True)
 
     def windowClosed(self, widget):
         """Signal handler for the "closed" signal for the orcaSetupWindow
@@ -3367,7 +3368,7 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         """
 
         msg = "PREFERENCES DIALOG: Window is being closed"
-        debug.println(debug.LEVEL_ALL, msg, True)
+        debug.printMessage(debug.LEVEL_ALL, msg, True)
 
         self.suspendEvents()
 
@@ -3385,7 +3386,7 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         GObject.timeout_add(1000, self.resumeEvents)
 
         msg = "PREFERENCES DIALOG: Window closure complete"
-        debug.println(debug.LEVEL_ALL, msg, True)
+        debug.printMessage(debug.LEVEL_ALL, msg, True)
 
     def windowDestroyed(self, widget):
         """Signal handler for the "destroyed" signal for the orcaSetupWindow
@@ -3398,7 +3399,7 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         """
 
         msg = "PREFERENCES DIALOG: Window is being destroyed"
-        debug.println(debug.LEVEL_ALL, msg, True)
+        debug.printMessage(debug.LEVEL_ALL, msg, True)
 
         self.keyBindView.set_model(None)
         self.getTextAttributesView.set_model(None)
@@ -3412,11 +3413,11 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
         orca_state.orcaOS = None
 
         msg = "PREFERENCES DIALOG: Window destruction complete"
-        debug.println(debug.LEVEL_ALL, msg, True)
+        debug.printMessage(debug.LEVEL_ALL, msg, True)
 
     def resumeEvents(self):
         msg = "PREFERENCES DIALOG: Re-registering floody events."
-        debug.println(debug.LEVEL_ALL, msg, True)
+        debug.printMessage(debug.LEVEL_ALL, msg, True)
 
         manager = event_manager.getManager()
         manager.registerListener("object:state-changed:showing")
@@ -3426,7 +3427,7 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
 
     def suspendEvents(self):
         msg = "PREFERENCES DIALOG: Deregistering floody events."
-        debug.println(debug.LEVEL_ALL, msg, True)
+        debug.printMessage(debug.LEVEL_ALL, msg, True)
 
         manager = event_manager.getManager()
         manager.deregisterListener("object:state-changed:showing")

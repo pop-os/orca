@@ -54,8 +54,8 @@ class Utilities(script_utilities.Utilities):
             return event.any_data
 
         adjusted = event.any_data[:match.start()]
-        msg = f"TERMINAL: Adjusted deletion: '{adjusted}'"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["TERMINAL: Adjusted deletion: '", adjusted, "'"]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return adjusted
 
     def insertedText(self, event):
@@ -71,8 +71,8 @@ class Utilities(script_utilities.Utilities):
         try:
             text = event.source.queryText()
         except Exception:
-            msg = f"ERROR: Exception querying text for {event.source}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["ERROR: Exception querying text for", event.source]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return event.any_data
 
         start, end = event.detail1, event.detail1 + len(event.any_data)
@@ -88,7 +88,7 @@ class Utilities(script_utilities.Utilities):
 
         if firstLine == lastLine:
             msg = "TERMINAL: Not adjusting single-line insertion."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return event.any_data
 
         currentLine = text.getTextAtOffset(text.caretOffset, boundary)
@@ -108,11 +108,11 @@ class Utilities(script_utilities.Utilities):
 
         adjusted = text.getText(start, end)
         if adjusted:
-            msg = f"TERMINAL: Adjusted insertion: '{adjusted}'"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["TERMINAL: Adjusted insertion: '", adjusted, "'"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
         else:
             msg = "TERMINAL: Adjustment failed. Returning any_data."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             adjusted = event.any_data
 
         return adjusted
@@ -121,8 +121,8 @@ class Utilities(script_utilities.Utilities):
         try:
             text = event.source.queryText()
         except Exception:
-            msg = f"ERROR: Exception querying text for {event.source}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["ERROR: Exception querying text for", event.source]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return False
 
         return text.caretOffset == event.detail1 + event.detail2

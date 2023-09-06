@@ -39,8 +39,8 @@ class CaretNavigation:
 
     def __init__(self, script):
         if not (script and script.app):
-            msg = "INFO: Caret navigation requires a script and app."
-            debug.println(debug.LEVEL_INFO, msg)
+            msg = "CARET NAVIGATION: Caret navigation requires a script and app."
+            debug.printMessage(debug.LEVEL_INFO, msg)
 
         self._script = script
         self._handlers = self._setup_handlers()
@@ -318,8 +318,8 @@ class CaretNavigation:
         if script.inSayAll():
             _settings_manager = settings_manager.getManager()
             if _settings_manager.getSetting('rewindAndFastForwardInSayAll'):
-                msg = "INFO: inSayAll and rewindAndFastforwardInSayAll is enabled"
-                debug.println(debug.LEVEL_INFO, msg)
+                msg = "CARET NAVIGATION: inSayAll and rewindAndFastforwardInSayAll is enabled"
+                debug.printMessage(debug.LEVEL_INFO, msg)
                 return True
 
         obj, offset = script.utilities.getCaretContext()
@@ -347,8 +347,8 @@ class CaretNavigation:
         if script.inSayAll():
             _settings_manager = settings_manager.getManager()
             if _settings_manager.getSetting('rewindAndFastForwardInSayAll'):
-                msg = "INFO: inSayAll and rewindAndFastforwardInSayAll is enabled"
-                debug.println(debug.LEVEL_INFO, msg)
+                msg = "CARET NAVIGATION: inSayAll and rewindAndFastforwardInSayAll is enabled"
+                debug.printMessage(debug.LEVEL_INFO, msg)
                 return True
 
 
@@ -428,7 +428,13 @@ class CaretNavigation:
             return False
 
         document = script.utilities.documentFrame()
+        tokens = ["CARET NAVIGATION: Go to end of", document]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
         obj = script.utilities.getLastObjectInDocument(document)
+        tokens = ["CARET NAVIGATION: Last object in", document, "is", obj]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
         offset = 0
         text = script.utilities.queryNonEmptyText(obj)
         if text:

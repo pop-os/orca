@@ -31,10 +31,15 @@ __license__   = "LGPL"
 import inspect
 import traceback
 import os
+import re
 import subprocess
 import sys
 
 from datetime import datetime
+
+import gi
+gi.require_version("Atspi", "2.0")
+from gi.repository import Atspi
 
 from .ax_object import AXObject
 from .ax_utilities import AXUtilities
@@ -196,6 +201,41 @@ def printStack(level):
         println(level)
         traceback.print_stack(None, 100, debugFile)
         println(level)
+
+def _asString(obj):
+    if isinstance(obj, Atspi.Accessible):
+        result = AXObject.get_role_name(obj)
+        name = AXObject.get_name(obj)
+        if name:
+            result += f": '{name}'"
+        if not result:
+            result = "DEAD"
+
+        return f"[{result}]"
+
+    if isinstance(obj, Atspi.Event):
+        return (
+            f"{obj.type} for {_asString(obj.source)} in "
+            f"{_asString(AXObject.get_application(obj.source))} "
+            f"({obj.detail1}, {obj.detail2}, {_asString(obj.any_data)})"
+        )
+
+    return str(obj)
+
+def printTokens(level, tokens, timestamp=False):
+    if level < debugLevel:
+        return
+
+    text = " ".join(map(_asString, tokens))
+    text = re.sub(r"[ \u00A0]+", " ", text)
+    text = re.sub(r" (?=[,.:)])(?![\n])", "", text)
+    println(level, text, timestamp)
+
+def printMessage(level, text, timestamp=False):
+    if level < debugLevel:
+        return
+
+    println(level, text, timestamp)
 
 def println(level, text="", timestamp=False):
     """Prints the text to stderr unless debug is enabled.

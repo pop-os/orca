@@ -1306,8 +1306,8 @@ class SpeechGenerator(generator.Generator):
             charname = chnames.getCharacterName(string, preferMath=True)
             if charname != string:
                 result[0] = charname
-            result.extend(self.voice(DEFAULT, obj=obj, **args))
 
+        result.extend(self.voice(DEFAULT, obj=obj, **args))
         return result
 
     def _getCharacterAttributes(self,
@@ -2324,8 +2324,14 @@ class SpeechGenerator(generator.Generator):
 
         result = []
         position, total = self._script.utilities.getPositionAndSetSize(obj, **args)
-        if position < 0 or total < 0:
+        if position < 0:
             return []
+
+        stringType = 'groupindex'
+        if total < 0:
+            if not self._script.utilities.setSizeUnknown(obj):
+                return []
+            stringType += 'totalunknown'
 
         if total == 1 and AXUtilities.is_menu(obj):
             return []
@@ -2333,7 +2339,7 @@ class SpeechGenerator(generator.Generator):
         position += 1
         result.append(self._script.formatting.getString(
                               mode='speech',
-                              stringType='groupindex') \
+                              stringType=stringType) \
                           % {"index" : position,
                              "total" : total})
         result.extend(self.voice(SYSTEM, obj=obj, **args))
@@ -2895,7 +2901,7 @@ class SpeechGenerator(generator.Generator):
 
         voicename = voiceType.get(key) or voiceType.get(DEFAULT)
         voices = _settingsManager.getSetting('voices')
-        voice = acss.ACSS(voices.get(voiceType.get(DEFAULT)))
+        voice = acss.ACSS(voices.get(voiceType.get(DEFAULT), {}))
 
         language = args.get('language')
         dialect = args.get('dialect', '')
@@ -2917,9 +2923,9 @@ class SpeechGenerator(generator.Generator):
             string = args.get('string', '')
             obj = args.get('obj')
             if AXUtilities.is_link(obj):
-                voice.update(voices.get(voiceType.get(HYPERLINK)))
+                voice.update(voices.get(voiceType.get(HYPERLINK), {}))
             elif isinstance(string, str) and string.isupper() and string.strip().isalpha():
-                voice.update(voices.get(voiceType.get(UPPERCASE)))
+                voice.update(voices.get(voiceType.get(UPPERCASE), {}))
         else:
             override = voices.get(voicename)
             if override and override.get('established', True):

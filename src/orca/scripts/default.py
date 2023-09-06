@@ -457,7 +457,7 @@ class Script(script.Script):
         """
 
         msg = 'DEFAULT: Getting braille bindings.'
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         brailleBindings = script.Script.getBrailleBindings(self)
         try:
@@ -497,7 +497,7 @@ class Script(script.Script):
         brailleBindings.update(reviewBindings)
 
         msg = 'DEFAULT: Finished getting braille bindings.'
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         return brailleBindings
 
@@ -616,7 +616,7 @@ class Script(script.Script):
 
         if oldLocusOfFocus == newLocusOfFocus:
             msg = 'DEFAULT: old focus == new focus'
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         # Don't apply the is-same-object heuristic in the case of table cells.
@@ -694,7 +694,7 @@ class Script(script.Script):
 
         if not _settingsManager.getSetting('enableBraille') \
            and not _settingsManager.getSetting('enableBrailleMonitor'):
-            debug.println(debug.LEVEL_INFO, "BRAILLE: update disabled", True)
+            debug.printMessage(debug.LEVEL_INFO, "BRAILLE: update disabled", True)
             return
 
         if not obj:
@@ -782,7 +782,7 @@ class Script(script.Script):
            and not _settingsManager.getSetting('enableBraille') \
            and not _settingsManager.getSetting('enableBrailleMonitor'):
             msg = "DEFAULT: panBrailleLeft command requires braille or braille monitor"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if self.flatReviewPresenter.is_active():
@@ -854,7 +854,7 @@ class Script(script.Script):
            and not _settingsManager.getSetting('enableBraille') \
            and not _settingsManager.getSetting('enableBrailleMonitor'):
             msg = "DEFAULT: panBrailleRight command requires braille or braille monitor"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if self.flatReviewPresenter.is_active():
@@ -1131,22 +1131,22 @@ class Script(script.Script):
             if sourceIsActiveWindow and not event.detail1:
                 if self.utilities.inMenu():
                     msg = "DEFAULT: Ignoring event. In menu."
-                    debug.println(debug.LEVEL_INFO, msg, True)
+                    debug.printMessage(debug.LEVEL_INFO, msg, True)
                     return
 
                 if not self.utilities.eventIsUserTriggered(event):
                     msg = "DEFAULT: Not clearing state. Event is not user triggered."
-                    debug.println(debug.LEVEL_INFO, msg, True)
+                    debug.printMessage(debug.LEVEL_INFO, msg, True)
                     return
 
                 msg = "DEFAULT: Event is for active window. Clearing state."
-                debug.println(debug.LEVEL_INFO, msg, True)
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
                 orca.setActiveWindow(None)
                 return
 
             if not sourceIsActiveWindow and event.detail1:
                 msg = "DEFAULT: Updating active window."
-                debug.println(debug.LEVEL_INFO, msg, True)
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
                 orca.setActiveWindow(window, alsoSetLocusOfFocus=True, notifyScript=True)
 
         if self.findCommandRun:
@@ -1158,20 +1158,20 @@ class Script(script.Script):
 
         if not event.any_data:
             msg = "DEFAULT: Ignoring event. No any_data."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if not AXUtilities.is_focused(event.source) \
            and not AXUtilities.is_focused(event.any_data):
             msg = "DEFAULT: Ignoring event. Neither source nor child have focused state."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if self.stopSpeechOnActiveDescendantChanged(event):
             self.presentationInterrupt()
 
-        msg = f"DEFAULT: Setting locus of focus to any_data {event.any_data}"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["DEFAULT: Setting locus of focus to any_data", event.any_data]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         orca.setLocusOfFocus(event, event.any_data)
 
     def onBusyChanged(self, event):
@@ -1219,14 +1219,18 @@ class Script(script.Script):
         obj, offset = self.pointOfReference.get("lastCursorPosition", (None, -1))
         if offset == event.detail1 and obj == event.source:
             msg = "DEFAULT: Event is for last saved cursor position"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if not AXUtilities.is_showing(event.source):
-            msg = "DEFAULT: Event source is not showing"
-            debug.println(debug.LEVEL_INFO, msg, True)
-            if not self.utilities.presentEventFromNonShowingObject(event):
-                return
+            msg = "DEFAULT: Event source is not showing. Clearing cache."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            AXObject.clear_cache(obj)
+            if not AXUtilities.is_showing(event.source):
+                msg = "DEFAULT: Event source is still not showing."
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                if not self.utilities.presentEventFromNonShowingObject(event):
+                    return
 
         if event.source != orca_state.locusOfFocus and AXUtilities.is_focused(event.source):
             topLevelObject = self.utilities.topLevelObject(event.source)
@@ -1253,25 +1257,25 @@ class Script(script.Script):
         try:
             text.caretOffset
         except Exception:
-            msg = f"DEFAULT: Exception getting caretOffset for {event.source}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["DEFAULT: Exception getting caretOffset for", event.source]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
 
         self._saveLastCursorPosition(event.source, text.caretOffset)
         if text.getNSelections() > 0:
             msg = "DEFAULT: Event source has text selections"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             self.utilities.handleTextSelectionChange(event.source)
             return
         else:
             start, end, string = self.utilities.getCachedTextSelection(obj)
             if string and self.utilities.handleTextSelectionChange(obj):
                 msg = "DEFAULT: Event handled as text selection change"
-                debug.println(debug.LEVEL_INFO, msg, True)
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return
 
         msg = "DEFAULT: Presenting text at new caret position"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         self._presentTextAtNewCaretPosition(event)
 
     def onDescriptionChanged(self, event):
@@ -1281,13 +1285,13 @@ class Script(script.Script):
         descriptions = self.pointOfReference.get('description', {})
         oldDescription = descriptions.get(hash(obj))
         if oldDescription == event.any_data:
-            msg = f"DEFAULT: Old description ({oldDescription}) is the same as new one"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["DEFAULT: Old description (", oldDescription, ") is the same as new one"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
 
         if obj != orca_state.locusOfFocus:
             msg = "DEFAULT: Event is for object other than the locusOfFocus"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         descriptions[hash(obj)] = event.any_data
@@ -1377,23 +1381,23 @@ class Script(script.Script):
         names = self.pointOfReference.get('names', {})
         oldName = names.get(hash(event.source))
         if oldName == event.any_data:
-            msg = f"DEFAULT: Old name ({oldName}) is the same as new name"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["DEFAULT: Old name (", oldName, ") is the same as new name"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
 
         if AXUtilities.is_combo_box(event.source) or AXUtilities.is_table_cell(event.source):
             msg = "DEFAULT: Event is redundant notification for this role"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if AXUtilities.is_frame(event.source):
             if event.source != orca_state.activeWindow:
                 msg = "DEFAULT: Event is for frame other than the active window"
-                debug.println(debug.LEVEL_INFO, msg, True)
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return
         elif event.source != orca_state.locusOfFocus:
             msg = "DEFAULT: Event is for object other than the locusOfFocus"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         names[hash(event.source)] = event.any_data
@@ -1421,12 +1425,12 @@ class Script(script.Script):
         AXObject.clear_cache(event.source)
         if not AXUtilities.is_focused(event.source):
             msg = "DEFAULT: Event is not toggling of currently-focused object"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if not self.utilities.isSameObject(orca_state.locusOfFocus, event.source):
-            msg = f"DEFAULT: Event is not for locusOfFocus {orca_state.locusOfFocus}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["DEFAULT: Event is not for locusOfFocus", orca_state.locusOfFocus]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
 
         if _settingsManager.getSetting('onlySpeakDisplayedText'):
@@ -1435,13 +1439,13 @@ class Script(script.Script):
         isSelected = AXUtilities.is_selected(event.source)
         if isSelected != event.detail1:
             msg = "DEFAULT: Bogus event: detail1 doesn't match state"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         oldObj, oldState = self.pointOfReference.get('selectedChange', (None, 0))
         if hash(oldObj) == hash(event.source) and oldState == event.detail1:
             msg = "DEFAULT: Duplicate or spam event"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         announceState = False
@@ -1497,21 +1501,21 @@ class Script(script.Script):
         selectedChildren = self.utilities.selectedChildren(event.source)
         for child in selectedChildren:
             if AXObject.find_ancestor(orca_state.locusOfFocus, lambda x: x == child):
-                msg = f"DEFAULT: Child {child} is ancestor of locusOfFocus"
-                debug.println(debug.LEVEL_INFO, msg, True)
+                tokens = ["DEFAULT: Child", child, "is ancestor of locusOfFocus"]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 self._saveFocusedObjectInfo(orca_state.locusOfFocus)
                 return
 
             if child == mouseReviewItem:
-                msg = f"DEFAULT: Child {child} is current mouse review item"
-                debug.println(debug.LEVEL_INFO, msg, True)
+                tokens = ["DEFAULT: Child", child, "is current mouse review item"]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 continue
 
             if AXUtilities.is_page_tab(child) and orca_state.locusOfFocus \
                and AXObject.get_name(child) == AXObject.get_name(orca_state.locusOfFocus) \
                and not AXUtilities.is_focused(event.source):
-                msg = f"DEFAULT: {child}'s selection redundant to {orca_state.locusOfFocus}"
-                debug.println(debug.LEVEL_INFO, msg, True)
+                tokens = ["DEFAULT:", child, "'s selection redundant to", orca_state.locusOfFocus]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 break
 
             if not self.utilities.isLayoutOnly(child):
@@ -1587,7 +1591,7 @@ class Script(script.Script):
         text = self.utilities.queryNonEmptyText(event.source)
         if not text:
             msg = "DEFAULT: Querying non-empty text returned None"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if _settingsManager.getSetting('speakMisspelledIndicator'):
@@ -1612,11 +1616,11 @@ class Script(script.Script):
         full, brief = "", ""
         if self.utilities.isClipboardTextChangedEvent(event):
             msg = "DEFAULT: Deletion is believed to be due to clipboard cut"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             full, brief = messages.CLIPBOARD_CUT_FULL, messages.CLIPBOARD_CUT_BRIEF
         elif self.utilities.isSelectedTextDeletionEvent(event):
             msg = "DEFAULT: Deletion is believed to be due to deleting selected text"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             full = messages.SELECTION_DELETED
 
         if full or brief:
@@ -1627,14 +1631,14 @@ class Script(script.Script):
         string = self.utilities.deletedText(event)
         if self.utilities.isDeleteCommandTextDeletionEvent(event):
             msg = "DEFAULT: Deletion is believed to be due to Delete command"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             string = self.utilities.getCharacterAtOffset(event.source)
         elif self.utilities.isBackSpaceCommandTextDeletionEvent(event):
             msg = "DEFAULT: Deletion is believed to be due to BackSpace command"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
         else:
             msg = "INFO: Event is not being presented due to lack of cause"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if len(string) == 1:
@@ -1660,11 +1664,11 @@ class Script(script.Script):
         full, brief = "", ""
         if self.utilities.isClipboardTextChangedEvent(event):
             msg = "DEFAULT: Insertion is believed to be due to clipboard paste"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             full, brief = messages.CLIPBOARD_PASTED_FULL, messages.CLIPBOARD_PASTED_BRIEF
         elif self.utilities.isSelectedTextRestoredEvent(event):
             msg = "DEFAULT: Insertion is believed to be due to restoring selected text"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             full = messages.SELECTION_RESTORED
 
         if full or brief:
@@ -1679,26 +1683,26 @@ class Script(script.Script):
 
         if self.utilities.lastInputEventWasPageSwitch():
             msg = "DEFAULT: Insertion is believed to be due to page switch"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             speakString = False
         elif self.utilities.lastInputEventWasCommand():
             msg = "DEFAULT: Insertion is believed to be due to command"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
         elif self.utilities.isMiddleMouseButtonTextInsertionEvent(event):
             msg = "DEFAULT: Insertion is believed to be due to middle mouse button"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
         elif self.utilities.isEchoableTextInsertionEvent(event):
             msg = "DEFAULT: Insertion is believed to be echoable"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
         elif self.utilities.isAutoTextEvent(event):
             msg = "DEFAULT: Insertion is believed to be auto text event"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
         elif self.utilities.isSelectedTextInsertionEvent(event):
             msg = "DEFAULT: Insertion is also selected"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
         else:
             msg = "DEFAULT: Not speaking inserted string due to lack of cause"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             speakString = False
 
         if speakString:
@@ -1770,12 +1774,12 @@ class Script(script.Script):
             value = obj.queryValue()
             currentValue = value.currentValue
         except NotImplementedError:
-            msg = f"ERROR: {obj} doesn't implement AtspiValue"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["ERROR:", obj, "doesn't implement AtspiValue"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
         except Exception:
-            msg = f"ERROR: Exception getting current value for {obj}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["ERROR: Exception getting current value for", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
 
         if "oldValue" in self.pointOfReference \
@@ -1783,12 +1787,12 @@ class Script(script.Script):
             return
 
         isProgressBarUpdate, msg = self.utilities.isProgressBarUpdate(obj)
-        msg = f"DEFAULT: Is progress bar update: {isProgressBarUpdate}, {msg}"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["DEFAULT: Is progress bar update:", isProgressBarUpdate, ",", msg]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         if not isProgressBarUpdate and obj != orca_state.locusOfFocus:
-            msg = f"DEFAULT: Source != locusOfFocus ({orca_state.locusOfFocus})"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["DEFAULT: Source != locusOfFocus (", orca_state.locusOfFocus, ")"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
 
         if role == Atspi.Role.SPIN_BUTTON:
@@ -1814,7 +1818,7 @@ class Script(script.Script):
 
         if self.utilities.isSameObject(window, orca_state.activeWindow):
             msg = "DEFAULT: Event is for active window."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         self.pointOfReference = {}
@@ -1852,21 +1856,19 @@ class Script(script.Script):
 
         if self.utilities.inMenu():
             msg = "DEFAULT: Ignoring event. In menu."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if event.source != orca_state.activeWindow:
-            msg = f"DEFAULT: Ignoring event. Not for active window {orca_state.activeWindow}."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["DEFAULT: Ignoring event. Not for active window",
+                      orca_state.activeWindow, "."]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
 
         if self.utilities.isKeyGrabEvent(event):
             msg = "DEFAULT: Ignoring event. Likely from key grab."
             debug.println(debug.LEVEL_INFO, msg, True)
             return
-
-        self.presentationInterrupt()
-        self.clearBraille()
 
         if self.flatReviewPresenter.is_active():
             self.flatReviewPresenter.quit()
@@ -1875,11 +1877,11 @@ class Script(script.Script):
 
         if not self.utilities.eventIsUserTriggered(event):
             msg = "DEFAULT: Not clearing state. Event is not user triggered."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         msg = "DEFAULT: Clearing state."
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         orca.setLocusOfFocus(event, None)
         orca.setActiveWindow(None)
@@ -1918,41 +1920,43 @@ class Script(script.Script):
         obj = otherObj or event.source
         self.updateBrailleForNewCaretPosition(obj)
         if self._inSayAll:
+            msg = "DEFAULT: Not presenting text because SayAll is active"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if self.utilities.lastInputEventWasLineNav():
             msg = "DEFAULT: Presenting result of line nav"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             self.sayLine(obj)
             return
 
         if self.utilities.lastInputEventWasWordNav():
             msg = "DEFAULT: Presenting result of word nav"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             self.sayWord(obj)
             return
 
         if self.utilities.lastInputEventWasCharNav():
             msg = "DEFAULT: Presenting result of char nav"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             self.sayCharacter(obj)
             return
 
         if self.utilities.lastInputEventWasPageNav():
             msg = "DEFAULT: Presenting result of page nav"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             self.sayLine(obj)
             return
 
         if self.utilities.lastInputEventWasLineBoundaryNav():
             msg = "DEFAULT: Presenting result of line boundary nav"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             self.sayCharacter(obj)
             return
 
         if self.utilities.lastInputEventWasFileBoundaryNav():
             msg = "DEFAULT: Presenting result of file boundary nav"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             self.sayLine(obj)
             return
 
@@ -1961,7 +1965,7 @@ class Script(script.Script):
             start, end, string = self.utilities.getCachedTextSelection(event.source)
             if not string:
                 msg = "DEFAULT: Presenting result of primary mouse button event"
-                debug.println(debug.LEVEL_INFO, msg, True)
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
                 self.sayLine(obj)
                 return
 
@@ -2050,16 +2054,16 @@ class Script(script.Script):
     def inSayAll(self, treatInterruptedAsIn=True):
         if self._inSayAll:
             msg = "DEFAULT: In SayAll"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
         if self._sayAllIsInterrupted:
             msg = "DEFAULT: SayAll is interrupted"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return treatInterruptedAsIn
 
         msg = "DEFAULT: Not in SayAll"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         return False
 
     def echoPreviousSentence(self, obj):
@@ -2373,9 +2377,12 @@ class Script(script.Script):
             endOffset -= len(word) - matches[-1].end()
             word = text.getText(startOffset, endOffset)
 
-        msg = "DEFAULT: Final word at offset %i is '%s' (%i-%i)" \
-            % (offset, word.replace("\n", "\\n"), startOffset, endOffset)
-        debug.println(debug.LEVEL_INFO, msg, True)
+        string = word.replace("\n", "\\n")
+        msg = (
+            f"DEFAULT: Final word at offset {offset} is '{string}' "
+            f"({startOffset}-{endOffset})"
+        )
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         self.speakMisspelledIndicator(obj, startOffset)
         self.sayPhrase(obj, startOffset, endOffset)
@@ -2383,8 +2390,8 @@ class Script(script.Script):
 
     def presentObject(self, obj, **args):
         interrupt = args.get("interrupt", False)
-        msg = f"DEFAULT: Presenting object {obj}. Interrupt: {interrupt}"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["DEFAULT: Presenting object", obj, ". Interrupt:", interrupt]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         if not args.get("speechonly", False):
             self.updateBraille(obj, **args)
@@ -2437,7 +2444,7 @@ class Script(script.Script):
 
         if not _settingsManager.getSetting('enableBraille') \
            and not _settingsManager.getSetting('enableBrailleMonitor'):
-            debug.println(debug.LEVEL_INFO, "BRAILLE: update review disabled", True)
+            debug.printMessage(debug.LEVEL_INFO, "BRAILLE: update review disabled", True)
             return
 
         [regions, regionWithFocus] = self.flatReviewPresenter.get_braille_regions(self)
@@ -2483,7 +2490,7 @@ class Script(script.Script):
         regions = list(filter(isMatch, regions))
         if not regions:
             msg = "DEFAULT: Could not find review region to move to start of display"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         msg = "DEFAULT: Candidates for start of display:\n%s" % "\n".join(map(str, regions))
@@ -2498,8 +2505,8 @@ class Script(script.Script):
             offset = position - region.brailleOffset
         if isinstance(region.zone, flat_review.TextZone):
             offset += region.zone.startOffset
-        msg = "DEFAULT: Offset for region: %i" % offset
-        debug.println(debug.LEVEL_INFO, msg, True)
+        msg = f"DEFAULT: Offset for region: {offset}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         [word, charOffset] = region.zone.getWordAtOffset(offset)
         if word:
@@ -2512,8 +2519,8 @@ class Script(script.Script):
                 word.index,
                 charOffset)
         else:
-            msg = f"DEFAULT: Setting start of display to {region.zone}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["DEFAULT: Setting start of display to", region.zone]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             context = self.getFlatReviewContext()
             context.setCurrent(
                 region.zone.line.index,
@@ -2633,8 +2640,8 @@ class Script(script.Script):
 
                 context = speechserver.SayAllContext(
                     obj, lineString, startOffset, endOffset)
-                msg = f"DEFAULT {context}"
-                debug.println(debug.LEVEL_INFO, msg, True)
+                tokens = ["DEFAULT", context]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 self._sayAllContexts.append(context)
                 self.eventSynthesizer.scroll_into_view(obj, startOffset, endOffset)
                 yield [context, voice]
@@ -2661,7 +2668,7 @@ class Script(script.Script):
         self._sayAllContexts = []
 
         msg = "DEFAULT: textLines complete. Verifying SayAll status"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         self.inSayAll()
 
     def getTextLineAtCaret(self, obj, offset=None, startOffset=None, endOffset=None):
@@ -2674,8 +2681,8 @@ class Script(script.Script):
         except NotImplementedError:
             return ["", 0, 0]
         except Exception:
-            msg = f"DEFAULT: Exception getting offset and length for {obj}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["DEFAULT: Exception getting offset and length for", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return ["", 0, 0]
 
         if characterCount == 0:
@@ -2818,7 +2825,7 @@ class Script(script.Script):
         presented at the moment."""
 
         msg = "DEFAULT: Interrupting presentation"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         speech.stop()
         braille.killFlash()
 
@@ -2852,7 +2859,7 @@ class Script(script.Script):
             return False
 
         msg = "DEFAULT: Presenting keyboard event"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         self.speakKeyEvent(event)
         return True
 
@@ -3007,7 +3014,7 @@ class Script(script.Script):
 
         if not _settingsManager.getSetting('enableBraille') \
            and not _settingsManager.getSetting('enableBrailleMonitor'):
-            debug.println(debug.LEVEL_INFO, "BRAILLE: display message disabled", True)
+            debug.printMessage(debug.LEVEL_INFO, "BRAILLE: display message disabled", True)
             return
 
         braille.displayMessage(message, cursor, flashTime)
@@ -3031,7 +3038,7 @@ class Script(script.Script):
 
         if not _settingsManager.getSetting('enableBraille') \
            and not _settingsManager.getSetting('enableBrailleMonitor'):
-            debug.println(debug.LEVEL_INFO, "BRAILLE: display regions disabled", True)
+            debug.printMessage(debug.LEVEL_INFO, "BRAILLE: display regions disabled", True)
             return
 
         braille.displayRegions(regionInfo, flashTime)
@@ -3194,7 +3201,7 @@ class Script(script.Script):
 
         if not _settingsManager.getSetting('enableBraille') \
            and not _settingsManager.getSetting('enableBrailleMonitor'):
-            debug.println(debug.LEVEL_INFO, "BRAILLE: update caret disabled", True)
+            debug.printMessage(debug.LEVEL_INFO, "BRAILLE: update caret disabled", True)
             return
 
         brailleNeedsRepainting = True
