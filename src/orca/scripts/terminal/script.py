@@ -71,7 +71,7 @@ class Script(default.Script):
 
         if self.utilities.treatEventAsNoise(event):
             msg = "TERMINAL: Deletion is believed to be noise"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         super().onTextDeleted(event)
@@ -81,12 +81,12 @@ class Script(default.Script):
 
         if not self.utilities.treatEventAsCommand(event):
             msg = "TERMINAL: Passing along event to default script."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             super().onTextInserted(event)
             return
 
         msg = "TERMINAL: Insertion is believed to be due to terminal command"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         self.updateBraille(event.source)
 
@@ -99,7 +99,7 @@ class Script(default.Script):
 
         if self.flatReviewPresenter.is_active():
             msg = "TERMINAL: Flat review presenter is active. Ignoring insertion"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         try:
@@ -136,8 +136,8 @@ class Script(default.Script):
         if string not in [prevChar, "space", char]:
             return False
 
-        msg = f"TERMINAL: Presenting keyboard event {string}"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["TERMINAL: Presenting keyboard event", string]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         self.speakKeyEvent(event)
         return True
 
@@ -159,6 +159,6 @@ class Script(default.Script):
             return False
 
         data = "\n%s%s" % (" " * 11, str(newEvent).replace("\t", " " * 11))
-        msg = f"TERMINAL: Skipping due to more recent event at offset{data}"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["TERMINAL: Skipping due to more recent event at offset", data]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return True

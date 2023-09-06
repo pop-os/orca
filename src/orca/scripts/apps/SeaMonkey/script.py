@@ -67,13 +67,13 @@ class Script(Gecko.Script):
 
         if self.utilities.isContentEditableWithEmbeddedObjects(event.source):
             msg = "SEAMONKEY: Ignoring, event source is content editable"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         table = self.utilities.getTable(orca_state.locusOfFocus)
         if table and not self.utilities.isTextDocumentTable(table):
-            msg = f"SEAMONKEY: Ignoring, locusOfFocus is {orca_state.locusOfFocus}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["SEAMONKEY: Ignoring, locusOfFocus is", orca_state.locusOfFocus]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
 
         super().onBusyChanged(event)
@@ -92,23 +92,23 @@ class Script(Gecko.Script):
 
         if AXObject.get_role(event.source) == Atspi.Role.MENU:
             msg = "SEAMONKEY: Non-document menu claimed focus from document entry"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
 
             if self.utilities.lastInputEventWasPrintableKey():
                 msg = "SEAMONKEY: Ignoring, believed to be result of printable input"
-                debug.println(debug.LEVEL_INFO, msg, True)
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return
 
         super().onFocus(event)
 
     def useFocusMode(self, obj, prevObj=None):
         if self.utilities.isEditableMessage(obj):
-            msg = f"SEAMONKEY: Using focus mode for editable message {obj}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["SEAMONKEY: Using focus mode for editable message", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return True
 
-        msg = f"SEAMONKEY: {obj} is not an editable message."
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["SEAMONKEY:", obj, "is not an editable message."]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return super().useFocusMode(obj, prevObj)
 
     def enableStickyBrowseMode(self, inputEvent, forceMessage=False):
