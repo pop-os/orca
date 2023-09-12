@@ -57,18 +57,18 @@ class Utilities(script_utilities.Utilities):
 
         if event.detail1 == -1:
             msg = "GNOME SHELL: Broken text insertion event"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
 
             text = self.queryNonEmptyText(event.source)
             if text:
                 string = text.getText(0, -1)
                 if string:
-                    msg = f"HACK: Returning last char in '{string}'"
-                    debug.println(debug.LEVEL_INFO, msg, True)
+                    tokens = ["HACK: Returning last char in '", string, "'"]
+                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
                     return string[-1]
 
             msg = "GNOME SHELL: Unable to correct broken text insertion event"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         return ""
 
@@ -99,8 +99,8 @@ class Utilities(script_utilities.Utilities):
                 or AXUtilities.is_menu_item(x)
 
         if not hasRole(root) and AXObject.find_ancestor(root, hasRole) is None:
-            msg = f"GNOME SHELL: Not seeking unrelated labels for {root}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["GNOME SHELL: Not seeking unrelated labels for", root]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return []
 
         return super().unrelatedLabels(root, onlyShowing, minimumWords)
@@ -116,8 +116,8 @@ class Utilities(script_utilities.Utilities):
             if self.displayedLabel(obj) == AXObject.get_name(child) \
                and not AXUtilities.is_label(child):
                 rv = True
-                msg = f"GNOME SHELL: {obj} is deemed to be layout only"
-                debug.println(debug.LEVEL_INFO, msg, True)
+                tokens = ["GNOME SHELL:", obj, "is deemed to be layout only"]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         self._isLayoutOnly[hash(obj)] = rv
         return rv
@@ -128,7 +128,7 @@ class Utilities(script_utilities.Utilities):
            and AXUtilities.is_window(event.source) \
            and not self.canBeActiveWindow(event.source):
             msg = "GNOME SHELL: Event is believed to be bogus window focus claim"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
         return False

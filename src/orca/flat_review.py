@@ -120,8 +120,8 @@ class Word:
                 try:
                     extents = text.getRangeExtents(start, start+1, Atspi.CoordType.SCREEN)
                 except Exception as error:
-                    msg = f"FLAT REVIEW: Exception in getRangeExtents: {error}"
-                    debug.println(debug.LEVEL_INFO, msg, True)
+                    tokens = ["FLAT REVIEW: Exception in getRangeExtents:", error]
+                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
             chars.append(Char(self, i, start, char, *extents))
 
         return chars
@@ -241,12 +241,12 @@ class Zone:
         return self._extentsAreOnSameLine(zone)
 
     def getWordAtOffset(self, charOffset):
-        msg = "FLAT REVIEW: Searching for word at offset %i" % charOffset
-        debug.println(debug.LEVEL_INFO, msg, True)
+        msg = f"FLAT REVIEW: Searching for word at offset {charOffset}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         for word in self.words:
-            msg = f"FLAT REVIEW: Checking {word}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["FLAT REVIEW: Checking", word]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
             offset = word.getRelativeOffset(charOffset)
             if offset >= 0:
@@ -497,19 +497,19 @@ class Context:
         frame, dialog = script.utilities.frameAndDialog(self.focusObj)
         if root is not None:
             self.topLevel = root
-            msg = f"FLAT REVIEW: Restricting flat review to {root}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["FLAT REVIEW: Restricting flat review to", root]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
         else:
             self.topLevel = dialog or frame
-        msg = f"FLAT REVIEW: Frame: {frame} Dialog: {dialog}. Top level: {self.topLevel}"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["FLAT REVIEW: Frame:", frame, "Dialog:", dialog, ". Top level:", self.topLevel]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         try:
             component = self.topLevel.queryComponent()
             self.bounds = component.getExtents(Atspi.CoordType.SCREEN)
         except Exception:
-            msg = f"ERROR: Exception getting extents of {self.topLevel}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["ERROR: Exception getting extents of", self.topLevel]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         containerRoles = [Atspi.Role.MENU]
 
@@ -537,9 +537,11 @@ class Context:
                     self.charIndex = offset
                 break
 
-        msg = "FLAT REVIEW: On line %i, zone %i, word %i, char %i" % \
-              (self.lineIndex, self.zoneIndex, self.wordIndex, self.charIndex)
-        debug.println(debug.LEVEL_INFO, msg, True)
+        msg = (
+            f"FLAT REVIEW: On line {self.lineIndex}, zone {self.zoneIndex} "
+            f"word {self.wordIndex}, char {self.charIndex}"
+        )
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
     def splitTextIntoZones(self, accessible, string, startOffset, cliprect):
         """Traverses the string, splitting it up into separate zones if the
@@ -641,11 +643,11 @@ class Context:
             lowerMid = int((lowerMax - lowerMin) / 2) + lowerMin
 
         msg = "FLAT REVIEW: Getting lines for %s offsets %i-%i" % (accessible, upperMin, lowerMax)
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         lines = self._getLines(accessible, upperMin, lowerMax)
-        msg = f"FLAT REVIEW: {len(lines)} lines found for {accessible}"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["FLAT REVIEW:", len(lines), "lines found for", accessible]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         for string, startOffset, endOffset in lines:
             zones.extend(self.splitTextIntoZones(accessible, string, startOffset, cliprect))
@@ -757,8 +759,8 @@ class Context:
         debug.println(debug.LEVEL_INFO, msg, True)
 
         zone = self._findZoneWithObject(obj)
-        msg = f"FLAT REVIEW: Zone with {obj} is {zone}"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["FLAT REVIEW: Zone with", obj, "is", zone]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         if zone is None:
             return False
 
@@ -771,11 +773,11 @@ class Context:
                     self.wordIndex = word.index
                     self.charIndex = offset
                 msg = "FLAT REVIEW: Updated current zone."
-                debug.println(debug.LEVEL_INFO, msg, True)
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
                 break
         else:
             msg = "FLAT REVIEW: Failed to update current zone."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         msg = "FLAT REVIEW: Updated %s (line: %i, zone: %i, word: %i, char: %i)" % \
@@ -799,8 +801,8 @@ class Context:
             # text of the tree item, that section will be in the flat review tree
             # but the ancestor item might not.
             if AXObject.is_ancestor(zone.accessible, obj):
-                msg = f"FLAT REVIEW: {zone.accessible} is ancestor of zone accessible {obj}"
-                debug.println(debug.LEVEL_INFO, msg, True)
+                tokens = ["FLAT REVIEW:", zone.accessible, "is ancestor of zone accessible", obj]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 return zone
 
         return None
@@ -812,8 +814,8 @@ class Context:
             boundingbox = self.bounds
 
         objs = self.script.utilities.getOnScreenObjects(root, boundingbox)
-        msg = f"FLAT REVIEW: {len(objs)} on-screen objects found for {root}"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["FLAT REVIEW:", len(objs), "on-screen objects found for", root]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         allZones, focusZone = [], None
         for o in objs:
@@ -831,8 +833,8 @@ class Context:
                 zones = list(filter(lambda z: z.hasCaret(), zones)) or zones
                 focusZone = zones[0]
 
-        msg = f"FLAT REVIEW: {len(allZones)} zones found for {root}"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["FLAT REVIEW:", len(allZones), "zones found for", root]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return allZones, focusZone
 
     def clusterZonesByLine(self, zones):
@@ -861,8 +863,8 @@ class Context:
                 zone.line = lines[lineIndex]
                 zone.index = zoneIndex
 
-        msg = f"FLAT REVIEW: Zones clustered into {len(lines)} lines"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["FLAT REVIEW: Zones clustered into", len(lines), "lines"]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return lines
 
     def getCurrent(self, flatReviewType=ZONE):
@@ -1088,7 +1090,7 @@ class Context:
         """
 
         if not self.lines:
-            debug.println(debug.LEVEL_FINE, 'goPrevious(): no lines in context')
+            debug.printMessage(debug.LEVEL_INFO, 'goPrevious(): no lines in context')
             return False
 
         moved = False
@@ -1221,7 +1223,7 @@ class Context:
         """
 
         if not self.lines:
-            debug.println(debug.LEVEL_FINE, 'goNext(): no lines in context')
+            debug.printMessage(debug.LEVEL_INFO, 'goNext(): no lines in context')
             return False
 
         moved = False

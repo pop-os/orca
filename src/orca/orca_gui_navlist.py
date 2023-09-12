@@ -158,26 +158,26 @@ class OrcaNavListGUI:
 
         self._script.utilities.setCaretPosition(obj, offset)
         if not AXEventSynthesizer.try_all_clickable_actions(obj):
-            msg = f"INFO: Attempting a synthesized click on {obj}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["INFO: Attempting a synthesized click on", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             AXEventSynthesizer.click_object(obj)
 
     def _getSelectedAccessibleAndOffset(self):
         if not self._tree:
             msg = "ERROR: Could not get navlist tree"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return None, -1
 
         selection = self._tree.get_selection()
         if not selection:
             msg = "ERROR: Could not get selection for navlist tree"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return None, -1
 
         model, paths = selection.get_selected_rows()
         if not paths:
             msg = "ERROR: Could not get paths for navlist tree"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return None, -1
 
         obj = model.get_value(model.get_iter(paths[0]), 0)

@@ -46,7 +46,7 @@ class Script(default.Script):
 
         if AXUtilities.is_accelerator_label(event.source):
             msg = "QT: Ignoring event due to role."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         super().onCaretMoved(event)
@@ -59,29 +59,29 @@ class Script(default.Script):
 
         if AXUtilities.is_accelerator_label(event.source):
             msg = "QT: Ignoring event due to role."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         frame = self.utilities.topLevelObject(event.source)
         if not frame:
             msg = "QT: Ignoring event because we couldn't find an ancestor window."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         isActive = AXUtilities.is_active(frame)
         if not isActive:
-            msg = f"QT: Event came from inactive top-level object {frame}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["QT: Event came from inactive top-level object", frame]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
             AXObject.clear_cache(frame)
             isActive = AXUtilities.is_active(frame)
-            msg = f"QT: Cleared cache of {frame}. Frame is now active: {isActive}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["QT: Cleared cache of", frame, ". Frame is now active:", isActive]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         if AXUtilities.is_focused(event.source):
             super().onFocusedChanged(event)
             return
 
         msg = "QT: WARNING - source lacks focused state. Setting focus anyway."
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         orca.setLocusOfFocus(event, event.source)

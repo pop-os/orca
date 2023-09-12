@@ -35,8 +35,8 @@ try:
     from gi.repository import Gtk
     CAIRO_AVAILABLE = True
 except Exception as error:
-    msg = f"HIGHLIGHTER: GtkHighlighter unavailable: {error}"
-    debug.println(debug.LEVEL_INFO, msg, True)
+    tokens = ["HIGHLIGHTER: GtkHighlighter unavailable:", error]
+    debug.printTokens(debug.LEVEL_INFO, tokens, True)
     CAIRO_AVAILABLE = False
 
 class Highlighter:
@@ -109,7 +109,7 @@ class GtkHighlighter(Highlighter):
                  fill_alpha=None):
         if not CAIRO_AVAILABLE:
             msg = "GTK HIGHLIGHTER: Unavailable. Is Cairo installed?"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         super().__init__(highlight_type, color, alpha, thickness, padding, fill_color, fill_alpha)
@@ -199,8 +199,8 @@ class GtkHighlighter(Highlighter):
             self._gui.move(x - self._padding, y - self._padding)
             self._gui.resize(width + 2 * self._padding, height + 2 * self._padding)
         except Exception as error:
-            msg = f"GTK HIGHLIGHTER: Exception: {error}"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["GTK HIGHLIGHTER: Exception:", error]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
         else:
             self._gui.show_all()
 
@@ -208,7 +208,7 @@ class GtkHighlighter(Highlighter):
         """Quits the highlighter."""
 
         msg = "GTK HIGHLIGHTER: Quitting."
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         self._gui.destroy()
         self._drawing_area = None
         self._gui = None
