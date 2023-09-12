@@ -1,3 +1,9 @@
+orca (45~rc-1ubuntu1) mantic; urgency=medium
+
+  * Merge with Debian
+
+ -- Jarred Wilson <jarred.wilson@canonical.com>  Tue, 12 Sep 2023 14:43:00 -0400
+
 orca (45~rc-1) experimental; urgency=medium
 
   * New upstream rc release.
