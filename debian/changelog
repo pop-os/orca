@@ -10,9 +10,8 @@ orca (45~rc-1) experimental; urgency=medium
 
  -- Samuel Thibault <sthibault@debian.org>  Wed, 06 Sep 2023 21:51:13 +0200
 
-orca (45~beta-1ubuntu1) UNRELEASED; urgency=medium
+orca (45~beta-1ubuntu1) mantic; urgency=medium
 
-  [ Jarred Wilson ]
   * Merge debian/experimental
   * Fix unity patch
   * Rebase patches
