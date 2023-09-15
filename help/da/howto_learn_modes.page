@@ -24,6 +24,12 @@
       <mal:email>asklarsen@gmail.com</mal:email>
       <mal:years>2022</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alan Mortensen</mal:name>
+      <mal:email>alanmortensen.am@gmail.com</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Tilstanden lær</title>
   <p>I tilstanden lær bekendtgør <app>Orca</app> hvert tastetryk, du udfører, sammen med tilknyttede <app>Orca</app>-kommandoer, som tasterne er bundet til. I denne tilstand kan du også få en liste over genveje, som indeholder alle de <app>Orca</app>-kommandoer, du kan bruge.</p>

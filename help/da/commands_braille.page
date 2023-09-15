@@ -26,6 +26,12 @@
       <mal:email>asklarsen@gmail.com</mal:email>
       <mal:years>2022</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alan Mortensen</mal:name>
+      <mal:email>alanmortensen.am@gmail.com</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Kommandoer for punktskrift</title>
   <p>Følgende kommandoer giver dig mulighed for at styre <app>Orca</app> fra dit punktskriftsdisplay, der kan opdateres, frem for dit tastatur:</p>

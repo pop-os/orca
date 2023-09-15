@@ -24,6 +24,12 @@
       <mal:email>asklarsen@gmail.com</mal:email>
       <mal:years>2022</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alan Mortensen</mal:name>
+      <mal:email>alanmortensen.am@gmail.com</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Velkommen til Orca</title>
   <p><app>Orca</app> er en fri, open source og fleksibel skærmlæser, som understøtter udvidelser. <app>Orca</app> giver adgang til det grafiske skrivebord gennem tale og punktskrift, der kan opdateres dynamisk.</p>

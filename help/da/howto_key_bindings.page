@@ -24,6 +24,12 @@
       <mal:email>asklarsen@gmail.com</mal:email>
       <mal:years>2022</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alan Mortensen</mal:name>
+      <mal:email>alanmortensen.am@gmail.com</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Tastebindinger</title>
   <p>Orca har mange kommandoer, hvoraf nogle er bundet til et tastetryk, mens andre er ubundne. Du kan binde, genbinde og afbinde <app>Orca</app>s kommandoer ved at følge trinnene nedenfor.</p>
