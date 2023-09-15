@@ -27,12 +27,10 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2018-2019 Igalia, S.L."
 __license__   = "LGPL"
 
-import pyatspi
-import time
-
 from orca import debug
 from orca import orca
-from orca import orca_state
+from orca.ax_object import AXObject
+from orca.ax_utilities import AXUtilities
 from orca.scripts import default
 from orca.scripts import web
 from .braille_generator import BrailleGenerator
@@ -58,7 +56,7 @@ class Script(web.Script):
         return SpeechGenerator(self)
 
     def getUtilities(self):
-        """Returns the utilites for this script."""
+        """Returns the utilities for this script."""
 
         return Utilities(self)
 
@@ -77,7 +75,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.locusOfFocusChanged(self, event, oldFocus, newFocus)
 
     def onActiveChanged(self, event):
@@ -86,13 +84,12 @@ class Script(web.Script):
         if super().onActiveChanged(event):
             return
 
-        role = event.source.getRole()
-        if event.detail1 and role == pyatspi.ROLE_FRAME \
+        if event.detail1 and AXUtilities.is_frame(event.source) \
            and not self.utilities.canBeActiveWindow(event.source):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onActiveChanged(self, event)
 
     def onActiveDescendantChanged(self, event):
@@ -102,7 +99,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onActiveDescendantChanged(self, event)
 
     def onBusyChanged(self, event):
@@ -110,19 +107,19 @@ class Script(web.Script):
 
         if self.utilities.hasNoSize(event.source):
             msg = "CHROMIUM: Ignoring event from page with no size."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if not self.utilities.documentFrameURI(event.source):
             msg = "CHROMIUM: Ignoring event from page with no URI."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if super().onBusyChanged(event):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onBusyChanged(self, event)
 
     def onCaretMoved(self, event):
@@ -130,19 +127,19 @@ class Script(web.Script):
 
         if self.utilities.isStaticTextLeaf(event.source):
             msg = "CHROMIUM: Ignoring event from static-text leaf"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if self.utilities.isRedundantAutocompleteEvent(event):
             msg = "CHROMIUM: Ignoring redundant autocomplete event"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if super().onCaretMoved(event):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onCaretMoved(self, event)
 
     def onCheckedChanged(self, event):
@@ -152,7 +149,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onCheckedChanged(self, event)
 
     def onColumnReordered(self, event):
@@ -162,7 +159,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onColumnReordered(self, event)
 
     def onChildrenAdded(self, event):
@@ -170,14 +167,14 @@ class Script(web.Script):
 
         if self.utilities.isStaticTextLeaf(event.any_data):
             msg = "CHROMIUM: Ignoring because child is static text leaf"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if super().onChildrenAdded(event):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onChildrenAdded(self, event)
 
     def onChildrenRemoved(self, event):
@@ -185,14 +182,14 @@ class Script(web.Script):
 
         if self.utilities.isStaticTextLeaf(event.any_data):
             msg = "CHROMIUM: Ignoring because child is static text leaf"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if super().onChildrenRemoved(event):
             return
 
         msg = "Chromium: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onChildrenRemoved(self, event)
 
     def onDocumentLoadComplete(self, event):
@@ -200,14 +197,14 @@ class Script(web.Script):
 
         if not self.utilities.documentFrameURI(event.source):
             msg = "CHROMIUM: Ignoring event from page with no URI."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if super().onDocumentLoadComplete(event):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onDocumentLoadComplete(self, event)
 
     def onDocumentLoadStopped(self, event):
@@ -215,14 +212,14 @@ class Script(web.Script):
 
         if not self.utilities.documentFrameURI(event.source):
             msg = "CHROMIUM: Ignoring event from page with no URI."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if super().onDocumentLoadStopped(event):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onDocumentLoadStopped(self, event)
 
     def onDocumentReload(self, event):
@@ -230,14 +227,14 @@ class Script(web.Script):
 
         if not self.utilities.documentFrameURI(event.source):
             msg = "CHROMIUM: Ignoring event from page with no URI."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if super().onDocumentReload(event):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onDocumentReload(self, event)
 
     def onExpandedChanged(self, event):
@@ -247,7 +244,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onExpandedChanged(self, event)
 
     def onFocus(self, event):
@@ -260,7 +257,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onFocus(self, event)
 
     def onFocusedChanged(self, event):
@@ -269,14 +266,14 @@ class Script(web.Script):
         if self.utilities.isDocument(event.source) \
            and not self.utilities.documentFrameURI(event.source):
             msg = "CHROMIUM: Ignoring event from document with no URI."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if super().onFocusedChanged(event):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onFocusedChanged(self, event)
 
     def onMouseButton(self, event):
@@ -286,7 +283,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onMouseButton(self, event)
 
     def onNameChanged(self, event):
@@ -296,7 +293,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onNameChanged(self, event)
 
     def onRowReordered(self, event):
@@ -306,7 +303,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onRowReordered(self, event)
 
     def onSelectedChanged(self, event):
@@ -316,7 +313,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onSelectedChanged(self, event)
 
     def onSelectionChanged(self, event):
@@ -326,7 +323,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onSelectionChanged(self, event)
 
     def onShowingChanged(self, event):
@@ -335,7 +332,7 @@ class Script(web.Script):
         if event.detail1 and self.utilities.isMenuWithNoSelectedChild(event.source):
             topLevel = self.utilities.topLevelObject(event.source)
             if self.utilities.canBeActiveWindow(topLevel):
-                orca_state.activeWindow = topLevel
+                orca.setActiveWindow(topLevel)
                 self.presentObject(event.source)
                 orca.setLocusOfFocus(event, event.source, False)
             return
@@ -344,7 +341,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onShowingChanged(self, event)
 
     def onTextAttributesChanged(self, event):
@@ -354,7 +351,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onTextAttributesChanged(self, event)
 
     def onTextDeleted(self, event):
@@ -364,7 +361,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onTextDeleted(self, event)
 
     def onTextInserted(self, event):
@@ -374,7 +371,7 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onTextInserted(self, event)
 
     def onTextSelectionChanged(self, event):
@@ -382,19 +379,19 @@ class Script(web.Script):
 
         if self.utilities.isStaticTextLeaf(event.source):
             msg = "CHROMIUM: Ignoring event from static-text leaf"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if self.utilities.isListItemMarker(event.source):
             msg = "CHROMIUM: Ignoring event from list item marker"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if super().onTextSelectionChanged(event):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onTextSelectionChanged(self, event)
 
     def onWindowActivated(self, event):
@@ -408,7 +405,7 @@ class Script(web.Script):
         # far as the end-user experience is concerned.
         menu = self.utilities.popupMenuForFrame(event.source)
         if menu:
-            orca_state.activeWindow = event.source
+            orca.setActiveWindow(event.source)
 
             activeItem = None
             selected = self.utilities.selectedChildren(menu)
@@ -421,12 +418,12 @@ class Script(web.Script):
                 if self.utilities.isPopupMenuForCurrentItem(menu):
                     orca.setLocusOfFocus(event, menu, False)
 
-                msg = "CHROMIUM: Setting locusOfFocus to active item %s" % activeItem
+                msg = f"CHROMIUM: Setting locusOfFocus to active item {activeItem}"
                 orca.setLocusOfFocus(event, activeItem)
                 debug.println(debug.LEVEL_INFO, msg, True)
                 return
 
-            msg = "CHROMIUM: Setting locusOfFocus to popup menu %s" % menu
+            msg = f"CHROMIUM: Setting locusOfFocus to popup menu {menu}"
             orca.setLocusOfFocus(event, menu)
             debug.println(debug.LEVEL_INFO, msg, True)
 
@@ -434,19 +431,14 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onWindowActivated(self, event)
 
         # Right now we don't get accessibility events for alerts which are
         # already showing at the time of window activation. If that changes,
         # we should store presented alerts so we don't double-present them.
-        for child in event.source:
-            if not child:
-                msg = "CHROMIUM: Event source claims null child"
-                debug.println(debug.LEVEL_INFO, msg, True)
-                continue
-
-            if child.getRole() == pyatspi.ROLE_ALERT:
+        for child in AXObject.iter_children(event.source):
+            if AXUtilities.is_alert(child):
                 self.presentObject(child)
 
     def onWindowDeactivated(self, event):
@@ -456,5 +448,5 @@ class Script(web.Script):
             return
 
         msg = "CHROMIUM: Passing along event to default script"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         default.Script.onWindowDeactivated(self, event)

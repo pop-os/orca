@@ -26,7 +26,6 @@ __license__   = "LGPL"
 
 from orca import debug
 from orca import orca
-from orca import orca_state
 from orca.scripts import default
 
 from .braille_generator import BrailleGenerator
@@ -57,7 +56,7 @@ class Script(default.Script):
         return SpeechGenerator(self)
 
     def getUtilities(self):
-        """Returns the utilites for this script."""
+        """Returns the utilities for this script."""
 
         return Utilities(self)
 
@@ -72,7 +71,7 @@ class Script(default.Script):
 
         if self.utilities.treatEventAsNoise(event):
             msg = "TERMINAL: Deletion is believed to be noise"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         super().onTextDeleted(event)
@@ -82,12 +81,12 @@ class Script(default.Script):
 
         if not self.utilities.treatEventAsCommand(event):
             msg = "TERMINAL: Passing along event to default script."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             super().onTextInserted(event)
             return
 
         msg = "TERMINAL: Insertion is believed to be due to terminal command"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         self.updateBraille(event.source)
 
@@ -98,19 +97,21 @@ class Script(default.Script):
             voice = self.speechGenerator.voice(obj=event.source, string=newString)
             self.speakMessage(newString, voice=voice)
 
-        if self.flatReviewContext:
+        if self.flatReviewPresenter.is_active():
+            msg = "TERMINAL: Flat review presenter is active. Ignoring insertion"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         try:
             text = event.source.queryText()
-        except:
+        except Exception:
             pass
         else:
             self._saveLastCursorPosition(event.source, text.caretOffset)
             self.utilities.updateCachedTextSelection(event.source)
 
     def presentKeyboardEvent(self, event):
-        if orca_state.learnModeEnabled or not event.isPrintableKey():
+        if not event.isPrintableKey():
             return super().presentKeyboardEvent(event)
 
         if event.isPressedKey():
@@ -118,7 +119,7 @@ class Script(default.Script):
 
         self._sayAllIsInterrupted = False
         self.utilities.clearCachedCommandState()
-        if event.shouldEcho == False or event.isOrcaModified() or event.isCharacterEchoable():
+        if not event.shouldEcho or event.isOrcaModified() or event.isCharacterEchoable():
             return False
 
         # We have no reliable way of knowing a password is being entered into
@@ -128,15 +129,15 @@ class Script(default.Script):
             offset = text.caretOffset
             prevChar = text.getText(offset - 1, offset)
             char = text.getText(offset, offset + 1)
-        except:
+        except Exception:
             return False
 
         string = event.event_string
         if string not in [prevChar, "space", char]:
             return False
 
-        msg = "TERMINAL: Presenting keyboard event %s" % string
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["TERMINAL: Presenting keyboard event", string]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         self.speakKeyEvent(event)
         return True
 
@@ -158,6 +159,6 @@ class Script(default.Script):
             return False
 
         data = "\n%s%s" % (" " * 11, str(newEvent).replace("\t", " " * 11))
-        msg = "TERMINAL: Skipping due to more recent event at offset%s" % data
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["TERMINAL: Skipping due to more recent event at offset", data]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return True

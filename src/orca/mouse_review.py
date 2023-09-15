@@ -28,8 +28,10 @@ __copyright__ = "Copyright (c) 2008 Eitan Isaacson" \
 __license__   = "LGPL"
 
 import gi
+gi.require_version("Atspi", "2.0")
+from gi.repository import Atspi
+
 import math
-import pyatspi
 import time
 
 from gi.repository import Gdk
@@ -37,18 +39,21 @@ try:
     gi.require_version("Wnck", "3.0")
     from gi.repository import Wnck
     _mouseReviewCapable = True
-except:
+except Exception:
     _mouseReviewCapable = False
 
+from . import cmdnames
 from . import debug
-from . import event_manager
+from . import keybindings
+from . import input_event
 from . import messages
 from . import orca
 from . import orca_state
 from . import script_manager
 from . import settings_manager
+from .ax_object import AXObject
+from .ax_utilities import AXUtilities
 
-_eventManager = event_manager.getManager()
 _scriptManager = script_manager.getManager()
 _settingsManager = settings_manager.getManager()
 
@@ -113,8 +118,8 @@ class _StringContext:
         if not (self._string and self._string.strip() in other._string):
             return False
 
-        msg = "MOUSE REVIEW: '%s' is substring of '%s'" % (self._string, other._string)
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["MOUSE REVIEW: '", self._string, "' is substring of '", other._string, "'"]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return True
 
     def getBoundingBox(self):
@@ -132,12 +137,12 @@ class _StringContext:
 
         if not self._script:
             msg = "MOUSE REVIEW: Not presenting due to lack of script"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         if not self._string:
             msg = "MOUSE REVIEW: Not presenting due to lack of string"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         voice = self._script.speechGenerator.voice(obj=self._obj, string=self._string)
@@ -185,32 +190,31 @@ class _ItemContext:
     def _treatAsDuplicate(self, prior):
         if self._obj != prior._obj or self._frame != prior._frame:
             msg = "MOUSE REVIEW: Not a duplicate: different objects"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         if self.getString() and prior.getString() and not self._isSubstringOf(prior):
             msg = "MOUSE REVIEW: Not a duplicate: not a substring of"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         if self._x == prior._x and self._y == prior._y:
             msg = "MOUSE REVIEW: Treating as duplicate: mouse didn't move"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
         interval = self._time - prior._time
         if interval > 0.5:
-            msg = "MOUSE REVIEW: Not a duplicate: was %.2fs ago" % interval
-            debug.println(debug.LEVEL_INFO, msg, True)
+            msg = f"MOUSE REVIEW: Not a duplicate: was {interval:.2f}s ago"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         msg = "MOUSE REVIEW: Treating as duplicate"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         return True
 
     def _treatAsSingleObject(self):
-        interfaces = pyatspi.listInterfaces(self._obj)
-        if "Text" not in interfaces:
+        if not AXObject.supports_text(self._obj):
             return True
 
         if not self._obj.queryText().characterCount:
@@ -235,15 +239,14 @@ class _ItemContext:
         return _StringContext(self._obj, self._script, string, start, end)
 
     def _getContainer(self):
-        roles = [pyatspi.ROLE_DIALOG,
-                 pyatspi.ROLE_FRAME,
-                 pyatspi.ROLE_LAYERED_PANE,
-                 pyatspi.ROLE_MENU,
-                 pyatspi.ROLE_PAGE_TAB,
-                 pyatspi.ROLE_TOOL_BAR,
-                 pyatspi.ROLE_WINDOW]
-        isContainer = lambda x: x and x.getRole() in roles
-        return pyatspi.findAncestor(self._obj, isContainer)
+        roles = [Atspi.Role.DIALOG,
+                 Atspi.Role.FRAME,
+                 Atspi.Role.LAYERED_PANE,
+                 Atspi.Role.MENU,
+                 Atspi.Role.PAGE_TAB,
+                 Atspi.Role.TOOL_BAR,
+                 Atspi.Role.WINDOW]
+        return AXObject.find_ancestor(self._obj, lambda x: AXObject.get_role(x) in roles)
 
     def _isSubstringOf(self, other):
         """Returns True if this is a substring of other."""
@@ -278,21 +281,20 @@ class _ItemContext:
         if not self._obj or not prior._obj:
             return False
 
-        if prior._obj.parent != self._obj:
+        if AXObject.get_parent(prior._obj) != self._obj:
             return False
 
         if self._treatAsSingleObject():
             return False
 
-        role = prior._obj.getRole()
-        return role == pyatspi.ROLE_LINK
+        return AXUtilities.is_link(prior._obj)
 
     def present(self, prior):
         """Presents this context to the user."""
 
         if self == prior or self._treatAsDuplicate(prior):
             msg = "MOUSE REVIEW: Not presenting due to no change"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         interrupt = self._obj and self._obj != prior._obj \
@@ -302,22 +304,25 @@ class _ItemContext:
             self._script.presentationInterrupt()
 
         if self._frame and self._frame != prior._frame:
-            self._script.presentObject(self._frame, alreadyFocused=True, inMouseReview=True, interrupt=True)
+            self._script.presentObject(self._frame,
+                                        alreadyFocused=True,
+                                        inMouseReview=True,
+                                        interrupt=True)
 
         if self._script.utilities.containsOnlyEOCs(self._obj):
             msg = "MOUSE REVIEW: Not presenting object which contains only EOCs"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         if self._obj and self._obj != prior._obj and not self._isInlineChild(prior):
             priorObj = prior._obj or self._getContainer()
             orca.emitRegionChanged(self._obj, mode=orca.MOUSE_REVIEW)
             self._script.presentObject(self._obj, priorObj=priorObj, inMouseReview=True)
-            if self._string.getString() == self._obj.name:
+            if self._string.getString() == AXObject.get_name(self._obj):
                 return True
             if not self._script.utilities.isEditableTextArea(self._obj):
                 return True
-            if self._obj.getRole() == pyatspi.ROLE_TABLE_CELL \
+            if AXUtilities.is_table_cell(self._obj) \
                and self._string.getString() == self._script.utilities.displayedText(self._obj):
                 return True
 
@@ -338,12 +343,14 @@ class MouseReviewer:
         self._windows = []
         self._all_windows = []
         self._handlerIds = {}
-
+        self._eventListener = Atspi.EventListener.new(self._listener)
         self.inMouseEvent = False
+        self._handlers = self._setup_handlers()
+        self._bindings = self._setup_bindings()
 
         if not _mouseReviewCapable:
             msg = "MOUSE REVIEW ERROR: Wnck is not available"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         display = Gdk.Display.get_default()
@@ -352,16 +359,16 @@ class MouseReviewer:
             self._pointer = seat.get_pointer()
         except AttributeError:
             msg = "MOUSE REVIEW ERROR: Gtk+ 3.20 is not available"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
-        except:
+        except Exception:
             msg = "MOUSE REVIEW ERROR: Exception getting pointer for default seat."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if not self._pointer:
             msg = "MOUSE REVIEW ERROR: No pointer for default seat."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         if not self._active:
@@ -369,17 +376,48 @@ class MouseReviewer:
 
         self.activate()
 
-    def _get_listeners(self):
-        """Returns the accessible-event listeners for mouse review."""
+    def get_bindings(self):
+        """Returns the mouse-review keybindings."""
 
-        return {"mouse:abs": self._listener}
+        return self._bindings
+
+    def get_handlers(self):
+        """Returns the mouse-review handlers."""
+
+        return self._handlers
+
+    def _setup_handlers(self):
+        """Sets up and returns the mouse-review input event handlers."""
+
+        handlers = {}
+
+        handlers["toggleMouseReviewHandler"] = \
+            input_event.InputEventHandler(
+                self.toggle,
+                cmdnames.MOUSE_REVIEW_TOGGLE)
+
+        return handlers
+
+    def _setup_bindings(self):
+        """Sets up and returns the mouse-review key bindings."""
+
+        bindings = keybindings.KeyBindings()
+
+        bindings.add(
+            keybindings.KeyBinding(
+                "",
+                keybindings.defaultModifierMask,
+                keybindings.NO_MODIFIER_MASK,
+                self._handlers.get("toggleMouseReviewHandler")))
+
+        return bindings
 
     def activate(self):
         """Activates mouse review."""
 
         if not _mouseReviewCapable:
             msg = "MOUSE REVIEW ERROR: Wnck is not available"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         # Set up the initial object as the one with the focus to avoid
@@ -388,12 +426,12 @@ class MouseReviewer:
         script = None
         frame = None
         if obj:
-            script = _scriptManager.getScript(obj.getApplication(), obj)
+            script = _scriptManager.getScript(AXObject.get_application(obj), obj)
         if script:
             frame = script.utilities.topLevelObject(obj)
         self._currentMouseOver = _ItemContext(obj=obj, frame=frame, script=script)
 
-        _eventManager.registerModuleListeners(self._get_listeners())
+        self._eventListener.register("mouse:abs")
         screen = Wnck.Screen.get_default()
         if screen:
             # On first startup windows and workspace are likely to be None,
@@ -418,7 +456,7 @@ class MouseReviewer:
     def deactivate(self):
         """Deactivates mouse review."""
 
-        _eventManager.deregisterModuleListeners(self._get_listeners())
+        self._eventListener.deregister("mouse:abs")
         for key, value in self._handlerIds.items():
             value.disconnect(key)
         self._handlerIds = {}
@@ -440,8 +478,8 @@ class MouseReviewer:
         obj = self._currentMouseOver.getObject()
 
         if time.time() - self._currentMouseOver.getTime() > 0.1:
-            msg = "MOUSE REVIEW: Treating %s as stale" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["MOUSE REVIEW: Treating", obj, "as stale"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         return obj
@@ -486,22 +524,22 @@ class MouseReviewer:
 
     def _contains_point(self, obj, x, y, coordType=None):
         if coordType is None:
-            coordType = pyatspi.DESKTOP_COORDS
+            coordType = Atspi.CoordType.SCREEN
 
         try:
             return obj.queryComponent().contains(x, y, coordType)
-        except:
+        except Exception:
             return False
 
     def _has_bounds(self, obj, bounds, coordType=None):
         """Returns True if the bounding box of obj is bounds."""
 
         if coordType is None:
-            coordType = pyatspi.DESKTOP_COORDS
+            coordType = Atspi.CoordType.SCREEN
 
         try:
             extents = obj.queryComponent().getExtents(coordType)
-        except:
+        except Exception:
             return False
 
         return list(extents) == list(bounds)
@@ -522,26 +560,21 @@ class MouseReviewer:
         if not window:
             return None
 
-        app = None
         windowApp = window.get_application()
         if not windowApp:
             return None
 
-        pid = windowApp.get_pid()
-        for a in pyatspi.Registry.getDesktop(0):
-            if a.get_process_id() == pid:
-                app = a
-                break
-
+        app = AXUtilities.get_application_with_pid(windowApp.get_pid())
         if not app:
             return None
 
-        candidates = [o for o in app if self._contains_point(o, pX, pY)]
+        candidates = [o for o in AXObject.iter_children(
+            app, lambda x: self._contains_point(x, pX, pY))]
         if len(candidates) == 1:
             return candidates[0]
 
         name = window.get_name()
-        matches = [o for o in candidates if o.name == name]
+        matches = [o for o in candidates if AXObject.get_name(o) == name]
         if len(matches) == 1:
             return matches[0]
 
@@ -557,70 +590,64 @@ class MouseReviewer:
 
         screen, pX, pY = self._pointer.get_position()
         window = self._accessible_window_at_point(pX, pY)
-        msg = "MOUSE REVIEW: Window at (%i, %i) is %s" % (pX, pY, window)
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = [f"MOUSE REVIEW: Window at ({pX}, {pY}) is", window]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         if not window:
             return
 
-        script = _scriptManager.getScript(window.getApplication())
+        script = _scriptManager.getScript(AXObject.get_application(window))
         if not script:
             return
 
-        isMenu = lambda x: x and x.getRole() == pyatspi.ROLE_MENU
         if script.utilities.isDead(orca_state.locusOfFocus):
             menu = None
-        elif isMenu(orca_state.locusOfFocus):
+        elif AXUtilities.is_menu(orca_state.locusOfFocus):
             menu = orca_state.locusOfFocus
         else:
-            try:
-                menu = pyatspi.findAncestor(orca_state.locusOfFocus, isMenu)
-            except:
-                msg = "ERROR: Exception getting ancestor of %s" % orca_state.locusOfFocus
-                debug.println(debug.LEVEL_INFO, msg, True)
-                menu = None
+            menu = AXObject.find_ancestor(orca_state.locusOfFocus, AXUtilities.is_menu)
 
         screen, nowX, nowY = self._pointer.get_position()
         if (pX, pY) != (nowX, nowY):
-            msg = "MOUSE REVIEW: Pointer moved again: (%i, %i)" % (nowX, nowY)
-            debug.println(debug.LEVEL_INFO, msg, True)
+            msg = f"MOUSE REVIEW: Pointer moved again: ({nowX}, {nowY})"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         obj = script.utilities.descendantAtPoint(menu, pX, pY) \
             or script.utilities.descendantAtPoint(window, pX, pY)
-        msg = "MOUSE REVIEW: Object at (%i, %i) is %s" % (pX, pY, obj)
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = [f"MOUSE REVIEW: Object at ({pX}, {pY}) is", obj]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        script = _scriptManager.getScript(window.getApplication(), obj)
-        if menu and obj and not pyatspi.findAncestor(obj, isMenu):
+        script = _scriptManager.getScript(AXObject.get_application(window), obj)
+        if menu and obj and not AXObject.find_ancestor(obj, AXUtilities.is_menu):
             if script.utilities.intersectingRegion(obj, menu) != (0, 0, 0, 0):
-                msg = "MOUSE REVIEW: %s believed to be under %s" % (obj, menu)
-                debug.println(debug.LEVEL_INFO, msg, True)
+                tokens = ["MOUSE REVIEW:", obj, "believed to be under", menu]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 return
 
         objDocument = script.utilities.getTopLevelDocumentForObject(obj)
         if objDocument and script.utilities.inDocumentContent():
             document = script.utilities.activeDocument()
             if document != objDocument:
-                msg = "MOUSE REVIEW: %s is not in active document %s" % (obj, document)
-                debug.println(debug.LEVEL_INFO, msg, True)
+                tokens = ["MOUSE REVIEW:", obj, "is not in active document", document]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 return
 
         screen, nowX, nowY = self._pointer.get_position()
         if (pX, pY) != (nowX, nowY):
-            msg = "MOUSE REVIEW: Pointer moved again: (%i, %i)" % (nowX, nowY)
-            debug.println(debug.LEVEL_INFO, msg, True)
+            msg = f"MOUSE REVIEW: Pointer moved again: ({nowX}, {nowY})"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         boundary = None
         x, y, width, height = self._currentMouseOver.getBoundingBox()
         if y <= pY <= y + height and self._currentMouseOver.getString():
-            boundary = pyatspi.TEXT_BOUNDARY_WORD_START
+            boundary = Atspi.TextBoundaryType.WORD_START
         elif obj == self._currentMouseOver.getObject():
-            boundary = pyatspi.TEXT_BOUNDARY_LINE_START
-        elif obj and obj.getState().contains(pyatspi.STATE_SELECTABLE):
-            boundary = pyatspi.TEXT_BOUNDARY_LINE_START
+            boundary = Atspi.TextBoundaryType.LINE_START
+        elif AXUtilities.is_selectable(obj):
+            boundary = Atspi.TextBoundaryType.LINE_START
         elif script.utilities.isMultiParagraphObject(obj):
-            boundary = pyatspi.TEXT_BOUNDARY_LINE_START
+            boundary = Atspi.TextBoundaryType.LINE_START
 
         new = _ItemContext(pX, pY, obj, boundary, window, script)
         if new.present(self._currentMouseOver):
@@ -630,17 +657,19 @@ class MouseReviewer:
         """Generic listener, mainly to output debugging info."""
 
         startTime = time.time()
-        msg = "\nvvvvv PROCESS OBJECT EVENT %s vvvvv" % event.type
-        debug.println(debug.LEVEL_INFO, msg, False)
+        tokens = ["\nvvvvv PROCESS OBJECT EVENT", event.type, "vvvvv"]
+        debug.printTokens(debug.LEVEL_INFO, tokens, False)
 
         if event.type.startswith("mouse:abs"):
             self.inMouseEvent = True
             self._on_mouse_moved(event)
             self.inMouseEvent = False
 
-        msg = "TOTAL PROCESSING TIME: %.4f\n" % (time.time() - startTime)
-        msg += "^^^^^ PROCESS OBJECT EVENT %s ^^^^^\n" % event.type
-        debug.println(debug.LEVEL_INFO, msg, False)
+        msg = f"TOTAL PROCESSING TIME: {time.time() - startTime:.4f}\n"
+        msg += f"^^^^^ PROCESS OBJECT EVENT {event.type} ^^^^^\n"
+        debug.printMessage(debug.LEVEL_INFO, msg, False)
 
 
-reviewer = MouseReviewer()
+_reviewer = MouseReviewer()
+def getReviewer():
+    return _reviewer

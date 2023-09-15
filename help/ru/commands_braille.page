@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_braille" xml:lang="ru">
+  <info>
+    <link type="next" xref="commands_reading"/>
+    <link type="guide" xref="commands#speech_braille"/>
+    <link type="seealso" xref="preferences_braille"/>
+    <title type="sort">2. Брайль</title>
+    <title type="link">Брайль</title>
+    <desc>Команды, которые выполняются на брайлевских дисплеях</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команды Брайля</title>
+  <p>Следующие команды позволяют управлять <app>Orca</app> с обновляемого брайлевского дисплея, а не с клавиатуры:</p>
+  <list>
+    <item><p>Панорамировать брайлевскую строку влево: Строка влево</p></item>
+    <item><p>Панорамировать брайлевскую строку вправо: Строка вправо</p></item>
+    <item><p>Переключить режим общего осмотра: Зафиксировать</p></item>
+    <item><p>Просмотреть слово над текущим словом: Строка вверх</p></item>
+    <item><p>Просмотреть слово под текущим словом: Строка вниз</p></item>
+    <item><p>Просмотреть левый нижний угол: Нижний левый</p></item>
+    <item><p>Просмотреть начало: Верхний левый</p></item>
+    <item><p>Брайлевская краткопись: Шесть точек</p></item>
+    <item><p>Отметить начало выделения текста: Начало вырезания</p></item>
+    <item><p>Отметить конец выделения текста: Вырезать строку</p></item>
+    <item><p>Работа с клавишей курсорного управления: Курсорное управление</p></item>
+    <item><p>Вернуться к объекту с фокусом ввода: Позиция курсора</p></item>
+  </list>
+</page>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_reading" xml:lang="ru">
+  <info>
+    <link type="next" xref="commands_structural_navigation"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_documents"/>
+    <link type="seealso" xref="howto_text_attributes"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">1. Чтение</title>
+    <title type="link">Чтение</title>
+    <desc>Команды для доступа к содержимому документа</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команды чтения</title>
+  <p>Помимо команд курсорной навигации, которые являются частью GNOME, <app>Orca</app> предоставляет ряд команд, которые можно использовать для чтения документа.</p>
+  <note style="tip">
+    <p>Ниже вы можете несколько раз встретить сокращение «ЦК». «ЦК» — это цифровая клавиатура. Также клавиши различаются в зависимости от того, что используется — настольный компьютер или ноутбук. Вернее, от того, какую раскладку <app>Orca</app> вы используете — «Настольный компьютер» или «Ноутбук». Дополнительные сведения доступны в разделе  <link xref="howto_keyboard_layout">Раскладка клавиатуры</link>.</p>
+  </note>
+  <section id="flat_review">
+    <title>Чтение вашего текущего положения</title>
+    <p>Для чтения вашего текущего положения можно использовать следующие <link xref="commands_flat_review">команды режима общего осмотра</link> <app>Orca</app>:</p>
+    <list>
+      <item>
+        <p>Произнести текущую строку:</p>
+        <list>
+          <item>
+            <p>Настольный компьютер: <keyseq><key>8 на ЦК</key></keyseq></p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>I</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Произнести текущее слово:</p>
+        <list>
+          <item>
+            <p>Настольный компьютер: <keyseq><key>5 на ЦК</key></keyseq></p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>K</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Произнести текущее слово по буквам:</p>
+        <list>
+          <item>
+            <p>Настольный компьютер: <keyseq><key>5 на ЦК</key></keyseq> (двойной щелчок)</p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>K</key></keyseq> (двойной щелчок)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Произнести фонетически текущее слово:</p>
+        <list>
+          <item>
+            <p>Настольный компьютер: <keyseq><key>5 на ЦК</key></keyseq> (тройной щелчок)</p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>K</key></keyseq> (тройной щелчок)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Произнести текущий символ:</p>
+        <list>
+          <item>
+            <p>Настольный компьютер: <keyseq><key>2 на ЦК</key></keyseq></p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Запятая</key></keyseq></p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Произнести фонетически текущий символ:</p>
+        <list>
+          <item>
+            <p>Настольный компьютер: <keyseq><key>2 на ЦК</key></keyseq> (двойной щелчок)</p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Запятая</key></keyseq> (двойной щелчок)</p>
+          </item>
+        </list>
+      </item>
+      <item>
+        <p>Произнести юникодное значение текущего символа:</p>
+        <list>
+          <item>
+            <p>Настольный компьютер: <keyseq><key>2 на ЦК</key></keyseq> (тройной щелчок)</p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Запятая</key></keyseq> (тройной щелчок)</p>
+          </item>
+        </list>
+      </item>
+    </list>
+  </section>
+  <section id="say_all">
+    <title>Читать всё</title>
+    <p>При использовании команды «Читать всё» <app>Orca</app> прочтёт весь документ, начиная с текущего положения.</p>
+    <list>
+      <item>
+        <p>Настольный компьютер: <key>Сложение на ЦК</key></p>
+      </item>
+      <item>
+        <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Точка с запятой</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="attributes_and_selection">
+    <title>Атрибуты текста и выбранный текст</title>
+    <p>В <app>Orca</app> имеется специальная команда для получения атрибутов текста в позиции курсора. Кроме того, при нахождении внутри текстового объекта с выбранным текстом этот текст можно озвучить с помощью команд <app>Orca</app> «Где я» или команды <app>Orca</app> для озвучивания текущего выделения.</p>
+    <list>
+      <item>
+        <p>Озвучить атрибуты текста: <keyseq><key>Модификатор Orca</key><key>F</key></keyseq></p>
+      </item>
+      <item>
+        <p>Сообщить о текущем положении:</p>
+        <list>
+          <item>
+            <p>Настольный компьютер: <key>Ввод на ЦК</key></p>
+          </item>
+          <item>
+            <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Ввод</key></keyseq></p>
+          </item>
+        </list>
+    </item>
+    <item>
+      <p>Сообщить о текущем положении подробно:</p>
+      <list>
+        <item>
+          <p>Настольный компьютер: <key>Ввод на ЦК</key> (двойной щелчок)</p>
+        </item>
+        <item>
+          <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Ввод</key></keyseq> (двойной щелчок)</p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Произнести текущее выделение: <keyseq><key>Модификатор Orca</key><key>Shift</key><key>Стрелка вверх</key></keyseq></p>
+    </item>
+  </list>
+  </section>
+  <section id="link_details">
+    <title>Сведения о ссылке</title>
+    <p>Если вы находитесь на ссылке, озвучить сведения о ней (тип ссылки, была ли она посещена, описание сайта и размер файла) можно с помощью команды сообщения текущего положения <app>Orca</app>. Для этого также можно использовать специальную команду; в этом случае следует привязать к клавише команду <app>Orca</app> «Произнести сведения о ссылке». Обратитесь к разделу <link xref="howto_key_bindings">Изменение привязок клавиш</link> для получения сведений о том, как это сделать.</p>
+    <list>
+      <item>
+        <p>Произнести сведения о ссылке: (Не задано)</p>
+      </item>
+    </list>
+  </section>
+  <section id="browse_and_focus_modes">
+    <title>Режим чтения и режим фокуса</title>
+    <p>С помощью режима чтения и режима фокуса <app>Orca</app> можно переключаться между чтением сетевого содержимого и взаимодействием с ним.</p>
+    <list>
+      <item>
+        <p>Переключить между режимом чтения и режимом фокуса: <keyseq><key>Orca Modifier</key><key>A</key></keyseq></p>
+      </item>
+      <item>
+        <p>Включить принудительный режим фокуса: <keyseq><key>Модификатор Orca</key><key>A</key></keyseq> (двойной щелчок)</p>
+      </item>
+      <item>
+        <p>Включить принудительный режим чтения: <keyseq><key>Модификатор Orca</key><key>A</key></keyseq> (тройной щелчок)</p>
+      </item>
+    </list>
+  </section>
+  <section id="toggling_layout_mode">
+    <title>Включение и отключение режима макета</title>
+    <p>Когда режим макета включён, при курсорной навигации <app>Orca</app> будет учитываться экранный макет содержимого и озвучиваться строка целиком, включая любые присутствующие в ней ссылки или поля форм. Когда режим макета отключён, <app>Orca</app> будет выполнять озвучивание и навигацию по ссылкам и полям форм так, как если бы они находились в отдельных строках.</p>
+    <p>В <app>Orca</app> имеется команда для переключения между режимами макета и объекта. По умолчанию эта команда не привязана к какой-либо клавише. Обратитесь к разделу <link xref="howto_key_bindings">Изменение привязок клавиш</link> для получения сведений о привязке команд к клавишам.</p>
+    <list>
+      <item>
+        <p>Переключить между режимом макета и режимом объекта: (Не задано)</p>
+      </item>
+    </list>
+  </section>
+</page>

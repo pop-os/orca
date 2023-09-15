@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="introduction" xml:lang="ru">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_setting_up_orca"/>
+    <title type="sort">1. Добро пожаловать в Orca</title>
+    <desc>Знакомство с экранным диктором <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Добро пожаловать в Orca</title>
+  <p><app>Orca</app> — свободный экранный диктор с открытым исходном кодом, который обладает широкими возможностями настройки и предоставляет доступ к графическому рабочему столу с помощью озвучивания и обновляемого брайлевского дисплея.</p>
+  <p><app>Orca</app> работает с приложениями и наборами средств, которые поддерживают интерфейс службы доступа вспомогательных технологий (AT-SPI), который представляет собой основную инфраструктуру вспомогательных технологий для Linux и Solaris. Приложения и наборы средств, которые поддерживают AT-SPI, включают набор средств Gtk+, QT, Swing на платформе Java, LibreOffice, Gecko , WebKitGtk и Chrome/Chromium.</p>
+  <section id="launching">
+    <title>Запуск <app>Orca</app></title>
+    <p>Чтобы запустить <app>Orca</app>:</p>
+    <list>
+      <item>
+        <p>Способ настройки автоматического запуска <app>Orca</app> в качестве предпочитаемого экранного диктора будет зависеть от того, какое окружение рабочего стола вы используете.</p>
+      </item>
+      <item>
+        <p>Для включения и отключения <app>Orca</app> в GNOME воспользуйтесь комбинацией клавиш <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Введите команду <cmd>orca</cmd> (вместе с любыми дополнительными параметрами) в окне терминала или в диалоговом окне <gui>Выполнить</gui> и затем нажмите клавишу <key>Ввод</key>.</p>
+      </item>
+    </list>
+  </section>
+    <section id="loadtime">
+      <title>Параметры загрузки</title>
+      <p>При запуске <app>Orca</app> в окне терминала или в диалоговом окне <gui>Выполнить</gui> можно указать следующие параметры:</p>
+      <list>
+        <item>
+          <p><cmd>-h</cmd>, <cmd>--help</cmd>: показать справочное сообщение</p>
+        </item>
+        <item>
+          <p><cmd>-v</cmd>, <cmd>--version</cmd>: показать версию <app>Orca</app></p>
+        </item>
+        <item>
+          <p><cmd>-s</cmd>, <cmd>--setup</cmd>: задать параметры пользователя</p>
+        </item>
+        <item>
+          <p><cmd>-u</cmd>, <cmd>--user-prefs=<em>имя_каталога</em></cmd>: использовать <em>имя_каталога</em> в качестве каталога с параметрами пользователя</p>
+        </item>
+        <item>
+          <p><cmd>-e</cmd>, <cmd>--enable=<em>параметр</em></cmd>: принудительно использовать параметр, <em>параметр</em> может быть одним из следующих:</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+          <p><cmd>-d</cmd>, <cmd>--disable=<em>параметр</em></cmd>: исключить использование параметра, <em>параметр</em> может быть одним из следующих:</p>
+          <list>
+            <item><p><cmd>speech</cmd></p></item>
+            <item><p><cmd>braille</cmd></p></item>
+            <item><p><cmd>braille-monitor</cmd></p></item>
+          </list>
+        </item>
+        <item>
+            <p><cmd>-p</cmd>, <cmd>--profile=<em>имя_файла</em></cmd>: импортировать профиль из указанного файла профиля <app>Orca</app></p>
+        </item>
+        <item>
+          <p><cmd>-r</cmd>, <cmd>--replace</cmd>: заменить существующий процесс <app>Orca</app></p>
+        </item>
+        <item>
+          <p><cmd>-l</cmd>, <cmd>--list-apps</cmd>: вывести список известных запущенных приложений</p>
+        </item>
+        <item>
+          <p><cmd>--debug</cmd>: записывать отладочные данные в debug-ГГГГ-ММ-ДД-ЧЧ:ММ:СС.out</p>
+        </item>
+        <item>
+          <p><cmd>--debug-file=<em>имя_файла</em></cmd>: записывать отладочные данные в указанный файл</p>
+        </item>
+      </list>
+    </section>
+
+</page>

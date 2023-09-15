@@ -1,3 +1,22 @@
+orca (45~rc-1) experimental; urgency=medium
+
+  * New upstream rc release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 06 Sep 2023 21:51:13 +0200
+
+orca (45~beta-1) experimental; urgency=medium
+
+  * New upstream beta release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 14 Aug 2023 13:57:19 +0200
+
+orca (45~alpha-1) experimental; urgency=medium
+
+  * New upstream alpha release.
+    - control: Bump libatspi2.0-dev build-dep to at least version 2.48.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 06 Aug 2023 13:44:01 +0200
+
 orca (44.1-2) unstable; urgency=medium
 
   * Upload to unstable

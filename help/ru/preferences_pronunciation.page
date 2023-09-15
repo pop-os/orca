@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="preferences_pronunciation" xml:lang="ru">
+  <info>
+    <link type="guide" xref="preferences#orca"/>
+    <link type="next" xref="preferences_text_attributes"/>
+    <title type="sort">7. Произношение</title>
+    <title type="link">Произношение</title>
+    <desc>Определение произношения определённых слов</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Параметры произношения</title>
+  <p>Иногда синтезатор речи неправильно произносит какое-либо слово в строке. Вероятно, вы предпочли бы услышать «laughing out loud» вместо «LOL» или «accessibility» вместо «a11y». Также могут встречаться названия или технические термины, которые синтезатор произносит неверно.</p>
+  <p>На вкладке <gui>Произношение</gui> диалога настройки параметров <app>Orca</app> можно добавлять, изменять и удалять записи словаря произношений <app>Orca</app>.</p>
+  <p>Так как параметры на вкладке <gui>Произношение</gui> зависят от конкретного приложения, настройку записей можно по мере необходимости выполнять для каждого используемого приложения.</p>
+  <steps>
+    <title>Добавление новой записи словаря</title>
+    <item>
+      <p>Нажмите кнопку <gui>Новое поле</gui> (<keyseq><key>Alt</key><key>N</key></keyseq>)</p>
+    </item>
+    <item>
+      <p>Введите текст новой записи и нажмите кнопку <key>Ввод</key> для завершения редактирования строки.</p>
+    </item>
+    <item>
+      <p>Перейдите к столбцу <gui>Строка замены</gui> и нажмите клавишу <key>Ввод </key> для начала редактирования.</p>
+    </item>
+    <item>
+      <p>Введите текст, который должен быть озвучен, и нажмите клавишу <key> Ввод</key> для завершения редактирования строки замены.</p>
+    </item>
+  </steps>
+  <steps>
+  <title>Редактирование существующей записи словаря</title>
+    <item>
+      <p>Перейдите к ячейке, которую следует изменить, и нажмите клавишу <key>Ввод </key> для начала редактирования.</p>
+    </item>
+    <item>
+      <p>Внесите изменения и затем нажмите клавишу <key>Ввод</key> для завершения редактирования.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Удаление существующей записи словаря</title>
+    <item>
+      <p>Перейдите к записи, которую следует удалить.</p>
+    </item>
+    <item>
+      <p>Нажмите кнопку <gui>Удалить</gui> или комбинацию клавиш <keyseq><key>Alt</key><key>D</key></keyseq>.</p>
+    </item>
+  </steps>
+</page>

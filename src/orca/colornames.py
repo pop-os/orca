@@ -727,7 +727,7 @@ cssNames["#9acd32"] = C_("color name", "yellow green")
 def rgbToName(red, green, blue):
     """Returns the localized name for the RGB value."""
 
-    hexString = '#%02x%02x%02x' % (red, green, blue)
+    hexString = f'#{red:02x}{green:02x}{blue:02x}'
     cssName = cssNames.get(hexString)
     if cssName:
         return cssName
@@ -744,7 +744,7 @@ def rgbToName(red, green, blue):
     # Hold black and white to higher standards than the other close colors.
     d1 = min(colors.keys())
     match = colors.pop(d1)
-    if not match in ["#000000", "#ffffff"]:
+    if match not in ["#000000", "#ffffff"]:
         return cssNames.get(match)
 
     d2 = min(colors.keys())

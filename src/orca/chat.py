@@ -25,8 +25,6 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2010-2011 The Orca Team"
 __license__   = "LGPL"
 
-import pyatspi
-
 from . import cmdnames
 from . import debug
 from . import guilabels
@@ -36,6 +34,8 @@ from . import messages
 from . import orca_state
 from . import settings
 from . import settings_manager
+from .ax_object import AXObject
+from .ax_utilities import AXUtilities
 
 _settingsManager = settings_manager.getManager()
 
@@ -268,7 +268,7 @@ class ConversationList:
         #
         try:
             self.conversations.remove(conversation)
-        except:
+        except Exception:
             return False
         else:
             return True
@@ -289,7 +289,7 @@ class Chat:
 
         Arguments:
         - script: the script with which this instance is associated.
-        - buddyListAncestries: a list of lists of pyatspi roles beginning
+        - buddyListAncestries: a list of lists of roles beginning
           with the object serving as the actual buddy list (e.g.
           ROLE_TREE_TABLE) and ending with the top level object (e.g.
           ROLE_FRAME).
@@ -319,8 +319,6 @@ class Chat:
         self.messageListLength = len(self.messageKeys)
         self._conversationList = ConversationList(self.messageListLength)
 
-        # To make pylint happy.
-        #
         self.focusedChannelRadioButton = None
         self.allChannelsRadioButton = None
         self.allMessagesRadioButton = None
@@ -424,7 +422,7 @@ class Chat:
 
         messagesFrame = Gtk.Frame()
         grid.attach(messagesFrame, 0, 3, 1, 1)
-        label = Gtk.Label("<b>%s</b>" % guilabels.CHAT_SPEAK_MESSAGES_FROM)
+        label = Gtk.Label(f"<b>{guilabels.CHAT_SPEAK_MESSAGES_FROM}</b>")
         label.set_use_markup(True)
         messagesFrame.set_label_widget(label)
 
@@ -450,7 +448,7 @@ class Chat:
         messagesGrid.attach(self.focusedChannelRadioButton, 0, 1, 1, 1)
 
         label = guilabels.CHAT_SPEAK_MESSAGES_ALL_IF_FOCUSED % \
-            self._script.app.name
+            AXObject.get_name(self._script.app)
         rb3 = Gtk.RadioButton.new_with_mnemonic(None, label)
         rb3.join_group(rb1)
         rb3.set_active(value == settings.CHAT_SPEAK_ALL_IF_FOCUSED)
@@ -551,7 +549,7 @@ class Chat:
 
         try:
             index = self.messageKeys.index(inputEvent.event_string)
-        except:
+        except Exception:
             pass
 
         messageNumber = self.messageListLength - (index + 1)
@@ -658,8 +656,8 @@ class Chat:
             # We always automatically go back to focus tracking mode when
             # someone sends us a message.
             #
-            if self._script.flatReviewContext:
-                self._script.toggleFlatReviewMode()
+            if self._script.flatReviewPresenter.is_active():
+                self._script.flatReviewPresenter.quit()
 
             if self.isNewConversation(event.source):
                 name = self.getChatRoomName(event.source)
@@ -738,12 +736,7 @@ class Chat:
         - obj: the accessible object to examine.
         """
 
-        state = obj.getState()
-        if state.contains(pyatspi.STATE_EDITABLE) \
-           and state.contains(pyatspi.STATE_SINGLE_LINE):
-            return True
-
-        return False
+        return AXUtilities.is_editable(obj) and AXUtilities.is_single_line(obj)
 
     def isBuddyList(self, obj):
         """Returns True if obj is the list of buddies in the buddy list
@@ -756,10 +749,12 @@ class Chat:
         - obj: the accessible being examined
         """
 
-        if obj:
-            for roleList in self._buddyListAncestries:
-                if self._script.utilities.hasMatchingHierarchy(obj, roleList):
-                    return True
+        if obj is None:
+            return False
+
+        for roleList in self._buddyListAncestries:
+            if self._script.utilities.hasMatchingHierarchy(obj, roleList):
+                return True
 
         return False
 
@@ -776,9 +771,8 @@ class Chat:
             return True
 
         for roleList in self._buddyListAncestries:
-            buddyListRole = roleList[0]
-            candidate = self._script.utilities.ancestorWithRole(
-                obj, [buddyListRole], [pyatspi.ROLE_FRAME])
+            role = roleList[0]
+            candidate = AXObject.find_ancestor(obj, lambda x: AXObject.get_role(x) == role)
             if self.isBuddyList(candidate):
                 return True
 
@@ -816,8 +810,8 @@ class Chat:
         # things working. And people should not be in multiple chat
         # rooms with identical names anyway. :-)
         #
-        if obj.getRole() in [pyatspi.ROLE_TEXT, pyatspi.ROLE_ENTRY] \
-           and obj.getState().contains(pyatspi.STATE_EDITABLE):
+        if (AXUtilities.is_text(obj) or AXObject.is_entry(obj)) \
+           and AXUtilities.is_editable(obj):
             name = self.getChatRoomName(obj)
 
         for conversation in self._conversationList.conversations:
@@ -840,13 +834,8 @@ class Chat:
         - obj: the accessible object to examine.
         """
 
-        if obj and obj.getRole() == pyatspi.ROLE_TEXT \
-           and obj.parent.getRole() == pyatspi.ROLE_SCROLL_PANE:
-            state = obj.getState()
-            if not state.contains(pyatspi.STATE_EDITABLE) \
-               and state.contains(pyatspi.STATE_MULTI_LINE):
-                return True
-
+        if AXUtilities.is_text(obj) and AXUtilities.is_scroll_pane(AXObject.get_parent(obj)):
+            return not AXUtilities.is_editable(obj) and AXUtilities.is_multi_line(obj)
         return False
 
     def isFocusedChat(self, obj):
@@ -858,14 +847,14 @@ class Chat:
         - obj: the accessible object to examine.
         """
 
-        if obj and obj.getState().contains(pyatspi.STATE_SHOWING):
+        if AXUtilities.is_showing(obj):
             active = self._script.utilities.topLevelObjectIsActiveAndCurrent(obj)
-            msg = "INFO: %s's window is focused chat: %s" % (obj, active)
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["INFO:", obj, "'s window is focused chat:", active]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return active
 
-        msg = "INFO: %s is not focused chat (not showing)" % obj
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["INFO:", obj, "is not focused chat (not showing)"]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return False
 
     def getChatRoomName(self, obj):
@@ -882,16 +871,16 @@ class Chat:
         # that, we'll look at the frame name. Failing that, scripts
         # should override this method. :-)
         #
-        ancestor = self._script.utilities.ancestorWithRole(
-            obj,
-            [pyatspi.ROLE_PAGE_TAB, pyatspi.ROLE_FRAME],
-            [pyatspi.ROLE_APPLICATION])
+        def pred(x):
+            return AXUtilities.is_page_tab(x) or AXUtilities.is_frame(x)
+
+        ancestor = AXObject.find_ancestor(obj, pred)
         name = ""
         try:
             text = self._script.utilities.displayedText(ancestor)
             if text.lower().strip() != self._script.name.lower().strip():
                 name = text
-        except:
+        except Exception:
             pass
 
         # Some applications don't trash their page tab list when there is
@@ -899,13 +888,12 @@ class Chat:
         # the item. Therefore, we'll give it one more shot.
         #
         if not name:
-            ancestor = self._script.utilities.ancestorWithRole(
-                ancestor, [pyatspi.ROLE_FRAME], [pyatspi.ROLE_APPLICATION])
+            ancestor = AXObject.find_ancestor(obj, AXUtilities.is_frame)
             try:
                 text = self._script.utilities.displayedText(ancestor)
                 if text.lower().strip() != self._script.name.lower().strip():
                     name = text
-            except:
+            except Exception:
                 pass     
 
         return name
@@ -917,7 +905,7 @@ class Chat:
         - event: the accessible event being examined
         """
 
-        if event.source.getRole() != pyatspi.ROLE_TEXT:
+        if not AXUtilities.is_text(event.source):
             return False
 
         lastKey, mods = self._script.utilities.lastKeyAndModifiers()

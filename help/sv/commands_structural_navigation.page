@@ -79,7 +79,7 @@
       <title>Formulär</title>
       <list>
         <item>
-          <p>Nästa och föregående formulärfält: <keyseq><key>Orca-modifierare</key><key>Tabb</key></keyseq> och <keyseq><key>Orca-modifierare</key><key>Skift</key><key>Tabb</key></keyseq></p>
+          <p>Nästa och föregående formulärfält: <keyseq><key>F</key></keyseq> och <keyseq><key>Skift</key><key>F</key></keyseq></p>
         </item> 
         <item>
           <p>Visa en lista över formulärfält: <keyseq><key>Alt</key><key>Skift</key><key>F</key></keyseq></p>

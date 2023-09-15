@@ -103,7 +103,7 @@
       <title>Formulare</title>
       <list>
         <item>
-          <p>Nächstes und vorhergehendes Formularfeld: <keyseq><key>Orca-Zusatztaste</key><key>Tabulator</key></keyseq> und <keyseq><key>Orca-Zusatztaste</key><key>Umschalt</key><key>Tabulator</key></keyseq></p>
+          <p>Nächstes und vorhergehendes Formularfeld: <keyseq><key>F</key></keyseq> und <keyseq><key>Umschalt</key><key>F</key></keyseq></p>
         </item> 
         <item>
           <p>Eine Liste der Formularfelder anzeigen: <keyseq><key>Alt</key><key>Umschalt</key><key>F</key></keyseq></p>

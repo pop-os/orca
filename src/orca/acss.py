@@ -80,6 +80,16 @@ class ACSS(dict):
         else:
             self['established'] = False
 
+    def __eq__(self, other):
+        if not isinstance(other, ACSS):
+            return False
+        if self.get(ACSS.FAMILY) != other.get(ACSS.FAMILY):
+            return False
+        if self.get(ACSS.RATE) != other.get(ACSS.RATE):
+            return False
+        if self.get(ACSS.AVERAGE_PITCH) != other.get(ACSS.AVERAGE_PITCH):
+            return False
+        return True
 
     def __setitem__ (self, key, value):
         """Update name when we change values."""
@@ -95,7 +105,7 @@ class ACSS(dict):
         if names:
             names.sort()
             for  k in names:
-                _name += "%s-%s:" % (k, self[k])
+                _name += f"{k}-{self[k]}:"
         _name = _name[:-1]
         return _name
 

@@ -24,6 +24,7 @@ __copyright__ = "Copyright (c) 2004-2009 Sun Microsystems Inc."
 __license__   = "LGPL"
 
 import orca.speech_generator as speech_generator
+from orca.ax_object import AXObject
 
 ########################################################################
 #                                                                      #
@@ -35,8 +36,6 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
     """Overrides _generateExpandableState so that we can provide access
     to the expanded/collapsed state and node count for the buddy list.
     """
-
-    # pylint: disable-msg=W0142
 
     def __init__(self, script):
         speech_generator.SpeechGenerator.__init__(self, script)
@@ -51,7 +50,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             # hidden object of interest seems to always immediately
             # precede the visible object.
             #
-            expanderCell = obj.parent[obj.getIndexInParent() - 1]
+            expanderCell = AXObject.get_previous_sibling(obj)
             if expanderCell:
                 result.extend(
                     speech_generator.SpeechGenerator._generateExpandableState(
@@ -76,7 +75,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             # hidden object of interest seems to always immediately
             # precede the visible object.
             #
-            expanderCell = obj.parent[obj.getIndexInParent() - 1]
+            expanderCell = AXObject.get_previous_sibling(obj)
             if expanderCell:
                 result.extend(
                     speech_generator.SpeechGenerator._generateNumberOfChildren(

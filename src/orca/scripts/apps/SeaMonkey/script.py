@@ -27,12 +27,15 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2016 Igalia, S.L."
 __license__   = "LGPL"
 
-import pyatspi
+import gi
+gi.require_version("Atspi", "2.0")
+from gi.repository import Atspi
 
 from orca import cmdnames
 from orca import debug
 from orca import input_event
 from orca import orca_state
+from orca.ax_object import AXObject
 from orca.scripts.toolkits import Gecko
 
 
@@ -64,13 +67,13 @@ class Script(Gecko.Script):
 
         if self.utilities.isContentEditableWithEmbeddedObjects(event.source):
             msg = "SEAMONKEY: Ignoring, event source is content editable"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         table = self.utilities.getTable(orca_state.locusOfFocus)
         if table and not self.utilities.isTextDocumentTable(table):
-            msg = "SEAMONKEY: Ignoring, locusOfFocus is %s" % orca_state.locusOfFocus
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["SEAMONKEY: Ignoring, locusOfFocus is", orca_state.locusOfFocus]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
 
         super().onBusyChanged(event)
@@ -82,36 +85,30 @@ class Script(Gecko.Script):
         if self.utilities.inDocumentContent(event.source):
             return
 
-        try:
-            focusRole = orca_state.locusOfFocus.getRole()
-        except:
-            msg = "ERROR: Exception getting role for %s" % orca_state.locusOfFocus
-            debug.println(debug.LEVEL_INFO, msg, True)
-            focusRole = None
-
-        if focusRole != pyatspi.ROLE_ENTRY or not self.utilities.inDocumentContent():
+        focusRole = AXObject.get_role(orca_state.locusOfFocus)
+        if focusRole != Atspi.Role.ENTRY or not self.utilities.inDocumentContent():
             super().onFocus(event)
             return
 
-        if event.source.getRole() == pyatspi.ROLE_MENU:
+        if AXObject.get_role(event.source) == Atspi.Role.MENU:
             msg = "SEAMONKEY: Non-document menu claimed focus from document entry"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
 
             if self.utilities.lastInputEventWasPrintableKey():
                 msg = "SEAMONKEY: Ignoring, believed to be result of printable input"
-                debug.println(debug.LEVEL_INFO, msg, True)
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return
 
         super().onFocus(event)
 
     def useFocusMode(self, obj, prevObj=None):
         if self.utilities.isEditableMessage(obj):
-            msg = "SEAMONKEY: Using focus mode for editable message %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["SEAMONKEY: Using focus mode for editable message", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return True
 
-        msg = "SEAMONKEY: %s is not an editable message." % obj
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["SEAMONKEY:", obj, "is not an editable message."]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return super().useFocusMode(obj, prevObj)
 
     def enableStickyBrowseMode(self, inputEvent, forceMessage=False):
@@ -133,8 +130,8 @@ class Script(Gecko.Script):
 
         super().togglePresentationMode(inputEvent, documentFrame)
 
-    def useStructuralNavigationModel(self):
+    def useStructuralNavigationModel(self, debugOutput=True):
         if self.utilities.isEditableMessage(orca_state.locusOfFocus):
             return False
 
-        return super().useStructuralNavigationModel()
+        return super().useStructuralNavigationModel(debugOutput)
