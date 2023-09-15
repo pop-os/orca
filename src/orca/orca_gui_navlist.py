@@ -30,15 +30,17 @@ __license__   = "LGPL"
 from gi.repository import GObject, Gdk, Gtk
 
 from . import debug
-from . import eventsynthesizer
 from . import guilabels
 from . import orca_state
+from .ax_event_synthesizer import AXEventSynthesizer
+from .ax_object import AXObject
 
 class OrcaNavListGUI:
 
     def __init__(self, title, columnHeaders, rows, selectedRow):
         self._tree = None
         self._activateButton = None
+        self._jumpToButton = None
         self._gui = self._createNavListDialog(columnHeaders, rows, selectedRow)
         self._gui.set_title(title)
         self._gui.set_modal(True)
@@ -96,13 +98,13 @@ class OrcaNavListGUI:
         btn = dialog.add_button(guilabels.BTN_CANCEL, Gtk.ResponseType.CANCEL)
         btn.connect('clicked', self._onCancelClicked)
 
-        btn = dialog.add_button(guilabels.BTN_JUMP_TO, Gtk.ResponseType.APPLY)
-        btn.grab_default()
-        btn.connect('clicked', self._onJumpToClicked)
+        self._jumpToButton = dialog.add_button(guilabels.BTN_JUMP_TO, Gtk.ResponseType.APPLY)
+        self._jumpToButton.connect('clicked', self._onJumpToClicked)
 
         self._activateButton = dialog.add_button(
             guilabels.ACTIVATE, Gtk.ResponseType.OK)
         self._activateButton.connect('clicked', self._onActivateClicked)
+        self._activateButton.grab_default()
 
         self._tree.connect('key-release-event', self._onKeyRelease)
         self._tree.connect('cursor-changed', self._onCursorChanged)
@@ -124,12 +126,12 @@ class OrcaNavListGUI:
 
     def _onCursorChanged(self, widget):
         obj, offset = self._getSelectedAccessibleAndOffset()
-        try:
-            action = obj.queryAction()
-        except:
-            self._activateButton.set_sensitive(False)
+        n_actions = AXObject.get_n_actions(obj)
+        self._activateButton.set_sensitive(n_actions > 0)
+        if n_actions > 0:
+            self._activateButton.grab_default()
         else:
-            self._activateButton.set_sensitive(action.get_nActions() > 0)
+            self._jumpToButton.grab_default()
 
     def _onKeyRelease(self, widget, event):
         keycode = event.hardware_keycode
@@ -155,47 +157,27 @@ class OrcaNavListGUI:
             return
 
         self._script.utilities.setCaretPosition(obj, offset)
-        try:
-            action = obj.queryAction()
-        except NotImplementedError:
-            msg = "ERROR: Action interface not implemented for %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return
-        except:
-            msg = "ERROR: Exception getting action interface for %s" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return
-
-        # Chromium exposes the clickAncestor action and then expects us to do the work.
-        # Invoking the action appears to do nothing. Other actions should work as expected.
-        if action.nActions and action.getName(0).lower() != "clickancestor":
-            action.doAction(0)
-            return
-
-        if not action.nActions:
-            msg = "INFO: Action interface for %s has 0 actions" % obj
-            debug.println(debug.LEVEL_INFO, msg, True)
-
-        msg = "INFO: Attempting a synthesized click on %s" % obj
-        debug.println(debug.LEVEL_INFO, msg, True)
-        eventsynthesizer.clickObject(obj)
+        if not AXEventSynthesizer.try_all_clickable_actions(obj):
+            tokens = ["INFO: Attempting a synthesized click on", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            AXEventSynthesizer.click_object(obj)
 
     def _getSelectedAccessibleAndOffset(self):
         if not self._tree:
             msg = "ERROR: Could not get navlist tree"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return None, -1
 
         selection = self._tree.get_selection()
         if not selection:
             msg = "ERROR: Could not get selection for navlist tree"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return None, -1
 
         model, paths = selection.get_selected_rows()
         if not paths:
             msg = "ERROR: Could not get paths for navlist tree"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return None, -1
 
         obj = model.get_value(model.get_iter(paths[0]), 0)

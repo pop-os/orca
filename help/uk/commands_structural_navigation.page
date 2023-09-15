@@ -79,7 +79,7 @@
       <title>Форми</title>
       <list>
         <item>
-          <p>Наступне і попереднє поле форми: <keyseq><key>Модифікатор Orca</key><key>Tab</key></keyseq> і <keyseq><key>Модифікатор Orca</key><key>Shift</key><key>Tab</key></keyseq></p>
+          <p>Наступне і попереднє поле форми: <keyseq><key>F</key></keyseq> і <keyseq><key>Shift</key><key>F</key></keyseq></p>
         </item> 
         <item>
           <p>Показати список полів форми: <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq></p>

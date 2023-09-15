@@ -39,6 +39,9 @@
         <p>Prezentovat předchozí zprávu z upozornění: (bez klávesové zkratky)</p>
       </item>
       <item>
+        <p>Present the next notification message: (Unbound)</p>
+      </item>
+      <item>
         <p>Prezentovat seznam všech zpráv z upozornění: (bez klávesové zkratky)</p>
       </item>
     </list>

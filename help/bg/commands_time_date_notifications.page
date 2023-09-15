@@ -51,6 +51,9 @@
         <p>Прочитане на предишното уведомление: (неприсвоена)</p>
       </item>
       <item>
+        <p>Present the next notification message: (Unbound)</p>
+      </item>
+      <item>
         <p>Извеждане на списък с всички уведомления: (неприсвоена)</p>
       </item>
     </list>

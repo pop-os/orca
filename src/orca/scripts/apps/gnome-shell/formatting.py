@@ -23,22 +23,30 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2013 Igalia, S.L."
 __license__   = "LGPL"
 
+# If we were to adhere to the line-length requirements of 100 characters,
+# this file would be even more cumbersome to look at than it already is.
+# We shall respect the line-length requirements for all files that are not
+# formatting.py.
+# ruff: noqa: E501
+
 import copy
-import pyatspi
+import gi
+gi.require_version("Atspi", "2.0")
+from gi.repository import Atspi
 
 import orca.formatting
 import orca.settings
 
 formatting = {
     'speech': {
-        pyatspi.ROLE_MENU_ITEM: {
+        Atspi.Role.MENU_ITEM: {
             'focused': 'expandableState',
             'unfocused': 'labelAndName + pause + unrelatedLabels + pause + menuItemCheckedState + expandableState + availability + ' + orca.formatting.MNEMONIC + ' + accelerator + pause + positionInList',
             'basicWhereAmI': 'ancestors + pause + labelAndName + pause + unrelatedLabels + pause + accelerator + pause + positionInList + ' + orca.formatting.MNEMONIC
             },
     },
     'braille': {
-        pyatspi.ROLE_MENU_ITEM: {
+        Atspi.Role.MENU_ITEM: {
             'unfocused': '[Component(obj,\
                                      asString(label + (displayedText or unrelatedLabels) + expandableState + availability) + asString(accelerator),\
                                      indicator=asString(menuItemCheckedState))]'

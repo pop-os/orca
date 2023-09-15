@@ -28,8 +28,10 @@ __copyright__ = "Copyright (c) 2010-2012 The Orca Team" \
 __license__   = "LGPL"
 
 import argparse
+import gi
+gi.require_version("Atspi", "2.0")
+from gi.repository import Atspi
 import os
-import pyatspi
 import signal
 import subprocess
 import sys
@@ -48,24 +50,23 @@ sys.path.insert(1, pythondir)
 from orca import debug
 from orca import messages
 from orca import settings
+from orca.ax_object import AXObject
+from orca.ax_utilities import AXUtilities
 from orca.orca_platform import version
 
 class ListApps(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
-        desktop = pyatspi.Registry.getDesktop(0)
-        for app in desktop:
-            if app is None:
-                continue
-
-            pid = app.get_process_id()
+        desktop = AXUtilities.get_desktop()
+        for app in AXObject.iter_children(desktop):
+            pid = AXObject.get_process_id(app)
             try:
-                name = app.name or "(none)"
-            except:
+                name = Atspi.Accessible.get_name(app) or "(none)"
+            except Exception:
                 name = "[DEAD]"
 
             try:
                 cmdline = subprocess.getoutput('cat /proc/%s/cmdline' % pid)
-            except:
+            except Exception:
                 cmdline = '(exception encountered)'
             else:
                 cmdline = cmdline.replace('\x00', ' ')
@@ -143,7 +144,7 @@ class Parser(argparse.ArgumentParser):
         opts, invalid = super(Parser, self).parse_known_args(*args, **kwargs)
         try:
             invalid.extend(opts.invalid)
-        except:
+        except Exception:
             pass
         if invalid:
             print((messages.CLI_INVALID_OPTIONS + " ".join(invalid)))
@@ -160,8 +161,6 @@ def setProcessName(name):
 
     sys.argv[0] = name
 
-    # Disabling the import error of setproctitle.
-    # pylint: disable-msg=F0401
     try:
         from setproctitle import setproctitle
     except ImportError:
@@ -177,7 +176,7 @@ def setProcessName(name):
         stringBuffer.value = bytes(name, 'UTF-8')
         libc.prctl(15, byref(stringBuffer), 0, 0, 0)
         return True
-    except:
+    except Exception:
         pass
 
     return False
@@ -191,7 +190,7 @@ def inGraphicalDesktop():
         gi.require_version("Gdk", "3.0")
         from gi.repository import Gdk
         display = Gdk.Display.get_default()
-    except:
+    except Exception:
         return False
 
     return display is not None
@@ -250,7 +249,7 @@ def main():
         print(messages.CLI_NO_DESKTOP_ERROR)
         return 1
 
-    debug.println(debug.LEVEL_INFO, "INFO: Preparing to launch.", True)
+    debug.printMessage(debug.LEVEL_INFO, "INFO: Preparing to launch.", True)
 
     from orca import orca
     manager = orca.getSettingsManager()
@@ -259,14 +258,14 @@ def main():
         print(messages.CLI_SETTINGS_MANAGER_ERROR)
         return 1
 
-    debug.println(debug.LEVEL_INFO, "INFO: About to activate settings manager.", True)
+    debug.printMessage(debug.LEVEL_INFO, "INFO: About to activate settings manager.", True)
     manager.activate(args.user_prefs, settingsDict)
     sys.path.insert(0, manager.getPrefsDir())
 
     if args.profile:
         try:
             manager.setProfile(args.profile)
-        except:
+        except Exception:
             print(messages.CLI_LOAD_PROFILE_ERROR % args.profile)
             manager.setProfile()
 
@@ -278,7 +277,7 @@ def main():
         print(messages.CLI_OTHER_ORCAS_ERROR)
         return 1
 
-    debug.println(debug.LEVEL_INFO, "INFO: About to launch Orca.", True)
+    debug.printMessage(debug.LEVEL_INFO, "INFO: About to launch Orca.", True)
     return orca.main()
 
 if __name__ == "__main__":

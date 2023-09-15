@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_the_orca_modifier" xml:lang="ru">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_learn_modes"/>
+    <title type="sort">3. Модификатор Orca</title>
+    <desc>Клавиша, которая работает как <key>Shift</key>, <key>Ctrl</key> и <key>Alt</key></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Модификатор Orca</title>
+  <p>В Orca имеется специальная клавиша-модификатор, которая работает как <key>Shift</key>, <key>Ctrl</key> и <key>Alt</key>. Она предназначена специально для выполнения команд <app>Orca</app> без конфликтов с командами приложений, в которых вы работаете.</p>
+  <p>То, к какой клавише привязан «Модификатор Orca», по умолчанию зависит от того, какая раскладка <app>Orca</app> (для ноутбука или для настольного компьютера) используется:</p>
+  <list>
+    <item>
+      <p>Если используется раскладка «Ноутбук», модификатором Orca по умолчанию будет клавиша<key>CapsLock</key></p>
+    </item>
+    <item>
+      <p>Если используется раскладка «Настольный компьютер», модификатором Orca будет как клавиша <key>Insert</key>, так и клавиша <key>Insert на ЦК</key> (та же клавиша, что и <key>0 на ЦК</key>).</p>
+    </item>
+  </list>
+  <p>Если следует сохранить текущую раскладку клавиатуры, изменив при этом клавишу-модификатор, это можно сделать следующим образом:</p>
+  <steps>
+    <title>Изменение модификатора Orca</title>
+    <item>
+      <p>Откройте диалоговое окно <link xref="preferences">параметров Orca</link> с помощью комбинации клавиш <keyseq><key>Модификатор Orca</key><key>Пробел</key></keyseq>. Кроме того, вы можете запустить Orca с открытым диалогом параметров из терминала: введите <cmd>orca -s</cmd> и нажмите <key>Return</key>.</p>
+    </item>
+    <item>
+      <p>Перейдите на вкладку <gui>Привязки клавиш</gui>.</p>
+    </item>
+    <item>
+      <p>Перейдите к полю со списком <gui>Клавиши-модификаторы</gui>.</p>
+    </item>
+    <item>
+      <p>С помощью клавиш со стрелками выберите нужный модификатор. Доступные варианты:</p>
+      <list>
+        <item><p>Insert, Insert_на_ЦК</p></item>
+        <item><p>Insert_на_ЦК</p></item>
+        <item><p>Insert</p></item>
+        <item><p>Caps_Lock</p></item>
+      </list>
+    </item>
+    <item><p>Нажмите кнопку <gui>Применить</gui>.</p></item>
+  </steps>
+</page>

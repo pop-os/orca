@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_time_date_notifications" xml:lang="ru">
+  <info>
+    <link type="next" xref="commands_profiles"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_notifications"/>
+    <title type="sort">4. Время, дата и уведомления</title>
+    <title type="link">Время, дата и уведомления</title>
+    <desc>Команды для получения времени, даты и уведомлений</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команды времени, даты и уведомлений</title>
+  <p>Следующие команды можно использовать для получения текущего времени и даты и для просмотра ранее показанных уведомлений:</p>
+  <section id="time_and_date">
+    <title>Получение времени и даты</title>
+    <list>
+      <item>
+        <p>Сообщить время: <keyseq><key>Модификатор Orca</key><key>T</key></keyseq></p>
+      </item>
+      <item>
+        <p>Сообщить дату: <keyseq><key>Модификатор Orca</key><key>T</key></keyseq> (двойной щелчок)</p>
+      </item>
+    </list>
+  </section>
+  <section id="notifications">
+    <title>Просмотр уведомлений</title>
+    <p>В Orca имеются три не привязанные к клавишам команды для доступа к ранее показанным  <link xref="howto_notifications">уведомлениям</link>. Обратитесь к разделу <link xref="howto_key_bindings">Изменение привязок клавиш</link> для получения сведений о том, как привязать эти команды к клавишам.</p>
+    <list>
+      <item>
+        <p>Сообщить последнее (самое недавнее) уведомление: (Не задано)</p>
+      </item>
+      <item>
+        <p>Сообщить предыдущее уведомление: (Не задано)</p>
+      </item>
+      <item>
+        <p>Сообщить следующее уведомление: (Не задано)</p>
+      </item>
+      <item>
+        <p>Сообщить список всех уведомлений: (Не задано)</p>
+      </item>
+    </list>
+  </section>
+</page>

@@ -1,7 +1,7 @@
-m4_define([orca_version], [44.1])
+m4_define([orca_version], [45.0])
 
 m4_define(pygobject_required_version, 3.18)
-m4_define(atspi_required_version, 2.26)
+m4_define(atspi_required_version, 2.48)
 m4_define(atkbridge_required_version, 2.26)
 
 AC_INIT([orca],[orca_version],[https://gitlab.gnome.org/GNOME/orca/-/issues/],[orca])
@@ -77,7 +77,6 @@ esac
 AC_SUBST(PLATFORM_PATH)
 
 AC_CONFIG_FILES([
-run_pylint.sh
 Makefile
 docs/Makefile
 docs/man/Makefile
@@ -90,8 +89,6 @@ src/orca/scripts/Makefile
 src/orca/scripts/apps/Makefile
 src/orca/scripts/apps/Banshee/Makefile
 src/orca/scripts/apps/Eclipse/Makefile
-src/orca/scripts/apps/ekiga/Makefile
-src/orca/scripts/apps/empathy/Makefile
 src/orca/scripts/apps/epiphany/Makefile
 src/orca/scripts/apps/evince/Makefile
 src/orca/scripts/apps/evolution/Makefile
@@ -99,19 +96,11 @@ src/orca/scripts/apps/gajim/Makefile
 src/orca/scripts/apps/gcalctool/Makefile
 src/orca/scripts/apps/gedit/Makefile
 src/orca/scripts/apps/gnome-documents/Makefile
-src/orca/scripts/apps/gnome-keyring-ask/Makefile
-src/orca/scripts/apps/gnome-panel/Makefile
-src/orca/scripts/apps/gnome-screensaver-dialog/Makefile
-src/orca/scripts/apps/gnome-search-tool/Makefile
 src/orca/scripts/apps/gnome-shell/Makefile
-src/orca/scripts/apps/gnome-window-properties/Makefile
 src/orca/scripts/apps/kwin/Makefile
-src/orca/scripts/apps/Instantbird/Makefile
 src/orca/scripts/apps/notification-daemon/Makefile
 src/orca/scripts/apps/notify-osd/Makefile
-src/orca/scripts/apps/Mozilla/Makefile
 src/orca/scripts/apps/pidgin/Makefile
-src/orca/scripts/apps/rhythmbox/Makefile
 src/orca/scripts/apps/soffice/Makefile
 src/orca/scripts/apps/SeaMonkey/Makefile
 src/orca/scripts/apps/smuxi-frontend-gnome/Makefile
@@ -134,7 +123,7 @@ src/orca/orca_bin.py
 src/orca/orca_i18n.py
 src/orca/orca_platform.py
 ])
-AC_CONFIG_COMMANDS([default],[chmod +x run_pylint.sh ; cp src/orca/orca_bin.py src/orca/orca],[])
+AC_CONFIG_COMMANDS([default],[cp src/orca/orca_bin.py src/orca/orca],[])
 AC_OUTPUT
 
 if test "x$brlapi_available" = "xno" ; then

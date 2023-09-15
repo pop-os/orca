@@ -75,6 +75,9 @@
         <p>Présenter le message de notification précédent : (non liée)</p>
       </item>
       <item>
+        <p>Present the next notification message: (Unbound)</p>
+      </item>
+      <item>
         <p>Présenter la liste de tous les messages de notification : (non liée)</p>
       </item>
     </list>

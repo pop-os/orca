@@ -24,7 +24,10 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2016 Igalia, S.L."
 __license__   = "LGPL"
 
-import pyatspi
+import gi
+gi.require_version("Atspi", "2.0")
+from gi.repository import Atspi
+
 import re
 
 from orca import debug
@@ -32,6 +35,7 @@ from orca import keybindings
 from orca import orca_state
 from orca import script_utilities
 from orca import settings_manager
+from orca.ax_utilities import AXUtilities
 
 _settingsManager = settings_manager.getManager()
 
@@ -50,8 +54,8 @@ class Utilities(script_utilities.Utilities):
             return event.any_data
 
         adjusted = event.any_data[:match.start()]
-        msg = "TERMINAL: Adjusted deletion: '%s'" % adjusted
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["TERMINAL: Adjusted deletion: '", adjusted, "'"]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return adjusted
 
     def insertedText(self, event):
@@ -66,13 +70,13 @@ class Utilities(script_utilities.Utilities):
 
         try:
             text = event.source.queryText()
-        except:
-            msg = "ERROR: Exception querying text for %s" % event.source
-            debug.println(debug.LEVEL_INFO, msg, True)
+        except Exception:
+            tokens = ["ERROR: Exception querying text for", event.source]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return event.any_data
 
         start, end = event.detail1, event.detail1 + len(event.any_data)
-        boundary = pyatspi.TEXT_BOUNDARY_LINE_START
+        boundary = Atspi.TextBoundaryType.LINE_START
 
         firstLine = text.getTextAtOffset(start, boundary)
         msg = "TERMINAL: First line of insertion: '%s' (%i, %i)" % firstLine
@@ -84,7 +88,7 @@ class Utilities(script_utilities.Utilities):
 
         if firstLine == lastLine:
             msg = "TERMINAL: Not adjusting single-line insertion."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return event.any_data
 
         currentLine = text.getTextAtOffset(text.caretOffset, boundary)
@@ -104,11 +108,11 @@ class Utilities(script_utilities.Utilities):
 
         adjusted = text.getText(start, end)
         if adjusted:
-            msg = "TERMINAL: Adjusted insertion: '%s'" % adjusted
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = ["TERMINAL: Adjusted insertion: '", adjusted, "'"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
         else:
             msg = "TERMINAL: Adjustment failed. Returning any_data."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             adjusted = event.any_data
 
         return adjusted
@@ -116,21 +120,21 @@ class Utilities(script_utilities.Utilities):
     def insertionEndsAtCaret(self, event):
         try:
             text = event.source.queryText()
-        except:
-            msg = "ERROR: Exception querying text for %s" % event.source
-            debug.println(debug.LEVEL_INFO, msg, True)
+        except Exception:
+            tokens = ["ERROR: Exception querying text for", event.source]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return False
 
         return text.caretOffset == event.detail1 + event.detail2
 
     def isEditableTextArea(self, obj):
-        if obj and obj.getRole() == pyatspi.ROLE_TERMINAL:
+        if AXUtilities.is_terminal(obj):
             return True
 
         return super().isEditableTextArea(obj)
 
     def isTextArea(self, obj):
-        if obj and obj.getRole() == pyatspi.ROLE_TERMINAL:
+        if AXUtilities.is_terminal(obj):
             return True
 
         return super().isTextArea(obj)

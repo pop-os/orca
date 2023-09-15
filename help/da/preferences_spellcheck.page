@@ -24,6 +24,12 @@
       <mal:email>asklarsen@gmail.com</mal:email>
       <mal:years>2022</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alan Mortensen</mal:name>
+      <mal:email>alanmortensen.am@gmail.com</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Indstillinger for stavekontrol</title>
   <p><app>Orca</app> prøver på at give en ensartet brugeroplevelse, når der interageres med stavekontrol i programmer. I programmer, som har denne forbedrede understøttelse, finder du adskillige indstillinger, som du kan justere for at få det uddybningsniveau, der virker bedst for dig.</p>

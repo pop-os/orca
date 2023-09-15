@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_controlling_orca" xml:lang="ru">
+  <info>
+    <link type="next" xref="commands_where_am_i"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <title type="sort">1. Изучение Orca и управление программой</title>
+    <title type="link">Изучение Orca и управление программой</title>
+    <desc>Команды для работы с <app>Orca</app></desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Изучение Orca и управление программой</title>
+  <section id="controlling">
+    <title>Команды для управления <app>Orca</app></title>
+    <p>Следующие команды позволяют перейти к диалогам настройки параметров <app>Orca</app>, включить или отключить <app>Orca</app> и обойти команды <app>Orca</app>, чтобы избежать конфликтов комбинаций клавиш внутри используемого приложения.</p>
+    <list>
+      <item>
+        <p>Включить или отключить <app>Orca</app> в GNOME: <keyseq><key>Super</key><key>Alt</key><key>S</key></keyseq>.</p>
+        <note style="tip">
+           <p>Если вы используете <app>Orca</app> в другом окружении рабочего стола, в котором нет команды включения и отключения <app>Orca</app>, можно воспользоваться командой выхода из <app>Orca</app>. По умолчанию эта команда не привязана к какой-либо клавише. Обратитесь к разделу <link xref="howto_key_bindings">Изменение привязок клавиш</link> для получения сведений о привязке команд к клавишам.</p>
+        </note>
+      </item>
+      <item>
+        <p>Диалоговое окно <link xref="preferences">параметров Orca</link>: <keyseq><key>Модификатор Orca</key><key>Пробел</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Диалог настройки параметров Orca для приложения с фокусом: <keyseq><key>Ctrl</key><key>Модификатор Orca</key><key>Пробел</key></keyseq>.</p>
+      </item>
+      <item>
+        <p>Передавать следующие команды непосредственно в приложение: <keyseq><key>Модификатор Orca</key><key>Backspace</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+  <section id="learning">
+    <title>Команды для изучения <app>Orca</app></title>
+    <p>В режиме изучения <app>Orca</app> будет озвучивать каждую нажатую клавишу и связанную с ней команду <app>Orca</app> (при её наличии). В этом режиме также можно получить список комбинаций клавиш, содержащий все доступные для использования команды <app>Orca</app>.</p>
+    <list>
+      <item>
+        <p>Войти в режим изучения клавиатуры: <keyseq><key>Модификатор Orca</key><key>H</key></keyseq></p>
+      </item>
+      <item>
+        <p>Выйти из режима изучения клавиатуры: <keyseq><key>Esc</key></keyseq></p>
+      </item>
+    </list>
+  </section>
+</page>

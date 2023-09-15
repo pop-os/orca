@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_where_am_i" xml:lang="ru">
+  <info>
+    <link type="next" xref="commands_time_date_notifications"/>
+    <link type="guide" xref="commands#getting_started"/>
+    <link type="seealso" xref="howto_whereami"/>
+    <title type="sort">3. Где я</title>
+    <title type="link">Где я</title>
+    <desc>Команды для сообщения положения</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команды «Где я»</title>
+  <p>Функция «Где я» <app>Orca</app> позволяет получить сведения о положении с учётом контекста. Например, в таблицах «Где я» сообщит сведения о той ячейке таблицы, в которой вы находитесь, а в тексте — текущую строку и выбранный в ней текст, если таковой имеется. Полный перечень того, что может сообщить <app>Orca</app>, доступен в разделе <link xref="howto_whereami">Введение в функцию «Где я»</link>.</p>
+  <p>В <app>Orca</app> имеются следующие команды «Где я»:</p>
+  <list>
+    <item>
+      <p>Сообщить о текущем положении:</p>
+      <list>
+        <item>
+          <p>Настольный компьютер: <key>Ввод на ЦК</key></p>
+        </item>
+        <item>
+          <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Ввод</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Сообщить о текущем положении подробно:</p>
+      <list>
+        <item>
+          <p>Настольный компьютер: <key>Ввод на ЦК</key> (двойной щелчок)</p>
+        </item>
+        <item>
+          <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Ввод</key></keyseq> (двойной щелчок)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+  <p>Помимо специальных команд «Где я», в <app>Orca</app> имеются дополнительные команды для получения сведений о текущем положении:</p>
+  <list>
+    <item>
+      <p>Сообщить заголовок окна:</p>
+      <list>
+        <item>
+          <p>Настольный компьютер: <keyseq><key>Модификатор Orca</key><key>Ввод на ЦК</key></keyseq></p>
+        </item>
+        <item>
+          <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Косая черта</key></keyseq></p>
+        </item>
+      </list>
+    </item>
+    <item>
+      <p>Сообщить содержимое строки состояния:</p>
+      <list>
+        <item>
+          <p>Настольный компьютер: <keyseq><key>Модификатор Orca</key><key>Ввод на ЦК</key></keyseq> (двойной щелчок)</p>
+        </item>
+        <item>
+          <p>Ноутбук: <keyseq><key>Модификатор Orca</key><key>Косая черта</key></keyseq> (двойной щелчок)</p>
+        </item>
+        <item>
+          <p>Сообщить размер и расположение текущего объекта в пикселах: (Не задано)</p>
+        </item>
+      </list>
+    </item>
+  </list>
+</page>

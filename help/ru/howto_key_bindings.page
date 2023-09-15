@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="howto_key_bindings" xml:lang="ru">
+  <info>
+    <link type="guide" xref="index#getting_started"/>
+    <link type="next" xref="howto_profiles"/>
+  <title type="sort">8. Привязки клавиш</title>
+  <desc>Привязка команд к клавишам, её изменение и отмена</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Привязки клавиш</title>
+  <p>В Orca много команд. Некоторые из них привязаны к клавишам, в то время как другие не имеют такой привязки. Вы можете привязывать команды <app>Orca</app> к клавишам, а также изменять или отменять эти привязки. Далее приведено описание того, как это сделать.</p>
+  <steps>
+    <title>Привязка команды</title>
+    <item>
+      <p>Откройте диалоговое окно <link xref="preferences">параметров Orca</link> с помощью комбинации клавиш <keyseq><key>Модификатор Orca</key><key>Пробел</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Перейдите на вкладку <gui>Привязки клавиш</gui>.</p>
+    </item>
+    <item>
+      <p>С помощью клавиш со стрелками перейдите к ячейке, содержащей команду, которой следует назначить клавишу.</p>
+    </item>
+    <item>
+      <p>Нажмите клавишу со стрелкой вправо один раз. Это передаст фокус столбцу <gui>Привязка клавиш</gui>. Нажмите клавишу <key>Ввод</key>.</p>
+    </item>
+    <item>
+      <p>Нажмите требуемую комбинацию клавиш.</p></item>
+    <item>
+      <p>Нажмите клавишу <key>Ввод</key> для подтверждения новой комбинации. Новая привязка будет сохранена, а флажок в последнем столбце (<gui>Изменено</gui>) будет означать, что привязка была изменена.</p>
+    </item>
+    <item>
+      <p>Нажмите кнопку <gui>Применить</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Изменение существующих привязок</title>
+    <item>
+      <p>Откройте диалоговое окно <link xref="preferences">параметров Orca</link> с помощью комбинации клавиш <keyseq><key>Модификатор Orca</key><key>Пробел</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Перейдите на вкладку <gui>Привязки клавиш</gui>.</p>
+    </item>
+    <item>
+      <p>С помощью клавиш со стрелками перейдите к ячейке, содержащей привязку, которую следует изменить, и нажмите клавишу <key>Ввод</key>.</p>
+    </item>
+    <item>
+        <p>Нажмите требуемую комбинацию клавиш.</p>
+    </item>
+    <item>
+      <p>Нажмите клавишу <key>Ввод</key> для подтверждения новой комбинации. Новая привязка будет сохранена, а флажок в последнем столбце (<gui>Изменено</gui>) будет означать, что привязка была изменена.</p>
+    </item>
+    <item>
+      <p>Нажмите кнопку <gui>Применить</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Восстановление исходных привязок</title>
+    <item>
+      <p>Откройте диалоговое окно <link xref="preferences">параметров Orca</link> с помощью комбинации клавиш <keyseq><key>Модификатор Orca</key><key>Пробел</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Перейдите на вкладку <gui>Привязки клавиш</gui>.</p>
+    </item>
+    <item>
+      <p>С помощью клавиш со стрелками перейдите к столбцу «Изменено», связанному с привязкой клавиши.</p>
+    </item>
+    <item>
+      <p>Снимите флажок, нажав клавишу <key>Пробел</key>.</p>
+    </item>
+    <item>
+      <p>Нажмите кнопку <gui>Применить</gui>.</p>
+    </item>
+  </steps>
+  <steps>
+    <title>Удаление привязок клавиш</title>
+    <item>
+      <p>Откройте диалоговое окно <link xref="preferences">параметров Orca</link> с помощью комбинации клавиш <keyseq><key>Модификатор Orca</key><key>Пробел</key></keyseq>.</p>
+    </item>
+    <item>
+      <p>Перейдите на вкладку <gui>Привязки клавиш</gui>.</p>
+    </item>
+    <item>
+      <p>С помощью клавиш со стрелками перейдите к ячейке, содержащей привязку, которую следует удалить, и нажмите клавишу <key>Ввод</key>.</p>
+    </item>
+    <item>
+      <p>Когда будет предложено ввести новую привязку, нажмите клавишу <key>Delete</key> или <key>Backspace</key>. Программа сообщит о том, что привязка была удалена.</p>
+    </item>
+    <item>
+      <p>Для подтверждения нажмите клавишу <key>Ввод</key>.</p>
+    </item>
+    <item>
+      <p>Нажмите кнопку <gui>Применить</gui>.</p>
+    </item>
+  </steps>
+</page>

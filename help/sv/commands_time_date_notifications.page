@@ -45,6 +45,9 @@
         <p>Presentera föregående aviseringsmeddelande: (Inte bunden)</p>
       </item>
       <item>
+        <p>Presentera nästa aviseringsmeddelande: (Inte bunden)</p>
+      </item>
+      <item>
         <p>Presentera lista över alla aviseringsmeddelanden: (Inte bunden)</p>
       </item>
     </list>

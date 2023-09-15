@@ -31,7 +31,7 @@ from gi.repository import GLib
 try:
     gi.require_version('Gst', '1.0')
     from gi.repository import Gst
-except:
+except Exception:
     _gstreamerAvailable = False
 else:
     _gstreamerAvailable, args = Gst.init_check(None)
@@ -51,7 +51,7 @@ class Player:
 
         if not _gstreamerAvailable:
             msg = 'SOUND ERROR: Gstreamer is not available'
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         self.init()
@@ -62,8 +62,8 @@ class Player:
         elif message.type == Gst.MessageType.ERROR:
             self._player.set_state(Gst.State.NULL)
             error, info = message.parse_error()
-            msg = 'SOUND ERROR: %s' % error
-            debug.println(debug.LEVEL_INFO, msg, True)
+            msg = f'SOUND ERROR: {error}'
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
 
     def _onPipelineMessage(self, bus, message):
         if message.type == Gst.MessageType.EOS:
@@ -71,8 +71,8 @@ class Player:
         elif message.type == Gst.MessageType.ERROR:
             self._pipeline.set_state(Gst.State.NULL)
             error, info = message.parse_error()
-            msg = 'SOUND ERROR: %s' % error
-            debug.println(debug.LEVEL_INFO, msg, True)
+            msg = f'SOUND ERROR: {error}'
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
 
     def _onTimeout(self, element):
         element.set_state(Gst.State.NULL)
@@ -84,7 +84,7 @@ class Player:
         if interrupt:
             self._player.set_state(Gst.State.NULL)
 
-        self._player.set_property('uri', 'file://%s' % icon.path)
+        self._player.set_property('uri', f'file://{icon.path}')
         self._player.set_state(Gst.State.PLAYING)
 
     def _playTone(self, tone, interrupt=True):
@@ -112,7 +112,7 @@ class Player:
         self._player = Gst.ElementFactory.make('playbin', 'player')
         if self._player is None:
             msg = 'SOUND ERROR: Gstreamer is available, but player is None'
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         bus = self._player.get_bus()
@@ -143,7 +143,7 @@ class Player:
         elif isinstance(item, Tone):
             self._playTone(item, interrupt)
         else:
-            msg = 'SOUND ERROR: %s is not an Icon or Tone' % item
+            msg = f'SOUND ERROR: {item} is not an Icon or Tone'
             debug.println(debug.LEVEL_INFO, msg, True)
 
     def stop(self, element=None):

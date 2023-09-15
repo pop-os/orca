@@ -28,7 +28,6 @@ __license__   = "LGPL"
 
 from orca import debug
 from orca import orca
-from orca import orca_state
 from orca.scripts import default
 
 from .script_utilities import Utilities
@@ -42,7 +41,7 @@ class Script(default.Script):
         super().__init__(app)
 
     def getUtilities(self):
-        """Returns the utilites for this script."""
+        """Returns the utilities for this script."""
 
         return Utilities(self)
 
@@ -59,21 +58,22 @@ class Script(default.Script):
 
         if not self.utilities.isSwitcherContainer(event.source):
             msg = "SWITCHER: Event is not from switcher container"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         if not self.utilities.isSwitcherSelectionChangeEventType(event):
             msg = "SWITCHER: Not treating event as selection change."
-            debug.println(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
         msg = "SWITCHER: Treating event as selection change"
-        debug.println(debug.LEVEL_INFO, msg, True)
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         self.presentationInterrupt()
-        orca_state.activeWindow = self.utilities.topLevelObject(event.source)
+        orca.setActiveWindow(self.utilities.topLevelObject(event.source))
         orca.setLocusOfFocus(event, event.source, False)
-        self.presentMessage(self.utilities.getSelectionName(event.source), resetStyles=False, force=True)
+        self.presentMessage(self.utilities.getSelectionName(event.source),
+                            resetStyles=False, force=True)
         return True
 
     def onFocusedChanged(self, event):

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://projectmallard.org/1.0/" type="topic" id="commands_table" xml:lang="ru">
+  <info>
+    <link type="next" xref="commands_flat_review"/>
+    <link type="guide" xref="commands#reading_documents"/>
+    <link type="seealso" xref="howto_tables"/>
+    <title type="sort">3. Перемещение по таблицам</title>
+    <title type="link">Перемещение по таблицам</title>
+    <desc>Команды для доступа к табличной информации</desc>
+    <credit type="author">
+      <name>Joanmarie Diggs</name>
+      <email>joanied@gnome.org</email>
+    </credit>
+    <license>
+      <p>Creative Commons Share Alike 3.0</p>
+    </license>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Olesya Gerasimenko</mal:name>
+      <mal:email>gammaray@basealt.ru</mal:email>
+      <mal:years>2019</mal:years>
+    </mal:credit>
+  </info>
+  <title>Команды перемещения по таблицам</title>
+  <p><link xref="commands_structural_navigation#tables">Команды структурной навигации</link> Orca включают поддержку перемещения между ячейками таблиц. Кроме того, можно:</p>
+  <list>
+    <item>
+      <p>Задать текущий столбец для использования в качестве динамических заголовков строк: <keyseq><key>Модификатор Orca</key><key>C</key></keyseq></p>
+    </item>
+    <item>
+      <p>Задать текущую строку для использования в качестве динамических заголовков столбцов: <keyseq><key>Модификатор Orca</key><key>R</key></keyseq></p>
+    </item>
+    <item>
+      <p>Очистить временные заголовки строк: <keyseq><key>Модификатор Orca</key><key>C</key></keyseq> (двойной щелчок)</p>
+    </item>
+    <item>
+      <p>Очистить временные заголовки столбцов: <keyseq><key>Модификатор Orca</key><key>R</key></keyseq> (двойной щелчок)</p>
+    </item>
+    <item>
+      <p>Переключить озвучивание между текущей ячейкой таблицы и всей строкой: <keyseq><key>Модификатор Orca</key><key>F11</key></keyseq></p>
+    </item>
+  </list>
+</page>
