@@ -24,6 +24,12 @@
       <mal:email>asklarsen@gmail.com</mal:email>
       <mal:years>2022</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alan Mortensen</mal:name>
+      <mal:email>alanmortensen.am@gmail.com</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Kommandoer for fejlfinding</title>
   <p>Udviklerne kan bede dig give nogle fejlfindingsinformationer for at hjælpe dem med at identificere kilden til et problem, du oplever. Følgende kommando er ikke “bundet” til et tastetryk. Hvis du har brug for at binde den, så se venligst <link xref="howto_key_bindings">Ændring af tastebindinger</link>.</p>

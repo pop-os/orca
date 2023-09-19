@@ -26,6 +26,12 @@
       <mal:email>asklarsen@gmail.com</mal:email>
       <mal:years>2022</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alan Mortensen</mal:name>
+      <mal:email>alanmortensen.am@gmail.com</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Kommandoer for flad gennemgang</title>
   <p>Orcas kommandoer for <link xref="howto_flat_review">flad gennemgang</link> er designet til rumlig gennemgang af elementer, som vises på skærmen. De gør det også muligt at læse den nuværende linje, ord og tegn ved navigering i dokumenttekst. De fleste af kommandoerne er “bundet” til tastetryk. Se venligst <link xref="howto_key_bindings">Ændring af tastebindinger</link> for information om, hvordan ubundne kommandoer bindes.</p>

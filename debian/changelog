@@ -1,3 +1,10 @@
+orca (45.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * watch: Also check non-alpha/beta/rc releases.
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 15 Sep 2023 13:55:35 +0100
+
 orca (45~rc-1ubuntu1) mantic; urgency=medium
 
   * Merge with Debian
@@ -30,6 +37,12 @@ orca (45~alpha-1) experimental; urgency=medium
     - control: Bump libatspi2.0-dev build-dep to at least version 2.48.
 
  -- Samuel Thibault <sthibault@debian.org>  Sun, 06 Aug 2023 13:44:01 +0200
+
+orca (44.1-2) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 03 Aug 2023 13:22:26 +0200
 
 orca (44.1-1) experimental; urgency=medium
 

@@ -24,6 +24,12 @@
       <mal:email>asklarsen@gmail.com</mal:email>
       <mal:years>2022</mal:years>
     </mal:credit>
+  
+    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
+      <mal:name>Alan Mortensen</mal:name>
+      <mal:email>alanmortensen.am@gmail.com</mal:email>
+      <mal:years>2023</mal:years>
+    </mal:credit>
   </info>
   <title>Underretninger</title>
   <p>GNOME-skrivebordet har et “underretningsområde”, som kan bruges af programmer til at præsentere information til brugeren. Eksempler på underretninger omfatter indgående chatmeddelelser, detaljerne, som er tilknyttet det nummer, din medieafspiller begynder at afspille, samt advarsler om, at dit batteriniveau er lavt.</p>
