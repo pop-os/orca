@@ -1,3 +1,9 @@
+orca (45.0-1ubuntu1) mantic; urgency=medium
+
+  * Merge with Debian
+
+ -- Jarred Wilson <jarred.wilson@canonical.com>  Tue, 19 Sep 2023 13:49:33 -0400
+
 orca (45.0-1) unstable; urgency=medium
 
   * New upstream release.
