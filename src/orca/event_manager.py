@@ -173,13 +173,14 @@ class EventManager:
     def _ignore(self, event):
         """Returns True if this event should be ignored."""
 
+        app = AXObject.get_application(event.source)
         debug.printMessage(debug.LEVEL_INFO, '')
+        tokens = ["EVENT MANAGER:", event.type, "from", app]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
         if self._eventsSuspended:
             tokens = ["EVENT MANAGER: Suspended events:", ', '.join(self._suspendableEvents)]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        tokens = ["EVENT MANAGER:", event]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         if not self._active:
             msg = 'EVENT MANAGER: Ignoring because event manager is not active'
@@ -191,7 +192,6 @@ class EventManager:
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
-        app = AXObject.get_application(event.source)
         if AXObject.get_name(app) == 'gnome-shell':
             if event.type.startswith('object:children-changed:remove'):
                 msg = 'EVENT MANAGER: Ignoring event based on type and app'
@@ -262,7 +262,7 @@ class EventManager:
             return True
 
         if AXUtilities.is_defunct(event.source):
-            msg = 'EVENT MANAGER: Ignoreing event from defunct source'
+            msg = 'EVENT MANAGER: Ignoring event from defunct source'
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -440,7 +440,7 @@ class EventManager:
         if debug.LEVEL_INFO < debug.debugLevel:
             return
 
-        tokens = [e.type]
+        tokens = []
         if isinstance(e, input_event.KeyboardEvent):
             tokens.extend([e.event_string, e.hw_code])
         elif isinstance(e, input_event.BrailleEvent):
@@ -744,8 +744,8 @@ class EventManager:
     def registerKeystrokeListener(self, function, mask=None, kind=None):
         """Register the keystroke listener on behalf of the caller."""
 
-        msg = f'EVENT MANAGER: registering keystroke listener function: {function}'
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["EVENT MANAGER: Registering keystroke listener function:", function]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         if mask is None:
             mask = list(range(256))
@@ -758,8 +758,8 @@ class EventManager:
     def deregisterKeystrokeListener(self, function, mask=None, kind=None):
         """Deregister the keystroke listener on behalf of the caller."""
 
-        msg = f'EVENT MANAGER: deregistering keystroke listener function: {function}'
-        debug.println(debug.LEVEL_INFO, msg, True)
+        tokens = ["EVENT MANAGER: De-registering keystroke listener function:", function]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         if mask is None:
             mask = list(range(256))

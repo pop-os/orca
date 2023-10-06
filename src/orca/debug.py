@@ -34,6 +34,7 @@ import os
 import re
 import subprocess
 import sys
+import types
 
 from datetime import datetime
 
@@ -220,24 +221,63 @@ def _asString(obj):
             f"({obj.detail1}, {obj.detail2}, {_asString(obj.any_data)})"
         )
 
+    if isinstance(obj, (Atspi.Role, Atspi.StateType, Atspi.CollectionMatchType)):
+        return obj.value_nick
+
+    if isinstance(obj, list):
+        return f"[{', '.join(map(_asString, obj))}]"
+
+    if isinstance(obj, types.FunctionType):
+        if hasattr(obj, "__self__"):
+            return f"{obj.__module__}.{obj.__self__.__class__.__name__}.{obj.__name__}"
+        return f"{obj.__module__}.{obj.__name__}"
+
+    if isinstance(obj, types.FrameType):
+        module_name = inspect.getmodulename(obj.f_code.co_filename)
+        return f"{module_name}.{obj.f_code.co_name}"
+
+    if isinstance(obj, inspect.FrameInfo):
+        module_name = inspect.getmodulename(obj.filename)
+        return f"{module_name}.{obj.function}"
+
     return str(obj)
 
-def printTokens(level, tokens, timestamp=False):
+def printTokens(level, tokens, timestamp=False, stack=False):
     if level < debugLevel:
         return
 
     text = " ".join(map(_asString, tokens))
     text = re.sub(r"[ \u00A0]+", " ", text)
     text = re.sub(r" (?=[,.:)])(?![\n])", "", text)
-    println(level, text, timestamp)
+    println(level, text, timestamp, stack)
 
-def printMessage(level, text, timestamp=False):
+def printMessage(level, text, timestamp=False, stack=False):
     if level < debugLevel:
         return
 
-    println(level, text, timestamp)
+    println(level, text, timestamp, stack)
 
-def println(level, text="", timestamp=False):
+def _stackAsString(max_frames=4):
+    callers = []
+    current_module = inspect.getmodule(inspect.currentframe())
+    stack = inspect.stack()
+    for i in range(1, len(stack)):
+        frame = stack[i]
+        module = inspect.getmodule(frame[0])
+        if module == current_module:
+            continue
+        if frame.function == 'main':
+            continue
+        if module is None or module.__name__ is None:
+            continue
+        callers.append(frame)
+        if len(callers) >= max_frames:
+            break
+
+    callers.reverse()
+    return " > ".join(map(_asString, callers))
+
+def println(level, text="", timestamp=False, stack=False):
     """Prints the text to stderr unless debug is enabled.
 
     If debug is enabled the text will be redirected to the
@@ -253,6 +293,9 @@ def println(level, text="", timestamp=False):
         if timestamp:
             text = text.replace("\n", f"\n{' ' * 18}")
             text = f"{datetime.now().strftime('%H:%M:%S.%f')} - {text}"
+        if stack:
+            text += f" {_stackAsString()}"
+
         if debugFile:
             try:
                 debugFile.writelines([text, "\n"])
