@@ -1207,12 +1207,12 @@ class Script(script.Script):
     def onChildrenAdded(self, event):
         """Callback for object:children-changed:add accessibility events."""
 
-        pass
+        AXObject.clear_cache_now("children-changed event.")
 
     def onChildrenRemoved(self, event):
         """Callback for object:children-changed:remove accessibility events."""
 
-        pass
+        AXObject.clear_cache_now("children-changed event.")
 
     def onCaretMoved(self, event):
         """Callback for object:text-caret-moved accessibility events."""
@@ -1373,7 +1373,7 @@ class Script(script.Script):
     def onAnnouncement(self, event):
         """Callback for object:announcement events."""
 
-        if isinstance(str, event.any_data):
+        if isinstance(event.any_data, str):
             self.presentMessage(event.any_data)
 
     def onNameChanged(self, event):
