@@ -70,7 +70,6 @@ from .input_event import BrailleEvent
 _eventManager = event_manager.getManager()
 _scriptManager = script_manager.getManager()
 _settingsManager = settings_manager.getManager()
-_learnModePresenter = learn_mode_presenter.getPresenter()
 _logger = logger.getLogger()
 
 def onEnabledChanged(gsetting, key):
@@ -150,7 +149,10 @@ def emitRegionChanged(obj, startOffset=None, endOffset=None, mode=None):
         msg = "ORCA: Exception emitting region-changed notification"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-    orca_state.objOfInterest = obj
+    if obj != orca_state.objOfInterest:
+        tokens = ["ORCA: Switching object of interest from", orca_state.objOfInterest, "to", obj]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        orca_state.objOfInterest = obj
 
 def setActiveWindow(frame, app=None, alsoSetLocusOfFocus=False, notifyScript=False):
     tokens = ["ORCA: Request to set active window to", frame]
@@ -215,7 +217,7 @@ def setLocusOfFocus(event, obj, notifyScript=True, force=False):
             tokens = ["ERROR: New locusOfFocus (", obj, ") is zombie. Not updating."]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
-        if orca_state.activeScript.utilities.isDead(obj):
+        if AXObject.is_dead(obj):
             tokens = ["ERROR: New locusOfFocus (", obj, ") is dead. Not updating."]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
@@ -264,7 +266,7 @@ def _processBrailleEvent(event):
         debug.printException(debug.LEVEL_SEVERE)
 
     # TODO - JD: Is this still possible?
-    if not consumed and _learnModePresenter.is_active():
+    if not consumed and learn_mode_presenter.getPresenter().is_active():
         consumed = True
 
     return consumed

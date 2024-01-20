@@ -35,7 +35,6 @@ import locale
 import signal
 import os
 import re
-import subprocess
 
 from gi.repository import GLib
 
@@ -63,7 +62,6 @@ try:
     import brlapi
     _brlAPI = None
     _brlAPIAvailable = True
-    _brlAPIConnectable = True
     _brlAPIRunning = False
     _brlAPISourceId = 0
 except Exception:
@@ -71,7 +69,6 @@ except Exception:
     debug.printMessage(debug.LEVEL_WARNING, msg, True)
     _brlAPIAvailable = False
     _brlAPIRunning = False
-    _brlAPIConnectable = False
 else:
     tokens = ["BRAILLE: brlapi imported", brlapi]
     debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -1291,10 +1288,10 @@ def refresh(panToCursor=True, targetCursorCell=0, getLinkMask=True, stopFlash=Tr
         _lastTextInfo = (None, 0, 0, 0)
         return
 
-
     lastTextObj, lastCaretOffset, lastLineOffset, lastCursorCell = _lastTextInfo
-    msg = "BRAILLE: Last text obj: %s (Caret: %i, Line: %i, Cell: %i)" % _lastTextInfo
-    debug.println(debug.LEVEL_INFO, msg, True)
+    tokens = ["BRAILLE: Last text object:", lastTextObj,
+              f"(Caret: {lastCaretOffset}, Line: {lastLineOffset}, Cell: {lastCursorCell})"]
+    debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
     if _regionWithFocus and isinstance(_regionWithFocus, Text):
         currentTextObj = _regionWithFocus.accessible
@@ -1308,9 +1305,10 @@ def refresh(panToCursor=True, targetCursorCell=0, getLinkMask=True, stopFlash=Tr
     onSameLine = currentTextObj and currentTextObj == lastTextObj \
         and currentLineOffset == lastLineOffset
 
-    msg = "BRAILLE: Current text obj: %s (Caret: %i, Line: %i). On same line: %s" % \
-        (currentTextObj, currentCaretOffset, currentLineOffset, bool(onSameLine))
-    debug.println(debug.LEVEL_INFO, msg, True)
+    tokens = ["BRAILLE: Current text object:", currentTextObj,
+              f"(Caret: {currentCaretOffset}, Line: {currentLineOffset}). On same line:",
+              bool(onSameLine)]
+    debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
     if targetCursorCell < 0:
         targetCursorCell = _displaySize[0] + targetCursorCell + 1
@@ -1850,56 +1848,6 @@ def setupKeyRanges(keys):
     msg = "BRAILLE: Key ranges set up."
     debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-def _canConnect():
-    # TODO - JD: We should create a wrapper class for all things brlapi.
-    # In the meantime, don't crash. https://gitlab.gnome.org/GNOME/orca/-/issues/386
-
-    global _brlAPIConnectable
-
-    if not _brlAPIConnectable:
-        return False
-
-    try:
-        import brlapi
-    except ModuleNotFoundError as error:
-        msg = f"BRAILLE: {error}"
-        debug.printMessage(debug.LEVEL_WARNING, msg)
-        _brlAPIConnectable = False
-        return False
-
-    known_errors = [
-        brlapi.ERROR_AUTHENTICATION,
-        brlapi.ERROR_CONNREFUSED,
-        brlapi.ERROR_DEVICEBUSY,
-        brlapi.ERROR_DRIVERERROR,
-        brlapi.ERROR_EMPTYKEY,
-        brlapi.ERROR_EOF,
-        brlapi.ERROR_GAIERR,
-        brlapi.ERROR_ILLEGAL_INSTRUCTION,
-        brlapi.ERROR_INVALID_PACKET,
-        brlapi.ERROR_INVALID_PARAMETER,
-        brlapi.ERROR_LIBCERR,
-        brlapi.ERROR_NOMEM,
-        brlapi.ERROR_OPNOTSUPP,
-        brlapi.ERROR_PROTOCOL_VERSION,
-        brlapi.ERROR_READONLY_PARAMETER,
-        brlapi.ERROR_SUCCESS,
-        brlapi.ERROR_TTYBUSY,
-        brlapi.ERROR_UNKNOWNTTY,
-        brlapi.ERROR_UNKNOWN_INSTRUCTION
-    ]
-
-    cmd = ['python3', '-c', 'import brlapi; brlapi.Connection()']
-    process_result = subprocess.run(cmd, capture_output=True, text=True)
-    if process_result.returncode not in known_errors:
-        context_msg = "BRAILLE: Error while trying to establish BrlAPI connection:"
-        error_msg = process_result.stderr.strip()
-        tokens = [context_msg, error_msg]
-        debug.printTokens(debug.LEVEL_WARNING, tokens, True)
-        _brlAPIConnectable = False
-
-    return _brlAPIConnectable
-
 def init(callback=None):
     """Initializes the braille module, connecting to the BrlTTY driver.
 
@@ -1910,9 +1858,6 @@ def init(callback=None):
     """
 
     if not settings.enableBraille:
-        return False
-
-    if not _canConnect():
         return False
 
     global _brlAPI

@@ -28,11 +28,11 @@ __license__   = "LGPL"
 
 # $ORCA_VERSION
 #
-version     = "45.0"
+version     = "45.2"
 
 # The revision if built from git; otherwise an empty string
 #
-revision = "57ead054c"
+revision = "a1135ba45"
 
 # "--prefix" parameter used when configuring the build.
 #
