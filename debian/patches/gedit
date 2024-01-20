@@ -11,4 +11,4 @@
 +             'org.gnome.gedit': 'gedit',
              }
          self._toolkitNames = \
-             {'WebKitGTK': 'WebKitGtk', 'GTK': 'gtk'}
+             {'WebKitGTK': 'WebKitGtk', 'GTK': 'gtk', 'GAIL': 'gtk'}
