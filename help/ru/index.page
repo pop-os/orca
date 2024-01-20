@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its" type="guide" id="index" xml:lang="ru">
   <info>
-    <title type="text">Экранный диктор Orca</title>
-    <title type="link">Введение в работу с экранным диктором <app>Orca</app></title>
+    <title type="text"><app>Orca</app> Screen Reader</title>
+    <title type="link" role="trail"><app>Orca</app> Screen Reader</title>
+    <title type="link"><app>Orca</app> Screen Reader</title>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -20,9 +21,7 @@
     </mal:credit>
   </info>
 
-  <title><media type="image" mime="image/png" src="figures/orca-logo.png" its:translate="no">
-      <span its:translate="yes">Логотип <app>Orca</app></span>
-    </media> Экранный диктор <app>Orca</app></title>
+  <title><media type="image" width="48px" height="48px" its:translate="no" src="figures/orca-logo.svg"/> Экранный диктор <app>Orca</app></title>
   <note style="important">
     <title>Перед началом работы</title>
     <p>Если вы пока не знаете, как использовать команды навигации, предоставляемые вашим окружением рабочего стола, рекомендуется сначала ознакомиться с соответствующей документацией.</p>

@@ -25,12 +25,6 @@
       <mal:email>asklarsen@gmail.com</mal:email>
       <mal:years>2022</mal:years>
     </mal:credit>
-  
-    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
-      <mal:name>Alan Mortensen</mal:name>
-      <mal:email>alanmortensen.am@gmail.com</mal:email>
-      <mal:years>2023</mal:years>
-    </mal:credit>
   </info>
   <title>Indstillinger for udtale</title>
   <p>Nogle gange siger din talesynthesizer bare ikke det rigtige for en given streng. Du foretrækker måske at høre “World Wide Web” frem for “WWW”, eller “og så videre” frem for “osv.”. Eller der kan være et navn eller et teknisk begreb, som synthesizeren udtaler forkert.</p>

@@ -34,7 +34,6 @@ from gi.repository import Gio, GLib
 
 from . import debug
 from . import orca_i18n
-from . import script_manager
 from . import settings
 from . import pronunciation_dict
 from .acss import ACSS
@@ -53,7 +52,6 @@ try:
 except Exception:
     _proxy = None
 
-_scriptManager = script_manager.getManager()
 
 class SettingsManager(object):
     """Settings backend manager. This class manages orca user's settings
@@ -598,21 +596,50 @@ class SettingsManager(object):
 
         return bindingTuple
 
-    def overrideKeyBindings(self, script, scriptKeyBindings):
+    def overrideKeyBindings(self, handlers, bindings, enabledOnly=True):
+        # TODO - JD: See about moving this logic, along with any callers, into KeyBindings.
+        # Establishing and maintaining grabs should JustWork(tm) as part of the overall
+        # keybinding/command process.
         keybindingsSettings = self.profileKeybindings
         for handlerString, bindingTuples in keybindingsSettings.items():
-            handler = script.inputEventHandlers.get(handlerString)
+            handler = handlers.get(handlerString)
             if not handler:
                 continue
 
-            scriptKeyBindings.removeByHandler(handler)
+            if enabledOnly:
+                if not bindings.hasHandler(handler):
+                    tokens = ["SETTINGS MANAGER:", handler, "is not in the bindings provided."]
+                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                    continue
+
+                if not bindings.hasEnabledHandler(handler):
+                    tokens = ["SETTINGS MANAGER:", handler.function,
+                              "is not enabled. Not overriding."]
+                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                    continue
+
+            oldBindings = bindings.getBindingsForHandler(handler)
+            wasEnabled = None
+            for b in oldBindings:
+                tokens = ["SETTINGS MANAGER: Removing old binding for", b]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+                if wasEnabled is not None and b.is_enabled() != wasEnabled:
+                    msg = "SETTINGS MANAGER: Warning, different enabled values found for binding"
+                    debug.printMessage(debug.LEVEL_INFO, msg, True)
+
+                wasEnabled = b.is_enabled()
+                bindings.remove(b, True)
+
             for bindingTuple in bindingTuples:
                 bindingTuple = self._adjustBindingTupleValues(bindingTuple)
                 keysym, mask, mods, clicks = bindingTuple
-                newBinding = KeyBinding(keysym, mask, mods, handler, clicks)
-                scriptKeyBindings.add(newBinding)
+                newBinding = KeyBinding(keysym, mask, mods, handler, clicks, enabled=wasEnabled)
+                bindings.add(newBinding)
+                tokens = ["SETTINGS MANAGER:", handler, f"is rebound to {bindingTuple}"]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        return scriptKeyBindings
+        return bindings
 
     def isFirstStart(self):
         """Check if the firstStart key is True or false"""
@@ -670,7 +697,6 @@ class SettingsManager(object):
         self._mergeSettings()
         self._setSettingsRuntime(self.general)
         self._setPronunciationsRuntime(self.pronunciations)
-        script.keyBindings = self.overrideKeyBindings(script, script.getKeyBindings())
 
 _manager = SettingsManager()
 

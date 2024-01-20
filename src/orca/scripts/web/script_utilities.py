@@ -35,19 +35,17 @@ import time
 import urllib
 
 from orca import debug
+from orca import focus_manager
 from orca import input_event
 from orca import messages
-from orca import orca
 from orca import orca_state
 from orca import script_utilities
 from orca import script_manager
 from orca import settings_manager
 from orca.ax_collection import AXCollection
 from orca.ax_object import AXObject
+from orca.ax_table import AXTable
 from orca.ax_utilities import AXUtilities
-
-_scriptManager = script_manager.getManager()
-_settingsManager = settings_manager.getManager()
 
 
 class Utilities(script_utilities.Utilities):
@@ -55,7 +53,6 @@ class Utilities(script_utilities.Utilities):
     def __init__(self, script):
         super().__init__(script)
 
-        self._objectAttributes = {}
         self._currentTextAttrs = {}
         self._caretContexts = {}
         self._priorContexts = {}
@@ -159,7 +156,6 @@ class Utilities(script_utilities.Utilities):
 
     def clearCachedObjects(self):
         debug.printMessage(debug.LEVEL_INFO, "WEB: cleaning up cached objects", True)
-        self._objectAttributes = {}
         self._inDocumentContent = {}
         self._inTopLevelWebApp = {}
         self._isTextBlockElement = {}
@@ -245,7 +241,8 @@ class Utilities(script_utilities.Utilities):
 
     def inDocumentContent(self, obj=None):
         if not obj:
-            obj = orca_state.locusOfFocus
+            obj = focus_manager.getManager().get_locus_of_focus()
+
 
         if self.isDocument(obj):
             return True
@@ -264,15 +261,16 @@ class Utilities(script_utilities.Utilities):
 
     def sanityCheckActiveWindow(self):
         app = self._script.app
-        if AXObject.get_parent(orca_state.activeWindow) == app:
+        window = focus_manager.getManager().get_active_window()
+        if AXObject.get_parent(window) == app:
             return True
 
-        tokens = ["WARNING:", orca_state.activeWindow, "is not child of", app]
+        tokens = ["WARNING:", window, "is not child of", app]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         # TODO - JD: Is this exception handling still needed?
         try:
-            script = _scriptManager.getScript(app, orca_state.activeWindow)
+            script = script_manager.getManager().getScript(app, window)
             tokens = ["WEB: Script for active Window is", script]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
         except Exception:
@@ -286,16 +284,16 @@ class Utilities(script_utilities.Utilities):
                     debug.printTokens(debug.LEVEL_INFO, tokens, True)
                     setattr(self._script, attr, value)
 
-        window = self.activeWindow(app)
+        window = focus_manager.getManager().find_active_window(app)
         self._script.app = AXObject.get_application(window)
         tokens = ["WEB: updating script's app to", self._script.app]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        orca.setActiveWindow(window)
+        focus_manager.getManager().set_active_window(window)
         return True
 
     def activeDocument(self, window=None):
-        documents = self._getDocumentsEmbeddedBy(window or orca_state.activeWindow)
+        window = window or focus_manager.getManager().get_active_window()
+        documents = self._getDocumentsEmbeddedBy(window)
         documents = list(filter(AXUtilities.is_showing, documents))
         if len(documents) == 1:
             return documents[0]
@@ -307,7 +305,7 @@ class Utilities(script_utilities.Utilities):
             if document:
                 return document
 
-        return self.getDocumentForObject(obj or orca_state.locusOfFocus)
+        return self.getDocumentForObject(obj or focus_manager.getManager().get_locus_of_focus())
 
     def documentFrameURI(self, documentFrame=None):
         documentFrame = documentFrame or self.documentFrame()
@@ -364,16 +362,6 @@ class Utilities(script_utilities.Utilities):
 
         return AXUtilities.is_focusable(obj)
 
-    def grabFocus(self, obj):
-        try:
-            obj.queryComponent().grabFocus()
-        except NotImplementedError:
-            tokens = ["WEB:", obj, "does not implement the component interface"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        except Exception:
-            tokens = ["WEB: Exception grabbing focus on", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
     def setCaretPosition(self, obj, offset, documentFrame=None):
         if self._script.flatReviewPresenter.is_active():
             self._script.flatReviewPresenter.quit()
@@ -384,9 +372,9 @@ class Utilities(script_utilities.Utilities):
         if self._script.focusModeIsSticky():
             return
 
-        oldFocus = orca_state.locusOfFocus
+        oldFocus = focus_manager.getManager().get_locus_of_focus()
         self.clearTextSelection(oldFocus)
-        orca.setLocusOfFocus(None, obj, notifyScript=False)
+        focus_manager.getManager().set_locus_of_focus(None, obj, notify_script=False)
         if grabFocus:
             self.grabFocus(obj)
 
@@ -404,8 +392,9 @@ class Utilities(script_utilities.Utilities):
         if self._script.useFocusMode(obj, oldFocus) != self._script.inFocusMode():
             self._script.togglePresentationMode(None)
 
+        # TODO - JD: Can we remove this?
         if obj:
-            AXObject.clear_cache(obj)
+            AXObject.clear_cache(obj, False, "Set caret in object.")
 
         # TODO - JD: This is private.
         self._script._saveFocusedObjectInfo(obj)
@@ -438,21 +427,8 @@ class Utilities(script_utilities.Utilities):
     def getLastObjectInDocument(self, documentFrame):
         return AXObject.find_deepest_descendant(documentFrame)
 
-    def objectAttributes(self, obj, useCache=True):
-        if not (obj and self.inDocumentContent(obj)):
-            return super().objectAttributes(obj)
-
-        if useCache:
-            rv = self._objectAttributes.get(hash(obj))
-            if rv is not None:
-                return rv
-
-        rv = AXObject.get_attributes_dict(obj)
-        self._objectAttributes[hash(obj)] = rv
-        return rv
-
     def getRoleDescription(self, obj, isBraille=False):
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         rv = attrs.get('roledescription', '')
         if isBraille:
             rv = attrs.get('brailleroledescription', rv)
@@ -465,7 +441,7 @@ class Utilities(script_utilities.Utilities):
 
         rv = -1
         if not (self.inMenu(obj) or AXUtilities.is_heading(obj)):
-            attrs = self.objectAttributes(obj)
+            attrs = AXObject.get_attributes_dict(obj)
             # ARIA levels are 1-based; non-web content is 0-based. Be consistent.
             rv = int(attrs.get('level', 0)) -1
 
@@ -487,7 +463,7 @@ class Utilities(script_utilities.Utilities):
         return -1, -1
 
     def getPositionInSet(self, obj):
-        attrs = self.objectAttributes(obj, False)
+        attrs = AXObject.get_attributes_dict(obj, False)
         position = attrs.get('posinset')
         if position is not None:
             return int(position)
@@ -496,7 +472,7 @@ class Utilities(script_utilities.Utilities):
             rowindex = attrs.get('rowindex')
             if rowindex is None and AXObject.get_child_count(obj):
                 cell = AXObject.find_descendant(obj, AXUtilities.is_table_cell_or_header)
-                rowindex = self.objectAttributes(cell, False).get('rowindex')
+                rowindex = AXObject.get_attributes_dict(cell, False).get('rowindex')
 
             if rowindex is not None:
                 return int(rowindex)
@@ -504,37 +480,37 @@ class Utilities(script_utilities.Utilities):
         return None
 
     def getSetSize(self, obj):
-        attrs = self.objectAttributes(obj, False)
+        attrs = AXObject.get_attributes_dict(obj, False)
         setsize = attrs.get('setsize')
         if setsize is not None:
             return int(setsize)
 
         if AXUtilities.is_table_row(obj):
-            rows, cols = self.rowAndColumnCount(self.getTable(obj))
+            rows = AXTable.get_row_count(AXTable.get_table(obj))
             if rows != -1:
                 return rows
 
         return None
 
     def _getID(self, obj):
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return attrs.get('id')
 
     def _getDisplayStyle(self, obj):
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return attrs.get('display', '')
 
     def _getTag(self, obj):
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return attrs.get('tag')
 
     def _getXMLRoles(self, obj):
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return attrs.get('xml-roles', '').split()
 
     def inFindContainer(self, obj=None):
         if not obj:
-            obj = orca_state.locusOfFocus
+            obj = focus_manager.getManager().get_locus_of_focus()
 
         if self.inDocumentContent(obj):
             return False
@@ -551,7 +527,7 @@ class Utilities(script_utilities.Utilities):
         return self.queryNonEmptyText(obj, False) is None
 
     def isHidden(self, obj):
-        attrs = self.objectAttributes(obj, False)
+        attrs = AXObject.get_attributes_dict(obj, False)
         return attrs.get('hidden', False)
 
     def _isOrIsIn(self, child, parent):
@@ -569,13 +545,14 @@ class Utilities(script_utilities.Utilities):
             return rv
 
         if not self._script.mouseReviewer.inMouseEvent:
-            if not self._isOrIsIn(orca_state.locusOfFocus, obj):
+            if not self._isOrIsIn(focus_manager.getManager().get_locus_of_focus(), obj):
                 return rv
 
             tokens = ["WEB:", obj, "contains locusOfFocus but not showing and visible"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        AXObject.clear_cache(obj)
+        # TODO - JD: Can we remove this?
+        AXObject.clear_cache(obj, False, "Ensuring we have correct state.")
         rv = super().isShowingAndVisible(obj)
         if rv:
             tokens = ["WEB: Clearing cache fixed state of", obj, ". Missing event?"]
@@ -807,7 +784,7 @@ class Utilities(script_utilities.Utilities):
             return attrsForObj.get(offset)
 
         attrs = super().textAttributes(acc, offset, get_defaults)
-        objAttributes = self.objectAttributes(acc, False)
+        objAttributes = AXObject.get_attributes_dict(acc, False)
         for key in self._script.attributeNamesDict.keys():
             value = objAttributes.get(key)
             if value is not None:
@@ -1707,7 +1684,8 @@ class Utilities(script_utilities.Utilities):
                 return self._currentLineContents
 
         if layoutMode is None:
-            layoutMode = _settingsManager.getSetting('layoutMode') or self._script.inFocusMode()
+            layoutMode = settings_manager.getManager().getSetting('layoutMode') \
+                or self._script.inFocusMode()
 
         objects = []
         if offset > 0 and self.treatAsEndOfLine(obj, offset):
@@ -1856,8 +1834,7 @@ class Utilities(script_utilities.Utilities):
         if obj is None:
             obj, offset = self.getCaretContext()
 
-        tokens = ["WEB: Current context is: ", obj, ", ", offset,
-                  "(focus: ", orca_state.locusOfFocus, ")"]
+        tokens = ["WEB: Current context is: ", obj, ", ", offset]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         if obj and self.isZombie(obj):
@@ -1917,8 +1894,7 @@ class Utilities(script_utilities.Utilities):
         if obj is None:
             obj, offset = self.getCaretContext()
 
-        tokens = ["WEB: Current context is: ", obj, ", ", offset,
-                  "(focus: ", orca_state.locusOfFocus, ")"]
+        tokens = ["WEB: Current context is: ", obj, ", ", offset]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         if obj and self.isZombie(obj):
@@ -2110,7 +2086,7 @@ class Utilities(script_utilities.Utilities):
 
     def inTopLevelWebApp(self, obj=None):
         if not obj:
-            obj = orca_state.locusOfFocus
+            obj = focus_manager.getManager().get_locus_of_focus()
 
         rv = self._inTopLevelWebApp.get(hash(obj))
         if rv is not None:
@@ -2183,7 +2159,7 @@ class Utilities(script_utilities.Utilities):
             return True
 
         if role in [Atspi.Role.TABLE_CELL, Atspi.Role.TABLE] \
-           and self.isLayoutOnly(self.getTable(obj)):
+           and AXTable.is_layout_table(AXTable.get_table(obj)):
             tokens = ["WEB:", obj, "is not focus mode widget because it's layout only"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return False
@@ -2274,7 +2250,7 @@ class Utilities(script_utilities.Utilities):
         return roles
 
     def mnemonicShortcutAccelerator(self, obj):
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         keys = map(lambda x: x.replace("+", " "), attrs.get("keyshortcuts", "").split(" "))
         keys = map(lambda x: x.replace(" ", "+"), map(self.labelFromKeySequence, keys))
         rv = ["", " ".join(keys), ""]
@@ -2344,7 +2320,7 @@ class Utilities(script_utilities.Utilities):
 
     def _advanceCaretInEmptyObject(self, obj):
         if AXUtilities.is_table_cell(obj) and not self.queryNonEmptyText(obj):
-            return not self._script._lastCommandWasStructNav
+            return not self._script.caretNavigation.last_input_event_was_navigation_command()
 
         return True
 
@@ -2532,11 +2508,11 @@ class Utilities(script_utilities.Utilities):
         return suggestion[-1] == obj
 
     def speakMathSymbolNames(self, obj=None):
-        obj = obj or orca_state.locusOfFocus
+        obj = obj or focus_manager.getManager().get_locus_of_focus()
         return self.isMath(obj)
 
     def isInMath(self):
-        return self.isMath(orca_state.locusOfFocus)
+        return self.isMath(focus_manager.getManager().get_locus_of_focus())
 
     def isMath(self, obj):
         tag = self._getTag(obj)
@@ -2602,7 +2578,7 @@ class Utilities(script_utilities.Utilities):
         if not AXUtilities.is_math_fraction(obj):
             return False
 
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         linethickness = attrs.get('linethickness')
         if not linethickness:
             return False
@@ -2760,21 +2736,21 @@ class Utilities(script_utilities.Utilities):
         if not self.isMathEnclose(obj):
             return []
 
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return attrs.get('notation', 'longdiv').split()
 
     def getMathFencedSeparators(self, obj):
         if not self.isMathFenced(obj):
             return ['']
 
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return list(attrs.get('separators', ','))
 
     def getMathFences(self, obj):
         if not self.isMathFenced(obj):
             return ['', '']
 
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return [attrs.get('open', '('), attrs.get('close', ')')]
 
     def getMathNestingLevel(self, obj, test=None):
@@ -2889,34 +2865,16 @@ class Utilities(script_utilities.Utilities):
         return rv
 
     def isSorted(self, obj):
-        attrs = self.objectAttributes(obj, False)
+        attrs = AXObject.get_attributes_dict(obj, False)
         return attrs.get("sort") not in ("none", None)
 
     def isAscending(self, obj):
-        attrs = self.objectAttributes(obj, False)
+        attrs = AXObject.get_attributes_dict(obj, False)
         return attrs.get("sort") == "ascending"
 
     def isDescending(self, obj):
-        attrs = self.objectAttributes(obj, False)
+        attrs = AXObject.get_attributes_dict(obj, False)
         return attrs.get("sort") == "descending"
-
-    def _rowAndColumnIndices(self, obj):
-        rowindex = colindex = None
-
-        attrs = self.objectAttributes(obj)
-        rowindex = attrs.get('rowindex')
-        colindex = attrs.get('colindex')
-        if rowindex is not None and colindex is not None:
-            return rowindex, colindex
-
-        row = AXObject.find_ancestor(obj, AXUtilities.is_table_row)
-        if row is None:
-            return rowindex, colindex
-
-        attrs = self.objectAttributes(row)
-        rowindex = attrs.get('rowindex', rowindex)
-        colindex = attrs.get('colindex', colindex)
-        return rowindex, colindex
 
     def isCellWithNameFromHeader(self, obj):
         if not AXUtilities.is_table_cell(obj):
@@ -2926,92 +2884,37 @@ class Utilities(script_utilities.Utilities):
         if not name:
             return False
 
-        header = self.columnHeaderForCell(obj)
-        if header and AXObject.get_name(header) == name:
-            return True
+        headers = AXTable.get_column_headers(obj)
+        for header in headers:
+            if AXObject.get_name(header) == name:
+                return True
 
-        header = self.rowHeaderForCell(obj)
-        if header and AXObject.get_name(header) == name:
-            return True
+        headers = AXTable.get_row_headers(obj)
+        for header in headers:
+            if AXObject.get_name(header) == name:
+                return True
 
         return False
-
-    def labelForCellCoordinates(self, obj):
-        attrs = self.objectAttributes(obj)
-
-        # The ARIA feature is still in the process of being discussed.
-        collabel = attrs.get('colindextext', attrs.get('coltext'))
-        rowlabel = attrs.get('rowindextext', attrs.get('rowtext'))
-        if collabel is not None and rowlabel is not None:
-            return f'{collabel}{rowlabel}'
-
-        row = AXObject.find_ancestor(obj, AXUtilities.is_table_row)
-        if row is None:
-            return ''
-
-        attrs = self.objectAttributes(row)
-        collabel = attrs.get('colindextext', attrs.get('coltext', collabel))
-        rowlabel = attrs.get('rowindextext', attrs.get('rowtext', rowlabel))
-        if collabel is not None and rowlabel is not None:
-            return f'{collabel}{rowlabel}'
-
-        return ''
-
-    def coordinatesForCell(self, obj, preferAttribute=True, findCellAncestor=False):
-        if not AXUtilities.is_table_cell_or_header(obj):
-            if not findCellAncestor:
-                return -1, -1
-
-            cell = AXObject.find_ancestor(obj, AXUtilities.is_table_cell_or_header)
-            return self.coordinatesForCell(cell, preferAttribute, False)
-
-        if not preferAttribute:
-            return super().coordinatesForCell(obj, preferAttribute)
-
-        rvRow = rvCol = None
-        rowindex, colindex = self._rowAndColumnIndices(obj)
-        if rowindex is None or colindex is None:
-            nativeRowindex, nativeColindex = super().coordinatesForCell(obj, False)
-            if rowindex is not None:
-                rvRow = int(rowindex) - 1
-            else:
-                rvRow = nativeRowindex
-            if colindex is not None:
-                rvCol = int(colindex) - 1
-            else:
-                rvCol = nativeColindex
-
-        return rvRow, rvCol
 
     def setSizeUnknown(self, obj):
         if super().setSizeUnknown(obj):
             return True
 
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return attrs.get('setsize') == '-1'
 
     def rowOrColumnCountUnknown(self, obj):
         if super().rowOrColumnCountUnknown(obj):
             return True
 
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return attrs.get('rowcount') == '-1' or attrs.get('colcount') == '-1'
 
-    def rowAndColumnCount(self, obj, preferAttribute=True):
-        rows, cols = super().rowAndColumnCount(obj)
-        if not preferAttribute:
-            return rows, cols
-
-        attrs = self.objectAttributes(obj)
-        rows = attrs.get('rowcount', rows)
-        cols = attrs.get('colcount', cols)
-        return int(rows), int(cols)
-
-    def shouldReadFullRow(self, obj):
+    def shouldReadFullRow(self, obj, prevObj=None):
         if not (obj and self.inDocumentContent(obj)):
-            return super().shouldReadFullRow(obj)
+            return super().shouldReadFullRow(obj, prevObj)
 
-        if not super().shouldReadFullRow(obj):
+        if not super().shouldReadFullRow(obj, prevObj):
             return False
 
         if self.isGridDescendant(obj):
@@ -3158,6 +3061,8 @@ class Utilities(script_utilities.Utilities):
             rv = False
         elif self.isGrid(obj):
             rv = False
+        elif self.isInlineIframe(obj):
+            rv = not self.hasExplicitName(obj)
         elif AXUtilities.is_table_header(obj):
             rv = False
         elif AXUtilities.is_separator(obj):
@@ -3220,7 +3125,8 @@ class Utilities(script_utilities.Utilities):
         if len(eocs)/nChars > 0.3:
             return False
 
-        AXObject.clear_cache(obj)
+        # TODO - JD: Can we remove this?
+        AXObject.clear_cache(obj, False, "Checking if element lines are single words.")
         tokens = list(filter(lambda x: x, re.split(r"[\s\ufffc]", text.getText(0, -1))))
 
         # Note: We cannot check for the editable-text interface, because Gecko
@@ -3269,7 +3175,8 @@ class Utilities(script_utilities.Utilities):
         if len(eocs)/nChars > 0.3:
             return False
 
-        AXObject.clear_cache(obj)
+        # TODO - JD: Can we remove this?
+        AXObject.clear_cache(obj, False, "Checking if element lines are single chars.")
 
         # Note: We cannot check for the editable-text interface, because Gecko
         # seems to be exposing that for non-editable things. Thanks Gecko.
@@ -3594,7 +3501,7 @@ class Utilities(script_utilities.Utilities):
         return rv
 
     def getComboBoxValue(self, obj):
-        attrs = self.objectAttributes(obj, False)
+        attrs = AXObject.get_attributes_dict(obj, False)
         return attrs.get("valuetext", super().getComboBoxValue(obj))
 
     def isEditableComboBox(self, obj):
@@ -3923,7 +3830,7 @@ class Utilities(script_utilities.Utilities):
         if not (obj and self.inDocumentContent(obj)):
             return False
 
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return 'container-live' in attrs
 
     def isLink(self, obj):
@@ -4157,7 +4064,7 @@ class Utilities(script_utilities.Utilities):
         if not (obj and self.inDocumentContent(obj)):
             return False
 
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return attrs.get('explicit-name') == 'true'
 
     def hasLongDesc(self, obj):
@@ -4234,7 +4141,7 @@ class Utilities(script_utilities.Utilities):
         if not (obj and self.inDocumentContent(obj)):
             return 'false'
 
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return attrs.get('haspopup', 'false').lower()
 
     def inferLabelFor(self, obj):
@@ -4254,7 +4161,7 @@ class Utilities(script_utilities.Utilities):
             return False
 
         rv = self._shouldInferLabelFor.get(hash(obj))
-        if rv and not self._script._lastCommandWasCaretNav:
+        if rv and not self._script.caretNavigation.last_input_event_was_navigation_command():
             return not self._script.inSayAll()
         if rv is False:
             return rv
@@ -4276,8 +4183,7 @@ class Utilities(script_utilities.Utilities):
 
         self._shouldInferLabelFor[hash(obj)] = rv
 
-        # TODO - JD: This is private.
-        if self._script._lastCommandWasCaretNav \
+        if self._script.caretNavigation.last_input_event_was_navigation_command() \
            and role not in [Atspi.Role.RADIO_BUTTON, Atspi.Role.CHECK_BOX]:
             return False
 
@@ -4403,9 +4309,11 @@ class Utilities(script_utilities.Utilities):
         if event.type not in selection:
             return False
 
-        if AXUtilities.is_menu_related(event.source) \
-           and AXUtilities.is_entry(orca_state.locusOfFocus) \
-           and AXUtilities.is_focused(orca_state.locusOfFocus):
+        if not AXUtilities.is_menu_related(event.source):
+            return False
+
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if AXUtilities.is_entry(focus) and AXUtilities.is_focused(focus):
             lastKey, mods = self.lastKeyAndModifiers()
             if lastKey not in ["Down", "Up"]:
                 return True
@@ -4414,15 +4322,15 @@ class Utilities(script_utilities.Utilities):
 
     def _eventIsBrowserUIAutocompleteTextNoise(self, event):
         if not event.type.startswith("object:text-") \
-           or not orca_state.locusOfFocus \
            or not self.isSingleLineAutocompleteEntry(event.source):
             return False
 
-        if not AXUtilities.is_selectable(orca_state.locusOfFocus):
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if not AXUtilities.is_selectable(focus):
             return False
 
-        if AXUtilities.is_menu_item_of_any_kind(orca_state.locusOfFocus) \
-           or AXUtilities.is_list_item(orca_state.locusOfFocus):
+        if AXUtilities.is_menu_item_of_any_kind(focus) \
+           or AXUtilities.is_list_item(focus):
             lastKey, mods = self.lastKeyAndModifiers()
             return lastKey in ["Down", "Up"]
 
@@ -4439,17 +4347,17 @@ class Utilities(script_utilities.Utilities):
         if self.inDocumentContent(event.source):
             return False
 
-        if not self.inDocumentContent(orca_state.locusOfFocus):
+        if not self.inDocumentContent(focus_manager.getManager().get_locus_of_focus()):
             return False
 
         return True
 
     def eventIsFromLocusOfFocusDocument(self, event):
-        if orca_state.locusOfFocus == orca_state.activeWindow:
+        if focus_manager.getManager().focus_is_active_window():
             focus = self.activeDocument()
             source = self.getTopLevelDocumentForObject(event.source)
         else:
-            focus = self.getDocumentForObject(orca_state.locusOfFocus)
+            focus = self.getDocumentForObject(focus_manager.getManager().get_locus_of_focus())
             source = self.getDocumentForObject(event.source)
 
         tokens = ["WEB: Event doc:", source, ". Focus doc:", focus, "."]
@@ -4472,15 +4380,17 @@ class Utilities(script_utilities.Utilities):
     def eventIsIrrelevantSelectionChangedEvent(self, event):
         if event.type != "object:selection-changed":
             return False
-        if not orca_state.locusOfFocus:
+
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if not focus:
             msg = "WEB: Selection changed event is relevant (no locusOfFocus)"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
-        if event.source == orca_state.locusOfFocus:
+        if event.source == focus:
             msg = "WEB: Selection changed event is relevant (is locusOfFocus)"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
-        if AXObject.find_ancestor(orca_state.locusOfFocus, lambda x: x == event.source):
+        if AXObject.find_ancestor(focus, lambda x: x == event.source):
             msg = "WEB: Selection changed event is relevant (ancestor of locusOfFocus)"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
@@ -4512,8 +4422,10 @@ class Utilities(script_utilities.Utilities):
             return False
 
         if not self.inDocumentContent(event.source) \
-           or event.source != orca_state.locusOfFocus \
            or not AXUtilities.is_editable(event.source):
+            return False
+
+        if event.source != focus_manager.getManager().get_locus_of_focus():
             return False
 
         if isinstance(orca_state.lastInputEvent, input_event.KeyboardEvent):
@@ -4542,7 +4454,7 @@ class Utilities(script_utilities.Utilities):
         if not (event and event.type.startswith("object:text-caret-moved")):
             return False
 
-        oldFocus = oldFocus or orca_state.locusOfFocus
+        oldFocus = oldFocus or focus_manager.getManager().get_locus_of_focus()
         if not self.isGridDescendant(oldFocus):
             return False
 
@@ -4564,7 +4476,7 @@ class Utilities(script_utilities.Utilities):
         if sourceID and fragment == sourceID:
             return True
 
-        oldFocus = oldFocus or orca_state.locusOfFocus
+        oldFocus = oldFocus or focus_manager.getManager().get_locus_of_focus()
         if self.isLink(oldFocus):
             link = oldFocus
         else:
@@ -4814,9 +4726,9 @@ class Utilities(script_utilities.Utilities):
         return None, -1
 
     def _getCaretContextViaLocusOfFocus(self):
-        obj = orca_state.locusOfFocus
-        tokens = ["WEB: Getting caret context via locusOfFocus", obj]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        obj = focus_manager.getManager().get_locus_of_focus()
+        msg = "WEB: Getting caret context via locusOfFocus"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
         if not self.inDocumentContent(obj):
             return None, -1
 
@@ -4910,10 +4822,9 @@ class Utilities(script_utilities.Utilities):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
-        if not AXObject.is_dead(orca_state.locusOfFocus):
-            tokens = ["WEB: Not event from context replicant. locusOfFocus",
-                      orca_state.locusOfFocus, "is not dead."]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        if not focus_manager.getManager().focus_is_dead():
+            msg = "WEB: Not event from context replicant, locus of focus is not dead."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         path, role, name = self.getCaretContextPathRoleAndName()
@@ -4938,51 +4849,60 @@ class Utilities(script_utilities.Utilities):
         tokens = ["WEB: Is event from context replicant. Notify:", notify]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        orca.setLocusOfFocus(event, replicant, notify)
+        focus_manager.getManager().set_locus_of_focus(event, replicant, notify)
         self.setCaretContext(replicant, offset, documentFrame)
         return True
 
-    def _handleEventForRemovedListBoxChild(self, event):
+    def _handleEventForRemovedSelectableChild(self, event):
+        container = None
         if AXUtilities.is_list_box(event.source):
-            listBox = event.source
+            container = event.source
+        elif AXUtilities.is_tree(event.source):
+            container = event.source
         else:
-            listBox = AXObject.find_ancestor(event.source, AXUtilities.is_list_box)
-        if listBox is None:
-            msg = "WEB: Could not find listbox to recover from removed child."
+            container = AXObject.find_ancestor(event.source, AXUtilities.is_list_box) \
+                or AXObject.find_ancestor(event.source, AXUtilities.is_tree)
+        if container is None:
+            msg = "WEB: Could not find listbox or tree to recover from removed child."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
-        tokens = ["WEB: Checking", listBox, "for focused child."]
+        tokens = ["WEB: Checking", container, "for focused child."]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        AXObject.clear_cache(listBox)
-        item = AXUtilities.get_focused_object(listBox)
-        if not AXUtilities.is_list_item(item):
-            msg = "WEB: Could not find focused list item to recover from removed child."
+        # TODO - JD: Can we remove this? If it's needed, should it be recursive?
+        AXObject.clear_cache(container, False, "Handling event for removed selectable child.")
+        item = AXUtilities.get_focused_object(container)
+        if not (AXUtilities.is_list_item(item) or AXUtilities.is_tree_item):
+            msg = "WEB: Could not find focused item to recover from removed child."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         names = self._script.pointOfReference.get('names', {})
-        oldName = names.get(hash(orca_state.locusOfFocus))
+        oldName = names.get(hash(focus_manager.getManager().get_locus_of_focus()))
         notify = AXObject.get_name(item) != oldName
 
         tokens = ["WEB: Recovered from removed child. New focus is: ", item, "0"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        orca.setLocusOfFocus(event, item, notify)
+        focus_manager.getManager().set_locus_of_focus(event, item, notify)
         self.setCaretContext(item, 0)
         return True
 
     def handleEventForRemovedChild(self, event):
-        if event.any_data == orca_state.locusOfFocus:
-            msg = "WEB: Removed child is locusOfFocus."
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if event.any_data == focus:
+            msg = "WEB: Removed child is locus of focus."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
-        elif AXObject.find_ancestor(orca_state.locusOfFocus, lambda x: x == event.any_data):
-            msg = "WEB: Removed child is ancestor of locusOfFocus."
+        elif AXObject.find_ancestor(focus, lambda x: x == event.any_data):
+            msg = "WEB: Removed child is ancestor of locus of focus."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
-        elif self.isSameObject(event.any_data, orca_state.locusOfFocus, True, True):
-            msg = "WEB: Removed child appears to be replicant of locusOfFocus."
+        elif focus_manager.getManager().focus_is_dead() \
+           and self.isSameObject(event.any_data, focus, True, True):
+            msg = "WEB: Removed child appears to be replicant of locus of focus."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
         else:
+            msg = "WEB: Removed child is not locus of focus nor ancestor of locus of focus."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         if event.detail1 == -1:
@@ -4990,7 +4910,7 @@ class Utilities(script_utilities.Utilities):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
-        if self._handleEventForRemovedListBoxChild(event):
+        if self._handleEventForRemovedSelectableChild(event):
             return True
 
         obj, offset = None, -1
@@ -5034,22 +4954,24 @@ class Utilities(script_utilities.Utilities):
 
         else:
             notify = False
-            AXObject.clear_cache(event.source)
+            # TODO - JD: Can we remove this? Even if it is needed, we now also clear the
+            # cache in _handleEventForRemovedSelectableChild. Also, if it is needed, should
+            # it be recursive?
+            AXObject.clear_cache(event.source, False, "Handling event for removed child.")
             obj, offset = self.searchForCaretContext(event.source)
             if obj is None:
                 obj = AXUtilities.get_focused_object(event.source)
 
             # Risk "chattiness" if the locusOfFocus is dead and the object we've found is
             # focused and has a different name than the last known focused object.
-            if obj and AXObject.is_dead(orca_state.locusOfFocus) \
-               and AXUtilities.is_focused(obj):
+            if obj and focus_manager.getManager().focus_is_dead() and AXUtilities.is_focused(obj):
                 names = self._script.pointOfReference.get('names', {})
-                oldName = names.get(hash(orca_state.locusOfFocus))
+                oldName = names.get(hash(focus_manager.getManager().get_locus_of_focus()))
                 notify = AXObject.get_name(obj) != oldName
 
         if obj:
             msg = "WEB: Setting locusOfFocus and context to: %s, %i" % (obj, offset)
-            orca.setLocusOfFocus(event, obj, notify)
+            focus_manager.getManager().set_locus_of_focus(event, obj, notify)
             self.setCaretContext(obj, offset)
             return True
 
@@ -5364,13 +5286,13 @@ class Utilities(script_utilities.Utilities):
         return None
 
     def handleAsLiveRegion(self, event):
-        if not _settingsManager.getSetting('inferLiveRegions'):
+        if not settings_manager.getManager().getSetting('inferLiveRegions'):
             return False
 
         if not self.isLiveRegion(event.source):
             return False
 
-        if not _settingsManager.getSetting('presentLiveRegionFromInactiveTab') \
+        if not settings_manager.getManager().getSetting('presentLiveRegionFromInactiveTab') \
            and self.getTopLevelDocumentForObject(event.source) != self.activeDocument():
             msg = "WEB: Live region source is not in active tab."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -5498,9 +5420,9 @@ class Utilities(script_utilities.Utilities):
         if not self.topLevelObjectIsActiveAndCurrent():
             return False
 
-        if AXObject.supports_action(orca_state.locusOfFocus):
-            tokens = ["WEB: Treating", orca_state.locusOfFocus, "as source of copy"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        if AXObject.supports_action(focus_manager.getManager().get_locus_of_focus()):
+            msg = "WEB: Treating locus of focus as source of copy"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
         return False

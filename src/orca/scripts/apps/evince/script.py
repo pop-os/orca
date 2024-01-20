@@ -27,10 +27,11 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2013 The Orca Team."
 __license__   = "LGPL"
 
-import orca.keybindings as keybindings
-import orca.orca as orca
-import orca.orca_state as orca_state
-import orca.scripts.toolkits.gtk as gtk
+from orca import focus_manager
+from orca import keybindings
+from orca import settings
+from orca import settings_manager
+from orca.scripts.toolkits import gtk
 from orca.ax_utilities import AXUtilities
 from orca.structural_navigation import StructuralNavigation
 
@@ -57,15 +58,19 @@ class Script(gtk.Script):
         called by the key and braille bindings."""
 
         gtk.Script.setupInputEventHandlers(self)
-        self.inputEventHandlers.update(
-            self.structuralNavigation.inputEventHandlers)
+        self.inputEventHandlers.update(self.structuralNavigation.get_handlers(True))
 
     def getAppKeyBindings(self):
         """Returns the application-specific keybindings for this script."""
 
         keyBindings = keybindings.KeyBindings()
-        bindings = self.structuralNavigation.keyBindings
-        for keyBinding in bindings.keyBindings:
+
+        layout = settings_manager.getManager().getSetting('keyboardLayout')
+        isDesktop = layout == settings.GENERAL_KEYBOARD_LAYOUT_DESKTOP
+
+        structNavBindings = self.structuralNavigation.get_bindings(
+            refresh=True, is_desktop=isDesktop)
+        for keyBinding in structNavBindings.keyBindings:
             keyBindings.add(keyBinding)
 
         return keyBindings
@@ -92,28 +97,16 @@ class Script(gtk.Script):
                         StructuralNavigation.PARAGRAPH,
                         StructuralNavigation.RADIO_BUTTON,
                         StructuralNavigation.TABLE,
-                        StructuralNavigation.TABLE_CELL,
                         StructuralNavigation.UNVISITED_LINK,
                         StructuralNavigation.VISITED_LINK]
 
         return enabledTypes
-
-    def useStructuralNavigationModel(self, debugOutput=True):
-        """Returns True if we should do our own structural navigation."""
-
-        if not self.structuralNavigation.enabled:
-            return False
-
-        if AXUtilities.is_editable(orca_state.locusOfFocus):
-            return False
-
-        return True
 
     def onCaretMoved(self, event):
         """Callback for object:text-caret-moved accessibility events."""
 
         obj = event.source
         if AXUtilities.is_focused(obj):
-            orca.setLocusOfFocus(event, event.source, False)
+            focus_manager.getManager().set_locus_of_focus(event, event.source, False)
 
         gtk.Script.onCaretMoved(self, event)

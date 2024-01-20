@@ -36,12 +36,10 @@ from . import guilabels
 from . import messages
 from . import speechserver
 from . import settings
-from . import orca_state
 from . import punctuation_settings
+from . import script_manager
 from . import settings_manager
 from .acss import ACSS
-
-_settingsManager = settings_manager.getManager()
 
 try:
     import speechd
@@ -281,7 +279,7 @@ class SpeechServer(speechserver.SpeechServer):
             f"volume {self._current_voice_properties.get(ACSS.GAIN)}, "
             f"language {self._get_language_and_dialect(family)[0]}, "
             f"punctuation: "
-            f"{styles.get(_settingsManager.getSetting('verbalizePunctuationStyle'))}\n"
+            f"{styles.get(settings_manager.getManager().getSetting('verbalizePunctuationStyle'))}\n"
             f"SD rate {sd_rate}, pitch {sd_pitch}, volume {sd_volume}, language {sd_language}"
         )
         debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -322,7 +320,7 @@ class SpeechServer(speechserver.SpeechServer):
         Returns a text string with the punctuation symbols adjusted accordingly.
         """
 
-        style = _settingsManager.getSetting("verbalizePunctuationStyle")
+        style = settings_manager.getManager().getSetting("verbalizePunctuationStyle")
         if style == settings.PUNCTUATION_STYLE_NONE:
             return oldText
 
@@ -345,8 +343,9 @@ class SpeechServer(speechserver.SpeechServer):
                 charName += symbol
             newText = re.sub(symbol, charName, newText)
 
-        if orca_state.activeScript:
-            newText = orca_state.activeScript.utilities.adjustForDigits(newText)
+        script = script_manager.getManager().getActiveScript()
+        if script is not None:
+            newText = script.utilities.adjustForDigits(newText)
 
         return newText
 
@@ -413,9 +412,9 @@ class SpeechServer(speechserver.SpeechServer):
         text = marked_text
 
         text = self.__addVerbalizedPunctuation(text)
-        if orca_state.activeScript:
-            text = orca_state.activeScript.\
-                utilities.adjustForPronunciation(text)
+        script = script_manager.getManager().getActiveScript()
+        if script is not None:
+            text = script.utilities.adjustForPronunciation(text)
 
         # Replace no break space characters with plain spaces since some
         # synthesizers cannot handle them.  See bug #591734.
@@ -639,9 +638,9 @@ class SpeechServer(speechserver.SpeechServer):
             self._send_command(self._client.char, character)
             return
 
-        if orca_state.activeScript:
-            name = orca_state.activeScript.\
-                utilities.adjustForPronunciation(name)
+        script = script_manager.getManager().getActiveScript()
+        if script is not None:
+            name = script.utilities.adjustForPronunciation(name)
         self.speak(name, acss)
 
     def speakKeyEvent(self, event, acss=None):

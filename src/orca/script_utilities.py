@@ -33,7 +33,6 @@ import gi
 import locale
 import math
 import re
-import subprocess
 import time
 from difflib import SequenceMatcher
 
@@ -45,23 +44,23 @@ from gi.repository import Gtk
 from . import chnames
 from . import colornames
 from . import debug
+from . import focus_manager
 from . import keynames
 from . import keybindings
 from . import input_event
 from . import mathsymbols
 from . import messages
-from . import orca
 from . import orca_state
 from . import object_properties
 from . import pronunciation_dict
+from . import script_manager
 from . import settings
 from . import settings_manager
 from . import text_attribute_names
 from .ax_object import AXObject
 from .ax_selection import AXSelection
+from .ax_table import AXTable
 from .ax_utilities import AXUtilities
-
-_settingsManager = settings_manager.getManager()
 
 #############################################################################
 #                                                                           #
@@ -114,149 +113,6 @@ class Utilities:
     #                                                                       #
     #########################################################################
 
-    def _isActiveAndShowingAndNotIconified(self, obj):
-        if not AXUtilities.is_active(obj):
-            tokens = ["SCRIPT UTILITIES:", obj, "lacks state active"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
-        if AXUtilities.is_iconified(obj):
-            tokens = ["SCRIPT UTILITIES:", obj, "has state iconified"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
-        if not AXUtilities.is_showing(obj):
-            tokens = ["SCRIPT UTILITIES:", obj, "lacks state showing"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
-        return True
-
-    @staticmethod
-    def _getAppCommandLine(app):
-        if not app:
-            return ""
-
-        try:
-            pid = app.get_process_id()
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception getting process id of", app, ". May be defunct."]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return ""
-
-        try:
-            cmdline = subprocess.getoutput(f"cat /proc/{pid}/cmdline")
-        except Exception:
-            return ""
-
-        return cmdline.replace("\x00", " ")
-
-    def canBeActiveWindow(self, window, clearCache=False):
-        if not window:
-            return False
-
-        app = AXObject.get_application(window)
-        tokens = ["SCRIPT UTILITIES: Looking at", window, "from", app, self._getAppCommandLine(app)]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        if clearCache:
-            AXObject.clear_cache(window)
-
-        if not self._isActiveAndShowingAndNotIconified(window):
-            tokens = ["SCRIPT UTILITIES:", window, "is not active and showing, or is iconified"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
-        tokens = ["SCRIPT UTILITIES:", window, "can be active window"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        return True
-
-    def activeWindow(self, *apps):
-        """Tries to locate the active window; may or may not succeed."""
-
-        candidates = []
-        apps = apps or AXUtilities.get_all_applications(must_have_window=True)
-        for app in apps:
-            candidates.extend([c for c in AXObject.iter_children(app, self.canBeActiveWindow)])
-
-        if not candidates:
-            tokens = ["SCRIPT UTILITIES: Unable to find active window from", apps]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return None
-
-        if len(candidates) == 1:
-            tokens = ["SCRIPT UTILITIES: Active window is", candidates[0]]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return candidates[0]
-
-        tokens = ["SCRIPT UTILITIES: These windows all claim to be active:", candidates]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        filtered = []
-        for candidate in candidates:
-            if self.isDesktop(candidate):
-                tokens = ["SCRIPT UTILITIES: Rejecting", candidate, ": it's the desktop frame"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            elif AXObject.get_name(AXObject.get_application(candidate)) == "mutter-x11-frames":
-                tokens = ["SCRIPT UTILITIES: Rejecting", candidate, ": app is mutter-x11-frames"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            else:
-                filtered.append(candidate)
-
-        if len(filtered) == 1:
-            tokens = ["SCRIPT UTILITIES: Active window is believed to be", filtered[0]]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return filtered[0]
-
-        # Some electron apps running in the background claim to be active even when they
-        # are not. Slack is one such example. We can add others as we go.
-        suspect_app_names = ["slack",
-                             "discord",
-                             "outline-client",
-                             "whatsapp-desktop-linux"]
-        refiltered = []
-        for frame in filtered:
-            if AXObject.get_name(AXObject.get_application(frame)) in suspect_app_names:
-                tokens = ["SCRIPT UTILITIES: Suspecting", frame, "is a non-active Electron app"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            else:
-                refiltered.append(frame)
-
-        if len(refiltered) == 1:
-            tokens = ["SCRIPT UTILITIES: Active window is believed to be", refiltered[0]]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return refiltered[0]
-
-        guess = None
-        if refiltered:
-            tokens = ["SCRIPT UTILITIES: Still have multiple active windows:", refiltered]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            guess = refiltered[0]
-
-        tokens = ["SCRIPT UTILITIES: Active window is:", guess]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        return guess
-
-    def objectAttributes(self, obj, useCache=True):
-        return AXObject.get_attributes_dict(obj)
-
-    def cellIndex(self, obj):
-        """Returns the index of the cell which should be used with the
-        table interface.  This is necessary because in some apps we
-        cannot count on the index in parent being the index we need.
-
-        Arguments:
-        -obj: the table cell whose index we need.
-        """
-
-        attrs = self.objectAttributes(obj)
-        index = attrs.get('table-cell-index')
-        if index:
-            return int(index)
-
-        obj = AXObject.find_ancestor(obj, AXUtilities.is_table_cell_or_header) or obj
-        return AXObject.get_index_in_parent(obj)
-
     def childNodes(self, obj):
         """Gets all of the children that have RELATION_NODE_CHILD_OF pointing
         to this expanded table cell.
@@ -267,14 +123,12 @@ class Utilities:
         Returns: a list of all the child nodes
         """
 
-        parent = AXObject.get_parent(obj)
-        try:
-            table = parent.queryTable()
-        except Exception:
+        if not AXUtilities.is_expanded(obj):
             return []
-        else:
-            if not AXUtilities.is_expanded(obj):
-                return []
+
+        parent = AXTable.get_table(obj)
+        if parent is None:
+            return []
 
         # First see if this accessible implements RELATION_NODE_PARENT_OF.
         # If it does, the full target list are the nodes. If it doesn't
@@ -293,10 +147,11 @@ class Utilities:
         # soon as the node level of a candidate is equal or less
         # than our current level.
         #
-        row, col = self.coordinatesForCell(obj)
+        row, col = AXTable.get_cell_coordinates(obj, prefer_attribute=False)
         nodeLevel = self.nodeLevel(obj)
-        for i in range(row+1, table.nRows):
-            cell = table.getAccessibleAt(i, col)
+
+        for i in range(row + 1, AXTable.get_row_count(parent, prefer_attribute=False)):
+            cell = AXTable.get_cell_at(parent, i, col)
             relation = AXObject.get_relation(cell, Atspi.RelationType.NODE_CHILD_OF)
             if not relation:
                 continue
@@ -493,10 +348,14 @@ class Utilities:
             obj, offset = self.getCaretContext()
 
         document = AXObject.find_ancestor(obj, AXUtilities.is_document)
-        if not document and AXUtilities.is_document(orca_state.locusOfFocus):
-            return orca_state.locusOfFocus
+        if document:
+            return document
 
-        return document
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if AXUtilities.is_document(focus):
+            return focus
+
+        return None
 
     def documentFrameURI(self, documentFrame=None):
         """Returns the URI of the document frame that is active."""
@@ -508,7 +367,7 @@ class Utilities:
 
         results = [None, None]
 
-        obj = obj or orca_state.locusOfFocus
+        obj = obj or focus_manager.getManager().get_locus_of_focus()
         if not obj:
             msg = "SCRIPT UTILITIES: frameAndDialog() called without valid object"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -544,10 +403,23 @@ class Utilities:
         return results
 
     def presentEventFromNonShowingObject(self, event):
-        if event.source == orca_state.locusOfFocus:
+        if event.source == focus_manager.getManager().get_locus_of_focus():
             return True
 
         return False
+
+    def grabFocus(self, obj):
+        try:
+            obj.queryComponent().grabFocus()
+        except NotImplementedError:
+            tokens = ["ERROR:", obj, "does not implement the component interface"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        except Exception as error:
+            tokens = ["ERROR: Exception grabbing focus on", obj, error]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+    def grabFocusWhenSettingCaret(self, obj):
+        return AXUtilities.is_focusable(obj)
 
     def grabFocusBeforeRouting(self, obj, offset):
         """Whether or not we should perform a grabFocus before routing
@@ -562,7 +434,7 @@ class Utilities:
         """
 
         return AXUtilities.is_combo_box(obj) \
-            and not self.isSameObject(obj, orca_state.locusOfFocus)
+            and not self.isSameObject(obj, focus_manager.getManager().get_locus_of_focus())
 
     def hasMatchingHierarchy(self, obj, rolesList):
         """Called to determine if the given object and it's hierarchy of
@@ -604,7 +476,7 @@ class Utilities:
 
     def inFindContainer(self, obj=None):
         if obj is None:
-            obj = orca_state.locusOfFocus
+            obj = focus_manager.getManager().get_locus_of_focus()
 
         if not AXUtilities.is_entry(obj):
             return False
@@ -627,14 +499,14 @@ class Utilities:
         if not AXUtilities.is_frame(obj):
             return False
 
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return attrs.get('window-type') == 'dock'
 
     def isDesktop(self, obj):
         if not AXUtilities.is_frame(obj):
             return False
 
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return attrs.get('is-desktop') == 'true'
 
     def isComboBoxWithToggleDescendant(self, obj):
@@ -1007,10 +879,14 @@ class Utilities:
 
         return True
 
+    def topLevelObjectIsActiveWindow(self, obj):
+        return self.isSameObject(
+            self.topLevelObject(obj), focus_manager.getManager().get_active_window())
+
     def isProgressBarUpdate(self, obj):
-        if not _settingsManager.getSetting('speakProgressBarUpdates') \
-           and not _settingsManager.getSetting('brailleProgressBarUpdates') \
-           and not _settingsManager.getSetting('beepProgressBarUpdates'):
+        if not settings_manager.getManager().getSetting('speakProgressBarUpdates') \
+           and not settings_manager.getManager().getSetting('brailleProgressBarUpdates') \
+           and not settings_manager.getManager().getSetting('beepProgressBarUpdates'):
             return False, "Updates not enabled"
 
         if not self.isProgressBar(obj):
@@ -1019,25 +895,25 @@ class Utilities:
         if self.hasNoSize(obj):
             return False, "Has no size"
 
-        if _settingsManager.getSetting('ignoreStatusBarProgressBars'):
+        if settings_manager.getManager().getSetting('ignoreStatusBarProgressBars'):
             if AXObject.find_ancestor(obj, AXUtilities.is_status_bar):
                 return False, "Is status bar descendant"
 
-        verbosity = _settingsManager.getSetting('progressBarVerbosity')
+        verbosity = settings_manager.getManager().getSetting('progressBarVerbosity')
         if verbosity == settings.PROGRESS_BAR_ALL:
             return True, "Verbosity is all"
 
         if verbosity == settings.PROGRESS_BAR_WINDOW:
-            topLevel = self.topLevelObject(obj)
-            if topLevel == orca_state.activeWindow:
+            if self.topLevelObjectIsActiveWindow(obj):
                 return True, "Verbosity is window"
-            return False, f"Window {topLevel} is not {orca_state.activeWindow}"
+            return False, "Top-level object is not active window"
 
         if verbosity == settings.PROGRESS_BAR_APPLICATION:
             app = AXObject.get_application(obj)
-            if app == orca_state.activeScript.app:
+            activeApp = script_manager.getManager().getActiveScriptApp()
+            if app == activeApp:
                 return True, "Verbosity is app"
-            return False, f"App {app} is not {orca_state.activeScript.app}"
+            return False, "App is not active app"
 
         return True, "Not handled by any other case"
 
@@ -1101,11 +977,11 @@ class Utilities:
         return AXUtilities.is_document(obj)
 
     def inDocumentContent(self, obj=None):
-        obj = obj or orca_state.locusOfFocus
+        obj = obj or focus_manager.getManager().get_locus_of_focus()
         return self.getDocumentForObject(obj) is not None
 
     def activeDocument(self, window=None):
-        return self.getTopLevelDocumentForObject(orca_state.locusOfFocus)
+        return self.getTopLevelDocumentForObject(focus_manager.getManager().get_locus_of_focus())
 
     def isTopLevelDocument(self, obj):
         return self.isDocument(obj) and not AXObject.find_ancestor(obj, self.isDocument)
@@ -1140,19 +1016,8 @@ class Utilities:
 
         return self.getModalDialog(obj) is not None
 
-    def getTable(self, obj):
-        if not obj:
-            return None
-
-        def isTable(x):
-            if AXUtilities.is_table(x) or AXUtilities.is_tree_table(x) or AXUtilities.is_tree(x):
-                return AXObject.supports_table(x)
-            return False
-
-        if isTable(obj):
-            return obj
-
-        return AXObject.find_ancestor(obj, isTable)
+    def columnConvert(self, column):
+        return column
 
     def isTextDocumentTable(self, obj):
         if not AXUtilities.is_table(obj):
@@ -1174,52 +1039,67 @@ class Utilities:
         if AXUtilities.is_document_spreadsheet(doc):
             return True
 
-        return obj.queryTable().nRows > 65536
+        return AXTable.get_row_count(obj) > 65536
 
     def isTextDocumentCell(self, obj):
         if not AXUtilities.is_table_cell_or_header(obj):
             return False
         return AXObject.find_ancestor(obj, self.isTextDocumentTable)
 
+    def isGUICell(self, obj):
+        if not AXUtilities.is_table_cell_or_header(obj):
+            return False
+        return AXObject.find_ancestor(obj, self.isGUITable)
+
     def isSpreadSheetCell(self, obj):
         if not AXUtilities.is_table_cell_or_header(obj):
             return False
         return AXObject.find_ancestor(obj, self.isSpreadSheetTable)
 
-    def cellColumnChanged(self, cell):
-        row, column = self.coordinatesForCell(cell)
+    def cellColumnChanged(self, cell, prevCell=None):
+        column = AXTable.get_cell_coordinates(cell)[1]
         if column == -1:
             return False
 
-        lastColumn = self._script.pointOfReference.get("lastColumn")
+        if prevCell is None:
+            lastColumn = self._script.pointOfReference.get("lastColumn")
+        else:
+            lastColumn = AXTable.get_cell_coordinates(prevCell)[1]
+
         return column != lastColumn
 
-    def cellRowChanged(self, cell):
-        row, column = self.coordinatesForCell(cell)
+    def cellRowChanged(self, cell, prevCell=None):
+        row = AXTable.get_cell_coordinates(cell)[0]
         if row == -1:
             return False
 
-        lastRow = self._script.pointOfReference.get("lastRow")
+        if prevCell is None:
+            lastRow = self._script.pointOfReference.get("lastRow")
+        else:
+            lastRow = AXTable.get_cell_coordinates(prevCell)[0]
         return row != lastRow
 
-    def shouldReadFullRow(self, obj):
+    def shouldReadFullRow(self, obj, prevObj=None):
         if self._script.inSayAll():
             return False
 
-        if not self.cellRowChanged(obj):
+        if self._script.getTableNavigator().last_input_event_was_navigation_command():
             return False
 
-        table = self.getTable(obj)
-        if not table:
+        if not self.cellRowChanged(obj, prevObj):
+            return False
+
+        table = AXTable.get_table(obj)
+        if table is None:
             return False
 
         if not self.getDocumentForObject(table):
-            return _settingsManager.getSetting('readFullRowInGUITable')
+            return settings_manager.getManager().getSetting('readFullRowInGUITable')
 
         if self.isSpreadSheetTable(table):
-            return _settingsManager.getSetting('readFullRowInSpreadSheet')
+            return settings_manager.getManager().getSetting('readFullRowInSpreadSheet')
 
-        return _settingsManager.getSetting('readFullRowInDocumentTable')
+        return settings_manager.getManager().getSetting('readFullRowInDocumentTable')
 
     def isSorted(self, obj):
         return False
@@ -1298,7 +1178,6 @@ class Utilities:
         if AXObject.is_dead(obj) or self.isZombie(obj):
             return True
 
-        attrs = self.objectAttributes(obj)
         role = AXObject.get_role(obj)
         parentRole = AXObject.get_role(AXObject.get_parent(obj))
         firstChild = AXObject.get_child(obj, 0)
@@ -1309,24 +1188,8 @@ class Utilities:
                              Atspi.Role.LIST_ITEM,
                              Atspi.Role.TREE_ITEM]
 
-        if role == Atspi.Role.TABLE and attrs.get('layout-guess') != 'true':
-            try:
-                table = obj.queryTable()
-            except NotImplementedError:
-                tokens = ["SCRIPT UTILITIES: Table", obj, "does not implement table interface"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                layoutOnly = True
-            except Exception as error:
-                tokens = ["SCRIPT UTILITIES: Error querying table interface of", obj, ":", error]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                layoutOnly = True
-            else:
-                if not (table.nRows and table.nColumns):
-                    layoutOnly = not AXUtilities.is_focused(obj)
-                elif attrs.get('xml-roles') == 'table' or attrs.get('tag') == 'table':
-                    layoutOnly = False
-                elif not (AXObject.get_name(obj) or self.displayedLabel(obj)):
-                    layoutOnly = not (table.getColumnHeader(0) or table.getRowHeader(0))
+        if role == Atspi.Role.TABLE:
+            layoutOnly = AXTable.is_layout_table(obj)
         elif role == Atspi.Role.TABLE_CELL and AXObject.get_child_count(obj):
             if parentRole == Atspi.Role.TREE_TABLE:
                 layoutOnly = not AXObject.get_name(obj)
@@ -1399,10 +1262,11 @@ class Utilities:
         - obj: an Accessible object
         """
 
-        if not obj or not orca_state.locusOfFocus:
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if not (obj and focus):
             return False
 
-        return AXObject.get_application(orca_state.locusOfFocus) == AXObject.get_application(obj)
+        return AXObject.get_application(focus) == AXObject.get_application(obj)
 
     def isLink(self, obj):
         """Returns True if obj is a link."""
@@ -1795,7 +1659,8 @@ class Utilities:
             return None
 
         for menu in AXObject.iter_children(menubar):
-            AXObject.clear_cache(menu)
+            # TODO - JD: Can we remove this?
+            AXObject.clear_cache(menu, False, "Ensuring we have the correct state.")
             if AXUtilities.is_expanded(menu) or AXUtilities.is_selected(menu):
                 return menu
 
@@ -1857,9 +1722,7 @@ class Utilities:
             return [root]
 
         if AXUtilities.is_filler(root) and not AXObject.get_child_count(root):
-            tokens = ["SCRIPT UTILITIES:", root, "is empty filler. Clearing cache."]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            AXObject.clear_cache(root, recursive=True)
+            AXObject.clear_cache(root, True, "Root is empty filler.")
             tokens = ["SCRIPT UTILITIES:", root, "now reports",
                       AXObject.get_child_count(root), "children"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -2021,11 +1884,12 @@ class Utilities:
         return roles
 
     def _locusOfFocusIsTopLevelObject(self):
-        if not orca_state.locusOfFocus:
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if not focus:
             return False
 
-        rv = orca_state.locusOfFocus == self.topLevelObject(orca_state.locusOfFocus)
-        tokens = ["SCRIPT UTILITIES:", orca_state.locusOfFocus, "is top-level object:", rv]
+        rv = focus == self.topLevelObject(focus)
+        tokens = ["SCRIPT UTILITIES:", focus, "is top-level object:", rv]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return rv
 
@@ -2079,16 +1943,16 @@ class Utilities:
         return rv
 
     def topLevelObjectIsActiveAndCurrent(self, obj=None):
-        obj = obj or orca_state.locusOfFocus
+        obj = obj or focus_manager.getManager().get_locus_of_focus()
         topLevel = self.topLevelObject(obj)
         if not topLevel:
             return False
 
-        AXObject.clear_cache(topLevel)
+        AXObject.clear_cache(topLevel, False, "Ensuring we have the correct state.")
         if not AXUtilities.is_active(topLevel) or AXUtilities.is_defunct(topLevel):
             return False
 
-        if not self.isSameObject(topLevel, orca_state.activeWindow):
+        if not self.isSameObject(topLevel, focus_manager.getManager().get_active_window()):
             return False
 
         return True
@@ -2262,8 +2126,8 @@ class Utilities:
 
         rootName = AXObject.get_name(root)
 
-        # Eliminate duplicates and things suspected to be labels for widgets
-        d = {}
+        # Eliminate things suspected to be labels for widgets
+        labels_filtered = []
         for label in labels:
             name = AXObject.get_name(label) or self.displayedText(label)
             if name and name in [rootName, AXObject.get_name(AXObject.get_parent(label))]:
@@ -2272,10 +2136,9 @@ class Utilities:
                 continue
             if rootName.find(name) >= 0:
                 continue
-            d[name] = label
-        labels = list(d.values())
+            labels_filtered.append(label)
 
-        return sorted(labels, key=functools.cmp_to_key(self.spatialComparison))
+        return sorted(labels_filtered, key=functools.cmp_to_key(self.spatialComparison))
 
     def _treatAlertsAsDialogs(self):
         return True
@@ -2307,7 +2170,7 @@ class Utilities:
                 and (AXObject.get_name(x) or AXObject.get_child_count(x))
 
         def cannotBeActiveWindow(x):
-            return not self.canBeActiveWindow(x)
+            return not focus_manager.getManager().can_be_active_window(x)
 
         presentable = list(filter(isPresentable, set(dialogs)))
         unfocused = list(filter(cannotBeActiveWindow, presentable))
@@ -2475,6 +2338,7 @@ class Utilities:
         child = hyperlink.getObject(0)
         tokens = ["SCRIPT UTILITIES: Hyperlink object at index", index, "for", obj, "is", child]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
         if offset != hyperlink.startIndex:
             msg = (
                 f"SCRIPT UTILITIES: Hyperlink start index {hyperlink.startIndex} "
@@ -2702,7 +2566,7 @@ class Utilities:
         return [textContents, startOffset, endOffset]
 
     def getCaretContext(self):
-        obj = orca_state.locusOfFocus
+        obj = focus_manager.getManager().get_locus_of_focus()
         try:
             offset = obj.queryText().caretOffset
         except NotImplementedError:
@@ -2716,7 +2580,7 @@ class Utilities:
         return obj, 0
 
     def setCaretPosition(self, obj, offset, documentFrame=None):
-        orca.setLocusOfFocus(None, obj, False)
+        focus_manager.getManager().set_locus_of_focus(None, obj, False)
         self.setCaretOffset(obj, offset)
 
     def setCaretOffset(self, obj, offset):
@@ -2938,17 +2802,18 @@ class Utilities:
         determine if the script is likely to echo it as a character.
         """
 
-        if not orca_state.locusOfFocus or not settings.enableEchoByCharacter:
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if not focus or not settings.enableEchoByCharacter:
             return False
 
         if len(event.event_string) != 1 \
            or event.modifiers & keybindings.ORCA_CTRL_MODIFIER_MASK:
             return False
 
-        if AXUtilities.is_password_text(orca_state.locusOfFocus):
+        if AXUtilities.is_password_text(focus):
             return False
 
-        if AXUtilities.is_editable(orca_state.locusOfFocus):
+        if AXUtilities.is_editable(focus):
             return True
 
         return False
@@ -3002,7 +2867,7 @@ class Utilities:
         # If the user has set their punctuation level to All, then the synthesizer will
         # do the work for us. If the user has set their punctuation level to None, then
         # they really don't want punctuation and we mustn't override that.
-        style = _settingsManager.getSetting("verbalizePunctuationStyle")
+        style = settings_manager.getManager().getSetting("verbalizePunctuationStyle")
         if style in [settings.PUNCTUATION_STYLE_ALL, settings.PUNCTUATION_STYLE_NONE]:
             return False
 
@@ -3182,8 +3047,8 @@ class Utilities:
         return string
 
     def indentationDescription(self, line):
-        if _settingsManager.getSetting('onlySpeakDisplayedText') \
-           or not _settingsManager.getSetting('enableSpeechIndentation'):
+        if settings_manager.getManager().getSetting('onlySpeakDisplayedText') \
+           or not settings_manager.getManager().getSetting('enableSpeechIndentation'):
             return ""
 
         line = line.replace("\u00a0", " ")
@@ -3257,7 +3122,7 @@ class Utilities:
             if not AXUtilities.is_showing(event.source):
                 return False
             if AXUtilities.is_focusable(event.source):
-                AXObject.clear_cache(event.source)
+                AXObject.clear_cache(event.source, False, "Ensuring we have the correct state.")
                 if not AXUtilities.is_focused(event.source):
                     return False
 
@@ -3502,7 +3367,7 @@ class Utilities:
         Returns a string representing the value.
         """
 
-        attrs = self.objectAttributes(obj, False)
+        attrs = AXObject.get_attributes_dict(obj, False)
         valuetext = attrs.get("valuetext")
         if valuetext:
             return valuetext
@@ -3552,10 +3417,10 @@ class Utilities:
     @staticmethod
     def unicodeValueString(character):
         """ Returns a four hex digit representation of the given character
-        
+
         Arguments:
         - The character to return representation
-        
+
         Returns a string representaition of the given character unicode vlue
         """
 
@@ -3664,7 +3529,7 @@ class Utilities:
             return 0
 
         if AXObject.supports_table(obj):
-            rows, cols = self.rowAndColumnCount(obj)
+            rows = AXTable.get_row_count(obj)
             return max(0, rows)
 
         rolemap = {
@@ -3683,10 +3548,7 @@ class Utilities:
 
     def selectedChildCount(self, obj):
         if AXObject.supports_table(obj):
-            table = obj.queryTable()
-            if table.nSelectedRows:
-                return table.nSelectedRows
-
+            return AXTable.get_selected_row_count(obj)
         return AXSelection.get_selected_child_count(obj)
 
     def popupMenuFor(self, obj):
@@ -3704,7 +3566,8 @@ class Utilities:
         return AXUtilities.is_button(obj) and AXUtilities.has_popup(obj)
 
     def isPopupMenuForCurrentItem(self, obj):
-        if obj == orca_state.locusOfFocus:
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if obj == focus:
             return False
 
         if not AXUtilities.is_menu(obj):
@@ -3714,7 +3577,7 @@ class Utilities:
         if not name:
             return False
 
-        return name == AXObject.get_name(orca_state.locusOfFocus)
+        return name == AXObject.get_name(focus)
 
     def isMenuWithNoSelectedChild(self, obj):
         return AXUtilities.is_menu(obj) and not self.selectedChildCount(obj)
@@ -3723,7 +3586,7 @@ class Utilities:
         return AXUtilities.is_button(obj) and self.popupMenuFor(obj) is not None
 
     def inMenu(self, obj=None):
-        obj = obj or orca_state.locusOfFocus
+        obj = obj or focus_manager.getManager().get_locus_of_focus()
         if obj is None:
             return False
 
@@ -3736,7 +3599,7 @@ class Utilities:
         return False
 
     def inContextMenu(self, obj=None):
-        obj = obj or orca_state.locusOfFocus
+        obj = obj or focus_manager.getManager().get_locus_of_focus()
         if not self.inMenu(obj):
             return False
 
@@ -3843,7 +3706,8 @@ class Utilities:
         if not AXUtilities.is_heading(obj):
             return 0
 
-        attrs = self.objectAttributes(obj)
+        use_cache = not AXUtilities.is_editable(obj)
+        attrs = AXObject.get_attributes_dict(obj, use_cache)
 
         try:
             value = int(attrs.get('level', '0'))
@@ -3864,199 +3728,11 @@ class Utilities:
 
         return AXObject.find_ancestor(obj, AXUtilities.is_table_header)
 
-    def columnHeadersForCell(self, obj):
-        result = self._columnHeadersForCell(obj)
-        # There either are no headers, or we got all of them.
-        if len(result) != 1:
-            return result
-
-        others = self._columnHeadersForCell(result[0])
-        while len(others) == 1 and others[0] not in result:
-            result.insert(0, others[0])
-            others = self._columnHeadersForCell(result[0])
-
-        return result
-
-    def _columnHeadersForCell(self, obj):
-        if not obj:
-            msg = "SCRIPT UTILITIES: Attempted to get column headers for null cell"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return []
-
-        if AXObject.supports_table_cell(obj):
-            tableCell = obj.queryTableCell()
-            try:
-                headers = tableCell.columnHeaderCells
-            except Exception:
-                tokens = ["SCRIPT UTILITIES: Exception getting column headers for", obj]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            else:
-                return headers
-
-        parent = AXObject.find_ancestor(obj, AXObject.supports_table)
-        try:
-            table = parent.queryTable()
-        except Exception:
-            return []
-
-        row, col = self.coordinatesForCell(obj)
-        rowspan, colspan = self.rowAndColumnSpan(obj)
-
-        headers = []
-        for c in range(col, col+colspan):
-            headers.append(table.getColumnHeader(c))
-
-        return headers
-
-    def rowHeadersForCell(self, obj):
-        result = self._rowHeadersForCell(obj)
-        # There either are no headers, or we got all of them.
-        if len(result) != 1:
-            return result
-
-        others = self._rowHeadersForCell(result[0])
-        while len(others) == 1 and others[0] not in result:
-            result.insert(0, others[0])
-            others = self._rowHeadersForCell(result[0])
-
-        return result
-
-    def _rowHeadersForCell(self, obj):
-        if not obj:
-            msg = "SCRIPT UTILITIES: Attempted to get row headers for null cell"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return []
-
-        if AXObject.supports_table_cell(obj):
-            tableCell = obj.queryTableCell()
-            try:
-                headers = tableCell.rowHeaderCells
-            except Exception:
-                tokens = ["SCRIPT UTILITIES: Exception getting row headers for", obj]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            else:
-                return headers
-
-        parent = AXObject.find_ancestor(obj, AXObject.supports_table)
-        try:
-            table = parent.queryTable()
-        except Exception:
-            return []
-
-        row, col = self.coordinatesForCell(obj)
-        rowspan, colspan = self.rowAndColumnSpan(obj)
-
-        headers = []
-        for r in range(row, row+rowspan):
-            headers.append(table.getRowHeader(r))
-
-        return headers
-
-    def columnHeaderForCell(self, obj):
-        headers = self.columnHeadersForCell(obj)
-        if headers:
-            return headers[0]
-
-        return None
-
-    def rowHeaderForCell(self, obj):
-        headers = self.rowHeadersForCell(obj)
-        if headers:
-            return headers[0]
-
-        return None
-
-    def _shouldUseTableCellInterfaceForCoordinates(self):
-        return True
-
-    def coordinatesForCell(self, obj, preferAttribute=True, findCellAncestor=False):
-        if not AXUtilities.is_table_cell_or_header(obj):
-            if not findCellAncestor:
-                return -1, -1
-
-            cell = AXObject.find_ancestor(obj, AXUtilities.is_table_cell_or_header)
-            return self.coordinatesForCell(cell, preferAttribute, False)
-
-        if AXObject.supports_table_cell(obj) \
-           and self._shouldUseTableCellInterfaceForCoordinates():
-            tableCell = obj.queryTableCell()
-            try:
-                successful, row, col = tableCell.position
-            except Exception:
-                tokens = ["SCRIPT UTILITIES: Exception getting table cell position of", obj]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            else:
-                if successful:
-                    tokens = ["SCRIPT UTILITIES: position of", obj, f"is row: {row}, col: {col}"]
-                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                    return row, col
-                tokens = ["SCRIPT UTILITIES: Failed to get position of", obj, "via table cell"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        parent = AXObject.find_ancestor(obj, AXObject.supports_table)
-        if not parent:
-            tokens = ["SCRIPT UTILITIES: Couldn't find table-implementing ancestor for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return -1, -1
-
-        try:
-            table = parent.queryTable()
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception querying table interface", parent]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return -1, -1
-
-        index = self.cellIndex(obj)
-        try:
-            row = table.getRowAtIndex(index)
-            col = table.getColumnAtIndex(index)
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception getting row and column at index from", parent]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return -1, -1
-
-        return row, col
-
-    def rowAndColumnSpan(self, obj):
-        if not AXUtilities.is_table_cell_or_header(obj):
-            return -1, -1
-
-        if AXObject.supports_table_cell(obj):
-            tableCell = obj.queryTableCell()
-            try:
-                rowSpan, colSpan = tableCell.rowSpan, tableCell.columnSpan
-            except Exception:
-                tokens = ["SCRIPT UTILITIES: Exception getting table row and col span of",
-                          obj, "via table cell"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            else:
-                return rowSpan, colSpan
-
-        parent = AXObject.find_ancestor(obj, AXObject.supports_table)
-        try:
-            table = parent.queryTable()
-        except Exception:
-            return -1, -1
-
-        row, col = self.coordinatesForCell(obj)
-        if (row < 0 or col < 0):
-            return -1, -1
-
-        return table.getRowExtentAt(row, col), table.getColumnExtentAt(row, col)
-
     def setSizeUnknown(self, obj):
         return AXUtilities.is_indeterminate(obj)
 
     def rowOrColumnCountUnknown(self, obj):
         return AXUtilities.is_indeterminate(obj)
-
-    def rowAndColumnCount(self, obj, preferAttribute=True):
-        try:
-            table = obj.queryTable()
-        except Exception:
-            return -1, -1
-
-        return table.nRows, table.nColumns
 
     def _objectBoundsMightBeBogus(self, obj):
         return False
@@ -4348,18 +4024,14 @@ class Utilities:
         return string, start, end
 
     def visibleRows(self, obj, boundingbox):
-        try:
-            table = obj.queryTable()
-            nRows = table.nRows
-        except Exception:
-            return []
+        nRows = AXTable.get_row_count(obj)
 
         tokens = ["SCRIPT UTILITIES: ", obj, f"has {nRows} rows"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         x, y, width, height = boundingbox
         cell = self.descendantAtPoint(obj, x, y + 1)
-        row, col = self.coordinatesForCell(cell)
+        row = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
         startIndex = max(0, row)
         tokens = ["SCRIPT UTILITIES: First cell:", cell, f"(row: {row}"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -4371,14 +4043,14 @@ class Utilities:
             nextIndex = startIndex
         else:
             cell = self.descendantAtPoint(obj, x, y + extents.height + 1)
-            row, col = self.coordinatesForCell(cell)
+            row, AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
             nextIndex = max(startIndex, row)
-            tokens = ["SCRIPT UTILITIES: Next cell:", cell, f"(row: {row}"]
+            tokens = ["SCRIPT UTILITIES: Next cell:", cell, f"(row: {row})"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         cell = self.descendantAtPoint(obj, x, y + height - 1)
-        row, col = self.coordinatesForCell(cell)
-        tokens = ["SCRIPT UTILITIES: Last cell:", cell, f"(row: {row}"]
+        row = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
+        tokens = ["SCRIPT UTILITIES: Last cell:", cell, f"(row: {row})"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         if row == -1:
@@ -4392,9 +4064,7 @@ class Utilities:
         return rows
 
     def getVisibleTableCells(self, obj):
-        try:
-            table = obj.queryTable()
-        except Exception:
+        if not (AXObject.supports_table(obj) and AXObject.supports_component(obj)):
             return []
 
         try:
@@ -4415,61 +4085,63 @@ class Utilities:
 
         cells = []
         for col in range(colStartIndex, colEndIndex):
-            colHeader = table.getColumnHeader(col)
-            if colHeader:
-                cells.append(colHeader)
+            headers = []
             for row in rows:
-                try:
-                    cell = table.getAccessibleAt(row, col)
-                except Exception:
+                cell = AXTable.get_cell_at(obj, row, col)
+                if cell is None:
                     continue
-                if cell and self.isOnScreen(cell):
+                if not headers:
+                    # TODO - JD: This is needed for flat review to include the column headers
+                    # above the message list in Thunderbird v110. It does not appear necessary
+                    # for more recent versions of Thunderbird (e.g. v115). Looks like a potential
+                    # case of broken table support in (at least) Thunderbird 110. Who else might
+                    # have this same bug?
+                    headers = AXTable.get_column_headers(cell)
+                    if headers and self.isOnScreen(headers[0]):
+                        cells.append(headers[0])
+                if self.isOnScreen(cell):
                     cells.append(cell)
 
         return cells
 
     def _getTableRowRange(self, obj):
-        rowCount, columnCount = self.rowAndColumnCount(obj)
+        table = AXTable.get_table(obj)
+        if table is None:
+            return -1, -1
+
+        columnCount = AXTable.get_column_count(table, False)
         startIndex, endIndex = 0, columnCount
         if not self.isSpreadSheetCell(obj):
             return startIndex, endIndex
 
-        parent = self.getTable(obj)
         try:
-            component = parent.queryComponent()
+            component = table.queryComponent()
         except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception querying component interface of", parent]
+            tokens = ["SCRIPT UTILITIES: Exception querying component interface of", table]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return startIndex, endIndex
 
         x, y, width, height = component.getExtents(Atspi.CoordType.SCREEN)
         cell = component.getAccessibleAtPoint(x+1, y, Atspi.CoordType.SCREEN)
         if cell:
-            row, column = self.coordinatesForCell(cell)
+            column = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[1]
             startIndex = column
 
         cell = component.getAccessibleAtPoint(x+width-1, y, Atspi.CoordType.SCREEN)
         if cell:
-            row, column = self.coordinatesForCell(cell)
+            column = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[1]
             endIndex = column + 1
 
         return startIndex, endIndex
 
     def getShowingCellsInSameRow(self, obj, forceFullRow=False):
-        parent = self.getTable(obj)
-        try:
-            table = parent.queryTable()
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception querying table interface of", parent]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return []
-
-        row, column = self.coordinatesForCell(obj, False)
+        row = AXTable.get_cell_coordinates(obj, prefer_attribute=False)[0]
         if row == -1:
             return []
 
+        table = AXTable.get_table(obj)
         if forceFullRow:
-            startIndex, endIndex = 0, table.nColumns
+            startIndex, endIndex = 0, AXTable.get_column_count(table)
         else:
             startIndex, endIndex = self._getTableRowRange(obj)
         if startIndex == endIndex:
@@ -4477,53 +4149,11 @@ class Utilities:
 
         cells = []
         for i in range(startIndex, endIndex):
-            cell = table.getAccessibleAt(row, i)
+            cell = AXTable.get_cell_at(table, row, i)
             if AXUtilities.is_showing(cell):
                 cells.append(cell)
 
         return cells
-
-    def cellForCoordinates(self, obj, row, column, showingOnly=False):
-        try:
-            table = obj.queryTable()
-        except Exception:
-            return None
-
-        cell = table.getAccessibleAt(row, column)
-        if not showingOnly:
-            return cell
-
-        if AXUtilities.is_showing(cell):
-            return cell
-
-        return None
-
-    def isLastCell(self, obj):
-        if not AXUtilities.is_table_cell(obj):
-            return False
-
-        parent = AXObject.find_ancestor(obj, AXObject.supports_table)
-        try:
-            table = parent.queryTable()
-        except Exception:
-            return False
-
-        row, col = self.coordinatesForCell(obj)
-        return row + 1 == table.nRows and col + 1 == table.nColumns
-
-    def isNonUniformTable(self, obj, maxRows=25, maxCols=25):
-        try:
-            table = obj.queryTable()
-        except Exception:
-            return False
-
-        for r in range(min(maxRows, table.nRows)):
-            for c in range(min(maxCols, table.nColumns)):
-                if table.getRowExtentAt(r, c) > 1 \
-                   or table.getColumnExtentAt(r, c) > 1:
-                    return True
-
-        return False
 
     def isShowingAndVisible(self, obj):
         if AXUtilities.is_showing(obj) and AXUtilities.is_visible(obj):
@@ -4623,8 +4253,8 @@ class Utilities:
             return -1, -1
 
         if AXUtilities.is_table_cell(obj) and args.get("readingRow"):
-            row, col = self.coordinatesForCell(obj)
-            rowcount, colcount = self.rowAndColumnCount(self.getTable(obj))
+            row = AXTable.get_cell_coordinates(obj)[0]
+            rowcount = AXTable.get_row_count(AXTable.get_table(obj))
             return row, rowcount
 
         if AXUtilities.is_combo_box(obj):
@@ -4748,8 +4378,8 @@ class Utilities:
 
     @staticmethod
     def onClipboardContentsChanged(*args):
-        script = orca_state.activeScript
-        if not script:
+        script = script_manager.getManager().getActiveScript()
+        if script is None:
             return
 
         if time.time() - Utilities._last_clipboard_update < 0.05:
@@ -4876,7 +4506,7 @@ class Utilities:
         if keyString not in ["Up", "Down"]:
             return False
 
-        if self.isEditableDescendantOfComboBox(orca_state.locusOfFocus):
+        if self.isEditableDescendantOfComboBox(focus_manager.getManager().get_locus_of_focus()):
             return False
 
         return not (mods & keybindings.CTRL_MODIFIER_MASK)
@@ -4893,7 +4523,7 @@ class Utilities:
         if keyString not in ["Page_Up", "Page_Down"]:
             return False
 
-        if self.isEditableDescendantOfComboBox(orca_state.locusOfFocus):
+        if self.isEditableDescendantOfComboBox(focus_manager.getManager().get_locus_of_focus()):
             return False
 
         return not (mods & keybindings.CTRL_MODIFIER_MASK)
@@ -5069,10 +4699,10 @@ class Utilities:
                 if keyString not in ["Return", "space", " "]:
                     return False
 
-        return AXUtilities.is_table_header(orca_state.locusOfFocus)
+        return AXUtilities.is_table_header(focus_manager.getManager().get_locus_of_focus())
 
     def isPresentableExpandedChangedEvent(self, event):
-        if self.isSameObject(event.source, orca_state.locusOfFocus):
+        if self.isSameObject(event.source, focus_manager.getManager().get_locus_of_focus()):
             return True
 
         if AXUtilities.is_table_row(event.source) or AXUtilities.is_list_box(event.source):
@@ -5101,14 +4731,15 @@ class Utilities:
                 return True
             if AXUtilities.is_password_text(event.source):
                 return True
-            if AXObject.is_dead(orca_state.locusOfFocus):
+            if focus_manager.getManager().focus_is_dead():
                 return True
         elif AXUtilities.is_table_cell(event.source) and not AXUtilities.is_selected(event.source):
             msg = "SCRIPT UTILITIES: Event is not being presented due to role and states"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
-        if orca_state.locusOfFocus in [event.source, AXObject.get_parent(event.source)]:
+        if focus_manager.getManager().get_locus_of_focus() in \
+            [event.source, AXObject.get_parent(event.source)]:
             return True
 
         msg = "SCRIPT UTILITIES: Event is not being presented due to lack of cause"
@@ -5183,17 +4814,17 @@ class Utilities:
 
         if AXUtilities.is_focusable(event.source) \
            and not AXUtilities.is_focused(event.source) \
-           and event.source != orca_state.locusOfFocus:
+           and event.source != focus_manager.getManager().get_locus_of_focus():
             msg = "SCRIPT UTILITIES: Not echoable text insertion event: " \
                  "focusable source is not focused"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         if AXUtilities.is_password_text(event.source):
-            return _settingsManager.getSetting("enableKeyEcho")
+            return settings_manager.getManager().getSetting("enableKeyEcho")
 
         if len(event.any_data.strip()) == 1:
-            return _settingsManager.getSetting("enableEchoByCharacter")
+            return settings_manager.getManager().getSetting("enableEchoByCharacter")
 
         return False
 
@@ -5235,7 +4866,7 @@ class Utilities:
         return False
 
     def objectContentsAreInClipboard(self, obj=None):
-        obj = obj or orca_state.locusOfFocus
+        obj = obj or focus_manager.getManager().get_locus_of_focus()
         if not obj or AXObject.is_dead(obj):
             return False
 
@@ -5319,19 +4950,7 @@ class Utilities:
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
-        if self.isKeyGrabEvent(event):
-            msg = "INFO: Last key was consumed. Probably a bogus event from a key grab"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return False
-
         return True
-
-    def isKeyGrabEvent(self, event):
-        """ Returns True if this event appears to be a side-effect of an
-        X11 key grab. """
-        if not isinstance(orca_state.lastInputEvent, input_event.KeyboardEvent):
-            return False
-        return orca_state.lastInputEvent.didConsume() and not orca_state.openingDialog
 
     def presentFocusChangeReason(self):
         if self.handleUndoLocusOfFocusChange():
@@ -5362,21 +4981,7 @@ class Utilities:
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
-        if not AXObject.supports_table(obj):
-            return False
-
-        table = obj.queryTable()
-        if table.nSelectedRows == table.nRows:
-            msg = f"SCRIPT UTILITIES: All {table.nRows} rows believed to be selected"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return True
-
-        if table.nSelectedColumns == table.nColumns:
-            msg = f"SCRIPT UTILITIES: All {table.nColumns} columns believed to be selected"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return True
-
-        return False
+        return AXTable.all_cells_are_selected(obj)
 
     def handleContainerSelectionChange(self, obj):
         allAlreadySelected = self._script.pointOfReference.get('allItemsSelected')
@@ -5387,7 +4992,7 @@ class Utilities:
         self._script.pointOfReference['allItemsSelected'] = allCurrentlySelected
         if self.lastInputEventWasSelectAll() and allCurrentlySelected:
             self._script.presentMessage(messages.CONTAINER_SELECTED_ALL)
-            orca.setLocusOfFocus(None, obj, False)
+            focus_manager.getManager().set_locus_of_focus(None, obj, False)
             return True
 
         return False
@@ -5444,7 +5049,8 @@ class Utilities:
                     child = self.getChildAtOffset(obj, newEnd - 1)
                     self.handleTextSelectionChange(child, False)
 
-        speakMessage = speakMessage and not _settingsManager.getSetting('onlySpeakDisplayedText')
+        speakMessage = speakMessage \
+            and not settings_manager.getManager().getSetting('onlySpeakDisplayedText')
         text = obj.queryText()
         for start, end, message in changes:
             string = text.getText(start, end)
@@ -5472,7 +5078,7 @@ class Utilities:
     def _speakTextSelectionState(self, nSelections):
         """Hacky and to-be-obsoleted method."""
 
-        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+        if settings_manager.getManager().getSetting('onlySpeakDisplayedText'):
             return False
 
         eventStr, mods = self.lastKeyAndModifiers()

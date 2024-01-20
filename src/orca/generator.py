@@ -46,6 +46,7 @@ from . import object_properties
 from . import settings
 from . import settings_manager
 from .ax_object import AXObject
+from .ax_table import AXTable
 from .ax_utilities import AXUtilities
 
 # Python 3.10 compatibility:
@@ -72,8 +73,6 @@ def _formatExceptionInfo(maxTBlevel=5):
 # The prefix to use for the individual generator methods
 #
 METHOD_PREFIX = "_generate"
-
-_settingsManager = settings_manager.getManager()
 
 class Generator:
     """Takes accessible objects and generates a presentation for those
@@ -105,7 +104,9 @@ class Generator:
         # Verify the formatting strings are OK.  This is only
         # for verification and does not effect the function of
         # Orca at all.
-
+        #
+        # TODO - JD: Given the above, can this just be killed?
+        #
         # Populate the entire globals with empty arrays
         # for the results of all the legal method names.
         #
@@ -271,9 +272,9 @@ class Generator:
                     if isinstance(globalsDict[arg], list):
                         stringResult = " ".join(filter(lambda x: x,
                                                         map(debuginfo, globalsDict[arg])))
-                        debug.printMessage(debug.LEVEL_ALL,
-                                      "%sGENERATION TIME: %s  ---->  %s=[%s]" \
-                                      % (" " * 18, duration, arg, stringResult))
+                        debug.printMessage(
+                            debug.LEVEL_ALL,
+                            f"{' ' * 18}GENERATION TIME: {duration} ----> {arg}=[{stringResult}]")
 
         except Exception:
             debug.printException(debug.LEVEL_SEVERE)
@@ -373,7 +374,7 @@ class Generator:
         the assumption being that the user was able to see the text prior
         to giving the widget focus.
         """
-        attrs = self._script.utilities.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         placeholder = attrs.get('placeholder-text')
         if placeholder and placeholder != AXObject.get_name(obj):
             return [placeholder]
@@ -799,14 +800,21 @@ class Generator:
             return []
 
         result = []
-        header = self._script.utilities.rowHeaderForCell(obj)
-        if not header:
+        if args.get('newOnly'):
+            headers = AXTable.get_new_row_headers(obj, args.get('priorObj'))
+        else:
+            headers = AXTable.get_row_headers(obj)
+
+        tokens = []
+        for header in headers:
+            token = self._script.utilities.displayedText(header)
+            if token and token.strip():
+                tokens.append(token.strip())
+
+        if not tokens:
             return result
 
-        text = self._script.utilities.displayedText(header)
-        if not text:
-            return result
-
+        text = ". ".join(tokens)
         roleString =  self.getLocalizedRoleName(obj, role=Atspi.Role.ROW_HEADER)
         if args.get('mode') == 'speech':
             if settings.speechVerbosityLevel == settings.VERBOSITY_LEVEL_VERBOSE \
@@ -825,14 +833,21 @@ class Generator:
         is returned.
         """
         result = []
-        header = self._script.utilities.columnHeaderForCell(obj)
-        if not header:
+        if args.get('newOnly'):
+            headers = AXTable.get_new_column_headers(obj, args.get('priorObj'))
+        else:
+            headers = AXTable.get_column_headers(obj)
+
+        tokens = []
+        for header in headers:
+            token = self._script.utilities.displayedText(header)
+            if token and token.strip():
+                tokens.append(token.strip())
+
+        if not tokens:
             return result
 
-        text = self._script.utilities.displayedText(header)
-        if not text:
-            return result
-
+        text = ". ".join(tokens)
         roleString =  self.getLocalizedRoleName(obj, role=Atspi.Role.COLUMN_HEADER)
         if args.get('mode') == 'speech':
             if settings.speechVerbosityLevel == settings.VERBOSITY_LEVEL_VERBOSE \
@@ -930,9 +945,9 @@ class Generator:
         descendant = self._script.utilities.realActiveDescendant(obj)
         label = self._script.utilities.displayedText(descendant)
         if not label and self._script.utilities.hasMeaningfulToggleAction(obj):
-            accHeader = self._script.utilities.columnHeaderForCell(obj)
-            if (accHeader):
-                result.append(AXObject.get_name(accHeader))
+              headers = AXTable.get_column_headers(obj)
+              if (headers):
+                result.append(AXObject.get_name(headers[0]))
         return result
 
     def _generateRealTableCell(self, obj, **args):
@@ -959,7 +974,8 @@ class Generator:
         if self._script.utilities.isSpreadSheetTable(obj):
             return []
 
-        rows, cols = self._script.utilities.rowAndColumnCount(obj)
+        rows = AXTable.get_row_count(obj)
+        cols = AXTable.get_column_count(obj)
 
         # This suggests broken or missing table interface.
         if (rows < 0 or cols < 0) \
@@ -987,7 +1003,7 @@ class Generator:
         presentAll = args.get('readingRow') is True \
             or args.get('formatType') == 'detailedWhereAmI' \
             or self._mode == 'braille' \
-            or self._script.utilities.shouldReadFullRow(obj)
+            or self._script.utilities.shouldReadFullRow(obj, args.get('priorObj'))
 
         if not presentAll:
             return self._generateRealTableCell(obj, **args)
@@ -1232,7 +1248,7 @@ class Generator:
         return []
 
     def _getProgressBarUpdateInterval(self):
-        return int(_settingsManager.getSetting('progressBarUpdateInterval'))
+        return int(settings_manager.getManager().getSetting('progressBarUpdateInterval'))
 
     def _shouldPresentProgressBarUpdate(self, obj, **args):
         percent = self._script.utilities.getValueAsPercent(obj)

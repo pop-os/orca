@@ -1,7 +1,7 @@
-m4_define([orca_version], [45.2])
+m4_define([orca_version], [46.alpha])
 
 m4_define(pygobject_required_version, 3.18)
-m4_define(atspi_required_version, 2.48)
+m4_define(atspi_required_version, 2.50.0)
 m4_define(atkbridge_required_version, 2.26)
 
 AC_INIT([orca],[orca_version],[https://gitlab.gnome.org/GNOME/orca/-/issues/],[orca])
@@ -89,7 +89,6 @@ src/orca/scripts/Makefile
 src/orca/scripts/apps/Makefile
 src/orca/scripts/apps/Banshee/Makefile
 src/orca/scripts/apps/Eclipse/Makefile
-src/orca/scripts/apps/epiphany/Makefile
 src/orca/scripts/apps/evince/Makefile
 src/orca/scripts/apps/evolution/Makefile
 src/orca/scripts/apps/gajim/Makefile
@@ -107,6 +106,7 @@ src/orca/scripts/apps/smuxi-frontend-gnome/Makefile
 src/orca/scripts/apps/Thunderbird/Makefile
 src/orca/scripts/apps/xfwm4/Makefile
 src/orca/scripts/switcher/Makefile
+src/orca/scripts/sleepmode/Makefile
 src/orca/scripts/terminal/Makefile
 src/orca/scripts/web/Makefile
 src/orca/scripts/toolkits/Makefile
@@ -114,7 +114,6 @@ src/orca/scripts/toolkits/Chromium/Makefile
 src/orca/scripts/toolkits/Gecko/Makefile
 src/orca/scripts/toolkits/J2SE-access-bridge/Makefile
 src/orca/scripts/toolkits/clutter/Makefile
-src/orca/scripts/toolkits/GAIL/Makefile
 src/orca/scripts/toolkits/Qt/Makefile
 src/orca/scripts/toolkits/WebKitGtk/Makefile
 src/orca/scripts/toolkits/gtk/Makefile

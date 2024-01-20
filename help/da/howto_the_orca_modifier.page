@@ -24,12 +24,6 @@
       <mal:email>asklarsen@gmail.com</mal:email>
       <mal:years>2022</mal:years>
     </mal:credit>
-  
-    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
-      <mal:name>Alan Mortensen</mal:name>
-      <mal:email>alanmortensen.am@gmail.com</mal:email>
-      <mal:years>2023</mal:years>
-    </mal:credit>
   </info>
   <title>Orca-ændringstasten</title>
   <p>Orca har en speciel ændringstast, der virker ligesom <key>Skift</key>, <key>Ctrl</key> og <key>Alt</key>. Den er designet specielt til at udføre <app>Orca</app>-kommandoer uden at skabe konflikter med kommandoerne i det program, du bruger.</p>

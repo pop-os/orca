@@ -39,14 +39,9 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2005-2009 Sun Microsystems Inc."
 __license__   = "LGPL"
 
-import gi
-gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
-
 from . import ax_event_synthesizer
 from . import action_presenter
 from . import braille_generator
-from . import date_and_time_presenter
 from . import debug
 from . import event_manager
 from . import flat_review_presenter
@@ -57,23 +52,20 @@ from . import learn_mode_presenter
 from . import mouse_review
 from . import notification_presenter
 from . import object_navigator
-from . import orca_state
-from . import script_manager
 from . import script_utilities
 from . import settings
 from . import settings_manager
+from . import sleep_mode_manager
 from . import sound_generator
 from . import speech_and_verbosity_manager
 from . import speech_generator
 from . import structural_navigation
+from . import system_information_presenter
+from . import table_navigator
 from . import bookmarks
-from . import tutorialgenerator
 from . import where_am_i_presenter
 from .ax_object import AXObject
 
-_eventManager = event_manager.getManager()
-_scriptManager = script_manager.getManager()
-_settingsManager = settings_manager.getManager()
 
 class Script:
     """The specific focus tracking scripts for applications.
@@ -111,19 +103,21 @@ class Script:
         self.notificationPresenter = self.getNotificationPresenter()
         self.flatReviewPresenter = self.getFlatReviewPresenter()
         self.speechAndVerbosityManager = self.getSpeechAndVerbosityManager()
-        self.dateAndTimePresenter = self.getDateAndTimePresenter()
+        self.systemInformationPresenter = self.getSystemInformationPresenter()
         self.objectNavigator = self.getObjectNavigator()
+        self.tableNavigator = self.getTableNavigator()
         self.whereAmIPresenter = self.getWhereAmIPresenter()
         self.learnModePresenter = self.getLearnModePresenter()
         self.mouseReviewer = self.getMouseReviewer()
         self.eventSynthesizer = self.getEventSynthesizer()
         self.actionPresenter = self.getActionPresenter()
+        self.sleepModeManager = self.getSleepModeManager()
 
         self.chat = self.getChat()
         self.inputEventHandlers = {}
         self.pointOfReference = {}
         self.setupInputEventHandlers()
-        self.keyBindings = self.getKeyBindings()
+        self.keyBindings = keybindings.KeyBindings()
         self.brailleBindings = self.getBrailleBindings()
 
         self.formatting = self.getFormatting()
@@ -133,10 +127,8 @@ class Script:
         self.generatorCache = {}
         self.eventCache = {}
         self.spellcheck = self.getSpellCheck()
-        self.tutorialGenerator = self.getTutorialGenerator()
 
         self.findCommandRun = False
-        self._lastCommandWasStructNav = False
 
         msg = f'SCRIPT: {self.name} initialized'
         debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -157,7 +149,7 @@ class Script:
         called by the key and braille bindings."""
         pass
 
-    def getKeyBindings(self):
+    def getKeyBindings(self, enabledOnly=True):
         """Defines the key bindings for this script.
 
         Returns an instance of keybindings.KeyBindings.
@@ -200,11 +192,6 @@ class Script:
         """
         return speech_generator.SpeechGenerator(self)
 
-    def getTutorialGenerator(self):
-        """Returns the tutorial generator for this script.
-        """
-        return tutorialgenerator.TutorialGenerator(self)
-
     def getChat(self):
         """Returns the 'chat' class for this script.
         """
@@ -235,7 +222,7 @@ class Script:
     def getStructuralNavigation(self):
         """Returns the 'structural navigation' class for this script."""
         types = self.getEnabledStructuralNavigationTypes()
-        enable = _settingsManager.getSetting('structuralNavigationEnabled')
+        enable = settings_manager.getManager().getSetting('structuralNavigationEnabled')
         return structural_navigation.StructuralNavigation(self, types, enable)
 
     def getLiveRegionManager(self):
@@ -248,11 +235,14 @@ class Script:
     def getFlatReviewPresenter(self):
         return flat_review_presenter.getPresenter()
 
-    def getDateAndTimePresenter(self):
-        return date_and_time_presenter.getPresenter()
+    def getSystemInformationPresenter(self):
+        return system_information_presenter.getPresenter()
 
     def getObjectNavigator(self):
         return object_navigator.getNavigator()
+
+    def getTableNavigator(self):
+        return table_navigator.getNavigator()
 
     def getSpeechAndVerbosityManager(self):
         return speech_and_verbosity_manager.getManager()
@@ -266,20 +256,14 @@ class Script:
     def getActionPresenter(self):
         return action_presenter.getPresenter()
 
+    def getSleepModeManager(self):
+        return sleep_mode_manager.getManager()
+
     def getMouseReviewer(self):
         return mouse_review.getReviewer()
 
     def getEventSynthesizer(self):
         return ax_event_synthesizer.getSynthesizer()
-
-    def useStructuralNavigationModel(self, debugOutput=True):
-        """Returns True if we should use structural navigation. Most
-        scripts will have no need to override this.  Gecko does however
-        because within an HTML document there are times when we do want
-        to use it and times when we don't even though it is enabled,
-        e.g. in a form field.
-        """
-        return self.structuralNavigation.enabled
 
     def getBookmarks(self):
         """Returns the "bookmarks" class for this script.
@@ -309,7 +293,7 @@ class Script:
         - script: the script.
         """
 
-        _eventManager.registerScriptListeners(self)
+        event_manager.getManager().registerScriptListeners(self)
 
     def deregisterEventListeners(self):
         """Tells the event manager to stop listening for all the event types
@@ -319,7 +303,7 @@ class Script:
         - script: the script.
         """
 
-        _eventManager.deregisterScriptListeners(self)
+        event_manager.getManager().deregisterScriptListeners(self)
 
     def processObjectEvent(self, event):
         """Processes all AT-SPI object events of interest to this
@@ -333,24 +317,6 @@ class Script:
         Arguments:
         - event: the Event
         """
-
-        role = AXObject.get_role(event.source)
-        if role == Atspi.Role.INVALID:
-            msg = 'ERROR: Not processing object event for invalid object'
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return
-
-        # Check to see if we really want to process this event.
-        #
-        processEvent = (orca_state.activeScript == self \
-                        or self.presentIfInactive)
-        if role == Atspi.Role.PROGRESS_BAR \
-           and not processEvent \
-           and settings.progressBarVerbosity == settings.PROGRESS_BAR_ALL:
-            processEvent = True
-
-        if not processEvent:
-            return
 
         if self.skipObjectEvent(event):
             return
@@ -447,44 +413,6 @@ class Script:
 
         return skip
 
-    def consumesKeyboardEvent(self, keyboardEvent):
-        """Called when a key is pressed on the keyboard.
-
-        Arguments:
-        - keyboardEvent: an instance of input_event.KeyboardEvent
-
-        Returns True if the event is of interest.
-        """
-
-        user_bindings = None
-        user_bindings_map = settings.keyBindingsMap
-        if self.__module__ in user_bindings_map:
-            user_bindings = user_bindings_map[self.__module__]
-        elif "default" in user_bindings_map:
-            user_bindings = user_bindings_map["default"]
-
-        consumes = False
-        self._lastCommandWasStructNav = False
-        if user_bindings:
-            handler = user_bindings.getInputHandler(keyboardEvent)
-            if handler \
-                 and handler.function in self.structuralNavigation.functions:
-                consumes = self.useStructuralNavigationModel()
-                if consumes:
-                    self._lastCommandWasStructNav = True
-            else:
-                consumes = handler is not None
-        if not consumes:
-            handler = self.keyBindings.getInputHandler(keyboardEvent)
-            if handler \
-                 and handler.function in self.structuralNavigation.functions:
-                consumes = self.useStructuralNavigationModel()
-                if consumes:
-                    self._lastCommandWasStructNav = True
-            else:
-                consumes = handler is not None
-        return consumes
-
     def consumesBrailleEvent(self, brailleEvent):
         """Called when a key is pressed on the braille display.
 
@@ -558,14 +486,9 @@ class Script:
         return consumed
 
     def locusOfFocusChanged(self, event, oldLocusOfFocus, newLocusOfFocus):
-        """Called when the visual object with focus changes.
-
-        The primary purpose of this method is to present locus of focus
-        information to the user.
-
-        NOTE: scripts should not call this method directly.  Instead,
-        a script should call orca.setLocusOfFocus, which will eventually
-        result in this method being called.
+        """Updates state and presents changes to the user in response to a
+        notification from the FocusManager. Do not call this method outside
+        of the FocusManager.
 
         Arguments:
         - event: if not None, the Event that caused the change

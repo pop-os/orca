@@ -31,13 +31,11 @@ from gi.repository import Atspi
 import re
 
 from orca import debug
+from orca import focus_manager
 from orca import keybindings
-from orca import orca_state
 from orca import script_utilities
 from orca import settings_manager
 from orca.ax_utilities import AXUtilities
-
-_settingsManager = settings_manager.getManager()
 
 
 class Utilities(script_utilities.Utilities):
@@ -180,7 +178,7 @@ class Utilities(script_utilities.Utilities):
         return False
 
     def treatEventAsCommand(self, event):
-        if event.source != orca_state.locusOfFocus:
+        if event.source != focus_manager.getManager().get_locus_of_focus():
             return False
 
         if event.type.startswith("object:text-changed:insert") and event.any_data.strip():
@@ -219,7 +217,7 @@ class Utilities(script_utilities.Utilities):
         return False
 
     def willEchoCharacter(self, event):
-        if not _settingsManager.getSetting("enableEchoByCharacter"):
+        if not settings_manager.getManager().getSetting("enableEchoByCharacter"):
             return False
 
         if len(event.event_string) != 1 \

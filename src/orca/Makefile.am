@@ -13,6 +13,7 @@ orca_python_PYTHON = \
 	ax_event_synthesizer.py \
 	ax_object.py \
 	ax_selection.py \
+	ax_table.py \
 	ax_utilities.py \
 	ax_utilities_collection.py \
 	ax_utilities_role.py \
@@ -29,13 +30,13 @@ orca_python_PYTHON = \
 	cmdnames.py \
 	colornames.py \
 	common_keyboardmap.py \
-	date_and_time_presenter.py \
 	debug.py \
 	desktop_keyboardmap.py \
 	event_manager.py \
 	find.py \
 	flat_review.py \
 	flat_review_presenter.py \
+	focus_manager.py \
 	formatting.py \
 	generator.py \
 	guilabels.py \
@@ -63,6 +64,7 @@ orca_python_PYTHON = \
 	orca_i18n.py \
 	orca_state.py \
 	phonnames.py \
+	orca_modifier_manager.py \
 	orca_platform.py \
 	pronunciation_dict.py \
 	punctuation_settings.py \
@@ -71,6 +73,7 @@ orca_python_PYTHON = \
 	script_utilities.py \
 	settings.py \
 	settings_manager.py \
+	sleep_mode_manager.py \
 	sound.py \
 	sound_generator.py \
 	speech_and_verbosity_manager.py \
@@ -80,8 +83,9 @@ orca_python_PYTHON = \
 	speech_generator.py \
 	speechserver.py \
 	structural_navigation.py \
+	system_information_presenter.py \
+	table_navigator.py \
 	text_attribute_names.py \
-	tutorialgenerator.py \
 	where_am_i_presenter.py
 
 orca_pythondir=$(pkgpythondir)

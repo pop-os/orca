@@ -33,38 +33,38 @@ gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 
 import orca.debug as debug
-import orca.script_utilities as script_utilities
+import orca.scripts.toolkits.gtk as gtk
 from orca.ax_object import AXObject
+from orca.ax_table import AXTable
 from orca.ax_utilities import AXUtilities
 
-#############################################################################
-#                                                                           #
-# Utilities                                                                 #
-#                                                                           #
-#############################################################################
+class Utilities(gtk.Utilities):
 
-class Utilities(script_utilities.Utilities):
+    def getExpanderCellFor(self, obj):
+        if not self._script.chat.isInBuddyList(obj):
+            return None
 
-    def __init__(self, script):
-        """Creates an instance of the Utilities class.
+        if AXUtilities.is_expandable(obj):
+            return obj
 
-        Arguments:
-        - script: the script with which this instance is associated.
-        """
+        if not AXUtilities.is_table_cell(obj):
+            return None
 
-        script_utilities.Utilities.__init__(self, script)
+        parent = AXObject.get_parent(obj)
+        if AXUtilities.is_table_cell(parent):
+            obj = parent
 
-    #########################################################################
-    #                                                                       #
-    # Utilities for finding, identifying, and comparing accessibles         #
-    #                                                                       #
-    #########################################################################
+        candidate = AXObject.get_previous_sibling(obj)
+        if AXUtilities.is_expandable(candidate):
+            return candidate
+
+        return None
 
     def childNodes(self, obj):
         """Gets all of the children that have RELATION_NODE_CHILD_OF pointing
         to this expanded table cell. Overridden here because the object
         which contains the relation is in a hidden column and thus doesn't
-        have a column number (necessary for using getAccessibleAt()).
+        have a column number.
 
         Arguments:
         -obj: the Accessible Object
@@ -73,21 +73,20 @@ class Utilities(script_utilities.Utilities):
         """
 
         if not self._script.chat.isInBuddyList(obj):
-            return script_utilities.Utilities.childNodes(self, obj)
+            return super().childNodes(obj)
 
-        parent = AXObject.get_parent(obj)
-        try:
-            table = parent.queryTable()
-        except Exception:
+        if not AXUtilities.is_expanded(obj):
             return []
-        else:
-            if not AXUtilities.is_expanded(obj):
-                return []
+
+        parent = AXTable.get_table(obj)
+        if parent is None:
+            return []
 
         nodes = []
-        index = self.cellIndex(obj)
-        row = table.getRowAtIndex(index)
-        col = table.getColumnAtIndex(index + 1)
+        row, col = AXTable.get_cell_coordinates(obj)
+
+        # increment the column because the expander cell is hidden.
+        col += 1
         nodeLevel = self.nodeLevel(obj)
 
         # Candidates will be in the rows beneath the current row.
@@ -95,8 +94,8 @@ class Utilities(script_utilities.Utilities):
         # soon as the node level of a candidate is equal or less
         # than our current level.
         #
-        for i in range(row+1, table.nRows):
-            cell = table.getAccessibleAt(i, col)
+        for i in range(row + 1, AXTable.get_row_count(parent, prefer_attribute=False)):
+            cell = AXTable.get_cell_at(parent, i, col)
             nodeCell = AXObject.get_previous_sibling(cell)
             relation = AXObject.get_relation(nodeCell, Atspi.RelationType.NODE_CHILD_OF)
             if not relation:
@@ -111,64 +110,10 @@ class Utilities(script_utilities.Utilities):
         return nodes
 
     def nodeLevel(self, obj):
-        """Determines the node level of this object if it is in a tree
-        relation, with 0 being the top level node.  If this object is
-        not in a tree relation, then -1 will be returned. Overridden
-        here because the accessible we need is in a hidden column.
-
-        Arguments:
-        -obj: the Accessible object
-        """
-
-        if not obj:
-            return -1
-
         if not self._script.chat.isInBuddyList(obj):
-            return script_utilities.Utilities.nodeLevel(self, obj)
+            return super().nodeLevel(obj)
 
-        obj = AXObject.get_previous_sibling(obj)
-        parent = AXObject.get_parent(obj)
-        try:
-            parent.queryTable()
-        except Exception:
-            return -1
-
-        nodes = []
-        node = obj
-        done = False
-        while not done:
-            relation = AXObject.get_relation(node, Atspi.RelationType.NODE_CHILD_OF)
-            node = None
-            if relation:
-                node = relation.get_target(0)
-
-            # We want to avoid situations where something gives us an
-            # infinite cycle of nodes.  Bon Echo has been seen to do
-            # this (see bug 351847).
-            #
-            if (len(nodes) > 100) or nodes.count(node):
-                debug.printMessage(debug.LEVEL_WARNING, "PIDGIN: Detected a cycle of nodes")
-                done = True
-            elif node:
-                nodes.append(node)
-            else:
-                done = True
-
-        return len(nodes) - 1
-
-    #########################################################################
-    #                                                                       #
-    # Utilities for working with the accessible text interface              #
-    #                                                                       #
-    #########################################################################
-
-
-
-    #########################################################################
-    #                                                                       #
-    # Miscellaneous Utilities                                               #
-    #                                                                       #
-    #########################################################################
+        return super().nodeLevel(AXObject.get_previous_sibling(obj))
 
     def isZombie(self, obj):
         if not super().isZombie(obj):

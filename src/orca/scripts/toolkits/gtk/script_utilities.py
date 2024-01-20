@@ -32,10 +32,8 @@ import re
 
 import orca.debug as debug
 import orca.script_utilities as script_utilities
-import orca.orca_state as orca_state
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
-
 
 class Utilities(script_utilities.Utilities):
 
@@ -184,13 +182,7 @@ class Utilities(script_utilities.Utilities):
         if not AXUtilities.is_canvas(event.source):
             return False
 
-        if not orca_state.activeWindow:
-            msg = "GTK: No active window"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return False
-
-        topLevel = self.topLevelObject(event.source)
-        if not self.isSameObject(topLevel, orca_state.activeWindow):
+        if not self.topLevelObjectIsActiveWindow(event.source):
             msg = "GTK: Event is believed to be canvas noise"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True

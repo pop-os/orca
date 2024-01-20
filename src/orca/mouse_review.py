@@ -44,18 +44,15 @@ except Exception:
 
 from . import cmdnames
 from . import debug
+from . import focus_manager
 from . import keybindings
 from . import input_event
 from . import messages
-from . import orca
-from . import orca_state
 from . import script_manager
 from . import settings_manager
 from .ax_object import AXObject
 from .ax_utilities import AXUtilities
 
-_scriptManager = script_manager.getManager()
-_settingsManager = settings_manager.getManager()
 
 class _StringContext:
     """The textual information associated with an _ItemContext."""
@@ -148,7 +145,8 @@ class _StringContext:
         voice = self._script.speechGenerator.voice(obj=self._obj, string=self._string)
         string = self._script.utilities.adjustForRepeats(self._string)
 
-        orca.emitRegionChanged(self._obj, self._start, self._end, orca.MOUSE_REVIEW)
+        focus_manager.getManager().emit_region_changed(
+            self._obj, self._start, self._end, focus_manager.MOUSE_REVIEW)
         self._script.speakMessage(string, voice=voice, interrupt=False)
         self._script.displayBrailleMessage(self._string, -1)
         return True
@@ -316,7 +314,8 @@ class _ItemContext:
 
         if self._obj and self._obj != prior._obj and not self._isInlineChild(prior):
             priorObj = prior._obj or self._getContainer()
-            orca.emitRegionChanged(self._obj, mode=orca.MOUSE_REVIEW)
+            focus_manager.getManager().emit_region_changed(
+                self._obj, mode=focus_manager.MOUSE_REVIEW)
             self._script.presentObject(self._obj, priorObj=priorObj, inMouseReview=True)
             if self._string.getString() == AXObject.get_name(self._obj):
                 return True
@@ -336,7 +335,7 @@ class MouseReviewer:
     """Main class for the mouse-review feature."""
 
     def __init__(self):
-        self._active = _settingsManager.getSetting("enableMouseReview")
+        self._active = settings_manager.getManager().getSetting("enableMouseReview")
         self._currentMouseOver = _ItemContext()
         self._pointer = None
         self._workspace = None
@@ -345,8 +344,8 @@ class MouseReviewer:
         self._handlerIds = {}
         self._eventListener = Atspi.EventListener.new(self._listener)
         self.inMouseEvent = False
-        self._handlers = self._setup_handlers()
-        self._bindings = self._setup_bindings()
+        self._handlers = self.get_handlers(True)
+        self._bindings = keybindings.KeyBindings()
 
         if not _mouseReviewCapable:
             msg = "MOUSE REVIEW ERROR: Wnck is not available"
@@ -376,41 +375,55 @@ class MouseReviewer:
 
         self.activate()
 
-    def get_bindings(self):
+    def get_bindings(self, refresh=False, is_desktop=True):
         """Returns the mouse-review keybindings."""
+
+        if refresh:
+            msg = "MOUSE REVIEW: Refreshing bindings."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            self._setup_bindings()
+        elif self._bindings.isEmpty():
+            self._setup_bindings()
 
         return self._bindings
 
-    def get_handlers(self):
+    def get_handlers(self, refresh=False):
         """Returns the mouse-review handlers."""
+
+        if refresh:
+            msg = "MOUSE REVIEW: Refreshing handlers."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            self._setup_handlers()
 
         return self._handlers
 
     def _setup_handlers(self):
-        """Sets up and returns the mouse-review input event handlers."""
+        """Sets up the mouse-review input event handlers."""
 
-        handlers = {}
+        self._handlers = {}
 
-        handlers["toggleMouseReviewHandler"] = \
+        self._handlers["toggleMouseReviewHandler"] = \
             input_event.InputEventHandler(
                 self.toggle,
                 cmdnames.MOUSE_REVIEW_TOGGLE)
 
-        return handlers
+        msg = "MOUSE REVIEW: Handlers set up."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
     def _setup_bindings(self):
-        """Sets up and returns the mouse-review key bindings."""
+        """Sets up the mouse-review key bindings."""
 
-        bindings = keybindings.KeyBindings()
+        self._bindings = keybindings.KeyBindings()
 
-        bindings.add(
+        self._bindings.add(
             keybindings.KeyBinding(
                 "",
                 keybindings.defaultModifierMask,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("toggleMouseReviewHandler")))
 
-        return bindings
+        msg = "MOUSE REVIEW: Bindings set up."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
     def activate(self):
         """Activates mouse review."""
@@ -422,11 +435,11 @@ class MouseReviewer:
 
         # Set up the initial object as the one with the focus to avoid
         # presenting irrelevant info the first time.
-        obj = orca_state.locusOfFocus
+        obj = focus_manager.getManager().get_locus_of_focus()
         script = None
         frame = None
         if obj:
-            script = _scriptManager.getScript(AXObject.get_application(obj), obj)
+            script = script_manager.getManager().getScript(AXObject.get_application(obj), obj)
         if script:
             frame = script.utilities.topLevelObject(obj)
         self._currentMouseOver = _ItemContext(obj=obj, frame=frame, script=script)
@@ -491,7 +504,7 @@ class MouseReviewer:
             return
 
         self._active = not self._active
-        _settingsManager.setSetting("enableMouseReview", self._active)
+        settings_manager.getManager().setSetting("enableMouseReview", self._active)
 
         if not self._active:
             self.deactivate()
@@ -500,8 +513,9 @@ class MouseReviewer:
             self.activate()
             msg = messages.MOUSE_REVIEW_ENABLED
 
-        if orca_state.activeScript:
-            orca_state.activeScript.presentMessage(msg)
+        script = script_manager.getManager().getActiveScript()
+        if script is not None:
+            script.presentMessage(msg)
 
     def _update_workspace_windows(self):
         self._windows = [w for w in self._all_windows
@@ -595,16 +609,17 @@ class MouseReviewer:
         if not window:
             return
 
-        script = _scriptManager.getScript(AXObject.get_application(window))
+        script = script_manager.getManager().getScript(AXObject.get_application(window))
         if not script:
             return
 
-        if AXObject.is_dead(orca_state.locusOfFocus):
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if AXObject.is_dead(focus):
             menu = None
-        elif AXUtilities.is_menu(orca_state.locusOfFocus):
-            menu = orca_state.locusOfFocus
+        elif AXUtilities.is_menu(focus):
+            menu = focus
         else:
-            menu = AXObject.find_ancestor(orca_state.locusOfFocus, AXUtilities.is_menu)
+            menu = AXObject.find_ancestor(focus, AXUtilities.is_menu)
 
         screen, nowX, nowY = self._pointer.get_position()
         if (pX, pY) != (nowX, nowY):
@@ -617,7 +632,7 @@ class MouseReviewer:
         tokens = [f"MOUSE REVIEW: Object at ({pX}, {pY}) is", obj]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        script = _scriptManager.getScript(AXObject.get_application(window), obj)
+        script = script_manager.getManager().getScript(AXObject.get_application(window), obj)
         if menu and obj and not AXObject.find_ancestor(obj, AXUtilities.is_menu):
             if script.utilities.intersectingRegion(obj, menu) != (0, 0, 0, 0):
                 tokens = ["MOUSE REVIEW:", obj, "believed to be under", menu]

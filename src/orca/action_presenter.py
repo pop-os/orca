@@ -30,61 +30,75 @@ import gi
 
 gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gdk, Gtk
+from gi.repository import Gdk, GLib, Gtk
 
 from . import cmdnames
 from . import debug
+from . import focus_manager
 from . import input_event
 from . import keybindings
 from . import messages
-from . import orca
-from . import orca_state
 from .ax_object import AXObject
+
 
 class ActionPresenter:
     """Provides menu for performing accessible actions on an object."""
 
     def __init__(self):
-        self._handlers = self._setup_handlers()
-        self._bindings = self._setup_bindings()
+        self._handlers = self.get_handlers(True)
+        self._bindings = keybindings.KeyBindings()
         self._gui = None
         self._obj = None
 
-    def get_bindings(self):
+    def get_bindings(self, refresh=False, is_desktop=True):
         """Returns the action-presenter keybindings."""
+
+        if refresh:
+            msg = "ACTION PRESENTER: Refreshing bindings."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            self._setup_bindings()
+        elif self._bindings.isEmpty():
+            self._setup_bindings()
 
         return self._bindings
 
-    def get_handlers(self):
+    def get_handlers(self, refresh=False):
         """Returns the action-presenter handlers."""
+
+        if refresh:
+            msg = "ACTION PRESENTER: Refreshing handlers."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            self._setup_handlers()
 
         return self._handlers
 
     def _setup_handlers(self):
-        """Sets up and returns the action-presenter input event handlers."""
+        """Sets up the action-presenter input event handlers."""
 
-        handlers = {}
+        self._handlers = {}
 
-        handlers["show_actions_menu"] = \
+        self._handlers["show_actions_menu"] = \
             input_event.InputEventHandler(
                 self.show_actions_menu,
                 cmdnames.SHOW_ACTIONS_MENU)
 
-        return handlers
+        msg = "ACTION PRESENTER: Handlers set up."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
     def _setup_bindings(self):
-        """Sets up and returns the action-presenter key bindings."""
+        """Sets up the action-presenter key bindings."""
 
-        bindings = keybindings.KeyBindings()
+        self._bindings = keybindings.KeyBindings()
 
-        bindings.add(
+        self._bindings.add(
             keybindings.KeyBinding(
                 "a",
                 keybindings.defaultModifierMask,
                 keybindings.ORCA_SHIFT_MODIFIER_MASK,
                 self._handlers.get("show_actions_menu")))
 
-        return bindings
+        msg = "ACTION PRESENTER: Bindings set up."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
     def _perform_action(self, action):
         """Attempts to perform the named action."""
@@ -97,7 +111,8 @@ class ActionPresenter:
     def show_actions_menu(self, script, event=None):
         """Shows a menu with all the available accessible actions."""
 
-        obj = orca.getActiveModeAndObjectOfInterest()[1] or orca_state.locusOfFocus
+        obj = focus_manager.getManager().get_active_mode_and_object_of_interest()[1] \
+            or focus_manager.getManager().get_locus_of_focus()
         if obj is None:
             full = messages.LOCATION_NOT_FOUND_FULL
             brief = messages.LOCATION_NOT_FOUND_BRIEF
@@ -120,7 +135,10 @@ class ActionPresenter:
 
         self._obj = obj
         self._gui = ActionMenu(actions, self._perform_action)
-        self._gui.show_gui()
+        timeout = 500
+        msg = f"ACTION PRESENTER: Delaying popup {timeout}ms due to GtkMenu grab conflict."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        GLib.timeout_add(timeout, self._gui.show_gui)
         return True
 
 

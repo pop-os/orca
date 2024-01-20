@@ -44,6 +44,7 @@ from . import input_event
 from . import keybindings
 from . import messages
 from . import orca_state
+from . import script_manager
 from . import settings
 from . import settings_manager
 from .ax_object import AXObject
@@ -53,8 +54,8 @@ class LearnModePresenter:
     """Provides implementation of learn mode"""
 
     def __init__(self):
-        self._handlers = self._setup_handlers()
-        self._bindings = self._setup_bindings()
+        self._handlers = self.get_handlers(True)
+        self._bindings = keybindings.KeyBindings()
         self._is_active = False
         self._gui = None
 
@@ -63,41 +64,55 @@ class LearnModePresenter:
 
         return self._is_active
 
-    def get_bindings(self):
+    def get_bindings(self, refresh=False, is_desktop=True):
         """Returns the learn-mode-presenter keybindings."""
+
+        if refresh:
+            msg = "LEARN MODE PRESENTER: Refreshing bindings."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            self._setup_bindings()
+        elif self._bindings.isEmpty():
+            self._setup_bindings()
 
         return self._bindings
 
-    def get_handlers(self):
+    def get_handlers(self, refresh=False):
         """Returns the learn-mode-presenter handlers."""
+
+        if refresh:
+            msg = "LEARN MODE PRESENTER: Refreshing handlers."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            self._setup_handlers()
 
         return self._handlers
 
     def _setup_handlers(self):
-        """Sets up and returns the learn-mode-presenter input event handlers."""
+        """Sets up the learn-mode-presenter input event handlers."""
 
-        handlers = {}
+        self._handlers = {}
 
-        handlers["enterLearnModeHandler"] = \
+        self._handlers["enterLearnModeHandler"] = \
             input_event.InputEventHandler(
                 self.start,
                 cmdnames.ENTER_LEARN_MODE)
 
-        return handlers
+        msg = "LEARN MODE PRESENTER: Handlers set up."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
     def _setup_bindings(self):
-        """Sets up and returns the learn-mode-presenter key bindings."""
+        """Sets up the learn-mode-presenter key bindings."""
 
-        bindings = keybindings.KeyBindings()
+        self._bindings = keybindings.KeyBindings()
 
-        bindings.add(
+        self._bindings.add(
             keybindings.KeyBinding(
                 "h",
                 keybindings.defaultModifierMask,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("enterLearnModeHandler")))
 
-        return bindings
+        msg = "LEARN MODE PRESENTER: Bindings set up."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
     def start(self, script=None, event=None):
         """Starts learn mode."""
@@ -108,17 +123,16 @@ class LearnModePresenter:
             return True
 
         if script is None:
-            script = orca_state.activeScript
+            script = script_manager.getManager().getActiveScript()
 
         if script is not None:
             script.presentMessage(messages.VERSION)
             script.speakMessage(messages.LEARN_MODE_START_SPEECH)
             script.displayBrailleMessage(messages.LEARN_MODE_START_BRAILLE)
 
-        if orca_state.device is not None:
-            msg = "LEARN MODE PRESENTER: Grabbing keyboard"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            Atspi.Device.grab_keyboard(orca_state.device)
+        msg = "LEARN MODE PRESENTER: Grabbing keyboard"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        Atspi.Device.grab_keyboard(orca_state.device)
 
         msg = "LEARN MODE PRESENTER: Is now active"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -134,15 +148,14 @@ class LearnModePresenter:
             return True
 
         if script is None:
-            script = orca_state.activeScript
+            script = script_manager.getManager().getActiveScript()
 
         if script is not None:
             script.presentMessage(messages.LEARN_MODE_STOP)
 
-        if orca_state.device is not None:
-            msg = "LEARN MODE PRESENTER: Ungrabbing keyboard"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            Atspi.Device.ungrab_keyboard(orca_state.device)
+        msg = "LEARN MODE PRESENTER: Ungrabbing keyboard"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        Atspi.Device.ungrab_keyboard(orca_state.device)
 
         msg = "LEARN MODE PRESENTER: Is now inactive"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -158,21 +171,22 @@ class LearnModePresenter:
         if not isinstance(event, input_event.KeyboardEvent):
             return False
 
-        orca_state.activeScript.speakKeyEvent(event)
+        script = script_manager.getManager().getActiveScript()
+        script.speakKeyEvent(event)
         if event.isPrintableKey() and event.getClickCount() == 2 \
            and event.getHandler() is None:
-            orca_state.activeScript.phoneticSpellCurrentItem(event.event_string)
+            script.phoneticSpellCurrentItem(event.event_string)
 
         if event.event_string == "Escape":
             self.quit(script=None, event=event)
             return True
 
         if event.event_string == "F1" and not event.modifiers:
-            self.show_help(orca_state.activeScript, event)
+            self.show_help(script, event)
             return True
 
         if event.event_string in ["F2", "F3"] and not event.modifiers:
-            self.list_orca_shortcuts(orca_state.activeScript, event)
+            self.list_orca_shortcuts(script, event)
             return True
 
         self.present_command(event)
@@ -189,7 +203,8 @@ class LearnModePresenter:
             return True
 
         if handler.learnModeEnabled and handler.description:
-            orca_state.activeScript.presentMessage(handler.description)
+            script = script_manager.getManager().getActiveScript()
+            script.presentMessage(handler.description)
 
         return True
 
@@ -205,47 +220,67 @@ class LearnModePresenter:
         items = 0
         bindings = {}
         if event is None or event.event_string == "F2":
-            bound = script.getLearnModePresenter().get_bindings().getBoundBindings()
-            bindings[guilabels.KB_GROUP_LEARN_MODE] = bound
-            items += len(bound)
-
             bound = script.getDefaultKeyBindings().getBoundBindings()
             bindings[guilabels.KB_GROUP_DEFAULT] = bound
             items += len(bound)
 
-            bound = script.getWhereAmIPresenter().get_bindings(is_desktop).getBoundBindings()
+            bound = script.getLearnModePresenter().get_bindings(
+                is_desktop=is_desktop).getBoundBindings()
+            bindings[guilabels.KB_GROUP_LEARN_MODE] = bound
+            items += len(bound)
+
+            bound = script.getWhereAmIPresenter().get_bindings(
+                is_desktop=is_desktop).getBoundBindings()
             bindings[guilabels.KB_GROUP_WHERE_AM_I] = bound
             items += len(bound)
 
-            bound = script.getSpeechAndVerbosityManager().get_bindings().getBoundBindings()
+            bound = script.getSpeechAndVerbosityManager().get_bindings(
+                is_desktop=is_desktop).getBoundBindings()
             bindings[guilabels.KB_GROUP_SPEECH_VERBOSITY] = bound
             items += len(bound)
 
-            bound = script.getFlatReviewPresenter().get_bindings(is_desktop).getBoundBindings()
+            bound = script.getSleepModeManager().get_bindings(
+                is_desktop=is_desktop).getBoundBindings()
+            bindings[guilabels.KB_GROUP_SLEEP_MODE] = bound
+            items += len(bound)
+
+            bound = script.getFlatReviewPresenter().get_bindings(
+                is_desktop=is_desktop).getBoundBindings()
             bindings[guilabels.KB_GROUP_FLAT_REVIEW] = bound
             items += len(bound)
 
-            bound = script.getObjectNavigator().get_bindings().getBoundBindings()
+            bound = script.getObjectNavigator().get_bindings(
+                is_desktop=is_desktop).getBoundBindings()
             bindings[guilabels.KB_GROUP_OBJECT_NAVIGATION] = bound
             items += len(bound)
 
-            bound = script.getDateAndTimePresenter().get_bindings().getBoundBindings()
-            bindings[guilabels.KB_GROUP_DATE_AND_TIME] = bound
+            bound = script.getTableNavigator().get_bindings(
+                is_desktop=is_desktop).getBoundBindings()
+            bindings[guilabels.KB_GROUP_TABLE_NAVIGATION] = bound
             items += len(bound)
 
-            bound = script.getNotificationPresenter().get_bindings().getBoundBindings()
+            bound = script.getSystemInfoPresenter().get_bindings(
+                is_desktop=is_desktop).getBoundBindings()
+            bindings[guilabels.KB_GROUP_SYSTEM_INFORMATION] = bound
+            items += len(bound)
+
+            bound = script.getNotificationPresenter().get_bindings(
+                is_desktop=is_desktop).getBoundBindings()
             bindings[guilabels.KB_GROUP_NOTIFICATIONS] = bound
             items += len(bound)
 
-            bound = script.getBookmarks().get_bindings().getBoundBindings()
+            bound = script.getBookmarks().get_bindings(
+                is_desktop=is_desktop).getBoundBindings()
             bindings[guilabels.KB_GROUP_BOOKMARKS] = bound
             items += len(bound)
 
-            bound = script.getMouseReviewer().get_bindings().getBoundBindings()
+            bound = script.getMouseReviewer().get_bindings(
+                is_desktop=is_desktop).getBoundBindings()
             bindings[guilabels.KB_GROUP_MOUSE_REVIEW] = bound
             items += len(bound)
 
-            bound = script.getActionPresenter().get_bindings().getBoundBindings()
+            bound = script.getActionPresenter().get_bindings(
+                is_desktop=is_desktop).getBoundBindings()
             bindings[guilabels.KB_GROUP_ACTIONS] = bound
             items += len(bound)
 

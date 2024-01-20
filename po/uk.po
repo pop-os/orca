@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orca\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/orca/issues\n"
-"POT-Creation-Date: 2023-08-11 17:30+0000\n"
-"PO-Revision-Date: 2023-08-11 21:31+0300\n"
+"POT-Creation-Date: 2023-08-08 11:20+0000\n"
+"PO-Revision-Date: 2023-08-08 20:46+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -1856,14 +1856,12 @@ msgstr "Вимовити типову кнопку"
 #. Translators: This command will cause the window's status bar contents to be
 #. spoken and displayed in braille.
 #: src/orca/cmdnames.py:100
-#| msgid "Speak the status bar"
 msgid "Present the status bar"
 msgstr "Вимовити смужку стану"
 
 #. Translators: This command will cause the window's title to be spoken and
 #. displayed in braille.
 #: src/orca/cmdnames.py:104
-#| msgid "Speak the title bar"
 msgid "Present the title bar"
 msgstr "Вимовити заголовок вікна"
 
@@ -1877,7 +1875,6 @@ msgstr "Відкрити діалогове вікно пошуку"
 #. Translators: Orca has a command which presents a menu with accessible actions
 #. that can be performed on the current object. This is the name of that command.
 #: src/orca/cmdnames.py:113
-#| msgid "fraction end"
 msgid "Show actions menu"
 msgstr "Показати меню дій"
 
@@ -1913,7 +1910,6 @@ msgstr "Вхід та вихід у режим плоского перегляд
 #. the user to explore this text by the {previous,next} {line,word,character}.
 #. This switch allows the user to restrict the flat review function to a specific object.
 #: src/orca/cmdnames.py:140
-#| msgid "Move flat review to the end position"
 msgid "Toggle restricting flat review to the current object"
 msgstr "Увімкнути або вимкнути обмеження плоского перегляду поточним об'єктом"
 
@@ -2184,7 +2180,6 @@ msgstr "Додає вміст загального огляду в буфер о
 #. flat review representation into a text view to make it easy to review
 #. and copy the text. This string describes that command.
 #: src/orca/cmdnames.py:363
-#| msgid "Move flat review to the end position"
 msgid "Show flat review contents"
 msgstr "Показати вміст загального перегляду"
 
@@ -2357,7 +2352,6 @@ msgstr "Перемкнути на наступний рівень вимови �
 #. available on their system, such as espeak, voxin, mbrola, etc. This string
 #. is the description of the command.
 #: src/orca/cmdnames.py:489
-#| msgid "Cycle to the next key echo level"
 msgid "Cycle to the next speech synthesizer"
 msgstr "Циклічний перехід до наступного синтезатора мови"
 
@@ -2631,7 +2625,6 @@ msgstr "Показати попереднє повідомлення спові�
 #. Translators: this is a command which causes Orca to present the next
 #. notification message.
 #: src/orca/cmdnames.py:696
-#| msgid "Present last notification message"
 msgid "Present next notification message"
 msgstr "Показати наступне повідомлення сповіщення"
 
@@ -2968,19 +2961,16 @@ msgstr "Показати список заголовків рівня %d"
 
 #. Translators: this is for navigating among iframes in a document.
 #: src/orca/cmdnames.py:920
-#| msgid "Go to previous table"
 msgid "Go to previous internal frame"
 msgstr "Перейти до попереднього вбудованого фрейма"
 
 #. Translators: this is for navigating among iframes in a document.
 #: src/orca/cmdnames.py:923
-#| msgid "Go to next table"
 msgid "Go to next internal frame"
 msgstr "Перейти до наступного вбудованого фрейма"
 
 #. Translators: this is for navigating among images in a document.
 #: src/orca/cmdnames.py:926
-#| msgid "Display a list of tables"
 msgid "Display a list of internal frames"
 msgstr "Показати список вбудованих фреймів"
 
@@ -3139,7 +3129,6 @@ msgstr ""
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy. Users are also able to synthesize a click on the objects.
 #: src/orca/cmdnames.py:1027
-#| msgid "Return to object with keyboard focus"
 msgid "Click on the object with navigator focus."
 msgstr "Клацнути на фокусованому об'єкті навігатора."
 
@@ -3147,7 +3136,6 @@ msgstr "Клацнути на фокусованому об'єкті навіг�
 #. as a hierarchy. This hierarchy can be simplified, and the simplification can be
 #. toggled on and off.
 #: src/orca/cmdnames.py:1032
-#| msgid "Toggle structural navigation keys"
 msgid "Toggle simplified object navigation."
 msgstr "Увімкнути або вимкнути спрощену навігацію об'єктами."
 
@@ -4776,7 +4764,6 @@ msgstr "Типово"
 #. are related to its "learn mode". Please use the same translation as done
 #. in cmdnames.py
 #: src/orca/guilabels.py:280
-#| msgid "Layout mode."
 msgctxt "keybindings"
 msgid "Learn mode"
 msgstr "Режим навчання"
@@ -4785,7 +4772,6 @@ msgstr "Режим навчання"
 #. are related to presenting and performing the accessible actions associated
 #. with the current object.
 #: src/orca/guilabels.py:285
-#| msgid "section"
 msgid "Actions"
 msgstr "Дії"
 
@@ -4800,14 +4786,12 @@ msgstr "Прив'язки системи Брайля"
 #. Translators: This string is a label for the group of Orca commands which
 #. are related to saving and jumping among objects via "bookmarks".
 #: src/orca/guilabels.py:295
-#| msgid "Save bookmarks"
 msgid "Bookmarks"
 msgstr "Закладки"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. are related to presenting the date and time.
 #: src/orca/guilabels.py:299
-#| msgid "Time and Date"
 msgid "Date and time"
 msgstr "Дата і час"
 
@@ -4816,15 +4800,12 @@ msgstr "Дата і час"
 #. and/or braille. The translation should be consistent with the string
 #. used in cmdnames.py.
 #: src/orca/guilabels.py:305
-#| msgid "Mouse review enabled."
 msgid "Mouse review"
 msgstr "Перевірка мишки"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. are related to object navigation.
 #: src/orca/guilabels.py:309
-#| msgctxt "role"
-#| msgid "navigation"
 msgid "Object navigation"
 msgstr "Навігація об'єктами"
 
@@ -4834,7 +4815,6 @@ msgstr "Навігація об'єктами"
 #. name, role, and location of the currently-focused object; the selected
 #. text in the currently-focused object; etc.
 #: src/orca/guilabels.py:316
-#| msgid "Object mode."
 msgid "Object details"
 msgstr "Подробиці про об'єкт"
 
@@ -4852,7 +4832,6 @@ msgstr "Не вказано"
 #. the user to explore this text by the {previous,next} {line,word,character}.
 #. Those commands are all listed under this group label.
 #: src/orca/guilabels.py:329
-#| msgid "Leaving flat review."
 msgid "Flat review"
 msgstr "Загальний перегляд"
 
@@ -4862,7 +4841,6 @@ msgstr "Загальний перегляд"
 #. particular object, as well certain aspects of the voice with which things
 #. are spoken.
 #: src/orca/guilabels.py:336
-#| msgid "Toggle speech verbosity level"
 msgid "Speech and verbosity"
 msgstr "Озвучення та докладність"
 
@@ -4876,8 +4854,6 @@ msgstr "Озвучення та докладність"
 #. flat review representation into a text view to make it easy to review
 #. and copy the text. This string is the title of the window with the text view.
 #: src/orca/guilabels.py:347
-#| msgctxt "role"
-#| msgid "main content"
 msgid "Flat review contents"
 msgstr "Вміст загального перегляду"
 
@@ -4902,7 +4878,6 @@ msgstr "_Настільна"
 #. column for the time of the notification. This string is a column header
 #. for the text of the notifications.
 #: src/orca/guilabels.py:364
-#| msgid "Notification"
 msgctxt "notification presenter"
 msgid "Notifications"
 msgstr "Сповіщення"
@@ -4921,7 +4896,6 @@ msgstr "Отримано"
 #. Translators: This string is a label for the group of Orca commands which
 #. are associated with presenting notifications.
 #: src/orca/guilabels.py:376
-#| msgid "Notification"
 msgid "Notification presenter"
 msgstr "Представлення сповіщень"
 
@@ -5214,8 +5188,6 @@ msgstr "Заголовок"
 #. could with native keyboard navigation. This is the title for a column which
 #. contains the title associated with an iframe.
 #: src/orca/guilabels.py:579
-#| msgctxt "math symbol"
-#| msgid "intercalate"
 msgctxt "structural navigation"
 msgid "Internal Frame"
 msgstr "Внутрішня рамка"
@@ -5438,8 +5410,8 @@ msgstr "Заголовки"
 #. objects in a dialog box so that users can navigate more quickly than they
 #. could with native keyboard navigation. This is the title of such a dialog box.
 #: src/orca/guilabels.py:726
-#| msgctxt "math symbol"
-#| msgid "intercalate"
+#| msgctxt "structural navigation"
+#| msgid "Internal Frame"
 msgctxt "structural navigation"
 msgid "Internal Frames"
 msgstr "Внутрішні рамки"
@@ -5750,7 +5722,8 @@ msgstr "_Стисло"
 #. substitution is for the number of messages in the list.
 #: src/orca/guilabels.py:939
 #, python-format
-#| msgid "Notification"
+#| msgctxt "notification presenter"
+#| msgid "%d Notifications"
 msgid "%d notification"
 msgid_plural "%d notifications"
 msgstr[0] "%d сповіщення"
@@ -8206,7 +8179,6 @@ msgstr "не вдається зберегти закладки"
 #. presented to the user when they try to go to a bookmark, but don't have
 #. any bookmarks.
 #: src/orca/messages.py:74
-#| msgid "No landmark found."
 msgid "No bookmarks found."
 msgstr "Закладок не знайдено."
 
@@ -8217,7 +8189,6 @@ msgstr "Закладок не знайдено."
 #. index (e.g. bookmark 1 or bookmark 2) but there is no bookmark stored at
 #. that index.
 #: src/orca/messages.py:82
-#| msgid "No landmark found."
 msgid "Bookmark not found."
 msgstr "Закладку не знайдено."
 
@@ -8777,7 +8748,6 @@ msgstr "Типова кнопка %s"
 #. the same word used for the string in object_properties.py.
 #: src/orca/messages.py:501
 #, python-format
-#| msgid "Default button is %s"
 msgid "Default button is %s. Grayed"
 msgstr "Типовою є кнопка %s. Неактивна"
 
@@ -8786,7 +8756,6 @@ msgstr "Типовою є кнопка %s. Неактивна"
 #. a command to present the default button. This is the message Orca will
 #. present if it could not find the default button.
 #: src/orca/messages.py:507
-#| msgid "Default button is %s"
 msgid "Default button not found"
 msgstr "Типової кнопки не знайдено"
 
@@ -8812,7 +8781,6 @@ msgstr " верхній індекс %s"
 #. specific to dialog boxes, such as presenting the default button, but is not in
 #. a dialog.
 #: src/orca/messages.py:524
-#| msgid "Not in a table."
 msgid "Not in a dialog"
 msgstr "Не є діалоговим вікном"
 
@@ -8977,7 +8945,6 @@ msgstr "Залишити режим загального перегляду."
 #. let the user know that flat review is being restricted to the current
 #. object of interest.
 #: src/orca/messages.py:644
-#| msgid "Move flat review to the word above the current word"
 msgid "Flat review restricted to the current object"
 msgstr "Плоский перегляд обмежено поточним об'єктом"
 
@@ -10514,7 +10481,6 @@ msgstr "Режим об'єктів."
 #. Translators: This message is presented to the user when the command to move
 #. the mouse pointer to a particular object is believed to have succeeded.
 #: src/orca/messages.py:1784
-#| msgid "No more large objects."
 msgid "Pointer moved to object."
 msgstr "Вказівник пересунуто на об'єкт."
 
@@ -10567,8 +10533,6 @@ msgstr "Немає наступного."
 #. as a hierarchy. This message is spoken when the current node in the hierarchy
 #. has no parent.
 #: src/orca/messages.py:1822
-#| msgid "%d percent."
-#| msgid_plural "%d percent."
 msgid "No parent."
 msgstr "Немає батьківського."
 
@@ -10576,7 +10540,6 @@ msgstr "Немає батьківського."
 #. as a hierarchy. This message is spoken when the current node in the hierarchy
 #. has no previous sibling.
 #: src/orca/messages.py:1827
-#| msgid "Go to previous word"
 msgid "No previous."
 msgstr "Немає попереднього."
 
@@ -10616,7 +10579,6 @@ msgstr "Додано новий елемент"
 #. localized rolename if it does not.
 #: src/orca/messages.py:1854
 #, python-format
-#| msgid "No application has focus."
 msgid "No actions found on: %s"
 msgstr "Не знайдено дій на таке: %s"
 
@@ -10709,7 +10671,6 @@ msgstr "Більше немає заголовків рівня %d."
 #. to iframe. This is a detailed message which will be presented to the user
 #. if no more iframes can be found.
 #: src/orca/messages.py:1919
-#| msgid "No more tables."
 msgid "No more internal frames."
 msgstr "Більше немає вбудованих фреймів."
 
@@ -14704,6 +14665,10 @@ msgstr ""
 "Для зменшення значення натисніть стрілку ліворуч, для збільшення - праворуч. "
 "Для встановлення мінімального значення натисніть Home, для максимального - "
 "End."
+
+#~ msgctxt "structural navigation"
+#~ msgid "Interal Frames"
+#~ msgstr "Вбудовані фрейми"
 
 #~ msgid "Exiting list notification messages mode."
 #~ msgstr "Вихід з режиму списку повідомлень сповіщення."

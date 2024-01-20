@@ -28,10 +28,8 @@ __license__   = "LGPL"
 import orca.messages as messages
 import orca.scripts.default as default
 import orca.settings as settings
-import orca.settings_manager as settings_manager
 from orca.ax_object import AXObject
 
-_settingsManager = settings_manager.getManager()
 
 ########################################################################
 #                                                                      #
@@ -66,8 +64,7 @@ class Script(default.Script):
         message = ""
         if value < 0:
             self.speakMessage(messages.NOTIFICATION)
-            message = '%s %s' % (AXObject.get_name(event.source),
-                                 AXObject.get_description(event.source))
+            message = f'{AXObject.get_name(event.source)} {AXObject.get_description(event.source)}'
         else:
             # A gauge notification, e.g. the Ubuntu volume notification that
             # appears when you press the multimedia keys.

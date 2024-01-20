@@ -27,12 +27,6 @@
       <mal:email>asklarsen@gmail.com</mal:email>
       <mal:years>2022</mal:years>
     </mal:credit>
-  
-    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
-      <mal:name>Alan Mortensen</mal:name>
-      <mal:email>alanmortensen.am@gmail.com</mal:email>
-      <mal:years>2023</mal:years>
-    </mal:credit>
   </info>
   <title>Kommandoer relaterede til mus/markør</title>
   <p><app>Orca</app> har adskillige kommandoer, som kan bruges til at styre musemarkøren og læse det indhold, som er under den. Alle kommandoerne er “bundet” til tastetryk undtagen én: Tilstanden Musegennemgang til/fra. Se venligst <link xref="howto_key_bindings">Ændring af tastebindinger</link> for information om hvordan, kommandoen bindes til et tastetryk.</p>

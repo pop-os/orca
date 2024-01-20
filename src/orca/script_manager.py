@@ -27,10 +27,10 @@ __license__   = "LGPL"
 import importlib
 
 from . import debug
-from . import orca_state
 from .ax_object import AXObject
 from .ax_utilities import AXUtilities
 from .scripts import apps, toolkits
+
 
 class ScriptManager:
 
@@ -39,6 +39,7 @@ class ScriptManager:
         self.appScripts = {}
         self.toolkitScripts = {}
         self.customScripts = {}
+        self._sleepModeScripts = {}
         self._appModules = apps.__all__
         self._toolkitModules = toolkits.__all__
         self._defaultScript = None
@@ -58,9 +59,9 @@ class ScriptManager:
              'pluma': 'gedit',
             }
         self._toolkitNames = \
-            {'WebKitGTK': 'WebKitGtk', 'GTK': 'gtk'}
+            {'WebKitGTK': 'WebKitGtk', 'GTK': 'gtk', 'GAIL': 'gtk'}
 
-        self.setActiveScript(None, "__init__")
+        self._activeScript = None
         self._active = False
         debug.printMessage(debug.LEVEL_INFO, "SCRIPT MANAGER: Initialized", True)
 
@@ -201,6 +202,16 @@ class ScriptManager:
 
         return script
 
+    def getOrCreateSleepModeScript(self, app):
+        script = self._sleepModeScripts.get(app)
+        if script is not None:
+            return script
+
+        from .scripts import sleepmode
+        script = sleepmode.Script(app)
+        self._sleepModeScripts[app] = script
+        return script
+
     def sanityCheckScript(self, script):
         if not self._active:
             return script
@@ -216,25 +227,6 @@ class ScriptManager:
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return script
 
-    def getScriptForMouseButtonEvent(self, event):
-        isActive = AXUtilities.is_active(orca_state.activeWindow)
-        tokens = ["SCRIPT MANAGER:", orca_state.activeWindow, "is active:", isActive]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        if isActive and orca_state.activeScript:
-            return orca_state.activeScript
-
-        script = self.getDefaultScript()
-        activeWindow = script.utilities.activeWindow()
-        if not activeWindow:
-            return script
-
-        focusedObject = AXUtilities.get_focused_object(activeWindow)
-        if focusedObject:
-            return self.getScript(AXObject.get_application(focusedObject), focusedObject)
-
-        return self.getScript(AXObject.get_application(activeWindow), activeWindow)
-
     def getScript(self, app, obj=None, sanityCheck=False):
         """Get a script for an app (and make it if necessary).  This is used
         instead of a simple calls to Script's constructor.
@@ -244,6 +236,9 @@ class ScriptManager:
 
         Returns an instance of a Script.
         """
+
+        tokens = ["SCRIPT MANAGER: Getting script for", app, obj, f"sanity check: {sanityCheck}"]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         customScript = None
         appScript = None
@@ -280,19 +275,47 @@ class ScriptManager:
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             appScript = self.getDefaultScript()
 
+        if appScript.getSleepModeManager().is_active_for_app(app):
+            tokens = ["SCRIPT MANAGER: Sleep-mode toggled on for", appScript, app]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            return self.getOrCreateSleepModeScript(app)
+
         if customScript:
+            tokens = ["SCRIPT MANAGER: Script is custom script", customScript]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return customScript
 
         # Only defer to the toolkit script for this object if the app script
         # is based on a different toolkit.
         if toolkitScript and not (AXUtilities.is_frame(obj) or AXUtilities.is_status_bar(obj)) \
            and not issubclass(appScript.__class__, toolkitScript.__class__):
+            tokens = ["SCRIPT MANAGER: Script is toolkit script", toolkitScript]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return toolkitScript
 
         if app and sanityCheck:
             appScript = self.sanityCheckScript(appScript)
 
+        tokens = ["SCRIPT MANAGER: Script is app script", appScript]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return appScript
+
+    def getActiveScript(self):
+        """Returns the active script."""
+
+        tokens = ["SCRIPT MANAGER: Active script is:", self._activeScript]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+        return self._activeScript
+
+    def getActiveScriptApp(self):
+        """Returns the app associated with the active script."""
+
+        if self._activeScript is None:
+            return None
+
+        tokens = ["SCRIPT MANAGER: Active script app is:", self._activeScript.app]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        return self._activeScript.app
 
     def setActiveScript(self, newScript, reason=None):
         """Set the new active script.
@@ -301,19 +324,19 @@ class ScriptManager:
         - newScript: the new script to be made active.
         """
 
-        if orca_state.activeScript == newScript:
+        if self._activeScript == newScript:
             return
 
-        if orca_state.activeScript:
-            orca_state.activeScript.deactivate()
+        if self._activeScript is not None:
+            self._activeScript.deactivate()
 
-        orca_state.activeScript = newScript
-        if not newScript:
+        self._activeScript = newScript
+        if newScript is None:
             return
 
-        newScript.activate()
         tokens = ["SCRIPT MANAGER: Setting active script to", newScript, "reason:", reason]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        newScript.activate()
 
     def _getScriptForAppReplicant(self, app):
         if not self._active:
@@ -332,6 +355,12 @@ class ScriptManager:
                     script.app = a
                 tokens = ["SCRIPT MANAGER: Script for app replicant:", script, script.app]
                 debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+                sleepModeScript = self._sleepModeScripts.get(a)
+                if sleepModeScript:
+                    tokens = ["SCRIPT MANAGER: Replicant", a, "has sleep mode script. Using it."]
+                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                    return sleepModeScript
                 return script
 
         return None
@@ -370,6 +399,15 @@ class ScriptManager:
                     setattr(newScript, attr, value)
 
             del appScript
+
+            try:
+                script = self._sleepModeScripts.pop(app)
+            except KeyError:
+                pass
+            else:
+                tokens = ["SCRIPT MANAGER: Deleting sleep mode script for", app]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                del script
 
             try:
                 toolkitScripts = self.toolkitScripts.pop(app)
