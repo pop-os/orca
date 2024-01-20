@@ -1,4 +1,4 @@
-orca (46~alpha) experimental; urgency=medium
+orca (46~alpha-1) experimental; urgency=medium
 
   * New upstream alpha.
     - control: Bump at-spi build-dep to 2.50.0~.
