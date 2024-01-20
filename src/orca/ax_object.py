@@ -51,6 +51,7 @@ class AXObject:
     KNOWN_DEAD = {}
     REAL_APP_FOR_MUTTER_FRAME = {}
     REAL_FRAME_FOR_MUTTER_FRAME = {}
+    OBJECT_ATTRIBUTES = {}
 
     _lock = threading.Lock()
 
@@ -64,7 +65,7 @@ class AXObject:
 
     @staticmethod
     def _clear_all_dictionaries(reason=""):
-        msg = "AXObject: Clearing cache."
+        msg = "AXObject: Clearing local cache."
         if reason:
             msg += f" Reason: {reason}"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -84,6 +85,11 @@ class AXObject:
                         "real frames for mutter frames"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             AXObject.REAL_FRAME_FOR_MUTTER_FRAME.clear()
+
+            tokens = ["AXObject: Clearing cached object attributes for",
+                        len(AXObject.OBJECT_ATTRIBUTES), "objects"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            AXObject.OBJECT_ATTRIBUTES.clear()
 
     @staticmethod
     def clear_cache_now(reason=""):
@@ -130,7 +136,7 @@ class AXObject:
 
         if current_status:
             tokens = ["AXObject: Removing", obj, "from known-dead objects"]
-            debug.printTokens(debug.LEVEL_INFO, msg, tokens, True)
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
     @staticmethod
     def handle_error(obj, error, msg):
@@ -737,6 +743,23 @@ class AXObject:
         return description
 
     @staticmethod
+    def get_help_text(obj):
+        """Returns the accessible help text of obj"""
+
+        if not AXObject.is_valid(obj):
+            return ""
+
+        try:
+            # This is not yet a thing. But hopefully it will become one.
+            # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/146
+            text = Atspi.Accessible.get_help_text(obj)
+        except Exception:
+            # This is for prototyping in the meantime.
+            text = AXObject.get_attribute(obj, "helptext") or ""
+
+        return text
+
+    @staticmethod
     def get_child_count(obj):
         """Returns the child count of obj"""
 
@@ -1121,23 +1144,24 @@ class AXObject:
         return string
 
     @staticmethod
-    def clear_cache(obj, recursive=False):
+    def clear_cache(obj, recursive=False, reason=""):
         """Clears the Atspi cached information associated with obj"""
 
-        if not AXObject.is_valid(obj):
+        if obj is None:
             return
+
+        tokens = ["AXObject: Clearing AT-SPI cache on", obj, f"Recursive: {recursive}."]
+        if reason:
+            tokens.append(f" Reason: {reason}")
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         if not recursive:
             try:
                 Atspi.Accessible.clear_cache_single(obj)
-            except Exception:
-                # This is new API, added in 2.49.1. So log success rather than
-                # (likely) failure for now.
-                pass
-            else:
-                msg = "AXObject: clear_cache_single succeeded."
+            except Exception as error:
+                msg = f"AXObject: Exception in clear_cache_single: {error}"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return
+            return
 
         try:
             Atspi.Accessible.clear_cache(obj)
@@ -1184,11 +1208,16 @@ class AXObject:
         return False
 
     @staticmethod
-    def get_attributes_dict(obj):
+    def get_attributes_dict(obj, use_cache=True):
         """Returns the object attributes of obj as a dictionary."""
 
         if not AXObject.is_valid(obj):
             return {}
+
+        if use_cache:
+            attributes = AXObject.OBJECT_ATTRIBUTES.get(hash(obj))
+            if attributes:
+                return attributes
 
         try:
             attributes = Atspi.Accessible.get_attributes(obj)
@@ -1200,6 +1229,7 @@ class AXObject:
         if attributes is None:
             return {}
 
+        AXObject.OBJECT_ATTRIBUTES[hash(obj)] = attributes
         return attributes
 
     @staticmethod

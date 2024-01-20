@@ -38,6 +38,7 @@ import re
 import time
 
 from orca import debug
+from orca import focus_manager
 from orca import orca_state
 from orca.scripts import web
 from orca.ax_object import AXObject
@@ -173,11 +174,6 @@ class Utilities(web.Utilities):
 
         return False
 
-    def canBeActiveWindow(self, window, clearCache=False):
-        # We apparently having missing events from Gecko requiring
-        # we update the cache. This is not performant. :(
-        return super().canBeActiveWindow(window, True)
-
     def treatAsEntry(self, obj):
         if not obj or self.inDocumentContent(obj):
             return super().treatAsEntry(obj)
@@ -263,7 +259,7 @@ class Utilities(web.Utilities):
 
     def inFindContainer(self, obj=None):
         if not obj:
-            obj = orca_state.locusOfFocus
+            obj = focus_manager.getManager().get_locus_of_focus()
 
         if not obj or self.inDocumentContent(obj):
             return False
@@ -298,7 +294,7 @@ class Utilities(web.Utilities):
             return ""
 
         label = labels[0]
-        AXObject.clear_cache(label)
+        AXObject.clear_cache(label, False, "Ensuring we have correct name for find results.")
         return AXObject.get_name(label)
 
     def isAutoTextEvent(self, event):
@@ -326,7 +322,3 @@ class Utilities(web.Utilities):
 
     def unrelatedLabels(self, root, onlyShowing=True, minimumWords=3):
         return super().unrelatedLabels(root, onlyShowing, minimumWords=1)
-
-    def _shouldUseTableCellInterfaceForCoordinates(self):
-        # https://bugzilla.mozilla.org/show_bug.cgi?id=1794100
-        return False

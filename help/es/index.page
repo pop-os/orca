@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its" type="guide" id="index" xml:lang="es">
   <info>
-    <title type="text">Lector de pantalla Orca</title>
-    <title type="link">Introducción al lector de pantalla <app>Orca</app></title>
+    <title type="text"><app>Orca</app> Screen Reader</title>
+    <title type="link" role="trail"><app>Orca</app> Screen Reader</title>
+    <title type="link"><app>Orca</app> Screen Reader</title>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -26,9 +27,7 @@
     </mal:credit>
   </info>
 
-  <title><media type="image" mime="image/png" src="figures/orca-logo.png" its:translate="no">
-      <span its:translate="yes">Logo de <app>Orca</app></span>
-    </media> Lector de pantalla <app>Orca</app></title>
+  <title><media type="image" width="48px" height="48px" its:translate="no" src="figures/orca-logo.svg"/> Lector de pantalla <app>Orca</app></title>
   <note style="important">
     <title>Antes de comenzar</title>
     <p>Si todavía no está familiarizado con los comandos de navegación proporcionados por su entorno de escritorio, se le recomienda que lea primero esa documentación.</p>

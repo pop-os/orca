@@ -24,12 +24,6 @@
       <mal:email>asklarsen@gmail.com</mal:email>
       <mal:years>2022</mal:years>
     </mal:credit>
-  
-    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
-      <mal:name>Alan Mortensen</mal:name>
-      <mal:email>alanmortensen.am@gmail.com</mal:email>
-      <mal:years>2023</mal:years>
-    </mal:credit>
   </info>
   <title>Musegennemgang</title>
   <p><app>Orca</app>s musegennemgang-funktion får <app>Orca</app> til at præsentere objektet under musemarkøren. I modsætning til <app>Orca</app>s <link xref="howto_flat_review">flad gennemgang</link>-funktion er musegennemgang ikke begrænset til det aktive vindue; <app>Orca</app> forsøger i stedet at bestemme hvilket tilgængelige objekter, der visuelt befinder sig under markøren, efterhånden som du flytter musen. Hvis du har flyttet markøren over et tilgængeligt objekt, som har information, der kan præsenteres, vil <app>Orca</app> præsentere objektet og dets information.</p>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its" type="guide" id="index" xml:lang="de">
   <info>
-    <title type="text">Orca Bildschirmleser</title>
-    <title type="link">Einführung in den <app>Orca</app> Bildschirmleser</title>
+    <title type="text"><app>Orca</app> Screen Reader</title>
+    <title type="link" role="trail"><app>Orca</app> Screen Reader</title>
+    <title type="link"><app>Orca</app> Screen Reader</title>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -44,9 +45,7 @@
     </mal:credit>
   </info>
 
-  <title><media type="image" mime="image/png" src="figures/orca-logo.png" its:translate="no">
-      <span its:translate="yes">Das Logo von <app>Orca</app></span>
-    </media> <app>Orca</app> Bildschirmleser</title>
+  <title><media type="image" width="48px" height="48px" its:translate="no" src="figures/orca-logo.svg"/> <app>Orca</app> Bildschirmleser</title>
   <note style="important">
     <title>Bevor Sie beginnen</title>
     <p>Wenn Sie mit den Navigationsbefehlen Ihrer Arbeitsumgebung noch nicht vertraut sind, schlagen wir Ihnen vor, zunächst die Dokumentation zu lesen.</p>

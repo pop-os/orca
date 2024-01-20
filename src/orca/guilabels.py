@@ -298,6 +298,20 @@ KB_GROUP_BOOKMARKS = _("Bookmarks")
 # are related to presenting the date and time.
 KB_GROUP_DATE_AND_TIME = _("Date and time")
 
+# Translators: Orca has a sleep mode which causes Orca to essentially behave as
+# if it were not running for a given application. Some use cases include self-
+# voicing apps with associated commands (e.g. ChromeVox) and VMs. In the former
+# case, the self-voicing app is expected to provide all needed commands as well
+# as speech and braille. In the latter case, we want to ensure that Orca's
+# commands and speech/braille do not interfere with that of the VM and any
+# screen reader being used in that VM. Thus when an application is being used
+# in sleep mode, nearly all Orca commands become unbound/free, and nothing is
+# spoken or brailled. But if the user toggles sleep mode off or switches to
+# another application window, Orca commands, speech, and braille immediately
+# resume working. This string is a label for the group of Orca commands which
+# are related to sleep mode.
+KB_GROUP_SLEEP_MODE = _("Sleep mode")
+
 # Translators: This string is a label for the group of Orca commands which
 # are related to presenting the object under the mouse pointer in speech
 # and/or braille. The translation should be consistent with the string
@@ -307,6 +321,16 @@ KB_GROUP_MOUSE_REVIEW = _("Mouse review")
 # Translators: This string is a label for the group of Orca commands which
 # are related to object navigation.
 KB_GROUP_OBJECT_NAVIGATION = _("Object navigation")
+
+# Translators: This string is a label for a group of Orca commands which are
+# related to presenting information about the system, such as date, time,
+# battery status, CPU status, etc.
+KB_GROUP_SYSTEM_INFORMATION = _("System information")
+
+# Translators: This string is a label for the group of Orca commands which
+# are related to table navigation, such as moving to the next cell in a
+# given direction.
+KB_GROUP_TABLE_NAVIGATION = _("Table navigation")
 
 # Translators: This string is a label for the group of Orca commands which
 # are related to presenting information about the current location, such as

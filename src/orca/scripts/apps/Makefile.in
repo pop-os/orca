@@ -369,7 +369,6 @@ top_srcdir = @top_srcdir@
 SUBDIRS = \
 	Banshee \
 	Eclipse \
-	epiphany \
 	evince \
 	evolution \
 	gajim \

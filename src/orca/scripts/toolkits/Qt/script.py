@@ -26,12 +26,13 @@ __copyright__ = "Copyright (c) 2013-2019 Igalia, S.L."
 __license__   = "LGPL"
 
 import orca.debug as debug
-import orca.orca as orca
+import orca.focus_manager as focus_manager
 import orca.scripts.default as default
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
 
 from .script_utilities import Utilities
+
 
 class Script(default.Script):
 
@@ -73,7 +74,7 @@ class Script(default.Script):
             tokens = ["QT: Event came from inactive top-level object", frame]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-            AXObject.clear_cache(frame)
+            AXObject.clear_cache(frame, False, "Ensuring we have correct active state.")
             isActive = AXUtilities.is_active(frame)
             tokens = ["QT: Cleared cache of", frame, ". Frame is now active:", isActive]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -84,4 +85,4 @@ class Script(default.Script):
 
         msg = "QT: WARNING - source lacks focused state. Setting focus anyway."
         debug.printMessage(debug.LEVEL_INFO, msg, True)
-        orca.setLocusOfFocus(event, event.source)
+        focus_manager.getManager().set_locus_of_focus(event, event.source)

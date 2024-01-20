@@ -33,61 +33,13 @@ import orca.messages as messages
 import orca.settings_manager as settings_manager
 import orca.speech_generator as speech_generator
 from orca.ax_object import AXObject
+from orca.ax_table import AXTable
 from orca.ax_utilities import AXUtilities
 
-_settingsManager = settings_manager.getManager()
 
 class SpeechGenerator(speech_generator.SpeechGenerator):
     def __init__(self, script):
         speech_generator.SpeechGenerator.__init__(self, script)
-
-    def __overrideParagraph(self, obj, **args):
-        # Treat a paragraph which is serving as a text entry in a dialog
-        # as a text object.
-        #
-        role = args.get('role', AXObject.get_role(obj))
-        if role == "text frame":
-            return True
-        if role != Atspi.Role.PARAGRAPH:
-            return False
-        return AXObject.find_ancestor(obj, AXUtilities.is_dialog) is not None
-
-    def _generateRoleName(self, obj, **args):
-        result = []
-        role = args.get('role', AXObject.get_role(obj))
-        if role == Atspi.Role.TOGGLE_BUTTON \
-           and AXObject.get_role(AXObject.get_parent(obj)) == Atspi.Role.TOOL_BAR:
-            pass
-        else:
-            # Treat a paragraph which is serving as a text entry in a dialog
-            # as a text object.
-            #
-            override = self.__overrideParagraph(obj, **args)
-            if override:
-                oldRole = self._overrideRole(Atspi.Role.TEXT, args)
-            # Treat a paragraph which is inside of a spreadsheet cell as
-            # a spreadsheet cell.
-            #
-            elif role == 'ROLE_SPREADSHEET_CELL':
-                oldRole = self._overrideRole(Atspi.Role.TABLE_CELL, args)
-                override = True
-            result.extend(speech_generator.SpeechGenerator._generateRoleName(
-                          self, obj, **args))
-            if override:
-                self._restoreRole(oldRole, args)
-        return result
-
-    def _generateTextRole(self, obj, **args):
-        result = []
-        role = args.get('role', AXObject.get_role(obj))
-        if role == Atspi.Role.TEXT \
-            and AXObject.get_role(AXObject.get_parent(obj)) == Atspi.Role.COMBO_BOX:
-            return []
-
-        if role != Atspi.Role.PARAGRAPH \
-           or self.__overrideParagraph(obj, **args):
-            result.extend(self._generateRoleName(obj, **args))
-        return result
 
     def _generateLabel(self, obj, **args):
         """Returns the label for an object as an array of strings (and
@@ -96,9 +48,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         and an empty array will be returned if no label can be found.
         """
         result = []
-        override = self.__overrideParagraph(obj, **args)
         label = self._script.utilities.displayedLabel(obj) or ""
-        if not label and override:
+        if not label:
             label = self._script.utilities.displayedLabel(AXObject.get_parent(obj)) or ""
         if label:
             result.append(label.strip())
@@ -149,38 +100,6 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         return result
 
-    def _generateLabelOrName(self, obj, **args):
-        """Gets the label or the name if the label is not preset."""
-
-        result = []
-        override = self.__overrideParagraph(obj, **args)
-        # Treat a paragraph which is serving as a text entry in a dialog
-        # as a text object.
-        #
-        if override:
-            result.extend(self._generateLabel(obj, **args))
-            if len(result) == 0 and AXObject.get_parent(obj):
-                parentLabel = self._generateLabel(AXObject.get_parent(obj), **args)
-                # If we aren't already focused, we will have spoken the
-                # parent as part of the speech context and do not want
-                # to repeat it.
-                #
-                alreadyFocused = args.get('alreadyFocused', False)
-                if alreadyFocused:
-                    result.extend(parentLabel)
-                # If we still don't have a label, look to the name.
-                #
-                if not parentLabel:
-                    name = AXObject.get_name(obj)
-                    if name:
-                        result.append(name)
-                if result:
-                    result.extend(self.voice(speech_generator.DEFAULT, obj=obj, **args))
-        else:
-            result.extend(speech_generator.SpeechGenerator._generateLabelOrName(
-                self, obj, **args))
-        return result
-
     def _generateAnyTextSelection(self, obj, **args):
         comboBoxEntry = self._script.utilities.getEntryForEditableComboBox(obj)
         if comboBoxEntry:
@@ -208,10 +127,10 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if that description is different from that of the name and
         label.
         """
-        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+        if settings_manager.getManager().getSetting('onlySpeakDisplayedText'):
             return []
 
-        if not _settingsManager.getSetting('speakDescription'):
+        if not settings_manager.getManager().getSetting('speakDescription'):
             return []
 
         if not args.get('formatType', '').endswith('WhereAmI'):
@@ -238,11 +157,6 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         return result
 
     def _generateCurrentLineText(self, obj, **args):
-        if self._script.utilities.isTextDocumentCell(AXObject.get_parent(obj)):
-            priorObj = args.get('priorObj', None)
-            if priorObj and AXObject.get_parent(priorObj) != AXObject.get_parent(obj):
-                return []
-
         if AXObject.get_role(obj) == Atspi.Role.COMBO_BOX:
             entry = self._script.utilities.getEntryForEditableComboBox(obj)
             if entry:
@@ -277,53 +191,6 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                 self, obj, **args))
         return result
 
-    def _generateRowHeader(self, obj, **args):
-        """Returns an array of strings (and possibly voice and audio
-        specifications) that represent the row header for an object
-        that is in a table, if it exists.  Otherwise, an empty array
-        is returned. Overridden here so that we can get the dynamic
-        row header(s).
-        """
-
-        if self._script.utilities.shouldReadFullRow(obj):
-            return []
-
-        newOnly = args.get('newOnly', False)
-        rowHeader, columnHeader = \
-            self._script.utilities.getDynamicHeadersForCell(obj, newOnly)
-        if not rowHeader:
-            return super()._generateRowHeader(obj, **args)
-
-        result = []
-        text = self._script.utilities.displayedText(rowHeader)
-        if text:
-            result.append(text)
-            result.extend(self.voice(speech_generator.DEFAULT, obj=obj, **args))
-
-        return result
-
-    def _generateColumnHeader(self, obj, **args):
-        """Returns an array of strings (and possibly voice and audio
-        specifications) that represent the column header for an object
-        that is in a table, if it exists.  Otherwise, an empty array
-        is returned. Overridden here so that we can get the dynamic
-        column header(s).
-        """
-
-        newOnly = args.get('newOnly', False)
-        rowHeader, columnHeader = \
-            self._script.utilities.getDynamicHeadersForCell(obj, newOnly)
-        if not columnHeader:
-            return super()._generateColumnHeader(obj, **args)
-
-        result = []
-        text = self._script.utilities.displayedText(columnHeader)
-        if text:
-            result.append(text)
-            result.extend(self.voice(speech_generator.DEFAULT, obj=obj, **args))
-
-        return result
-
     def _generateTooLong(self, obj, **args):
         """If there is text in this spread sheet cell, compare the size of
         the text within the table cell with the size of the actual table
@@ -332,7 +199,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         Returns an indication of how many characters are greater than the size
         of the spread sheet cell, or None if the message fits.
         """
-        if _settingsManager.getSetting('onlySpeakDisplayedText'):
+        if settings_manager.getManager().getSetting('onlySpeakDisplayedText'):
             return []
 
         result = []
@@ -359,17 +226,17 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         return result
 
     def _generateHasFormula(self, obj, **args):
-        inputLine = self._script.utilities.locateInputLine(obj)
-        if not inputLine:
+        formula = AXTable.get_cell_formula(obj)
+        if not formula:
             return []
 
-        text = self._script.utilities.displayedText(inputLine)
-        if text and text.startswith("="):
+        if args.get("formatType") == "basicWhereAmI":
+            result = [f"{messages.HAS_FORMULA}. {formula}"]
+        else:
             result = [messages.HAS_FORMULA]
-            result.extend(self.voice(speech_generator.SYSTEM, obj=obj, **args))
-            return result
 
-        return []
+        result.extend(self.voice(speech_generator.SYSTEM, obj=obj, **args))
+        return result
 
     def _generateRealTableCell(self, obj, **args):
         """Get the speech for a table cell. If this isn't inside a
@@ -388,22 +255,22 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         result = super()._generateRealTableCell(obj, **args)
 
         if not self._script.utilities.isSpreadSheetCell(obj):
-            if self._script._lastCommandWasStructNav:
+            if self._script.getTableNavigator().last_input_event_was_navigation_command():
                 return result
 
-            if _settingsManager.getSetting('speakCellCoordinates'):
+            if settings_manager.getManager().getSetting('speakCellCoordinates'):
                 result.append(AXObject.get_name(obj))
             return result
 
         isBasicWhereAmI = args.get('formatType') == 'basicWhereAmI'
-        speakCoordinates = _settingsManager.getSetting('speakSpreadsheetCoordinates')
-        if speakCoordinates and not isBasicWhereAmI:
-            result.append(self._script.utilities.spreadSheetCellName(obj))
+        speakCoordinates = settings_manager.getManager().getSetting('speakSpreadsheetCoordinates')
+        if speakCoordinates or isBasicWhereAmI:
+            label = AXTable.get_label_for_cell_coordinates(obj) \
+                or self._script.utilities.spreadSheetCellName(obj)
+            result.append(label)
 
-        if self._script.utilities.shouldReadFullRow(obj):
-            row, col, table = self._script.utilities.getRowColumnAndTable(obj)
-            lastRow = self._script.pointOfReference.get("lastRow")
-            if row != lastRow:
+        if self._script.utilities.shouldReadFullRow(obj, args.get('priorObj')):
+            if self._script.utilities.cellRowChanged(obj):
                 return result
 
         tooLong = self._generateTooLong(obj, **args)
@@ -416,10 +283,14 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             result.extend(self._generatePause(obj, **args))
             result.extend(hasFormula)
 
+        if result == speech_generator.PAUSE:
+            result = [messages.BLANK]
+            result.extend(self.voice(speech_generator.DEFAULT, obj=obj, **args))
+
         return result
 
     def _generateTableCellRow(self, obj, **args):
-        if not self._script.utilities.shouldReadFullRow(obj):
+        if not self._script.utilities.shouldReadFullRow(obj, args.get('priorObj')):
             return self._generateRealTableCell(obj, **args)
 
         if not self._script.utilities.isSpreadSheetCell(obj):
@@ -443,7 +314,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         dialog).
         """
 
-        if self._script._lastCommandWasStructNav or self._script.inSayAll():
+        if self._script.getTableNavigator().last_input_event_was_navigation_command() \
+           or self._script.inSayAll():
             return []
 
         topLevel = self._script.utilities.topLevelObject(obj)
@@ -478,34 +350,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         return super()._generateOldAncestors(obj, **args)
 
     def _generateUnselectedCell(self, obj, **args):
-        if self._script.utilities.isSpreadSheetCell(obj):
-            return []
-
-        if self._script._lastCommandWasStructNav:
+        if not self._script.utilities.isGUICell(obj):
             return []
 
         return super()._generateUnselectedCell(obj, **args)
-
-    def generateSpeech(self, obj, **args):
-        result = []
-        if args.get('formatType', 'unfocused') == 'basicWhereAmI' \
-           and self._script.utilities.isSpreadSheetCell(obj):
-            oldRole = self._overrideRole('ROLE_SPREADSHEET_CELL', args)
-            # In addition, if focus is in a cell being edited, we cannot
-            # query the accessible table interface for coordinates and the
-            # like because we're temporarily in an entirely different object
-            # which is outside of the table. This makes things difficult.
-            # However, odds are that if we're doing a whereAmI in a cell
-            # which we are editing, we have some pointOfReference info
-            # we can use to guess the coordinates.
-            #
-            args['guessCoordinates'] = AXObject.get_role(obj) == Atspi.Role.PARAGRAPH
-            result.extend(super().generateSpeech(obj, **args))
-            del args['guessCoordinates']
-            self._restoreRole(oldRole, args)
-        else:
-            oldRole = self._overrideRole(self._getAlternativeRole(obj, **args), args)
-            result.extend(super().generateSpeech(obj, **args))
-            self._restoreRole(oldRole, args)
-
-        return result

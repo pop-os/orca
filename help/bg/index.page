@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its" type="guide" id="index" xml:lang="bg">
   <info>
-    <title type="text">Екранен четец Orca</title>
-    <title type="link">Въведение в екранния четец <app>Orca</app></title>
+    <title type="text"><app>Orca</app> Screen Reader</title>
+    <title type="link" role="trail"><app>Orca</app> Screen Reader</title>
+    <title type="link"><app>Orca</app> Screen Reader</title>
     <credit type="author">
       <name>Joanmarie Diggs</name>
       <email>joanied@gnome.org</email>
@@ -26,9 +27,7 @@
     </mal:credit>
   </info>
 
-  <title><media type="image" mime="image/png" src="figures/orca-logo.png" its:translate="no">
-      <span its:translate="yes">Логото на <app>Orca</app></span>
-    </media> Екранен четец <app>Orca</app></title>
+  <title><media type="image" width="48px" height="48px" its:translate="no" src="figures/orca-logo.svg"/> Екранен четец <app>Orca</app></title>
   <note style="important">
     <title>Преди да започнете</title>
     <p>Ако не сте запознати с командите за придвижване предоставени от вашата графична среда, препоръчваме ви да го направите, преди да продължите.</p>

@@ -35,6 +35,7 @@ from . import guilabels
 from . import orca_gtkbuilder
 from . import orca_state
 from . import orca_platform
+from . import script_manager
 
 OS = None
 
@@ -66,7 +67,7 @@ class OrcaFindGUI(orca_gtkbuilder.GtkBuilderWrapper):
         self.windowWrap = True
         self.startAtTop = False
 
-        self.activeScript = orca_state.activeScript
+        self.activeScript = script_manager.getManager().getActiveScript()
 
     def showGUI(self):
         """Show the Orca Find dialog. This assumes that the GUI has

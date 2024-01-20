@@ -26,12 +26,6 @@
       <mal:email>asklarsen@gmail.com</mal:email>
       <mal:years>2022</mal:years>
     </mal:credit>
-  
-    <mal:credit xmlns:mal="http://projectmallard.org/1.0/" type="translator copyright">
-      <mal:name>Alan Mortensen</mal:name>
-      <mal:email>alanmortensen.am@gmail.com</mal:email>
-      <mal:years>2023</mal:years>
-    </mal:credit>
   </info>
   <title>Indstillinger for tekstattributter</title>
   <p>Begrebet “tekstattributter” refererer til al skrifttype, stil, justering og anden formatering, som er tilknyttet et givent tegn eller en serie af tegn. <app>Orca</app>s side <gui>Tekstattributter</gui> giver dig mulighed for at tilpasse hvilke tekstattributter, <app>Orca</app> præsenterer i tale, sammen med den rækkefølge, de skal præsenteres i, og hvilke af dem, <app>Orca</app> anfører i punktskrift.</p>

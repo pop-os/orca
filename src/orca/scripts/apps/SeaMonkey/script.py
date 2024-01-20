@@ -33,9 +33,10 @@ from gi.repository import Atspi
 
 from orca import cmdnames
 from orca import debug
+from orca import focus_manager
 from orca import input_event
-from orca import orca_state
 from orca.ax_object import AXObject
+from orca.ax_table import AXTable
 from orca.scripts.toolkits import Gecko
 
 
@@ -70,10 +71,10 @@ class Script(Gecko.Script):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
-        table = self.utilities.getTable(orca_state.locusOfFocus)
+        table = AXTable.get_table(focus_manager.getManager().get_locus_of_focus())
         if table and not self.utilities.isTextDocumentTable(table):
-            tokens = ["SEAMONKEY: Ignoring, locusOfFocus is", orca_state.locusOfFocus]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            msg = "SEAMONKEY: Ignoring, table is not text-document table"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
         super().onBusyChanged(event)
@@ -85,7 +86,7 @@ class Script(Gecko.Script):
         if self.utilities.inDocumentContent(event.source):
             return
 
-        focusRole = AXObject.get_role(orca_state.locusOfFocus)
+        focusRole = AXObject.get_role(focus_manager.getManager().get_locus_of_focus())
         if focusRole != Atspi.Role.ENTRY or not self.utilities.inDocumentContent():
             super().onFocus(event)
             return
@@ -112,26 +113,20 @@ class Script(Gecko.Script):
         return super().useFocusMode(obj, prevObj)
 
     def enableStickyBrowseMode(self, inputEvent, forceMessage=False):
-        if self.utilities.isEditableMessage(orca_state.locusOfFocus):
+        if self.utilities.isEditableMessage(focus_manager.getManager().get_locus_of_focus()):
             return
 
         super().enableStickyBrowseMode(inputEvent, forceMessage)
 
     def enableStickyFocusMode(self, inputEvent, forceMessage=False):
-        if self.utilities.isEditableMessage(orca_state.locusOfFocus):
+        if self.utilities.isEditableMessage(focus_manager.getManager().get_locus_of_focus()):
             return
 
         super().enableStickyFocusMode(inputEvent, forceMessage)
 
     def togglePresentationMode(self, inputEvent, documentFrame=None):
         if self._inFocusMode \
-           and self.utilities.isEditableMessage(orca_state.locusOfFocus):
+           and self.utilities.isEditableMessage(focus_manager.getManager().get_locus_of_focus()):
             return
 
         super().togglePresentationMode(inputEvent, documentFrame)
-
-    def useStructuralNavigationModel(self, debugOutput=True):
-        if self.utilities.isEditableMessage(orca_state.locusOfFocus):
-            return False
-
-        return super().useStructuralNavigationModel(debugOutput)

@@ -34,10 +34,10 @@ from gi.repository import Atspi
 import orca.scripts.default as default
 import orca.cmdnames as cmdnames
 import orca.debug as debug
+import orca.focus_manager as focus_manager
 import orca.guilabels as guilabels
 import orca.input_event as input_event
 import orca.messages as messages
-import orca.orca as orca
 import orca.settings as settings
 import orca.settings_manager as settings_manager
 import orca.speechserver as speechserver
@@ -50,8 +50,6 @@ from orca.ax_utilities import AXUtilities
 from .braille_generator import BrailleGenerator
 from .speech_generator import SpeechGenerator
 from .script_utilities import Utilities
-
-_settingsManager = settings_manager.getManager()
 
 ########################################################################
 #                                                                      #
@@ -73,16 +71,15 @@ class Script(default.Script):
         self._lastCaretContext = None, -1
         self.sayAllOnLoadCheckButton = None
 
-        if _settingsManager.getSetting('sayAllOnLoad') is None:
-            _settingsManager.setSetting('sayAllOnLoad', True)
+        if settings_manager.getManager().getSetting('sayAllOnLoad') is None:
+            settings_manager.getManager().setSetting('sayAllOnLoad', True)
 
     def setupInputEventHandlers(self):
         """Defines InputEventHandler fields for this script that can be
         called by the key and braille bindings."""
 
         default.Script.setupInputEventHandlers(self)
-        self.inputEventHandlers.update(
-            self.structuralNavigation.inputEventHandlers)
+        self.inputEventHandlers.update(self.structuralNavigation.get_handlers(True))
 
         self.inputEventHandlers["sayAllHandler"] = \
             input_event.InputEventHandler(
@@ -104,7 +101,9 @@ class Script(default.Script):
     def getToolkitKeyBindings(self):
         """Returns the toolkit-specific keybindings for this script."""
 
-        return self.structuralNavigation.keyBindings
+        layout = settings_manager.getManager().getSetting('keyboardLayout')
+        isDesktop = layout == settings.GENERAL_KEYBOARD_LAYOUT_DESKTOP
+        return self.structuralNavigation.get_bindings(refresh=True, is_desktop=isDesktop)
 
     def getAppPreferencesGUI(self):
         """Return a GtkGrid containing the application unique configuration
@@ -119,7 +118,7 @@ class Script(default.Script):
         self.sayAllOnLoadCheckButton = \
             Gtk.CheckButton.new_with_mnemonic(label)
         self.sayAllOnLoadCheckButton.set_active(
-            _settingsManager.getSetting('sayAllOnLoad'))
+            settings_manager.getManager().getSetting('sayAllOnLoad'))
         grid.attach(self.sayAllOnLoadCheckButton, 0, 0, 1, 1)
 
         grid.show_all()
@@ -166,7 +165,6 @@ class Script(default.Script):
                 structural_navigation.StructuralNavigation.RADIO_BUTTON,
                 structural_navigation.StructuralNavigation.SEPARATOR,
                 structural_navigation.StructuralNavigation.TABLE,
-                structural_navigation.StructuralNavigation.TABLE_CELL,
                 structural_navigation.StructuralNavigation.UNVISITED_LINK,
                 structural_navigation.StructuralNavigation.VISITED_LINK]
 
@@ -189,10 +187,11 @@ class Script(default.Script):
         if lastKey in ['Tab', 'ISO_Left_Tab']:
             return
 
+        focus = focus_manager.getManager().get_locus_of_focus()
         if lastKey == 'Down' \
-           and orca_state.locusOfFocus == AXObject.get_parent(event.source) \
            and AXObject.get_index_in_parent(event.source) == 0 \
-           and AXUtilities.is_link(orca_state.locusOfFocus):
+           and focus == AXObject.get_parent(event.source) \
+           and AXUtilities.is_link(focus):
             self.updateBraille(event.source)
             return
 
@@ -220,8 +219,8 @@ class Script(default.Script):
         self.utilities.setCaretContext(obj, offset)
 
         self.updateBraille(obj)
-        if _settingsManager.getSetting('sayAllOnLoad') \
-           and _settingsManager.getSetting('enableSpeech'):
+        if settings_manager.getManager().getSetting('sayAllOnLoad') \
+           and settings_manager.getManager().getSetting('enableSpeech'):
             self.sayAll(None)
 
     def onDocumentLoadStopped(self, event):
@@ -382,50 +381,19 @@ class Script(default.Script):
 
         return default.Script.skipObjectEvent(self, event)
 
-    def useStructuralNavigationModel(self, debugOutput=True):
-        """Returns True if we should do our own structural navigation.
-        This should return False if we're in a form field, or not in
-        document content.
-        """
-
-        doNotHandleRoles = [Atspi.Role.ENTRY,
-                            Atspi.Role.TEXT,
-                            Atspi.Role.PASSWORD_TEXT,
-                            Atspi.Role.LIST,
-                            Atspi.Role.LIST_ITEM,
-                            Atspi.Role.MENU_ITEM]
-
-        if not self.structuralNavigation.enabled:
-            return False
-
-        if not self.utilities.isWebKitGtk(orca_state.locusOfFocus):
-            return False
-
-        if AXUtilities.is_editable(orca_state.locusOfFocus):
-            return False
-
-        role = AXObject.get_role(orca_state.locusOfFocus)
-        if role in doNotHandleRoles:
-            if role == Atspi.Role.LIST_ITEM:
-                return not AXUtilities.is_selectable(orca_state.locusOfFocus)
-
-            if AXUtilities.is_focused(orca_state.locusOfFocus):
-                return False
-
-        return True
-
     def panBrailleLeft(self, inputEvent=None, panAmount=0):
         """In document content, we want to use the panning keys to browse the
         entire document.
         """
 
+        focus = focus_manager.getManager().get_locus_of_focus()
         if self.flatReviewPresenter.is_active() \
            or not self.isBrailleBeginningShowing() \
-           or not self.utilities.isWebKitGtk(orca_state.locusOfFocus):
+           or not self.utilities.isWebKitGtk(focus):
             return default.Script.panBrailleLeft(self, inputEvent, panAmount)
 
-        obj = self.utilities.findPreviousObject(orca_state.locusOfFocus)
-        orca.setLocusOfFocus(None, obj, notifyScript=False)
+        obj = self.utilities.findPreviousObject(focus)
+        focus_manager.getManager().set_locus_of_focus(None, obj, notify_script=False)
         self.updateBraille(obj)
 
         # Hack: When panning to the left in a document, we want to start at
@@ -442,13 +410,14 @@ class Script(default.Script):
         entire document.
         """
 
+        focus = focus_manager.getManager().get_locus_of_focus()
         if self.flatReviewPresenter.is_active() \
            or not self.isBrailleEndShowing() \
-           or not self.utilities.isWebKitGtk(orca_state.locusOfFocus):
+           or not self.utilities.isWebKitGtk(focus):
             return default.Script.panBrailleRight(self, inputEvent, panAmount)
 
-        obj = self.utilities.findNextObject(orca_state.locusOfFocus)
-        orca.setLocusOfFocus(None, obj, notifyScript=False)
+        obj = self.utilities.findNextObject(focus)
+        focus_manager.getManager().set_locus_of_focus(None, obj, notify_script=False)
         self.updateBraille(obj)
 
         # Hack: When panning to the right in a document, we want to start at
@@ -466,13 +435,11 @@ class Script(default.Script):
         been started on an object without text (such as an image).
         """
 
-        obj = obj or orca_state.locusOfFocus
+        obj = obj or focus_manager.getManager().get_locus_of_focus()
         if not self.utilities.isWebKitGtk(obj):
             return default.Script.sayAll(self, inputEvent, obj, offset)
 
-        speech.sayAll(self.textLines(obj, offset),
-                      self.__sayAllProgressCallback)
-
+        speech.sayAll(self.textLines(obj, offset), self.__sayAllProgressCallback)
         return True
 
     def getTextSegments(self, obj, boundary, offset=0):
@@ -528,11 +495,11 @@ class Script(default.Script):
             return
 
         boundary = Atspi.TextBoundaryType.LINE_START
-        sayAllStyle = _settingsManager.getSetting('sayAllStyle')
+        sayAllStyle = settings_manager.getManager().getSetting('sayAllStyle')
         if sayAllStyle == settings.SAYALL_STYLE_SENTENCE:
             boundary = Atspi.TextBoundaryType.SENTENCE_START
 
-        voices = _settingsManager.getSetting('voices')
+        voices = settings_manager.getManager().getSetting('voices')
         systemVoice = voices.get(settings.SYSTEM_VOICE)
 
         self._inSayAll = True
@@ -556,12 +523,13 @@ class Script(default.Script):
 
     def __sayAllProgressCallback(self, context, progressType):
         if progressType == speechserver.SayAllContext.PROGRESS:
-            orca.emitRegionChanged(
-                context.obj, context.currentOffset, context.currentEndOffset, orca.SAY_ALL)
+            focus_manager.getManager().emit_region_changed(
+                context.obj, context.currentOffset, context.currentEndOffset,
+                focus_manager.SAY_ALL)
             return
 
         obj = context.obj
-        orca.setLocusOfFocus(None, obj, notifyScript=False)
+        focus_manager.getManager().set_locus_of_focus(None, obj, notify_script=False)
 
         offset = context.currentOffset
         text = obj.queryText()
@@ -577,9 +545,9 @@ class Script(default.Script):
 
             self._inSayAll = False
             self._sayAllContexts = []
-            if not self._lastCommandWasStructNav:
+            if not self.structuralNavigation.last_input_event_was_navigation_command():
                 text.setCaretOffset(offset)
-            orca.emitRegionChanged(obj, offset)
+            focus_manager.getManager().emit_region_changed(obj, offset)
             return
 
         # SayAllContext.COMPLETED doesn't necessarily mean done with SayAll;
@@ -596,7 +564,7 @@ class Script(default.Script):
             if [link for link in links if link.startIndex <= offset <= link.endIndex]:
                 return
 
-        orca.emitRegionChanged(obj, offset, mode=orca.SAY_ALL)
+        focus_manager.getManager().emit_region_changed(obj, offset, mode=focus_manager.SAY_ALL)
         text.setCaretOffset(offset)
 
     def getTextLineAtCaret(self, obj, offset=None, startOffset=None, endOffset=None):
@@ -625,8 +593,8 @@ class Script(default.Script):
         - obj: the Accessible
         """
 
-        if not _settingsManager.getSetting('enableBraille') \
-           and not _settingsManager.getSetting('enableBrailleMonitor'):
+        if not settings_manager.getManager().getSetting('enableBraille') \
+           and not settings_manager.getManager().getSetting('enableBrailleMonitor'):
             debug.printMessage(debug.LEVEL_INFO, "BRAILLE: update disabled", True)
             return
 

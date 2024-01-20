@@ -79,7 +79,7 @@
       <title>Формы</title>
       <list>
         <item>
-          <p>Следующее и предыдущее поля формы: <keyseq><key>F</key></keyseq> и <keyseq><key>Shift</key><key>F</key></keyseq></p>
+          <p>Следующее и предыдущее поле формы: <keyseq><key>F</key></keyseq> and <keyseq><key>Shift</key><key>F</key></keyseq></p>
         </item> 
         <item>
           <p>Показать список полей формы: <keyseq><key>Alt</key><key>Shift</key><key>F</key></keyseq></p>

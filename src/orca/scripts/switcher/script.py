@@ -27,7 +27,7 @@ __copyright__ = "Copyright (c) 2019 Igalia, S.L."
 __license__   = "LGPL"
 
 from orca import debug
-from orca import orca
+from orca import focus_manager
 from orca.scripts import default
 
 from .script_utilities import Utilities
@@ -70,8 +70,8 @@ class Script(default.Script):
         debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         self.presentationInterrupt()
-        orca.setActiveWindow(self.utilities.topLevelObject(event.source))
-        orca.setLocusOfFocus(event, event.source, False)
+        focus_manager.getManager().set_active_window(self.utilities.topLevelObject(event.source))
+        focus_manager.getManager().set_locus_of_focus(event, event.source, False)
         self.presentMessage(self.utilities.getSelectionName(event.source),
                             resetStyles=False, force=True)
         return True

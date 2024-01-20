@@ -126,12 +126,6 @@ debugFile = None
 eventDebugLevel  = LEVEL_FINEST
 eventDebugFilter = None
 
-# If True, we output debug information for the event queue.  We
-# use this in addition to log level to prevent debug logic from
-# bogging down event handling.
-#
-debugEventQueue = False
-
 # What module(s) should be traced if traceit is being used. By default
 # we'll just attend to ourself. (And by default, we will not enable
 # traceit.) Note that enabling this functionality will drag your system
@@ -231,6 +225,11 @@ def _asString(obj):
         if hasattr(obj, "__self__"):
             return f"{obj.__module__}.{obj.__self__.__class__.__name__}.{obj.__name__}"
         return f"{obj.__module__}.{obj.__name__}"
+
+    if isinstance(obj, types.MethodType):
+        if hasattr(obj, "__self__"):
+            return f"{obj.__self__.__class__.__name__}.{obj.__name__}"
+        return f"{obj.__name__}"
 
     if isinstance(obj, types.FrameType):
         module_name = inspect.getmodulename(obj.f_code.co_filename)
@@ -332,11 +331,12 @@ def printResult(level, result=None):
         args.locals[key] = str(value)
     fArgs = str.replace(inspect.formatargvalues(*args), "'", "")
 
-    callString = 'CALL:   %s.%s (line %s) -> %s.%s%s' % (
-        inspect.getmodulename(prev[1]), prev[3], prev[2],
-        inspect.getmodulename(current[1]), current[3], fArgs)
-    string = f'{callString}\nRESULT: {result}'
-    println(level, f'{string}')
+    callString = (
+        f"CALL:   {inspect.getmodulename(prev[1])}.{prev[3]} (line {prev[2]})"
+        f" -> {inspect.getmodulename(current[1])}.{current[3]}{fArgs}"
+    )
+    string = f"{callString}\nRESULT: {result}"
+    println(level, f"{string}")
 
 def printObjectEvent(level, event, sourceInfo=None, timestamp=False):
     """Prints out an Python Event object.  The given level may be
@@ -365,17 +365,6 @@ def printObjectEvent(level, event, sourceInfo=None, timestamp=False):
 
     if sourceInfo:
         println(level, f"{' ' * 18}{sourceInfo}", timestamp)
-
-def printInputEvent(level, string, timestamp=False):
-    """Prints out an input event.  The given level may be overridden
-    if the eventDebugLevel (see setEventDebugLevel) is greater.
-
-    Arguments:
-    - level: the accepted debug level
-    - string: the string representing the input event
-    """
-
-    println(max(level, eventDebugLevel), string, timestamp)
 
 def printDetails(level, indent, accessible, includeApp=True, timestamp=False):
     """Lists the details of the given accessible with the given
@@ -425,10 +414,16 @@ def getAccessibleDetails(level, acc, indent="", includeApp=True):
     actions_string = f"{indent}actions='{AXObject.actions_as_string(acc)}'"
     iface_string = f"{indent}interfaces='{AXObject.supported_interfaces_as_string(acc)}'"
     attr_string = f"{indent}attributes='{AXObject.attributes_as_string(acc)}'"
-
-    string += "%s %s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n" \
-                  % (name_string, role_string, desc_string, state_string, rel_string,
-                     actions_string, iface_string, attr_string, path_string)
+    string += (
+        f"{name_string} {role_string}\n"
+        f"{desc_string}\n"
+        f"{state_string}\n"
+        f"{rel_string}\n"
+        f"{actions_string}\n"
+        f"{iface_string}\n"
+        f"{attr_string}\n"
+        f"{path_string}\n"
+    )
     return string
 
 # The following code originated from the following URL:

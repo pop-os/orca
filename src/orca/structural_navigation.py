@@ -33,6 +33,7 @@ from gi.repository import Atspi
 
 from . import cmdnames
 from . import debug
+from . import focus_manager
 from . import guilabels
 from . import input_event
 from . import keybindings
@@ -46,9 +47,8 @@ from .ax_collection import AXCollection
 from .ax_event_synthesizer import AXEventSynthesizer
 from .ax_object import AXObject
 from .ax_selection import AXSelection
+from .ax_table import AXTable
 from .ax_utilities import AXUtilities
-
-_settingsManager = settings_manager.getManager()
 
 ###########################################################################
 #                                                                         #
@@ -254,42 +254,13 @@ class StructuralNavigationObject:
 
             self.functions.append(handler)
 
-    def addHandlerAndBinding(self, binding, handlerName, function):
-        """Adds a custom inputEventHandler and keybinding to the object's
-        handlers and bindings.  Right now this is unused, but here in
-        case a creator of a StructuralNavigationObject had some other
-        desired functionality in mind.
-
-        Arguments:
-        - binding: [keysymstring, modifiers, description]
-        - handlerName: a string uniquely identifying the handler
-        - function: the function associated with the binding
-        """
-
-        [keysymstring, modifiers, description] = binding
-        handler = input_event.InputEventHandler(function, description)
-        keyBinding = keybindings.KeyBinding(
-                         keysymstring,
-                         keybindings.defaultModifierMask,
-                         modifiers,
-                         handler)
-
-        self.inputEventHandlers[handlerName] = handler
-        self.structuralNavigation.inputEventHandlers[handlerName] = handler
-
-        self.functions.append(function)
-        self.structuralNavigation.functions.append(function)
-
-        self.keyBindings.add(keyBinding)
-        self.structuralNavigation.keyBindings.add(keyBinding)
-
     def goPrevious(self, script, inputEvent):
         """Go to the previous object."""
-        self.structuralNavigation.goObject(self, False)
+        self.structuralNavigation.goObject(self, False, inputEvent)
 
     def goNext(self, script, inputEvent):
         """Go to the next object."""
-        self.structuralNavigation.goObject(self, True)
+        self.structuralNavigation.goObject(self, True, inputEvent)
 
     def showList(self, script, inputEvent):
         """Show a list of all the items with this object type."""
@@ -338,7 +309,7 @@ class StructuralNavigationObject:
         """
 
         def goPreviousAtLevel(script, inputEvent):
-            self.structuralNavigation.goObject(self, False, arg=level)
+            self.structuralNavigation.goObject(self, False, inputEvent, arg=level)
         return goPreviousAtLevel
 
     def goNextAtLevelFactory(self, level):
@@ -353,7 +324,7 @@ class StructuralNavigationObject:
         """
 
         def goNextAtLevel(script, inputEvent):
-            self.structuralNavigation.goObject(self, True, arg=level)
+            self.structuralNavigation.goObject(self, True, inputEvent, arg=level)
         return goNextAtLevel
 
     def showListAtLevelFactory(self, level):
@@ -395,47 +366,7 @@ class StructuralNavigationObject:
         return showListAtLevel
 
     def goDirectionFactory(self, direction):
-        """Generates the methods for navigation in a particular direction
-        (i.e. left, right, up, down, first, last).  Right now, this is
-        primarily for table cells, but it may have applicability for other
-        objects.  For example, when navigating in an outline, one might
-        want the ability to navigate to the next item at a given level,
-        but then work his/her way up/down in the hierarchy.
-
-        Arguments:
-        - direction: the direction in which to navigate as a string.
-        """
-
-        def goCell(script, inputEvent):
-            obj, offset = script.utilities.getCaretContext()
-            thisCell = self.structuralNavigation.getCellForObj(obj)
-            currentCoordinates = self.structuralNavigation.getCellCoordinates(thisCell, False)
-            if direction == "Left":
-                desiredCoordinates = [currentCoordinates[0],
-                                      currentCoordinates[1] - 1]
-            elif direction == "Right":
-                desiredCoordinates = [currentCoordinates[0],
-                                      currentCoordinates[1] + 1]
-            elif direction == "Up":
-                desiredCoordinates = [currentCoordinates[0] - 1,
-                                      currentCoordinates[1]]
-            elif direction == "Down":
-                desiredCoordinates = [currentCoordinates[0] + 1,
-                                      currentCoordinates[1]]
-            elif direction == "First":
-                desiredCoordinates = [0, 0]
-            else:
-                desiredCoordinates = [-1, -1]
-                table = self.structuralNavigation.getTableForCell(thisCell)
-                if table:
-                    nRows, nColumns = script.utilities.rowAndColumnCount(table, False)
-                    lastRow = nRows - 1
-                    lastCol = nColumns - 1
-                    desiredCoordinates = [lastRow, lastCol]
-            self.structuralNavigation.goCell(self,
-                                             thisCell,
-                                             currentCoordinates,
-                                             desiredCoordinates)
+        """Generates the methods for navigation in a particular direction."""
 
         def goLastLiveRegion(script, inputEvent):
             """Go to the last liveRegion."""
@@ -446,12 +377,10 @@ class StructuralNavigationObject:
 
         def goContainerEdge(script, inputEvent):
             isStart = direction == "Start"
-            self.structuralNavigation.goEdge(self, isStart)
+            self.structuralNavigation.goEdge(self, isStart, inputEvent)
 
         if self.objType == StructuralNavigation.CONTAINER:
             return goContainerEdge
-        if self.objType == StructuralNavigation.TABLE_CELL:
-            return goCell
         elif self.objType == StructuralNavigation.LIVE_REGION \
              and direction == "Last":
             return goLastLiveRegion
@@ -506,7 +435,6 @@ class StructuralNavigation:
     RADIO_BUTTON    = "radioButton"
     SEPARATOR       = "separator"
     TABLE           = "table"
-    TABLE_CELL      = "tableCell"
     UNVISITED_LINK  = "unvisitedLink"
     VISITED_LINK    = "visitedLink"
 
@@ -566,6 +494,10 @@ class StructuralNavigation:
         self._script = script
         self.enabled = enabled
 
+        # To make it possible for focus mode to suspend this navigation without
+        # changing the user's preferred setting.
+        self._suspended = False
+
         # Create all of the StructuralNavigationObject's in which the
         # script is interested, using the convenience method
         #
@@ -575,9 +507,9 @@ class StructuralNavigation:
                 self.structuralNavigationObjectCreator(objType)
 
         self.functions = []
-        self.inputEventHandlers = {}
-        self.setupInputEventHandlers()
-        self.keyBindings = self.getKeyBindings()
+        self._last_input_event = None
+        self._handlers = self.get_handlers(True)
+        self._bindings = keybindings.KeyBindings()
 
         # When navigating in a non-uniform table, one can move to a
         # cell which spans multiple rows and/or columns.  When moving
@@ -652,52 +584,116 @@ class StructuralNavigation:
 
         self.enabledObjects[objType] = structuralNavigationObject
 
-    def setupInputEventHandlers(self):
-        """Defines InputEventHandler fields for a script."""
+    def get_handlers(self, refresh=False):
+        """Returns the structural navigation input event handlers."""
 
+        if refresh:
+            msg = "STRUCTURAL NAVIGATION: Refreshing handlers."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            self._setup_handlers()
+
+        return self._handlers
+
+    def _setup_handlers(self):
+        """Sets up the structural navigation input event handlers."""
+
+        self._handlers = {}
+        self.functions = []
         if not len(self.enabledObjects):
             return
 
-        self.inputEventHandlers["toggleStructuralNavigationHandler"] = \
+        self._handlers["toggleStructuralNavigationHandler"] = \
             input_event.InputEventHandler(
                 self.toggleStructuralNavigation,
-                cmdnames.STRUCTURAL_NAVIGATION_TOGGLE)
+                 cmdnames.STRUCTURAL_NAVIGATION_TOGGLE,
+                 enabled = not self._suspended)
 
         for structuralNavigationObject in self.enabledObjects.values():
-            self.inputEventHandlers.update(\
-                structuralNavigationObject.inputEventHandlers)
+            handlers = structuralNavigationObject.inputEventHandlers
+            for key in handlers:
+                handlers[key].set_enabled(not self._suspended and self.enabled)
+            self._handlers.update(handlers)
             self.functions.extend(structuralNavigationObject.functions)
 
-    def getKeyBindings(self):
-        """Defines the structural navigation key bindings for a script.
+        msg = f"STRUCTURAL NAVIGATION: Handlers set up. Suspended: {self._suspended}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-        Returns: an instance of keybindings.KeyBindings.
-        """
+    def get_bindings(self, refresh=False, is_desktop=True):
+        """Returns the structural navigation keybindings."""
 
-        keyBindings = keybindings.KeyBindings()
+        if refresh:
+            msg = "STRUCTURAL NAVIGATION: Refreshing bindings."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            self._setup_bindings()
+        elif self._bindings.isEmpty():
+            self._setup_bindings()
 
+        return self._bindings
+
+    def _setup_bindings(self):
+        """Sets up the structural navigation keybindings."""
+
+        self._bindings = keybindings.KeyBindings()
         if not len(self.enabledObjects):
-            return keyBindings
+            return
 
-        keyBindings.add(
+        self._bindings.add(
             keybindings.KeyBinding(
                 "z",
                 keybindings.defaultModifierMask,
                 keybindings.ORCA_MODIFIER_MASK,
-                self.inputEventHandlers["toggleStructuralNavigationHandler"]))
+                self._handlers["toggleStructuralNavigationHandler"],
+                1,
+                not self._suspended))
 
         for structuralNavigationObject in self.enabledObjects.values():
             bindings = structuralNavigationObject.keyBindings.keyBindings
             for keybinding in bindings:
-                keyBindings.add(keybinding)
+                keybinding.set_enabled(self.enabled and not self._suspended)
+                self._bindings.add(keybinding)
 
-        return keyBindings
+        # This pulls in the user's overrides to alternative keys.
+        self._bindings = settings_manager.getManager().overrideKeyBindings(
+            self._handlers, self._bindings, False)
 
-    #########################################################################
-    #                                                                       #
-    # Input Event Handler Methods                                           #
-    #                                                                       #
-    #########################################################################
+        msg = f"STRUCTURAL NAVIGATION: Bindings set up. Suspended: {self._suspended}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+
+        tokens = [self._bindings]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+    def last_input_event_was_navigation_command(self):
+        """Returns true if the last input event was a navigation command."""
+
+        result = self._last_input_event is not None \
+            and (self._last_input_event == orca_state.lastNonModifierKeyEvent \
+                or orca_state.lastNonModifierKeyEvent.isReleaseFor(self._last_input_event))
+
+        if self._last_input_event is not None:
+            string = self._last_input_event.asSingleLineString()
+        else:
+            string = "None"
+
+        msg = f"STRUCTURAL NAVIGATION: Last navigation event ({string}) is last key event: {result}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        return result
+
+    def refresh_bindings_and_grabs(self, script, reason=""):
+        """Refreshes structural navigation bindings and grabs for script."""
+
+        msg = "STRUCTURAL NAVIGATION: Refreshing bindings and grabs"
+        if reason:
+            msg += f": {reason}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+
+        for binding in self._bindings.keyBindings:
+            script.keyBindings.remove(binding, includeGrabs=True)
+
+        self._handlers = self.get_handlers(True)
+        self._bindings = self.get_bindings(True)
+
+        for binding in self._bindings.keyBindings:
+            script.keyBindings.add(binding, includeGrabs=not self._suspended)
 
     def toggleStructuralNavigation(self, script, inputEvent, presentMessage=True):
         """Toggles structural navigation keys."""
@@ -709,8 +705,28 @@ class StructuralNavigation:
         else:
             string = messages.STRUCTURAL_NAVIGATION_KEYS_OFF
 
+        self._handlers = self.get_handlers(True)
+        self._bindings = self.get_bindings(True)
+        self.refresh_bindings_and_grabs(script, "toggling structural navigation")
         if presentMessage:
             self._script.presentMessage(string)
+
+        return True
+
+    def suspend_commands(self, script, suspended, reason=""):
+        """Suspends structural navigation independent of the enabled setting."""
+
+        if suspended == self._suspended:
+            return
+
+        msg = f"STRUCTURAL NAVIGATION: Suspended: {suspended}"
+        if reason:
+            msg += f": {reason}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        self._suspended = suspended
+        self.refresh_bindings_and_grabs(script, f"Suspended changed to {suspended}")
 
     #########################################################################
     #                                                                       #
@@ -718,76 +734,11 @@ class StructuralNavigation:
     #                                                                       #
     #########################################################################
 
-    def goCell(self, structuralNavigationObject, thisCell, 
-               currentCoordinates, desiredCoordinates):
-        """The method used for navigation among cells in a table.
-
-        Arguments:
-        - structuralNavigationObject: the StructuralNavigationObject which
-          represents the table cell.
-        - thisCell: the accessible TABLE_CELL we're currently in
-        - currentCoordinates: the [row, column] of thisCell.  Note, we
-          cannot just get the coordinates because in table cells which
-          span multiple rows and/or columns, the value returned by 
-          table.getRowAtIndex() is the first row the cell spans. Likewise,
-          the value returned by table.getColumnAtIndex() is the left-most
-          column.  Therefore, we keep track of the row and column from
-          our perspective to ensure we stay in the correct row and column.
-        - desiredCoordinates: the [row, column] where we think we'd like to
-          be.
-        """
-
-        table = self.getTableForCell(thisCell)
-        if not table:
-            self._script.presentMessage(messages.TABLE_NOT_IN_A)
-            return None
-
-        currentRow, currentCol = currentCoordinates
-        desiredRow, desiredCol = desiredCoordinates
-        rowDiff = desiredRow - currentRow
-        colDiff = desiredCol - currentCol
-
-        nRows, nColumns = self._script.utilities.rowAndColumnCount(table, False)
-        cell = thisCell
-        while cell:
-            cell = self._script.utilities.cellForCoordinates(table, desiredRow, desiredCol)
-            if not cell:
-                if desiredCol < 0:
-                    self._script.presentMessage(messages.TABLE_ROW_BEGINNING)
-                    desiredCol = 0
-                elif desiredCol > nColumns - 1:
-                    self._script.presentMessage(messages.TABLE_ROW_END)
-                    desiredCol = nColumns - 1
-                if desiredRow < 0:
-                    self._script.presentMessage(messages.TABLE_COLUMN_TOP)
-                    desiredRow = 0
-                elif desiredRow > nRows - 1:
-                    self._script.presentMessage(messages.TABLE_COLUMN_BOTTOM)
-                    desiredRow = nRows - 1
-            elif (thisCell == cell and (colDiff or rowDiff)) \
-                 or (settings.skipBlankCells and self._isBlankCell(cell)):
-                if colDiff < 0:
-                    desiredCol -= 1
-                elif colDiff > 0:
-                    desiredCol += 1
-                if rowDiff < 0:
-                    desiredRow -= 1
-                elif rowDiff > 0:
-                    desiredRow += 1
-            else:
-                break
-
-        self.lastTableCell = [desiredRow, desiredCol]
-        if cell:
-            oldRowHeaders = self._script.utilities.rowHeadersForCell(thisCell)
-            oldColHeaders = self._script.utilities.columnHeadersForCell(thisCell)
-            arg = [rowDiff, colDiff, oldRowHeaders, oldColHeaders]
-            structuralNavigationObject.present(cell, arg)
-
     def _getAll(self, structuralNavigationObject, arg=None):
         """Returns all the instances of structuralNavigationObject."""
 
-        modalDialog = self._script.utilities.getModalDialog(orca_state.locusOfFocus)
+        modalDialog = self._script.utilities.getModalDialog(
+            focus_manager.getManager().get_locus_of_focus())
         inModalDialog = bool(modalDialog)
         if self._inModalDialog != inModalDialog:
             msg = (
@@ -831,7 +782,8 @@ class StructuralNavigation:
         self._objectCache[hash(document)] = cache
         return rv
 
-    def goEdge(self, structuralNavigationObject, isStart, container=None, arg=None):
+    def goEdge(self, structuralNavigationObject, isStart, event, container=None, arg=None):
+        self._last_input_event = event
         if container is None:
             obj, offset = self._script.utilities.getCaretContext()
             container = self.getContainerForObject(obj)
@@ -863,7 +815,7 @@ class StructuralNavigation:
 
         structuralNavigationObject.present(obj, sameContainer=True)
 
-    def goObject(self, structuralNavigationObject, isNext, obj=None, arg=None):
+    def goObject(self, structuralNavigationObject, isNext, event, obj=None, arg=None):
         """The method used for navigation among StructuralNavigationObjects
         which are not table cells.
 
@@ -871,8 +823,9 @@ class StructuralNavigation:
         - structuralNavigationObject: the StructuralNavigationObject which
           represents the object of interest.
         - isNext: If True, we're interested in the next accessible object
-          which matches structuralNavigationObject.  If False, we're 
+          which matches structuralNavigationObject.  If False, we're
           interested in the previous accessible object which matches.
+        - event: The input event triggering this navigation
         - obj: the current object (typically the locusOfFocus).
         - arg: optional arguments which may need to be passed along to
           the predicate, presentation method, etc. For instance, in the
@@ -880,6 +833,7 @@ class StructuralNavigation:
           is needed and passed in as arg.
         """
 
+        self._last_input_event = event
         matches = self._getAll(structuralNavigationObject, arg)
         if not matches:
             structuralNavigationObject.present(None, arg)
@@ -954,58 +908,19 @@ class StructuralNavigation:
     #########################################################################
 
     def _getListDescription(self, obj):
-        children = [x for x in AXObject.iter_children(obj, AXUtilities.is_list_item)]
-        if not children:
-            return ""
+        if AXUtilities.is_list(obj):
+            children = [x for x in AXObject.iter_children(obj, AXUtilities.is_list_item)]
+            if children:
+                if self._script.utilities.nestingLevel(obj):
+                    return messages.nestedListItemCount(len(children))
+                else:
+                    return messages.listItemCount(len(children))
+        elif AXUtilities.is_description_list(obj):
+            children = AXUtilities.find_all_description_terms(obj)
+            if children:
+                return messages.descriptionListTermCount(len(children))
 
-        return messages.listItemCount(len(children))
-
-    def _getTableCaption(self, obj):
-        """Returns a string which contains the table caption, or
-        None if a caption could not be found.
-
-        Arguments:
-        - obj: the accessible table whose caption we want.
-        """
-
-        caption = obj.queryTable().caption
-        try:
-            caption.queryText()
-        except Exception:
-            return None
-        else:
-            return self._script.utilities.displayedText(caption)
-
-    def _getTableDescription(self, obj):
-        """Returns a string which describes the table."""
-
-        nonUniformString = ""
-        nonUniform = self._script.utilities.isNonUniformTable(obj)
-        if nonUniform:
-            nonUniformString = messages.TABLE_NON_UNIFORM + " "
-
-        nRows, nColumns = self._script.utilities.rowAndColumnCount(obj, True)
-        sizeString = messages.tableSize(nRows, nColumns)
-        return (nonUniformString + sizeString)
-
-    def getCellForObj(self, obj):
-        """Looks for a table cell in the ancestry of obj, if obj is not a
-        table cell.
-
-        Arguments:
-        - obj: the accessible object of interest.
-        """
-
-        if not AXUtilities.is_table_cell_or_header(obj):
-            obj = AXObject.find_ancestor(obj, AXUtilities.is_table_cell_or_header)
-
-        while obj and self._script.utilities.isLayoutOnly(self.getTableForCell(obj)):
-            cell = AXObject.find_ancestor(obj, AXUtilities.is_table_cell_or_header)
-            if cell is None:
-                break
-            obj = cell
-
-        return obj
+        return ""
 
     def _isContainer(self, obj):
         role = AXObject.get_role(obj)
@@ -1040,106 +955,6 @@ class StructuralNavigation:
 
         return obj
 
-    def _isBlankCell(self, obj):
-        """Returns True if the table cell is empty or consists of whitespace.
-
-        Arguments:
-        - obj: the accessible table cell to examine
-        """
-
-        if obj and (AXObject.get_name(obj) or AXObject.get_child_count(obj)):
-            return False
-
-        try:
-            text = obj.queryText()
-        except Exception:
-            pass
-        else:
-            if text.getText(0, -1).strip():
-                return False
-
-        return True
-
-    def _getCellText(self, obj):
-        """Looks at the table cell and tries to get its text.
-
-        Arguments:
-        - obj: the accessible table cell to examine
-        """
-
-        text = ""
-        if obj and not AXObject.get_child_count(obj):
-            text = self._script.utilities.displayedText(obj)
-        else:
-            for child in AXObject.iter_children(obj):
-                childText = self._script.utilities.displayedText(child)
-                text = self._script.utilities.appendString(text, childText)
-
-        return text
-
-    def _presentCellHeaders(self, cell, oldCellInfo):
-        """Speaks the headers of the accessible table cell, cell.
-
-        Arguments:
-        - cell: the accessible table cell whose headers we wish to
-          present.
-        - oldCellInfo: [rowDiff, colDiff, oldRowHeaders, oldColHeaders]
-        """
-
-        if not cell or not oldCellInfo:
-            return
-
-        rowDiff, colDiff, oldRowHeaders, oldColHeaders = oldCellInfo
-        if not (oldRowHeaders or oldColHeaders):
-            return
-
-        if rowDiff:
-            rowHeaders = self._script.utilities.rowHeadersForCell(cell)
-            for header in rowHeaders:
-                if header not in oldRowHeaders:
-                    text = self._getCellText(header)
-                    voice = self._script.speechGenerator.voice(string=text)
-                    self._script.speakMessage(text, voice=voice, force=True)
-
-        if colDiff:
-            colHeaders = self._script.utilities.columnHeadersForCell(cell)
-            for header in colHeaders:
-                if header not in oldColHeaders:
-                    text = self._getCellText(header)
-                    voice = self._script.speechGenerator.voice(string=text)
-                    self._script.speakMessage(text, voice=voice, force=True)
-
-    def getCellCoordinates(self, obj, preferAttribute=True):
-        """Returns the [row, col] of a ROLE_TABLE_CELL or [-1, -1]
-        if the coordinates cannot be found.
-
-        Arguments:
-        - obj: the accessible table cell whose coordinates we want.
-        - preferAttribute: If True, prefer object attribute over table interface
-        """
-
-        cell = self.getCellForObj(obj)
-        table = self.getTableForCell(cell)
-        thisRow, thisCol = self._script.utilities.coordinatesForCell(cell, preferAttribute)
-
-        # If preferAttribute is True, we are getting coordinates to be spoken,
-        # and not to deal with the logic below.
-        if preferAttribute:
-            return thisRow, thisCol
-
-        # If we're in a cell that spans multiple rows and/or columns,
-        # thisRow and thisCol will refer to the upper left cell in
-        # the spanned range(s).  We're storing the lastTableCell that
-        # we're aware of in order to facilitate more linear movement.
-        # Therefore, if the lastTableCell and this table cell are the
-        # same cell, we'll go with the stored coordinates.
-        lastRow, lastCol = self.lastTableCell
-        lastCell = self._script.utilities.cellForCoordinates(table, lastRow, lastCol)
-        if lastCell == cell:
-            return lastRow, lastCol
-
-        return thisRow, thisCol
-
     def _getCaretPosition(self, obj):
         """Returns the [obj, characterOffset] where the caret should be
         positioned. For most scripts, the object should not change and
@@ -1161,7 +976,10 @@ class StructuralNavigation:
             return obj, characterOffset
 
         self._script.utilities.setCaretPosition(obj, characterOffset)
-        AXObject.clear_cache(obj)
+        AXObject.clear_cache(
+            obj,
+            False,
+            "Structural navigation workaround for object destruction when setting caret.")
         if not AXUtilities.is_defunct(obj):
             return obj, characterOffset
 
@@ -1212,7 +1030,7 @@ class StructuralNavigation:
 
     def _presentWithSayAll(self, obj, offset):
         if self._script.inSayAll() \
-           and _settingsManager.getSetting('structNavInSayAll'):
+           and settings_manager.getManager().getSetting('structNavInSayAll'):
             self._script.sayAll(obj, offset)
             return True
 
@@ -1871,7 +1689,9 @@ class StructuralNavigation:
         return bindings
 
     def _listGetter(self, document, arg=None):
-        return AXUtilities.find_all_lists(document)
+        results = AXUtilities.find_all_lists(document)
+        results.extend(AXUtilities.find_all_description_lists(document))
+        return results
 
     def _listPresentation(self, obj, arg=None):
         if obj is not None:
@@ -1911,17 +1731,32 @@ class StructuralNavigation:
         return bindings
 
     def _listItemGetter(self, document, arg=None):
-        return AXUtilities.find_all_list_items(document)
+        results = AXUtilities.find_all_list_items(document)
+        results.extend(AXUtilities.find_all_description_terms(document))
+        return results
 
     def _listItemPresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentLine(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_LIST_ITEMS
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        thisList = None
+        priorList = None
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if AXUtilities.is_list_item(obj):
+            thisList = AXObject.find_ancestor(obj, AXUtilities.is_list)
+            priorList = AXObject.find_ancestor(focus, AXUtilities.is_list)
+        else:
+            thisList = AXObject.find_ancestor(obj, AXUtilities.is_description_list)
+            priorList = AXObject.find_ancestor(focus, AXUtilities.is_description_list)
+        if thisList is not None and priorList != thisList:
+            self._script.speakMessage(self._getListDescription(thisList))
+
+        [obj, characterOffset] = self._getCaretPosition(obj)
+        obj, characterOffset = self._setCaretPosition(obj, characterOffset)
+        self._presentLine(obj, characterOffset)
 
     def _listItemDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_LIST_ITEM]
@@ -2107,24 +1942,21 @@ class StructuralNavigation:
                 return False
 
             # This should no longer be needed once Atspi 2.8.4 is released.
-            attrs = self._script.utilities.objectAttributes(obj)
+            attrs = AXObject.get_attributes_dict(obj)
             if attrs.get('layout-guess') == 'true':
                 return False
 
-            try:
-                return obj.queryTable().nRows > 0
-            except Exception:
-                return False
+            return AXTable.get_row_count(obj) > 0
 
         return AXUtilities.find_all_tables(document, is_not_layout_or_empty)
 
     def _tablePresentation(self, obj, arg=None):
         if obj is not None:
-            caption = self._getTableCaption(obj)
+            caption = AXTable.get_caption(obj)
             if caption:
-                self._script.presentMessage(caption)
-            self._script.presentMessage(self._getTableDescription(obj))
-            cell = obj.queryTable().getAccessibleAt(0, 0)
+                self._script.presentMessage(self._script.utilities.displayedText(caption))
+            self._script.presentMessage(AXTable.get_table_description_for_presentation(obj))
+            cell = AXTable.get_cell_at(obj, 0, 0)
             if not cell:
                 tokens = ["STRUCTURAL NAVIGATION: Broken table interface for", obj]
                 debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -2147,69 +1979,14 @@ class StructuralNavigation:
         columnHeaders.append(guilabels.SN_HEADER_DESCRIPTION)
 
         def rowData(obj):
-            return [self._getTableCaption(obj) or '',
-                    self._getTableDescription(obj)]
+            caption = AXTable.get_caption(obj)
+            if caption:
+                name = self._script.utilities.displayedText(caption)
+            else:
+                name = AXObject.get_name(obj)
+            return [name, AXTable.get_table_description_for_presentation(obj)]
 
         return guilabels.SN_TITLE_TABLE, columnHeaders, rowData
-
-    ########################
-    #                      #
-    # Table Cells          #
-    #                      #
-    ########################
-
-    def _tableCellBindings(self):
-        bindings = {}
-        desc = cmdnames.TABLE_CELL_LEFT
-        bindings["left"] = ["Left", keybindings.SHIFT_ALT_MODIFIER_MASK, desc]
-
-        desc = cmdnames.TABLE_CELL_RIGHT
-        bindings["right"] = ["Right", keybindings.SHIFT_ALT_MODIFIER_MASK, desc]
-
-        desc = cmdnames.TABLE_CELL_UP
-        bindings["up"] = ["Up", keybindings.SHIFT_ALT_MODIFIER_MASK, desc]
-
-        desc = cmdnames.TABLE_CELL_DOWN
-        bindings["down"] = ["Down", keybindings.SHIFT_ALT_MODIFIER_MASK, desc]
-
-        desc = cmdnames.TABLE_CELL_FIRST
-        bindings["first"] = ["Home", keybindings.SHIFT_ALT_MODIFIER_MASK, desc]
-
-        desc = cmdnames.TABLE_CELL_LAST
-        bindings["last"] = ["End", keybindings.SHIFT_ALT_MODIFIER_MASK, desc]
-        return bindings
-
-    def _tableCellGetter(self, document, arg=None):
-        # TODO - JD: It would be more performant to set the root to the table.
-        # Actually, this doesn't seem to be getting used. Either use it or delete it.
-        return AXUtilities.find_all_table_cells_and_headers(document)
-
-    def _tableCellPresentation(self, cell, arg):
-        if cell is None:
-            return
-
-        if settings.speakCellHeaders:
-            self._presentCellHeaders(cell, arg)
-
-        [obj, characterOffset] = self._getCaretPosition(cell)
-        obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-        self._script.updateBraille(obj)
-
-        blank = self._isBlankCell(cell)
-        if not blank:
-            self._presentObject(cell, 0)
-        else:
-            self._script.speakMessage(messages.BLANK)
-
-        if settings.speakCellCoordinates:
-            [row, col] = self.getCellCoordinates(cell)
-            self._script.presentMessage(messages.TABLE_CELL_COORDINATES \
-                                        % {"row" : row + 1, "column" : col + 1})
-
-        rowspan, colspan = self._script.utilities.rowAndColumnSpan(cell)
-        spanString = messages.cellSpan(rowspan, colspan)
-        if spanString and settings.speakCellSpan:
-            self._script.presentMessage(spanString)
 
     ########################
     #                      #

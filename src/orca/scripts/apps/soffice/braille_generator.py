@@ -32,11 +32,10 @@ from gi.repository import Atspi
 import orca.braille as braille
 import orca.braille_generator as braille_generator
 import orca.object_properties as object_properties
-import orca.settings_manager as settings_manager
 from orca.ax_object import AXObject
+from orca.ax_table import AXTable
 from orca.ax_utilities import AXUtilities
 
-_settingsManager = settings_manager.getManager()
 
 class BrailleGenerator(braille_generator.BrailleGenerator):
 
@@ -51,44 +50,6 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
             return []
 
         return super()._generateRoleName(obj, **args)
-
-    def _generateRowHeader(self, obj, **args):
-        """Returns an array of strings that represent the row header for an
-        object that is in a table, if it exists.  Otherwise, an empty
-        array is returned. Overridden here so that we can get the
-        dynamic row header(s).
-        """
-
-        newOnly = args.get('newOnly', False)
-        rowHeader, columnHeader = \
-            self._script.utilities.getDynamicHeadersForCell(obj, newOnly)
-        if not rowHeader:
-            return []
-
-        text = self._script.utilities.displayedText(rowHeader)
-        if text:
-            return [text]
-
-        return []
-
-    def _generateColumnHeader(self, obj, **args):
-        """Returns an array of strings that represent the column header for an
-        object that is in a table, if it exists.  Otherwise, an empty
-        array is returned. Overridden here so that we can get the
-        dynamic column header(s).
-        """
-
-        newOnly = args.get('newOnly', False)
-        rowHeader, columnHeader = \
-            self._script.utilities.getDynamicHeadersForCell(obj, newOnly)
-        if not columnHeader:
-            return []
-
-        text = self._script.utilities.displayedText(columnHeader)
-        if text:
-            return [text]
-
-        return []
 
     def _generateRealTableCell(self, obj, **args):
         if not self._script.utilities.inDocumentContent(obj):
@@ -109,7 +70,8 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
 
         try:
             objectText = self._script.utilities.substring(obj, 0, -1)
-            cellName = self._script.utilities.spreadSheetCellName(obj)
+            cellName = AXTable.get_label_for_cell_coordinates(obj) \
+                or self._script.utilities.spreadSheetCellName(obj)
         except Exception:
             return []
 
@@ -119,7 +81,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         return braille.Region(object_properties.TABLE_CELL_DELIMITER_BRAILLE)
 
     def _generateTableCellRow(self, obj, **args):
-        if not self._script.utilities.shouldReadFullRow(obj):
+        if not self._script.utilities.shouldReadFullRow(obj, args.get('priorObj')):
             return self._generateRealTableCell(obj, **args)
 
         if not self._script.utilities.isSpreadSheetCell(obj):
@@ -158,13 +120,13 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         return result
 
     def _generateAncestors(self, obj, **args):
-        if self._script._lastCommandWasStructNav:
+        if self._script.getTableNavigator().last_input_event_was_navigation_command():
             return []
 
         return super()._generateAncestors(obj, **args)
 
     def _generateIncludeContext(self, obj, **args):
-        if self._script._lastCommandWasStructNav:
+        if self._script.getTableNavigator().last_input_event_was_navigation_command():
             return False
 
         return super()._generateIncludeContext(obj, **args)

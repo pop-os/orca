@@ -25,7 +25,7 @@ __copyright__ = "Copyright (c) 2016 Igalia, S.L."
 __license__   = "LGPL"
 
 from orca import debug
-from orca import orca
+from orca import focus_manager
 from orca.scripts import default
 
 from .braille_generator import BrailleGenerator
@@ -64,7 +64,7 @@ class Script(default.Script):
         """Callback for focus: accessibility events."""
 
         # https://bugzilla.gnome.org/show_bug.cgi?id=748311
-        orca.setLocusOfFocus(event, event.source)
+        focus_manager.getManager().set_locus_of_focus(event, event.source)
 
     def onTextDeleted(self, event):
         """Callback for object:text-changed:delete accessibility events."""

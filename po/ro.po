@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-orca\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/orca/issues\n"
-"POT-Creation-Date: 2023-10-09 16:00+0000\n"
+"POT-Creation-Date: 2023-08-08 11:20+0000\n"
 "PO-Revision-Date: 2023-08-08 17:22+0300\n"
 "Last-Translator: Florentina Mușat <florentina [dot] musat [dot] 28 [at] "
 "gmail [dot] com>\n"
@@ -617,13 +617,13 @@ msgstr "Flamandă grad 1"
 
 #. Translators: this is the spoken word for the space character
 #.
-#: src/orca/chnames.py:43 src/orca/keynames.py:143
+#: src/orca/chnames.py:41 src/orca/keynames.py:143
 msgid "space"
 msgstr "spațiu"
 
 #. Translators: this is the spoken word for the newline character
 #.
-#: src/orca/chnames.py:47
+#: src/orca/chnames.py:45
 msgid "newline"
 msgstr "linie nouă"
 
@@ -631,67 +631,67 @@ msgstr "linie nouă"
 #.
 #. Translators: this is how someone would speak the name of the tab key
 #.
-#: src/orca/chnames.py:51 src/orca/keynames.py:135
+#: src/orca/chnames.py:49 src/orca/keynames.py:135
 msgid "tab"
 msgstr "tab"
 
 #. Translators: this is the spoken word for the character '!' (U+0021)
 #.
-#: src/orca/chnames.py:55
+#: src/orca/chnames.py:53
 msgid "exclaim"
 msgstr "semnul exclamării"
 
 #. Translators: this is the spoken word for the character '"' (U+0022)
 #.
-#: src/orca/chnames.py:59
+#: src/orca/chnames.py:57
 msgid "quote"
 msgstr "ghilimele"
 
 #. Translators: this is the spoken word for the character '#' (U+0023)
 #.
-#: src/orca/chnames.py:63
+#: src/orca/chnames.py:61
 msgid "number"
 msgstr "diez"
 
 #. Translators: this is the spoken word for the character '$' (U+0024)
 #.
-#: src/orca/chnames.py:67
+#: src/orca/chnames.py:65
 msgid "dollar"
 msgstr "dolar"
 
 #. Translators: this is the spoken word for the character '%' (U+0025)
 #.
-#: src/orca/chnames.py:71
+#: src/orca/chnames.py:69
 msgid "percent"
 msgstr "procent"
 
 #. Translators: this is the spoken word for the character '&' (U+0026)
 #.
-#: src/orca/chnames.py:75
+#: src/orca/chnames.py:73
 msgid "and"
 msgstr "și"
 
 #. Translators: this is the spoken word for the character ''' (U+0027)
 #.
-#: src/orca/chnames.py:79
+#: src/orca/chnames.py:77
 msgid "apostrophe"
 msgstr "apostrof"
 
 #. Translators: this is the spoken word for the character '(' (U+0028)
 #.
-#: src/orca/chnames.py:83
+#: src/orca/chnames.py:81
 msgid "left paren"
 msgstr "paranteză deschisă"
 
 #. Translators: this is the spoken word for the character ')' (U+0029)
 #.
-#: src/orca/chnames.py:87
+#: src/orca/chnames.py:85
 msgid "right paren"
 msgstr "paranteză închisă"
 
 #. Translators: this is the spoken word for the character '*' (U+002a)
 #.
-#: src/orca/chnames.py:91
+#: src/orca/chnames.py:89
 msgid "star"
 msgstr "asterisc"
 
@@ -699,103 +699,103 @@ msgstr "asterisc"
 #.
 #. Translators: this is how someone would speak the name of the plus key
 #.
-#: src/orca/chnames.py:95 src/orca/keynames.py:303
+#: src/orca/chnames.py:93 src/orca/keynames.py:303
 msgid "plus"
 msgstr "plus"
 
 #. Translators: this is the spoken word for the character ',' (U+002c)
 #.
-#: src/orca/chnames.py:99
+#: src/orca/chnames.py:97
 msgid "comma"
 msgstr "virgulă"
 
 #. Translators: this is the spoken word for the character '-' (U+002d)
 #.
-#: src/orca/chnames.py:103
+#: src/orca/chnames.py:101
 msgid "dash"
 msgstr "cratimă"
 
 #. Translators: this is the spoken word for the character '.' (U+002e)
 #.
-#: src/orca/chnames.py:107
+#: src/orca/chnames.py:105
 msgid "dot"
 msgstr "punct"
 
 #. Translators: this is the spoken word for the character '/' (U+002f)
 #.
-#: src/orca/chnames.py:111
+#: src/orca/chnames.py:109
 msgid "slash"
 msgstr "linie oblică"
 
 #. Translators: this is the spoken word for the character ':' (U+003a)
 #.
-#: src/orca/chnames.py:115
+#: src/orca/chnames.py:113
 msgid "colon"
 msgstr "două puncte"
 
 #. Translators: this is the spoken word for the character ';' (U+003b)
 #.
-#: src/orca/chnames.py:119
+#: src/orca/chnames.py:117
 msgid "semicolon"
 msgstr "punct și virgulă"
 
 #. Translators: this is the spoken word for the character '< ' (U+003c)
 #.
-#: src/orca/chnames.py:123
+#: src/orca/chnames.py:121
 msgid "less"
 msgstr "mai mic"
 
 #. Translators: this is the spoken word for the character '=' (U+003d)
 #.
-#: src/orca/chnames.py:127
+#: src/orca/chnames.py:125
 msgid "equals"
 msgstr "egal"
 
 #. Translators: this is the spoken word for the character '> ' (U+003e)
 #.
-#: src/orca/chnames.py:131
+#: src/orca/chnames.py:129
 msgid "greater"
 msgstr "mai mare"
 
 #. Translators: this is the spoken word for the character '?' (U+003f)
 #.
-#: src/orca/chnames.py:135
+#: src/orca/chnames.py:133
 msgid "question"
 msgstr "semnul întrebării"
 
 #. Translators: this is the spoken word for the character '@' (U+0040)
 #.
-#: src/orca/chnames.py:139
+#: src/orca/chnames.py:137
 msgid "at"
 msgstr "a rond"
 
 #. Translators: this is the spoken word for the character '[' (U+005b)
 #.
-#: src/orca/chnames.py:143
+#: src/orca/chnames.py:141
 msgid "left bracket"
 msgstr "paranteză pătrată deschisă"
 
 #. Translators: this is the spoken word for the character '\' (U+005c)
 #.
-#: src/orca/chnames.py:147
+#: src/orca/chnames.py:145
 msgid "backslash"
 msgstr "linie oblică inversă"
 
 #. Translators: this is the spoken word for the character ']' (U+005d)
 #.
-#: src/orca/chnames.py:151
+#: src/orca/chnames.py:149
 msgid "right bracket"
 msgstr "paranteză pătrată închisă"
 
 #. Translators: this is the spoken word for the character '^' (U+005e)
 #.
-#: src/orca/chnames.py:155
+#: src/orca/chnames.py:153
 msgid "caret"
 msgstr "accent circumflex"
 
 #. Translators: this is the spoken word for the character '_' (U+005f)
 #.
-#: src/orca/chnames.py:159
+#: src/orca/chnames.py:157
 msgid "underline"
 msgstr "liniuță de subliniere"
 
@@ -804,25 +804,25 @@ msgstr "liniuță de subliniere"
 #. Translators: this is how someone would speak the name of the
 #. non-spacing diacritical key for the grave glyph
 #.
-#: src/orca/chnames.py:163 src/orca/keynames.py:260
+#: src/orca/chnames.py:161 src/orca/keynames.py:260
 msgid "grave"
 msgstr "accent grav"
 
 #. Translators: this is the spoken word for the character '{' (U+007b)
 #.
-#: src/orca/chnames.py:167
+#: src/orca/chnames.py:165
 msgid "left brace"
 msgstr "acoladă deschisă"
 
 #. Translators: this is the spoken word for the character '|' (U+007c)
 #.
-#: src/orca/chnames.py:171
+#: src/orca/chnames.py:169
 msgid "vertical bar"
 msgstr "bară verticală"
 
 #. Translators: this is the spoken word for the character '}' (U+007d)
 #.
-#: src/orca/chnames.py:175
+#: src/orca/chnames.py:173
 msgid "right brace"
 msgstr "acoladă închisă"
 
@@ -831,56 +831,56 @@ msgstr "acoladă închisă"
 #. Translators: this is how someone would speak the name of the
 #. non-spacing diacritical key for the tilde glyph
 #.
-#: src/orca/chnames.py:179 src/orca/keynames.py:275
+#: src/orca/chnames.py:177 src/orca/keynames.py:275
 msgid "tilde"
 msgstr "tildă"
 
 #. Translators: this is the spoken character for the no break space
 #. character (e.g., "&nbsp;" in HTML -- U+00a0)
 #.
-#: src/orca/chnames.py:184
+#: src/orca/chnames.py:182
 msgid "no break space"
 msgstr "spațiu de unire"
 
 #. Translators: this is the spoken word for the character '¡' (U+00a1)
 #.
-#: src/orca/chnames.py:188
+#: src/orca/chnames.py:186
 msgid "inverted exclamation point"
 msgstr "semnul exclamării inversat"
 
 #. Translators: this is the spoken word for the character '¢' (U+00a2)
 #.
-#: src/orca/chnames.py:192
+#: src/orca/chnames.py:190
 msgid "cents"
 msgstr "cent"
 
 #. Translators: this is the spoken word for the character '£' (U+00a3)
 #.
-#: src/orca/chnames.py:196
+#: src/orca/chnames.py:194
 msgid "pounds"
 msgstr "liră"
 
 #. Translators: this is the spoken word for the character '¤' (U+00a4)
 #.
-#: src/orca/chnames.py:200
+#: src/orca/chnames.py:198
 msgid "currency sign"
 msgstr "simbol monetar"
 
 #. Translators: this is the spoken word for the character '¥' (U+00a5)
 #.
-#: src/orca/chnames.py:204
+#: src/orca/chnames.py:202
 msgid "yen"
 msgstr "yen"
 
 #. Translators: this is the spoken word for the character '¦' (U+00a6)
 #.
-#: src/orca/chnames.py:208
+#: src/orca/chnames.py:206
 msgid "broken bar"
 msgstr "bară verticală întreruptă"
 
 #. Translators: this is the spoken word for the character '§' (U+00a7)
 #.
-#: src/orca/chnames.py:212
+#: src/orca/chnames.py:210
 msgid "section"
 msgstr "secțiune"
 
@@ -889,73 +889,73 @@ msgstr "secțiune"
 #. Translators: this is how someone would speak the name of the
 #. non-spacing diacritical key for the diaeresis glyph
 #.
-#: src/orca/chnames.py:216 src/orca/keynames.py:280
+#: src/orca/chnames.py:214 src/orca/keynames.py:280
 msgid "diaeresis"
 msgstr "umlaut"
 
 #. Translators: this is the spoken word for the character '©' (U+00a9)
 #.
-#: src/orca/chnames.py:220
+#: src/orca/chnames.py:218
 msgid "copyright"
 msgstr "drepturi de autor"
 
 #. Translators: this is the spoken word for the character 'ª' (U+00aa)
 #.
-#: src/orca/chnames.py:224
+#: src/orca/chnames.py:222
 msgid "superscript a"
 msgstr "a ca exponent"
 
 #. Translators: this is the spoken word for the character '«' (U+00ab)
 #.
-#: src/orca/chnames.py:228
+#: src/orca/chnames.py:226
 msgid "left double angle bracket"
 msgstr "ghilimele franceze deschise"
 
 #. Translators: this is the spoken word for the character '¬' (U+00ac)
 #.
-#: src/orca/chnames.py:232
+#: src/orca/chnames.py:230
 msgid "logical not"
 msgstr "negațit logică"
 
 #. Translators: this is the spoken word for the character '­' (U+00ad)
 #.
-#: src/orca/chnames.py:236
+#: src/orca/chnames.py:234
 msgid "soft hyphen"
 msgstr "cratimă"
 
 #. Translators: this is the spoken word for the character '®' (U+00ae)
 #.
-#: src/orca/chnames.py:240
+#: src/orca/chnames.py:238
 msgid "registered"
 msgstr "marcă înregistrată"
 
 #. Translators: this is the spoken word for the character '¯' (U+00af)
 #.
-#: src/orca/chnames.py:244
+#: src/orca/chnames.py:242
 msgid "macron"
 msgstr "macron"
 
 #. Translators: this is the spoken word for the character '°' (U+00b0)
 #.
-#: src/orca/chnames.py:248
+#: src/orca/chnames.py:246
 msgid "degrees"
 msgstr "grade"
 
 #. Translators: this is the spoken word for the character '±' (U+00b1)
 #.
-#: src/orca/chnames.py:252
+#: src/orca/chnames.py:250
 msgid "plus or minus"
 msgstr "plus sau minus"
 
 #. Translators: this is the spoken word for the character '²' (U+00b2)
 #.
-#: src/orca/chnames.py:256
+#: src/orca/chnames.py:254
 msgid "superscript 2"
 msgstr "2 ca exponent"
 
 #. Translators: this is the spoken word for the character '³' (U+00b3)
 #.
-#: src/orca/chnames.py:260
+#: src/orca/chnames.py:258
 msgid "superscript 3"
 msgstr "3 ca exponent"
 
@@ -964,25 +964,25 @@ msgstr "3 ca exponent"
 #. Translators: this is how someone would speak the name of the
 #. non-spacing diacritical key for the acute glyph
 #.
-#: src/orca/chnames.py:264 src/orca/keynames.py:265
+#: src/orca/chnames.py:262 src/orca/keynames.py:265
 msgid "acute"
 msgstr "ascuțit"
 
 #. Translators: this is the spoken word for the character 'µ' (U+00b5)
 #.
-#: src/orca/chnames.py:268
+#: src/orca/chnames.py:266
 msgid "mu"
 msgstr "miu"
 
 #. Translators: this is the spoken word for the character '¶' (U+00b6)
 #.
-#: src/orca/chnames.py:272
+#: src/orca/chnames.py:270
 msgid "paragraph marker"
 msgstr "marcaj paragraf"
 
 #. Translators: this is the spoken word for the character '·' (U+00b7)
 #.
-#: src/orca/chnames.py:276
+#: src/orca/chnames.py:274
 msgid "middle dot"
 msgstr "punct mijlociu"
 
@@ -991,569 +991,569 @@ msgstr "punct mijlociu"
 #. Translators: this is how someone would speak the name of the
 #. non-spacing diacritical key for the cedilla glyph
 #.
-#: src/orca/chnames.py:280 src/orca/keynames.py:290
+#: src/orca/chnames.py:278 src/orca/keynames.py:290
 msgid "cedilla"
 msgstr "sedilă"
 
 #. Translators: this is the spoken word for the character '¹' (U+00b9)
 #.
-#: src/orca/chnames.py:284
+#: src/orca/chnames.py:282
 msgid "superscript 1"
 msgstr "1 la exponent"
 
 #. Translators: this is the spoken word for the character 'º' (U+00ba)
 #.
-#: src/orca/chnames.py:288
+#: src/orca/chnames.py:286
 msgid "ordinal"
 msgstr "ordinal"
 
 #. Translators: this is the spoken word for the character '»' (U+00bb)
 #.
-#: src/orca/chnames.py:292
+#: src/orca/chnames.py:290
 msgid "right double angle bracket"
 msgstr "ghilimele franceze închise"
 
 #. Translators: this is the spoken word for the character '¼' (U+00bc)
 #.
-#: src/orca/chnames.py:296
+#: src/orca/chnames.py:294
 msgid "one fourth"
 msgstr "o pătrime"
 
 #. Translators: this is the spoken word for the character '½' (U+00bd)
 #.
-#: src/orca/chnames.py:300
+#: src/orca/chnames.py:298
 msgid "one half"
 msgstr "o jumătate"
 
 #. Translators: this is the spoken word for the character '¾' (U+00be)
 #.
-#: src/orca/chnames.py:304
+#: src/orca/chnames.py:302
 msgid "three fourths"
 msgstr "trei pătrimi"
 
 #. Translators: this is the spoken word for the character '¿' (U+00bf)
 #.
-#: src/orca/chnames.py:308
+#: src/orca/chnames.py:306
 msgid "inverted question mark"
 msgstr "semnul întrebării inversat"
 
 #. Translators: this is the spoken word for the character 'á' (U+00e1)
 #.
-#: src/orca/chnames.py:312
+#: src/orca/chnames.py:310
 msgid "a acute"
 msgstr "a ascuțit"
 
 #. Translators: this is the spoken word for the character 'À' (U+00c0)
 #.
-#: src/orca/chnames.py:316
+#: src/orca/chnames.py:314
 msgid "A GRAVE"
 msgstr "A cu accent grav"
 
 #. Translators: this is the spoken word for the character 'Á' (U+00c1)
 #.
-#: src/orca/chnames.py:320
+#: src/orca/chnames.py:318
 msgid "A ACUTE"
 msgstr "A ascuțit"
 
 #. Translators: this is the spoken word for the character 'Â' (U+00c2)
 #.
-#: src/orca/chnames.py:324
+#: src/orca/chnames.py:322
 msgid "A CIRCUMFLEX"
 msgstr "A circumflex"
 
 #. Translators: this is the spoken word for the character 'Ã' (U+00c3)
 #.
-#: src/orca/chnames.py:328
+#: src/orca/chnames.py:326
 msgid "A TILDE"
 msgstr "A tilda"
 
 #. Translators: this is the spoken word for the character 'Ä' (U+00c4)
 #.
-#: src/orca/chnames.py:332
+#: src/orca/chnames.py:330
 msgid "A UMLAUT"
 msgstr "A cu umlaut"
 
 #. Translators: this is the spoken word for the character 'Å' (U+00c5)
 #.
-#: src/orca/chnames.py:336
+#: src/orca/chnames.py:334
 msgid "A RING"
 msgstr "A cu cerculeț"
 
 #. Translators: this is the spoken word for the character 'Æ' (U+00c6)
 #.
-#: src/orca/chnames.py:340
+#: src/orca/chnames.py:338
 msgid "A E"
 msgstr "A lipit de E"
 
 #. Translators: this is the spoken word for the character 'Ç' (U+00c7)
 #.
-#: src/orca/chnames.py:344
+#: src/orca/chnames.py:342
 msgid "C CEDILLA"
 msgstr "C cu sedilă"
 
 #. Translators: this is the spoken word for the character 'È' (U+00c8)
 #.
-#: src/orca/chnames.py:348
+#: src/orca/chnames.py:346
 msgid "E GRAVE"
 msgstr "E grav"
 
 #. Translators: this is the spoken word for the character 'É' (U+00c9)
 #.
-#: src/orca/chnames.py:352
+#: src/orca/chnames.py:350
 msgid "E ACUTE"
 msgstr "E ascuțit"
 
 #. Translators: this is the spoken word for the character 'Ê' (U+00ca)
 #.
-#: src/orca/chnames.py:356
+#: src/orca/chnames.py:354
 msgid "E CIRCUMFLEX"
 msgstr "E circumflex"
 
 #. Translators: this is the spoken word for the character 'Ë' (U+00cb)
 #.
-#: src/orca/chnames.py:360
+#: src/orca/chnames.py:358
 msgid "E UMLAUT"
 msgstr "E cu umlaut"
 
 #. Translators: this is the spoken word for the character 'Ì' (U+00cc)
 #.
-#: src/orca/chnames.py:364
+#: src/orca/chnames.py:362
 msgid "I GRAVE"
 msgstr "I grav"
 
 #. Translators: this is the spoken word for the character 'Í' (U+00cd)
 #.
-#: src/orca/chnames.py:368
+#: src/orca/chnames.py:366
 msgid "I ACUTE"
 msgstr "I ascuțit"
 
 #. Translators: this is the spoken word for the character 'Î' (U+00ce)
 #.
-#: src/orca/chnames.py:372
+#: src/orca/chnames.py:370
 msgid "I CIRCUMFLEX"
 msgstr "I circumflex"
 
 #. Translators: this is the spoken word for the character 'Ï' (U+00cf)
 #.
-#: src/orca/chnames.py:376
+#: src/orca/chnames.py:374
 msgid "I UMLAUT"
 msgstr "I cu umlaut"
 
 #. Translators: this is the spoken word for the character 'Ð' (U+00d0)
 #.
-#: src/orca/chnames.py:380
+#: src/orca/chnames.py:378
 msgid "ETH"
 msgstr "Eth"
 
 #. Translators: this is the spoken word for the character 'Ñ' (U+00d1)
 #.
-#: src/orca/chnames.py:384
+#: src/orca/chnames.py:382
 msgid "N TILDE"
 msgstr "N tilda"
 
 #. Translators: this is the spoken word for the character 'Ò' (U+00d2)
 #.
-#: src/orca/chnames.py:388
+#: src/orca/chnames.py:386
 msgid "O GRAVE"
 msgstr "O grav"
 
 #. Translators: this is the spoken word for the character 'Ó' (U+00d3)
 #.
-#: src/orca/chnames.py:392
+#: src/orca/chnames.py:390
 msgid "O ACUTE"
 msgstr "O ascuțit"
 
 #. Translators: this is the spoken word for the character 'Ô' (U+00d4)
 #.
-#: src/orca/chnames.py:396
+#: src/orca/chnames.py:394
 msgid "O CIRCUMFLEX"
 msgstr "O circumflex"
 
 #. Translators: this is the spoken word for the character 'Õ' (U+00d5)
 #.
-#: src/orca/chnames.py:400
+#: src/orca/chnames.py:398
 msgid "O TILDE"
 msgstr "O tilda"
 
 #. Translators: this is the spoken word for the character 'Ö' (U+00d6)
 #.
-#: src/orca/chnames.py:404
+#: src/orca/chnames.py:402
 msgid "O UMLAUT"
 msgstr "O cu umlaut"
 
 #. Translators: this is the spoken word for the character '×' (U+00d7)
 #.
-#: src/orca/chnames.py:408
+#: src/orca/chnames.py:406
 msgid "times"
 msgstr "înmulțire"
 
 #. Translators: this is the spoken word for the character 'Ø' (U+00d8)
 #.
-#: src/orca/chnames.py:412
+#: src/orca/chnames.py:410
 msgid "O STROKE"
 msgstr "O barat"
 
 #. Translators: this is the spoken word for the character 'Ù' (U+00d9)
 #.
-#: src/orca/chnames.py:416
+#: src/orca/chnames.py:414
 msgid "U GRAVE"
 msgstr "U grav"
 
 #. Translators: this is the spoken word for the character 'Ú' (U+00da)
 #.
-#: src/orca/chnames.py:420
+#: src/orca/chnames.py:418
 msgid "U ACUTE"
 msgstr "U ascuțit"
 
 #. Translators: this is the spoken word for the character 'Û' (U+00db)
 #.
-#: src/orca/chnames.py:424
+#: src/orca/chnames.py:422
 msgid "U CIRCUMFLEX"
 msgstr "U circumflex"
 
 #. Translators: this is the spoken word for the character 'Ü' (U+00dc)
 #.
-#: src/orca/chnames.py:428
+#: src/orca/chnames.py:426
 msgid "U UMLAUT"
 msgstr "U umlaut"
 
 #. Translators: this is the spoken word for the character 'Ý' (U+00dd)
 #.
-#: src/orca/chnames.py:432
+#: src/orca/chnames.py:430
 msgid "Y ACUTE"
 msgstr "Y ascuțit"
 
 #. Translators: this is the spoken word for the character 'Þ' (U+00de)
 #.
-#: src/orca/chnames.py:436
+#: src/orca/chnames.py:434
 msgid "THORN"
 msgstr "Thorn"
 
 #. Translators: this is the spoken word for the character 'ß' (U+00df)
 #.
-#: src/orca/chnames.py:440
+#: src/orca/chnames.py:438
 msgid "s sharp"
 msgstr "s ascuțit"
 
 #. Translators: this is the spoken word for the character 'à' (U+00e0)
 #.
-#: src/orca/chnames.py:444
+#: src/orca/chnames.py:442
 msgid "a grave"
 msgstr "a grav"
 
 #. Translators: this is the spoken word for the character 'â' (U+00e2)
 #.
-#: src/orca/chnames.py:448
+#: src/orca/chnames.py:446
 msgid "a circumflex"
 msgstr "a circumflex"
 
 #. Translators: this is the spoken word for the character 'ã' (U+00e3)
 #.
-#: src/orca/chnames.py:452
+#: src/orca/chnames.py:450
 msgid "a tilde"
 msgstr "a tilda"
 
 #. Translators: this is the spoken word for the character 'ä' (U+00e4)
 #.
-#: src/orca/chnames.py:456
+#: src/orca/chnames.py:454
 msgid "a umlaut"
 msgstr "a cu umlaut"
 
 #. Translators: this is the spoken word for the character 'å' (U+00e5)
 #.
-#: src/orca/chnames.py:460
+#: src/orca/chnames.py:458
 msgid "a ring"
 msgstr "a cu cerculeț"
 
 #. Translators: this is the spoken word for the character 'æ' (U+00e6)
 #.
-#: src/orca/chnames.py:464
+#: src/orca/chnames.py:462
 msgid "a e"
 msgstr "ligatura a e"
 
 #. Translators: this is the spoken word for the character 'ç' (U+00e7)
 #.
-#: src/orca/chnames.py:468
+#: src/orca/chnames.py:466
 msgid "c cedilla"
 msgstr "c cu sedila"
 
 #. Translators: this is the spoken word for the character 'è' (U+00e8)
 #.
-#: src/orca/chnames.py:472
+#: src/orca/chnames.py:470
 msgid "e grave"
 msgstr "e grav"
 
 #. Translators: this is the spoken word for the character 'é' (U+00e9)
 #.
-#: src/orca/chnames.py:476
+#: src/orca/chnames.py:474
 msgid "e acute"
 msgstr "e ascuțit"
 
 #. Translators: this is the spoken word for the character 'ê' (U+00ea)
 #.
-#: src/orca/chnames.py:480
+#: src/orca/chnames.py:478
 msgid "e circumflex"
 msgstr "e circumflex"
 
 #. Translators: this is the spoken word for the character 'ë' (U+00eb)
 #.
-#: src/orca/chnames.py:484
+#: src/orca/chnames.py:482
 msgid "e umlaut"
 msgstr "e cu umlaut"
 
 #. Translators: this is the spoken word for the character 'ì' (U+00ec)
 #.
-#: src/orca/chnames.py:488
+#: src/orca/chnames.py:486
 msgid "i grave"
 msgstr "i grav"
 
 #. Translators: this is the spoken word for the character 'í' (U+00ed)
 #.
-#: src/orca/chnames.py:492
+#: src/orca/chnames.py:490
 msgid "i acute"
 msgstr "i ascuțit"
 
 #. Translators: this is the spoken word for the character 'î' (U+00ee)
 #.
-#: src/orca/chnames.py:496
+#: src/orca/chnames.py:494
 msgid "i circumflex"
 msgstr "i circumflex"
 
 #. Translators: this is the spoken word for the character 'ï' (U+00ef)
 #.
-#: src/orca/chnames.py:500
+#: src/orca/chnames.py:498
 msgid "i umlaut"
 msgstr "i cu umlaut"
 
 #. Translators: this is the spoken word for the character 'ð' (U+00f0)
 #.
-#: src/orca/chnames.py:504
+#: src/orca/chnames.py:502
 msgid "eth"
 msgstr "eth"
 
 #. Translators: this is the spoken word for the character 'ñ' (U+00f1)
 #.
-#: src/orca/chnames.py:508
+#: src/orca/chnames.py:506
 msgid "n tilde"
 msgstr "n tilda"
 
 #. Translators: this is the spoken word for the character 'ò' (U+00f2)
 #.
-#: src/orca/chnames.py:512
+#: src/orca/chnames.py:510
 msgid "o grave"
 msgstr "o grav"
 
 #. Translators: this is the spoken word for the character 'ó' (U+00f3)
 #.
-#: src/orca/chnames.py:516
+#: src/orca/chnames.py:514
 msgid "o acute"
 msgstr "o ascuțit"
 
 #. Translators: this is the spoken word for the character 'ô' (U+00f4)
 #.
-#: src/orca/chnames.py:520
+#: src/orca/chnames.py:518
 msgid "o circumflex"
 msgstr "o circumflex"
 
 #. Translators: this is the spoken word for the character 'õ' (U+00f5)
 #.
-#: src/orca/chnames.py:524
+#: src/orca/chnames.py:522
 msgid "o tilde"
 msgstr "o tilda"
 
 #. Translators: this is the spoken word for the character 'ö' (U+00f6)
 #.
-#: src/orca/chnames.py:528
+#: src/orca/chnames.py:526
 msgid "o umlaut"
 msgstr "o cu umlaut"
 
 #. Translators: this is the spoken word for the character '÷' (U+00f7)
 #.
-#: src/orca/chnames.py:532
+#: src/orca/chnames.py:530
 msgid "divided by"
 msgstr "împărțit la"
 
 #. Translators: this is the spoken word for the character 'ø' (U+00f8)
 #.
-#: src/orca/chnames.py:536
+#: src/orca/chnames.py:534
 msgid "o stroke"
 msgstr "o barat"
 
 #. Translators: this is the spoken word for the character 'þ' (U+00fe)
 #.
-#: src/orca/chnames.py:540
+#: src/orca/chnames.py:538
 msgid "thorn"
 msgstr "thorn"
 
 #. Translators: this is the spoken word for the character 'ú' (U+00fa)
 #.
-#: src/orca/chnames.py:544
+#: src/orca/chnames.py:542
 msgid "u acute"
 msgstr "u ascuțit"
 
 #. Translators: this is the spoken word for the character 'ù' (U+00f9)
 #.
-#: src/orca/chnames.py:548
+#: src/orca/chnames.py:546
 msgid "u grave"
 msgstr "u grav"
 
 #. Translators: this is the spoken word for the character 'û' (U+00fb)
 #.
-#: src/orca/chnames.py:552
+#: src/orca/chnames.py:550
 msgid "u circumflex"
 msgstr "u circumflex"
 
 #. Translators: this is the spoken word for the character 'ü' (U+00fc)
 #.
-#: src/orca/chnames.py:556
+#: src/orca/chnames.py:554
 msgid "u umlaut"
 msgstr "u cu umlaut"
 
 #. Translators: this is the spoken word for the character 'ý' (U+00fd)
 #.
-#: src/orca/chnames.py:560
+#: src/orca/chnames.py:558
 msgid "y acute"
 msgstr "y ascuțit"
 
 #. Translators: this is the spoken word for the character 'ÿ' (U+00ff)
 #.
-#: src/orca/chnames.py:564
+#: src/orca/chnames.py:562
 msgid "y umlaut"
 msgstr "y cu umlaut"
 
 #. Translators: this is the spoken word for the character 'Ÿ' (U+0178)
 #.
-#: src/orca/chnames.py:568
+#: src/orca/chnames.py:566
 msgid "Y UMLAUT"
 msgstr "Y cu umlaut"
 
 #. Translators: this is the spoken word for the character 'ƒ' (U+0192)
 #.
-#: src/orca/chnames.py:572
+#: src/orca/chnames.py:570
 msgid "florin"
 msgstr "f cu cârlig"
 
 #. Translators: this is the spoken word for the character '–' (U+2013)
 #.
-#: src/orca/chnames.py:576
+#: src/orca/chnames.py:574
 msgid "en dash"
 msgstr "linie de dialog"
 
 #. Translators: this is the spoken word for the left single quote: ‘
 #. (U+2018)
 #.
-#: src/orca/chnames.py:581
+#: src/orca/chnames.py:579
 msgid "left single quote"
 msgstr "ghilimele simple deschise"
 
 #. Translators: this is the spoken word for the right single quote: ’
 #. (U+2019)
 #.
-#: src/orca/chnames.py:586
+#: src/orca/chnames.py:584
 msgid "right single quote"
 msgstr "ghilimele simple închise"
 
 #. Translators: this is the spoken word for the character '‚' (U+201a)
 #.
-#: src/orca/chnames.py:590
+#: src/orca/chnames.py:588
 msgid "single low quote"
 msgstr "ghilimele simple deschise"
 
 #. Translators: this is the spoken word for the character '“' (U+201c)
 #.
-#: src/orca/chnames.py:594
+#: src/orca/chnames.py:592
 msgid "left double quote"
 msgstr "ghilimele duble deschise"
 
 #. Translators: this is the spoken word for the character '”' (U+201d)
 #.
-#: src/orca/chnames.py:598
+#: src/orca/chnames.py:596
 msgid "right double quote"
 msgstr "ghilimele duble închise"
 
 #. Translators: this is the spoken word for the character '„' (U+201e)
 #.
-#: src/orca/chnames.py:602
+#: src/orca/chnames.py:600
 msgid "double low quote"
 msgstr "ghilimele duble deschise"
 
 #. Translators: this is the spoken word for the character '†' (U+2020)
 #.
-#: src/orca/chnames.py:606
+#: src/orca/chnames.py:604
 msgid "dagger"
 msgstr "pumnal"
 
 #. Translators: this is the spoken word for the character '‡' (U+2021)
 #.
-#: src/orca/chnames.py:610
+#: src/orca/chnames.py:608
 msgid "double dagger"
 msgstr "pumnal dublu"
 
 #. Translators: this is the spoken word for the character '•' (U+2022)
 #.
-#: src/orca/chnames.py:614
+#: src/orca/chnames.py:612
 msgid "bullet"
 msgstr "bulină"
 
 #. Translators: this is the spoken word for the character '‣' (U+2023)
 #.
-#: src/orca/chnames.py:618
+#: src/orca/chnames.py:616
 msgid "triangular bullet"
 msgstr "bulină triunghiulară"
 
 #. Translators: this is the spoken word for the character '‰' (U+2030)
 #.
-#: src/orca/chnames.py:622
+#: src/orca/chnames.py:620
 msgid "per mille"
 msgstr "la mie"
 
 #. Translators: this is the spoken word for the character '′' (U+2032)
 #.
-#: src/orca/chnames.py:626
+#: src/orca/chnames.py:624
 msgid "prime"
 msgstr "prim"
 
 #. Translators: this is the spoken word for the character '″' (U+2033)
 #.
-#: src/orca/chnames.py:630
+#: src/orca/chnames.py:628
 msgid "double prime"
 msgstr "secund"
 
 #. Translators: this is the spoken word for the character '‴' (U+2034)
 #.
-#: src/orca/chnames.py:634
+#: src/orca/chnames.py:632
 msgid "triple prime"
 msgstr "triplu prim"
 
 #. Translators: this is the spoken word for the character '⁃' (U+2043)
 #.
-#: src/orca/chnames.py:638
+#: src/orca/chnames.py:636
 msgid "hyphen bullet"
 msgstr "bulină cratimă"
 
 #. Translators: this is the spoken word for the character '€' (U+20ac)
 #.
-#: src/orca/chnames.py:642
+#: src/orca/chnames.py:640
 msgid "euro"
 msgstr "euro"
 
 #. Translators: this is the spoken word for the character '™' (U+2122)
 #.
-#: src/orca/chnames.py:646
+#: src/orca/chnames.py:644
 msgid "trademark"
 msgstr "marcă comercială"
 
 #. Translators: this is the spoken word for the character '✓' (U+2713)
 #. It can be used as a bullet in a list.
 #.
-#: src/orca/chnames.py:651
+#: src/orca/chnames.py:649
 msgid "check mark"
 msgstr "simbol bifare"
 
 #. Translators: this is the spoken word for the character '✔' (U+2714)
 #. It can be used as a bullet in a list.
 #.
-#: src/orca/chnames.py:656
+#: src/orca/chnames.py:654
 msgid "heavy check mark"
 msgstr "simbol bifare îngroșat"
 
@@ -1564,175 +1564,175 @@ msgstr "simbol bifare îngroșat"
 #. the typed letter 'x'.  "Ballot x" might confuse the user.  Hence the
 #. use of "x-shaped bullet".
 #.
-#: src/orca/chnames.py:665
+#: src/orca/chnames.py:663
 msgid "x-shaped bullet"
 msgstr "bulină sub formă de x"
 
 #. Translators: this is the spoken word for the character '⁰' (U+2070)
 #.
-#: src/orca/chnames.py:669
+#: src/orca/chnames.py:667
 msgid "superscript 0"
 msgstr "0 ca exponent"
 
 #. Translators: this is the spoken word for the character '⁴' (U+2074)
 #.
-#: src/orca/chnames.py:673
+#: src/orca/chnames.py:671
 msgid "superscript 4"
 msgstr "4 ca exponent"
 
 #. Translators: this is the spoken word for the character '⁵' (U+2075)
 #.
-#: src/orca/chnames.py:677
+#: src/orca/chnames.py:675
 msgid "superscript 5"
 msgstr "5 ca exponent"
 
 #. Translators: this is the spoken word for the character '⁶' (U+2076)
 #.
-#: src/orca/chnames.py:681
+#: src/orca/chnames.py:679
 msgid "superscript 6"
 msgstr "6 ca exponent"
 
 #. Translators: this is the spoken word for the character '⁷' (U+2077)
 #.
-#: src/orca/chnames.py:685
+#: src/orca/chnames.py:683
 msgid "superscript 7"
 msgstr "7 ca exponent"
 
 #. Translators: this is the spoken word for the character '⁸' (U+2078)
 #.
-#: src/orca/chnames.py:689
+#: src/orca/chnames.py:687
 msgid "superscript 8"
 msgstr "8 ca exponent"
 
 #. Translators: this is the spoken word for the character '⁹' (U+2079)
 #.
-#: src/orca/chnames.py:693
+#: src/orca/chnames.py:691
 msgid "superscript 9"
 msgstr "9 ca exponent"
 
 #. Translators: this is the spoken word for the character '⁺' (U+207a)
 #.
-#: src/orca/chnames.py:697
+#: src/orca/chnames.py:695
 msgid "superscript plus"
 msgstr "plus ca exponent"
 
 #. Translators: this is the spoken word for the character '⁻' (U+207b)
 #.
-#: src/orca/chnames.py:701
+#: src/orca/chnames.py:699
 msgid "superscript minus"
 msgstr "minus ca exponent"
 
 #. Translators: this is the spoken word for the character '⁼' (U+207c)
 #.
-#: src/orca/chnames.py:705
+#: src/orca/chnames.py:703
 msgid "superscript equals"
 msgstr "egal ca exponent"
 
 #. Translators: this is the spoken word for the character '⁽' (U+207d)
 #.
-#: src/orca/chnames.py:709
+#: src/orca/chnames.py:707
 msgid "superscript left paren"
 msgstr "paranteză deschisă ca exponent"
 
 #. Translators: this is the spoken word for the character '⁾' (U+207e)
 #.
-#: src/orca/chnames.py:713
+#: src/orca/chnames.py:711
 msgid "superscript right paren"
 msgstr "paranteză închisă ca exponent"
 
 #. Translators: this is the spoken word for the character 'ⁿ' (U+207f)
 #.
-#: src/orca/chnames.py:717
+#: src/orca/chnames.py:715
 msgid "superscript n"
 msgstr "n ca exponent"
 
 #. Translators: this is the spoken word for the character '₀' (U+2080)
 #.
-#: src/orca/chnames.py:721
+#: src/orca/chnames.py:719
 msgid "subscript 0"
 msgstr "0 ca indice"
 
 #. Translators: this is the spoken word for the character '₁' (U+2081)
 #.
-#: src/orca/chnames.py:725
+#: src/orca/chnames.py:723
 msgid "subscript 1"
 msgstr "1 ca indice"
 
 #. Translators: this is the spoken word for the character '₂' (U+2082)
 #.
-#: src/orca/chnames.py:729
+#: src/orca/chnames.py:727
 msgid "subscript 2"
 msgstr "2 ca indice"
 
 #. Translators: this is the spoken word for the character '₃' (U+2083)
 #.
-#: src/orca/chnames.py:733
+#: src/orca/chnames.py:731
 msgid "subscript 3"
 msgstr "3 ca indice"
 
 #. Translators: this is the spoken word for the character '₄' (U+2084)
 #.
-#: src/orca/chnames.py:737
+#: src/orca/chnames.py:735
 msgid "subscript 4"
 msgstr "4 ca indice"
 
 #. Translators: this is the spoken word for the character '₅' (U+2085)
 #.
-#: src/orca/chnames.py:741
+#: src/orca/chnames.py:739
 msgid "subscript 5"
 msgstr "5 ca indice"
 
 #. Translators: this is the spoken word for the character '₆' (U+2086)
 #.
-#: src/orca/chnames.py:745
+#: src/orca/chnames.py:743
 msgid "subscript 6"
 msgstr "6 ca indice"
 
 #. Translators: this is the spoken word for the character '₇' (U+2087)
 #.
-#: src/orca/chnames.py:749
+#: src/orca/chnames.py:747
 msgid "subscript 7"
 msgstr "7 ca indice"
 
 #. Translators: this is the spoken word for the character '₈' (U+2088)
 #.
-#: src/orca/chnames.py:753
+#: src/orca/chnames.py:751
 msgid "subscript 8"
 msgstr "8 ca indice"
 
 #. Translators: this is the spoken word for the character '₉' (U+2089)
 #.
-#: src/orca/chnames.py:757
+#: src/orca/chnames.py:755
 msgid "subscript 9"
 msgstr "9 ca indice"
 
 #. Translators: this is the spoken word for the character '₊' (U+208a)
 #.
-#: src/orca/chnames.py:761
+#: src/orca/chnames.py:759
 msgid "subscript plus"
 msgstr "plus ca indice"
 
 #. Translators: this is the spoken word for the character '₋' (U+208b)
 #.
-#: src/orca/chnames.py:765
+#: src/orca/chnames.py:763
 msgid "subscript minus"
 msgstr "minus ca indice"
 
 #. Translators: this is the spoken word for the character '₌' (U+208c)
 #.
-#: src/orca/chnames.py:769
+#: src/orca/chnames.py:767
 msgid "subscript equals"
 msgstr "egal ca indice"
 
 #. Translators: this is the spoken word for the character '₍' (U+208d)
 #.
-#: src/orca/chnames.py:773
+#: src/orca/chnames.py:771
 msgid "subscript left paren"
 msgstr "paranteză deschisă ca indice"
 
 #. Translators: this is the spoken word for the character '₎' (U+208e)
 #.
-#: src/orca/chnames.py:777
+#: src/orca/chnames.py:775
 msgid "subscript right paren"
 msgstr "paranteză închisă ca indice"
 
@@ -1740,7 +1740,7 @@ msgstr "paranteză închisă ca indice"
 #. as a bullet which looks like the black square: ■ (U+25A0).  Therefore,
 #. please use the same translation for this character.
 #.
-#: src/orca/chnames.py:783
+#: src/orca/chnames.py:781
 msgid "black square"
 msgstr "pătrat negru"
 
@@ -1748,7 +1748,7 @@ msgstr "pătrat negru"
 #. as a bullet which looks like the black diamond: ◆ (U+25C6).  Therefore,
 #. please use the same translation for this character.
 #.
-#: src/orca/chnames.py:789
+#: src/orca/chnames.py:787
 msgid "black diamond"
 msgstr "diamant negru"
 
@@ -1764,7 +1764,7 @@ msgstr "diamant negru"
 #. * http://www.fileformat.info/info/unicode/char/fffc/index.htm
 #. * http://en.wikipedia.org/wiki/Specials_(Unicode_block)
 #.
-#: src/orca/chnames.py:803
+#: src/orca/chnames.py:801
 msgid "object replacement character"
 msgstr "caracter de înlocuire obiect"
 
@@ -14500,13 +14500,13 @@ msgid "spelling"
 msgstr "ortografie"
 
 #. Translators: this is a tip for the user on how to toggle a checkbox.
-#: src/orca/tutorialgenerator.py:168
+#: src/orca/tutorialgenerator.py:166
 msgid "Press space to toggle."
 msgstr "Apăsați spațiu pentru a comuta."
 
 #. Translators: this is a tip for the user on how to interact
 #. with a combobox.
-#: src/orca/tutorialgenerator.py:195
+#: src/orca/tutorialgenerator.py:193
 msgid "Press space to expand, and use up and down to select an item."
 msgstr ""
 "Apăsați spațiu pentru a desfășura, și sus și jos pentru a selecta un element "
@@ -14514,13 +14514,13 @@ msgstr ""
 
 #. Translators: If this application has more than one unfocused alert or
 #. dialog window, inform user of how to refocus these.
-#: src/orca/tutorialgenerator.py:223
+#: src/orca/tutorialgenerator.py:221
 msgid "Press alt+f6 to give focus to child windows."
 msgstr "Apăsati alt+f pentru a focaliza ferestrele copil."
 
 #. Translators: this gives tips on how to navigate items in a
 #. layered pane.
-#: src/orca/tutorialgenerator.py:285
+#: src/orca/tutorialgenerator.py:283
 msgid "To move to items, use either the arrow keys or type ahead searching."
 msgstr ""
 "Pentru a sări la elemente, folosește sau tastele săgeți sau căutarea prin "
@@ -14528,12 +14528,12 @@ msgstr ""
 
 #. Translators: this is the tutorial string for when first landing
 #. on the desktop, describing how to access the system menus.
-#: src/orca/tutorialgenerator.py:291
+#: src/orca/tutorialgenerator.py:289
 msgid "To get to the system menus press the alt+f1 key."
 msgstr "Pentru a ajunge la meniurile de sistem apasă tastele alt+f1."
 
 #. Translators: this is the tutorial string when navigating lists.
-#: src/orca/tutorialgenerator.py:325
+#: src/orca/tutorialgenerator.py:323
 msgid "Use up and down to select an item."
 msgstr "Folosiți sus și jos pentru a selecta un element."
 
@@ -14541,7 +14541,7 @@ msgstr "Folosiți sus și jos pentru a selecta un element."
 #. 'expanded' means the children are showing.
 #. 'collapsed' means the children are not showing.
 #. this string informs the user how to collapse the node.
-#: src/orca/tutorialgenerator.py:355 src/orca/tutorialgenerator.py:534
+#: src/orca/tutorialgenerator.py:353 src/orca/tutorialgenerator.py:532
 msgid "To collapse, press shift plus left."
 msgstr "Pentru a plia, apăsați shift plus stânga."
 
@@ -14549,36 +14549,36 @@ msgstr "Pentru a plia, apăsați shift plus stânga."
 #. 'expanded' means the children are showing.
 #. 'collapsed' means the children are not showing.
 #. this string informs the user how to expand the node.
-#: src/orca/tutorialgenerator.py:361 src/orca/tutorialgenerator.py:540
+#: src/orca/tutorialgenerator.py:359 src/orca/tutorialgenerator.py:538
 msgid "To expand, press shift plus right."
 msgstr "Pentru a extinde, apăsați shift plus dreapta."
 
 #. Translators: this is the tutorial string for activating a menu item
-#: src/orca/tutorialgenerator.py:392
+#: src/orca/tutorialgenerator.py:390
 msgid "To activate press return."
 msgstr "Pentru a activa apăsați enter."
 
 #. Translators: This is the tutorial string for when landing
 #. on text fields.
-#: src/orca/tutorialgenerator.py:422
+#: src/orca/tutorialgenerator.py:420
 msgid "Type in text."
 msgstr "Tastați un text."
 
 #. Translators: this is the tutorial string for landing
 #. on a page tab, we are informing the
 #. user how to navigate these.
-#: src/orca/tutorialgenerator.py:450
+#: src/orca/tutorialgenerator.py:448
 msgid "Use left and right to view other tabs."
 msgstr "Folosiți stânga și dreapta pentru a vedea alte taburi."
 
 #. Translators: this is the tutorial string for activating a push button.
-#: src/orca/tutorialgenerator.py:475
+#: src/orca/tutorialgenerator.py:473
 msgid "To activate press space."
 msgstr "Pentru a activa apăsați spațiu."
 
 #. Translators: this is the tutorial string for when landing
 #. on a spin button.
-#: src/orca/tutorialgenerator.py:503
+#: src/orca/tutorialgenerator.py:501
 msgid ""
 "Use up or down arrow to select value. Or type in the desired numerical value."
 msgstr ""
@@ -14586,12 +14586,12 @@ msgstr ""
 "valoarea numerică dorită."
 
 #. Translators: this is a tip for the user, how to navigate radiobuttons.
-#: src/orca/tutorialgenerator.py:646
+#: src/orca/tutorialgenerator.py:644
 msgid "Use arrow keys to change."
 msgstr "Folosiți săgețile pentru a modifica."
 
 #. Translators: this is a tip for the user, how to navigate menus.
-#: src/orca/tutorialgenerator.py:671
+#: src/orca/tutorialgenerator.py:669
 msgid ""
 "To navigate, press left or right arrow. To move through items press up or "
 "down arrow."
@@ -14601,13 +14601,13 @@ msgstr ""
 
 #. Translators: this is a tip for the user, how to
 #. navigate into sub menus.
-#: src/orca/tutorialgenerator.py:676
+#: src/orca/tutorialgenerator.py:674
 msgid "To enter sub menu, press right arrow."
 msgstr "Pentru a deschide submeniul, apăsați săgeata dreaptă."
 
 #. Translators: this is the tutorial string for when landing
 #. on a slider.
-#: src/orca/tutorialgenerator.py:711
+#: src/orca/tutorialgenerator.py:709
 msgid ""
 "To decrease press left arrow, to increase press right arrow. To go to "
 "minimum press home, and for maximum press end."
