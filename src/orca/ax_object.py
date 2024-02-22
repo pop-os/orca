@@ -106,6 +106,23 @@ class AXObject:
         thread.start()
 
     @staticmethod
+    def is_bogus(obj):
+        """Hack to ignore certain objects. All entries must have a bug."""
+
+        # TODO - JD: Periodically check for fixes and remove hacks which are no
+        # longer needed.
+
+        # https://bugzilla.mozilla.org/show_bug.cgi?id=1879750
+        if AXObject.get_role(obj) == Atspi.Role.SECTION \
+           and AXObject.get_role(AXObject.get_parent(obj)) == Atspi.Role.FRAME \
+           and Atspi.Accessible.get_toolkit_name(obj).lower() == "gecko":
+            tokens = ["AXObject:", obj, "is bogus. See mozilla bug 1879750."]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+            return True
+
+        return False
+
+    @staticmethod
     def is_valid(obj):
         """Returns False if we know for certain this object is invalid"""
 
@@ -452,6 +469,11 @@ class AXObject:
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return None
 
+        if parent is None \
+           and AXObject.get_role(obj) not in [Atspi.Role.INVALID, Atspi.Role.DESKTOP_FRAME]:
+            tokens = ["AXObject:", obj, "claims to have no parent"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
         return parent
 
     @staticmethod
@@ -743,6 +765,39 @@ class AXObject:
         return description
 
     @staticmethod
+    def get_image_description(obj):
+        """Returns the accessible image description of obj"""
+
+        if not AXObject.supports_image(obj):
+            return ""
+
+        try:
+            description = Atspi.Image.get_image_description(obj)
+        except Exception as error:
+            msg = f"AXObject: Exception in get_image_description: {error}"
+            AXObject.handle_error(obj, error, msg)
+            return ""
+
+        return description
+
+    @staticmethod
+    def get_image_size(obj):
+        """Returns a (width, height) tuple of the image in obj"""
+
+        if not AXObject.supports_image(obj):
+            return 0, 0
+
+        try:
+            result = Atspi.Image.get_image_size(obj)
+        except Exception as error:
+            msg = f"AXObject: Exception in get_image_size: {error}"
+            AXObject.handle_error(obj, error, msg)
+            return 0, 0
+
+        # The return value is an AtspiPoint, hence x and y.
+        return result.x, result.y
+
+    @staticmethod
     def get_help_text(obj):
         """Returns the accessible help text of obj"""
 
@@ -750,8 +805,7 @@ class AXObject:
             return ""
 
         try:
-            # This is not yet a thing. But hopefully it will become one.
-            # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/146
+            # Added in Atspi 2.52.
             text = Atspi.Accessible.get_help_text(obj)
         except Exception:
             # This is for prototyping in the meantime.
@@ -998,11 +1052,20 @@ class AXObject:
         def as_string(relations):
             return relations.value_name[15:].replace("_", "-").lower()
 
+        def obj_as_string(acc):
+            result = AXObject.get_role_name(obj)
+            name = AXObject.get_name(obj)
+            if name:
+                result += f": '{name}'"
+            if not result:
+                result = "DEAD"
+            return f"[{result}]"
+
         results = []
         for rel in AXObject.get_relations(obj):
             type_string = as_string(rel.get_relation_type())
             targets = AXObject.get_relation_targets(obj, rel.get_relation_type())
-            target_string = ",".join(map(str, targets))
+            target_string = ",".join(map(obj_as_string, targets))
             results.append(f"{type_string}: {target_string}")
 
         return "; ".join(results)
@@ -1233,13 +1296,13 @@ class AXObject:
         return attributes
 
     @staticmethod
-    def get_attribute(obj, attribute_name):
+    def get_attribute(obj, attribute_name, use_cache=True):
         """Returns the value of the specified attribute as a string."""
 
         if not AXObject.is_valid(obj):
             return ""
 
-        attributes = AXObject.get_attributes_dict(obj)
+        attributes = AXObject.get_attributes_dict(obj, use_cache)
         return attributes.get(attribute_name, "")
 
     @staticmethod
@@ -1402,5 +1465,28 @@ class AXObject:
             results.append(result)
 
         return "; ".join(results)
+
+    @staticmethod
+    def grab_focus(obj):
+        """Attempts to grab focus on obj. Returns true if successful."""
+
+        if not AXObject.supports_component(obj):
+            return False
+
+        try:
+            result = Atspi.Component.grab_focus(obj)
+        except Exception as error:
+            msg = f"AXObject: Exception in grab_focus: {error}"
+            AXObject.handle_error(obj, error, msg)
+            return False
+
+        if debug.LEVEL_INFO < debug.debugLevel:
+            return result
+
+        if result and not AXObject.has_state(obj, Atspi.StateType.FOCUSED):
+            tokens = ["AXObject:", obj, "lacks focused state after focus grab"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+        return result
 
 AXObject.start_cache_clearing_thread()

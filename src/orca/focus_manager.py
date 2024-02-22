@@ -131,7 +131,7 @@ class FocusManager:
                 braille.setBrlapiPriority()
 
         try:
-            tokens = ["FOCUS MANAGER: Region of interest:", obj, "(", start_offset, ")", end_offset]
+            tokens = ["FOCUS MANAGER: Region of interest:", obj, f"({start_offset}, {end_offset})"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             obj.emit("region-changed", start_offset, end_offset)
         except Exception as error:
@@ -199,8 +199,8 @@ class FocusManager:
             return
 
         if script is not None:
-            if script.utilities.isZombie(obj):
-                tokens = ["FOCUS MANAGER: New locus of focus (", obj, ") is zombie. Not updating."]
+            if not AXObject.is_valid(obj):
+                tokens = ["FOCUS MANAGER: New locus of focus (", obj, ") is invalid. Not updating."]
                 debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 return
 
@@ -355,7 +355,7 @@ class FocusManager:
         elif self._window and self._focus and not self.focus_is_in_active_window():
             tokens = ["FOCUS MANAGER: Focus", self._focus, "is not in", self._window]
             debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
-            self.set_locus_of_focus(None, self._window, notify_script)
+            self.set_locus_of_focus(None, self._window, notify_script=True)
 
 
 _manager = FocusManager()

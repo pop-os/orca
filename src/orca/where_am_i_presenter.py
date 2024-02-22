@@ -34,7 +34,9 @@ from . import input_event
 from . import keybindings
 from . import messages
 from . import settings_manager
+from .ax_component import AXComponent
 from .ax_object import AXObject
+from .ax_text import AXText
 from .ax_utilities import AXUtilities
 
 
@@ -285,7 +287,7 @@ class WhereAmIPresenter:
         """Presents the font and formatting details for the current character."""
 
         focus = focus_manager.getManager().get_locus_of_focus()
-        attrs = script.utilities.textAttributes(focus, None, True)[0]
+        attrs = AXText.get_text_attributes_at_offset(focus)[0]
 
         # Get a dictionary of text attributes that the user cares about.
         [user_attr_list, user_attr_dict] = script.utilities.stringToKeysAndDict(
@@ -313,15 +315,15 @@ class WhereAmIPresenter:
         else:
             obj = focus_manager.getManager().get_locus_of_focus()
 
-        x_coord, y_coord, width, height = script.utilities.getBoundingBox(obj)
-        if (x_coord, y_coord, width, height) == (-1, -1, 0, 0):
+        rect = AXComponent.get_rect(obj)
+        if AXComponent.is_empty_rect(rect):
             full = messages.LOCATION_NOT_FOUND_FULL
             brief = messages.LOCATION_NOT_FOUND_BRIEF
             script.presentMessage(full, brief)
             return True
 
-        full = messages.SIZE_AND_POSITION_FULL % (width, height, x_coord, y_coord)
-        brief = messages.SIZE_AND_POSITION_BRIEF % (width, height, x_coord, y_coord)
+        full = messages.SIZE_AND_POSITION_FULL % (rect.width, rect.height, rect.x, rect.y)
+        brief = messages.SIZE_AND_POSITION_BRIEF % (rect.width, rect.height, rect.x, rect.y)
         script.presentMessage(full, brief)
         return True
 

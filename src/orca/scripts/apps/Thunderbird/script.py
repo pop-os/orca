@@ -32,7 +32,9 @@ import orca.input_event as input_event
 import orca.scripts.default as default
 import orca.settings_manager as settings_manager
 import orca.scripts.toolkits.Gecko as Gecko
+from orca.ax_document import AXDocument
 from orca.ax_object import AXObject
+from orca.ax_text import AXText
 from orca.ax_utilities import AXUtilities
 
 from .spellcheck import SpellCheck
@@ -288,13 +290,7 @@ class Script(Gecko.Script):
 
             # Mozilla cannot seem to get their ":system" suffix right
             # to save their lives, so we'll add yet another sad hack.
-            try:
-                text = event.source.queryText()
-            except Exception:
-                hasSelection = False
-            else:
-                hasSelection = text.getNSelections() > 0
-            if hasSelection or isSystemEvent:
+            if isSystemEvent or AXText.has_selected_text(event.source):
                 voice = self.speechGenerator.voice(obj=event.source, string=event.any_data)
                 self.speakMessage(event.any_data, voice=voice)
                 self._lastAutoComplete = event.any_data
@@ -311,9 +307,9 @@ class Script(Gecko.Script):
             return
 
         if self.utilities.isEditableMessage(obj) and self.spellcheck.isActive():
-            text = obj.queryText()
-            selStart, selEnd = text.getSelection(0)
-            self.spellcheck.setDocumentPosition(obj, selStart)
+            selStart = AXText.get_selection_start_offset(obj)
+            if selStart >= 0:
+                self.spellcheck.setDocumentPosition(obj, selStart)
             return
 
         super().onTextSelectionChanged(event)
@@ -340,9 +336,9 @@ class Script(Gecko.Script):
         self.updateBraille(obj)
 
         if settings_manager.getManager().getSetting('pageSummaryOnLoad'):
-            tokens = ["THUNDERBIRD: Getting page summary for obj", obj]
+            tokens = ["THUNDERBIRD: Getting page summary for", documentFrame]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            summary = self.utilities.getPageSummary(obj)
+            summary = AXDocument.get_document_summary(documentFrame)
             if summary:
                 self.presentMessage(summary)
 

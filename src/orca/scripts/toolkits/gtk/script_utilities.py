@@ -169,15 +169,6 @@ class Utilities(script_utilities.Utilities):
 
         return int(red) >> 8, int(green) >> 8, int(blue) >> 8
 
-    def isZombie(self, obj):
-        rv = super().isZombie(obj)
-        if rv and self.isLink(obj) and AXObject.get_index_in_parent(obj) == -1:
-            tokens = ["GTK: Hacking around bug 759736 for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
-        return rv
-
     def eventIsCanvasNoise(self, event):
         if not AXUtilities.is_canvas(event.source):
             return False
@@ -188,44 +179,3 @@ class Utilities(script_utilities.Utilities):
             return True
 
         return False
-
-    def _adjustPointForObj(self, obj, x, y, coordType):
-        if not AXUtilities.is_single_line(obj) \
-           or not AXObject.supports_editable_text(obj):
-            return x, y
-
-        text = self.queryNonEmptyText(obj)
-        if not text:
-            return x, y
-
-        objBox = obj.queryComponent().getExtents(coordType)
-        stringBox = text.getRangeExtents(0, text.characterCount, coordType)
-        if self.intersection(objBox, stringBox) != (0, 0, 0, 0):
-            return x, y
-
-        tokens = ["GTK: text bounds", stringBox, "not in obj bounds", objBox]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        # This is where the string starts; not the widget.
-        boxX, boxY = stringBox[0], stringBox[1]
-
-        # Window Coordinates should be relative to the window; not the widget.
-        # But broken interface is broken, and this appears to be what is being
-        # exposed. And we need this information to get the widget's x and y.
-        charExtents = text.getCharacterExtents(0, Atspi.CoordType.WINDOW)
-        if 0 < charExtents[0] < charExtents[2]:
-            boxX -= charExtents[0]
-        if 0 < charExtents[1] < charExtents[3]:
-            boxY -= charExtents[1]
-
-        # The point relative to the widget:
-        relX = x - objBox[0]
-        relY = y - objBox[1]
-
-        # The point relative to our adjusted bounding box:
-        newX = boxX + relX
-        newY = boxY + relY
-
-        msg = f"GTK: Adjusted ({x}, {y}) to ({newX}, {newY})"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return newX, newY

@@ -53,9 +53,12 @@ import orca.settings_manager as settings_manager
 import orca.sound as sound
 import orca.speech as speech
 import orca.speechserver as speechserver
+from orca.ax_document import AXDocument
 from orca.ax_object import AXObject
 from orca.ax_table import AXTable
+from orca.ax_text import AXText
 from orca.ax_utilities import AXUtilities
+from orca.ax_value import AXValue
 
 ########################################################################
 #                                                                      #
@@ -254,14 +257,20 @@ class Script(script.Script):
         #    self.noOp
         listeners["document:reload"]                        = \
             self.onDocumentReload
+        listeners["document:attributes-changed"]            = \
+            self.onDocumentAttributesChanged
         listeners["document:load-complete"]                 = \
             self.onDocumentLoadComplete
         listeners["document:load-stopped"]                  = \
             self.onDocumentLoadStopped
+        listeners["document:page-changed"]                  = \
+            self.onDocumentPageChanged
         listeners["mouse:button"]                           = \
             self.onMouseButton
         listeners["object:announcement"]                    = \
             self.onAnnouncement
+        listeners["object:attributes-changed"]              = \
+            self.onObjectAttributesChanged
         listeners["object:property-change:accessible-name"] = \
             self.onNameChanged
         listeners["object:property-change:accessible-description"] = \
@@ -611,14 +620,9 @@ class Script(script.Script):
         # We want to save the offset for text objects because some apps and
         # toolkits emit caret-moved events immediately after a text object
         # gains focus, even though the caret has not actually moved.
-        try:
-            text = obj.queryText()
-            caretOffset = text.caretOffset
-        except Exception:
-            pass
-        else:
-            self._saveLastCursorPosition(obj, max(0, caretOffset))
-            self.utilities.updateCachedTextSelection(obj)
+        caretOffset = AXText.get_caret_offset(obj)
+        self._saveLastCursorPosition(obj, max(0, caretOffset))
+        self.utilities.updateCachedTextSelection(obj)
 
         # We want to save the current row and column of a newly focused
         # or selected table cell so that on subsequent cell focus/selection
@@ -833,13 +837,10 @@ class Script(script.Script):
             # caret position, we will get a caret event, which will
             # then update the braille.
             #
-            text = focus.queryText()
-            [lineString, startOffset, endOffset] = text.getTextAtOffset(
-                text.caretOffset,
-                Atspi.TextBoundaryType.LINE_START)
+            startOffset = AXText.get_line_at_offset(focus)[1]
             movedCaret = False
             if startOffset > 0:
-                movedCaret = text.setCaretOffset(startOffset - 1)
+                movedCaret = AXText.set_caret_offset(focus, startOffset - 1)
 
             # If we didn't move the caret and we're in a terminal, we
             # jump into flat review to review the text.  See
@@ -906,12 +907,9 @@ class Script(script.Script):
             # tacking mode.  When we set the caret position, we will get a
             # caret event, which will then update the braille.
             #
-            text = focus.queryText()
-            [lineString, startOffset, endOffset] = text.getTextAtOffset(
-                text.caretOffset,
-                Atspi.TextBoundaryType.LINE_START)
-            if endOffset < text.characterCount:
-                text.setCaretOffset(endOffset)
+            endOffset = AXText.get_line_at_offset(focus)[2]
+            if endOffset < AXText.get_character_count(focus):
+                AXText.set_caret_offset(focus, endOffset)
         else:
             self.panBrailleInDirection(panAmount, panToLeft=False)
             # We might be panning through a flashed message.
@@ -956,26 +954,32 @@ class Script(script.Script):
         active text area.
         """
 
-        obj, caretOffset = self.getBrailleCaretContext(inputEvent)
+        obj, offset = self.getBrailleCaretContext(inputEvent)
+        if offset < 0:
+            return True
 
-        if caretOffset >= 0:
-            self.utilities.clearTextSelection(obj)
-            self.utilities.setCaretOffset(obj, caretOffset)
-
+        AXText.clear_all_selected_text(obj)
+        self.utilities.setCaretOffset(obj, offset)
         return True
 
     def processBrailleCutLine(self, inputEvent=None):
         """Extends the text selection in the currently active text
         area and also copies the selected text to the system clipboard."""
 
-        obj, caretOffset = self.getBrailleCaretContext(inputEvent)
+        obj, offset = self.getBrailleCaretContext(inputEvent)
+        if offset < 0:
+            return True
 
-        if caretOffset >= 0:
-            self.utilities.adjustTextSelection(obj, caretOffset)
-            texti = obj.queryText()
-            startOffset, endOffset = texti.getSelection(0)
-            self.utilities.setClipboardText(texti.getText(startOffset, endOffset))
+        startOffset = AXText.get_selection_start_offset(obj)
+        endOffset = AXText.get_selection_end_offset(obj)
+        if (startOffset < 0 or endOffset < 0):
+            caretOffset = AXText.get_caret_offset(obj)
+            startOffset = min(offset, caretOffset)
+            endOffset = max(offset, caretOffset)
 
+        AXText.set_selected_text(obj, startOffset, endOffset)
+        text = AXText.get_selected_text(obj)[0]
+        self.utilities.setClipboardText(text)
         return True
 
     def routePointerToItem(self, inputEvent=None):
@@ -1014,7 +1018,7 @@ class Script(script.Script):
         if self.eventSynthesizer.try_all_clickable_actions(focus):
             return True
 
-        if self.utilities.queryNonEmptyText(focus):
+        if AXText.get_character_count(focus):
             if self.eventSynthesizer.click_character(focus, 1):
                 return True
 
@@ -1061,19 +1065,15 @@ class Script(script.Script):
             self.presentMessage(messages.LOCATION_NOT_FOUND_FULL)
             return True
 
-        try:
-            text = obj.queryText()
-        except NotImplementedError:
+        if AXText.is_whitespace_or_empty(obj):
             utterances = self.speechGenerator.generateSpeech(obj)
             speech.speak(utterances)
-        except AttributeError:
-            pass
-        else:
-            if offset is None:
-                offset = text.caretOffset
-            speech.sayAll(self.textLines(obj, offset),
-                          self.__sayAllProgressCallback)
+            return True
 
+        if offset is None:
+            offset = AXText.get_caret_offset(obj)
+
+        speech.sayAll(self.textLines(obj, offset), self.__sayAllProgressCallback)
         return True
 
     def cycleSettingsProfile(self, inputEvent=None):
@@ -1287,26 +1287,20 @@ class Script(script.Script):
         if self.flatReviewPresenter.is_active():
             self.flatReviewPresenter.quit()
 
-        text = event.source.queryText()
-        try:
-            text.caretOffset
-        except Exception as error:
-            tokens = ["DEFAULT: Exception getting caretOffset for", event.source, ":", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return
 
-        self._saveLastCursorPosition(event.source, text.caretOffset)
-        if text.getNSelections() > 0:
+        offset = AXText.get_caret_offset(event.source)
+        self._saveLastCursorPosition(event.source, offset)
+        if AXText.has_selected_text(event.source):
             msg = "DEFAULT: Event source has text selections"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self.utilities.handleTextSelectionChange(event.source)
             return
-        else:
-            start, end, string = self.utilities.getCachedTextSelection(obj)
-            if string and self.utilities.handleTextSelectionChange(obj):
-                msg = "DEFAULT: Event handled as text selection change"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return
+
+        string = self.utilities.getCachedTextSelection(obj)[2]
+        if string and self.utilities.handleTextSelectionChange(obj):
+            msg = "DEFAULT: Event handled as text selection change"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            return
 
         msg = "DEFAULT: Presenting text at new caret position"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -1333,6 +1327,11 @@ class Script(script.Script):
         if event.any_data:
             self.presentMessage(event.any_data)
 
+    def onDocumentAttributesChanged(self, event):
+        """Callback for document:attributes-changed accessibility events."""
+
+        pass
+
     def onDocumentReload(self, event):
         """Callback for document:reload accessibility events."""
 
@@ -1348,8 +1347,22 @@ class Script(script.Script):
 
         pass
 
+    def onDocumentPageChanged(self, event):
+        """Callback for document:page-changed accessibility events."""
+
+        if event.detail1 < 0:
+            return
+
+        if not AXDocument.did_page_change(event.source):
+            return
+
+        self.presentMessage(messages.PAGE_NUMBER % event.detail1)
+
     def onExpandedChanged(self, event):
         """Callback for object:state-changed:expanded accessibility events."""
+
+        if AXUtilities.is_table_related(event.source):
+            AXTable.clear_cache_now("expanded-changed event.")
 
         if not self.utilities.isPresentableExpandedChangedEvent(event):
             return
@@ -1395,14 +1408,11 @@ class Script(script.Script):
         if not mouseEvent.pressed:
             return
 
+        self.presentationInterrupt()
         windowChanged = focus_manager.getManager().get_active_window() != mouseEvent.window
         if windowChanged:
             focus_manager.getManager().set_active_window(
                 mouseEvent.window, set_window_as_focus=True)
-
-        self.presentationInterrupt()
-        if AXUtilities.is_focused(mouseEvent.obj):
-            focus_manager.getManager().set_locus_of_focus(None, mouseEvent.obj, True)
 
     def onAnnouncement(self, event):
         """Callback for object:announcement events."""
@@ -1439,6 +1449,13 @@ class Script(script.Script):
         self.pointOfReference['names'] = names
         if event.any_data:
             self.presentMessage(event.any_data)
+
+    def onObjectAttributesChanged(self, event):
+        """Callback for object:attributes-changed accessibility events."""
+
+        AXObject.clear_cache_now("object-attributes-changed event.")
+        if AXUtilities.is_table_related(event.source):
+            AXTable.clear_cache_now("object-attributes-changed event.")
 
     def onPressedChanged(self, event):
         """Callback for object:state-changed:pressed accessibility events."""
@@ -1517,10 +1534,17 @@ class Script(script.Script):
             return
         elif AXUtilities.manages_descendants(event.source):
             return
-        elif not self.utilities.isShowingAndVisible(event.source):
+        elif not (AXUtilities.is_showing(event.source) and AXUtilities.is_visible(event.source)):
             tokens = ["DEFAULT: Ignoring event: source is not showing and visible", event.source]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
+
+        if AXUtilities.is_tree_or_tree_table(event.source):
+            active_window = focus_manager.getManager().get_active_window()
+            if not AXObject.find_ancestor(event.source, lambda x: x and x == active_window):
+                tokens = ["DEFAULT: Ignoring event:", event.source, "is not inside", active_window]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                return
 
         # If the current item's selection is toggled, we'll present that
         # via the state-changed event.
@@ -1630,18 +1654,12 @@ class Script(script.Script):
         if not self.utilities.isPresentableTextChangedEventForLocusOfFocus(event):
             return
 
-        text = self.utilities.queryNonEmptyText(event.source)
-        if not text:
-            msg = "DEFAULT: Querying non-empty text returned None"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return
-
         if settings_manager.getManager().getSetting('speakMisspelledIndicator'):
-            offset = text.caretOffset
-            if not text.getText(offset, offset+1).isalnum():
+            offset = AXText.get_caret_offset(event.source)
+            if not AXText.get_substring(event.source, offset, offset + 1).isalnum():
                 offset -= 1
-            if self.utilities.isWordMisspelled(event.source, offset-1) \
-               or self.utilities.isWordMisspelled(event.source, offset+1):
+            if AXText.is_word_misspelled(event.source, offset - 1) \
+               or AXText.is_word_misspelled(event.source, offset + 1):
                 self.speakMessage(messages.MISSPELLED)
 
     def onTextDeleted(self, event):
@@ -1674,7 +1692,7 @@ class Script(script.Script):
         if self.utilities.isDeleteCommandTextDeletionEvent(event):
             msg = "DEFAULT: Deletion is believed to be due to Delete command"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
-            string = self.utilities.getCharacterAtOffset(event.source)
+            string = AXText.get_character_at_offset(event.source)[0]
         elif self.utilities.isBackSpaceCommandTextDeletionEvent(event):
             msg = "DEFAULT: Deletion is believed to be due to BackSpace command"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -1812,43 +1830,27 @@ class Script(script.Script):
         - event: the Event
         """
 
-        obj = event.source
-        role = AXObject.get_role(obj)
-
-        try:
-            value = obj.queryValue()
-            currentValue = value.currentValue
-        except NotImplementedError:
-            tokens = ["DEFAULT:", obj, "doesn't implement AtspiValue"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return
-        except Exception:
-            tokens = ["DEFAULT: Exception getting current value for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        if not AXValue.did_value_change(event.source):
             return
 
-        if "oldValue" in self.pointOfReference \
-           and (currentValue == self.pointOfReference["oldValue"]):
-            return
-
-        isProgressBarUpdate, msg = self.utilities.isProgressBarUpdate(obj)
+        isProgressBarUpdate, msg = self.utilities.isProgressBarUpdate(event.source)
         tokens = ["DEFAULT: Is progress bar update:", isProgressBarUpdate, ",", msg]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        if not isProgressBarUpdate and obj != focus_manager.getManager().get_locus_of_focus():
+        if not isProgressBarUpdate \
+           and event.source != focus_manager.getManager().get_locus_of_focus():
             msg = "DEFAULT: Source != locusOfFocus"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
-        if role == Atspi.Role.SPIN_BUTTON:
+        if AXUtilities.is_spin_button(event.source):
             self._saveFocusedObjectInfo(event.source)
 
-        self.pointOfReference["oldValue"] = currentValue
-        self.updateBraille(obj, isProgressBarUpdate=isProgressBarUpdate)
+        self.updateBraille(event.source, isProgressBarUpdate=isProgressBarUpdate)
         speech.speak(self.speechGenerator.generateSpeech(
-            obj, alreadyFocused=True, isProgressBarUpdate=isProgressBarUpdate))
+            event.source, alreadyFocused=True, isProgressBarUpdate=isProgressBarUpdate))
         self.__play(self.soundGenerator.generateSound(
-            obj, alreadyFocused=True, isProgressBarUpdate=isProgressBarUpdate))
+            event.source, alreadyFocused=True, isProgressBarUpdate=isProgressBarUpdate))
 
     def onWindowActivated(self, event):
         """Called whenever a toplevel window is activated.
@@ -2013,13 +2015,9 @@ class Script(script.Script):
             if context.endOffset - context.startOffset > minCharCount:
                 break
 
-        try:
-            text = context.obj.queryText()
-        except Exception:
-            pass
-        else:
+        # TODO - JD: Why do we only update focus if text is supported?
+        if AXText.set_caret_offset(context.obj, context.startOffset):
             focus_manager.getManager().set_locus_of_focus(None, context.obj, notify_script=False)
-            text.setCaretOffset(context.startOffset)
 
         self.sayAll(None, context.obj, context.startOffset)
         return True
@@ -2028,32 +2026,19 @@ class Script(script.Script):
         if not settings_manager.getManager().getSetting('rewindAndFastForwardInSayAll'):
             return False
 
-        try:
-            text = context.obj.queryText()
-        except Exception:
-            pass
-        else:
+        # TODO - JD: Why do we only update focus if text is supported?
+        if AXText.set_caret_offset(context.obj, context.endOffset):
             focus_manager.getManager().set_locus_of_focus(None, context.obj, notify_script=False)
-            text.setCaretOffset(context.endOffset)
 
         self.sayAll(None, context.obj, context.endOffset)
         return True
 
     def __sayAllProgressCallback(self, context, progressType):
-        # [[[TODO: WDW - this needs work.  Need to be able to manage
-        # the monitoring of progress and couple that with both updating
-        # the visual progress of what is being spoken as well as
-        # positioning the cursor when speech has stopped.]]]
-        #
-        try:
-            text = context.obj.queryText()
-            char = text.getText(context.currentOffset, context.currentOffset+1)
-        except Exception:
-            return
+        # TODO - JD: Can we scroll the content into view instead of setting
+        # the caret?
 
-        # Setting the caret at the offset of an embedded object results in
-        # focus changes.
-        if char == self.EMBEDDED_OBJECT_CHARACTER:
+        # TODO - JD: This condition shouldn't happen. Make sure of that.
+        if AXText.character_at_offset_is_eoc(context.obj, context.currentOffset):
             return
 
         if progressType == speechserver.SayAllContext.PROGRESS:
@@ -2074,17 +2059,17 @@ class Script(script.Script):
             self._inSayAll = False
             self._sayAllContexts = []
             focus_manager.getManager().emit_region_changed(context.obj, context.currentOffset)
-            text.setCaretOffset(context.currentOffset)
+            AXText.set_caret_offset(context.obj, context.currentOffset)
         elif progressType == speechserver.SayAllContext.COMPLETED:
             focus_manager.getManager().set_locus_of_focus(None, context.obj, notify_script=False)
             focus_manager.getManager().emit_region_changed(
                 context.obj, context.currentOffset, mode=focus_manager.SAY_ALL)
-            text.setCaretOffset(context.currentOffset)
+            AXText.set_caret_offset(context.obj, context.currentOffset)
 
-        # If there is a selection, clear it. See bug #489504 for more details.
-        #
-        if text.getNSelections() > 0:
-            text.setSelection(0, context.currentOffset, context.currentOffset)
+        # TODO - JD: This was in place for bgo#489504. But setting the caret should cause
+        # the selection to be cleared by the implementation. Find out where that's not the
+        # case and see if they'll fix it.
+        AXText.clear_all_selected_text(context.obj)
 
     def inSayAll(self, treatInterruptedAsIn=True):
         if self._inSayAll:
@@ -2102,71 +2087,17 @@ class Script(script.Script):
         return False
 
     def echoPreviousSentence(self, obj):
-        """Speaks the sentence prior to the caret, as long as there is
-        a sentence prior to the caret and there is no intervening sentence
-        delimiter between the caret and the end of the sentence.
+        """Speaks the sentence prior to the caret if at a sentence boundary."""
 
-        The entry condition for this method is that the character
-        prior to the current caret position is a sentence delimiter,
-        and it's what caused this method to be called in the first
-        place.
-
-        Arguments:
-        - obj: an Accessible object that implements the AccessibleText
-        interface.
-        """
-
-        try:
-            text = obj.queryText()
-        except NotImplementedError:
+        offset = AXText.get_caret_offset(obj)
+        char, start = AXText.get_character_at_offset(obj, offset - 1)[0:-1]
+        previousChar, previousStart = AXText.get_character_at_offset(obj, start - 1)[0:-1]
+        if not (previousChar and self.utilities.isSentenceDelimiter(char, previousChar)):
             return False
 
-        offset = text.caretOffset - 1
-        previousOffset = text.caretOffset - 2
-        if (offset < 0 or previousOffset < 0):
+        sentence = AXText.get_sentence_at_offset(obj, previousStart)[0]
+        if not sentence:
             return False
-
-        [currentChar, startOffset, endOffset] = \
-            text.getTextAtOffset(offset, Atspi.TextBoundaryType.CHAR)
-        [previousChar, startOffset, endOffset] = \
-            text.getTextAtOffset(previousOffset, Atspi.TextBoundaryType.CHAR)
-        if not self.utilities.isSentenceDelimiter(currentChar, previousChar):
-            return False
-
-        # OK - we seem to be cool so far.  So...starting with what
-        # should be the last character in the sentence (caretOffset - 2),
-        # work our way to the beginning of the sentence, stopping when
-        # we hit another sentence delimiter.
-        #
-        sentenceEndOffset = text.caretOffset - 2
-        sentenceStartOffset = sentenceEndOffset
-
-        while sentenceStartOffset >= 0:
-            [currentChar, startOffset, endOffset] = \
-                text.getTextAtOffset(sentenceStartOffset,
-                                     Atspi.TextBoundaryType.CHAR)
-            [previousChar, startOffset, endOffset] = \
-                text.getTextAtOffset(sentenceStartOffset-1,
-                                     Atspi.TextBoundaryType.CHAR)
-            if self.utilities.isSentenceDelimiter(currentChar, previousChar):
-                break
-            else:
-                sentenceStartOffset -= 1
-
-        # If we came across a sentence delimiter before hitting any
-        # text, we really don't have a previous sentence.
-        #
-        # Otherwise, get the sentence.  Remember we stopped when we
-        # hit a sentence delimiter, so the sentence really starts at
-        # sentenceStartOffset + 1.  getText also does not include
-        # the character at sentenceEndOffset, so we need to adjust
-        # for that, too.
-        #
-        if sentenceStartOffset == sentenceEndOffset:
-            return False
-        else:
-            sentence = self.utilities.substring(obj, sentenceStartOffset + 1,
-                                         sentenceEndOffset + 1)
 
         voice = self.speechGenerator.voice(obj=obj, string=sentence)
         sentence = self.utilities.adjustForRepeats(sentence)
@@ -2174,75 +2105,21 @@ class Script(script.Script):
         return True
 
     def echoPreviousWord(self, obj, offset=None):
-        """Speaks the word prior to the caret, as long as there is
-        a word prior to the caret and there is no intervening word
-        delimiter between the caret and the end of the word.
+        """Speaks the word prior to the caret if at a word boundary."""
 
-        The entry condition for this method is that the character
-        prior to the current caret position is a word delimiter,
-        and it's what caused this method to be called in the first
-        place.
-
-        Arguments:
-        - obj: an Accessible object that implements the AccessibleText
-               interface.
-        - offset: if not None, the offset within the text to use as the
-                  end of the word.
-        """
-
-        try:
-            text = obj.queryText()
-        except NotImplementedError:
+        start = AXText.get_character_at_offset(obj, offset)[1]
+        previousChar, previousStart = AXText.get_character_at_offset(obj, start - 1)[0:-1]
+        if not self.utilities.isWordDelimiter(previousChar):
             return False
 
-        if not offset:
-            if text.caretOffset == -1:
-                offset = text.characterCount
-            else:
-                offset = text.caretOffset - 1
-
-        if (offset < 0):
+        # Two back-to-back delimiters should not result in a re-echo.
+        previousChar, previousStart = AXText.get_character_at_offset(obj, previousStart - 1)[0:-1]
+        if self.utilities.isWordDelimiter(previousChar):
             return False
 
-        [char, startOffset, endOffset] = \
-            text.getTextAtOffset( \
-                offset,
-                Atspi.TextBoundaryType.CHAR)
-        if not self.utilities.isWordDelimiter(char):
+        word = AXText.get_word_at_offset(obj, previousStart)[0]
+        if not word:
             return False
-
-        # OK - we seem to be cool so far.  So...starting with what
-        # should be the last character in the word (caretOffset - 2),
-        # work our way to the beginning of the word, stopping when
-        # we hit another word delimiter.
-        #
-        wordEndOffset = offset - 1
-        wordStartOffset = wordEndOffset
-
-        while wordStartOffset >= 0:
-            [char, startOffset, endOffset] = \
-                text.getTextAtOffset( \
-                    wordStartOffset,
-                    Atspi.TextBoundaryType.CHAR)
-            if self.utilities.isWordDelimiter(char):
-                break
-            else:
-                wordStartOffset -= 1
-
-        # If we came across a word delimiter before hitting any
-        # text, we really don't have a previous word.
-        #
-        # Otherwise, get the word.  Remember we stopped when we
-        # hit a word delimiter, so the word really starts at
-        # wordStartOffset + 1.  getText also does not include
-        # the character at wordEndOffset, so we need to adjust
-        # for that, too.
-        #
-        if wordStartOffset == wordEndOffset:
-            return False
-        else:
-            word = self.utilities.\
-                substring(obj, wordStartOffset + 1, wordEndOffset + 1)
 
         voice = self.speechGenerator.voice(obj=obj, string=word)
         word = self.utilities.adjustForRepeats(word)
@@ -2257,8 +2134,7 @@ class Script(script.Script):
                interface
         """
 
-        text = obj.queryText()
-        offset = text.caretOffset
+        offset = AXText.get_caret_offset(obj)
 
         # If we have selected text and the last event was a move to the
         # right, then speak the character to the left of where the text
@@ -2269,8 +2145,7 @@ class Script(script.Script):
            and eventString in ["Right", "Down"]:
             offset -= 1
 
-        character, startOffset, endOffset = text.getTextAtOffset(
-            offset, Atspi.TextBoundaryType.CHAR)
+        character, startOffset, endOffset = AXText.get_character_at_offset(obj, offset)
         focus_manager.getManager().emit_region_changed(
             obj, startOffset, endOffset, focus_manager.CARET_TRACKING)
 
@@ -2279,9 +2154,8 @@ class Script(script.Script):
 
         speakBlankLines = settings_manager.getManager().getSetting('speakBlankLines')
         if character == "\n":
-            line = text.getTextAtOffset(max(0, offset),
-                                        Atspi.TextBoundaryType.LINE_START)
-            if not line[0] or line[0] == "\n":
+            lineString = AXText.get_line_at_offset(obj, max(0, offset))[0]
+            if not lineString or lineString == "\n":
                 # This is a blank line. Announce it if the user requested
                 # that blank lines be spoken.
                 if speakBlankLines:
@@ -2387,10 +2261,9 @@ class Script(script.Script):
     def sayWord(self, obj):
         """Speaks the word at the caret, taking into account the previous caret position."""
 
-        try:
-            text = obj.queryText()
-            offset = text.caretOffset
-        except Exception:
+
+        offset = AXText.get_caret_offset(obj)
+        if offset < 1:
             self.sayCharacter(obj)
             return
 
@@ -2405,7 +2278,7 @@ class Script(script.Script):
                 startOffset += 1
             elif word.endswith("\n"):
                 endOffset -= 1
-            word = text.getText(startOffset, endOffset)
+            word = AXText.get_substring(obj, startOffset, endOffset)
 
         # sayPhrase is useful because it handles punctuation verbalization, but we don't want
         # to trigger its whitespace presentation.
@@ -2413,7 +2286,7 @@ class Script(script.Script):
         if matches:
             startOffset += matches[0].start()
             endOffset -= len(word) - matches[-1].end()
-            word = text.getText(startOffset, endOffset)
+            word = AXText.get_substring(obj, startOffset, endOffset)
 
         string = word.replace("\n", "\\n")
         msg = (
@@ -2606,107 +2479,40 @@ class Script(script.Script):
         """
 
         self._sayAllIsInterrupted = False
-        try:
-            text = obj.queryText()
-        except Exception:
-            self._inSayAll = False
-            self._sayAllContexts = []
-            return
-
         self._inSayAll = True
-        length = text.characterCount
-        if offset is None:
-            offset = text.caretOffset
-
-        # Determine the correct "say all by" mode to use.
-        #
-        sayAllStyle = settings_manager.getManager().getSetting('sayAllStyle')
-        if sayAllStyle == settings.SAYALL_STYLE_SENTENCE:
-            mode = Atspi.TextBoundaryType.SENTENCE_START
-        elif sayAllStyle == settings.SAYALL_STYLE_LINE:
-            mode = Atspi.TextBoundaryType.LINE_START
-        else:
-            mode = Atspi.TextBoundaryType.LINE_START
-
         priorObj = obj
+        document = self.utilities.getDocumentForObject(obj)
 
-        # Get the next line of text to read
-        #
-        done = False
-        while not done:
+        while obj:
             speech.speak(self.speechGenerator.generateContext(obj, priorObj=priorObj))
 
-            lastEndOffset = -1
-            while offset < length:
-                [lineString, startOffset, endOffset] = text.getTextAtOffset(
-                    offset, mode)
+            style = settings_manager.getManager().getSetting('sayAllStyle')
+            if style == settings.SAYALL_STYLE_SENTENCE and AXText.supports_sentence_iteration(obj):
+                iterator = AXText.iter_sentence
+            else:
+                iterator = AXText.iter_line
 
-                # Some applications that don't support sentence boundaries
-                # will provide the line boundary results instead; others
-                # will return nothing.
-                #
-                if not lineString:
-                    mode = Atspi.TextBoundaryType.LINE_START
-                    [lineString, startOffset, endOffset] = \
-                        text.getTextAtOffset(offset, mode)
-
-                if endOffset > text.characterCount:
-                    tokens = ["DEFAULT: end offset", endOffset, " > character count",
-                              text.characterCount,
-                              "resulting from text.getTextAtOffset(", offset, mode, ") for", obj]
-                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                    endOffset = text.characterCount
-
-                # [[[WDW - HACK: this is here because getTextAtOffset
-                # tends not to be implemented consistently across toolkits.
-                # Sometimes it behaves properly (i.e., giving us an endOffset
-                # that is the beginning of the next line), sometimes it
-                # doesn't (e.g., giving us an endOffset that is the end of
-                # the current line).  So...we hack.  The whole 'max' deal
-                # is to account for lines that might be a brazillion lines
-                # long.]]]
-                #
-                if endOffset == lastEndOffset:
-                    offset = max(offset + 1, lastEndOffset + 1)
-                    lastEndOffset = endOffset
-                    continue
-
-                lastEndOffset = endOffset
-                offset = endOffset
-
-                voice = self.speechGenerator.voice(obj=obj, string=lineString)
+            for string, start, end in iterator(obj, offset):
+                voice = self.speechGenerator.voice(obj=obj, string=string)
                 if voice and isinstance(voice, list):
                     voice = voice[0]
 
-                lineString = \
-                    self.utilities.adjustForLinks(obj, lineString, startOffset)
-                lineString = self.utilities.adjustForRepeats(lineString)
+                string = self.utilities.adjustForLinks(obj, string, start)
+                string = self.utilities.adjustForRepeats(string)
 
-                context = speechserver.SayAllContext(
-                    obj, lineString, startOffset, endOffset)
+                context = speechserver.SayAllContext(obj, string, start, end)
                 tokens = ["DEFAULT:", context]
                 debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
                 self._sayAllContexts.append(context)
-                self.eventSynthesizer.scroll_into_view(obj, startOffset, endOffset)
+                self.eventSynthesizer.scroll_into_view(obj, start, end)
                 yield [context, voice]
 
-            moreLines = False
-            relation = AXObject.get_relation(obj, Atspi.RelationType.FLOWS_TO)
-            if relation:
-                priorObj = obj
-                obj = relation.getTarget(0)
-
-                try:
-                    text = obj.queryText()
-                except NotImplementedError:
-                    return
-
-                length = text.characterCount
-                offset = 0
-                moreLines = True
+            priorObj = obj
+            offset = 0
+            obj = self.utilities.findNextObject(obj)
+            if document != self.utilities.getDocumentForObject(obj):
                 break
-            if not moreLines:
-                done = True
 
         self._inSayAll = False
         self._sayAllContexts = []
@@ -2718,20 +2524,13 @@ class Script(script.Script):
     def getTextLineAtCaret(self, obj, offset=None, startOffset=None, endOffset=None):
         """To-be-removed. Returns the string, caretOffset, startOffset."""
 
-        try:
-            text = obj.queryText()
-            offset = text.caretOffset
-            characterCount = text.characterCount
-        except NotImplementedError:
-            return ["", 0, 0]
-        except Exception:
-            tokens = ["DEFAULT: Exception getting offset and length for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return ["", 0, 0]
+        # TODO - JD: Audit all callers and see if we can finally remove this function.
 
+        characterCount = AXText.get_character_count(obj)
         if characterCount == 0:
             return ["", 0, 0]
 
+        offset = AXText.get_caret_offset(obj)
         targetOffset = startOffset
         if targetOffset is None:
             targetOffset = max(0, offset)
@@ -2752,7 +2551,7 @@ class Script(script.Script):
         #
         if targetOffset == characterCount:
             fixedTargetOffset = max(0, targetOffset - 1)
-            character = text.getText(fixedTargetOffset, fixedTargetOffset + 1)
+            character = AXText.get_substring(obj, fixedTargetOffset, fixedTargetOffset + 1)
         else:
             fixedTargetOffset = targetOffset
             character = None
@@ -2768,16 +2567,13 @@ class Script(script.Script):
             # is broken if there is just one character in the string.]]]
             #
             if (characterCount == 1):
-                lineString = text.getText(fixedTargetOffset, fixedTargetOffset + 1)
+                lineString = AXText.get_substring(obj, fixedTargetOffset, fixedTargetOffset + 1)
                 startOffset = fixedTargetOffset
             else:
                 if fixedTargetOffset == -1:
                     fixedTargetOffset = characterCount
-                try:
-                    [lineString, startOffset, endOffset] = text.getTextAtOffset(
-                        fixedTargetOffset, Atspi.TextBoundaryType.LINE_START)
-                except Exception:
-                    return ["", 0, 0]
+                lineString, startOffset, endOffset = \
+                    AXText.get_line_at_offset(obj, fixedTargetOffset)
 
             # Sometimes we get the trailing line-feed-- remove it
             # It is important that these are in order.
@@ -2789,7 +2585,7 @@ class Script(script.Script):
             lineString = lineString.rstrip('\n')
             lineString = lineString.rstrip('\r')
 
-        return [lineString, text.caretOffset, startOffset]
+        return [lineString, offset, startOffset]
 
     def phoneticSpellCurrentItem(self, itemString):
         """Phonetically spell the current flat review word or line.
@@ -2832,30 +2628,26 @@ class Script(script.Script):
           attributes.
         """
 
-        if settings_manager.getManager().getSetting('speakMisspelledIndicator'):
-            try:
-                text = obj.queryText()
-            except Exception:
-                return
-            # If we're on whitespace, we cannot be on a misspelled word.
-            #
-            charAndOffsets = \
-                text.getTextAtOffset(offset, Atspi.TextBoundaryType.CHAR)
-            if not charAndOffsets[0].strip() \
-               or self.utilities.isWordDelimiter(charAndOffsets[0]):
-                self._lastWordCheckedForSpelling = charAndOffsets[0]
-                return
+        if not settings_manager.getManager().getSetting('speakMisspelledIndicator'):
+            return
 
-            wordAndOffsets = \
-                text.getTextAtOffset(offset, Atspi.TextBoundaryType.WORD_START)
-            if self.utilities.isWordMisspelled(obj, offset) \
-               and wordAndOffsets[0] != self._lastWordCheckedForSpelling:
-                self.speakMessage(messages.MISSPELLED)
-            # Store this word so that we do not continue to present the
-            # presence of the red squiggly as the user arrows amongst
-            # the characters.
-            #
-            self._lastWordCheckedForSpelling = wordAndOffsets[0]
+        # If we're on whitespace, we cannot be on a misspelled word.
+        char = AXText.get_character_at_offset(obj, offset)[0]
+        if not char.strip() or self.utilities.isWordDelimiter(char):
+            self._lastWordCheckedForSpelling = char[0]
+            return
+
+        if not AXText.is_word_misspelled(obj, offset):
+            return
+
+        word = AXText.get_word_at_offset(obj, offset)[0]
+        if word != self._lastWordCheckedForSpelling:
+            self.speakMessage(messages.MISSPELLED)
+
+        # Store this word so that we do not continue to present the
+        # presence of the red squiggly as the user arrows amongst
+        # the characters.
+        self._lastWordCheckedForSpelling = word
 
     ############################################################################
     #                                                                          #

@@ -28,10 +28,8 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2010 Joanmarie Diggs."
 __license__   = "LGPL"
 
-import functools
 import gi
 import locale
-import math
 import re
 import time
 from difflib import SequenceMatcher
@@ -41,7 +39,6 @@ from gi.repository import Atspi
 from gi.repository import Gdk
 from gi.repository import Gtk
 
-from . import chnames
 from . import colornames
 from . import debug
 from . import focus_manager
@@ -57,10 +54,14 @@ from . import script_manager
 from . import settings
 from . import settings_manager
 from . import text_attribute_names
+from .ax_component import AXComponent
+from .ax_hypertext import AXHypertext
 from .ax_object import AXObject
 from .ax_selection import AXSelection
 from .ax_table import AXTable
+from .ax_text import AXText
 from .ax_utilities import AXUtilities
+from .ax_value import AXValue
 
 #############################################################################
 #                                                                           #
@@ -177,8 +178,6 @@ class Utilities:
         tokens = ["SCRIPT UTILITIES: Looking for common ancestor of", a, "and", b]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        # Don't do any Zombie checks here, as tempting and logical as it
-        # may seem as it can lead to chattiness.
         if not (a and b):
             return None
 
@@ -276,7 +275,9 @@ class Utilities:
 
         textObjects = []
         for detail in details:
-            textObjects.extend(self.findAllDescendants(detail, self.queryNonEmptyText))
+
+            textObjects.extend(self.findAllDescendants(
+                detail, lambda x: not AXText.is_whitespace_or_empty(x)))
 
         return textObjects
 
@@ -315,12 +316,9 @@ class Utilities:
         if role in [Atspi.Role.PUSH_BUTTON, Atspi.Role.LABEL] and name:
             return name
 
-        if AXObject.supports_text(obj):
-            # We should be able to use -1 for the final offset, but that crashes Nautilus.
-            text = obj.queryText()
-            displayedText = text.getText(0, text.characterCount)
-            if self.EMBEDDED_OBJECT_CHARACTER in displayedText:
-                displayedText = None
+        displayedText = AXText.get_all_text(obj)
+        if self.EMBEDDED_OBJECT_CHARACTER in displayedText:
+            displayedText = None
 
         if not displayedText and role not in [Atspi.Role.COMBO_BOX, Atspi.Role.SPIN_BUTTON]:
             # TODO - JD: This should probably get nuked. But all sorts of
@@ -354,11 +352,6 @@ class Utilities:
         focus = focus_manager.getManager().get_locus_of_focus()
         if AXUtilities.is_document(focus):
             return focus
-
-        return None
-
-    def documentFrameURI(self, documentFrame=None):
-        """Returns the URI of the document frame that is active."""
 
         return None
 
@@ -407,16 +400,6 @@ class Utilities:
             return True
 
         return False
-
-    def grabFocus(self, obj):
-        try:
-            obj.queryComponent().grabFocus()
-        except NotImplementedError:
-            tokens = ["ERROR:", obj, "does not implement the component interface"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        except Exception as error:
-            tokens = ["ERROR: Exception grabbing focus on", obj, error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
     def grabFocusWhenSettingCaret(self, obj):
         return AXUtilities.is_focusable(obj)
@@ -855,29 +838,7 @@ class Utilities:
     def isProgressBar(self, obj):
         if not AXUtilities.is_progress_bar(obj):
             return False
-
-        try:
-            value = obj.queryValue()
-        except NotImplementedError:
-            tokens = ["SCRIPT UTILITIES:", obj, "doesn't implement AtspiValue"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return False
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception getting value for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return False
-        else:
-            try:
-                if value.maximumValue == value.minimumValue:
-                    tokens = ["SCRIPT UTILITIES:", obj, "is busy indicator"]
-                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                    return False
-            except Exception:
-                tokens = ["SCRIPT UTILITIES:", obj, "is either busy indicator or broken"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                return False
-
-        return True
+        return AXValue.get_value_as_percent(obj) is not None
 
     def topLevelObjectIsActiveWindow(self, obj):
         return self.isSameObject(
@@ -892,7 +853,7 @@ class Utilities:
         if not self.isProgressBar(obj):
             return False, "Is not progress bar"
 
-        if self.hasNoSize(obj):
+        if AXComponent.has_no_size(obj):
             return False, "Has no size"
 
         if settings_manager.getManager().getSetting('ignoreStatusBarProgressBars'):
@@ -916,32 +877,6 @@ class Utilities:
             return False, "App is not active app"
 
         return True, "Not handled by any other case"
-
-    def getValueAsPercent(self, obj):
-        try:
-            value = obj.queryValue()
-            minval, val, maxval =  value.minimumValue, value.currentValue, value.maximumValue
-        except NotImplementedError:
-            tokens = ["SCRIPT UTILITIES:", obj, "doesn't implement AtspiValue"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return None
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception getting value for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return None
-
-        if AXUtilities.is_indeterminate(obj):
-            tokens = ["SCRIPT UTILITIES:", obj, "has state indeterminate and value of", val]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            if val <= 0:
-                return None
-
-        if maxval == minval == val:
-            if 1 <= val <= 100:
-                return int(val)
-            return None
-
-        return int((val / (maxval - minval)) * 100)
 
     def isBlockquote(self, obj):
         return AXUtilities.is_block_quote(obj)
@@ -1153,10 +1088,9 @@ class Utilities:
             if labels and labels not in tokens:
                 tokens.append(labels)
 
-        if not tokens:
-            description = AXObject.get_description(obj)
-            if description:
-                tokens.append(description)
+        description = AXObject.get_description(obj)
+        if description and description not in tokens:
+            tokens.append(description)
 
         return " ".join(tokens)
 
@@ -1175,7 +1109,7 @@ class Utilities:
 
         layoutOnly = False
 
-        if AXObject.is_dead(obj) or self.isZombie(obj):
+        if not AXObject.is_valid(obj):
             return True
 
         role = AXObject.get_role(obj)
@@ -1357,30 +1291,13 @@ class Utilities:
         if comparePaths and self._hasSamePath(obj1, obj2):
             return True
 
-        try:
-            # Comparing the extents of objects which claim to be different
-            # addresses both managed descendants and implementations which
-            # recreate accessibles for the same widget.
-            extents1 = \
-                obj1.queryComponent().getExtents(Atspi.CoordType.WINDOW)
-            extents2 = \
-                obj2.queryComponent().getExtents(Atspi.CoordType.WINDOW)
+        # Objects which claim to be different and which are in different
+        # locations are almost certainly not recreated objects.
+        if not AXComponent.objects_have_same_rect(obj1, obj2):
+            return False
 
-            # Objects which claim to be different and which are in different
-            # locations are almost certainly not recreated objects.
-            if extents1 != extents2:
-                return False
-
-            # Objects which claim to have the same role, the same name, and
-            # the same size and position are highly likely to be the same
-            # functional object -- if they have valid, on-screen extents.
-            if extents1.x >= 0 and extents1.y >= 0 and extents1.width > 0 \
-                and extents1.height > 0:
-                return True
-        except Exception as error:
-            tokens = ["SCRIPT UTILITIES: Exception in isSameObject (",
-                      obj1, "vs", obj2, "):", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        if not AXComponent.has_no_size(obj1):
+            return True
 
         return False
 
@@ -1408,112 +1325,6 @@ class Utilities:
 
         result = AXObject.get_relation_targets(obj, Atspi.RelationType.LABELLED_BY)
         return list(filter(isNotAncestor, result))
-
-    def linkBasenameToName(self, obj):
-        basename = self.linkBasename(obj)
-        if not basename:
-            return ""
-
-        basename = re.sub(r"[-_]", " ", basename)
-        tokens = basename.split()
-        for token in tokens:
-            if not token.isalpha():
-                return ""
-
-        return basename
-
-    @staticmethod
-    def linkBasename(obj):
-        """Returns the relevant information from the URI.  The idea is
-        to attempt to strip off all prefix and suffix, much like the
-        basename command in a shell."""
-
-        basename = None
-
-        try:
-            hyperlink = obj.queryHyperlink()
-        except Exception:
-            pass
-        else:
-            uri = hyperlink.getURI(0)
-            if uri and len(uri):
-                # Sometimes the URI is an expression that includes a URL.
-                # Currently that can be found at the bottom of safeway.com.
-                # It can also be seen in the backwards.html test file.
-                #
-                expression = uri.split(',')
-                if len(expression) > 1:
-                    for item in expression:
-                        if item.find('://') >=0:
-                            if not item[0].isalnum():
-                                item = item[1:-1]
-                            if not item[-1].isalnum():
-                                item = item[0:-2]
-                            uri = item
-                            break
-
-                # We're assuming that there IS a base name to be had.
-                # What if there's not? See backwards.html.
-                #
-                uri = uri.split('://')[-1]
-                if not uri:
-                    return basename
-
-                # Get the last thing after all the /'s, unless it ends
-                # in a /.  If it ends in a /, we'll look to the stuff
-                # before the ending /.
-                #
-                if uri[-1] == "/":
-                    basename = uri[0:-1]
-                    basename = basename.split('/')[-1]
-                elif not uri.count("/"):
-                    basename = uri
-                else:
-                    basename = uri.split('/')[-1]
-                    if basename.startswith("index"):
-                        basename = uri.split('/')[-2]
-
-                    # Now, try to strip off the suffixes.
-                    #
-                    basename = basename.split('.')[0]
-                    basename = basename.split('?')[0]
-                    basename = basename.split('#')[0]
-                    basename = basename.split('%')[0]
-
-        return basename
-
-    @staticmethod
-    def linkIndex(obj, characterIndex):
-        """A brute force method to see if an offset is a link.  This
-        is provided because not all Accessible Hypertext implementations
-        properly support the getLinkIndex method.  Returns an index of
-        0 or greater of the characterIndex is on a hyperlink.
-
-        Arguments:
-        -obj: the object with the Accessible Hypertext specialization
-        -characterIndex: the text position to check
-        """
-
-        if not obj:
-            return -1
-
-        try:
-            obj.queryText()
-        except NotImplementedError:
-            return -1
-
-        try:
-            hypertext = obj.queryHypertext()
-        except NotImplementedError:
-            return -1
-
-        for i in range(hypertext.getNLinks()):
-            link = hypertext.getLink(i)
-            if (characterIndex >= link.startIndex) \
-               and (characterIndex <= link.endIndex):
-                return i
-
-        return -1
 
     def nestingLevel(self, obj):
         """Determines the nesting level of this object.
@@ -1601,48 +1412,32 @@ class Utilities:
         if self.isHidden(obj):
             return False
 
-        if not self.isShowingAndVisible(obj):
+        if not (AXUtilities.is_showing(obj) and AXUtilities.is_visible(obj)):
             tokens = ["SCRIPT UTILITIES:", obj, "is not showing and visible"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+            if AXUtilities.is_filler(obj):
+                AXObject.clear_cache(obj, False, "Suspecting filler might have wrong state")
+                if AXUtilities.is_showing(obj) and AXUtilities.is_visible(obj):
+                    tokens = ["WARNING: Now", obj, "is showing and visible"]
+                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                    return True
+
             return False
 
-        try:
-            box = obj.queryComponent().getExtents(Atspi.CoordType.SCREEN)
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception getting extents for", obj]
+        if AXComponent.has_no_size_or_invalid_rect(obj):
+            tokens = ["SCRIPT UTILITIES: Rect of", obj, "is unhelpful. Treating as onscreen"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
-        tokens = ["SCRIPT UTILITIES: Extents for", obj, "are:", box]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        if box.x > 10000 or box.y > 10000:
-            tokens = ["SCRIPT UTILITIES:", obj, "seems to have bogus coordinates"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
-        if box.x < 0 and box.y < 0 and tuple(box) != (-1, -1, -1, -1):
-            tokens = ["SCRIPT UTILITIES:", obj, "has negative coordinates"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
-        if not (box.width or box.height):
-            if not AXObject.get_child_count(obj):
-                tokens = ["SCRIPT UTILITIES:", obj, "has no size and no children"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                return False
-            if AXUtilities.is_menu(obj):
-                tokens = ["SCRIPT UTILITIES:", obj, "has no size"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                return False
-
             return True
 
-        if boundingbox is None or not self._boundsIncludeChildren(AXObject.get_parent(obj)):
+        if AXComponent.object_is_off_screen(obj):
+            return False
+
+        if boundingbox is None:
             return True
 
-        if not self.containsRegion(box, boundingbox) and tuple(box) != (-1, -1, -1, -1):
-            tokens = ["SCRIPT UTILITIES:", obj, box, "not in", boundingbox]
+        if not AXComponent.object_intersects_rect(obj, boundingbox):
+            tokens = ["SCRIPT UTILITIES:", obj, "not in", boundingbox]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return False
 
@@ -1698,11 +1493,7 @@ class Utilities:
     def hasPresentableText(self, obj):
         if self.isStaticTextLeaf(obj):
             return False
-
-        if not AXObject.supports_text(obj):
-            return False
-
-        return bool(re.search(r"\w+", obj.queryText().getText(0, -1)))
+        return bool(re.search(r"\w+", AXText.get_all_text(obj)))
 
     def getOnScreenObjects(self, root, extents=None):
         if not self.isOnScreen(root, extents):
@@ -1723,18 +1514,15 @@ class Utilities:
 
         if AXUtilities.is_filler(root) and not AXObject.get_child_count(root):
             AXObject.clear_cache(root, True, "Root is empty filler.")
-            tokens = ["SCRIPT UTILITIES:", root, "now reports",
-                      AXObject.get_child_count(root), "children"]
+            count = AXObject.get_child_count(root)
+            tokens = ["SCRIPT UTILITIES:", root, f"now reports {count} children"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            if not count:
+                tokens = ["WARNING: unexpectedly empty filler", root]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         if extents is None:
-            try:
-                component = root.queryComponent()
-                extents = component.getExtents(Atspi.CoordType.SCREEN)
-            except Exception:
-                tokens = ["SCRIPT UTILITIES: Exception getting extents of", root]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                extents = 0, 0, 0, 0
+            extents = AXComponent.get_rect(root)
 
         if AXObject.supports_table(root) and AXObject.supports_selection(root):
             visibleCells = self.getVisibleTableCells(root)
@@ -1760,7 +1548,7 @@ class Utilities:
         if objects:
             return objects
 
-        if AXUtilities.is_label(root) and not hasNameOrDesc and not self.queryNonEmptyText(root):
+        if AXUtilities.is_label(root) and not hasNameOrDesc and AXText.is_whitespace_or_empty(root):
             return []
 
         containers = [Atspi.Role.CANVAS,
@@ -1958,21 +1746,6 @@ class Utilities:
         return True
 
     @staticmethod
-    def onSameLine(obj1, obj2, delta=0):
-        """Determines if obj1 and obj2 are on the same line."""
-
-        try:
-            bbox1 = obj1.queryComponent().getExtents(Atspi.CoordType.SCREEN)
-            bbox2 = obj2.queryComponent().getExtents(Atspi.CoordType.SCREEN)
-        except Exception:
-            return False
-
-        center1 = bbox1.y + bbox1.height / 2
-        center2 = bbox2.y + bbox2.height / 2
-
-        return abs(center1 - center2) <= delta
-
-    @staticmethod
     def pathComparison(path1, path2):
         """Compares the two paths and returns -1, 0, or 1 to indicate if path1
         is before, the same, or after path2."""
@@ -1991,90 +1764,6 @@ class Utilities:
                 return 1
 
         return 0
-
-    @staticmethod
-    def sizeComparison(obj1, obj2):
-        try:
-            bbox = obj1.queryComponent().getExtents(Atspi.CoordType.SCREEN)
-            width1, height1 = bbox.width, bbox.height
-        except Exception:
-            width1, height1 = 0, 0
-
-        try:
-            bbox = obj2.queryComponent().getExtents(Atspi.CoordType.SCREEN)
-            width2, height2 = bbox.width, bbox.height
-        except Exception:
-            width2, height2 = 0, 0
-
-        return (width1 * height1) - (width2 * height2)
-
-    @staticmethod
-    def spatialComparison(obj1, obj2):
-        """Compares the physical locations of obj1 and obj2 and returns -1,
-        0, or 1 to indicate if obj1 physically is before, is in the same
-        place as, or is after obj2."""
-
-        try:
-            bbox = obj1.queryComponent().getExtents(Atspi.CoordType.SCREEN)
-            x1, y1 = bbox.x, bbox.y
-        except Exception:
-            x1, y1 = 0, 0
-
-        try:
-            bbox = obj2.queryComponent().getExtents(Atspi.CoordType.SCREEN)
-            x2, y2 = bbox.x, bbox.y
-        except Exception:
-            x2, y2 = 0, 0
-
-        rv = y1 - y2 or x1 - x2
-
-        # If the objects claim to have the same coordinates, there is either
-        # a horrible design crime or we've been given bogus extents. Fall back
-        # on the index in the parent. This is seen with GtkListBox items which
-        # had been scrolled off-screen.
-        if not rv and AXObject.get_parent(obj1) == AXObject.get_parent(obj2):
-            rv = AXObject.get_index_in_parent(obj1) - AXObject.get_index_in_parent(obj2)
-
-        rv = max(rv, -1)
-        rv = min(rv, 1)
-
-        return rv
-
-    def getTextBoundingBox(self, obj, start, end):
-        try:
-            extents = obj.queryText().getRangeExtents(start, end, Atspi.CoordType.SCREEN)
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception getting range extents of", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return -1, -1, 0, 0
-
-        return extents
-
-    def getBoundingBox(self, obj):
-        try:
-            extents = obj.queryComponent().getExtents(Atspi.CoordType.SCREEN)
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception getting extents of", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return -1, -1, 0, 0
-
-        return extents.x, extents.y, extents.width, extents.height
-
-    def hasNoSize(self, obj):
-        if not obj:
-            return False
-
-        if AXUtilities.is_application(obj):
-            return False
-
-        try:
-            extents = obj.queryComponent().getExtents(Atspi.CoordType.SCREEN)
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception getting extents for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return True
-
-        return not (extents.width and extents.height)
 
     def findAllDescendants(self, root, includeIf=None, excludeIf=None):
         return AXObject.find_all_descendants(root, includeIf, excludeIf)
@@ -2138,7 +1827,7 @@ class Utilities:
                 continue
             labels_filtered.append(label)
 
-        return sorted(labels_filtered, key=functools.cmp_to_key(self.spatialComparison))
+        return AXComponent.sort_objects_by_position(labels_filtered)
 
     def _treatAlertsAsDialogs(self):
         return True
@@ -2166,7 +1855,7 @@ class Utilities:
         dialogs.extend([x for x in AXObject.iter_children(self.topLevelObject(obj), isDialog)])
 
         def isPresentable(x):
-            return self.isShowingAndVisible(x) \
+            return AXUtilities.is_showing(x) and AXUtilities.is_visible(x) \
                 and (AXObject.get_name(x) or AXObject.get_child_count(x))
 
         def cannotBeActiveWindow(x):
@@ -2176,56 +1865,16 @@ class Utilities:
         unfocused = list(filter(cannotBeActiveWindow, presentable))
         return len(unfocused)
 
-    def uri(self, obj):
-        """Return the URI for a given link object.
-
-        Arguments:
-        - obj: the Accessible object.
-        """
-
-        try:
-            return obj.queryHyperlink().getURI(0)
-        except Exception:
-            return None
-
     #########################################################################
     #                                                                       #
     # Utilities for working with the accessible text interface              #
     #                                                                       #
     #########################################################################
 
-    @staticmethod
-    def adjustTextSelection(obj, offset):
-        """Adjusts the end point of a text selection
-
-        Arguments:
-        - obj: the Accessible object.
-        - offset: the new end point - can be to the left or to the right
-          depending on the direction of selection
-        """
-
-        try:
-            text = obj.queryText()
-        except Exception:
-            return
-
-        if text.getNSelections() <= 0:
-            caretOffset = text.caretOffset
-            startOffset = min(offset, caretOffset)
-            endOffset = max(offset, caretOffset)
-            text.addSelection(startOffset, endOffset)
-        else:
-            startOffset, endOffset = text.getSelection(0)
-            if offset < startOffset:
-                startOffset = offset
-            else:
-                endOffset = offset
-            text.setSelection(0, startOffset, endOffset)
-
     def findPreviousObject(self, obj):
         """Finds the object before this one."""
 
-        if not obj or self.isZombie(obj):
+        if not AXObject.is_valid(obj):
             return None
 
         relation = AXObject.get_relation(obj, Atspi.RelationType.FLOWS_FROM)
@@ -2237,7 +1886,7 @@ class Utilities:
     def findNextObject(self, obj):
         """Finds the object after this one."""
 
-        if not obj or self.isZombie(obj):
+        if not AXObject.is_valid(obj):
             return None
 
         relation = AXObject.get_relation(obj, Atspi.RelationType.FLOWS_TO)
@@ -2258,7 +1907,8 @@ class Utilities:
         offsets within the text for the given object.
         """
 
-        textContents, startOffset, endOffset = self.selectedText(obj)
+        # TODO - JD: Move to AXText if possible
+        textContents, startOffset, endOffset = AXText.get_selected_text(obj)
         if textContents and self._script.pointOfReference.get('entireDocumentSelected'):
             return textContents, startOffset, endOffset
 
@@ -2267,146 +1917,21 @@ class Utilities:
 
         prevObj = self.findPreviousObject(obj)
         while prevObj:
-            if self.queryNonEmptyText(prevObj):
-                selection, start, end = self.selectedText(prevObj)
-                if not selection:
-                    break
-                textContents = f"{selection} {textContents}"
+            selection = AXText.get_selected_text(prevObj)[0]
+            if not selection:
+                 break
+            textContents = f"{selection} {textContents}"
             prevObj = self.findPreviousObject(prevObj)
 
         nextObj = self.findNextObject(obj)
         while nextObj:
-            if self.queryNonEmptyText(nextObj):
-                selection, start, end = self.selectedText(nextObj)
-                if not selection:
-                    break
-                textContents = f"{textContents} {selection}"
+            selection = AXText.get_selected_text(nextObj)[0]
+            if not selection:
+                break
+            textContents = f"{textContents} {selection}"
             nextObj = self.findNextObject(nextObj)
 
         return textContents, startOffset, endOffset
-
-    @staticmethod
-    def allTextSelections(obj):
-        """Get a list of text selections in the given accessible object,
-        equivalent to getNSelections()*texti.getSelection()
-
-        Arguments:
-        - obj: An accessible.
-
-        Returns list of start and end offsets for multiple selections, or an
-        empty list if nothing is selected or if the accessible does not support
-        the text interface.
-        """
-
-        try:
-            text = obj.queryText()
-        except Exception:
-            return []
-
-        rv = []
-        try:
-            nSelections = text.getNSelections()
-        except Exception:
-            nSelections = 0
-        for i in range(nSelections):
-            rv.append(text.getSelection(i))
-
-        return rv
-
-    def getChildAtOffset(self, obj, offset):
-        try:
-            hypertext = obj.queryHypertext()
-        except NotImplementedError:
-            tokens = ["SCRIPT UTILITIES:", obj, "does not implement the hypertext interface"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return None
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception querying hypertext interface for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return None
-
-        index = hypertext.getLinkIndex(offset)
-        if index == -1:
-            return None
-
-        hyperlink = hypertext.getLink(index)
-        if not hyperlink:
-            tokens = ["SCRIPT UTILITIES: No hyperlink object at index", index, "for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return None
-
-        child = hyperlink.getObject(0)
-        tokens = ["SCRIPT UTILITIES: Hyperlink object at index", index, "for", obj, "is", child]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        if offset != hyperlink.startIndex:
-            msg = (
-                f"SCRIPT UTILITIES: Hyperlink start index {hyperlink.startIndex} "
-                f"should match the offset {offset}"
-            )
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-
-        return child
-
-    def characterOffsetInParent(self, obj):
-        """Returns the character offset of the embedded object
-        character for this object in its parent's accessible text.
-
-        Arguments:
-        - obj: an Accessible that should implement the accessible
-          hyperlink specialization.
-
-        Returns an integer representing the character offset of the
-        embedded object character for this hyperlink in its parent's
-        accessible text, or -1 something was amuck.
-        """
-
-        offset = -1
-        try:
-            hyperlink = obj.queryHyperlink()
-        except NotImplementedError:
-            tokens = ["SCRIPT UTILITIES:", obj, "does not implement the hyperlink interface"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        else:
-            # We need to make sure that this is an embedded object in
-            # some accessible text (as opposed to an imagemap link).
-            #
-            parent = AXObject.get_parent(obj)
-            try:
-                parent.queryText()
-                offset = hyperlink.startIndex
-            except Exception:
-                tokens = ["SCRIPT UTILITIES: Exception getting startIndex for",
-                          obj, "in parent", parent]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            else:
-                tokens = ["SCRIPT UTILITIES: startIndex of", obj, f"is {offset}"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        return offset
-
-    def clearTextSelection(self, obj):
-        """Clears the text selection if the object supports it.
-
-        Arguments:
-        - obj: the Accessible object.
-        """
-
-        try:
-            text = obj.queryText()
-        except Exception:
-            return
-
-        for i in range(text.getNSelections()):
-            text.removeSelection(i)
-
-    def containsOnlyEOCs(self, obj):
-        try:
-            string = obj.queryText().getText(0, -1)
-        except Exception:
-            return False
-
-        return string and not re.search(r"[^\ufffc]", string)
 
     def expandEOCs(self, obj, startOffset=0, endOffset=-1):
         """Expands the current object replacing EMBEDDED_OBJECT_CHARACTERS
@@ -2440,37 +1965,13 @@ class Utilities:
         toBuild = list(string)
         for i, char in enumerate(toBuild):
             if char == self.EMBEDDED_OBJECT_CHARACTER:
-                child = self.getChildAtOffset(obj, i + startOffset)
+                child = AXHypertext.get_child_at_offset(obj, i + startOffset)
                 result = self.expandEOCs(child)
                 if child and AXObject.get_role(child) in blockRoles:
                     result += " "
                 toBuild[i] = result
 
         return "".join(toBuild)
-
-    def isWordMisspelled(self, obj, offset):
-        """Identifies if the current word is flagged as misspelled by the
-        application. Different applications and toolkits flag misspelled
-        words differently. Thus each script will likely need to implement
-        its own version of this method.
-
-        Arguments:
-        - obj: An accessible which implements the accessible text interface.
-        - offset: Offset in the accessible's text for which to retrieve the
-          attributes.
-
-        Returns True if the word is flagged as misspelled.
-        """
-
-        attributes, start, end  = self.textAttributes(obj, offset, True)
-        if attributes.get("invalid") == "spelling":
-            return True
-        if attributes.get("text-spelling") == "misspelled":
-            return True
-        if attributes.get("underline") in ["error", "spelling"]:
-            return True
-
-        return False
 
     def getError(self, obj):
         return AXUtilities.is_invalid_entry(obj)
@@ -2480,37 +1981,6 @@ class Utilities:
 
     def isErrorMessage(self, obj):
         return False
-
-    def getCharacterAtOffset(self, obj, offset=None):
-        text = self.queryNonEmptyText(obj)
-        if text:
-            if offset is None:
-                offset = text.caretOffset
-            return text.getText(offset, offset + 1)
-
-        return ""
-
-    def queryNonEmptyText(self, obj):
-        """Get the text interface associated with an object, if it is
-        non-empty.
-
-        Arguments:
-        - obj: an accessible object
-        """
-
-        try:
-            text = obj.queryText()
-            charCount = text.characterCount
-        except NotImplementedError:
-            pass
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception getting character count of", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        else:
-            if charCount:
-                return text
-
-        return None
 
     def deletedText(self, event):
         return event.any_data
@@ -2523,60 +1993,29 @@ class Utilities:
         debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         if AXUtilities.is_password_text(event.source):
-            text = self.queryNonEmptyText(event.source)
-            if text:
-                string = text.getText(0, -1)
-                if string:
-                    tokens = ["HACK: Returning last char in '", string, "'"]
-                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                    return string[-1]
+            string = AXText.get_all_text(event.source)
+            if string:
+                tokens = ["HACK: Returning last char in '", string, "'"]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                return string[-1]
 
         msg = "FAIL: Unable to correct broken text insertion event"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
         return ""
 
-    def selectedText(self, obj):
-        """Get the text selection for the given object.
-
-        Arguments:
-        - obj: the text object to extract the selected text from.
-
-        Returns: the selected text contents plus the start and end
-        offsets within the text.
-        """
-
-        textContents = ""
-        startOffset = endOffset = 0
-        try:
-            textObj = obj.queryText()
-        except Exception:
-            nSelections = 0
-        else:
-            nSelections = textObj.getNSelections()
-
-        for i in range(0, nSelections):
-            [startOffset, endOffset] = textObj.getSelection(i)
-            if startOffset == endOffset:
-                continue
-            selectedText = self.expandEOCs(obj, startOffset, endOffset)
-            if i > 0:
-                textContents += " "
-            textContents += selectedText
-
-        return [textContents, startOffset, endOffset]
-
     def getCaretContext(self):
         obj = focus_manager.getManager().get_locus_of_focus()
-        try:
-            offset = obj.queryText().caretOffset
-        except NotImplementedError:
-            offset = 0
-        except Exception:
-            offset = -1
-
+        offset = AXText.get_caret_offset(obj)
         return obj, offset
 
     def getFirstCaretPosition(self, obj):
+        # TODO - JD: Do we still need this function?
+        if AXObject.supports_text(obj):
+            return obj, 0
+
+        if AXObject.get_child_count(obj):
+            return self.getFirstCaretPosition(AXObject.get_child(obj, 0))
+
         return obj, 0
 
     def setCaretPosition(self, obj, offset, documentFrame=None):
@@ -2584,36 +2023,12 @@ class Utilities:
         self.setCaretOffset(obj, offset)
 
     def setCaretOffset(self, obj, offset):
-        """Set the caret offset on a given accessible. Similar to
-        Accessible.setCaretOffset()
-
-        Arguments:
-        - obj: Given accessible object.
-        - offset: Offset to hich to set the caret.
-        """
-        try:
-            texti = obj.queryText()
-        except Exception:
-            return None
-
-        texti.setCaretOffset(offset)
+        # TODO - JD. Remove this function if the web override can be adjusted
+        AXText.set_caret_offset(obj, offset)
 
     def substring(self, obj, startOffset, endOffset):
-        """Returns the substring of the given object's text specialization.
-
-        Arguments:
-        - obj: an accessible supporting the accessible text specialization
-        - startOffset: the starting character position
-        - endOffset: the ending character position. Note that an end offset
-          of -1 means the last character
-        """
-
-        try:
-            text = obj.queryText()
-        except Exception:
-            return ""
-
-        return text.getText(startOffset, endOffset)
+        # TODO - JD. Remove this function if the web override can be adjusted
+        return AXText.get_substring(obj, startOffset, endOffset)
 
     def getAppNameForAttribute(self, attribName):
         """Converts the given Atk attribute name into the application's
@@ -2647,78 +2062,9 @@ class Utilities:
 
         return self._script.attributeNamesDict.get(attribName, attribName)
 
-    def getAllTextAttributesForObject(self, obj, startOffset=0, endOffset=-1):
-        """Returns a list of (start, end, attrsDict) tuples for obj."""
-        try:
-            text = obj.queryText()
-        except Exception:
-            return []
-
-        if endOffset == -1:
-            endOffset = text.characterCount
-
-        tokens = ["SCRIPT UTILITIES: Getting text attributes for", obj,
-                  f"chars: {startOffset}-{endOffset}"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        startTime = time.time()
-
-        rv = []
-        offset = startOffset
-        while offset < endOffset:
-            try:
-                attrList, start, end = text.getAttributeRun(offset)
-                tokens = [f"SCRIPT UTILITIES: At {offset}:", attrList, f"({start}, {end})"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            except Exception as error:
-                msg = f"SCRIPT UTILITIES: Exception getting attributes at {offset}: {error}"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return rv
-
-            attrDict = dict([attr.split(':', 1) for attr in attrList])
-            rv.append((max(start, offset), end, attrDict))
-            offset = max(end, offset + 1)
-
-        endTime = time.time()
-        msg = f"SCRIPT UTILITIES: {len(rv)} attribute ranges found in {endTime - startTime:.4f}s"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return rv
-
     def textAttributes(self, acc, offset=None, get_defaults=False):
-        """Get the text attributes run for a given offset in a given accessible
-
-        Arguments:
-        - acc: An accessible.
-        - offset: Offset in the accessible's text for which to retrieve the
-        attributes.
-        - get_defaults: Get the default attributes as well as the unique ones.
-        Default is True
-
-        Returns a dictionary of attributes, a start offset where the attributes
-        begin, and an end offset. Returns ({}, 0, 0) if the accessible does not
-        supprt the text attribute.
-        """
-
-        rv = {}
-        try:
-            text = acc.queryText()
-        except Exception:
-            return rv, 0, 0
-
-        if get_defaults:
-            stringAndDict = self.stringToKeysAndDict(text.getDefaultAttributes())
-            rv.update(stringAndDict[1])
-
-        if offset is None:
-            offset = text.caretOffset
-
-        attrString, start, end = text.getAttributes(offset)
-        stringAndDict = self.stringToKeysAndDict(attrString)
-        rv.update(stringAndDict[1])
-
-        start = min(start, offset)
-        end = max(end, offset + 1)
-
-        return rv, start, end
+        # TODO - JD: Replace all calls to this function with the one below
+        return AXText.get_text_attributes_at_offset(acc, offset)
 
     def localizeTextAttribute(self, key, value):
         if key == "weight" and (value == "bold" or int(value) > 400):
@@ -2782,7 +2128,7 @@ class Utilities:
         based on what is exposed via text attributes."""
 
         rv = []
-        attributeSet = self.getAllTextAttributesForObject(obj, startOffset, endOffset)
+        attributeSet = AXText.get_all_text_attributes(obj, startOffset, endOffset)
         lastLanguage = lastDialect = ""
         for (start, end, attrs) in attributeSet:
             language = attrs.get("language", "")
@@ -2824,37 +2170,26 @@ class Utilities:
     #                                                                       #
     #########################################################################
 
-    def _addRepeatSegment(self, segment, line, respectPunctuation=True):
+    def _addRepeatSegment(self, segment, line):
         """Add in the latest line segment, adjusting for repeat characters
         and punctuation.
 
         Arguments:
         - segment: the segment of repeated characters.
         - line: the current built-up line to characters to speak.
-        - respectPunctuation: if False, ignore punctuation level.
 
         Returns: the current built-up line plus the new segment, after
         adjusting for repeat character counts and punctuation.
         """
 
-        from . import punctuation_settings
+        if segment.isnumeric():
+            return line + segment
 
-        style = settings.verbalizePunctuationStyle
-        isPunctChar = True
-        try:
-            level, action = punctuation_settings.getPunctuationInfo(segment[0])
-        except Exception:
-            isPunctChar = False
         count = len(segment)
-        if (count >= settings.repeatCharacterLimit) \
-           and (segment[0] not in self._script.whitespace):
-            if (not respectPunctuation) \
-               or (isPunctChar and (style <= level)):
-                repeatChar = chnames.getCharacterName(segment[0])
-                repeatSegment = messages.repeatedCharCount(repeatChar, count)
-                line = f"{line} {repeatSegment}"
-            else:
-                line += segment
+        if count >= settings.repeatCharacterLimit and segment[0] not in self._script.whitespace:
+            repeatChar = segment[0]
+            repeatSegment = messages.repeatedCharCount(repeatChar, count)
+            line = f"{line} {repeatSegment} "
         else:
             line += segment
 
@@ -2876,7 +2211,7 @@ class Utilities:
     def verbalizeAllPunctuation(self, string):
         result = string
         for symbol in set(re.findall(self.PUNCTUATION, result)):
-            charName = f" {chnames.getCharacterName(symbol)} "
+            charName = f" {symbol} "
             result = re.sub(r"\%s" % symbol, charName, result)
 
         return result
@@ -2893,46 +2228,18 @@ class Utilities:
         text which is also a link.
         """
 
-        from . import punctuation_settings
-
         endOffset = startOffset + len(line)
-        try:
-            hyperText = obj.queryHypertext()
-            nLinks = hyperText.getNLinks()
-        except Exception:
-            nLinks = 0
+        links = AXHypertext.get_all_links_in_range(obj, startOffset, endOffset)
+        offsets = [AXHypertext.get_link_end_offset(link) for link in links]
+        offsets = sorted([offset - startOffset for offset in offsets], reverse=True)
+        tokens = list(line)
+        for o in offsets:
+            string = f" {messages.LINK}"
+            if o < len(tokens) and tokens[o].isalnum():
+                string += " "
+            tokens[o:o] = string
 
-        adjustedLine = list(line)
-        for n in range(nLinks, 0, -1):
-            link = hyperText.getLink(n - 1)
-            if not link:
-                continue
-
-            # We only care about links in the string, line:
-            #
-            if startOffset < link.endIndex <= endOffset:
-                index = link.endIndex - startOffset
-            elif startOffset <= link.startIndex < endOffset:
-                index = len(line)
-                if link.endIndex < endOffset:
-                    index -= 1
-            else:
-                continue
-
-            linkString = " " + messages.LINK
-
-            # If the link was not followed by a whitespace or punctuation
-            # character, then add in a space to make it more presentable.
-            #
-            nextChar = ""
-            if index < len(line):
-                nextChar = adjustedLine[index]
-            if not (nextChar in self._script.whitespace \
-                    or punctuation_settings.getPunctuationInfo(nextChar)):
-                linkString += " "
-            adjustedLine[index:index] = linkString
-
-        return "".join(adjustedLine)
+        return "".join(tokens)
 
     @staticmethod
     def _processMultiCaseString(string):
@@ -2956,6 +2263,12 @@ class Utilities:
         dictionary.
         """
 
+        # TODO - JD: We had been making this change in response to bgo#591734.
+        # It may or may not still be needed or wanted to replace no-break-space
+        # characters with plain spaces. Surely modern synthesizers can cope with
+        # both types of spaces.
+        line = line.replace("\u00a0", " ")
+
         if settings.speakMultiCaseStringsAsWords:
             line = self._processMultiCaseString(line)
 
@@ -2966,8 +2279,10 @@ class Utilities:
             words = self.WORDS_RE.split(line)
             line = ''.join(map(self._convertWordToDigits, words))
 
-        if len(line) == 1 and not self._script.inSayAll():
-            charname = chnames.getCharacterName(line)
+        line = self.adjustForDigits(line)
+
+        if len(line) == 1 and not self._script.inSayAll() and self.isInMath():
+            charname = mathsymbols.getCharacterName(line)
             if charname != line:
                 return charname
 
@@ -3008,18 +2323,16 @@ class Utilities:
         newLine = ''
         segment = lastChar = line[0]
 
-        multipleChars = False
         for i in range(1, len(line)):
             if line[i] == lastChar:
                 segment += line[i]
             else:
-                multipleChars = True
                 newLine = self._addRepeatSegment(segment, newLine)
                 segment = line[i]
 
             lastChar = line[i]
 
-        return self._addRepeatSegment(segment, newLine, multipleChars)
+        return self._addRepeatSegment(segment, newLine)
 
     def adjustForDigits(self, string):
         """Adjusts the string to convert digit-like text, such as subscript
@@ -3136,9 +2449,9 @@ class Utilities:
             if not self.lastInputEventWasPrintableKey():
                 return False
 
-            string = event.source.queryText().getText(0, -1)
+            string = AXText.get_all_text(event.source)
             if string.endswith(event.any_data):
-                selection, start, end = self.selectedText(event.source)
+                selection, start, end = AXText.get_selected_text(event.source)
                 if selection == event.any_data:
                     return True
                 if string == event.any_data and string.endswith(selection):
@@ -3178,45 +2491,6 @@ class Utilities:
         return character in self._script.whitespace \
                or character in r'!*+,-./:;<=>?@[\]^_{|}' \
                or character == self._script.NO_BREAK_SPACE_CHARACTER
-
-    def intersectingRegion(self, obj1, obj2, coordType=None):
-        """Returns the extents of the intersection of obj1 and obj2."""
-
-        if coordType is None:
-            coordType = Atspi.CoordType.SCREEN
-
-        try:
-            extents1 = obj1.queryComponent().getExtents(coordType)
-            extents2 = obj2.queryComponent().getExtents(coordType)
-        except Exception:
-            return 0, 0, 0, 0
-
-        return self.intersection(extents1, extents2)
-
-    def intersection(self, extents1, extents2):
-        x1, y1, width1, height1 = extents1
-        x2, y2, width2, height2 = extents2
-
-        xPoints1 = range(x1, x1 + width1 + 1)
-        xPoints2 = range(x2, x2 + width2 + 1)
-        xIntersection = sorted(set(xPoints1).intersection(set(xPoints2)))
-
-        yPoints1 = range(y1, y1 + height1 + 1)
-        yPoints2 = range(y2, y2 + height2 + 1)
-        yIntersection = sorted(set(yPoints1).intersection(set(yPoints2)))
-
-        if not (xIntersection and yIntersection):
-            return 0, 0, 0, 0
-
-        x = xIntersection[0]
-        y = yIntersection[0]
-        width = xIntersection[-1] - x
-        height = yIntersection[-1] - y
-
-        return x, y, width, height
-
-    def containsRegion(self, extents1, extents2):
-        return self.intersection(extents1, extents2) != (0, 0, 0, 0)
 
     @staticmethod
     def _allNamesForKeyCode(keycode):
@@ -3267,8 +2541,6 @@ class Utilities:
                (not newSequence.endswith('+') or newSequence.endswith('++')):
                 sequence = newSequence
         except Exception:
-            if sequence.endswith(" "):
-                sequence += chnames.getCharacterName(" ")
             sequence = sequence.replace("<", "")
             sequence = sequence.replace(">", " ").strip()
 
@@ -3358,62 +2630,6 @@ class Utilities:
 
         return [keys, dictionary]
 
-    def textForValue(self, obj):
-        """Returns the text to be displayed for the object's current value.
-
-        Arguments:
-        - obj: the Accessible object that may or may not have a value.
-
-        Returns a string representing the value.
-        """
-
-        attrs = AXObject.get_attributes_dict(obj, False)
-        valuetext = attrs.get("valuetext")
-        if valuetext:
-            return valuetext
-
-        try:
-            value = obj.queryValue()
-        except NotImplementedError:
-            return ""
-        else:
-            currentValue = value.currentValue
-
-        # "The reports of my implementation are greatly exaggerated."
-        try:
-            maxValue = value.maximumValue
-        except Exception as error:
-            maxValue = 0.0
-            tokens = ["SCRIPT UTILITIES: Could not get maximum value for", obj, ":", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        try:
-            minValue = value.minimumValue
-        except Exception as error:
-            minValue = 0.0
-            tokens = ["SCRIPT UTILITIES: Could not get minimum value for", obj, ":", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        try:
-            minIncrement = value.minimumIncrement
-        except Exception as error:
-            minIncrement = (maxValue - minValue) / 100.0
-            tokens = ["SCRIPT UTILITIES: Could not get minimum increment for", obj, ":", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        if minIncrement != 0.0:
-            try:
-                decimalPlaces = math.ceil(max(0, -math.log10(minIncrement)))
-            except ValueError as error:
-                tokens = ["SCRIPT UTILITIES: Could not calculate decimal places for",
-                          obj, ":", error]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                return ""
-        elif abs(currentValue) < 1:
-            decimalPlaces = 1
-        else:
-            decimalPlaces = 0
-
-        formatter = "%%.%df" % decimalPlaces
-        return formatter % currentValue
-
     @staticmethod
     def unicodeValueString(character):
         """ Returns a four hex digit representation of the given character
@@ -3449,29 +2665,8 @@ class Utilities:
         return obj, offset + 1
 
     def lastContext(self, root):
-        offset = 0
-        text = self.queryNonEmptyText(root)
-        if text:
-            offset = text.characterCount - 1
-
+        offset = max(0, AXText.get_character_count(root) - 1)
         return root, offset
-
-    def getHyperlinkRange(self, obj):
-        """Returns the text range in parent associated with obj."""
-
-        try:
-            hyperlink = obj.queryHyperlink()
-            start, end = hyperlink.startIndex, hyperlink.endIndex
-        except NotImplementedError:
-            tokens = ["SCRIPT UTILITIES:", obj, "does not implement the hyperlink interface"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return -1, -1
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception getting hyperlink indices for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return -1, -1
-
-        return start, end
 
     def selectedChildren(self, obj):
         children = AXSelection.get_selected_children(obj)
@@ -3502,6 +2697,9 @@ class Utilities:
 
     def getSelectionContainer(self, obj):
         if not obj:
+            return None
+
+        if self.isTextArea(obj):
             return None
 
         if AXObject.supports_selection(obj):
@@ -3734,44 +2932,11 @@ class Utilities:
     def rowOrColumnCountUnknown(self, obj):
         return AXUtilities.is_indeterminate(obj)
 
-    def _objectBoundsMightBeBogus(self, obj):
-        return False
-
-    def _objectMightBeBogus(self, obj):
-        return False
-
-    def containsPoint(self, obj, x, y, coordType, margin=2):
-        if self._objectBoundsMightBeBogus(obj) \
-           and self.textAtPoint(obj, x, y, coordType) == ("", 0, 0):
-            return False
-
-        if self._objectMightBeBogus(obj):
-            return False
-
-        try:
-            component = obj.queryComponent()
-        except Exception:
-            return False
-
-        if coordType is None:
-            coordType = Atspi.CoordType.SCREEN
-
-        if component.contains(x, y, coordType):
-            return True
-
-        x1, y1 = x + margin, y + margin
-        if component.contains(x1, y1, coordType):
-            tokens = ["SCRIPT UTILITIES: ", obj, f"contains ({x1},{y1}); not ({x},{y}"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return True
-
-        return False
-
     def _boundsIncludeChildren(self, obj):
         if obj is None:
             return False
 
-        if self.hasNoSize(obj):
+        if AXComponent.has_no_size(obj):
             return False
 
         return not (AXUtilities.is_menu(obj) or AXUtilities.is_page_tab(obj))
@@ -3803,75 +2968,6 @@ class Utilities:
 
         return False
 
-    def accessibleAtPoint(self, root, x, y, coordType=None):
-        if self.isHidden(root):
-            return None
-
-        try:
-            component = root.queryComponent()
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception querying component of", root]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return None
-
-        if coordType is None:
-            coordType = Atspi.CoordType.SCREEN
-
-        result = component.getAccessibleAtPoint(x, y, coordType)
-        tokens = ["SCRIPT UTILITIES: ", result, "is descendant of", root, f"at ({x}, {y})"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        return result
-
-    def descendantAtPoint(self, root, x, y, coordType=None):
-        if not root:
-            return None
-
-        if not self.isShowingAndVisible(root):
-            return None
-
-        if coordType is None:
-            coordType = Atspi.CoordType.SCREEN
-
-        if self.containsPoint(root, x, y, coordType):
-            if self._treatAsLeafNode(root) or not self._boundsIncludeChildren(root):
-                return root
-        elif self._treatAsLeafNode(root) or self._boundsIncludeChildren(root):
-            return None
-
-        if AXObject.supports_table(root):
-            child = self.accessibleAtPoint(root, x, y, coordType)
-            if child and child != root:
-                cell = self.descendantAtPoint(child, x, y, coordType)
-                if cell:
-                    return cell
-                return child
-
-        candidates_showing = []
-        candidates = []
-        for child in AXObject.iter_children(root):
-            obj = self.descendantAtPoint(child, x, y, coordType)
-            if obj:
-                return obj
-            if not self.containsPoint(child, x, y, coordType):
-                continue
-            if self.queryNonEmptyText(child):
-                string = child.queryText().getText(0, -1)
-                if re.search(r"[^\ufffc\s]", string):
-                    candidates.append(child)
-                    if AXUtilities.is_showing(child):
-                        candidates_showing.append(child)
-
-        if len(candidates_showing) == 1:
-            return candidates_showing[0]
-        if len(candidates) == 1:
-            # It should have had state "showing" actually
-            return candidates[0]
-
-        return None
-
-    def _adjustPointForObj(self, obj, x, y, coordType):
-        return x, y
-
     def isMultiParagraphObject(self, obj):
         if not obj:
             return False
@@ -3879,20 +2975,12 @@ class Utilities:
         if not AXObject.supports_text(obj):
             return False
 
-        text = obj.queryText()
-        string = text.getText(0, -1)
+        string = AXText.get_all_text(obj)
         chunks = list(filter(lambda x: x.strip(), string.split("\n\n")))
         return len(chunks) > 1
 
     def getWordAtOffsetAdjustedForNavigation(self, obj, offset=None):
-        try:
-            text = obj.queryText()
-            if offset is None:
-                offset = text.caretOffset
-        except Exception:
-            return "", 0, 0
-
-        word, start, end = self.getWordAtOffset(obj, offset)
+        word, start, end = AXText.get_word_at_offset(obj, offset)
         prevObj, prevOffset = self._script.pointOfReference.get(
             "penultimateCursorPosition", (None, -1))
         if prevObj != obj:
@@ -3900,7 +2988,7 @@ class Utilities:
 
         # If we're in an ongoing series of native navigation-by-word commands, just present the
         # newly-traversed string.
-        prevWord, prevStart, prevEnd = self.getWordAtOffset(prevObj, prevOffset)
+        prevWord, prevStart, prevEnd = AXText.get_word_at_offset(prevObj, prevOffset)
         if self._script.pointOfReference.get("lastTextUnitSpoken") == "word":
             if self.lastInputEventWasPrevWordNav():
                 start = offset
@@ -3909,7 +2997,7 @@ class Utilities:
                 start = prevOffset
                 end = offset
 
-            word = text.getText(start, end)
+            word = AXText.get_substring(obj, start, end)
             debugString = word.replace("\n", "\\n")
             msg = (
                 f"SCRIPT UTILITIES: Adjusted word at offset {offset} for ongoing word nav is "
@@ -3943,11 +3031,11 @@ class Utilities:
             # If the character to the left of our present position is neither a space, nor
             # an alphanumeric character, then suspect that character is a navigation boundary
             # where we would have landed before via the native next word command.
-            lastChar = text.getText(offset - 1, offset)
+            lastChar = AXText.get_substring(obj, offset - 1, offset)
             if not (lastChar.isspace() or lastChar.isalnum()):
                 start = offset - 1
 
-        word = text.getText(start, end)
+        word = AXText.get_substring(obj, start, end)
 
         # We only want to present the newline character when we cross a boundary moving from one
         # word to another. If we're in the same word, strip it out.
@@ -3956,9 +3044,8 @@ class Utilities:
                 start += 1
             elif word.endswith("\n"):
                 end -= 1
-            word = text.getText(start, end)
 
-        word = text.getText(start, end)
+        word = AXText.get_substring(obj, start, end)
         debugString = word.replace("\n", "\\n")
         msg = (
             f"SCRIPT UTILITIES: Adjusted word at offset {offset} for new word nav is "
@@ -3967,48 +3054,32 @@ class Utilities:
         debug.printMessage(debug.LEVEL_INFO, msg, True)
         return word, start, end
 
-    def getWordAtOffset(self, obj, offset=None):
-        try:
-            text = obj.queryText()
-            if offset is None:
-                offset = text.caretOffset
-        except Exception:
+    def textAtPoint(self, obj, x, y, boundary=None):
+        # TODO - JD: Audit callers so we don't have to use boundaries.
+        # Also, can the logic be entirely moved to AXText?
+        if boundary in (None, Atspi.TextBoundaryType.LINE_START):
+            string, start, end = AXText.get_line_at_point(obj, x, y)
+        elif boundary == Atspi.TextBoundaryType.SENTENCE_START:
+            string, start, end = AXText.get_sentence_at_point(obj, x, y)
+        elif boundary == Atspi.TextBoundaryType.WORD_START:
+            string, start, end = AXText.get_word_at_point(obj, x, y)
+        elif boundary == Atspi.TextBoundaryType.CHAR:
+            string, start, end = AXText.get_character_at_point(obj, x, y)
+        else:
             return "", 0, 0
 
-        word, start, end = text.getTextAtOffset(offset, Atspi.TextBoundaryType.WORD_START)
-        debugString = word.replace("\n", "\\n")
-        msg = (
-            f"SCRIPT UTILITIES: Word at offset {offset} is "
-            f"'{debugString}' ({start}-{end})"
-        )
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return word, start, end
-
-    def textAtPoint(self, obj, x, y, coordType=None, boundary=None):
-        text = self.queryNonEmptyText(obj)
-        if not text:
-            return "", 0, 0
-
-        if coordType is None:
-            coordType = Atspi.CoordType.SCREEN
-
-        if boundary is None:
-            boundary = Atspi.TextBoundaryType.LINE_START
-
-        x, y = self._adjustPointForObj(obj, x, y, coordType)
-        offset = text.getOffsetAtPoint(x, y, coordType)
-        if not 0 <= offset < text.characterCount:
-            return "", 0, 0
-
-        string, start, end = text.getTextAtOffset(offset, boundary)
         if not string:
             return "", start, end
 
         if boundary == Atspi.TextBoundaryType.WORD_START and not string.strip():
             return "", 0, 0
 
-        extents = text.getRangeExtents(start, end, coordType)
-        if not self.containsRegion(extents, (x, y, 1, 1)) and string != "\n":
+        extents = AXText.get_range_rect(obj, start, end)
+        rect = Atspi.Rect()
+        rect.x = x
+        rect.y = y
+        rect.width = rect.height = 0
+        if not AXComponent.get_rect_intersection(extents, rect) and string != "\n":
             return "", 0, 0
 
         if not string.endswith("\n") or string == "\n":
@@ -4017,38 +3088,35 @@ class Utilities:
         if boundary == Atspi.TextBoundaryType.CHAR:
             return string, start, end
 
-        char = self.textAtPoint(obj, x, y, coordType, Atspi.TextBoundaryType.CHAR)
+        char = self.textAtPoint(obj, x, y, Atspi.TextBoundaryType.CHAR)
         if char[0] == "\n" and char[2] - char[1] == 1:
             return char
 
         return string, start, end
 
-    def visibleRows(self, obj, boundingbox):
+    def visibleRows(self, obj, table_rect):
         nRows = AXTable.get_row_count(obj)
 
         tokens = ["SCRIPT UTILITIES: ", obj, f"has {nRows} rows"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        x, y, width, height = boundingbox
-        cell = self.descendantAtPoint(obj, x, y + 1)
+        cell = AXComponent.get_descendant_at_point(obj, table_rect.x, table_rect.y + 1)
         row = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
         startIndex = max(0, row)
         tokens = ["SCRIPT UTILITIES: First cell:", cell, f"(row: {row}"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         # Just in case the row above is a static header row in a scrollable table.
-        try:
-            extents = cell.queryComponent().getExtents(Atspi.CoordType.SCREEN)
-        except Exception:
-            nextIndex = startIndex
-        else:
-            cell = self.descendantAtPoint(obj, x, y + extents.height + 1)
-            row, AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
-            nextIndex = max(startIndex, row)
-            tokens = ["SCRIPT UTILITIES: Next cell:", cell, f"(row: {row})"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        cell_rect = AXComponent.get_rect(cell)
+        cell = AXComponent.get_descendant_at_point(
+            obj, table_rect.x, table_rect.y + cell_rect.height + 1)
+        row, AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
+        nextIndex = max(startIndex, row)
+        tokens = ["SCRIPT UTILITIES: Next cell:", cell, f"(row: {row})"]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        cell = self.descendantAtPoint(obj, x, y + height - 1)
+        cell = AXComponent.get_descendant_at_point(
+            obj, table_rect.x, table_rect.y + table_rect.height - 1)
         row = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
         tokens = ["SCRIPT UTILITIES: Last cell:", cell, f"(row: {row})"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -4064,18 +3132,10 @@ class Utilities:
         return rows
 
     def getVisibleTableCells(self, obj):
-        if not (AXObject.supports_table(obj) and AXObject.supports_component(obj)):
+        if not AXObject.supports_table(obj):
             return []
 
-        try:
-            component = obj.queryComponent()
-            extents = component.getExtents(Atspi.CoordType.SCREEN)
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception getting extents of", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return []
-
-        rows = self.visibleRows(obj, extents)
+        rows = self.visibleRows(obj, AXComponent.get_rect(obj))
         if not rows:
             return []
 
@@ -4114,20 +3174,13 @@ class Utilities:
         if not self.isSpreadSheetCell(obj):
             return startIndex, endIndex
 
-        try:
-            component = table.queryComponent()
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception querying component interface of", table]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return startIndex, endIndex
-
-        x, y, width, height = component.getExtents(Atspi.CoordType.SCREEN)
-        cell = component.getAccessibleAtPoint(x+1, y, Atspi.CoordType.SCREEN)
+        rect = AXComponent.get_rect(table)
+        cell = AXComponent.get_descendant_at_point(table, rect.x + 1, rect.y)
         if cell:
             column = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[1]
             startIndex = column
 
-        cell = component.getAccessibleAtPoint(x+width-1, y, Atspi.CoordType.SCREEN)
+        cell = AXComponent.get_descendant_at_point(table, rect.x + rect.width - 1, rect.y)
         if cell:
             column = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[1]
             endIndex = column + 1
@@ -4155,56 +3208,6 @@ class Utilities:
 
         return cells
 
-    def isShowingAndVisible(self, obj):
-        if AXUtilities.is_showing(obj) and AXUtilities.is_visible(obj):
-            return True
-
-        # TODO - JD: This really should be in the toolkit scripts. But it
-        # seems to be present in multiple toolkits, so it's either being
-        # inherited (e.g. from Gtk in Firefox Chrome, LO, Eclipse) or it
-        # may be an AT-SPI2 bug. For now, handling it here.
-        menuRoles = [Atspi.Role.MENU,
-                     Atspi.Role.MENU_ITEM,
-                     Atspi.Role.CHECK_MENU_ITEM,
-                     Atspi.Role.RADIO_MENU_ITEM,
-                     Atspi.Role.SEPARATOR]
-        if AXObject.get_role(obj) in menuRoles and self.isInOpenMenuBarMenu(obj):
-            tokens = ["HACK: Treating", obj, "as showing and visible"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return True
-
-        return False
-
-    def isZombie(self, obj):
-        index = AXObject.get_index_in_parent(obj)
-        topLevelRoles = [Atspi.Role.APPLICATION,
-                         Atspi.Role.ALERT,
-                         Atspi.Role.DIALOG,
-                         Atspi.Role.LABEL, # For Unity Panel Service bug
-                         Atspi.Role.PAGE, # For Evince bug
-                         Atspi.Role.WINDOW,
-                         Atspi.Role.FRAME]
-        role = AXObject.get_role(obj)
-        tokens = ["SCRIPT UTILITIES: ", obj, "is zombie:"]
-        if index == -1 and role not in topLevelRoles:
-            tokens.append("index is -1")
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return True
-        if AXUtilities.is_defunct(obj):
-            tokens.append("is defunct")
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return True
-        if AXUtilities.is_invalid_state(obj):
-            tokens.append("has invalid state")
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return True
-        if AXUtilities.is_invalid_role(obj):
-            tokens.append("has invalid role")
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return True
-
-        return False
-
     def findReplicant(self, root, obj):
         tokens = ["SCRIPT UTILITIES: Searching for replicant for", obj, "in", root]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -4222,7 +3225,7 @@ class Utilities:
         else:
             replicant = AXObject.find_descendant(root, isSame)
 
-        tokens = ["HACK: Returning", replicant, "as replicant for Zombie", obj]
+        tokens = ["HACK: Returning", replicant, "as replicant for invalid object", obj]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return replicant
 
@@ -4281,7 +3284,7 @@ class Utilities:
             layoutRoles = [Atspi.Role.SEPARATOR, Atspi.Role.TEAROFF_MENU_ITEM]
 
             def isNotLayoutOnly(x):
-                return not (self.isZombie(x) or AXObject.get_role(x) in layoutRoles)
+                return AXObject.is_valid(x) and AXObject.get_role(x) not in layoutRoles
 
             siblings = list(filter(isNotLayoutOnly, siblings))
 
@@ -4332,19 +3335,8 @@ class Utilities:
         return start, end, string
 
     def updateCachedTextSelection(self, obj):
-        try:
-            text = obj.queryText()
-        except NotImplementedError:
-            tokens = ["SCRIPT UTILITIES:", obj, "doesn't implement AtspiText"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            text = None
-        except Exception:
-            tokens = ["SCRIPT UTILITIES: Exception querying text interface for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            text = None
-
         if self._script.pointOfReference.get('entireDocumentSelected'):
-            selectedText, selectedStart, selectedEnd = self.allSelectedText(obj)
+            selectedText = self.allSelectedText(obj)[0]
             if not selectedText:
                 self._script.pointOfReference['entireDocumentSelected'] = False
                 self._script.pointOfReference['textSelections'] = {}
@@ -4358,19 +3350,7 @@ class Utilities:
             for x in [k for k in textSelections.keys() if textSelections.get(k) == value]:
                 textSelections.pop(x)
 
-        # TODO: JD - this doesn't yet handle the case of multiple non-contiguous
-        # selections in a single accessible object.
-        start, end, string = 0, 0, ''
-        if text:
-            try:
-                start, end = text.getSelection(0)
-            except Exception:
-                tokens = ["SCRIPT UTILITIES: Exception getting selected text for", obj]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                start = end = 0
-            if start != end:
-                string = text.getText(start, end)
-
+        string, start, end = AXText.get_selected_text(obj)
         tokens = ["SCRIPT UTILITIES: New selection for", obj, f"is '{string}' ({start}, {end})"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         textSelections[hash(obj)] = start, end, string
@@ -4874,7 +3854,7 @@ class Utilities:
         if not contents:
             return False
 
-        string, start, end = self.selectedText(obj)
+        string, start, end = AXText.get_selected_text(obj)
         if string and string in contents:
             return True
 
@@ -4936,6 +3916,12 @@ class Utilities:
                 self._script.pointOfReference['paste'] = True
             return True
 
+        return False
+
+    def eventIsCanvasNoise(self, event):
+        return False
+
+    def eventIsSpinnerNoise(self, event):
         return False
 
     def eventIsUserTriggered(self, event):
@@ -5039,21 +4025,20 @@ class Utilities:
                 if oldString.endswith(self.EMBEDDED_OBJECT_CHARACTER) and oldEnd == changeStart:
                     # There's a possibility that we have a link spanning multiple lines. If so,
                     # we want to present the continuation that just became selected.
-                    child = self.getChildAtOffset(obj, oldEnd - 1)
+                    child = AXHypertext.get_child_at_offset(obj, oldEnd - 1)
                     self.handleTextSelectionChange(child, False)
             else:
                 changes.append([changeStart, changeEnd, messages.TEXT_UNSELECTED])
                 if newString.endswith(self.EMBEDDED_OBJECT_CHARACTER):
                     # There's a possibility that we have a link spanning multiple lines. If so,
                     # we want to present the continuation that just became unselected.
-                    child = self.getChildAtOffset(obj, newEnd - 1)
+                    child = AXHypertext.get_child_at_offset(obj, newEnd - 1)
                     self.handleTextSelectionChange(child, False)
 
         speakMessage = speakMessage \
             and not settings_manager.getManager().getSetting('onlySpeakDisplayedText')
-        text = obj.queryText()
         for start, end, message in changes:
-            string = text.getText(start, end)
+            string = AXText.get_substring(obj, start, end)
             endsWithChild = string.endswith(self.EMBEDDED_OBJECT_CHARACTER)
             if endsWithChild:
                 end -= 1
@@ -5063,7 +4048,7 @@ class Utilities:
                 self._script.speakMessage(message, interrupt=False)
 
             if endsWithChild:
-                child = self.getChildAtOffset(obj, end)
+                child = AXHypertext.get_child_at_offset(obj, end)
                 self.handleTextSelectionChange(child, speakMessage)
 
         return True
@@ -5163,9 +4148,11 @@ class Utilities:
             return False
 
         if AXObject.is_ancestor(newLocusOfFocus, oldLocusOfFocus):
-            msg += "old locusOfFocus is ancestor of new locusOfFocus"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return False
+            if AXObject.get_name(oldLocusOfFocus):
+                msg += "old locusOfFocus is ancestor with name of new locusOfFocus"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return False
+            return True
 
         def isOld(target):
             return target == oldLocusOfFocus

@@ -40,10 +40,10 @@ import orca.input_event as input_event
 import orca.messages as messages
 import orca.settings as settings
 import orca.settings_manager as settings_manager
-import orca.speechserver as speechserver
-import orca.orca_state as orca_state
 import orca.speech as speech
 import orca.structural_navigation as structural_navigation
+
+from orca.ax_component import AXComponent
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
 
@@ -442,150 +442,6 @@ class Script(default.Script):
         speech.sayAll(self.textLines(obj, offset), self.__sayAllProgressCallback)
         return True
 
-    def getTextSegments(self, obj, boundary, offset=0):
-        segments = []
-        text = obj.queryText()
-        length = text.characterCount
-        string, start, end = text.getTextAtOffset(offset, boundary)
-        while string and offset < length:
-            string = self.utilities.adjustForRepeats(string)
-            voice = self.speechGenerator.getVoiceForString(obj, string)
-            string = self.utilities.adjustForLinks(obj, string, start)
-            # Incrementing the offset should cause us to eventually reach
-            # the end of the text as indicated by a 0-length string and
-            # start and end offsets of 0. Sometimes WebKitGtk returns the
-            # final text segment instead.
-            if segments and [string, start, end, voice] == segments[-1]:
-                break
-
-            segments.append([string, start, end, voice])
-            offset = end + 1
-            string, start, end = text.getTextAtOffset(offset, boundary)
-        return segments
-
-    def textLines(self, obj, offset=None):
-        """Creates a generator that can be used to iterate over each line
-        of a text object, starting at the caret offset.
-
-        Arguments:
-        - obj: an Accessible that has a text specialization
-
-        Returns an iterator that produces elements of the form:
-        [SayAllContext, acss], where SayAllContext has the text to be
-        spoken and acss is an ACSS instance for speaking the text.
-        """
-
-        self._sayAllIsInterrupted = False
-        self._inSayAll = False
-        if not obj:
-            return
-
-        if AXObject.get_role(obj) == Atspi.Role.LINK:
-            obj = AXObject.get_parent(obj)
-
-        document = self.utilities.getDocumentForObject(obj)
-        if not document or AXUtilities.is_busy(document):
-            return
-
-        allTextObjs = self.utilities.findAllDescendants(
-            document, lambda x: AXObject.supports_text(x))
-        allTextObjs = allTextObjs[allTextObjs.index(obj):len(allTextObjs)]
-        textObjs = [x for x in allTextObjs if AXObject.get_parent(x) not in allTextObjs]
-        if not textObjs:
-            return
-
-        boundary = Atspi.TextBoundaryType.LINE_START
-        sayAllStyle = settings_manager.getManager().getSetting('sayAllStyle')
-        if sayAllStyle == settings.SAYALL_STYLE_SENTENCE:
-            boundary = Atspi.TextBoundaryType.SENTENCE_START
-
-        voices = settings_manager.getManager().getSetting('voices')
-        systemVoice = voices.get(settings.SYSTEM_VOICE)
-
-        self._inSayAll = True
-        offset = textObjs[0].queryText().caretOffset
-        for textObj in textObjs:
-            textSegments = self.getTextSegments(textObj, boundary, offset)
-            roleName = self.speechGenerator.getRoleName(textObj)
-            if roleName:
-                textSegments.append([roleName, 0, -1, systemVoice])
-
-            for (string, start, end, voice) in textSegments:
-                context = speechserver.SayAllContext(textObj, string, start, end)
-                self._sayAllContexts.append(context)
-                self.eventSynthesizer.scroll_into_view(obj, start, end)
-                yield [context, voice]
-
-            offset = 0
-
-        self._inSayAll = False
-        self._sayAllContexts = []
-
-    def __sayAllProgressCallback(self, context, progressType):
-        if progressType == speechserver.SayAllContext.PROGRESS:
-            focus_manager.getManager().emit_region_changed(
-                context.obj, context.currentOffset, context.currentEndOffset,
-                focus_manager.SAY_ALL)
-            return
-
-        obj = context.obj
-        focus_manager.getManager().set_locus_of_focus(None, obj, notify_script=False)
-
-        offset = context.currentOffset
-        text = obj.queryText()
-
-        if progressType == speechserver.SayAllContext.INTERRUPTED:
-            self._sayAllIsInterrupted = True
-            if isinstance(orca_state.lastInputEvent, input_event.KeyboardEvent):
-                lastKey = orca_state.lastInputEvent.event_string
-                if lastKey == "Down" and self._fastForwardSayAll(context):
-                    return
-                elif lastKey == "Up" and self._rewindSayAll(context):
-                    return
-
-            self._inSayAll = False
-            self._sayAllContexts = []
-            if not self.structuralNavigation.last_input_event_was_navigation_command():
-                text.setCaretOffset(offset)
-            focus_manager.getManager().emit_region_changed(obj, offset)
-            return
-
-        # SayAllContext.COMPLETED doesn't necessarily mean done with SayAll;
-        # just done with the current object. If we're still in SayAll, we do
-        # not want to set the caret (and hence set focus) in a link we just
-        # passed by.
-        try:
-            hypertext = obj.queryHypertext()
-        except NotImplementedError:
-            pass
-        else:
-            linkCount = hypertext.getNLinks()
-            links = [hypertext.getLink(x) for x in range(linkCount)]
-            if [link for link in links if link.startIndex <= offset <= link.endIndex]:
-                return
-
-        focus_manager.getManager().emit_region_changed(obj, offset, mode=focus_manager.SAY_ALL)
-        text.setCaretOffset(offset)
-
-    def getTextLineAtCaret(self, obj, offset=None, startOffset=None, endOffset=None):
-        """To-be-removed. Returns the string, caretOffset, startOffset."""
-
-        textLine = super().getTextLineAtCaret(obj, offset, startOffset, endOffset)
-        string = textLine[0]
-        if string and string.find(self.EMBEDDED_OBJECT_CHARACTER) == -1 \
-           and AXUtilities.is_focused(obj):
-            return textLine
-
-        textLine[0] = self.utilities.displayedText(obj)
-        try:
-            text = obj.queryText()
-        except Exception:
-            pass
-        else:
-            textLine[1] = min(textLine[1], text.characterCount)
-
-        return textLine
-
     def updateBraille(self, obj, **args):
         """Updates the braille display to show the given object.
 
@@ -609,7 +465,7 @@ class Script(default.Script):
 
         brailleLine = self.getNewBrailleLine(clearBraille=True, addLine=True)
         for child in AXObject.iter_children(obj):
-            if not self.utilities.onSameLine(child, AXObject.get_child(obj, 0)):
+            if not AXComponent.on_same_line(child, AXObject.get_child(obj, 0)):
                 break
             [regions, fRegion] = self.brailleGenerator.generateBraille(child)
             self.addBrailleRegionsToLine(regions, brailleLine)

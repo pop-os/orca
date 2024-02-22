@@ -47,7 +47,9 @@ from . import settings
 from . import settings_manager
 
 from .ax_event_synthesizer import AXEventSynthesizer
+from .ax_hypertext import AXHypertext
 from .ax_object import AXObject
+from .ax_text import AXText
 from .orca_platform import tablesdir
 
 _logger = logger.getLogger()
@@ -519,10 +521,7 @@ class Component(Region):
 
         script = script_manager.getManager().getActiveScript()
         if script and script.utilities.grabFocusBeforeRouting(self.accessible, offset):
-            try:
-                self.accessible.queryComponent().grabFocus()
-            except Exception:
-                pass
+            AXObject.grab_focus(self.accessible)
 
         if AXObject.do_action(self.accessible, 0):
             return
@@ -710,10 +709,8 @@ class Text(Region):
           unreasonable amount of time (AKA Gecko).
         """
 
-        try:
-            self.accessible.queryText()
-        except NotImplementedError:
-            return ''
+        if AXText.is_whitespace_or_empty(self.accessible):
+            return ""
 
         # Start with an empty mask.
         #
@@ -731,22 +728,14 @@ class Text(Region):
             return ""
 
         if getLinkMask and linkIndicator != settings.BRAILLE_UNDERLINE_NONE:
-            try:
-                hyperText = self.accessible.queryHypertext()
-                nLinks = hyperText.getNLinks()
-            except Exception:
-                nLinks = 0
-
-            n = 0
-            while n < nLinks:
-                link = hyperText.getLink(n)
-                if self.lineOffset <= link.startIndex:
-                    for i in range(link.startIndex, link.endIndex):
-                        try:
-                            regionMask[i] |= linkIndicator
-                        except Exception:
-                            pass
-                n += 1
+            links = AXHypertext.get_all_links(self.accessible)
+            for link in links:
+                startOffset = AXHypertext.get_link_start_offset(link)
+                endOffset = AXHypertext.get_link_end_offset(link)
+                maskStart = max(startOffset - self.lineOffset, 0)
+                maskEnd = min(endOffset - self.lineOffset, stringLength)
+                for i in range(maskStart, maskEnd):
+                  regionMask[i] |= linkIndicator
 
         if attrIndicator:
             keys, enabledAttributes = script.utilities.stringToKeysAndDict(
@@ -755,8 +744,7 @@ class Text(Region):
             offset = self.lineOffset
             while offset < lineEndOffset:
                 attributes, startOffset, endOffset = \
-                    script.utilities.textAttributes(self.accessible,
-                                                    offset, True)
+                    AXText.get_text_attributes_at_offset(self.accessible, offset)
                 if endOffset <= offset:
                     break
                 mask = settings.BRAILLE_UNDERLINE_NONE
@@ -773,7 +761,7 @@ class Text(Region):
                         regionMask[i] |= attrIndicator
 
         if selIndicator:
-            selections = script.utilities.allTextSelections(self.accessible)
+            selections = AXText.get_selected_ranges(self.accessible)
             for startOffset, endOffset in selections:
                 maskStart = max(startOffset - self.lineOffset, 0)
                 maskEnd = min(endOffset - self.lineOffset, stringLength)
@@ -1787,9 +1775,9 @@ def _processBrailleEvent(event):
             # the command was consumed.
             #
             consumed = _callback(event)
-        except Exception:
-            debug.printMessage(debug.LEVEL_WARNING, "Issue processing event:")
-            debug.printException(debug.LEVEL_WARNING)
+        except Exception as error:
+            msg = f"WARNING: Could not process braille event: {error}"
+            debug.printMessage(debug.LEVEL_WARNING, msg, True)
             consumed = False
 
     if settings.timeoutCallback and (settings.timeoutTime > 0):
@@ -1803,9 +1791,9 @@ def _brlAPIKeyReader(source, condition):
     """
     try:
         key = _brlAPI.readKey(False)
-    except Exception:
-        debug.printMessage(debug.LEVEL_WARNING, "BrlTTY seems to have disappeared:")
-        debug.printException(debug.LEVEL_WARNING)
+    except Exception as error:
+        msg = f"WARNING: Could not read BrlApi key: {error}"
+        debug.printMessage(debug.LEVEL_WARNING, msg, True)
         shutdown()
         return
     if key:
@@ -1951,10 +1939,9 @@ def init(callback=None):
         msg = "BRAILLE: Initialization failed: BrlApi is not defined."
         debug.printMessage(debug.LEVEL_WARNING, msg, True)
         return False
-    except Exception:
-        msg = "BRAILLE: Initialization failed."
+    except Exception as error:
+        msg = f"WARNING: Braille initialization failed: {error}"
         debug.printMessage(debug.LEVEL_WARNING, msg, True)
-        debug.printException(debug.LEVEL_WARNING)
 
         _brlAPIRunning = False
 

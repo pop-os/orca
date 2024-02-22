@@ -45,9 +45,11 @@ from . import settings
 from . import settings_manager
 from .ax_collection import AXCollection
 from .ax_event_synthesizer import AXEventSynthesizer
+from .ax_hypertext import AXHypertext
 from .ax_object import AXObject
 from .ax_selection import AXSelection
 from .ax_table import AXTable
+from .ax_text import AXText
 from .ax_utilities import AXUtilities
 
 ###########################################################################
@@ -873,7 +875,7 @@ class StructuralNavigation:
                 continue
 
             if AXObject.get_parent(match) == obj:
-                comparison = self._script.utilities.characterOffsetInParent(match) - offset
+                comparison = AXHypertext.get_character_offset_in_parent(match) - offset
             else:
                 path = AXObject.get_path(match)
                 comparison = self._script.utilities.pathComparison(path, currentPath)
@@ -1063,16 +1065,11 @@ class StructuralNavigation:
             if item:
                 text = AXObject.get_name(item)
         if not text and AXUtilities.is_image(obj):
-            try:
-                image = obj.queryImage()
-            except Exception:
-                text = AXObject.get_description(obj)
-            else:
-                text = image.imageDescription or AXObject.get_description(obj)
+            text = AXObject.get_image_description(obj) or AXObject.get_description(obj)
             if not text:
                 parent = AXObject.get_parent(obj)
                 if AXUtilities.is_link(parent):
-                    text = self._script.utilities.linkBasename(parent)
+                    text = AXHypertext.get_link_basename(parent)
         if not text and AXUtilities.is_list(obj):
             children = [x for x in AXObject.iter_children(obj, AXUtilities.is_list_item)]
             text = " ".join(list(map(self._getText, children)))
@@ -1302,13 +1299,13 @@ class StructuralNavigation:
         if AXUtilities.is_heading(obj):
             return True
 
-        text = self._script.utilities.queryNonEmptyText(obj)
-        if not (text and text.characterCount > settings.largeObjectTextLength):
+        length = AXText.get_character_count(obj)
+        if length < settings.largeObjectTextLength:
             return False
 
-        string = text.getText(0, -1)
+        string = AXText.get_all_text(obj)
         eocs = string.count(self._script.EMBEDDED_OBJECT_CHARACTER)
-        if eocs/text.characterCount < 0.05:
+        if eocs/length < 0.05:
             return True
 
         return False
@@ -1819,16 +1816,11 @@ class StructuralNavigation:
         def has_at_least_three_characters(obj):
             if AXUtilities.is_heading(obj):
                 return True
-
-            try:
-                text = obj.queryText()
-                # We're choosing 3 characters as the minimum because some
-                # paragraphs contain a single image or link and a text
-                # of length 2: An embedded object character and a space.
-                # We want to skip these.
-                return text.characterCount > 2
-            except Exception:
-                return False
+            # We're choosing 3 characters as the minimum because some
+            # paragraphs contain a single image or link and a text
+            # of length 2: An embedded object character and a space.
+            # We want to skip these.
+            return AXText.get_character_count(obj) > 2
 
         return AXUtilities.find_all_paragraphs(document, True, has_at_least_three_characters)
 
@@ -1937,18 +1929,7 @@ class StructuralNavigation:
         return bindings
 
     def _tableGetter(self, document, arg=None):
-        def is_not_layout_or_empty(obj):
-            if not AXObject.get_child_count(obj):
-                return False
-
-            # This should no longer be needed once Atspi 2.8.4 is released.
-            attrs = AXObject.get_attributes_dict(obj)
-            if attrs.get('layout-guess') == 'true':
-                return False
-
-            return AXTable.get_row_count(obj) > 0
-
-        return AXUtilities.find_all_tables(document, is_not_layout_or_empty)
+        return AXUtilities.find_all_tables(document)
 
     def _tablePresentation(self, obj, arg=None):
         if obj is not None:
@@ -2025,7 +2006,7 @@ class StructuralNavigation:
         columnHeaders.append(guilabels.SN_HEADER_URI)
 
         def rowData(obj):
-            return [self._getText(obj), self._script.utilities.uri(obj)]
+            return [self._getText(obj), AXHypertext.get_link_uri(obj)]
 
         return guilabels.SN_TITLE_UNVISITED_LINK, columnHeaders, rowData
 
@@ -2066,7 +2047,7 @@ class StructuralNavigation:
         columnHeaders.append(guilabels.SN_HEADER_URI)
 
         def rowData(obj):
-            return [self._getText(obj), self._script.utilities.uri(obj)]
+            return [self._getText(obj), AXHypertext.get_link_uri(obj)]
 
         return guilabels.SN_TITLE_VISITED_LINK, columnHeaders, rowData
 
@@ -2109,7 +2090,7 @@ class StructuralNavigation:
         def rowData(obj):
             return [self._getText(obj),
                     self._getState(obj),
-                    self._script.utilities.uri(obj)]
+                    AXHypertext.get_link_uri(obj)]
 
         return guilabels.SN_TITLE_LINK, columnHeaders, rowData
 
