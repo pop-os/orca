@@ -8,7 +8,7 @@ Priority: optional
 Maintainer: Debian Accessibility Team <pkg-a11y-devel@alioth-lists.debian.net>
 Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>,
            Samuel Thibault <sthibault@debian.org>, Jordi Mallach <jordi@debian.org>, Josselin Mouette <joss@debian.org>, Michael Biebl <biebl@debian.org>
-Build-Depends: debhelper-compat (= 13),
+Build-Depends: debhelper-compat (= 13), meson, git,
                dh-sequence-python3,
                dh-sequence-gnome, gnome-pkg-tools,
                gettext,
@@ -18,9 +18,9 @@ Build-Depends: debhelper-compat (= 13),
                pkg-config,
                python3,
                python-gi-dev,
+               gir1.2-gtk-3.0,
                python3-brlapi,
                python3-louis, liblouis-dev,
-               python3-pyatspi,
                python3-speechd,
                yelp-tools
 Rules-Requires-Root: no
@@ -44,7 +44,6 @@ Depends: ${misc:Depends},
          python3-cairo,
          python3-gi,
          python3-louis,
-         python3-pyatspi,
          at-spi2-core (>= 2.50.0~),
          python3-speechd,
          speech-dispatcher,
