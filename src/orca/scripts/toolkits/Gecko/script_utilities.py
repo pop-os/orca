@@ -32,7 +32,6 @@ __license__   = "LGPL"
 
 import gi
 gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
 
 import re
 import time
@@ -41,6 +40,7 @@ from orca import debug
 from orca import focus_manager
 from orca import orca_state
 from orca.scripts import web
+from orca.ax_document import AXDocument
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
 
@@ -52,36 +52,6 @@ class Utilities(web.Utilities):
         self._lastAutoTextObjectEvent = None
         self._lastAutoTextInputEvent = None
         self._lastAutoTextEventTime = 0
-
-    def _attemptBrokenTextRecovery(self, obj, **args):
-        boundary = args.get('boundary')
-
-        # Gecko fails to implement this boundary type.
-        if boundary == Atspi.TextBoundaryType.SENTENCE_START:
-            return True
-
-        if self.isContentEditableWithEmbeddedObjects(obj):
-            return boundary == Atspi.TextBoundaryType.WORD_START
-
-        return True
-
-    def _treatAsLeafNode(self, obj):
-        if AXUtilities.is_table_row(obj):
-            return not AXObject.get_child_count(obj)
-
-        return super()._treatAsLeafNode(obj)
-
-    def containsPoint(self, obj, x, y, coordType, margin=2):
-        if not super().containsPoint(obj, x, y, coordType, margin):
-            return False
-
-        if (AXUtilities.is_menu(obj) or AXUtilities.is_tool_tip(obj)) \
-           and self.topLevelObject(obj) == AXObject.get_parent(obj):
-            tokens = ["GECKO:", obj, "is suspected to be off screen object"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
-        return True
 
     def isLayoutOnly(self, obj):
         if super().isLayoutOnly(obj):
@@ -105,19 +75,6 @@ class Utilities(web.Utilities):
         tokens = ["GECKO: Treating", obj1, "and", obj2, "as same object:", rv]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return rv
-
-    def isOnScreen(self, obj, boundingbox=None):
-        if not super().isOnScreen(obj, boundingbox):
-            return False
-        if not AXUtilities.is_unknown(obj):
-            return True
-
-        if self.topLevelObject(obj) == AXObject.get_parent(obj):
-            tokens = ["INFO:", obj, "is suspected to be off screen object"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
-        return True
 
     def getOnScreenObjects(self, root, extents=None):
         objects = super().getOnScreenObjects(root, extents)
@@ -157,19 +114,11 @@ class Utilities(web.Utilities):
         if "self-repair.mozilla.org" in name:
             return True
 
-        uri = self.documentFrameURI(obj)
+        uri = AXDocument.get_uri(obj)
         if uri.startswith("moz-extension"):
             return True
 
         if not uri and "pixels" in name:
-            return True
-
-        return False
-
-    def _objectMightBeBogus(self, obj):
-        if AXUtilities.is_section(obj) and AXUtilities.is_frame(AXObject.get_parent(obj)):
-            tokens = ["GECKO:", obj, "is believed to be a bogus object"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return True
 
         return False

@@ -40,6 +40,7 @@ import orca.script_utilities as script_utilities
 from orca.ax_object import AXObject
 from orca.ax_selection import AXSelection
 from orca.ax_table import AXTable
+from orca.ax_text import AXText
 from orca.ax_utilities import AXUtilities
 
 #############################################################################
@@ -140,12 +141,8 @@ class Utilities(script_utilities.Utilities):
             return False
 
         name = AXObject.get_name(obj1)
-        if name == AXObject.get_name(obj2):
-            if AXUtilities.is_frame(obj1):
-                return True
-            if AXUtilities.is_table_cell(obj1) and not name:
-                if self.isZombie(obj1) and self.isZombie(obj2):
-                    return False
+        if name == AXObject.get_name(obj2) and AXUtilities.is_frame(obj1):
+            return True
 
         return super().isSameObject(obj1, obj2, comparePaths, ignoreNames)
 
@@ -200,14 +197,10 @@ class Utilities(script_utilities.Utilities):
     def _flowsFromOrToSelection(obj):
         relationSet = AXObject.get_relations(obj)
         flows = [Atspi.RelationType.FLOWS_FROM, Atspi.RelationType.FLOWS_TO]
-        relations = filter(lambda r: r.getRelationType() in flows, relationSet)
-        targets = [r.getTarget(0) for r in relations]
+        relations = filter(lambda r: r.get_relation_type() in flows, relationSet)
+        targets = [r.get_target(0) for r in relations]
         for target in targets:
-            try:
-                nSelections = target.queryText().getNSelections()
-            except Exception:
-                return False
-            if nSelections:
+            if AXText.has_selected_text(target):
                 return True
 
         return False
@@ -319,7 +312,7 @@ class Utilities(script_utilities.Utilities):
         positionAndCount = AXObject.get_name(dv).split(":")[1]
         position, count = positionAndCount.split("/")
         title = ""
-        for child in dv:
+        for child in enumerate(AXObject.iter_children(dv)):
             childCount = AXObject.get_child_count(child)
             if not childCount:
                 continue
@@ -367,13 +360,8 @@ class Utilities(script_utilities.Utilities):
             if lastKey in ["BackSpace", "ISO_Left_Tab"]:
                 return True
 
-        if event.type.startswith("focus:"):
-            if lastKey == "Return":
-                try:
-                    charCount = event.source.queryText().characterCount
-                except Exception:
-                    charCount = 0
-                return charCount > 0
+        if event.type.startswith("focus:") and lastKey == "Return":
+            return AXText.get_character_count(event.source) > 0
 
         return False
 
@@ -386,7 +374,7 @@ class Utilities(script_utilities.Utilities):
         if not comboBox:
             return None
 
-        if not self.isZombie(comboBox):
+        if AXObject.is_valid(comboBox):
             return comboBox
 
         parent = AXObject.get_parent(comboBox)
@@ -394,7 +382,7 @@ class Utilities(script_utilities.Utilities):
             return comboBox
 
         replicant = self.findReplicant(parent, comboBox)
-        if replicant and not self.isZombie(replicant):
+        if replicant and AXObject.is_valid(replicant):
             comboBox = replicant
 
         return comboBox
@@ -465,24 +453,15 @@ class Utilities(script_utilities.Utilities):
             return super().selectedChildren(obj)
 
         # We will need to special case this due to the possibility of there
-        # being lots of children (which may also prove to be zombie objects).
+        # being lots of children (which may also prove to be invalid objects).
         # This is why we can't have nice things.
         if self.isSpreadSheetTable(obj):
             return []
 
         return AXSelection.get_selected_children(obj)
 
-    def getFirstCaretPosition(self, obj):
-        try:
-            obj.queryText()
-        except Exception:
-            if AXObject.get_child_count(obj):
-                return self.getFirstCaretPosition(AXObject.get_child(obj, 0))
-
-        return obj, 0
-
     def getWordAtOffsetAdjustedForNavigation(self, obj, offset=None):
-        return self.getWordAtOffset(obj, offset)
+        return AXText.get_word_at_offset(obj, offset)
 
     def shouldReadFullRow(self, obj, prevObj=None):
         if self._script.getTableNavigator().last_input_event_was_navigation_command():

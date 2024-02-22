@@ -1,4 +1,4 @@
-# Orca v46.alpha
+# Orca v46.beta
 
 [TOC]
 
@@ -28,6 +28,7 @@ infrastructure and application bug fixes that help Orca work better.
 
 Orca also has the following dependencies:
 
+* meson            - The build system used by Orca
 * Python 3         - Python platform
 * pygobject-3.0    - Python bindings for the GObject library
 * gtk+-3.0         - GTK+ toolkit
@@ -54,6 +55,30 @@ python -c "import brlapi"
 ```
 
 If you get an error, the Python bindings for BrlAPI are not installed.
+
+## Building and Installing Orca
+
+If you want to build Orca in a directory called `_build` and install Orca using
+your distro's default location (e.g `/usr/local`):
+
+```sh
+meson setup _build
+meson compile -C _build
+meson install -C _build
+```
+
+The installer will prompt you for `sudo` permission if needed.
+
+To specify an alternative install location, use `-D prefix=` during setup
+(e.g. `meson setup -D prefix=$HOME/orca-test _build`).
+
+To rebuild, either remove the build directory you created before (e.g. `_build`)
+or add the `--reconfigure` flag to the end of your existing `meson setup` command.
+
+To uninstall, `cd` into the build directory you created and use `ninja uninstall`,
+or `sudo ninja uninstall` if you had installed Orca with `sudo` permission.
+Note that this will not remove the bytecode files in `__pycache__`. See this
+[meson issue](https://github.com/mesonbuild/meson/issues/12798).
 
 ## Running Orca
 
@@ -156,9 +181,74 @@ app.connect("activate", on_activate)
 app.run(None)
 ```
 
+You can fire the announcement signal in GTK 4 starting from 4.14 as well:
+
+```python
+#!/usr/bin/python3
+
+import gi
+gi.require_version("Gtk", "4.0")
+
+from gi.repository import Gtk
+
+def on_button_clicked(button):
+    button.announce("Hello world. I am a notification.", Gtk.AccessibleAnnouncementPriority.MEDIUM)
+
+def on_activate(application):
+    window = Gtk.ApplicationWindow(application=application)
+    button = Gtk.Button(label="Make a notification")
+    button.connect("clicked", on_button_clicked)
+    window.set_child(button)
+    window.present()
+
+app = Gtk.Application()
+app.connect("activate", on_activate)
+app.run(None)
+```
+
+Note that in older GTK 4 releases there is no way how to do this, as you can't emit raw AT-SPI2 events, or do similar platform-specific things.
+
 **Please note:** Because "assertive" messages can be disruptive if presented at the wrong
 time, Orca *currently* treats an "assertive" notification from non-web applications the
 same as a regular/"polite" notification. Adding support for "assertive" notifications from non-web
 applications is planned and depends on Orca's
 [live-region support being made global](https://gitlab.gnome.org/GNOME/orca/-/issues/431)
 so that users have full control over when and how notifications are presented to them.
+
+## Experimental Features
+
+By default, Orca uses speech-dispatcher for its TTS support. In addition, there is
+basic support for [Spiel](https://github.com/eeejay/spiel) which allows choosing
+voices from multiple synthesizers, currently including eSpeak and Piper.
+
+To test Spiel, configure Orca to build from the latest source:
+
+```
+meson setup --force-fallback-for=spiel -Dspiel=true _build
+meson compile -C _build
+meson install -C _build
+```
+
+If you have existing build directory, don't forget to use `--reconfigure`. If
+you have problems after an update, you may need to update and re-install:
+
+```
+meson subprojects update
+meson setup --reconfigure --force-fallback-for=spiel -Dspiel=true _build 
+meson compile --clean -C _build
+meson install -C _build
+
+# Ensure any old Spiel providers get restarted
+flatpak kill ai.piper.Speech.Provider
+flatpak kill org.espeak.Speech.Provider
+```
+
+Then install the Flatpak for one or more providers:
+
+* [eSpeak](https://eeejay.github.io/spiel-demos/espeak.flatpakref)
+* [Piper](https://eeejay.github.io/spiel-demos/piper.flatpakref)
+
+To switch from Speech Dispatcher to Spiel, use `orca --replace --speech-system=spiel`. Using
+this flag is highly recommended while Orca's Spiel support is experimental. If you would like
+to use Spiel by default, you can select it in Orca's Preferences dialog. To then switch back
+to Speech Dispatcher, use `orca --replace --speech-system=speechdispatcherfactory`.

@@ -47,8 +47,10 @@ from orca import speechserver
 from orca import structural_navigation
 from orca.acss import ACSS
 from orca.scripts import default
+from orca.ax_document import AXDocument
 from orca.ax_object import AXObject
 from orca.ax_table import AXTable
+from orca.ax_text import AXText
 from orca.ax_utilities import AXUtilities
 
 from .bookmarks import Bookmarks
@@ -109,8 +111,6 @@ class Script(default.Script):
         """Called when this script is deactivated."""
 
         self._sayAllContents = []
-        self._inSayAll = False
-        self._sayAllIsInterrupted = False
         self._loadingDocumentContent = False
         self._madeFindAnnouncement = False
         self._lastMouseButtonContext = None, -1
@@ -123,7 +123,7 @@ class Script(default.Script):
         self.structuralNavigation.suspend_commands(self, False, reason)
         self.liveRegionManager.suspend_commands(self, False, reason)
         self.tableNavigator.suspend_commands(self, False, reason)
-        self.removeKeyGrabs(reason)
+        super().deactivate()
 
     def getAppKeyBindings(self):
         """Returns the application-specific keybindings for this script."""
@@ -261,7 +261,7 @@ class Script(default.Script):
     def getCaretNavigation(self):
         """Returns the caret navigation support for this script."""
 
-        return caret_navigation.CaretNavigation(self)
+        return caret_navigation.CaretNavigation()
 
     def getEnabledStructuralNavigationTypes(self):
         """Returns the structural navigation object types for this script."""
@@ -515,11 +515,6 @@ class Script(default.Script):
         debug.printMessage(debug.LEVEL_INFO, msg, True)
         self.liveRegionManager.flushMessages()
 
-    def consumesBrailleEvent(self, brailleEvent):
-        """Returns True if the script will consume this braille event."""
-
-        return super().consumesBrailleEvent(brailleEvent)
-
     # TODO - JD: This needs to be moved out of the scripts.
     def textLines(self, obj, offset=None):
         """Creates a generator that can be used to iterate document content."""
@@ -623,18 +618,19 @@ class Script(default.Script):
     def presentFindResults(self, obj, offset):
         """Updates the context and presents the find results if appropriate."""
 
-        text = self.utilities.queryNonEmptyText(obj)
-        if not (text and text.getNSelections() > 0):
-            return
-
         document = self.utilities.getDocumentForObject(obj)
         if not document:
             return
 
-        context = self.utilities.getCaretContext(documentFrame=document)
-        start, end = text.getSelection(0)
+        start = AXText.get_selection_start_offset(obj)
+        if start < 0:
+            return
+
         offset = max(offset, start)
+        context = self.utilities.getCaretContext(documentFrame=document)
         self.utilities.setCaretContext(obj, offset, documentFrame=document)
+
+        end = AXText.get_selection_end_offset(obj)
         if end - start < settings_manager.getManager().getSetting('findResultsMinimumLength'):
             return
 
@@ -848,7 +844,7 @@ class Script(default.Script):
 
         contents = None
         if self.utilities.treatAsEndOfLine(obj, offset) and AXObject.supports_text(obj):
-            char = obj.queryText().getText(offset, offset + 1)
+            char = AXText.get_character_at_offset(offset)[0]
             if char == self.EMBEDDED_OBJECT_CHARACTER:
                 char = ""
             contents = [[obj, offset, offset + 1, char]]
@@ -948,8 +944,7 @@ class Script(default.Script):
     def updateBrailleForNewCaretPosition(self, obj):
         """Try to reposition the cursor without having to do a full update."""
 
-        text = self.utilities.queryNonEmptyText(obj)
-        if text and self.EMBEDDED_OBJECT_CHARACTER in text.getText(0, -1):
+        if "\ufffc" in AXText.get_all_text(obj):
             self.updateBraille(obj)
             return
 
@@ -963,7 +958,7 @@ class Script(default.Script):
             debug.printMessage(debug.LEVEL_INFO, "BRAILLE: disabled", True)
             return
 
-        if self._inFocusMode:
+        if self._inFocusMode and "\ufffc" not in AXText.get_all_text(obj):
             tokens = ["WEB: updating braille in focus mode", obj]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             super().updateBraille(obj, **args)
@@ -982,19 +977,20 @@ class Script(default.Script):
            and not self.structuralNavigation.last_input_event_was_navigation_command() \
            and not self.tableNavigator.last_input_event_was_navigation_command() \
            and not isContentEditable \
-           and not self.utilities.isPlainText() \
+           and not AXDocument.is_plain_text(document) \
            and not self.utilities.lastInputEventWasCaretNavWithSelection():
             tokens = ["WEB: updating braille for unhandled navigation type", obj]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             super().updateBraille(obj, **args)
             return
 
-        obj, offset = self.utilities.getCaretContext(
-            documentFrame=document, getZombieReplicant=True)
-        if offset > 0 and isContentEditable:
-            text = self.utilities.queryNonEmptyText(obj)
-            if text:
-                offset = min(offset, text.characterCount)
+        # TODO - JD: Getting the caret context can, by side effect, update it. This in turn
+        # can prevent us from presenting table column headers when braille is enabled because
+        # we think they are not "new." Commit bd877203f0 addressed that, but we need to stop
+        # such side effects from happening in the first place.
+        obj, offset = self.utilities.getCaretContext(documentFrame=document, getReplicant=True)
+        if offset > 0 and isContentEditable and self.utilities.treatAsTextObject(obj):
+            offset = min(offset, AXText.get_character_count(obj))
 
         contents = self.utilities.getLineContentsAtOffset(obj, offset)
         self.displayContents(contents, documentFrame=document)
@@ -1082,15 +1078,12 @@ class Script(default.Script):
            or self.utilities.isFocusModeWidget(obj):
             return super().getTextLineAtCaret(obj, offset, startOffset, endOffset)
 
-        text = self.utilities.queryNonEmptyText(obj)
         if offset is None:
-            try:
-                offset = max(0, text.caretOffset)
-            except Exception:
-                offset = 0
+            offset = max(0, AXText.get_caret_offset(obj))
 
-        if text and startOffset is not None and endOffset is not None:
-            return text.getText(startOffset, endOffset), offset, startOffset
+        if self.utilities.treatAsTextObject(obj) \
+           and startOffset is not None and endOffset is not None:
+            return AXText.get_substring(obj, startOffset, endOffset), offset, startOffset
 
         contextObj, contextOffset = self.utilities.getCaretContext(documentFrame=None)
         if contextObj == obj:
@@ -1131,7 +1124,7 @@ class Script(default.Script):
             return
 
         if AXUtilities.is_focusable(obj):
-            obj.queryComponent().grabFocus()
+            AXObject.grab_focus(obj)
 
         contents = self.utilities.getObjectContentsAtOffset(obj, offset)
         self.utilities.setCaretPosition(obj, offset)
@@ -1199,7 +1192,7 @@ class Script(default.Script):
                     or self.structuralNavigation.last_input_event_was_navigation_command() \
                     or self.tableNavigator.last_input_event_was_navigation_command() \
                     or inputEvent):
-                self.utilities.grabFocus(obj)
+                AXObject.grab_focus(obj)
 
             self.presentMessage(messages.MODE_FOCUS)
         self._inFocusMode = not self._inFocusMode
@@ -1218,7 +1211,7 @@ class Script(default.Script):
         tokens = ["WEB: Focus changing from", oldFocus, "to", newFocus]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        if newFocus and self.utilities.isZombie(newFocus):
+        if newFocus and not AXObject.is_valid(newFocus):
             return True
 
         if newFocus and AXObject.is_dead(newFocus):
@@ -1249,7 +1242,7 @@ class Script(default.Script):
            or (self.utilities.isDocument(newFocus) \
                and oldFocus == focus_manager.getManager().get_active_window()):
             contextObj, contextOffset = self.utilities.getCaretContext(documentFrame=document)
-            if contextObj and not self.utilities.isZombie(contextObj):
+            if contextObj and AXObject.is_valid(contextObj):
                 newFocus, caretOffset = contextObj, contextOffset
 
         if AXUtilities.is_unknown_or_redundant(newFocus):
@@ -1257,9 +1250,10 @@ class Script(default.Script):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             newFocus, offset = self.utilities.findFirstCaretContext(newFocus, 0)
 
-        text = self.utilities.queryNonEmptyText(newFocus)
-        if text and (0 <= text.caretOffset <= text.characterCount):
-            caretOffset = text.caretOffset
+        if self.utilities.treatAsTextObject(newFocus):
+            textOffset = AXText.get_caret_offset(newFocus)
+            if 0 <= textOffset <= AXText.get_character_count(newFocus):
+                caretOffset = textOffset
 
         self.utilities.setCaretContext(newFocus, caretOffset, document)
         self.updateBraille(newFocus, documentFrame=document)
@@ -1309,8 +1303,8 @@ class Script(default.Script):
             tokens = ["WEB: New focus", newFocus,
                       "is recovery from removed child. Generating speech."]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        elif self.utilities.lastInputEventWasLineNav() and self.utilities.isZombie(oldFocus):
-            msg = "WEB: Last input event was line nav; oldFocus is zombie. Generating line."
+        elif self.utilities.lastInputEventWasLineNav() and not AXObject.is_valid(oldFocus):
+            msg = "WEB: Last input event was line nav; oldFocus is invalid. Generating line."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
         elif self.utilities.lastInputEventWasLineNav() and event \
@@ -1318,6 +1312,7 @@ class Script(default.Script):
             msg = "WEB: Last input event was line nav and children changed. Generating line."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(newFocus, caretOffset)
+            args['priorObj'] = oldFocus
         else:
             tokens = ["WEB: New focus", newFocus, "is not a special case. Generating speech."]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -1417,7 +1412,7 @@ class Script(default.Script):
             return True
 
         obj, offset = self.utilities.getCaretContext()
-        if not obj or self.utilities.isZombie(obj):
+        if not AXObject.is_valid(obj):
             self.utilities.clearCaretContext()
 
         shouldPresent = True
@@ -1425,11 +1420,11 @@ class Script(default.Script):
             shouldPresent = False
             msg = "WEB: Not presenting because source is not showing or visible"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
-        elif not self.utilities.documentFrameURI(event.source):
+        elif not AXDocument.get_uri(event.source):
             shouldPresent = False
             msg = "WEB: Not presenting because source lacks URI"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
-        elif not event.detail1 and self._inFocusMode and not self.utilities.isZombie(obj):
+        elif not event.detail1 and self._inFocusMode and AXObject.is_valid(obj):
             shouldPresent = False
             tokens = ["WEB: Not presenting due to focus mode for", obj]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -1465,10 +1460,9 @@ class Script(default.Script):
             return True
 
         if settings_manager.getManager().getSetting('pageSummaryOnLoad') and shouldPresent:
-            obj = obj or event.source
-            tokens = ["WEB: Getting page summary for obj", obj]
+            tokens = ["WEB: Getting page summary for", event.source]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            summary = self.utilities.getPageSummary(obj)
+            summary = AXDocument.get_document_summary(event.source)
             if summary:
                 self.presentMessage(summary)
 
@@ -1513,7 +1507,7 @@ class Script(default.Script):
             focus_manager.getManager().set_locus_of_focus(event, obj, False)
 
         self.updateBraille(obj)
-        if self.utilities.documentFragment(event.source):
+        if AXDocument.get_document_uri_fragment(event.source):
             msg = "WEB: Not doing SayAll due to page fragment"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
         elif not settings_manager.getManager().getSetting('sayAllOnLoad'):
@@ -1535,8 +1529,8 @@ class Script(default.Script):
 
         self.utilities.sanityCheckActiveWindow()
 
-        if self.utilities.isZombie(event.source):
-            msg = "WEB: Event source is Zombie"
+        if not AXObject.is_valid(event.source):
+            msg = "WEB: Event source is not valid"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -1656,7 +1650,7 @@ class Script(default.Script):
             self._presentTextAtNewCaretPosition(event)
             return True
 
-        if not self.utilities.queryNonEmptyText(event.source) \
+        if not self.utilities.treatAsTextObject(event.source) \
            and not AXUtilities.is_editable(event.source):
             msg = "WEB: Event ignored: Was for non-editable object we're treating as textless"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -1740,15 +1734,15 @@ class Script(default.Script):
         if document and not isLiveRegion:
             focus = focus_manager.getManager().get_locus_of_focus()
             if event.source == focus:
-                msg = "WEB: Dumping cache and context: source is focus"
+                msg = "WEB: Dumping cache: source is focus"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
-                self.utilities.dumpCache(document, preserveContext=False)
+                self.utilities.dumpCache(document, preserveContext=True)
             elif focus_manager.getManager().focus_is_dead():
                 msg = "WEB: Dumping cache: dead focus"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 self.utilities.dumpCache(document, preserveContext=True)
             elif AXObject.find_ancestor(focus, lambda x: x == event.source):
-                msg = "WEB: Dumping cache and context: source is ancestor of focus"
+                msg = "WEB: Dumping cache: source is ancestor of focus"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 self.utilities.dumpCache(document, preserveContext=True)
             else:
@@ -1775,8 +1769,8 @@ class Script(default.Script):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
-        if self.utilities.isZombie(document):
-            tokens = ["WEB: Ignoring because", document, "is zombified."]
+        if not AXObject.is_valid(document):
+            tokens = ["WEB: Ignoring because", document, "is not valid."]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return True
 
@@ -1785,8 +1779,8 @@ class Script(default.Script):
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return True
 
-        if not event.any_data or self.utilities.isZombie(event.any_data):
-            msg = "WEB: Ignoring because any data is null or zombified."
+        if not AXObject.is_valid(event.any_data):
+            msg = "WEB: Ignoring because any data is not valid."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -1807,7 +1801,7 @@ class Script(default.Script):
 
             focused = AXUtilities.get_focused_object(event.any_data)
             if focused:
-                notify = self.utilities.queryNonEmptyText(focused) is None
+                notify = not self.utilities.treatAsTextObject(focused)
                 tokens = ["WEB: Setting locusOfFocus and caret context to", focused]
                 debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 focus_manager.getManager().set_locus_of_focus(event, focused, notify)
@@ -1855,15 +1849,15 @@ class Script(default.Script):
         if document:
             focus = focus_manager.getManager().get_locus_of_focus()
             if event.source == focus:
-                msg = "WEB: Dumping cache and context: source is focus"
+                msg = "WEB: Dumping cache: source is focus"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
-                self.utilities.dumpCache(document, preserveContext=False)
+                self.utilities.dumpCache(document, preserveContext=True)
             elif focus_manager.getManager().focus_is_dead():
                 msg = "WEB: Dumping cache: dead focus"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 self.utilities.dumpCache(document, preserveContext=True)
             elif AXObject.find_ancestor(focus, lambda x: x == event.source):
-                msg = "WEB: Dumping cache and context: source is ancestor of focus"
+                msg = "WEB: Dumping cache: source is ancestor of focus"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 self.utilities.dumpCache(document, preserveContext=True)
             else:
@@ -1943,8 +1937,8 @@ class Script(default.Script):
     def onExpandedChanged(self, event):
         """Callback for object:state-changed:expanded accessibility events."""
 
-        if self.utilities.isZombie(event.source):
-            msg = "WEB: Event source is Zombie"
+        if not AXObject.is_valid(event.source):
+            msg = "WEB: Event source is not valid"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -1957,7 +1951,7 @@ class Script(default.Script):
         obj, offset = self.utilities.getCaretContext(searchIfNeeded=False)
         tokens = ["WEB: Caret context is", obj, ", ", offset]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        if not obj or self.utilities.isZombie(obj) and event.source == focus:
+        if not AXObject.is_valid(obj) and event.source == focus:
             msg = "WEB: Setting caret context to event source"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self.utilities.setCaretContext(event.source, 0)
@@ -1983,8 +1977,8 @@ class Script(default.Script):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
-        if self.utilities.isZombie(event.source):
-            msg = "WEB: Event source is Zombie"
+        if not AXObject.is_valid(event.source):
+            msg = "WEB: Event source is not valid"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -2035,8 +2029,8 @@ class Script(default.Script):
         tokens = ["WEB: Caret context is", obj, ", ", offset]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        if not obj or self.utilities.isZombie(obj) or prevDocument != document:
-            tokens = ["WEB: Clearing context - obj", obj, "is null or zombie or document changed"]
+        if not AXObject.is_valid(obj) or prevDocument != document:
+            tokens = ["WEB: Clearing context - obj", obj, "is not valid or document changed"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             self.utilities.clearCaretContext()
 
@@ -2083,7 +2077,7 @@ class Script(default.Script):
             return False
 
         if not obj:
-            msg = "WEB: Unable to get non-null, non-zombie context object"
+            msg = "WEB: Unable to get valid context object"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
@@ -2109,7 +2103,7 @@ class Script(default.Script):
             cause = "Context is not a non-focused link"
         elif self.utilities.isChildOfCurrentFragment(obj):
             cause = "Context is child of current fragment"
-        elif document == event.source and self.utilities.documentFragment(event.source):
+        elif document == event.source and AXDocument.get_document_uri_fragment(event.source):
             cause = "Document URI is fragment"
         else:
             return False
@@ -2268,8 +2262,8 @@ class Script(default.Script):
     def onTextDeleted(self, event):
         """Callback for object:text-changed:delete accessibility events."""
 
-        if self.utilities.isZombie(event.source):
-            msg = "WEB: Event source is Zombie"
+        if not AXObject.is_valid(event.source):
+            msg = "WEB: Event source is not valid"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -2317,25 +2311,25 @@ class Script(default.Script):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
-        obj, offset = self.utilities.getCaretContext(getZombieReplicant=False)
+        obj, offset = self.utilities.getCaretContext(getReplicant=False)
         if obj and obj != event.source \
            and not AXObject.find_ancestor(obj, lambda x: x == event.source):
             tokens = ["WEB: Ignoring event because it isn't", obj, "or its ancestor"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return True
 
-        if self.utilities.isZombie(obj):
+        if not AXObject.is_valid(obj):
             if self.utilities.isLink(obj):
                 msg = "WEB: Focused link deleted. Taking no further action."
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return True
 
-            obj, offset = self.utilities.getCaretContext(getZombieReplicant=True)
+            obj, offset = self.utilities.getCaretContext(getReplicant=True)
             if obj:
                 focus_manager.getManager().set_locus_of_focus(event, obj, notify_script=False)
 
-        if self.utilities.isZombie(obj):
-            msg = "WEB: Unable to get non-null, non-zombie context object"
+        if not AXObject.is_valid(obj):
+            msg = "WEB: Unable to get valid context object"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         document = self.utilities.getDocumentForObject(event.source)
@@ -2346,8 +2340,7 @@ class Script(default.Script):
 
         if not AXUtilities.is_editable(event.source) \
            and not self.utilities.isContentEditableWithEmbeddedObjects(event.source):
-            if self._inMouseOverObject \
-               and self.utilities.isZombie(self._lastMouseOverObject):
+            if self._inMouseOverObject and not AXObject.is_valid(self._lastMouseOverObject):
                 msg = "WEB: Restoring pre-mouseover context"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 self.restorePreMouseOverContext()
@@ -2361,8 +2354,8 @@ class Script(default.Script):
     def onTextInserted(self, event):
         """Callback for object:text-changed:insert accessibility events."""
 
-        if self.utilities.isZombie(event.source):
-            msg = "WEB: Event source is Zombie"
+        if not AXObject.is_valid(event.source):
+            msg = "WEB: Event source is not valid"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -2428,8 +2421,7 @@ class Script(default.Script):
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             self.structuralNavigation.clearCache(document)
 
-        text = self.utilities.queryNonEmptyText(event.source)
-        if not text:
+        if not self.utilities.treatAsTextObject(event.source):
             msg = "WEB: Ignoring: Event source is not a text object"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
@@ -2458,8 +2450,8 @@ class Script(default.Script):
     def onTextSelectionChanged(self, event):
         """Callback for object:text-selection-changed accessibility events."""
 
-        if self.utilities.isZombie(event.source):
-            msg = "WEB: Event source is Zombie"
+        if not AXObject.is_valid(event.source):
+            msg = "WEB: Event source is not valid"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -2494,8 +2486,7 @@ class Script(default.Script):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
-        text = self.utilities.queryNonEmptyText(event.source)
-        if not text:
+        if not self.utilities.treatAsTextObject(event.source):
             msg = "WEB: Ignoring: Event source is not a text object"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
@@ -2511,8 +2502,7 @@ class Script(default.Script):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
-        offset = text.caretOffset
-        char = text.getText(offset, offset+1)
+        char = AXText.get_character_at_offset(event.source)[0]
         if char == self.EMBEDDED_OBJECT_CHARACTER \
            and not self.utilities.lastInputEventWasCaretNavWithSelection() \
            and not self.utilities.lastInputEventWasCommand():

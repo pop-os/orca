@@ -45,34 +45,15 @@ from .ax_utilities import AXUtilities
 
 class EventManager:
 
-    EMBEDDED_OBJECT_CHARACTER = '\ufffc'
-
-    def __init__(self, asyncMode=True):
+    def __init__(self):
         debug.printMessage(debug.LEVEL_INFO, 'EVENT MANAGER: Initializing', True)
-        debug.printMessage(debug.LEVEL_INFO, f'EVENT MANAGER: Async Mode is {asyncMode}', True)
-        self._asyncMode = asyncMode
         self._scriptListenerCounts = {}
         self._active = False
+        self._paused = False
         self._eventQueue     = queue.Queue(0)
         self._gidleId        = 0
         self._gidleLock      = threading.Lock()
-        self._gilSleepTime = 0.00001
-        self._synchronousToolkits = ['VCL']
-        self._eventsSuspended = False
         self._listener = Atspi.EventListener.new(self._enqueue_object_event)
-
-        # Note: These must match what the scripts registered for, otherwise
-        # Atspi might segfault.
-        #
-        # Events we don't want to suspend include:
-        # object:text-changed:insert - marco
-        # object:property-change:accessible-name - gnome-shell issue #6925
-        self._suspendableEvents = ['object:children-changed:add',
-                                   'object:children-changed:remove',
-                                   'object:state-changed:sensitive',
-                                   'object:state-changed:showing',
-                                   'object:text-changed:delete']
-        self._eventsTriggeringSuspension = []
         orca_state.device = None
         self.bypassedKey = None
         debug.printMessage(debug.LEVEL_INFO, 'Event manager initialized', True)
@@ -99,6 +80,15 @@ class EventManager:
         orca_state.device = None
         debug.printMessage(debug.LEVEL_INFO, 'EVENT MANAGER: Deactivated', True)
 
+    def pauseQueuing(self, pause=True, clearQueue=False, reason=""):
+        """Pauses/unpauses event queuing."""
+
+        msg = f"EVENT MANAGER: Pause queueing: {pause}. Clear queue: {clearQueue}. {reason}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        self._paused = pause
+        if clearQueue:
+            self._eventQueue = queue.Queue(0)
+
     def _isObsoletedBy(self, event):
         """Returns the event which renders this one no longer worthy of being processed."""
 
@@ -111,6 +101,7 @@ class EventManager:
 
         def obsoletesIfSameTypeAndObject(x):
             skippable = {
+                "document:page-changed",
                 "object:active-descendant-changed",
                 "object:children-changed",
                 "object:property-change",
@@ -191,212 +182,164 @@ class EventManager:
     def _ignore(self, event):
         """Returns True if this event should be ignored."""
 
-        app = AXObject.get_application(event.source)
         debug.printMessage(debug.LEVEL_INFO, '')
-        tokens = ["EVENT MANAGER:", event.type, "from", app]
+        tokens = ["EVENT MANAGER:", event]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        if self._eventsSuspended:
-            tokens = ["EVENT MANAGER: Suspended events:", ', '.join(self._suspendableEvents)]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        if not self._active:
-            msg = 'EVENT MANAGER: Ignoring because event manager is not active'
+        if not self._active or self._paused:
+            msg = 'EVENT MANAGER: Ignoring because manager is not active or queueing is paused'
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
-        if AXObject.get_name(app) == 'gnome-shell':
-            if event.type.startswith('object:children-changed:remove'):
-                msg = 'EVENT MANAGER: Ignoring event based on type and app'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-
-        if event.type.startswith('window'):
-            msg = 'EVENT MANAGER: Not ignoring because event type is never ignored'
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+        event_type = event.type
+        if event_type.startswith('window') or event_type.startswith('mouse:button'):
             return False
-
-        if event.type.startswith('mouse:button'):
-            msg = 'EVENT MANAGER: Not ignoring because event type is never ignored'
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return False
-
-        # Thunderbird spams us with these when a message list thread is expanded or collapsed.
-        if event.type.endswith('system') \
-           and AXObject.get_name(app).lower().startswith('thunderbird'):
-            if AXUtilities.is_table_related(event.source) \
-              or AXUtilities.is_tree_related(event.source) \
-              or AXUtilities.is_section(event.source):
-                msg = 'EVENT MANAGER: Ignoring system event based on role'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
 
         if self._inDeluge() and self._ignoreDuringDeluge(event):
             msg = 'EVENT MANAGER: Ignoring event type due to deluge'
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
-        script = script_manager.getManager().getActiveScript()
-        if event.type.startswith('object:children-changed') \
-           or event.type.startswith('object:state-changed:sensitive'):
-            if script is None:
-                msg = 'EVENT MANAGER: Ignoring because there is no active script'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-            if script.app != app:
-                msg = 'EVENT MANAGER: Ignoring because event is not from active app'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
+        # Keep these checks early in the process so we can assume them throughout
+        # the rest of our checks.
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if focus == event.source or AXUtilities.is_focused(event.source):
+            return False
+        if focus == event.any_data:
+            return False
 
-        if event.type.startswith('object:text-changed') \
-           and self.EMBEDDED_OBJECT_CHARACTER in event.any_data \
-           and not event.any_data.replace(self.EMBEDDED_OBJECT_CHARACTER, ""):
-            # We should also get children-changed events telling us the same thing.
-            # Getting a bunch of both can result in a flood that grinds us to a halt.
-            msg = 'EVENT MANAGER: Ignoring because changed text is only embedded objects'
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return True
-
-        # TODO - JD: For now we won't ask for the name. Simply asking for the name should
-        # not break anything, and should be a reliable way to quickly identify defunct
-        # objects. But apparently the mere act of asking for the name causes Orca to stop
-        # presenting Eclipse (and possibly other) applications. This might be an AT-SPI2
-        # issue, but until we know for certain....
-        #name = Atspi.Accessible.get_name(event.source)
-
-        if AXUtilities.has_no_state(event.source):
-            msg = 'EVENT MANAGER: Ignoring event due to empty state set'
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return True
-
-        if AXUtilities.is_defunct(event.source):
-            msg = 'EVENT MANAGER: Ignoring event from defunct source'
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return True
-
-        role = AXObject.get_role(event.source)
-        if event.type.startswith('object:property-change:accessible-name'):
-            if role in [Atspi.Role.CANVAS,
-                        Atspi.Role.ICON,
-                        Atspi.Role.LIST_ITEM,  # Web app spam
-                        Atspi.Role.LIST,       # Web app spam
-                        Atspi.Role.PANEL,      # TeamTalk5 spam
-                        Atspi.Role.SECTION,    # Web app spam
-                        Atspi.Role.TABLE_ROW,  # Thunderbird spam
-                        Atspi.Role.TABLE_CELL, # Thunderbird spam
-                        Atspi.Role.TREE_ITEM,  # Thunderbird spam
-                        Atspi.Role.IMAGE,      # Thunderbird spam
-                        Atspi.Role.MENU,
-                        Atspi.Role.MENU_ITEM]:
-                msg = 'EVENT MANAGER: Ignoring event type due to role'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-            # TeamTalk5 is notoriously spammy here, and name change events on widgets are
-            # typically only presented if they are focused.
-            if not AXUtilities.is_focused(event.source) \
-               and role in [Atspi.Role.PUSH_BUTTON,
-                            Atspi.Role.CHECK_BOX,
-                            Atspi.Role.RADIO_BUTTON]:
-                msg = 'EVENT MANAGER: Ignoring event type due to role and state'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-        elif event.type.startswith('object:property-change:accessible-value'):
-            if role == Atspi.Role.SPLIT_PANE and not AXUtilities.is_focused(event.source):
-                msg = 'EVENT MANAGER: Ignoring event type due to role and state'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-        elif event.type.startswith('object:text-changed:insert') and event.detail2 > 1000 \
-             and role in [Atspi.Role.TEXT, Atspi.Role.STATIC]:
-            msg = 'EVENT MANAGER: Ignoring because inserted text has more than 1000 chars'
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return True
-        elif event.type.startswith('object:state-changed:sensitive'):
-            if role in [Atspi.Role.MENU_ITEM,
-                        Atspi.Role.MENU,
-                        Atspi.Role.FILLER,
-                        Atspi.Role.PANEL,
-                        Atspi.Role.CHECK_MENU_ITEM,
-                        Atspi.Role.RADIO_MENU_ITEM]:
-                msg = 'EVENT MANAGER: Ignoring event type due to role'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-        elif event.type.startswith('object:state-changed:selected'):
-            if not event.detail1 and role in [Atspi.Role.PUSH_BUTTON]:
-                msg = 'EVENT MANAGER: Ignoring event type due to role and detail1'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-        elif event.type.startswith('object:state-changed:showing'):
-            if role not in [Atspi.Role.ALERT,
-                            Atspi.Role.ANIMATION,
-                            Atspi.Role.INFO_BAR,
-                            Atspi.Role.MENU,
-                            Atspi.Role.NOTIFICATION,
-                            Atspi.Role.DIALOG,
-                            Atspi.Role.STATUS_BAR,
-                            Atspi.Role.TOOL_TIP]:
-                msg = 'EVENT MANAGER: Ignoring event type due to role'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-
-        elif event.type.startswith('object:text-caret-moved'):
-            if role in [Atspi.Role.LABEL] and not AXUtilities.is_focused(event.source):
-                msg = 'EVENT MANAGER: Ignoring event type due to role and state'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-
-        elif event.type.startswith('object:selection-changed'):
-            if AXObject.is_dead(event.source):
-                msg = 'EVENT MANAGER: Ignoring event from dead source'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-
-        if event.type.startswith('object:children-changed') \
-           or event.type.startswith('object:active-descendant-changed'):
-            if role in [Atspi.Role.MENU,
-                        Atspi.Role.LAYERED_PANE,
-                        Atspi.Role.MENU_ITEM]:
-                msg = 'EVENT MANAGER: Ignoring event type due to role'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-            if event.any_data is None:
+        if event_type.startswith("object:children-changed"):
+            child = event.any_data
+            if child is None:
                 msg = 'EVENT_MANAGER: Ignoring due to lack of event.any_data'
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return True
-            if event.type.endswith('remove'):
-                if focus_manager.getManager().focus_is_dead():
-                    return False
-
-                if event.any_data == focus_manager.getManager().get_locus_of_focus():
-                    msg = 'EVENT MANAGER: Locus of focus is being destroyed'
-                    debug.printMessage(debug.LEVEL_INFO, msg, True)
-                    return False
-
-            defunct = AXObject.is_dead(event.any_data) or AXUtilities.is_defunct(event.any_data)
-            if defunct:
-                msg = 'EVENT MANAGER: Ignoring event for potentially-defunct child/descendant'
+            if "remove" in event_type and AXObject.is_dead(focus):
+                return False
+            if AXObject.is_dead(child):
+                msg = 'EVENT_MANAGER: Ignoring due to dead event.any_data'
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return True
+            if AXUtilities.is_menu_related(child) or AXUtilities.is_image(child):
+                msg = 'EVENT_MANAGER: Ignoring due to role of event.any_data'
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return True
+            app = AXObject.get_application(event.source)
+            if "remove" in event_type and AXObject.get_name(app).lower() == "gnome-shell":
+                msg = "EVENT MANAGER: Ignoring event based on type and app"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return True
+            script = script_manager.getManager().getActiveScript()
+            if script is None:
+                msg = "EVENT MANAGER: Ignoring because there is no active script"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return True
+            if script.app != AXObject.get_application(event.source):
+                msg = "EVENT MANAGER: Ignoring because event is not from active app"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return True
 
-            # This should be safe. We do not have a reason to present a newly-added,
-            # but not focused image. We do not need to update live regions for images.
-            # This is very likely a completely and utterly useless event for us. The
-            # reason for ignoring it here rather than quickly processing it is the
-            # potential for event floods like we're seeing from matrix.org.
-            if AXUtilities.is_image(event.any_data):
-                msg = 'EVENT MANAGER: Ignoring event type due to role'
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-
-            # In normal apps we would have caught this from the parent role.
-            # But gnome-shell has panel parents adding/removing menu items.
-            if event.type.startswith('object:children-changed'):
-                if AXUtilities.is_menu_item(event.any_data):
-                    msg = 'EVENT MANAGER: Ignoring event type due to child role'
+        if event_type.startswith("object:property-change"):
+            role = AXObject.get_role(event.source)
+            if "name" in event_type:
+                if role in [Atspi.Role.CANVAS,
+                            Atspi.Role.CHECK_BOX,    # TeamTalk5 spam
+                            Atspi.Role.ICON,
+                            Atspi.Role.IMAGE,        # Thunderbird spam
+                            Atspi.Role.LIST,         # Web app spam
+                            Atspi.Role.LIST_ITEM,    # Web app spam
+                            Atspi.Role.MENU,
+                            Atspi.Role.MENU_ITEM,
+                            Atspi.Role.PANEL,        # TeamTalk5 spam
+                            Atspi.Role.RADIO_BUTTON, # TeamTalk5 spam
+                            Atspi.Role.SECTION,      # Web app spam
+                            Atspi.Role.TABLE_ROW,    # Thunderbird spam
+                            Atspi.Role.TABLE_CELL,   # Thunderbird spam
+                            Atspi.Role.TREE_ITEM]:   # Thunderbird spam
+                    msg = "EVENT MANAGER: Ignoring event type due to role of unfocused source"
                     debug.printMessage(debug.LEVEL_INFO, msg, True)
                     return True
+                return False
+            if "value" in event_type:
+                if role in [Atspi.Role.SPLIT_PANE, Atspi.Role.SCROLL_BAR]:
+                    msg = "EVENT MANAGER: Ignoring event type due to role of unfocused source"
+                    debug.printMessage(debug.LEVEL_INFO, msg, True)
+                    return True
+                return False
 
-        msg = 'EVENT MANAGER: Not ignoring due to lack of cause'
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if event_type.startswith('object:selection-changed'):
+            if AXObject.is_dead(event.source):
+                msg = "EVENT MANAGER: Ignoring event from dead source"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return True
+            return False
+
+        if event_type.startswith("object:state-changed"):
+            role = AXObject.get_role(event.source)
+            if event_type.endswith("system"):
+                # Thunderbird spams us with these when a message list thread is expanded/collapsed.
+                if role in [Atspi.Role.TABLE,
+                            Atspi.Role.TABLE_CELL,
+                            Atspi.Role.TABLE_ROW,
+                            Atspi.Role.TREE,
+                            Atspi.Role.TREE_ITEM,
+                            Atspi.Role.TREE_TABLE]:
+                    msg = 'EVENT MANAGER: Ignoring system event based on role'
+                    debug.printMessage(debug.LEVEL_INFO, msg, True)
+                    return True
+            if "checked" in event_type:
+                # Gtk 3 apps. See https://gitlab.gnome.org/GNOME/gtk/-/issues/6449
+                if not AXUtilities.is_showing(event.source):
+                    msg = "EVENT MANAGER: Ignoring event type of unfocused, non-showing source"
+                    debug.printMessage(debug.LEVEL_INFO, msg, True)
+                    return True
+                return False
+            if "selected" in event_type:
+                if not event.detail1 and role in [Atspi.Role.PUSH_BUTTON]:
+                    msg = "EVENT MANAGER: Ignoring event type due to role of source and detail1"
+                    debug.printMessage(debug.LEVEL_INFO, msg, True)
+                    return True
+                return False
+            if "sensitive" in event_type:
+                # The Gedit and Thunderbird scripts pay attention to this event for spellcheck.
+                if role not in [Atspi.Role.TEXT, Atspi.Role.ENTRY]:
+                    msg = "EVENT MANAGER: Ignoring event type due to role of unfocused source"
+                    debug.printMessage(debug.LEVEL_INFO, msg, True)
+                    return True
+                return False
+            if "showing" in event_type:
+                if role not in [Atspi.Role.ALERT,
+                                Atspi.Role.ANIMATION,
+                                Atspi.Role.DIALOG,
+                                Atspi.Role.INFO_BAR,
+                                Atspi.Role.MENU,
+                                Atspi.Role.NOTIFICATION,
+                                Atspi.Role.STATUS_BAR,
+                                Atspi.Role.TOOL_TIP]:
+                    msg = "EVENT MANAGER: Ignoring event type due to role"
+                    debug.printMessage(debug.LEVEL_INFO, msg, True)
+                    return True
+                return False
+
+        if event_type.startswith('object:text-caret-moved'):
+            role = AXObject.get_role(event.source)
+            if role in [Atspi.Role.LABEL]:
+                msg = "EVENT MANAGER: Ignoring event type due to role of unfocused source"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return True
+            return False
+
+        if event_type.startswith('object:text-changed'):
+            if "\ufffc" in event.any_data and not event.any_data.replace("\ufffc", ""):
+                msg = "EVENT MANAGER: Ignoring because changed text is only embedded objects"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return True
+            if "insert" in event_type and event.detail2 > 1000:
+                msg = "EVENT MANAGER: Ignoring because inserted text has more than 1000 chars"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return True
+            return False
+
         return False
 
     def _queuePrintln(self, e, isEnqueue=True, isPrune=None):
@@ -425,87 +368,6 @@ class EventManager:
             tokens[0:0] = ["EVENT MANAGER: Dequeued"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-    def _suspendEvents(self, triggeringEvent):
-        self._eventsTriggeringSuspension.append(triggeringEvent)
-
-        if self._eventsSuspended:
-            msg = "EVENT MANAGER: Events already suspended."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return
-
-        msg = "EVENT MANAGER: Suspending events."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-
-        for event in self._suspendableEvents:
-            self.deregisterListener(event)
-
-        self._eventsSuspended = True
-        msg = "EVENT MANAGER: Events suspended."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-
-    def _unsuspendEvents(self, triggeringEvent, force=False):
-        if triggeringEvent in self._eventsTriggeringSuspension:
-            self._eventsTriggeringSuspension.remove(triggeringEvent)
-
-        if not self._eventsSuspended:
-            msg = "EVENT MANAGER: Events already unsuspended."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return
-
-        if self._eventsTriggeringSuspension and not force:
-            msg = "EVENT MANAGER: Events are suspended for another event."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return
-
-        msg = "EVENT MANAGER: Unsuspending events."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-
-        for event in self._suspendableEvents:
-            self.registerListener(event)
-
-        self._eventsSuspended = False
-
-    def _shouldSuspendEventsFor(self, event):
-        if AXUtilities.is_frame(event.source) \
-           or (AXUtilities.is_window(event.source) \
-               and AXObject.get_application_toolkit_name(event.source) == "clutter"):
-            if event.type.startswith("window"):
-                msg = "EVENT MANAGER: Should suspend events for window event."
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-            if event.type.endswith("active"):
-                msg = "EVENT MANAGER: Should suspend events for active event on window."
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-        if AXUtilities.is_document(event.source):
-            if event.type.endswith("busy") and event.detail1:
-                msg = "EVENT MANAGER: Should suspend events for busy:true event on document."
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-
-        return False
-
-    def _shouldUnsuspendEventsFor(self, event):
-        if event.type.startswith("object:state-changed:focused") and event.detail1:
-            msg = "EVENT MANAGER: Should unsuspend events for newly-focused object."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return True
-
-        if AXUtilities.is_document(event.source):
-            if event.type.endswith("busy") and not event.detail1:
-                msg = "EVENT MANAGER: Should unsuspend events for busy:false event on document."
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-            if event.type.startswith("document:load-complete"):
-                msg = "EVENT MANAGER: Should unsuspend events for load-complete event on document."
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return True
-
-        return False
-
-    def _didSuspendEventsFor(self, event):
-        return event in self._eventsTriggeringSuspension
-
     def _enqueue_object_event(self, e):
         """Callback for Atspi object events."""
 
@@ -519,24 +381,6 @@ class EventManager:
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._pruneEventsDuringFlood()
 
-        if self._shouldSuspendEventsFor(e):
-            self._suspendEvents(e)
-
-        asyncMode = self._asyncMode
-        if isinstance(e, input_event.MouseButtonEvent):
-            asyncMode = True
-        elif AXObject.get_application_toolkit_name(e.source) in self._synchronousToolkits:
-            asyncMode = False
-        elif e.type.startswith("object:children-changed"):
-            asyncMode = AXUtilities.is_table(e.source)
-        elif AXUtilities.is_notification(e.source):
-            # To decrease the likelihood that the popup will be destroyed before we
-            # have its contents.
-            asyncMode = False
-
-        msg = f"EVENT MANAGER: Use async mode: {asyncMode}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-
         app = AXObject.get_application(e.source)
         tokens = ["EVENT MANAGER: App for event source is", app]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -546,14 +390,9 @@ class EventManager:
 
         self._gidleLock.acquire()
         self._eventQueue.put(e)
-        if asyncMode and not self._gidleId:
-            if self._gilSleepTime:
-                time.sleep(self._gilSleepTime)
+        if not self._gidleId:
             self._gidleId = GLib.idle_add(self._dequeue_object_event)
         self._gidleLock.release()
-
-        if not asyncMode:
-            self._dequeue_object_event()
 
     def _onNoFocus(self):
         if focus_manager.getManager().focus_and_window_are_unknown():
@@ -584,11 +423,6 @@ class EventManager:
                 )
                 debug.printMessage(debug.eventDebugLevel, msg, False)
             self._processObjectEvent(event)
-            if self._didSuspendEventsFor(event):
-                self._unsuspendEvents(event)
-            elif self._eventsSuspended and self._shouldUnsuspendEventsFor(event):
-                self._unsuspendEvents(event, force=True)
-
             if debugging:
                 msg = (
                     f"TOTAL PROCESSING TIME: {time.time() - startTime:.4f}"
@@ -676,39 +510,13 @@ class EventManager:
         for eventType in script.listeners.keys():
             self.deregisterListener(eventType)
 
-    def _process_braille_event(self, event):
-        """Processes this BrailleEvent."""
-
-        script = script_manager.getManager().getActiveScript()
-        if script is None:
-            return
-
-        data = f"'{repr(event.event)}'"
-        eType = str(event.type).upper()
-        startTime = time.time()
-
-        msg = f"\nvvvvv PROCESS {eType} {data} vvvvv"
-        debug.printMessage(debug.eventDebugLevel, msg, False)
-
-        try:
-            script.processBrailleEvent(event)
-        except Exception as error:
-            tokens = ["EVENT MANAGER: Exception processing event:", error]
-            debug.printTokens(debug.LEVEL_WARNING, tokens, True)
-
-        msg = (
-            f"TOTAL PROCESSING TIME: {time.time() - startTime:.4f}"
-            f"\n^^^^^ PROCESS {eType} {data} ^^^^^\n"
-        )
-        debug.printMessage(debug.eventDebugLevel, msg, False)
-
     @staticmethod
     def _getScriptForEvent(event):
         """Returns the script associated with event."""
 
         if event.type.startswith("mouse:"):
             mouseEvent = input_event.MouseButtonEvent(event)
-            script = script_manager.getManager().getScript(mouseEvent.app, mouseEvent.obj, False)
+            script = script_manager.getManager().getScript(mouseEvent.app, mouseEvent.window, False)
             tokens = ["EVENT MANAGER: Script for event is", script]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return script
@@ -913,13 +721,15 @@ class EventManager:
         while not self._eventQueue.empty():
             try:
                 event = self._eventQueue.get()
-            except Exception:
-                continue
-
-            if self._processDuringFlood(event, focus):
-                newQueue.put(event)
-                self._queuePrintln(event, isPrune=False)
-            self._eventQueue.task_done()
+            except Exception as error:
+                msg = f"EVENT MANAGER: Exception pruning events: {error}"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+            else:
+                if self._processDuringFlood(event, focus):
+                    newQueue.put(event)
+                    self._queuePrintln(event, isPrune=False)
+            finally:
+                self._eventQueue.task_done()
 
         self._eventQueue = newQueue
         newSize = self._eventQueue.qsize()
@@ -1074,23 +884,12 @@ class EventManager:
         # TODO - JD: Figure out exactly why this is here.
         orca_modifier_manager.getManager().update_key_map(keyboardEvent)
 
-    def processBrailleEvent(self, event):
-        """Called whenever a cursor key is pressed on the Braille display."""
+    def process_braille_event(self, event):
+        """Processes this BrailleEvent."""
 
-        script = script_manager.getManager().getActiveScript()
-        if script is None:
-            return False
-
-        brailleEvent = input_event.BrailleEvent(event)
-        orca_state.lastInputEvent = brailleEvent
-        if script.consumesBrailleEvent(brailleEvent):
-            self._process_braille_event(brailleEvent)
-            return True
-
-        if script.learnModePresenter.is_active():
-            return True
-
-        return False
+        braille_event = input_event.BrailleEvent(event)
+        orca_state.lastInputEvent = braille_event
+        return braille_event.process()
 
 _manager = EventManager()
 

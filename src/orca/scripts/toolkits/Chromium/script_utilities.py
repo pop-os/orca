@@ -247,11 +247,12 @@ class Utilities(web.Utilities):
     def setCaretPosition(self, obj, offset, documentFrame=None):
         super().setCaretPosition(obj, offset, documentFrame)
 
+        # TODO - JD: Is this hack still needed?
         link = AXObject.find_ancestor(obj, AXUtilities.is_link)
         if link is not None:
             tokens = ["CHROMIUM: HACK: Grabbing focus on", obj, "'s ancestor", link]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            self.grabFocus(link)
+            AXObject.grab_focus(link)
 
     def handleAsLiveRegion(self, event):
         if not super().handleAsLiveRegion(event):
@@ -369,19 +370,6 @@ class Utilities(web.Utilities):
             return []
 
         return super().findAllDescendants(root, includeIf, excludeIf)
-
-    def accessibleAtPoint(self, root, x, y, coordType=None):
-        result = super().accessibleAtPoint(root, x, y, coordType)
-
-        # Chromium cannot do a hit test of web content synchronously. So what it
-        # does is return a guess, then fire off an async hit test. The next time
-        # one calls it, Chromium returns the previous async hit test result if
-        # the point is still within its bounds. Therefore, we need to call
-        # accessibleAtPoint() twice to be safe.
-        msg = "CHROMIUM: Getting accessibleAtPoint again due to async hit test result."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        result = super().accessibleAtPoint(root, x, y, coordType)
-        return result
 
     def _shouldCalculatePositionAndSetSize(self, obj):
         # Chromium calculates posinset and setsize for description lists based on the

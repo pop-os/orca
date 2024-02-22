@@ -29,13 +29,6 @@ __copyright__ = "Copyright (c) 2004-2009 Sun Microsystems Inc." \
                 "Copyright (c) 2012 Igalia, S.L."
 __license__   = "LGPL"
 
-
-# ruff: noqa: F401
-# This unused import keeps Orca working by making pyatspi still available.
-# It can only be removed when we have completely eliminated all uses of
-# pyatspi API.
-import pyatspi
-
 import faulthandler
 import gi
 import importlib
@@ -163,7 +156,7 @@ def loadUserSettings(script=None, inputEvent=None, skipReloadMessage=False):
         msg = 'ORCA: About to enable braille'
         debug.printMessage(debug.LEVEL_INFO, msg, True)
         try:
-            braille.init(event_manager.getManager().processBrailleEvent)
+            braille.init(event_manager.getManager().process_braille_event)
         except Exception:
             debug.printException(debug.LEVEL_WARNING)
             msg = 'ORCA: Could not initialize connection to braille.'
@@ -382,10 +375,13 @@ def shutdown(script=None, inputEvent=None):
         script.presentationInterrupt()
         script.presentMessage(messages.STOP_ORCA, resetStyles=False)
 
-    # Deactivate the event manager first so that it clears its queue and will not
-    # accept new events. Then let the script manager unregister script event listeners.
-    event_manager.getManager().deactivate()
+    # Pause event queuing first so that it clears its queue and will not accept new
+    # events. Then let the script manager unregister script event listeners as well
+    # as key grabs. Finally deactivate the event manager, which will also cause the
+    # Atspi.Device to be set to None.
+    event_manager.getManager().pauseQueuing(True, True, "Shutting down.")
     script_manager.getManager().deactivate()
+    event_manager.getManager().deactivate()
 
     # Shutdown all the other support.
     #

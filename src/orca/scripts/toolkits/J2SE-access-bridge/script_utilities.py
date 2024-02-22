@@ -29,6 +29,7 @@ __copyright__ = "Copyright (c) 2010 Joanmarie Diggs."
 __license__   = "LGPL"
 
 import orca.script_utilities as script_utilities
+from orca.ax_component import AXComponent
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
 
@@ -75,15 +76,8 @@ class Utilities(script_utilities.Utilities):
         # negatives.
         #
         if AXUtilities.is_label(obj1) and AXUtilities.is_label(obj2):
-            try:
-                ext1 = obj1.queryComponent().getExtents(0)
-                ext2 = obj2.queryComponent().getExtents(0)
-            except Exception:
-                pass
-            else:
-                if ext1.x == ext2.x and ext1.y == ext2.y \
-                   and ext1.width == ext2.width and ext1.height == ext2.height:
-                    return True
+            if AXComponent.objects_have_same_rect(obj1, obj2):
+                return True
 
         # In java applications, TRANSIENT state is missing for tree items
         # (fix for bug #352250)
@@ -111,7 +105,7 @@ class Utilities(script_utilities.Utilities):
         """
 
         newObj = obj
-        if newObj and self.isZombie(newObj):
+        if newObj and not AXObject.is_valid(newObj):
             newObj = self.findReplicant(self._script.lastDescendantChangedSource, obj)
 
         if not newObj:

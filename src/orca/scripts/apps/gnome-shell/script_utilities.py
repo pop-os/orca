@@ -32,6 +32,7 @@ from orca.ax_object import AXObject
 from orca.ax_selection import AXSelection
 from orca.ax_utilities import AXUtilities
 
+from orca.ax_text import AXText
 
 class Utilities(script_utilities.Utilities):
 
@@ -60,35 +61,16 @@ class Utilities(script_utilities.Utilities):
             msg = "GNOME SHELL: Broken text insertion event"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-            text = self.queryNonEmptyText(event.source)
-            if text:
-                string = text.getText(0, -1)
-                if string:
-                    msg = f"GNOME SHELL: Returning last char in '{string}'"
-                    debug.printMessage(debug.LEVEL_INFO, msg, True)
-                    return string[-1]
+            string = AXText.get_all_text(event.source)
+            if string:
+                msg = f"GNOME SHELL: Returning last char in '{string}'"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return string[-1]
 
             msg = "GNOME SHELL: Unable to correct broken text insertion event"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         return ""
-
-    def selectedText(self, obj):
-        string, start, end = super().selectedText(obj)
-        if -1 not in [start, end]:
-            return string, start, end
-
-        tokens = [f"GNOME SHELL: Bogus selection range ({start}, {end}) for", obj]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        text = self.queryNonEmptyText(obj)
-        if text.getNSelections() > 0:
-            string = text.getText(0, -1)
-            start, end = 0, len(string)
-
-        tokens = [f"GNOME SHELL: Returning '{string}' ({start}, {end}) for", obj]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        return string, start, end
 
     def unrelatedLabels(self, root, onlyShowing=True, minimumWords=3):
         if not root:

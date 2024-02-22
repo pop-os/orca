@@ -38,10 +38,7 @@ import sys
 import time
 
 sys.prefix = '@prefix@'
-pythondir = '@pythondir@'
-pythondir = pythondir.replace('${PYTHON_PREFIX}', '@PYTHON_PREFIX@')
-pythondir = pythondir.replace('${prefix}', '@prefix@')
-sys.path.insert(1, pythondir)
+sys.path.insert(1, '@libdir@')
 
 # Do not import Orca here. It is imported in main(). The reason why is that
 # start-up failures due to imports in orca.py are not getting output, making
@@ -132,6 +129,9 @@ class Parser(argparse.ArgumentParser):
         self.add_argument(
             "-u", "--user-prefs", action="store",
             help=messages.CLI_LOAD_PREFS, metavar=messages.CLI_PREFS_DIR)
+        self.add_argument(
+            "--speech-system", action="store",
+            help=messages.CLI_SPEECH_SYSTEM, metavar=messages.CLI_SPEECH_SYSTEM_NAME)
         self.add_argument(
             "--debug-file", action="store",
             help=messages.CLI_DEBUG_FILE, metavar=messages.CLI_DEBUG_FILE_NAME)
@@ -266,6 +266,18 @@ def main():
         except Exception:
             print(messages.CLI_LOAD_PROFILE_ERROR % args.profile)
             manager.setProfile()
+
+    if args.speech_system:
+        try:
+            # Check factory modules ("orca.<speech system>") that loaded successfully
+            factories = [f.__name__[5:] for f in manager.getSpeechServerFactories()]
+            if args.speech_system not in factories:
+                raise KeyError
+            
+            setattr(settings, 'speechSystemOverride', args.speech_system)
+            manager.setSetting('speechServerFactory', args.speech_system)
+        except Exception:
+            print(messages.CLI_SPEECH_SYSTEM_ERROR % (args.speech_system, ', '.join(factories)))
 
     if args.setup:
         cleanup(signal.SIGKILL)

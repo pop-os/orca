@@ -30,7 +30,6 @@ __license__   = "LGPL"
 import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
-import urllib
 
 from orca import debug
 from orca import focus_manager
@@ -39,8 +38,10 @@ from orca import object_properties
 from orca import settings
 from orca import settings_manager
 from orca import speech_generator
+from orca.ax_document import AXDocument
 from orca.ax_object import AXObject
 from orca.ax_table import AXTable
+from orca.ax_text import AXText
 from orca.ax_utilities import AXUtilities
 
 
@@ -108,8 +109,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         return result
 
     def _generateAllTextSelection(self, obj, **args):
-        if self._script.utilities.isZombie(obj) \
-           or obj != focus_manager.getManager().get_locus_of_focus():
+        if not AXObject.is_valid(obj) or obj != focus_manager.getManager().get_locus_of_focus():
             return []
 
         # TODO - JD: These (and the default script's) need to
@@ -117,8 +117,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         return super()._generateAllTextSelection(obj, **args)
 
     def _generateAnyTextSelection(self, obj, **args):
-        if self._script.utilities.isZombie(obj) \
-           or obj != focus_manager.getManager().get_locus_of_focus():
+        if not AXObject.is_valid(obj) or obj != focus_manager.getManager().get_locus_of_focus():
             return []
 
         # TODO - JD: These (and the default script's) need to
@@ -178,7 +177,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if not self._script.utilities.inDocumentContent(obj):
             return super()._generateDescription(obj, **args)
 
-        if self._script.utilities.isZombie(obj):
+        if not AXObject.is_valid(obj):
             return []
 
         if self._script.utilities.preferDescriptionOverName(obj):
@@ -292,8 +291,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if (lastKey in ['Down', 'Right'] or self._script.inSayAll()) and args.get('startOffset'):
             return []
         if lastKey in ['Up', 'Left']:
-            text = self._script.utilities.queryNonEmptyText(obj)
-            if text and args.get('endOffset') not in [None, text.characterCount]:
+            if self._script.utilities.treatAsTextObject(obj) \
+               and args.get('endOffset') not in [None, AXText.get_character_count(obj)]:
                 return []
 
         result = []
@@ -588,8 +587,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             if ((lastKey in ["Down", "Right"] and not mods) or self._script.inSayAll()) and start:
                 return []
             if lastKey in ["Up", "Left"] and not mods:
-                text = self._script.utilities.queryNonEmptyText(obj)
-                if text and end not in [None, text.characterCount]:
+                if self._script.utilities.treatAsTextObject(obj) \
+                   and end not in [None, AXText.get_character_count(obj)]:
                     return []
             if role not in doNotSpeak:
                 result.append(self.getLocalizedRoleName(obj, **args))
@@ -649,48 +648,13 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             return []
 
         onlyIfFound = args.get('formatType') != 'detailedWhereAmI'
-
-        string = self._script.utilities.getPageSummary(obj, onlyIfFound)
+        document = self._script.utilities.getTopLevelDocumentForObject(obj)
+        string = AXDocument.get_document_summary(document, onlyIfFound)
         if not string:
             return []
 
         result = [string]
         result.extend(self.voice(speech_generator.SYSTEM, obj=obj, **args))
-        return result
-
-    def _generateSiteDescription(self, obj, **args):
-        if not self._script.utilities.inDocumentContent(obj):
-            return []
-
-        link_uri = self._script.utilities.uri(obj)
-        if not link_uri:
-            return []
-
-        link_uri_info = urllib.parse.urlparse(link_uri)
-        doc_uri = self._script.utilities.documentFrameURI()
-        if not doc_uri:
-            return []
-
-        result = []
-        doc_uri_info = urllib.parse.urlparse(doc_uri)
-        if link_uri_info[1] == doc_uri_info[1]:
-            if link_uri_info[2] == doc_uri_info[2]:
-                result.append(messages.LINK_SAME_PAGE)
-            else:
-                result.append(messages.LINK_SAME_SITE)
-        else:
-            linkdomain = link_uri_info[1].split('.')
-            docdomain = doc_uri_info[1].split('.')
-            if len(linkdomain) > 1 and len(docdomain) > 1  \
-               and linkdomain[-1] == docdomain[-1]  \
-               and linkdomain[-2] == docdomain[-2]:
-                result.append(messages.LINK_SAME_SITE)
-            else:
-                result.append(messages.LINK_DIFFERENT_SITE)
-
-        if result:
-            result.extend(self.voice(speech_generator.SYSTEM, obj=obj, **args))
-
         return result
 
     def _generateExpandedEOCs(self, obj, **args):
@@ -807,7 +771,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         for i, content in enumerate(contents):
             obj, start, end, string = content
-            tokens = ["ITEM", i, ": ", obj, "start: ", start, ", end: ", end, "'", string, "'"]
+            tokens = [f"ITEM {i}: ", obj, f"start: {start}, end: {end} '{string}'"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             utterance = self.generateSpeech(
                 obj, startOffset=start, endOffset=end, string=string,

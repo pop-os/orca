@@ -40,6 +40,7 @@ from . import orca_state
 from . import settings_manager
 from .ax_object import AXObject
 from .ax_table import AXTable
+from .ax_text import AXText
 from .ax_utilities import AXUtilities
 
 
@@ -415,7 +416,7 @@ class TableNavigator:
                     return False
             return True
 
-        if AXObject.supports_text(obj) and obj.queryText().getText(0, -1).strip():
+        if not AXText.is_whitespace_or_empty(obj):
             tokens = ["TABLE NAVIGATOR:", obj, "is not blank: it has text"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return False
@@ -740,14 +741,13 @@ class TableNavigator:
         self._previous_reported_col = col
 
         if script.utilities.grabFocusWhenSettingCaret(cell):
-            script.utilities.grabFocus(cell)
+            AXObject.grab_focus(cell)
 
         obj, offset = script.utilities.getFirstCaretPosition(cell)
         focus_manager.getManager().set_locus_of_focus(None, obj, False)
         if AXObject.supports_text(obj) and not script.utilities.isGUICell(cell):
             script.utilities.setCaretPosition(obj, offset)
 
-        script.updateBraille(obj)
         script.presentObject(cell, offset=offset, priorObj=previous_cell, interrupt=True)
 
         # TODO - JD: This should be part of the normal table cell presentation.

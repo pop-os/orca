@@ -34,17 +34,12 @@ from . import messages
 from . import orca_state
 from . import settings_manager
 
+from .ax_text import AXText
 
 class CaretNavigation:
     """Implements the caret navigation support available to scripts."""
 
-    def __init__(self, script):
-        if not (script and script.app):
-            msg = "CARET NAVIGATION: Caret navigation requires a script and app."
-            debug.printMessage(debug.LEVEL_INFO, msg)
-
-        self._script = script
-
+    def __init__(self):
         # To make it possible for focus mode to suspend this navigation without
         # changing the user's preferred setting.
         self._suspended = False
@@ -90,8 +85,6 @@ class CaretNavigation:
         """Sets up the caret-navigation input event handlers."""
 
         self._handlers = {}
-        if not (self._script and self._script.app):
-            return
 
         self._handlers["toggle_enabled"] = \
             input_event.InputEventHandler(
@@ -169,8 +162,6 @@ class CaretNavigation:
         """Sets up the caret-navigation key bindings."""
 
         self._bindings = keybindings.KeyBindings()
-        if not (self._script and self._script.app):
-            return
 
         self._bindings.add(
             keybindings.KeyBinding(
@@ -362,6 +353,7 @@ class CaretNavigation:
 
         self._last_input_event = event
         script.utilities.setCaretPosition(obj, offset)
+        script.presentationInterrupt()
         script.updateBraille(obj)
         script.sayCharacter(obj)
         return True
@@ -378,6 +370,7 @@ class CaretNavigation:
 
         self._last_input_event = event
         script.utilities.setCaretPosition(obj, offset)
+        script.presentationInterrupt()
         script.updateBraille(obj)
         script.sayCharacter(obj)
         return True
@@ -399,6 +392,7 @@ class CaretNavigation:
 
         self._last_input_event = event
         script.utilities.setCaretPosition(obj, end)
+        script.presentationInterrupt()
         script.updateBraille(obj)
         script.sayWord(obj)
         return True
@@ -417,6 +411,7 @@ class CaretNavigation:
         self._last_input_event = event
         obj, start = contents[0][0], contents[0][1]
         script.utilities.setCaretPosition(obj, start)
+        script.presentationInterrupt()
         script.updateBraille(obj)
         script.sayWord(obj)
         return True
@@ -446,6 +441,7 @@ class CaretNavigation:
         self._last_input_event = event
         obj, start = contents[0][0], contents[0][1]
         script.utilities.setCaretPosition(obj, start)
+        script.presentationInterrupt()
         script.speakContents(contents, priorObj=line[-1][0])
         script.displayContents(contents)
         return True
@@ -471,6 +467,7 @@ class CaretNavigation:
         self._last_input_event = event
         obj, start = contents[0][0], contents[0][1]
         script.utilities.setCaretPosition(obj, start)
+        script.presentationInterrupt()
         script.speakContents(contents)
         script.displayContents(contents)
         return True
@@ -489,6 +486,7 @@ class CaretNavigation:
         self._last_input_event = event
         obj, start = line[0][0], line[0][1]
         script.utilities.setCaretPosition(obj, start)
+        script.presentationInterrupt()
         script.sayCharacter(obj)
         script.displayContents(line)
         return True
@@ -510,6 +508,7 @@ class CaretNavigation:
 
         self._last_input_event = event
         script.utilities.setCaretPosition(obj, end)
+        script.presentationInterrupt()
         script.sayCharacter(obj)
         script.displayContents(line)
         return True
@@ -529,6 +528,7 @@ class CaretNavigation:
         self._last_input_event = event
         obj, offset = contents[0][0], contents[0][1]
         script.utilities.setCaretPosition(obj, offset)
+        script.presentationInterrupt()
         script.speakContents(contents)
         script.displayContents(contents)
         return True
@@ -547,11 +547,7 @@ class CaretNavigation:
         tokens = ["CARET NAVIGATION: Last object in", document, "is", obj]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        offset = 0
-        text = script.utilities.queryNonEmptyText(obj)
-        if text:
-            offset = text.characterCount - 1
-
+        offset = max(0, AXText.get_character_count(obj) - 1)
         while obj:
             lastobj, lastoffset = script.utilities.nextContext(obj, offset)
             if not lastobj:
@@ -565,6 +561,7 @@ class CaretNavigation:
         self._last_input_event = event
         obj, offset = contents[-1][0], contents[-1][2]
         script.utilities.setCaretPosition(obj, offset)
+        script.presentationInterrupt()
         script.speakContents(contents)
         script.displayContents(contents)
         return True

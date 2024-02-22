@@ -45,9 +45,11 @@ from . import messages
 from . import object_properties
 from . import settings
 from . import settings_manager
+from .ax_hypertext import AXHypertext
 from .ax_object import AXObject
 from .ax_table import AXTable
 from .ax_utilities import AXUtilities
+from .ax_value import AXValue
 
 # Python 3.10 compatibility:
 try:
@@ -357,7 +359,7 @@ class Generator:
                 elif AXUtilities.is_link(parent):
                     link = parent
                 if link:
-                    basename = self._script.utilities.linkBasenameToName(link)
+                    basename = AXHypertext.get_link_basename(link, remove_extension=True)
                     if basename:
                         result.append(basename)
         # To make the unlabeled icons in gnome-panel more accessible.
@@ -520,16 +522,11 @@ class Generator:
         represent the description of the image on the object, if it
         exists.  Otherwise, an empty array is returned.
         """
-        result = []
-        try:
-            image = obj.queryImage()
-        except NotImplementedError:
-            pass
-        else:
-            description = image.imageDescription
-            if description and len(description):
-                result.append(description)
-        return result
+
+        description = AXObject.get_image_description(obj)
+        if description:
+            return [description]
+        return []
 
     #####################################################################
     #                                                                   #
@@ -884,7 +881,7 @@ class Generator:
         if AXObject.get_child_count(obj) == 2:
             cellOrder = []
             hasToggle = [False, False]
-            for i, child in enumerate(obj):
+            for i, child in enumerate(AXObject.iter_children(obj)):
                 if self._script.utilities.hasMeaningfulToggleAction(child):
                     hasToggle[i] = True
                     break
@@ -916,7 +913,7 @@ class Generator:
         if AXObject.get_child_count(obj) == 2:
             cellOrder = []
             hasToggle = [False, False]
-            for i, child in enumerate(obj):
+            for i, child in enumerate(AXObject.iter_children(obj)):
                 if self._script.utilities.hasMeaningfulToggleAction(child):
                     hasToggle[i] = True
                     break
@@ -1131,7 +1128,10 @@ class Generator:
         if role == Atspi.Role.SEPARATOR and not AXUtilities.is_focused(obj):
             return []
 
-        return [self._script.utilities.textForValue(obj)]
+        result = AXValue.get_current_value_text(obj)
+        if result:
+            return [result]
+        return []
 
     #####################################################################
     #                                                                   #
@@ -1251,7 +1251,7 @@ class Generator:
         return int(settings_manager.getManager().getSetting('progressBarUpdateInterval'))
 
     def _shouldPresentProgressBarUpdate(self, obj, **args):
-        percent = self._script.utilities.getValueAsPercent(obj)
+        percent = AXValue.get_value_as_percent(obj)
         lastTime, lastValue = self.getProgressBarUpdateTimeAndValue(obj, type=self)
         if percent == lastValue:
             tokens = ["GENERATOR: Not presenting update for", obj, ". Value still", percent]
@@ -1265,10 +1265,7 @@ class Generator:
         return interval >= self._getProgressBarUpdateInterval()
 
     def _cleanUpCachedProgressBars(self):
-        def isValid(x):
-            return not (self._script.utilities.isZombie(x) or AXObject.is_dead(x))
-
-        bars = list(filter(isValid, self._activeProgressBars))
+        bars = list(filter(AXObject.is_valid, self._activeProgressBars))
         self._activeProgressBars = {x:self._activeProgressBars.get(x) for x in bars}
 
     def _getMostRecentProgressBarUpdate(self):
@@ -1297,7 +1294,7 @@ class Generator:
 
     def setProgressBarUpdateTimeAndValue(self, obj, lastTime=None, lastValue=None):
         lastTime = lastTime or time.time()
-        lastValue = lastValue or self._script.utilities.getValueAsPercent(obj)
+        lastValue = lastValue or AXValue.get_value_as_percent(obj)
         self._activeProgressBars[obj] = lastTime, lastValue
 
     def _getAlternativeRole(self, obj, **args):

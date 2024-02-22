@@ -285,6 +285,23 @@ CLI_LOAD_PREFS = _("Use alternate directory for user preferences")
 # using the '-u, --user-prefs' command line option.
 CLI_PREFS_DIR = _("DIR")
 
+# Translators: This is the description of command line option '--speech-system'
+# which allows you to specify a speech system to use. A speech system provides
+# various synthesizers with different voices and languages.
+# This option can be used to override the configured default speech system.
+CLI_SPEECH_SYSTEM = _("Speech system")
+
+# Translators: This message is presented to the user when the specified speech
+# system is unavailable. A speech system provides various synthesizers with
+# different voices and languages. The first string substituted in is the user-
+# provided speech system. The second string substituted is a comma separated
+# list of avaialable speech systems.
+CLI_SPEECH_SYSTEM_ERROR = _("Speech system “%s” is unavailable (available: %s)")
+
+# Translators: This string indicates to the user what should be provided when
+# using the '--speech-system' command line option.
+CLI_SPEECH_SYSTEM_NAME = _("NAME")
+
 # Translators: This is the description of command line option '-v, --version'
 # which prints the version of Orca. E.g. '1.23.4'.
 CLI_VERSION = _("Version of this application")
@@ -2087,6 +2104,11 @@ PAGE_LOADING_END = _("Finished loading.")
 # item has finished loading. The string substitution is for the name of the
 # object which has just finished loading (most likely the page's title).
 PAGE_LOADING_END_NAMED = _("Finished loading %s.")
+
+# Translators: This message is presented to the user when the page of the
+# current document changes, e.g. as a result of navigation or scrolling.
+# The string substitution is the number of the current page.
+PAGE_NUMBER = _("Page %d")
 
 # Translators: When the user loads a new web page, they can optionally have Orca
 # automatically summarize details about the page, such as the number of elements

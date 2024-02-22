@@ -36,18 +36,22 @@ import urllib.error
 import urllib.parse
 
 from . import acss
-from . import chnames
 from . import debug
 from . import generator
+from . import mathsymbols
 from . import messages
 from . import object_properties
 from . import settings
 from . import settings_manager
 from . import speech
 from . import text_attribute_names
+from .ax_document import AXDocument
+from .ax_hypertext import AXHypertext
 from .ax_object import AXObject
 from .ax_table import AXTable
+from .ax_text import AXText
 from .ax_utilities import AXUtilities
+from .ax_value import AXValue
 
 class Pause:
     """A dummy class to indicate we want to insert a pause into an
@@ -388,8 +392,8 @@ class SpeechGenerator(generator.Generator):
 
         endOffset = args.get('endOffset')
         if endOffset is not None:
-            text = self._script.utilities.queryNonEmptyText(obj)
-            if text  and text.characterCount != endOffset:
+            length = AXText.get_character_count(obj)
+            if length and length != endOffset:
                 return []
 
         result = [messages.CONTENT_DELETION_END]
@@ -431,8 +435,8 @@ class SpeechGenerator(generator.Generator):
 
         endOffset = args.get('endOffset')
         if endOffset is not None:
-            text = self._script.utilities.queryNonEmptyText(obj)
-            if text and text.characterCount != endOffset:
+            length = AXText.get_character_count(obj)
+            if length and length != endOffset:
                 return []
 
         result = [messages.CONTENT_INSERTION_END]
@@ -475,8 +479,8 @@ class SpeechGenerator(generator.Generator):
 
         endOffset = args.get('endOffset')
         if endOffset is not None:
-            text = self._script.utilities.queryNonEmptyText(obj)
-            if text and text.characterCount != endOffset:
+            length = AXText.get_character_count(obj)
+            if length and length != endOffset:
                 return []
 
         result = [messages.CONTENT_MARK_END]
@@ -674,8 +678,8 @@ class SpeechGenerator(generator.Generator):
         labels = self._script.utilities.unrelatedLabels(obj, visibleOnly, minimumWords)
         for label in labels:
             name = self._generateName(label, **args)
-            if name and len(name[0]) == 1:
-                charname = chnames.getCharacterName(name[0])
+            if name and len(name[0]) == 1 and self._script.utilities.isMath(obj):
+                charname = mathsymbols.getCharacterName(name[0])
                 if charname:
                     name[0] = charname
             result.extend(name)
@@ -808,7 +812,7 @@ class SpeechGenerator(generator.Generator):
         # URI is returned as a tuple containing six components:
         # scheme://netloc/path;parameters?query#fragment.
         #
-        link_uri = self._script.utilities.uri(obj)
+        link_uri = AXHypertext.get_link_uri(obj)
         if not link_uri:
             # [[[TODO - JD: For some reason, this is failing for certain
             # links. The current whereAmI code says, "It might be an anchor.
@@ -839,7 +843,7 @@ class SpeechGenerator(generator.Generator):
                     # If there's no text for the link, expose part of the
                     # URI to the user.
                     #
-                    text = self._script.utilities.linkBasename(obj)
+                    text = AXHypertext.get_link_basename(obj)
                 if text:
                     linkOutput += " " + text
                 result.append(linkOutput)
@@ -851,38 +855,38 @@ class SpeechGenerator(generator.Generator):
         return result
 
     def _generateSiteDescription(self, obj, **args):
-        """Returns an array of strings (and possibly voice and audio
-        specifications) that describe the site (same or different)
-        pointed to by the URI of the link associated with obj.
-        """
+        if not self._script.utilities.inDocumentContent(obj):
+            return []
+
+        link_uri = AXHypertext.get_link_uri(obj)
+        if not link_uri:
+            return []
+
+        link_uri_info = urllib.parse.urlparse(link_uri)
+        doc_uri = AXDocument.get_uri(self._script.utilities.documentFrame())
+        if not doc_uri:
+            return []
+
         result = []
-        link_uri = self._script.utilities.uri(obj)
-        if link_uri:
-            link_uri_info = urllib.parse.urlparse(link_uri)
-        else:
-            return result
-        doc_uri = self._script.utilities.documentFrameURI()
-        if doc_uri:
-            doc_uri_info = urllib.parse.urlparse(doc_uri)
-            if link_uri_info[1] == doc_uri_info[1]:
-                if link_uri_info[2] == doc_uri_info[2]:
-                    result.append(messages.LINK_SAME_PAGE)
-                else:
-                    result.append(messages.LINK_SAME_SITE)
+        doc_uri_info = urllib.parse.urlparse(doc_uri)
+        if link_uri_info[1] == doc_uri_info[1]:
+            if link_uri_info[2] == doc_uri_info[2]:
+                result.append(messages.LINK_SAME_PAGE)
             else:
-                # check for different machine name on same site
-                #
-                linkdomain = link_uri_info[1].split('.')
-                docdomain = doc_uri_info[1].split('.')
-                if len(linkdomain) > 1 and len(docdomain) > 1  \
-                    and linkdomain[-1] == docdomain[-1]  \
-                    and linkdomain[-2] == docdomain[-2]:
-                    result.append(messages.LINK_SAME_SITE)
-                else:
-                    result.append(messages.LINK_DIFFERENT_SITE)
+                result.append(messages.LINK_SAME_SITE)
+        else:
+            linkdomain = link_uri_info[1].split('.')
+            docdomain = doc_uri_info[1].split('.')
+            if len(linkdomain) > 1 and len(docdomain) > 1  \
+               and linkdomain[-1] == docdomain[-1]  \
+               and linkdomain[-2] == docdomain[-2]:
+                result.append(messages.LINK_SAME_SITE)
+            else:
+                result.append(messages.LINK_DIFFERENT_SITE)
 
         if result:
             result.extend(self.voice(SYSTEM, obj=obj, **args))
+
         return result
 
     def _generateFileSize(self, obj, **args):
@@ -893,7 +897,7 @@ class SpeechGenerator(generator.Generator):
         """
         result = []
         sizeString = ""
-        uri = self._script.utilities.uri(obj)
+        uri = AXHypertext.get_link_uri(obj)
         if not uri:
             return result
         try:
@@ -927,16 +931,12 @@ class SpeechGenerator(generator.Generator):
         specifications) that represent the image on the object, if
         it exists.  Otherwise, an empty array is returned.
         """
-        result = []
-        try:
-            obj.queryImage()
-        except Exception:
-            pass
-        else:
-            args['role'] = Atspi.Role.IMAGE
-            result.extend(self.generate(obj, **args))
-            result.extend(self.voice(DEFAULT, obj=obj, **args))
-        return result
+
+        if not AXObject.supports_image(obj):
+            return []
+
+        args['role'] = Atspi.Role.IMAGE
+        return self.generate(obj, **args)
 
     #####################################################################
     #                                                                   #
@@ -1269,66 +1269,12 @@ class SpeechGenerator(generator.Generator):
 
         string = result[0].strip()
         if len(string) == 1 and self._script.utilities.isMath(obj):
-            charname = chnames.getCharacterName(string, preferMath=True)
+            charname = mathsymbols.getCharacterName(string)
             if charname != string:
                 result[0] = charname
 
         result.extend(self.voice(DEFAULT, obj=obj, **args))
         return result
-
-    def _getCharacterAttributes(self,
-                                obj,
-                                text,
-                                textOffset,
-                                lineIndex,
-                                keys=["style", "weight", "underline"]):
-        """Helper function that returns a string containing the
-        given attributes from keys for the given character.
-        """
-        attribStr = ""
-
-        defaultAttributes = text.getDefaultAttributes()
-        keyList, attributesDictionary = \
-            self._script.utilities.stringToKeysAndDict(defaultAttributes)
-
-        charAttributes = text.getAttributes(textOffset)
-        if charAttributes[0]:
-            keyList, charDict = \
-                self._script.utilities.stringToKeysAndDict(charAttributes[0])
-            for key in keyList:
-                attributesDictionary[key] = charDict[key]
-
-        if attributesDictionary:
-            for key in keys:
-                localizedKey = text_attribute_names.getTextAttributeName(
-                    key, self._script)
-                if key in attributesDictionary:
-                    attribute = attributesDictionary[key]
-                    localizedValue = text_attribute_names.getTextAttributeName(
-                        attribute, self._script)
-                    if attribute:
-                        # If it's the 'weight' attribute and greater than 400,
-                        # just speak it as bold, otherwise speak the weight.
-                        #
-                        if key == "weight":
-                            if int(attribute) > 400:
-                                attribStr += f" {messages.BOLD}"
-                        elif key == "underline":
-                            if attribute != "none":
-                                attribStr += f" {localizedKey}"
-                        elif key == "style":
-                            if attribute != "normal":
-                                attribStr += f" {localizedValue}"
-                        else:
-                            attribStr += " "
-                            attribStr += (localizedKey + " " + localizedValue)
-
-            # Also check to see if this is a hypertext link.
-            #
-            if self._script.utilities.linkIndex(obj, textOffset) >= 0:
-                attribStr += f" {messages.LINK}"
-
-        return attribStr
 
     def _getTextInformation(self, obj):
         """Returns [textContents, startOffset, endOffset, selected] as
@@ -1348,26 +1294,18 @@ class SpeechGenerator(generator.Generator):
         except Exception:
             pass
 
-        textObj = obj.queryText()
-        caretOffset = textObj.caretOffset
-
         textContents, startOffset, endOffset = self._script.utilities.allSelectedText(obj)
         selected = textContents != ""
 
         if not selected:
-            # Get the line containing the caret
-            #
-            [line, startOffset, endOffset] = textObj.getTextAtOffset(
-                textObj.caretOffset,
-                Atspi.TextBoundaryType.LINE_START)
-            if len(line):
+            line, startOffset, endOffset = AXText.get_line_at_offset(obj)
+            if line:
                 line = self._script.utilities.adjustForRepeats(line)
                 textContents = line
             else:
-                char = textObj.getTextAtOffset(caretOffset,
-                    Atspi.TextBoundaryType.CHAR)
-                if char[0] == "\n" and startOffset == caretOffset:
-                    textContents = char[0]
+                char = AXText.get_character_at_offset(obj)[0]
+                if char == "\n":
+                    textContents = char
 
         if self._script.utilities.shouldVerbalizeAllPunctuation(obj):
             textContents = self._script.utilities.verbalizeAllPunctuation(textContents)
@@ -1387,22 +1325,44 @@ class SpeechGenerator(generator.Generator):
         if result:
             return result
 
-        try:
-            obj.queryText()
-        except NotImplementedError:
+        line = self._getTextInformation(obj)[0]
+        if not line:
             return []
 
-        result = []
-        [line, startOffset, endOffset, selected] = self._getTextInformation(obj)
-
-        # The empty string seems to be messing with using 'or' in
-        # formatting strings.
-        #
-        if line:
-            result.append(line)
-            result.extend(self.voice(DEFAULT, obj=obj, **args))
-
+        result = [line]
+        result.extend(self.voice(DEFAULT, obj=obj, **args))
         return result
+
+    def _getAttributesStringAndOffsets(self, obj, offset, keys=["style", "weight", "underline"]):
+        attrs, start, end = AXText.get_text_attributes_at_offset(obj, offset)
+        if not attrs:
+            return ""
+
+        result = ""
+        for key in keys:
+            attribute = attrs.get(key)
+            if not attribute:
+                continue
+
+            localizedKey = text_attribute_names.getTextAttributeName(key, self._script)
+            localizedValue = text_attribute_names.getTextAttributeName(attribute, self._script)
+            if key == "weight":
+                if int(attribute) > 400:
+                    result += f" {messages.BOLD}"
+            elif key == "underline":
+                if attribute != "none":
+                    result += f" {localizedKey}"
+            elif key == "style":
+                if attribute != "normal":
+                    result += f" {localizedValue}"
+            else:
+                result += " "
+                result += (localizedKey + " " + localizedValue)
+
+        if AXHypertext.get_all_links_in_range(obj, offset, offset + 1):
+            result += f" {messages.LINK}"
+
+        return result, start, end
 
     def _generateTextContentWithAttributes(self, obj, **args):
         """Returns an array of strings (and possibly voice and audio
@@ -1412,37 +1372,17 @@ class SpeechGenerator(generator.Generator):
         called prior to this method.
         """
 
-        try:
-            text = obj.queryText()
-        except NotImplementedError:
-            return []
-
         [line, startOffset, endOffset, selected] = self._getTextInformation(obj)
-
         newLine = ""
-        lastAttribs = None
         textOffset = startOffset
-        for i in range(0, len(line)):
-            attribs = self._getCharacterAttributes(obj, text, textOffset, i)
-            if attribs and attribs != lastAttribs:
-                if newLine:
-                    newLine += " ; "
-                newLine += attribs
-                newLine += " "
-            lastAttribs = attribs
-            newLine += line[i]
-            textOffset += 1
+        while textOffset < endOffset:
+            attribs, start, end = self._getAttributesStringAndOffsets(obj, textOffset)
+            newLine += f" {attribs} {AXText.get_substring(obj, start, end)}"
+            textOffset = end
 
-        attribs = self._getCharacterAttributes(obj,
-                                               text,
-                                               startOffset,
-                                               0,
-                                               ["paragraph-style"])
-
+        attribs = self._getAttributesStringAndOffsets(obj, startOffset, ["paragraph-style"])[0]
         if attribs:
-            if newLine:
-                newLine += " ; "
-            newLine += attribs
+            newLine += f" {attribs}"
 
         result = [newLine]
         result.extend(self.voice(DEFAULT, obj=obj, **args))
@@ -1457,17 +1397,11 @@ class SpeechGenerator(generator.Generator):
         if settings_manager.getManager().getSetting('onlySpeakDisplayedText'):
             return []
 
-        try:
-            obj.queryText()
-        except NotImplementedError:
+        if not AXText.has_selected_text(obj):
             return []
 
-        result = []
-        [line, startOffset, endOffset, selected] = self._getTextInformation(obj)
-
-        if selected:
-            result.append(messages.TEXT_SELECTED)
-            result.extend(self.voice(SYSTEM, obj=obj, **args))
+        result = [messages.TEXT_SELECTED]
+        result.extend(self.voice(SYSTEM, obj=obj, **args))
         return result
 
     def _generateAllTextSelection(self, obj, **args):
@@ -1479,19 +1413,11 @@ class SpeechGenerator(generator.Generator):
         if settings_manager.getManager().getSetting('onlySpeakDisplayedText'):
             return []
 
-        result = []
-        try:
-            textObj = obj.queryText()
-        except Exception:
-            pass
-        else:
-            noOfSelections = textObj.getNSelections()
-            if noOfSelections == 1:
-                [string, startOffset, endOffset] = \
-                   textObj.getTextAtOffset(0, Atspi.TextBoundaryType.LINE_START)
-                if startOffset == 0 and endOffset == len(string):
-                    result = [messages.TEXT_SELECTED]
-                    result.extend(self.voice(SYSTEM, obj=obj, **args))
+        if not AXText.is_all_text_selected(obj):
+            return []
+
+        result = [messages.TEXT_SELECTED]
+        result.extend(self.voice(SYSTEM, obj=obj, **args))
         return result
 
     def _generateSubstring(self, obj, **args):
@@ -1585,7 +1511,7 @@ class SpeechGenerator(generator.Generator):
         if settings_manager.getManager().getSetting('onlySpeakDisplayedText'):
             return []
 
-        percentValue = self._script.utilities.getValueAsPercent(obj)
+        percentValue = AXValue.get_value_as_percent(obj)
         if percentValue is not None:
             result = [messages.percentage(percentValue)]
             result.extend(self.voice(SYSTEM, obj=obj, **args))
@@ -2120,7 +2046,7 @@ class SpeechGenerator(generator.Generator):
             return []
 
         priorObj = args.get('priorObj')
-        if not priorObj or obj == priorObj or self._script.utilities.isZombie(priorObj):
+        if not priorObj or obj == priorObj or not AXObject.is_valid(priorObj):
             return []
 
         if AXUtilities.is_page_tab(obj):
@@ -2334,7 +2260,7 @@ class SpeechGenerator(generator.Generator):
             return ['']
 
         result = []
-        percent = self._script.utilities.getValueAsPercent(obj)
+        percent = AXValue.get_value_as_percent(obj)
         if percent is not None:
             result.append(messages.percentage(percent))
             result.extend(self.voice(SYSTEM, obj=obj, **args))
@@ -2553,7 +2479,7 @@ class SpeechGenerator(generator.Generator):
     def _generateFencedStart(self, obj, **args):
         fenceStart, fenceEnd = self._script.utilities.getMathFences(obj)
         if fenceStart:
-            result = [chnames.getCharacterName(fenceStart)]
+            result = [mathsymbols.getCharacterName(fenceStart)]
             result.extend(self.voice(DEFAULT, obj=obj, **args))
             return result
 
@@ -2566,9 +2492,9 @@ class SpeechGenerator(generator.Generator):
             separators.append(separators[-1])
         separators.append('')
 
-        for i, child in enumerate(obj):
+        for i, child in enumerate(AXObject.iter_children(obj)):
             result.extend(self._generateMath(child, **args))
-            separatorName = chnames.getCharacterName(separators[i])
+            separatorName = mathsymbols.getCharacterName(separators[i])
             result.append(separatorName)
             result.extend(self.voice(DEFAULT, obj=obj, **args))
             if separatorName:
@@ -2579,7 +2505,7 @@ class SpeechGenerator(generator.Generator):
     def _generateFencedEnd(self, obj, **args):
         fenceStart, fenceEnd = self._script.utilities.getMathFences(obj)
         if fenceEnd:
-            result = [chnames.getCharacterName(fenceEnd)]
+            result = [mathsymbols.getCharacterName(fenceEnd)]
             result.extend(self.voice(DEFAULT, obj=obj, **args))
             return result
 
