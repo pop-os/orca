@@ -384,6 +384,8 @@ class AXObject:
             return False
 
         try:
+            if AXObject.is_newton(obj):
+                return obj.supports_value()
             iface = Atspi.Accessible.get_value_iface(obj)
         except Exception as error:
             msg = f"AXObject: Exception calling get_value_iface on {obj}: {error}"

@@ -94,7 +94,10 @@ class AXValue:
             return 0
 
         try:
-            value = Atspi.Value.get_current_value(obj)
+            if AXObject.is_newton(obj):
+                value = obj.get_current_value()
+            else:
+                value = Atspi.Value.get_current_value(obj)
         except Exception as error:
             msg = f"AXValue: Exception in _get_current_value: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -180,7 +183,10 @@ class AXValue:
             return 0
 
         try:
-            value = Atspi.Value.get_minimum_value(obj)
+            if AXObject.is_newton(obj):
+                value = obj.get_minimum_value()
+            else:
+                value = Atspi.Value.get_minimum_value(obj)
         except Exception as error:
             msg = f"AXValue: Exception in get_minimum_value: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -198,7 +204,10 @@ class AXValue:
             return 0
 
         try:
-            value = Atspi.Value.get_maximum_value(obj)
+            if AXObject.is_newton(obj):
+                value = obj.get_maximum_value()
+            else:
+                value = Atspi.Value.get_maximum_value(obj)
         except Exception as error:
             msg = f"AXValue: Exception in get_maximum_value: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
