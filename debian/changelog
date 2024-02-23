@@ -7,7 +7,7 @@ orca (46~beta-1) experimental; urgency=medium
     - manpages: Install docs/orca.1 instead of docs/man/orca.1.
   * control: Bump at-spi runtime deps to 2.50.0~ too.
 
- -- Samuel Thibault <sthibault@debian.org>  Sat, 20 Jan 2024 20:13:20 +0100
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 23 Feb 2024 01:42:50 +0100
 
 orca (46~alpha-1) experimental; urgency=medium
 
