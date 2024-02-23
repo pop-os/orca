@@ -28,6 +28,7 @@ import gi
 gi.require_version('Atspi', '2.0')
 from gi.repository import Atspi
 from gi.repository import GLib
+import newton_atspi_compat
 import queue
 import threading
 import time
@@ -54,6 +55,7 @@ class EventManager:
         self._gidleId        = 0
         self._gidleLock      = threading.Lock()
         self._listener = Atspi.EventListener.new(self._enqueue_object_event)
+        self._newtonConsumer = newton_atspi_compat.Consumer(self._enqueue_object_event)
         orca_state.device = None
         self.bypassedKey = None
         debug.printMessage(debug.LEVEL_INFO, 'Event manager initialized', True)

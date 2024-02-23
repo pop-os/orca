@@ -49,6 +49,9 @@ class AXUtilitiesState:
     def has_no_state(obj):
         """Returns true if obj has an empty state set"""
 
+        if AXObject.is_newton(obj):
+            return AXObject.get_newton_state_bits(obj) == 0
+
         return AXObject.get_state_set(obj).is_empty()
 
     @staticmethod

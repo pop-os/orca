@@ -41,6 +41,7 @@ import time
 import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
+import newton_atspi_compat
 
 from . import debug
 
@@ -115,7 +116,7 @@ class AXObject:
         # https://bugzilla.mozilla.org/show_bug.cgi?id=1879750
         if AXObject.get_role(obj) == Atspi.Role.SECTION \
            and AXObject.get_role(AXObject.get_parent(obj)) == Atspi.Role.FRAME \
-           and Atspi.Accessible.get_toolkit_name(obj).lower() == "gecko":
+           and AXObject.get_application_toolkit_name(obj).lower() == "gecko":
             tokens = ["AXObject:", obj, "is bogus. See mozilla bug 1879750."]
             debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
             return True
@@ -172,6 +173,10 @@ class AXObject:
 
         if AXObject.KNOWN_DEAD.get(hash(obj)) is False:
             AXObject._set_known_dead_status(obj, True)
+
+    @staticmethod
+    def is_newton(obj):
+        return isinstance(obj, newton_atspi_compat.Accessible)
 
     @staticmethod
     def supports_action(obj):
@@ -442,7 +447,10 @@ class AXObject:
             return -1
 
         try:
-            index = Atspi.Accessible.get_index_in_parent(obj)
+            if AXObject.is_newton(obj):
+                index = obj.get_index_in_parent()
+            else:
+                index = Atspi.Accessible.get_index_in_parent(obj)
         except Exception as error:
             msg = f"AXObject: Exception in get_index_in_parent: {error}"
             AXObject.handle_error(obj, error, msg)
@@ -458,7 +466,13 @@ class AXObject:
             return None
 
         try:
-            parent = Atspi.Accessible.get_parent(obj)
+            if AXObject.is_newton(obj):
+                parent = obj.get_parent()
+                if parent is None:
+                    # TODO: 100% Newton to the root; connect subtrees
+                    parent = Atspi.get_desktop(0)
+            else:
+                parent = Atspi.Accessible.get_parent(obj)
         except Exception as error:
             msg = f"AXObject: Exception in get_parent: {error}"
             AXObject.handle_error(obj, error, msg)
@@ -564,7 +578,10 @@ class AXObject:
             return None
 
         try:
-            child = Atspi.Accessible.get_child_at_index(obj, index)
+            if AXObject.is_newton(obj):
+                child = obj.get_child_at_index(index)
+            else:
+                child = Atspi.Accessible.get_child_at_index(obj, index)
         except Exception as error:
             msg = f"AXObject: Exception in get_child: {error}"
             AXObject.handle_error(obj, error, msg)
@@ -696,7 +713,10 @@ class AXObject:
             return Atspi.Role.INVALID
 
         try:
-            role = Atspi.Accessible.get_role(obj)
+            if AXObject.is_newton(obj):
+                role = Atspi.Role(obj.get_role())
+            else:
+                role = Atspi.Accessible.get_role(obj)
         except Exception as error:
             msg = f"AXObject: Exception in get_role: {error}"
             AXObject.handle_error(obj, error, msg)
@@ -729,7 +749,10 @@ class AXObject:
             return ""
 
         try:
-            name = Atspi.Accessible.get_name(obj)
+            if AXObject.is_newton(obj):
+                name = obj.get_name()
+            else:
+                name = Atspi.Accessible.get_name(obj)
         except Exception as error:
             msg = f"AXObject: Exception in get_name: {error}"
             AXObject.handle_error(obj, error, msg)
@@ -756,7 +779,10 @@ class AXObject:
             return ""
 
         try:
-            description = Atspi.Accessible.get_description(obj)
+            if AXObject.is_newton(obj):
+                description = obj.get_description()
+            else:
+                description = Atspi.Accessible.get_description(obj)
         except Exception as error:
             msg = f"AXObject: Exception in get_description: {error}"
             AXObject.handle_error(obj, error, msg)
@@ -821,7 +847,10 @@ class AXObject:
             return 0
 
         try:
-            count = Atspi.Accessible.get_child_count(obj)
+            if AXObject.is_newton(obj):
+                count = obj.get_child_count()
+            else:
+                count = Atspi.Accessible.get_child_count(obj)
         except Exception as error:
             msg = f"AXObject: Exception in get_child_count: {error}"
             AXObject.handle_error(obj, error, msg)
@@ -957,11 +986,23 @@ class AXObject:
         return state_set
 
     @staticmethod
+    def get_newton_state_bits(obj):
+        assert AXObject.is_newton(obj)
+        bits = obj.get_state_bits()
+        is_defunct = (bits & (1 << int(Atspi.StateType.DEFUNCT))) != 0
+        AXObject._set_known_dead_status(obj, is_defunct)
+        return bits
+
+    @staticmethod
     def has_state(obj, state):
         """Returns true if obj has the specified state"""
 
         if not AXObject.is_valid(obj):
             return False
+
+        if AXObject.is_newton(obj):
+            bits = AXObject.get_newton_state_bits(obj)
+            return (bits & (1 << int(state))) != 0
 
         return AXObject.get_state_set(obj).contains(state)
 
@@ -971,6 +1012,9 @@ class AXObject:
 
         if not AXObject.is_valid(obj):
             return ""
+
+        if AXObject.is_newton(obj):
+            return obj.state_set_as_string()
 
         def as_string(state):
             return state.value_name[12:].replace("_", "-").lower()
@@ -1133,7 +1177,10 @@ class AXObject:
             return app
 
         try:
-            app = Atspi.Accessible.get_application(obj)
+            if AXObject.is_newton(obj):
+                app = obj.get_application()
+            else:
+                app = Atspi.Accessible.get_application(obj)
         except Exception as error:
             msg = f"AXObject: Exception in get_application: {error}"
             AXObject.handle_error(obj, error, msg)
@@ -1155,12 +1202,14 @@ class AXObject:
         if not AXObject.is_valid(obj):
             return ""
 
-        app = AXObject.get_application(obj)
-        if app is None:
-            return ""
-
         try:
-            name = Atspi.Accessible.get_toolkit_name(app)
+            if AXObject.is_newton(obj):
+                name = obj.get_application_toolkit_name()
+            else:
+                app = AXObject.get_application(obj)
+                if app is None:
+                    return ""
+                name = Atspi.Accessible.get_toolkit_name(app)
         except Exception as error:
             tokens = ["AXObject: Exception in get_application_toolkit_name:", error]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -1175,12 +1224,14 @@ class AXObject:
         if not AXObject.is_valid(obj):
             return ""
 
-        app = AXObject.get_application(obj)
-        if app is None:
-            return ""
-
         try:
-            version = Atspi.Accessible.get_toolkit_version(app)
+            if AXObject.is_newton(obj):
+                version = obj.get_application_toolkit_version()
+            else:
+                app = AXObject.get_application(obj)
+                if app is None:
+                    return ""
+                version = Atspi.Accessible.get_toolkit_version(app)
         except Exception as error:
             tokens = ["AXObject: Exception in get_application_toolkit_version:", error]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -1210,7 +1261,7 @@ class AXObject:
     def clear_cache(obj, recursive=False, reason=""):
         """Clears the Atspi cached information associated with obj"""
 
-        if obj is None:
+        if obj is None or AXObject.is_newton(obj):
             return
 
         tokens = ["AXObject: Clearing AT-SPI cache on", obj, f"Recursive: {recursive}."]
@@ -1261,7 +1312,10 @@ class AXObject:
         try:
             # We use the Atspi function rather than the AXObject function because the
             # latter intentionally handles exceptions.
-            Atspi.Accessible.get_name(obj)
+            if AXObject.is_newton(obj):
+                obj.get_name()
+            else:
+                Atspi.Accessible.get_name(obj)
         except Exception as error:
             msg = f"AXObject: Accessible is dead: {error}"
             AXObject.handle_error(obj, error, msg)
