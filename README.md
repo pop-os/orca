@@ -37,7 +37,7 @@ Then, to run the prototype:
 
 2. Start Orca.
 
-3. Run the egui `hello_world` example from another terminal within the Mutter or GNOME Shell session. Run the following in the root of the egui checkout:
+3. Run the egui `hello_world` example from a terminal within the Mutter or GNOME Shell session. Run the following in the root of the egui checkout:
 
     ```bash
     ./target/debug/hello_world
