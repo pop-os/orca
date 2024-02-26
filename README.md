@@ -8,7 +8,7 @@ The original Orca README is preserved below.
 
 To run an end-to-end prototype of the Newton accessibility stack, first set up all of the components:
 
-1. [Install Rust]https://rustup.rs/).
+1. [Install Rust](https://rustup.rs/).
 
 2. To compile a demo application, check out the `accesskit-unix2-prototype` branch of [my egui fork](https://github.com/mwcampbell/egui) and build the `hello_world` sample. Run the following from the root of the egui checkout:
 
