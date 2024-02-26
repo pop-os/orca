@@ -1,3 +1,52 @@
+# Experimental Newton-enabled version of Orca
+
+This branch of Orca uses the experimental `newton_atspi_compat` Python package to implement support for Newton, the new Wayland-native accessibility stack. Unlike the earlier [newton-atspi-adapter](https://gitlab.gnome.org/mwcampbell/newton-atspi-adapter), this version of Orca can directly receive Newton accessibility tree updates without requiring them to pass through a separate process that implements the legacy AT-SPI D-Bus interfaces.
+
+The original Orca README is preserved below.
+
+## Running the prototype
+
+To run an end-to-end prototype of the Newton accessibility stack, first set up all of the components:
+
+1. [Install Rust]https://rustup.rs/).
+
+2. To compile a demo application, check out the `accesskit-unix2-prototype` branch of [my egui fork](https://github.com/mwcampbell/egui) and build the `hello_world` sample. Run the following from the root of the egui checkout:
+
+    ```bash
+    cargo build -p hello_world
+    ```
+
+3. Build and install the `wayland-protocols` package from the `accessibility` branch of [my fork of wayland-protocols](https://gitlab.freedesktop.org/mwcampbell/wayland-protocols), using the standard procedure for building and installing this package with Meson.
+
+4. Build and install Mutter from the `wayland-native-a11y` branch of [my fork of Mutter](https://gitlab.gnome.org/mwcampbell/mutter), again using the standard procedure for building and installing this package with Meson.
+
+5. Build and install the `newton_atspi_compat` Python package from the [newton_atspi_compat repository](https://gitlab.gnome.org/mwcampbell/newton_atspi_compat), by running these commands from the root of a working copy of that repository:
+
+    ```bash
+    python -m pip wheel .
+    sudo python -m pip install --break-system-packages newton_atspi_compat*.whl
+    ```
+
+    Unfortunately, the last command listed above, using `sudo` and `--break-system-packages`, is the simplest way to install this Python package in a place where Orca can find it. Because there are no system packages of `newton_atspi_compat`, this command will not actually break anything.
+
+6. Build and install Orca from source, as documented in the original README below.
+
+Then, to run the prototype:
+
+1. Start Mutter or GNOME Shell as appropriate for your environment.
+
+2. Start Orca.
+
+3. Run the egui `hello_world` example from another terminal within the Mutter or GNOME Shell session. Run the following in the root of the egui checkout:
+
+    ```bash
+    ./target/debug/hello_world
+    ```
+
+Orca will only say "frame" when the egui `hello_world` initially receives focus. The fact that it doesn't say the window title is a known limitation that will be resolved soon. But once you focus a control in the window, e.g. by pressing Tab, Orca will start presenting more meaningful information.
+
+------
+
 # Orca v46.1
 
 [TOC]
