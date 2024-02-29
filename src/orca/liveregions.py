@@ -8,17 +8,15 @@ import time
 from gi.repository import GLib
 
 from . import cmdnames
-from . import chnames
 from . import debug
+from . import focus_manager
 from . import keybindings
 from . import messages
 from . import input_event
-from . import orca_state
 from . import settings_manager
 from .ax_collection import AXCollection
 from .ax_object import AXObject
-
-_settingsManager = settings_manager.getManager()
+from .ax_text import AXText
 
 # define 'live' property types
 LIVE_OFF       = -1
@@ -86,8 +84,12 @@ class LiveRegionManager:
         # message priority queue
         self.msg_queue = PriorityQueue()
 
-        self.inputEventHandlers = self._getInputEventHandlers()
-        self.keyBindings = self._getKeyBindings()
+        # To make it possible for focus mode to suspend commands without changing
+        # the user's preferred setting.
+        self._suspended = False
+
+        self._handlers = self.get_handlers(True)
+        self._bindings = keybindings.KeyBindings()
 
         # This is temporary.
         self.functions = [self.advancePoliteness,
@@ -107,7 +109,7 @@ class LiveRegionManager:
         self.lastliveobj = None
 
         # Used to track whether a user wants to monitor all live regions
-        # Not to be confused with the global Gecko.liveRegionsOn which 
+        # Not to be confused with the global Gecko.liveRegionsOn which
         # completely turns off live region support.  This one is based on
         # a user control by changing politeness levels to LIVE_OFF or back
         # to the bookmark or markup politeness value.
@@ -122,64 +124,141 @@ class LiveRegionManager:
         script.bookmarks.addSaveObserver(self.bookmarkSaveHandler)
         script.bookmarks.addLoadObserver(self.bookmarkLoadHandler)
 
-    def _getInputEventHandlers(self):
-        handlers = {}
+    def get_bindings(self, refresh=False, is_desktop=True):
+        """Returns the live-region-manager keybindings."""
 
-        handlers["advanceLivePoliteness"] = \
+        if refresh:
+            msg = "LIVE REGION MANAGER: Refreshing bindings."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            self._setup_bindings()
+        elif self._bindings.isEmpty():
+            self._setup_bindings()
+
+        return self._bindings
+
+    def get_handlers(self, refresh=False):
+        """Returns the live-region-manager handlers."""
+
+        if refresh:
+            msg = "LIVE REGION MANAGER: Refreshing handlers."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            self._setup_handlers()
+
+        return self._handlers
+
+    def _setup_handlers(self):
+        """Sets up the live-region-manager input event handlers."""
+
+        self._handlers = {}
+
+        self._handlers["advanceLivePoliteness"] = \
             input_event.InputEventHandler(
                 self.advancePoliteness,
-                cmdnames.LIVE_REGIONS_ADVANCE_POLITENESS)
+                cmdnames.LIVE_REGIONS_ADVANCE_POLITENESS,
+                enabled = not self._suspended)
 
-        handlers["setLivePolitenessOff"] = \
+        self._handlers["setLivePolitenessOff"] = \
             input_event.InputEventHandler(
                 self.setLivePolitenessOff,
-                cmdnames.LIVE_REGIONS_SET_POLITENESS_OFF)
+                cmdnames.LIVE_REGIONS_SET_POLITENESS_OFF,
+                enabled = not self._suspended)
 
-        handlers["monitorLiveRegions"] = \
+        self._handlers["monitorLiveRegions"] = \
             input_event.InputEventHandler(
                 self.toggleMonitoring,
-                cmdnames.LIVE_REGIONS_MONITOR)
+                cmdnames.LIVE_REGIONS_MONITOR,
+                enabled = not self._suspended)
 
-        handlers["reviewLiveAnnouncement"] = \
+        self._handlers["reviewLiveAnnouncement"] = \
             input_event.InputEventHandler(
                 self.reviewLiveAnnouncement,
-                cmdnames.LIVE_REGIONS_REVIEW)
+                cmdnames.LIVE_REGIONS_REVIEW,
+                enabled = not self._suspended)
 
-        return handlers
+        msg = f"LIVE REGION MANAGER: Handlers set up. Suspended: {self._suspended}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-    def _getKeyBindings(self):
-        keyBindings = keybindings.KeyBindings()
+    def _setup_bindings(self):
+        """Sets up the live-region-manager key bindings."""
 
-        keyBindings.add(
+        self._bindings = keybindings.KeyBindings()
+
+        self._bindings.add(
             keybindings.KeyBinding(
                 "backslash",
                 keybindings.defaultModifierMask,
                 keybindings.NO_MODIFIER_MASK,
-                self.inputEventHandlers.get("advanceLivePoliteness")))
+                self._handlers.get("advanceLivePoliteness"),
+                1,
+                not self._suspended))
 
-        keyBindings.add(
+        self._bindings.add(
             keybindings.KeyBinding(
                 "backslash",
                 keybindings.defaultModifierMask,
                 keybindings.SHIFT_MODIFIER_MASK,
-                self.inputEventHandlers.get("setLivePolitenessOff")))
+                self._handlers.get("setLivePolitenessOff"),
+                1,
+                not self._suspended))
 
-        keyBindings.add(
+        self._bindings.add(
             keybindings.KeyBinding(
                 "backslash",
                 keybindings.defaultModifierMask,
                 keybindings.ORCA_SHIFT_MODIFIER_MASK,
-                self.inputEventHandlers.get("monitorLiveRegions")))
+                self._handlers.get("monitorLiveRegions"),
+                1,
+                not self._suspended))
 
         for key in ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]:
-            keyBindings.add(
+            self._bindings.add(
                 keybindings.KeyBinding(
                     key,
                     keybindings.defaultModifierMask,
                     keybindings.ORCA_MODIFIER_MASK,
-                    self.inputEventHandlers.get("reviewLiveAnnouncement")))
+                    self._handlers.get("reviewLiveAnnouncement"),
+                    1,
+                    not self._suspended))
 
-        return keyBindings
+        # This pulls in the user's overrides to alternative keys.
+        self._bindings = settings_manager.getManager().overrideKeyBindings(
+            self._handlers, self._bindings, False)
+
+        msg = f"LIVE REGION MANAGER: Bindings set up. Suspended: {self._suspended}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+
+        tokens = [self._bindings]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+    def refresh_bindings_and_grabs(self, script, reason=""):
+        """Refreshes live region bindings and grabs for script."""
+
+        msg = "LIVE REGION MANAGER: Refreshing bindings and grabs"
+        if reason:
+            msg += f": {reason}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+
+        for binding in self._bindings.keyBindings:
+            script.keyBindings.remove(binding, includeGrabs=True)
+
+        self._handlers = self.get_handlers(True)
+        self._bindings = self.get_bindings(True)
+
+        for binding in self._bindings.keyBindings:
+            script.keyBindings.add(binding, includeGrabs=not self._suspended)
+
+    def suspend_commands(self, script, suspended, reason=""):
+        """Suspends live region commands independent of the enabled setting."""
+
+        if suspended == self._suspended:
+            return
+
+        msg = f"LIVE REGION MANAGER: Commands suspended: {suspended}"
+        if reason:
+            msg += f": {reason}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        self._suspended = suspended
+        self.refresh_bindings_and_grabs(script, f"Suspended changed to {suspended}")
 
     def reset(self):
         # First we will purge our politeness override dictionary of LIVE_NONE
@@ -211,7 +290,7 @@ class LiveRegionManager:
             return
         if politeness == LIVE_NONE:
             # All the 'registered' LIVE_NONE objects will be set to off
-            # if not monitoring.  We will ignore LIVE_NONE objects that 
+            # if not monitoring.  We will ignore LIVE_NONE objects that
             # arrive after the user switches off monitoring.
             if not self.monitoring:
                 return
@@ -230,7 +309,7 @@ class LiveRegionManager:
             self.msg_queue.enqueue(message, politeness, event.source)
 
     def pumpMessages(self):
-        """ Main gobject callback for live region support.  Handles both 
+        """ Main gobject callback for live region support.  Handles both
         purging the message queue and outputting any queued messages that
         were queued up in the handleEvent() method.
         """
@@ -283,20 +362,20 @@ class LiveRegionManager:
     def advancePoliteness(self, script, inputEvent):
         """Advance the politeness level of the given object"""
 
-        if not _settingsManager.getSetting('inferLiveRegions'):
+        if not settings_manager.getManager().getSetting('inferLiveRegions'):
             self._script.presentMessage(messages.LIVE_REGIONS_OFF)
             return
 
-        obj = orca_state.locusOfFocus
+        obj = focus_manager.getManager().get_locus_of_focus()
         objectid = self._getObjectId(obj)
         uri = self._script.bookmarks.getURIKey()
 
         try:
             # The current priority is either a previous override or the
-            # live property.  If an exception is thrown, an override for 
+            # live property.  If an exception is thrown, an override for
             # this object has never occurred and the object does not have
             # live markup.  In either case, set the override to LIVE_NONE.
-            cur_priority = self._politenessOverrides[(uri, objectid)] 
+            cur_priority = self._politenessOverrides[(uri, objectid)]
         except KeyError:
             cur_priority = self._liveStringToType(obj)
 
@@ -315,7 +394,7 @@ class LiveRegionManager:
 
 
     def goLastLiveRegion(self):
-        """Move the caret to the last announced live region and speak the 
+        """Move the caret to the last announced live region and speak the
         contents of that object"""
         if self.lastliveobj:
             self._script.utilities.setCaretPosition(self.lastliveobj, 0)
@@ -326,7 +405,7 @@ class LiveRegionManager:
         """Speak the given number cached message"""
 
         msgnum = int(inputEvent.event_string[1:])
-        if not _settingsManager.getSetting('inferLiveRegions'):
+        if not settings_manager.getManager().getSetting('inferLiveRegions'):
             self._script.presentMessage(messages.LIVE_REGIONS_OFF)
             return
 
@@ -339,7 +418,7 @@ class LiveRegionManager:
         """User toggle to set all live regions to LIVE_OFF or back to their
         original politeness."""
 
-        if not _settingsManager.getSetting('inferLiveRegions'):
+        if not settings_manager.getManager().getSetting('inferLiveRegions'):
             self._script.presentMessage(messages.LIVE_REGIONS_OFF)
             return
 
@@ -348,7 +427,7 @@ class LiveRegionManager:
         # get the URI of the page.  It is used as a partial key.
         uri = self._script.bookmarks.getURIKey()
 
-        # The user is currently monitoring live regions but now wants to 
+        # The user is currently monitoring live regions but now wants to
         # change all live region politeness on page to LIVE_OFF
         if self.monitoring:
             self._script.presentMessage(messages.LIVE_REGIONS_ALL_OFF)
@@ -378,7 +457,7 @@ class LiveRegionManager:
                 self._politenessOverrides[key] = value
             self._script.presentMessage(messages.LIVE_REGIONS_ALL_RESTORED)
             # Toggle our flag
-            self.monitoring = True  
+            self.monitoring = True
 
     def getAllLiveRegions(self, document):
         attrs = []
@@ -394,7 +473,7 @@ class LiveRegionManager:
         return result
 
     def generateLiveRegionDescription(self, obj, **args):
-        """Used in conjunction with whereAmI to output description and 
+        """Used in conjunction with whereAmI to output description and
         politeness of the given live region object"""
         objectid = self._getObjectId(obj)
         uri = self._script.bookmarks.getURIKey()
@@ -404,18 +483,14 @@ class LiveRegionManager:
         # get the description if there is one.
         relation = AXObject.get_relation(obj, Atspi.RelationType.DESCRIBED_BY)
         if relation:
-            targetobj = relation.getTarget(0)
-            try:
-                # We will add on descriptions if they don't duplicate
-                # what's already in the object's description.
-                # See http://bugzilla.gnome.org/show_bug.cgi?id=568467
-                # for more information.
-                #
-                description = targetobj.queryText().getText(0, -1)
-                if description.strip() != AXObject.get_description(obj).strip():
-                    results.append(description)
-            except NotImplementedError:
-                pass
+            targetobj = relation.get_target(0)
+            # We will add on descriptions if they don't duplicate
+            # what's already in the object's description.
+            # See http://bugzilla.gnome.org/show_bug.cgi?id=568467
+            # for more information.
+            description = AXText.get_all_text(targetobj)
+            if description.strip() != AXObject.get_description(obj).strip():
+                results.append(description)
 
         # get the politeness level as a string
         try:
@@ -425,7 +500,7 @@ class LiveRegionManager:
             liveprioritystr = 'none'
 
         # We will only output useful information
-        # 
+        #
         if results or liveprioritystr != 'none':
             results.append(messages.LIVE_REGIONS_LEVEL % liveprioritystr)
 
@@ -447,7 +522,7 @@ class LiveRegionManager:
         labels = ""
 
         # A message is divided into two parts: labels and content.  We
-        # will first try to get the content.  If there is None, 
+        # will first try to get the content.  If there is None,
         # assume it is an invalid message and return None
         if event.type.startswith('object:children-changed:add'):
             if attrs.get('container-atomic') == 'true':
@@ -470,8 +545,6 @@ class LiveRegionManager:
             return None
 
         content = content.strip()
-        if len(content) == 1:
-            content = chnames.getCharacterName(content)
 
         # Proper live regions typically come with proper aria labels. These
         # labels are typically exposed as names. Failing that, descriptions.
@@ -530,13 +603,13 @@ class LiveRegionManager:
         """Returns the politeness enum for a given object"""
         attrs = attributes or self._getAttrDictionary(obj)
         try:
-            if attrs['container-live'] == 'off': 
+            if attrs['container-live'] == 'off':
                 return LIVE_OFF
-            elif attrs['container-live'] == 'polite':  
+            elif attrs['container-live'] == 'polite':
                 return LIVE_POLITE
-            elif attrs['container-live'] == 'assertive': 
+            elif attrs['container-live'] == 'assertive':
                 return LIVE_ASSERTIVE
-            elif attrs['container-live'] == 'rude': 
+            elif attrs['container-live'] == 'rude':
                 return LIVE_RUDE
             else:
                 return LIVE_NONE
@@ -545,24 +618,24 @@ class LiveRegionManager:
 
     def _liveTypeToString(self, politeness):
         """Returns the politeness level as a string given a politeness enum"""
-        if politeness == LIVE_OFF: 
+        if politeness == LIVE_OFF:
             return 'off'
-        elif politeness == LIVE_POLITE: 
+        elif politeness == LIVE_POLITE:
             return 'polite'
-        elif politeness == LIVE_ASSERTIVE: 
+        elif politeness == LIVE_ASSERTIVE:
             return 'assertive'
-        elif politeness == LIVE_RUDE: 
+        elif politeness == LIVE_RUDE:
             return 'rude'
-        elif politeness == LIVE_NONE: 
+        elif politeness == LIVE_NONE:
             return 'none'
         else:
             return 'unknown'
 
     def _getAttrDictionary(self, obj):
-        return self._script.utilities.objectAttributes(obj)
+        return AXObject.get_attributes_dict(obj)
 
     def _getPath(self, obj):
-        """ Returns, as a tuple of integers, the path from the given object 
+        """ Returns, as a tuple of integers, the path from the given object
         to the document frame."""
         docframe = self._script.utilities.documentFrame()
         path = []
@@ -574,10 +647,10 @@ class LiveRegionManager:
             obj = AXObject.get_parent(obj)
 
     def toggleMonitoring(self, script, inputEvent):
-        if not _settingsManager.getSetting('inferLiveRegions'):
-            _settingsManager.setSetting('inferLiveRegions', True)
+        if not settings_manager.getManager().getSetting('inferLiveRegions'):
+            settings_manager.getManager().setSetting('inferLiveRegions', True)
             self._script.presentMessage(messages.LIVE_REGIONS_MONITORING_ON)
         else:
-            _settingsManager.setSetting('inferLiveRegions', False)
+            settings_manager.getManager().setSetting('inferLiveRegions', False)
             self.flushMessages()
             self._script.presentMessage(messages.LIVE_REGIONS_MONITORING_OFF)

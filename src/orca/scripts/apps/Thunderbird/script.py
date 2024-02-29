@@ -25,20 +25,19 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2004-2008 Sun Microsystems Inc."
 __license__   = "LGPL"
 
-import orca.orca as orca
 import orca.cmdnames as cmdnames
 import orca.debug as debug
+import orca.focus_manager as focus_manager
 import orca.input_event as input_event
 import orca.scripts.default as default
 import orca.settings_manager as settings_manager
-import orca.orca_state as orca_state
 import orca.scripts.toolkits.Gecko as Gecko
+from orca.ax_document import AXDocument
 from orca.ax_object import AXObject
+from orca.ax_text import AXText
 from orca.ax_utilities import AXUtilities
 
 from .spellcheck import SpellCheck
-
-_settingsManager = settings_manager.getManager()
 
 ########################################################################
 #                                                                      #
@@ -61,10 +60,10 @@ class Script(Gecko.Script):
         #
         self._lastAutoComplete = ""
 
-        if _settingsManager.getSetting('sayAllOnLoad') is None:
-            _settingsManager.setSetting('sayAllOnLoad', False)
-        if _settingsManager.getSetting('pageSummaryOnLoad') is None:
-            _settingsManager.setSetting('pageSummaryOnLoad', False)
+        if settings_manager.getManager().getSetting('sayAllOnLoad') is None:
+            settings_manager.getManager().setSetting('sayAllOnLoad', False)
+        if settings_manager.getManager().getSetting('pageSummaryOnLoad') is None:
+            settings_manager.getManager().setSetting('pageSummaryOnLoad', False)
 
         super().__init__(app)
 
@@ -98,9 +97,9 @@ class Script(Gecko.Script):
         grid = super().getAppPreferencesGUI()
 
         self._sayAllOnLoadCheckButton.set_active(
-            _settingsManager.getSetting('sayAllOnLoad'))
+            settings_manager.getManager().getSetting('sayAllOnLoad'))
         self._pageSummaryOnLoadCheckButton.set_active(
-            _settingsManager.getSetting('pageSummaryOnLoad'))
+            settings_manager.getManager().getSetting('pageSummaryOnLoad'))
 
         spellcheck = self.spellcheck.getAppPreferencesGUI()
         grid.attach(spellcheck, 0, len(grid.get_children()), 1, 1)
@@ -123,7 +122,6 @@ class Script(Gecko.Script):
 
         if self.spellcheck.isSuggestionsItem(newFocus):
             includeLabel = not self.spellcheck.isSuggestionsItem(oldFocus)
-            orca.emitRegionChanged(newFocus)
             self.updateBraille(newFocus)
             self.spellcheck.presentSuggestionListItem(includeLabel=includeLabel)
             return
@@ -141,30 +139,23 @@ class Script(Gecko.Script):
         return super().useFocusMode(obj, prevObj)
 
     def enableStickyBrowseMode(self, inputEvent, forceMessage=False):
-        if self.utilities.isEditableMessage(orca_state.locusOfFocus):
+        if self.utilities.isEditableMessage(focus_manager.getManager().get_locus_of_focus()):
             return
 
         super().enableStickyBrowseMode(inputEvent, forceMessage)
 
     def enableStickyFocusMode(self, inputEvent, forceMessage=False):
-        if self.utilities.isEditableMessage(orca_state.locusOfFocus):
+        if self.utilities.isEditableMessage(focus_manager.getManager().get_locus_of_focus()):
             return
 
         super().enableStickyFocusMode(inputEvent, forceMessage)
 
     def togglePresentationMode(self, inputEvent, documentFrame=None):
-        if self._inFocusMode and self.utilities.isEditableMessage(orca_state.locusOfFocus):
+        if self._inFocusMode \
+           and self.utilities.isEditableMessage(focus_manager.getManager().get_locus_of_focus()):
             return
 
         super().togglePresentationMode(inputEvent, documentFrame)
-
-    def useStructuralNavigationModel(self, debugOutput=True):
-        """Returns True if structural navigation should be enabled here."""
-
-        if self.utilities.isEditableMessage(orca_state.locusOfFocus):
-            return False
-
-        return super().useStructuralNavigationModel(debugOutput)
 
     def onFocusedChanged(self, event):
         """Callback for object:state-changed:focused accessibility events."""
@@ -175,8 +166,8 @@ class Script(Gecko.Script):
         self._lastAutoComplete = ""
         obj = event.source
         if self.spellcheck.isAutoFocusEvent(event):
-            orca.setLocusOfFocus(event, event.source, False)
-            self.updateBraille(orca_state.locusOfFocus)
+            focus_manager.getManager().set_locus_of_focus(event, event.source, False)
+            self.updateBraille(event.source)
 
         if not self.utilities.inDocumentContent(obj):
             super().onFocusedChanged(event)
@@ -199,10 +190,10 @@ class Script(Gecko.Script):
 
         obj = event.source
         if self.utilities.isDocument(obj) and not event.detail1:
-            if AXObject.get_name(orca_state.locusOfFocus) \
-                and (AXUtilities.is_frame(orca_state.locusOfFocus) \
-                     or AXUtilities.is_page_tab(orca_state.locusOfFocus)):
-                orca.setLocusOfFocus(event, event.source, False)
+            focus = focus_manager.getManager().get_locus_of_focus()
+            if AXObject.get_name(focus) \
+                and (AXUtilities.is_frame(focus) or AXUtilities.is_page_tab(focus)):
+                focus_manager.getManager().set_locus_of_focus(event, event.source, False)
 
             if self.utilities.inDocumentContent():
                 self.speakMessage(AXObject.get_name(obj))
@@ -251,9 +242,8 @@ class Script(Gecko.Script):
         # existent browsery autocompletes for Thunderbird.
 
         if event.detail1 and self.utilities.isMenuWithNoSelectedChild(event.source) \
-           and orca_state.activeWindow == self.utilities.topLevelObject(event.source):
-            self.presentObject(event.source)
-            orca.setLocusOfFocus(event, event.source, False)
+           and self.utilities.topLevelObjectIsActiveWindow(event.source):
+            focus_manager.getManager().set_locus_of_focus(event, event.source, True)
             return
 
         default.Script.onShowingChanged(self, event)
@@ -300,13 +290,7 @@ class Script(Gecko.Script):
 
             # Mozilla cannot seem to get their ":system" suffix right
             # to save their lives, so we'll add yet another sad hack.
-            try:
-                text = event.source.queryText()
-            except Exception:
-                hasSelection = False
-            else:
-                hasSelection = text.getNSelections() > 0
-            if hasSelection or isSystemEvent:
+            if isSystemEvent or AXText.has_selected_text(event.source):
                 voice = self.speechGenerator.voice(obj=event.source, string=event.any_data)
                 self.speakMessage(event.any_data, voice=voice)
                 self._lastAutoComplete = event.any_data
@@ -323,9 +307,9 @@ class Script(Gecko.Script):
             return
 
         if self.utilities.isEditableMessage(obj) and self.spellcheck.isActive():
-            text = obj.queryText()
-            selStart, selEnd = text.getSelection(0)
-            self.spellcheck.setDocumentPosition(obj, selStart)
+            selStart = AXText.get_selection_start_offset(obj)
+            if selStart >= 0:
+                self.spellcheck.setDocumentPosition(obj, selStart)
             return
 
         super().onTextSelectionChanged(event)
@@ -351,21 +335,21 @@ class Script(Gecko.Script):
         self.utilities.setCaretPosition(obj, offset)
         self.updateBraille(obj)
 
-        if _settingsManager.getSetting('pageSummaryOnLoad'):
-            tokens = ["THUNDERBIRD: Getting page summary for obj", obj]
+        if settings_manager.getManager().getSetting('pageSummaryOnLoad'):
+            tokens = ["THUNDERBIRD: Getting page summary for", documentFrame]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            summary = self.utilities.getPageSummary(obj)
+            summary = AXDocument.get_document_summary(documentFrame)
             if summary:
                 self.presentMessage(summary)
 
-        if not _settingsManager.getSetting('sayAllOnLoad'):
+        if not settings_manager.getManager().getSetting('sayAllOnLoad'):
             msg = "THUNDERBIRD: SayAllOnLoad is False. Presenting line."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             contents = self.utilities.getLineContentsAtOffset(obj, offset)
             self.speakContents(contents)
             return
 
-        if _settingsManager.getSetting('enableSpeech'):
+        if settings_manager.getManager().getSetting('enableSpeech'):
             msg = "THUNDERBIRD: SayAllOnLoad is True and speech is enabled"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self.sayAll(None)
@@ -379,8 +363,9 @@ class Script(Gecko.Script):
             return
 
         self.spellcheck.presentErrorDetails()
-        orca.setLocusOfFocus(None, self.spellcheck.getChangeToEntry(), False)
-        self.updateBraille(orca_state.locusOfFocus)
+        entry = self.spellcheck.getChangeToEntry()
+        focus_manager.getManager().set_locus_of_focus(None, entry, False)
+        self.updateBraille(entry)
 
     def onWindowDeactivated(self, event):
         """Callback for window:deactivate accessibility events."""

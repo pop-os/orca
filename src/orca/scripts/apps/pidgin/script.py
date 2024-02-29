@@ -32,22 +32,17 @@ from gi.repository import Atspi
 
 import orca.debug as debug
 import orca.messages as messages
-import orca.scripts.toolkits.GAIL as GAIL
+import orca.scripts.toolkits.gtk as gtk
 import orca.settings as settings
 from orca.ax_object import AXObject
+from orca.ax_table import AXTable
 from orca.ax_utilities import AXUtilities
 
 from .chat import Chat
 from .script_utilities import Utilities
 from .speech_generator import SpeechGenerator
 
-########################################################################
-#                                                                      #
-# The Pidgin script class.                                             #
-#                                                                      #
-########################################################################
-
-class Script(GAIL.Script):
+class Script(gtk.Script):
 
     def __init__(self, app):
         """Creates a new script for the given application.
@@ -66,7 +61,7 @@ class Script(GAIL.Script):
                                       Atspi.Role.FILLER,
                                       Atspi.Role.FRAME]]
 
-        GAIL.Script.__init__(self, app)
+        super().__init__(app)
 
     def getChat(self):
         """Returns the 'chat' class for this script."""
@@ -89,7 +84,7 @@ class Script(GAIL.Script):
         handlers for chat functionality.
         """
 
-        GAIL.Script.setupInputEventHandlers(self)
+        super().setupInputEventHandlers()
         self.inputEventHandlers.update(self.chat.inputEventHandlers)
 
     def getAppKeyBindings(self):
@@ -111,6 +106,10 @@ class Script(GAIL.Script):
 
     def onChildrenAdded(self, event):
         """Callback for object:children-changed:add accessibility events."""
+
+        AXObject.clear_cache_now("children-changed event.")
+        if AXUtilities.is_table_related(event.source):
+            AXTable.clear_cache_now("children-changed event.")
 
         # Check to see if a new chat room tab has been created and if it
         # has, then announce its name. See bug #469098 for more details.
@@ -154,8 +153,8 @@ class Script(GAIL.Script):
 
         if self.chat.isInBuddyList(event.source):
             return
-        else:
-            GAIL.Script.onNameChanged(self, event)
+
+        super().onNameChanged(event)
 
     def onTextDeleted(self, event):
         """Called whenever text is deleted from an object.
@@ -166,8 +165,8 @@ class Script(GAIL.Script):
 
         if self.chat.isInBuddyList(event.source):
             return
-        else:
-            GAIL.Script.onTextDeleted(self, event)
+
+        super().onTextDeleted(event)
 
     def onTextInserted(self, event):
         """Called whenever text is added to an object."""
@@ -175,7 +174,7 @@ class Script(GAIL.Script):
         if self.chat.presentInsertedText(event):
             return
 
-        GAIL.Script.onTextInserted(self, event)
+        super().onTextInserted(event)
 
     def onValueChanged(self, event):
         """Called whenever an object's value changes.  Currently, the
@@ -187,8 +186,8 @@ class Script(GAIL.Script):
 
         if self.chat.isInBuddyList(event.source):
             return
-        else:
-            GAIL.Script.onValueChanged(self, event)
+
+        super().onValueChanged(event)
 
     def onWindowActivated(self, event):
         """Called whenever a toplevel window is activated."""
@@ -196,7 +195,7 @@ class Script(GAIL.Script):
         if not settings.enableSadPidginHack:
             msg = "PIDGIN: Hack for missing events disabled"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
-            GAIL.Script.onWindowActivated(self, event)
+            super().onWindowActivated(event)
             return
 
         msg = "PIDGIN: Starting hack for missing events"
@@ -209,7 +208,7 @@ class Script(GAIL.Script):
 
         msg = "PIDGIN: Hack to work around missing events complete"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
-        GAIL.Script.onWindowActivated(self, event)
+        super().onWindowActivated(event)
 
     def onExpandedChanged(self, event):
         """Callback for object:state-changed:expanded accessibility events."""
@@ -221,4 +220,4 @@ class Script(GAIL.Script):
             self.presentObject(obj, alreadyFocused=True)
             return
 
-        GAIL.Script.onExpandedChanged(self, event)
+        super().onExpandedChanged(event)

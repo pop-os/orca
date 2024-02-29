@@ -31,7 +31,7 @@ __license__   = "LGPL"
 import brlapi
 from gi.repository import Gtk
 
-from . import orca_state
+from . import script_manager
 from .input_event import BrailleEvent
 
 # Attribute/Selection mask strings:
@@ -112,14 +112,15 @@ class BrlCell(Gtk.Button):
         to what occurs when a user presses the cursor routing key on his/her
         hardware braille display."""
 
-        if not orca_state.activeScript:
+        script = script_manager.getManager().getActiveScript()
+        if script is None:
             return
 
         fakeKeyPress = {}
         fakeKeyPress['command'] = brlapi.KEY_CMD_ROUTE
         fakeKeyPress['argument'] = self._position
         event = BrailleEvent(fakeKeyPress)
-        orca_state.activeScript.processRoutingKey(event)
+        script.processRoutingKey(event)
 
     def clear(self):
         """Clears the braille cell."""

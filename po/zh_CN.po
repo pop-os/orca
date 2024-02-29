@@ -12,22 +12,22 @@
 # Mandy Wang <wangmychn@gmail.com>, 2017.
 # Mingcong Bai <jeffbai@aosc.xyz>, 2017, 2018.
 # Dingzhong Chen <wsxy162@gmail.com>, 2019.
-# lumingzh <lumingzh@qq.com>, 2022.
+# lumingzh <lumingzh@qq.com>, 2022-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: orca master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/orca/issues\n"
-"POT-Creation-Date: 2023-08-31 22:44+0000\n"
-"PO-Revision-Date: 2023-09-01 16:31+0800\n"
-"Last-Translator: Eni <enigma@petalmail.com>\n"
+"POT-Creation-Date: 2023-08-08 11:20+0000\n"
+"PO-Revision-Date: 2023-08-10 15:51+0800\n"
+"Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.3.2\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"X-Generator: Gtranslator 42.0\n"
 
 #: orca-autostart.desktop.in:4
 msgid "Orca Screen Reader"
@@ -271,7 +271,7 @@ msgstr "btn"
 #. Translators: short braille for the rolename of a radio button.
 #: src/orca/braille_rolenames.py:190
 msgid "radio"
-msgstr "单选框"
+msgstr "radio"
 
 #. Translators: short braille for the rolename of a radio menu item.
 #: src/orca/braille_rolenames.py:193
@@ -367,7 +367,7 @@ msgstr "tbar"
 #. Translators: short braille for the rolename of a tooltip.
 #: src/orca/braille_rolenames.py:253
 msgid "tip"
-msgstr "提示"
+msgstr "tip"
 
 #. Translators: short braille for the rolename of a tree.
 #: src/orca/braille_rolenames.py:256
@@ -417,7 +417,7 @@ msgstr "app"
 #. Translators: short braille for the rolename of a autocomplete.
 #: src/orca/braille_rolenames.py:283
 msgid "auto"
-msgstr "自动"
+msgstr "auto"
 
 #. Translators: short braille for the rolename of an editbar.
 #: src/orca/braille_rolenames.py:286
@@ -773,7 +773,7 @@ msgstr "问号"
 #.
 #: src/orca/chnames.py:137
 msgid "at"
-msgstr "at"
+msgstr "圈 a"
 
 #. Translators: this is the spoken word for the character '[' (U+005b)
 #.
@@ -1857,19 +1857,19 @@ msgstr "朗读链接细节"
 #. box.
 #: src/orca/cmdnames.py:96
 msgid "Present the default button"
-msgstr "朗读默认按钮"
+msgstr "呈现默认按钮"
 
 #. Translators: This command will cause the window's status bar contents to be
 #. spoken and displayed in braille.
 #: src/orca/cmdnames.py:100
 msgid "Present the status bar"
-msgstr "朗读状态栏"
+msgstr "呈现状态栏"
 
 #. Translators: This command will cause the window's title to be spoken and
 #. displayed in braille.
 #: src/orca/cmdnames.py:104
 msgid "Present the title bar"
-msgstr "朗读标题栏"
+msgstr "呈现标题栏"
 
 #. Translators: the Orca "Find" dialog allows a user to search for text in a
 #. window and then move focus to that text. For example, they may want to find
@@ -1882,7 +1882,7 @@ msgstr "打开查找对话框"
 #. that can be performed on the current object. This is the name of that command.
 #: src/orca/cmdnames.py:113
 msgid "Show actions menu"
-msgstr "显示操作菜单"
+msgstr "显示动作菜单"
 
 #. Translators: the Orca "Find" dialog allows a user to search for text in a
 #. window and then move focus to that text. For example, they may want to find
@@ -1917,7 +1917,7 @@ msgstr "进入及离开平铺浏览模式"
 #. This switch allows the user to restrict the flat review function to a specific object.
 #: src/orca/cmdnames.py:140
 msgid "Toggle restricting flat review to the current object"
-msgstr "切换将平铺浏览限制到当前对象上"
+msgstr "切换限制平铺浏览为当前对象"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -1927,7 +1927,7 @@ msgstr "切换将平铺浏览限制到当前对象上"
 #. The home position is the beginning of the content in the window.
 #: src/orca/cmdnames.py:148
 msgid "Move flat review to the home position"
-msgstr "将平铺浏览移至家位置"
+msgstr "将平铺浏览移至起始位置"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -1937,7 +1937,7 @@ msgstr "将平铺浏览移至家位置"
 #. The home position is the last bit of information in the window.
 #: src/orca/cmdnames.py:156
 msgid "Move flat review to the end position"
-msgstr "将平铺浏览移至最尾位置"
+msgstr "将平铺浏览移至末尾位置"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -2184,7 +2184,7 @@ msgstr "将平面浏览下的内容添加到剪贴板"
 #. and copy the text. This string describes that command.
 #: src/orca/cmdnames.py:363
 msgid "Show flat review contents"
-msgstr "显示平铺浏览视图内容"
+msgstr "显示平铺浏览内容"
 
 #. Translators: when users are navigating a table, they sometimes want the
 #. entire row of a table read; other times they just want the current cell
@@ -2356,7 +2356,7 @@ msgstr "循环到下一个朗读标点符号级别的位置"
 #. is the description of the command.
 #: src/orca/cmdnames.py:489
 msgid "Cycle to the next speech synthesizer"
-msgstr "循环到下一个朗读合成器级别"
+msgstr "循环到下一个朗读电子合成器"
 
 #. Translators: Orca has a feature whereby users can set up different "profiles,"
 #. which are collection of settings which apply to a given task, such as a
@@ -2609,65 +2609,65 @@ msgstr "剪切行"
 #. notification message.
 #: src/orca/cmdnames.py:684
 msgid "Present last notification message"
-msgstr "显示最后一条通知信息"
+msgstr "呈现最后一条通知信息"
 
 #. Translators: this is a command which causes Orca to present a list of all the
 #. notification messages received.
 #: src/orca/cmdnames.py:688
 msgid "Present notification messages list"
-msgstr "显示通知信息列表"
+msgstr "呈现通知信息列表"
 
 #. Translators: this is a command which causes Orca to present the previous
 #. notification message.
 #: src/orca/cmdnames.py:692
 msgid "Present previous notification message"
-msgstr "显示前一条通知信息"
+msgstr "呈现上一条通知信息"
 
 #. Translators: this is a command which causes Orca to present the next
 #. notification message.
 #: src/orca/cmdnames.py:696
 msgid "Present next notification message"
-msgstr "显示下一条通知信息"
+msgstr "呈现下一条通知信息"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:699
 msgid "Go to next character"
-msgstr "移至下一个字符"
+msgstr "转到下一个字符"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:702
 msgid "Go to previous character"
-msgstr "移至前一个字符"
+msgstr "转到上一个字符"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:705
 msgid "Go to next word"
-msgstr "移至下一个单字"
+msgstr "转到下一个单字"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:708
 msgid "Go to previous word"
-msgstr "移至上一个单字"
+msgstr "转到上一个单字"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:711
 msgid "Go to next line"
-msgstr "移至下一行"
+msgstr "转到下一行"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:714
 msgid "Go to previous line"
-msgstr "移至上一行"
+msgstr "转到上一行"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:717
 msgid "Go to the top of the file"
-msgstr "移至文件的最上面"
+msgstr "转到文件的最上面"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:720
 msgid "Go to the bottom of the file"
-msgstr "移至文件的最下面"
+msgstr "转到文件的最下面"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:723
@@ -2731,7 +2731,7 @@ msgstr "默认的活动区域更新水平设置为关闭"
 #. messages.
 #: src/orca/cmdnames.py:769
 msgid "Review live region announcement"
-msgstr "审阅活动区域声明"
+msgstr "浏览活动区域声明"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -2961,17 +2961,17 @@ msgstr "显示级别为 %d 的标题列表"
 #. Translators: this is for navigating among iframes in a document.
 #: src/orca/cmdnames.py:920
 msgid "Go to previous internal frame"
-msgstr "转到上一个内联框架"
+msgstr "转到上一个内部框架"
 
 #. Translators: this is for navigating among iframes in a document.
 #: src/orca/cmdnames.py:923
 msgid "Go to next internal frame"
-msgstr "转到下一个内联框架"
+msgstr "转到下一个内部框架"
 
 #. Translators: this is for navigating among images in a document.
 #: src/orca/cmdnames.py:926
 msgid "Display a list of internal frames"
-msgstr "显示内联框架列表"
+msgstr "显示内部框架列表"
 
 #. Translators: this is for navigating among images in a document.
 #: src/orca/cmdnames.py:929
@@ -3100,38 +3100,38 @@ msgstr "转到表中最后一个声明的活动区域"
 #. as a hierarchy.
 #: src/orca/cmdnames.py:1011
 msgid "Go to the parent of the object with navigator focus."
-msgstr "前往导航焦点对象的父元素。"
+msgstr "用导览器焦点转到该对象的上级。"
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy.
 #: src/orca/cmdnames.py:1015
 msgid "Go to the first child of the object with navigator focus."
-msgstr "前往导航焦点对象的第一个子元素。"
+msgstr "用导览器焦点转到该对象的首个下级。"
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy.
 #: src/orca/cmdnames.py:1019
 msgid "Go to the next sibling of the object with navigator focus."
-msgstr "前往导航焦点对象的下一个相邻元素。"
+msgstr "用导览器焦点转到该对象的下个同级。"
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy.
 #: src/orca/cmdnames.py:1023
 msgid "Go to the previous sibling of the object with navigator focus."
-msgstr "前往导航焦点对象的上一个相邻元素。"
+msgstr "用导览器焦点转到该对象的上个同级。"
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy. Users are also able to synthesize a click on the objects.
 #: src/orca/cmdnames.py:1027
 msgid "Click on the object with navigator focus."
-msgstr "点击导航焦点的对象。"
+msgstr "用导览器焦点点击该对象。"
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy. This hierarchy can be simplified, and the simplification can be
 #. toggled on and off.
 #: src/orca/cmdnames.py:1032
 msgid "Toggle simplified object navigation."
-msgstr "切换简化对象导航。"
+msgstr "切换简化对象导览。"
 
 #. Translators: this is for navigating among paragraphs in a document.
 #: src/orca/cmdnames.py:1035
@@ -4760,7 +4760,7 @@ msgstr "默认"
 #: src/orca/guilabels.py:280
 msgctxt "keybindings"
 msgid "Learn mode"
-msgstr "学习模式"
+msgstr "了解更多"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. are related to presenting and performing the accessible actions associated
@@ -4775,7 +4775,7 @@ msgstr "动作"
 #. buttons.
 #: src/orca/guilabels.py:291
 msgid "Braille Bindings"
-msgstr "点字按键组合"
+msgstr "盲文绑定"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. are related to saving and jumping among objects via "bookmarks".
@@ -4795,13 +4795,13 @@ msgstr "日期和时间"
 #. used in cmdnames.py.
 #: src/orca/guilabels.py:305
 msgid "Mouse review"
-msgstr "鼠标视图"
+msgstr "鼠标浏览"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. are related to object navigation.
 #: src/orca/guilabels.py:309
 msgid "Object navigation"
-msgstr "对象导航"
+msgstr "对象导览"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. are related to presenting information about the current location, such as
@@ -4827,7 +4827,7 @@ msgstr "未绑定"
 #. Those commands are all listed under this group label.
 #: src/orca/guilabels.py:329
 msgid "Flat review"
-msgstr "平铺视图"
+msgstr "平铺浏览"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. are related to Orca's speech and verbosity settings. This group of commands
@@ -4836,7 +4836,7 @@ msgstr "平铺视图"
 #. are spoken.
 #: src/orca/guilabels.py:336
 msgid "Speech and verbosity"
-msgstr "语音和详略"
+msgstr "语音与详细度"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -4849,7 +4849,7 @@ msgstr "语音和详略"
 #. and copy the text. This string is the title of the window with the text view.
 #: src/orca/guilabels.py:347
 msgid "Flat review contents"
-msgstr "平铺视图内容"
+msgstr "平铺浏览内容"
 
 #. Translators: Modified is a table column header in Orca's preferences dialog.
 #. This column contains a checkbox which indicates whether a key binding
@@ -4885,13 +4885,13 @@ msgstr "通知"
 #: src/orca/guilabels.py:372
 msgctxt "notification presenter"
 msgid "Received"
-msgstr "已收到通知"
+msgstr "已接收"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. are associated with presenting notifications.
 #: src/orca/guilabels.py:376
 msgid "Notification presenter"
-msgstr "通知控制"
+msgstr "通知呈现器"
 
 #. Translators: Orca's preferences can be configured on a per-application basis,
 #. allowing users to customize Orca's behavior, keybindings, etc. to work one
@@ -4911,7 +4911,7 @@ msgstr "屏幕阅读器 %s 首选项"
 #. "underlining" with braille dots 7-8 a word that is bold.
 #: src/orca/guilabels.py:391
 msgid "Mark in braille"
-msgstr "布莱叶盲文中的标记"
+msgstr "盲文中的标记"
 
 #. Translators: "Present Unless" is a column header of the text attributes panel
 #. of the Orca preferences dialog. On this panel, the user can select a set of
@@ -5181,7 +5181,7 @@ msgstr "标题"
 #: src/orca/guilabels.py:579
 msgctxt "structural navigation"
 msgid "Internal Frame"
-msgstr "内联框架"
+msgstr "内部框架"
 
 #. Translators: Orca has a command that presents a list of structural navigation
 #. objects in a dialog box so that users can navigate more quickly than they
@@ -5403,7 +5403,7 @@ msgstr "标题"
 #: src/orca/guilabels.py:726
 msgctxt "structural navigation"
 msgid "Internal Frames"
-msgstr "内联框架"
+msgstr "内部框架"
 
 #. Translators: Orca has a command that presents a list of structural navigation
 #. objects in a dialog box so that users can navigate more quickly than they
@@ -8161,7 +8161,7 @@ msgstr "无法保存书签"
 #. any bookmarks.
 #: src/orca/messages.py:74
 msgid "No bookmarks found."
-msgstr "没有找到书签。"
+msgstr "未找到书签。"
 
 #. Translators: Orca has a feature in which users can store/save a particular
 #. location in an application window and return to it later by pressing a
@@ -8171,7 +8171,7 @@ msgstr "没有找到书签。"
 #. that index.
 #: src/orca/messages.py:82
 msgid "Bookmark not found."
-msgstr "没有找到书签。"
+msgstr "未找到书签。"
 
 #. Translators: Orca normally intercepts all keyboard commands and only passes
 #. them along to the current application when they are not Orca commands. This
@@ -8729,7 +8729,7 @@ msgstr "默认按钮为 %s"
 #: src/orca/messages.py:501
 #, python-format
 msgid "Default button is %s. Grayed"
-msgstr "默认按钮为 %s。未选中"
+msgstr "默认按钮为 %s。不可点击"
 
 #. Translators: The "default" button in a dialog box is the button that gets
 #. activated when Enter is pressed anywhere within that dialog box. Orca has
@@ -8926,7 +8926,7 @@ msgstr "离开平铺浏览。"
 #. object of interest.
 #: src/orca/messages.py:644
 msgid "Flat review restricted to the current object"
-msgstr "平铺浏览已限制到当前对象上"
+msgstr "平铺浏览已限制为当前对象"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -8936,7 +8936,7 @@ msgstr "平铺浏览已限制到当前对象上"
 #. that is, the entire window can be explored.
 #: src/orca/messages.py:652
 msgid "Flat review unrestricted"
-msgstr "平铺浏览限制解除"
+msgstr "平铺浏览未限制范围"
 
 #. Translators: this means a particular cell in a spreadsheet has a formula
 #. (e.g., "=sum(a1:d1)")
@@ -10458,7 +10458,7 @@ msgstr "对象模式。"
 #. the mouse pointer to a particular object is believed to have succeeded.
 #: src/orca/messages.py:1784
 msgid "Pointer moved to object."
-msgstr "指针已移动到对象上。"
+msgstr "指针已移动到对象。"
 
 #. Translators: Hovering the mouse over certain objects on a web page causes a
 #. new object to appear such as a pop-up menu. Orca has a command will move the
@@ -10496,42 +10496,42 @@ msgstr "错误：无法创建对象列表。"
 #. has no children.
 #: src/orca/messages.py:1812
 msgid "No children."
-msgstr "没有子元素。"
+msgstr "没有下级。"
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy. This message is spoken when the current node in the hierarchy
 #. has no next sibling.
 #: src/orca/messages.py:1817
 msgid "No next."
-msgstr "没有下一项。"
+msgstr "没有下一个。"
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy. This message is spoken when the current node in the hierarchy
 #. has no parent.
 #: src/orca/messages.py:1822
 msgid "No parent."
-msgstr "没有父元素。"
+msgstr "没有上级。"
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy. This message is spoken when the current node in the hierarchy
 #. has no previous sibling.
 #: src/orca/messages.py:1827
 msgid "No previous."
-msgstr "没有上一项。"
+msgstr "没有上一个。"
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy. This hierarchy can be simplified to aid with navigation. This
 #. message is spoken when the simplified view is enabled.
 #: src/orca/messages.py:1832
 msgid "Simplified navigation enabled."
-msgstr "简化导航已启用。"
+msgstr "简化导览已启用。"
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy. This hierarchy can be simplified to aid with navigation. This
 #. message is spoken when the simplified view is disabled.
 #: src/orca/messages.py:1837
 msgid "Simplified navigation disabled."
-msgstr "简化导航已禁用。"
+msgstr "简化导览已禁用。"
 
 #. Translators: This message describes a list item in a document. Nesting level
 #. is how "deep" the item is (e.g., a level of 2 represents a list item inside a
@@ -10556,7 +10556,7 @@ msgstr "新条目已添加"
 #: src/orca/messages.py:1854
 #, python-format
 msgid "No actions found on: %s"
-msgstr "在 %s 上没有发现可执行动作"
+msgstr "未找到动作于：%s"
 
 #. Translators: This is intended to be a short phrase to present the fact that no
 #. no accessible component has keyboard focus.
@@ -10648,14 +10648,14 @@ msgstr "没有更多级别为 %d 的标题。"
 #. if no more iframes can be found.
 #: src/orca/messages.py:1919
 msgid "No more internal frames."
-msgstr "没有更多的内联框架了。"
+msgstr "没有更多内部框架。"
 
 #. Translators: This is for navigating document content by moving from image
 #. to image. This is a detailed message which will be presented to the user
 #. if no more images can be found.
 #: src/orca/messages.py:1924
 msgid "No more images."
-msgstr "没有更多的图像了。"
+msgstr "没有更多图像了。"
 
 #. Translators: this is for navigating to the previous ARIA role landmark.
 #. ARIA role landmarks are the W3C defined HTML tag attribute 'role' used to
@@ -11876,7 +11876,7 @@ msgstr[0] "有 %d 行的表格"
 #, python-format
 msgid "%d second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] "%d 秒前"
+msgstr[0] "%d 秒钟前"
 
 #. Translators: This message informs the user how long ago something took
 #. place in terms of minutes.

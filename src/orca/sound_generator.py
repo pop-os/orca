@@ -28,7 +28,7 @@ __copyright__ = "Copyright (c) 2016 Igalia, S.L."
 __license__   = "LGPL"
 
 import gi
-gi.require_version('Atspi', '2.0') 
+gi.require_version('Atspi', '2.0')
 from gi.repository import Atspi
 
 import os
@@ -37,11 +37,9 @@ from . import generator
 from . import settings_manager
 from .ax_object import AXObject
 from .ax_utilities import AXUtilities
-
-_settingsManager = settings_manager.getManager()
+from .ax_value import AXValue
 
 METHOD_PREFIX = "_generate"
-
 
 class Icon:
     """Sound file representing a particular aspect of an object."""
@@ -75,19 +73,23 @@ class Tone:
     def __init__(self, duration, frequency, volumeMultiplier=1, wave=SINE_WAVE):
         self.duration = duration
         self.frequency = min(max(0, frequency), 20000)
-        self.volume = _settingsManager.getSetting('soundVolume') * volumeMultiplier
+        self.volume = settings_manager.getManager().getSetting('soundVolume') * volumeMultiplier
         self.wave = wave
 
     def __str__(self):
-        return 'Tone(duration: %s, frequency: %s, volume: %s, wave: %s)' \
-            % (self.duration, self.frequency, self.volume, self.wave)
+        return (
+            f'Tone(duration: {self.duration}, '
+            f'frequency: {self.frequency}, '
+            f'volume: {self.volume}, '
+            f'wave: {self.wave})'
+        )
 
 class SoundGenerator(generator.Generator):
     """Takes accessible objects and produces the sound(s) to be played."""
 
     def __init__(self, script):
         super().__init__(script, 'sound')
-        self._sounds = os.path.join(_settingsManager.getPrefsDir(), 'sounds')
+        self._sounds = os.path.join(settings_manager.getManager().getPrefsDir(), 'sounds')
 
     def _convertFilenameToIcon(self, filename):
         icon = Icon(self._sounds, filename)
@@ -110,7 +112,7 @@ class SoundGenerator(generator.Generator):
     def _generateAvailability(self, obj, **args):
         """Returns an array of sounds indicating obj is grayed out."""
 
-        if not _settingsManager.getSetting('playSoundForState'):
+        if not settings_manager.getManager().getSetting('playSoundForState'):
             return []
 
         filenames = super()._generateAvailability(obj, **args)
@@ -123,7 +125,7 @@ class SoundGenerator(generator.Generator):
     def _generateCheckedState(self, obj, **args):
         """Returns an array of sounds indicating the checked state of obj."""
 
-        if not _settingsManager.getSetting('playSoundForState'):
+        if not settings_manager.getManager().getSetting('playSoundForState'):
             return []
 
         filenames = super()._generateCheckedState(obj, **args)
@@ -136,7 +138,7 @@ class SoundGenerator(generator.Generator):
     def _generateClickable(self, obj, **args):
         """Returns an array of sounds indicating obj is clickable."""
 
-        if not _settingsManager.getSetting('playSoundForState'):
+        if not settings_manager.getManager().getSetting('playSoundForState'):
             return []
 
         filenames = super()._generateClickable(obj, **args)
@@ -149,7 +151,7 @@ class SoundGenerator(generator.Generator):
     def _generateExpandableState(self, obj, **args):
         """Returns an array of sounds indicating the expanded state of obj."""
 
-        if not _settingsManager.getSetting('playSoundForState'):
+        if not settings_manager.getManager().getSetting('playSoundForState'):
             return []
 
         filenames = super()._generateExpandableState(obj, **args)
@@ -162,7 +164,7 @@ class SoundGenerator(generator.Generator):
     def _generateHasLongDesc(self, obj, **args):
         """Returns an array of sounds indicating obj has a longdesc."""
 
-        if not _settingsManager.getSetting('playSoundForState'):
+        if not settings_manager.getManager().getSetting('playSoundForState'):
             return []
 
         filenames = super()._generateHasLongDesc(obj, **args)
@@ -175,7 +177,7 @@ class SoundGenerator(generator.Generator):
     def _generateMenuItemCheckedState(self, obj, **args):
         """Returns an array of sounds indicating the checked state of obj."""
 
-        if not _settingsManager.getSetting('playSoundForState'):
+        if not settings_manager.getManager().getSetting('playSoundForState'):
             return []
 
         filenames = super()._generateMenuItemCheckedState(obj, **args)
@@ -188,7 +190,7 @@ class SoundGenerator(generator.Generator):
     def _generateMultiselectableState(self, obj, **args):
         """Returns an array of sounds indicating obj is multiselectable."""
 
-        if not _settingsManager.getSetting('playSoundForState'):
+        if not settings_manager.getManager().getSetting('playSoundForState'):
             return []
 
         filenames = super()._generateMultiselectableState(obj, **args)
@@ -201,7 +203,7 @@ class SoundGenerator(generator.Generator):
     def _generateRadioState(self, obj, **args):
         """Returns an array of sounds indicating the selected state of obj."""
 
-        if not _settingsManager.getSetting('playSoundForState'):
+        if not settings_manager.getManager().getSetting('playSoundForState'):
             return []
 
         filenames = super()._generateRadioState(obj, **args)
@@ -214,7 +216,7 @@ class SoundGenerator(generator.Generator):
     def _generateReadOnly(self, obj, **args):
         """Returns an array of sounds indicating obj is read only."""
 
-        if not _settingsManager.getSetting('playSoundForState'):
+        if not settings_manager.getManager().getSetting('playSoundForState'):
             return []
 
         filenames = super()._generateReadOnly(obj, **args)
@@ -227,7 +229,7 @@ class SoundGenerator(generator.Generator):
     def _generateRequired(self, obj, **args):
         """Returns an array of sounds indicating obj is required."""
 
-        if not _settingsManager.getSetting('playSoundForState'):
+        if not settings_manager.getManager().getSetting('playSoundForState'):
             return []
 
         filenames = super()._generateRequired(obj, **args)
@@ -240,7 +242,7 @@ class SoundGenerator(generator.Generator):
     def _generateSwitchState(self, obj, **args):
         """Returns an array of sounds indicating the on/off state of obj."""
 
-        if not _settingsManager.getSetting('playSoundForState'):
+        if not settings_manager.getManager().getSetting('playSoundForState'):
             return []
 
         filenames = super()._generateSwitchState(obj, **args)
@@ -253,7 +255,7 @@ class SoundGenerator(generator.Generator):
     def _generateToggleState(self, obj, **args):
         """Returns an array of sounds indicating the toggled state of obj."""
 
-        if not _settingsManager.getSetting('playSoundForState'):
+        if not settings_manager.getManager().getSetting('playSoundForState'):
             return []
 
         filenames = super()._generateToggleState(obj, **args)
@@ -266,7 +268,7 @@ class SoundGenerator(generator.Generator):
     def _generateVisitedState(self, obj, **args):
         """Returns an array of sounds indicating the visited state of obj."""
 
-        if not _settingsManager.getSetting('playSoundForState'):
+        if not settings_manager.getManager().getSetting('playSoundForState'):
             return []
 
         if not args.get('mode', None):
@@ -290,10 +292,10 @@ class SoundGenerator(generator.Generator):
     def _generatePercentage(self, obj, **args):
         """Returns an array of sounds reflecting the percentage of obj."""
 
-        if not _settingsManager.getSetting('playSoundForValue'):
+        if not settings_manager.getManager().getSetting('playSoundForValue'):
             return []
 
-        percent = self._script.utilities.getValueAsPercent(obj)
+        percent = AXValue.get_value_as_percent(obj)
         if percent is None:
             return []
 
@@ -305,10 +307,10 @@ class SoundGenerator(generator.Generator):
         if args.get('isProgressBarUpdate'):
             if not self._shouldPresentProgressBarUpdate(obj, **args):
                 return []
-        elif not _settingsManager.getSetting('playSoundForValue'):
+        elif not settings_manager.getManager().getSetting('playSoundForValue'):
             return []
 
-        percent = self._script.utilities.getValueAsPercent(obj)
+        percent = AXValue.get_value_as_percent(obj)
         if percent is None:
             return []
 
@@ -330,14 +332,14 @@ class SoundGenerator(generator.Generator):
         return [Tone(duration, frequency, volumeMultiplier, Tone.SINE_WAVE)]
 
     def _getProgressBarUpdateInterval(self):
-        interval = _settingsManager.getSetting('progressBarBeepInterval')
+        interval = settings_manager.getManager().getSetting('progressBarBeepInterval')
         if interval is None:
             return super()._getProgressBarUpdateInterval()
 
         return int(interval)
 
     def _shouldPresentProgressBarUpdate(self, obj, **args):
-        if not _settingsManager.getSetting('beepProgressBarUpdates'):
+        if not settings_manager.getManager().getSetting('beepProgressBarUpdates'):
             return False
 
         return super()._shouldPresentProgressBarUpdate(obj, **args)
@@ -351,7 +353,7 @@ class SoundGenerator(generator.Generator):
     def _generatePositionInSet(self, obj, **args):
         """Returns an array of sounds reflecting the set position of obj."""
 
-        if not _settingsManager.getSetting('playSoundForPositionInSet'):
+        if not settings_manager.getManager().getSetting('playSoundForPositionInSet'):
             return []
 
         # TODO: Implement the result.
@@ -363,7 +365,7 @@ class SoundGenerator(generator.Generator):
     def _generateRoleName(self, obj, **args):
         """Returns an array of sounds indicating the role of obj."""
 
-        if not _settingsManager.getSetting('playSoundForRole'):
+        if not settings_manager.getManager().getSetting('playSoundForRole'):
             return []
 
         role = args.get('role', AXObject.get_role(obj))

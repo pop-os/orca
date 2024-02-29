@@ -32,11 +32,14 @@ gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 import re
 
-import orca.script_utilities as script_utilities
+import orca.focus_manager as focus_manager
 import orca.keybindings as keybindings
-import orca.orca as orca
-import orca.orca_state as orca_state
+import orca.script_utilities as script_utilities
+
+from orca.ax_component import AXComponent
+from orca.ax_hypertext import AXHypertext
 from orca.ax_object import AXObject
+from orca.ax_text import AXText
 from orca.ax_utilities import AXUtilities
 
 #############################################################################
@@ -61,14 +64,14 @@ class Utilities(script_utilities.Utilities):
         if not obj:
             return False
 
-        attrs = self.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return attrs.get('toolkit', '') in ['WebKitGtk', 'WebKitGTK']
 
     def getCaretContext(self):
         # TODO - JD: This is private, but it's only here temporarily until we
         # have the shared web content support.
         obj, offset = self._script._lastCaretContext
-        if not obj and self.isWebKitGtk(orca_state.locusOfFocus):
+        if not obj and self.isWebKitGtk(focus_manager.getManager().get_locus_of_focus()):
             obj, offset = super().getCaretContext()
 
         return obj, offset
@@ -77,7 +80,7 @@ class Utilities(script_utilities.Utilities):
         # TODO - JD: This is private, but it's only here temporarily until we
         # have the shared web content support.
         self._script._lastCaretContext = obj, offset
-        orca.setLocusOfFocus(None, obj, notifyScript=False)
+        focus_manager.getManager().set_locus_of_focus(None, obj, notify_script=False)
 
     def setCaretPosition(self, obj, offset):
         self.setCaretContext(obj, offset)
@@ -112,7 +115,7 @@ class Utilities(script_utilities.Utilities):
             children = [x for x in AXObject.iter_children(obj)]
             text = ' '.join(map(self.displayedText, children))
             if not text:
-                text = self.linkBasename(obj)
+                text = AXHypertext.get_link_basename(obj, remove_extension=True)
 
         return text
 
@@ -135,38 +138,44 @@ class Utilities(script_utilities.Utilities):
         Returns a list of (obj, startOffset, endOffset, string) tuples.
         """
 
-        try:
-            text = obj.queryText()
-            htext = obj.queryHypertext()
-        except (AttributeError, NotImplementedError):
+        if not (AXObject.supports_text(obj) and AXObject.supports_hypertext(obj)):
             return [(obj, 0, 1, '')]
 
-        string = text.getText(0, -1)
+        string = AXText.get_all_text(obj)
         if not string:
             return [(obj, 0, 1, '')]
 
         if offset is None:
-            offset = text.caretOffset
-        if boundary is None:
-            start = 0
-            end = text.characterCount
+            offset = AXText.get_caret_offset(obj)
+        if boundary == Atspi.TextBoundaryType.CHAR:
+            key, mods = self.lastKeyAndModifiers()
+            if (mods & keybindings.SHIFT_MODIFIER_MASK) and key == 'Right':
+                offset -= 1
+            start, end = AXText.get_character_at_offset(obj, offset)[1:]
+        elif boundary in (None, Atspi.TextBoundaryType.LINE_START):
+            start, end = AXText.get_line_at_offset(obj, offset)[1:]
+        elif boundary == Atspi.TextBoundaryType.SENTENCE_START:
+            start, end = AXText.get_sentence_at_offset(obj, offset)[1:]
+        elif boundary == Atspi.TextBoundaryType.WORD_START:
+            start, end = AXText.get_word_at_offset(obj, offset)[1:]
         else:
-            if boundary == Atspi.TextBoundaryType.CHAR:
-                key, mods = self.lastKeyAndModifiers()
-                if (mods & keybindings.SHIFT_MODIFIER_MASK) and key == 'Right':
-                    offset -= 1
-            segment, start, end = text.getTextAtOffset(offset, boundary)
+            start, end = string, 0, AXText.get_character_count(obj)
 
         pattern = re.compile(self.EMBEDDED_OBJECT_CHARACTER)
         offsets = [m.start(0) for m in re.finditer(pattern, string)]
         offsets = [x for x in offsets if start <= x < end]
 
         objects = []
-        try:
-            objs = [obj[htext.getLinkIndex(offset)] for offset in offsets]
-        except Exception:
-            objs = []
-        ranges = [self.getHyperlinkRange(x) for x in objs]
+        objs = []
+        for offset in offsets:
+            child = AXHypertext.get_child_at_offset(obj, offset)
+            if child:
+                objs.append(child)
+
+        def _get_range(obj):
+            return AXHypertext.get_link_start_offset(obj), AXHypertext.get_link_end_offset(obj)
+
+        ranges = [_get_range(x) for x in objs]
         for i, (first, last) in enumerate(ranges):
             objects.append((obj, start, first, string[start:first]))
             objects.append((objs[i], first, last, ''))
@@ -227,7 +236,8 @@ class Utilities(script_utilities.Utilities):
 
         if AXUtilities.is_section(obj):
             if AXObject.get_child_count(obj) > 1:
-                return self.onSameLine(AXObject.get_child(obj, 0), AXObject.get_child(obj, 1))
+                return AXComponent.on_same_line(
+                    AXObject.get_child(obj, 0), AXObject.get_child(obj, 1))
             return False
 
         if AXUtilities.is_list(obj):
@@ -238,7 +248,7 @@ class Utilities(script_utilities.Utilities):
                 return AXObject.supports_text(obj)
             if childCount == 1:
                 return False
-            return self.onSameLine(AXObject.get_child(obj, 0), AXObject.get_child(obj, 1))
+            return AXComponent.on_same_line(AXObject.get_child(obj, 0), AXObject.get_child(obj, 1))
 
         return False
 
@@ -260,27 +270,14 @@ class Utilities(script_utilities.Utilities):
         return True
 
     def setCaretAtStart(self, obj):
-        def implementsText(obj):
-            return not AXUtilities.is_list(obj) and AXObject.supports_text(obj)
-
-        child = obj
-        if not implementsText(obj):
-            child = AXObject.find_descendant(obj, implementsText)
-            if not child:
-                return None, -1
-
-        index = -1
-        text = child.queryText()
-        for i in range(text.characterCount):
-            if text.setCaretOffset(i):
-                index = i
-                break
-
+        child, index = self.getFirstCaretPosition(obj)
+        if child is not None:
+            AXText.set_caret_offset(child, index)
         return child, index
 
     def treatAsBrowser(self, obj):
         return self.isEmbeddedDocument(obj)
 
     def inDocumentContent(self, obj=None):
-        obj = obj or orca_state.locusOfFocus
+        obj = obj or focus_manager.getManager().get_locus_of_focus()
         return self.isWebKitGtk(obj)

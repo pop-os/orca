@@ -449,6 +449,20 @@ DECREASE_SPEECH_VOLUME = _("Decrease the speech volume")
 #  We call it 'silencing'.
 TOGGLE_SPEECH = _("Toggle the silencing of speech")
 
+# Translators: Orca has a sleep mode which causes Orca to essentially behave as
+# if it were not running for a given application. Some use cases include self-
+# voicing apps with associated commands (e.g. ChromeVox) and VMs. In the former
+# case, the self-voicing app is expected to provide all needed commands as well
+# as speech and braille. In the latter case, we want to ensure that Orca's
+# commands and speech/braille do not interfere with that of the VM and any
+# screen reader being used in that VM. Thus when an application is being used
+# in sleep mode, nearly all Orca commands become unbound/free, and nothing is
+# spoken or brailled. But if the user toggles sleep mode off or switches to
+# another application window, Orca commands, speech, and braille immediately
+# resume working. This string is the command which toggles sleep mode on/off
+# for the app being used at the time the command is given.
+TOGGLE_SLEEP_MODE = _("Toggle sleep mode for the current application")
+
 # Translators: Orca's verbosity levels control how much (or how little)
 # Orca will speak when presenting objects as the user navigates within
 # applications and reads content. The levels can be toggled via command.
@@ -557,6 +571,14 @@ BOOKMARK_SAVE = _("Save bookmarks")
 # Translators: Orca allows the item under the pointer to be spoken. This toggles
 # the feature without the need to get into a GUI.
 MOUSE_REVIEW_TOGGLE = _("Toggle mouse review mode")
+
+# Translators: Orca has a command to present the battery status (e.g. level, whether
+# or not it is plugged in, etc.). This string is the name of that command.
+PRESENT_BATTERY_STATUS = _("Present battery status")
+
+# Translators: Orca has a command to present the CPU and memory usage as percents.
+# This string is the name of that command.
+PRESENT_CPU_AND_MEMORY_USAGE = _("Present CPU and memory usage")
 
 # Translators: Orca has a command to present the current time in speech and in
 # braille.
@@ -818,6 +840,11 @@ PRESENT_INPUT_LINE = _("Present the contents of the input line")
 # This feature needs to be toggle-able so that it does not interfere with normal
 # writing functions.
 STRUCTURAL_NAVIGATION_TOGGLE = _("Toggle structural navigation keys")
+
+# Translators: Orca has commands for navigating within a table, e.g. to the
+# next cell in a given direction. This string is the description of the command
+# which enables/disables this support.
+TABLE_NAVIGATION_TOGGLE = _("Toggle table navigation keys")
 
 # Translators: this is for navigating among blockquotes in a document.
 BLOCKQUOTE_PREV = _("Go to previous blockquote")
@@ -1083,6 +1110,18 @@ TABLE_CELL_RIGHT = _("Go right one cell")
 
 # Translators: this is for navigating among table cells in a document.
 TABLE_CELL_UP = _("Go up one cell")
+
+# Translators: this is for navigating among table cells in a document.
+TABLE_CELL_BEGINNING_OF_ROW = _("Go to the beginning of the row")
+
+# Translators: this is for navigating among table cells in a document.
+TABLE_CELL_END_OF_ROW = _("Go to the end of the row")
+
+# Translators: this is for navigating among table cells in a document.
+TABLE_CELL_TOP_OF_COLUMN = _("Go to the top of the column")
+
+# Translators: this is for navigating among table cells in a document.
+TABLE_CELL_BOTTOM_OF_COLUMN = _("Go to the bottom of the column")
 
 # Translators: When presenting the content of a line on a web page, Orca by
 # default presents the full line, including any links or form fields on that

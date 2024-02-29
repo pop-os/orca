@@ -25,12 +25,12 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc."
 __license__   = "LGPL"
 
-import orca.orca as orca
-import orca.orca_state as orca_state
+import orca.focus_manager as focus_manager
 import orca.scripts.toolkits.gtk as gtk
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
 from .spellcheck import SpellCheck
+
 
 class Script(gtk.Script):
 
@@ -67,7 +67,6 @@ class Script(gtk.Script):
 
         if self.spellcheck.isSuggestionsItem(newFocus):
             includeLabel = not self.spellcheck.isSuggestionsItem(oldFocus)
-            orca.emitRegionChanged(newFocus)
             self.updateBraille(newFocus)
             self.spellcheck.presentSuggestionListItem(includeLabel=includeLabel)
             return
@@ -121,8 +120,8 @@ class Script(gtk.Script):
 
         # If we're here, the locusOfFocus was in the selection list when
         # that list got destroyed and repopulated. Focus is still there.
-        orca.setLocusOfFocus(event, event.source, False)
-        self.updateBraille(orca_state.locusOfFocus)
+        focus_manager.getManager().set_locus_of_focus(event, event.source, False)
+        self.updateBraille(event.source)
 
     def onSensitiveChanged(self, event):
         """Callback for object:state-changed:sensitive accessibility events."""
@@ -136,14 +135,15 @@ class Script(gtk.Script):
     def onTextSelectionChanged(self, event):
         """Callback for object:text-selection-changed accessibility events."""
 
-        if event.source == orca_state.locusOfFocus:
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if event.source == focus:
             gtk.Script.onTextSelectionChanged(self, event)
             return
 
-        if not self.utilities.isSearchEntry(orca_state.locusOfFocus, True):
+        if not self.utilities.isSearchEntry(focus, True):
             return
 
-        if not self.utilities.isShowingAndVisible(event.source):
+        if not (AXUtilities.is_showing(event.source) and AXUtilities.is_visible(event.source)):
             return
 
         # To avoid extreme chattiness.
@@ -161,8 +161,9 @@ class Script(gtk.Script):
             return
 
         self.spellcheck.presentErrorDetails()
-        orca.setLocusOfFocus(None, self.spellcheck.getChangeToEntry(), False)
-        self.updateBraille(orca_state.locusOfFocus)
+        entry = self.spellcheck.getChangeToEntry()
+        focus_manager.getManager().set_locus_of_focus(None, entry, False)
+        self.updateBraille(entry)
 
     def onWindowDeactivated(self, event):
         """Callback for window:deactivate accessibility events."""

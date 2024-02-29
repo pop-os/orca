@@ -26,11 +26,13 @@ __copyright__ = "Copyright (c) 2014 Igalia, S.L."
 __license__   = "LGPL"
 
 import orca.debug as debug
+import orca.focus_manager as focus_manager
 import orca.script_utilities as script_utilities
 from orca.ax_object import AXObject
 from orca.ax_selection import AXSelection
 from orca.ax_utilities import AXUtilities
 
+from orca.ax_text import AXText
 
 class Utilities(script_utilities.Utilities):
 
@@ -59,35 +61,16 @@ class Utilities(script_utilities.Utilities):
             msg = "GNOME SHELL: Broken text insertion event"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-            text = self.queryNonEmptyText(event.source)
-            if text:
-                string = text.getText(0, -1)
-                if string:
-                    tokens = ["HACK: Returning last char in '", string, "'"]
-                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                    return string[-1]
+            string = AXText.get_all_text(event.source)
+            if string:
+                msg = f"GNOME SHELL: Returning last char in '{string}'"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return string[-1]
 
             msg = "GNOME SHELL: Unable to correct broken text insertion event"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         return ""
-
-    def selectedText(self, obj):
-        string, start, end = super().selectedText(obj)
-        if -1 not in [start, end]:
-            return string, start, end
-
-        msg = "GNOME SHELL: Bogus selection range (%i, %i) for %s" % (start, end, obj)
-        debug.println(debug.LEVEL_INFO, msg, True)
-
-        text = self.queryNonEmptyText(obj)
-        if text.getNSelections() > 0:
-            string = text.getText(0, -1)
-            start, end = 0, len(string)
-            msg = "HACK: Returning '%s' (%i, %i) for %s" % (string, start, end, obj)
-            debug.println(debug.LEVEL_INFO, msg, True)
-
-        return string, start, end
 
     def unrelatedLabels(self, root, onlyShowing=True, minimumWords=3):
         if not root:
@@ -126,7 +109,7 @@ class Utilities(script_utilities.Utilities):
     def isBogusWindowFocusClaim(self, event):
         if event.type.startswith('object:state-changed:focused') and event.detail1 \
            and AXUtilities.is_window(event.source) \
-           and not self.canBeActiveWindow(event.source):
+           and not focus_manager.getManager().can_be_active_window(event.source):
             msg = "GNOME SHELL: Event is believed to be bogus window focus claim"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True

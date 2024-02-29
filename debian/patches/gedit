@@ -17,4 +17,4 @@ index 8732a53..4f6f401 100644
 +             'org.gnome.gedit': 'gedit',
              }
          self._toolkitNames = \
-             {'WebKitGTK': 'WebKitGtk', 'GTK': 'gtk'}
+             {'WebKitGTK': 'WebKitGtk', 'GTK': 'gtk', 'GAIL': 'gtk'}

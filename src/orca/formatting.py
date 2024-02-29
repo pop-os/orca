@@ -470,8 +470,8 @@ formatting = {
             },
         Atspi.Role.SPLIT_PANE: {
             'focused': 'value',
-            'unfocused': 'labelAndName + roleName + value + availability + ' + MNEMONIC,
-            'basicWhereAmI' : 'labelAndName + roleName + value'
+            'unfocused': 'labelAndName + roleName + value + percentage + availability + ' + MNEMONIC,
+            'basicWhereAmI' : 'labelAndName + roleName + value + percentage'
             },
         Atspi.Role.STATIC: {
             'unfocused': '(displayedText or name) + roleName',
@@ -500,7 +500,7 @@ formatting = {
             'ancestor': 'newRowHeader + newColumnHeader + pause + newRow + pause + newColumn',
             'focused': '((tableCell2ChildLabel + tableCell2ChildToggle) or cellCheckedState) + pause + (expandableState and (expandableState + pause + numberOfChildren + pause))',
             'unfocused': 'tableCellRow + pause',
-            'basicWhereAmI': 'parentRoleName + pause + columnHeader + pause + rowHeader + pause + roleName + pause + cellCheckedState + pause + (realActiveDescendantDisplayedText or imageDescription + image) + pause + columnAndRow + pause + expandableState + pause + nodeLevel + pause',
+            'basicWhereAmI': 'parentRoleName + pause + columnHeader + pause + rowHeader + pause + roleName + pause + tableCellRow + pause + columnAndRow',
             'detailedWhereAmI': 'parentRoleName + pause + columnHeader + pause + rowHeader + pause + roleName + pause + cellCheckedState + pause + (realActiveDescendantDisplayedText or imageDescription + image) + pause + columnAndRow + pause + tableCellRow + pause + expandableState + pause + nodeLevel + pause',
             },
         'REAL_ROLE_TABLE_CELL': {
@@ -572,6 +572,8 @@ formatting = {
 
     'braille': {
         'prefix': {
+# TODO - JD: Figure out why we are globally getting table and radio button group properties.
+#
 #            'focused':   'ancestors\
 #                         + (rowHeader and [Region(" " + asString(rowHeader))])\
 #                         + (columnHeader and [Region(" " + asString(columnHeader))])\

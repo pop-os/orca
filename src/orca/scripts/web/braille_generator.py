@@ -34,10 +34,11 @@ from gi.repository import Atspi
 from orca import braille
 from orca import braille_generator
 from orca import debug
+from orca import focus_manager
 from orca import messages
 from orca import object_properties
-from orca import orca_state
 from orca.ax_object import AXObject
+from orca.ax_table import AXTable
 from orca.ax_utilities import AXUtilities
 
 
@@ -91,12 +92,13 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
             level = self._script.utilities.headingLevel(obj)
             result.append(object_properties.ROLE_HEADING_LEVEL_BRAILLE % level)
 
-        elif self._script.utilities.isLink(obj) and obj == orca_state.locusOfFocus:
+        elif self._script.utilities.isLink(obj) \
+                and obj == focus_manager.getManager().get_locus_of_focus():
             if AXUtilities.is_image(AXObject.get_parent(obj)):
                 result.append(messages.IMAGE_MAP_LINK)
 
         elif role not in doNotDisplay:
-            label = self._script.utilities.labelForCellCoordinates(obj)
+            label = AXTable.get_label_for_cell_coordinates(obj)
             if label:
                 result.append(label)
             else:
@@ -105,7 +107,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         index = args.get('index', 0)
         total = args.get('total', 1)
         if index == total - 1 and role != Atspi.Role.HEADING \
-           and (role == Atspi.Role.IMAGE or self._script.utilities.queryNonEmptyText(obj)):
+           and (role == Atspi.Role.IMAGE or self._script.utilities.treatAsTextObject(obj)):
             heading = AXObject.find_ancestor(obj, AXUtilities.is_heading)
             if heading is not None:
                 result.extend(self._generateRoleName(heading))
@@ -161,7 +163,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         if not self._script.utilities.inDocumentContent(obj):
             return super()._generateName(obj, **args)
 
-        brailleLabel = self._script.utilities.objectAttributes(obj).get("braillelabel")
+        brailleLabel = AXObject.get_attributes_dict(obj).get("braillelabel")
         if brailleLabel:
             return [brailleLabel]
 
@@ -207,7 +209,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         if not self._script.utilities.inDocumentContent(obj):
             return super()._generateTableCellRow(obj, **args)
 
-        if not self._script.utilities.shouldReadFullRow(obj):
+        if not self._script.utilities.shouldReadFullRow(obj, args.get('priorObj')):
             return self._generateRealTableCell(obj, **args)
 
         row = AXObject.find_ancestor(obj, AXUtilities.is_table_row)

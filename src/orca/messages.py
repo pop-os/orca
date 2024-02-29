@@ -39,6 +39,23 @@ from .orca_platform import version
 # in messages.
 APPLICATION_NO_NAME = C_("generic name", "application")
 
+# Translators: Orca has a command to report the battery status. This message
+# is presented to the user when they use this command but Orca was unable to
+# retrieve any information about the battery.
+BATTERY_STATUS_UNKNOWN = _("Battery status unknown")
+
+# Translators: Orca has a command to report the battery status. This message
+# presents the battery level as a percent.
+BATTERY_LEVEL = _("Battery: %d%%")
+
+# Translators: Orca has a command to report the battery status. This message
+# presents the plugged-in status to the user.
+BATTERY_PLUGGED_IN_TRUE = C_("Battery", "plugged in")
+
+# Translators: Orca has a command to report the battery status. This message
+# presents the plugged-in status to the user.
+BATTERY_PLUGGED_IN_FALSE = C_("Battery", "not plugged in")
+
 # Translators: This is presented when the user has navigated to an empty line.
 BLANK = _("blank")
 
@@ -268,6 +285,23 @@ CLI_LOAD_PREFS = _("Use alternate directory for user preferences")
 # using the '-u, --user-prefs' command line option.
 CLI_PREFS_DIR = _("DIR")
 
+# Translators: This is the description of command line option '--speech-system'
+# which allows you to specify a speech system to use. A speech system provides
+# various synthesizers with different voices and languages.
+# This option can be used to override the configured default speech system.
+CLI_SPEECH_SYSTEM = _("Speech system")
+
+# Translators: This message is presented to the user when the specified speech
+# system is unavailable. A speech system provides various synthesizers with
+# different voices and languages. The first string substituted in is the user-
+# provided speech system. The second string substituted is a comma separated
+# list of avaialable speech systems.
+CLI_SPEECH_SYSTEM_ERROR = _("Speech system “%s” is unavailable (available: %s)")
+
+# Translators: This string indicates to the user what should be provided when
+# using the '--speech-system' command line option.
+CLI_SPEECH_SYSTEM_NAME = _("NAME")
+
 # Translators: This is the description of command line option '-v, --version'
 # which prints the version of Orca. E.g. '1.23.4'.
 CLI_VERSION = _("Version of this application")
@@ -309,7 +343,7 @@ CLI_GUI_SETUP = _("Set up user preferences (GUI version)")
 
 # Translators: This text is the description displayed when Orca is launched
 # from the command line and the help text is displayed.
-CLI_EPILOG = _("Report bugs to orca-list@gnome.org.")
+CLI_EPILOG = _("Report bugs on https://gitlab.gnome.org/GNOME/orca/-/issues.")
 
 # Translators: Orca normal speaks the text which was just deleted from a
 # document via command. Depending on the circumstances, that might be a
@@ -486,6 +520,15 @@ CONTAINER_NOT_IN_A = _("Not in a container.")
 # Translators: This message is presented when the user selects all of the items
 # in a container that supports selection, such as a GUI table or a list of icons.
 CONTAINER_SELECTED_ALL = _("all items selected")
+
+# Translators: Orca has a command to report CPU and memory usage. This message
+# is presented to the user when they use this command but Orca was unable to
+# retrieve this information.
+CPU_AND_MEMORY_USAGE_UNKNOWN = _("CPU and memory usage unknown")
+
+# Translators: Orca has a command to report CPU and memory usage levels. This
+# message presents the levels to the user.
+CPU_AND_MEMORY_USAGE_LEVELS = _("CPU: %d%%. Memory: %d%%")
 
 # Translators: The "default" button in a dialog box is the button that gets
 # activated when Enter is pressed anywhere within that dialog box. The string
@@ -676,6 +719,10 @@ HAS_POPUP_MENU = _("opens menu")
 # which can be expanded or collapsed, similar to the list of folders in an
 # email client.
 HAS_POPUP_TREE = _("opens tree")
+
+# Translators: this message will be presented to indicate the focused object
+# will cause a popup to appear if activated.
+HAS_POPUP = _("opens popup")
 
 # Translators: The following string is spoken to let the user know that he/she
 # is on a link within an image map. An image map is an image/graphic which has
@@ -2058,6 +2105,11 @@ PAGE_LOADING_END = _("Finished loading.")
 # object which has just finished loading (most likely the page's title).
 PAGE_LOADING_END_NAMED = _("Finished loading %s.")
 
+# Translators: This message is presented to the user when the page of the
+# current document changes, e.g. as a result of navigation or scrolling.
+# The string substitution is the number of the current page.
+PAGE_NUMBER = _("Page %d")
+
 # Translators: When the user loads a new web page, they can optionally have Orca
 # automatically summarize details about the page, such as the number of elements
 # (landmarks, forms, links, tables, etc.). The following string precedes the
@@ -2252,6 +2304,36 @@ SPEECH_DISABLED = _("Speech disabled.")
 # has been turned back on.
 SPEECH_ENABLED = _("Speech enabled.")
 
+# Translators: Orca has a sleep mode which causes Orca to essentially behave as
+# if it were not running for a given application. Some use cases include self-
+# voicing apps with associated commands (e.g. ChromeVox) and VMs. In the former
+# case, the self-voicing app is expected to provide all needed commands as well
+# as speech and braille. In the latter case, we want to ensure that Orca's
+# commands and speech/braille do not interfere with that of the VM and any
+# screen reader being used in that VM. Thus when an application is being used
+# in sleep mode, nearly all Orca commands become unbound/free, and nothing is
+# spoken or brailled. But if the user toggles sleep mode off or switches to
+# another application window, Orca commands, speech, and braille immediately
+# resume working. This string is the message Orca presents when sleep mode is
+# disabled by the user. The string substitution is the name of the application.
+# For example "Sleep mode disabled for VirtualBox."
+SLEEP_MODE_DISABLED_FOR = _("Sleep mode disabled for %s.")
+
+# Translators: Orca has a sleep mode which causes Orca to essentially behave as
+# if it were not running for a given application. Some use cases include self-
+# voicing apps with associated commands (e.g. ChromeVox) and VMs. In the former
+# case, the self-voicing app is expected to provide all needed commands as well
+# as speech and braille. In the latter case, we want to ensure that Orca's
+# commands and speech/braille do not interfere with that of the VM and any
+# screen reader being used in that VM. Thus when an application is being used
+# in sleep mode, nearly all Orca commands become unbound/free, and nothing is
+# spoken or brailled. But if the user toggles sleep mode off or switches to
+# another application window, Orca commands, speech, and braille immediately
+# resume working. This string is the message Orca presents when sleep mode is
+# enabled by the user. The string substitution is the name of the application.
+# For example "Sleep mode enabled for VirtualBox."
+SLEEP_MODE_ENABLED_FOR = _("Sleep mode enabled for %s.")
+
 # Translators: This string announces speech rate change.
 SPEECH_FASTER = _("faster.")
 
@@ -2289,6 +2371,11 @@ SPEECH_VERBOSITY_VERBOSE = C_("Speech", "Verbosity level: verbose")
 # speech synthesis engine to speak the new string well. For example, "Open..."
 # turns into "Open dot dot dot".
 SPOKEN_ELLIPSIS = _(" dot dot dot")
+
+# Translators: This message is presented when the user attempts to use a
+# command specific to a spreadsheet, such as reading the input line, but is
+# not in a spreadsheet.
+SPREADSHEET_NOT_IN_A = _("Not in a spreadsheet.")
 
 # Translators: This message is presented to the user when Orca is launched.
 START_ORCA = _("Screen reader on.")
@@ -2365,6 +2452,16 @@ TABLE_NON_UNIFORM = _("Non-uniform")
 # to table cell. If the user gives a table navigation command but is not in a
 # table, presents this message.
 TABLE_NOT_IN_A = _("Not in a table.")
+
+# Translators: Orca has commands for navigating within a table, e.g. to the
+# next cell in a given direction. This string is the message that will be
+# presented when those commands are disabled.
+TABLE_NAVIGATION_DISABLED = _("Table navigation disabled.")
+
+# Translators: Orca has commands for navigating within a table, e.g. to the
+# next cell in a given direction. This string is the message that will be
+# presented when those commands are enabled.
+TABLE_NAVIGATION_ENABLED = _("Table navigation enabled.")
 
 # Translators: This is a message presented to users when the columns in a table
 # have been reordered.
@@ -2653,6 +2750,11 @@ def listItemCount(count):
     # Translators: This message describes a bulleted or numbered list.
     return ngettext("List with %d item", "List with %d items", count) % count
 
+def nestedListItemCount(count):
+    # Translators: This message describes the number of items of a bulleted or numbered list
+    # that is inside of another list.
+    return ngettext("Nested list with %d item", "Nested list with %d items", count) % count
+
 def feedArticleCount(count):
     if count == -1:
         # Translators: This message describes a news/article feed whose size is
@@ -2837,6 +2939,16 @@ def daysAgo(count):
     # Translators: This message informs the user how long ago something took
     # place in terms of days.
     return ngettext("%d day ago", "%d days ago", count) % count
+
+def memoryUsageGB(used, total):
+    # Translators: Orca has a command to report CPU and memory usage levels. This
+    # message presents the amount of memory used and total amount in GB.
+    return f"{used:.1f} of {total:.1f} GB used."
+
+def memoryUsageMB(used, total):
+    # Translators: Orca has a command to report CPU and memory usage levels. This
+    # message presents the amount of memory used and total amount in MB.
+    return f"{used:.1f} of {total:.1f} MB used."
 
 def unvisitedLinkCount(count, onlyIfFound=True):
     if not count and onlyIfFound:

@@ -45,8 +45,11 @@ from . import messages
 from . import object_properties
 from . import settings
 from . import settings_manager
+from .ax_hypertext import AXHypertext
 from .ax_object import AXObject
+from .ax_table import AXTable
 from .ax_utilities import AXUtilities
+from .ax_value import AXValue
 
 # Python 3.10 compatibility:
 try:
@@ -72,8 +75,6 @@ def _formatExceptionInfo(maxTBlevel=5):
 # The prefix to use for the individual generator methods
 #
 METHOD_PREFIX = "_generate"
-
-_settingsManager = settings_manager.getManager()
 
 class Generator:
     """Takes accessible objects and generates a presentation for those
@@ -105,7 +106,9 @@ class Generator:
         # Verify the formatting strings are OK.  This is only
         # for verification and does not effect the function of
         # Orca at all.
-
+        #
+        # TODO - JD: Given the above, can this just be killed?
+        #
         # Populate the entire globals with empty arrays
         # for the results of all the legal method names.
         #
@@ -191,9 +194,9 @@ class Generator:
           should force a tutorial to be spoken or not
         """
 
-        if self._script.utilities.isDead(obj):
-            msg = 'ERROR: Cannot generate presentation dead obj'
-            debug.println(debug.LEVEL_INFO, msg, True)
+        if AXObject.is_dead(obj):
+            msg = "GENERATOR: Cannot generate presentation for dead obj"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return []
 
         startTime = time.time()
@@ -203,9 +206,9 @@ class Generator:
         globalsDict['obj'] = obj
         try:
             globalsDict['role'] = args.get('role', AXObject.get_role(obj))
-        except Exception:
-            msg = f'ERROR: Cannot generate presentation for: {obj}. Aborting'
-            debug.println(debug.LEVEL_INFO, msg, True)
+        except Exception as error:
+            tokens = ["GENERATOR: Cannot generate presentation for", obj, ":", error]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return result
         try:
             # We sometimes want to override the role.  We'll keep the
@@ -239,9 +242,9 @@ class Generator:
                     formatting = f'{prefix} + {formatting} + {suffix}'
                 args['recursing'] = True
 
-            msg = '%s GENERATOR: Starting %s generation for %s (%s)' % \
-                (self._mode.upper(), args.get('formatType'), obj, args.get('role'))
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = [self._mode.upper(), "GENERATOR: Starting", args.get('formatType'),
+                      "generation for", obj, "(using role:", args.get('role'), ")"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
             # Reset 'usedDescriptionFor*' if a previous generator used it.
             self._script.pointOfReference['usedDescriptionForName'] = False
@@ -271,16 +274,16 @@ class Generator:
                     if isinstance(globalsDict[arg], list):
                         stringResult = " ".join(filter(lambda x: x,
                                                         map(debuginfo, globalsDict[arg])))
-                        debug.println(debug.LEVEL_ALL,
-                                      "%sGENERATION TIME: %s  ---->  %s=[%s]" \
-                                      % (" " * 18, duration, arg, stringResult))
+                        debug.printMessage(
+                            debug.LEVEL_ALL,
+                            f"{' ' * 18}GENERATION TIME: {duration} ----> {arg}=[{stringResult}]")
 
         except Exception:
             debug.printException(debug.LEVEL_SEVERE)
             result = []
 
         duration = f"{time.time() - startTime:.4f}"
-        debug.println(debug.LEVEL_ALL, f"{' ' * 18}COMPLETION TIME: {duration}")
+        debug.printMessage(debug.LEVEL_ALL, f"{' ' * 18}COMPLETION TIME: {duration}")
         self._debugResultInfo(result)
         if args.get('isProgressBarUpdate') and result and result[0]:
             self.setProgressBarUpdateTimeAndValue(obj)
@@ -299,7 +302,7 @@ class Generator:
 
         info = f"{' ' * 18}{self._mode.upper()} GENERATOR: Results: "
         info += f"{' '.join(map(self._resultElementToString, result))}"
-        debug.println(debug.LEVEL_ALL, info)
+        debug.printMessage(debug.LEVEL_ALL, info)
 
     #####################################################################
     #                                                                   #
@@ -356,7 +359,7 @@ class Generator:
                 elif AXUtilities.is_link(parent):
                     link = parent
                 if link:
-                    basename = self._script.utilities.linkBasenameToName(link)
+                    basename = AXHypertext.get_link_basename(link, remove_extension=True)
                     if basename:
                         result.append(basename)
         # To make the unlabeled icons in gnome-panel more accessible.
@@ -373,7 +376,7 @@ class Generator:
         the assumption being that the user was able to see the text prior
         to giving the widget focus.
         """
-        attrs = self._script.utilities.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         placeholder = attrs.get('placeholder-text')
         if placeholder and placeholder != AXObject.get_name(obj):
             return [placeholder]
@@ -519,16 +522,11 @@ class Generator:
         represent the description of the image on the object, if it
         exists.  Otherwise, an empty array is returned.
         """
-        result = []
-        try:
-            image = obj.queryImage()
-        except NotImplementedError:
-            pass
-        else:
-            description = image.imageDescription
-            if description and len(description):
-                result.append(description)
-        return result
+
+        description = AXObject.get_image_description(obj)
+        if description:
+            return [description]
+        return []
 
     #####################################################################
     #                                                                   #
@@ -799,14 +797,21 @@ class Generator:
             return []
 
         result = []
-        header = self._script.utilities.rowHeaderForCell(obj)
-        if not header:
+        if args.get('newOnly'):
+            headers = AXTable.get_new_row_headers(obj, args.get('priorObj'))
+        else:
+            headers = AXTable.get_row_headers(obj)
+
+        tokens = []
+        for header in headers:
+            token = self._script.utilities.displayedText(header)
+            if token and token.strip():
+                tokens.append(token.strip())
+
+        if not tokens:
             return result
 
-        text = self._script.utilities.displayedText(header)
-        if not text:
-            return result
-
+        text = ". ".join(tokens)
         roleString =  self.getLocalizedRoleName(obj, role=Atspi.Role.ROW_HEADER)
         if args.get('mode') == 'speech':
             if settings.speechVerbosityLevel == settings.VERBOSITY_LEVEL_VERBOSE \
@@ -825,14 +830,21 @@ class Generator:
         is returned.
         """
         result = []
-        header = self._script.utilities.columnHeaderForCell(obj)
-        if not header:
+        if args.get('newOnly'):
+            headers = AXTable.get_new_column_headers(obj, args.get('priorObj'))
+        else:
+            headers = AXTable.get_column_headers(obj)
+
+        tokens = []
+        for header in headers:
+            token = self._script.utilities.displayedText(header)
+            if token and token.strip():
+                tokens.append(token.strip())
+
+        if not tokens:
             return result
 
-        text = self._script.utilities.displayedText(header)
-        if not text:
-            return result
-
+        text = ". ".join(tokens)
         roleString =  self.getLocalizedRoleName(obj, role=Atspi.Role.COLUMN_HEADER)
         if args.get('mode') == 'speech':
             if settings.speechVerbosityLevel == settings.VERBOSITY_LEVEL_VERBOSE \
@@ -869,7 +881,7 @@ class Generator:
         if AXObject.get_child_count(obj) == 2:
             cellOrder = []
             hasToggle = [False, False]
-            for i, child in enumerate(obj):
+            for i, child in enumerate(AXObject.iter_children(obj)):
                 if self._script.utilities.hasMeaningfulToggleAction(child):
                     hasToggle[i] = True
                     break
@@ -901,7 +913,7 @@ class Generator:
         if AXObject.get_child_count(obj) == 2:
             cellOrder = []
             hasToggle = [False, False]
-            for i, child in enumerate(obj):
+            for i, child in enumerate(AXObject.iter_children(obj)):
                 if self._script.utilities.hasMeaningfulToggleAction(child):
                     hasToggle[i] = True
                     break
@@ -930,9 +942,9 @@ class Generator:
         descendant = self._script.utilities.realActiveDescendant(obj)
         label = self._script.utilities.displayedText(descendant)
         if not label and self._script.utilities.hasMeaningfulToggleAction(obj):
-            accHeader = self._script.utilities.columnHeaderForCell(obj)
-            if (accHeader):
-                result.append(AXObject.get_name(accHeader))
+              headers = AXTable.get_column_headers(obj)
+              if (headers):
+                result.append(AXObject.get_name(headers[0]))
         return result
 
     def _generateRealTableCell(self, obj, **args):
@@ -959,7 +971,8 @@ class Generator:
         if self._script.utilities.isSpreadSheetTable(obj):
             return []
 
-        rows, cols = self._script.utilities.rowAndColumnCount(obj)
+        rows = AXTable.get_row_count(obj)
+        cols = AXTable.get_column_count(obj)
 
         # This suggests broken or missing table interface.
         if (rows < 0 or cols < 0) \
@@ -987,7 +1000,7 @@ class Generator:
         presentAll = args.get('readingRow') is True \
             or args.get('formatType') == 'detailedWhereAmI' \
             or self._mode == 'braille' \
-            or self._script.utilities.shouldReadFullRow(obj)
+            or self._script.utilities.shouldReadFullRow(obj, args.get('priorObj'))
 
         if not presentAll:
             return self._generateRealTableCell(obj, **args)
@@ -1115,7 +1128,10 @@ class Generator:
         if role == Atspi.Role.SEPARATOR and not AXUtilities.is_focused(obj):
             return []
 
-        return [self._script.utilities.textForValue(obj)]
+        result = AXValue.get_current_value_text(obj)
+        if result:
+            return [result]
+        return []
 
     #####################################################################
     #                                                                   #
@@ -1232,10 +1248,10 @@ class Generator:
         return []
 
     def _getProgressBarUpdateInterval(self):
-        return int(_settingsManager.getSetting('progressBarUpdateInterval'))
+        return int(settings_manager.getManager().getSetting('progressBarUpdateInterval'))
 
     def _shouldPresentProgressBarUpdate(self, obj, **args):
-        percent = self._script.utilities.getValueAsPercent(obj)
+        percent = AXValue.get_value_as_percent(obj)
         lastTime, lastValue = self.getProgressBarUpdateTimeAndValue(obj, type=self)
         if percent == lastValue:
             tokens = ["GENERATOR: Not presenting update for", obj, ". Value still", percent]
@@ -1249,10 +1265,7 @@ class Generator:
         return interval >= self._getProgressBarUpdateInterval()
 
     def _cleanUpCachedProgressBars(self):
-        def isValid(x):
-            return not (self._script.utilities.isZombie(x) or self._script.utilities.isDead(x))
-
-        bars = list(filter(isValid, self._activeProgressBars))
+        bars = list(filter(AXObject.is_valid, self._activeProgressBars))
         self._activeProgressBars = {x:self._activeProgressBars.get(x) for x in bars}
 
     def _getMostRecentProgressBarUpdate(self):
@@ -1281,7 +1294,7 @@ class Generator:
 
     def setProgressBarUpdateTimeAndValue(self, obj, lastTime=None, lastValue=None):
         lastTime = lastTime or time.time()
-        lastValue = lastValue or self._script.utilities.getValueAsPercent(obj)
+        lastValue = lastValue or AXValue.get_value_as_percent(obj)
         self._activeProgressBars[obj] = lastTime, lastValue
 
     def _getAlternativeRole(self, obj, **args):

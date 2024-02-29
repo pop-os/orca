@@ -31,17 +31,18 @@ from gi.repository import Atspi
 
 from . import braille
 from . import debug
+from . import focus_manager
 from . import generator
 from . import messages
 from . import object_properties
-from . import orca_state
 from . import settings
 from . import settings_manager
 from .ax_object import AXObject
+from .ax_text import AXText
 from .ax_utilities import AXUtilities
+from .ax_value import AXValue
 from .braille_rolenames import shortRoleNames
 
-_settingsManager = settings_manager.getManager()
 
 class Space:
     """A dummy class to indicate we want to insert a space into an
@@ -88,12 +89,12 @@ class BrailleGenerator(generator.Generator):
         return AXObject.get_name(obj) == AXObject.get_name(region.accessible)
 
     def generateBraille(self, obj, **args):
-        if not _settingsManager.getSetting('enableBraille') \
-           and not _settingsManager.getSetting('enableBrailleMonitor'):
-            debug.println(debug.LEVEL_INFO, "BRAILLE: generation disabled")
+        if not settings_manager.getManager().getSetting('enableBraille') \
+           and not settings_manager.getManager().getSetting('enableBrailleMonitor'):
+            debug.printMessage(debug.LEVEL_INFO, "BRAILLE GENERATOR: generation disabled", True)
             return [[], None]
 
-        if obj == orca_state.locusOfFocus \
+        if obj == focus_manager.getManager().get_locus_of_focus() \
            and not args.get('formatType', None):
             args['formatType'] = 'focused'
         result = self.generate(obj, **args)
@@ -133,8 +134,9 @@ class BrailleGenerator(generator.Generator):
                 return self._isCandidateFocusedRegion(obj, x)
 
             candidates = list(filter(pred, result))
-            msg = f'INFO: Could not determine focused region. Candidates: {len(candidates)}'
-            debug.println(debug.LEVEL_INFO, msg)
+            tokens = ["BRAILLE GENERATOR: Could not determine focused region for",
+                      obj, "Candidates:", candidates]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             if len(candidates) == 1:
                 focusedRegion = candidates[0]
 
@@ -154,12 +156,12 @@ class BrailleGenerator(generator.Generator):
         """
 
         if args.get('isProgressBarUpdate') \
-           and not _settingsManager.getSetting('brailleProgressBarUpdates'):
+           and not settings_manager.getManager().getSetting('brailleProgressBarUpdates'):
             return []
 
         result = []
         role = args.get('role', AXObject.get_role(obj))
-        verbosityLevel = _settingsManager.getSetting('brailleVerbosityLevel')
+        verbosityLevel = settings_manager.getManager().getSetting('brailleVerbosityLevel')
 
         doNotPresent = [Atspi.Role.UNKNOWN,
                         Atspi.Role.REDUNDANT_OBJECT,
@@ -191,7 +193,7 @@ class BrailleGenerator(generator.Generator):
         - obj: an Accessible object
         """
 
-        if _settingsManager.getSetting('brailleRolenameStyle') \
+        if settings_manager.getManager().getSetting('brailleRolenameStyle') \
                 == settings.BRAILLE_ROLENAME_STYLE_SHORT:
             role = args.get('role', AXObject.get_role(obj))
             rv = shortRoleNames.get(role)
@@ -221,7 +223,7 @@ class BrailleGenerator(generator.Generator):
         or an empty array if no accelerator can be found.
         """
 
-        verbosityLevel = _settingsManager.getSetting('brailleVerbosityLevel')
+        verbosityLevel = settings_manager.getManager().getSetting('brailleVerbosityLevel')
         if verbosityLevel == settings.VERBOSITY_LEVEL_BRIEF:
             return []
 
@@ -266,7 +268,7 @@ class BrailleGenerator(generator.Generator):
         previous object with focus.
         """
         result = []
-        if not _settingsManager.getSetting('enableBrailleContext'):
+        if not settings_manager.getManager().getSetting('enableBrailleContext'):
             return result
         args['includeContext'] = False
 
@@ -395,27 +397,27 @@ class BrailleGenerator(generator.Generator):
             return []
 
         result = self._generatePercentage(obj, **args)
-        if obj == orca_state.locusOfFocus and not result:
+        if obj == focus_manager.getManager().get_locus_of_focus() and not result:
             return ['']
 
         return result
 
     def _generatePercentage(self, obj, **args):
-        percent = self._script.utilities.getValueAsPercent(obj)
+        percent = AXValue.get_value_as_percent(obj)
         if percent is not None:
             return [f'{percent}%']
 
         return []
 
     def _getProgressBarUpdateInterval(self):
-        interval = _settingsManager.getSetting('progressBarBrailleInterval')
+        interval = settings_manager.getManager().getSetting('progressBarBrailleInterval')
         if interval is None:
             return super()._getProgressBarUpdateInterval()
 
         return int(interval)
 
     def _shouldPresentProgressBarUpdate(self, obj, **args):
-        if not _settingsManager.getSetting('brailleProgressBarUpdates'):
+        if not settings_manager.getManager().getSetting('brailleProgressBarUpdates'):
             return False
 
         return super()._shouldPresentProgressBarUpdate(obj, **args)
@@ -461,21 +463,12 @@ class BrailleGenerator(generator.Generator):
         # are on the very first line.  Otherwise, we show only the
         # line.
         #
-        include = _settingsManager.getSetting('enableBrailleContext')
+        include = settings_manager.getManager().getSetting('enableBrailleContext')
         if not include:
             return include
-        try:
-            text = obj.queryText()
-        except NotImplementedError:
-            text = None
-        if text and (self._script.utilities.isTextArea(obj) or AXUtilities.is_label(obj)):
-            try:
-                [lineString, startOffset, endOffset] = text.getTextAtOffset(
-                    text.caretOffset, Atspi.TextBoundaryType.LINE_START)
-            except Exception:
-                return include
 
-            include = startOffset == 0
+        if self._script.utilities.isTextArea(obj) or AXUtilities.is_label(obj):
+            include = AXText.get_line_at_offset(obj)[1] == 0
             if include:
                 relation = AXObject.get_relation(obj, Atspi.RelationType.FLOWS_FROM)
                 if relation:
@@ -490,7 +483,7 @@ class BrailleGenerator(generator.Generator):
 
     def _generateEol(self, obj, **args):
         result = []
-        if not _settingsManager.getSetting('disableBrailleEOL'):
+        if not settings_manager.getManager().getSetting('disableBrailleEOL'):
             if not args.get('mode', None):
                 args['mode'] = self._mode
             args['stringType'] = 'eol'

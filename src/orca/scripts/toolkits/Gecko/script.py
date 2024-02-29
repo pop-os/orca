@@ -32,8 +32,7 @@ gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 
 from orca import debug
-from orca import orca
-from orca import orca_state
+from orca import focus_manager
 from orca.ax_object import AXObject
 from orca.scripts import default
 from orca.scripts import web
@@ -52,12 +51,6 @@ class Script(web.Script):
 
         return Utilities(self)
 
-    def isActivatableEvent(self, event):
-        if event.type == "window:activate":
-            return self.utilities.canBeActiveWindow(event.source)
-
-        return super().isActivatableEvent(event)
-
     def locusOfFocusChanged(self, event, oldFocus, newFocus):
         """Handles changes of focus of interest to the script."""
 
@@ -75,7 +68,7 @@ class Script(web.Script):
             return
 
         if event.detail1 and AXObject.get_role(event.source) == Atspi.Role.FRAME \
-           and not self.utilities.canBeActiveWindow(event.source):
+           and not focus_manager.getManager().can_be_active_window(event.source):
             return
 
         msg = "GECKO: Passing along event to default script"
@@ -214,7 +207,7 @@ class Script(web.Script):
         if self.utilities.isLayoutOnly(event.source):
             return
 
-        if event.source == orca_state.activeWindow:
+        if event.source == focus_manager.getManager().get_active_window():
             msg = "GECKO: Ignoring event for active window."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
@@ -223,7 +216,7 @@ class Script(web.Script):
         # This callback remains just to handle bugs in applications and toolkits
         # in which object:state-changed:focused events are missing. And in the
         # case of Gecko dialogs, that seems to happen a lot.
-        orca.setLocusOfFocus(event, event.source)
+        focus_manager.getManager().set_locus_of_focus(event, event.source)
 
     def onFocusedChanged(self, event):
         """Callback for object:state-changed:focused accessibility events."""
@@ -232,7 +225,7 @@ class Script(web.Script):
             return
 
         if AXObject.get_role(event.source) == Atspi.Role.PANEL:
-            if orca_state.locusOfFocus == orca_state.activeWindow:
+            if focus_manager.getManager().focus_is_active_window():
                 msg = "GECKO: Ignoring event believed to be noise."
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return
@@ -344,7 +337,7 @@ class Script(web.Script):
     def onWindowActivated(self, event):
         """Callback for window:activate accessibility events."""
 
-        if not self.utilities.canBeActiveWindow(event.source):
+        if not focus_manager.getManager().can_be_active_window(event.source):
             return
 
         if super().onWindowActivated(event):

@@ -27,21 +27,18 @@ __copyright__ = "Copyright (c) 2006-2008 Brailcom, o.p.s."
 __license__   = "LGPL"
 
 from gi.repository import GLib
-import re
 import time
 
-from . import chnames
 from . import debug
 from . import guilabels
+from . import mathsymbols
 from . import messages
 from . import speechserver
 from . import settings
-from . import orca_state
-from . import punctuation_settings
+from . import script_manager
 from . import settings_manager
 from .acss import ACSS
-
-_settingsManager = settings_manager.getManager()
+from .ssml import SSML, SSMLCapabilities
 
 try:
     import speechd
@@ -55,9 +52,6 @@ else:
         _speechd_version_ok = False
     else:
         _speechd_version_ok = True
-
-PUNCTUATION = re.compile(r'[^\w\s]', re.UNICODE)
-ELLIPSIS = re.compile('(\342\200\246|(?<!\\.)\\.{3,4}(?=(\\s|\\Z)))')
 
 class SpeechServer(speechserver.SpeechServer):
     # See the parent class for documentation.
@@ -281,7 +275,7 @@ class SpeechServer(speechserver.SpeechServer):
             f"volume {self._current_voice_properties.get(ACSS.GAIN)}, "
             f"language {self._get_language_and_dialect(family)[0]}, "
             f"punctuation: "
-            f"{styles.get(_settingsManager.getSetting('verbalizePunctuationStyle'))}\n"
+            f"{styles.get(settings_manager.getManager().getSetting('verbalizePunctuationStyle'))}\n"
             f"SD rate {sd_rate}, pitch {sd_pitch}, volume {sd_volume}, language {sd_language}"
         )
         debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -309,152 +303,11 @@ class SpeechServer(speechserver.SpeechServer):
                 method({})
                 current[acss_property] = {}
 
-    def __addVerbalizedPunctuation(self, oldText):
-        """Depending upon the users verbalized punctuation setting,
-        adjust punctuation symbols in the given text to their pronounced
-        equivalents. The pronounced text will either replace the
-        punctuation symbol or be inserted before it. In the latter case,
-        this is to retain spoken prosity.
-
-        Arguments:
-        - oldText: text to be parsed for punctuation.
-
-        Returns a text string with the punctuation symbols adjusted accordingly.
-        """
-
-        style = _settingsManager.getSetting("verbalizePunctuationStyle")
-        if style == settings.PUNCTUATION_STYLE_NONE:
-            return oldText
-
-        spokenEllipsis = messages.SPOKEN_ELLIPSIS + " "
-        newText = re.sub(ELLIPSIS, spokenEllipsis, oldText)
-        symbols = set(re.findall(PUNCTUATION, newText))
-        for symbol in symbols:
-            try:
-                level, action = punctuation_settings.getPunctuationInfo(symbol)
-            except Exception:
-                continue
-
-            if level != punctuation_settings.LEVEL_NONE:
-                # Speech Dispatcher should handle it.
-                #
-                continue
-
-            charName = f" {chnames.getCharacterName(symbol)} "
-            if action == punctuation_settings.PUNCTUATION_INSERT:
-                charName += symbol
-            newText = re.sub(symbol, charName, newText)
-
-        if orca_state.activeScript:
-            newText = orca_state.activeScript.utilities.adjustForDigits(newText)
-
-        return newText
-
     def _speak(self, text, acss, **kwargs):
         if isinstance(text, ACSS):
             text = ''
-
-        # Mark beginning of words with U+E000 (private use) and record the
-        # string offsets
-        # Note: we need to do this before disturbing the text offsets
-        # Note2: we assume that text mangling below leave U+E000 untouched
-        last_begin = None
-        is_numeric = None
-        marks_offsets = []
-        marks_endoffsets = []
-        marked_text = ""
-
-        for i in range(len(text)):
-            c = text[i]
-            if c == '\ue000':
-                # Original text already contains U+E000. But syntheses will not
-                # know what to do of it anyway, so discard it
-                continue
-
-            if not c.isspace() and last_begin is None:
-                # Word begin
-                marked_text += '\ue000'
-                last_begin = i
-                is_numeric = c.isnumeric()
-
-            elif c.isspace() and last_begin is not None:
-                # Word end
-                if is_numeric:
-                    # We had a wholy numeric word, possibly next word is as well.
-                    # Skip to next word
-                    for j in range(i+1, len(text)):
-                        if not text[j].isspace():
-                            break
-                    else:
-                        is_numeric = False
-                    # Check next word
-                    while is_numeric and j < len(text) and not text[j].isspace():
-                        if not text[j].isnumeric():
-                            is_numeric = False
-                        j += 1
-
-                if not is_numeric:
-                    # add a mark
-                    marks_offsets.append(last_begin)
-                    marks_endoffsets.append(i)
-                    last_begin = None
-                    is_numeric = None
-
-            elif is_numeric and not c.isnumeric():
-                is_numeric = False
-
-            marked_text += c
-
-        if last_begin is not None:
-            # Finished with a word
-            marks_offsets.append(last_begin)
-            marks_endoffsets.append(i + 1)
-
-        text = marked_text
-
-        text = self.__addVerbalizedPunctuation(text)
-        if orca_state.activeScript:
-            text = orca_state.activeScript.\
-                utilities.adjustForPronunciation(text)
-
-        # Replace no break space characters with plain spaces since some
-        # synthesizers cannot handle them.  See bug #591734.
-        #
-        text = text.replace('\u00a0', ' ')
-
-        # Replace newline followed by full stop, since
-        # this seems to crash sd, see bgo#618334.
-        #
-        text = text.replace('\n.', '\n')
-
-        # Transcribe to SSML, translating U+E000 into marks
-        # Note: we need to do this after all mangling otherwise the ssml markup
-        # would get mangled too
-        ssml = "<speak>"
-        i = 0
-        for c in text:
-            if c == '\ue000':
-                if i >= len(marks_offsets):
-                    # This is really not supposed to happen
-                    msg = f"{i}th U+E000 does not have corresponding index"
-                    debug.printMessage(debug.LEVEL_WARNING, msg, True)
-                else:
-                    ssml += '<mark name="%u:%u"/>' % (marks_offsets[i], marks_endoffsets[i])
-                i += 1
-            # Disable for now, until speech dispatcher properly parses them (version 0.8.9 or later)
-            #elif c == '"':
-            #  ssml += '&quot;'
-            #elif c == "'":
-            #  ssml += '&apos;'
-            elif c == '<':
-              ssml += '&lt;'
-            elif c == '>':
-              ssml += '&gt;'
-            elif c == '&':
-              ssml += '&amp;'
-            else:
-              ssml += c
-        ssml += "</speak>"
+ 
+        ssml = SSML.markupText(text, SSMLCapabilities.MARK)
 
         self._apply_acss(acss)
         self._debug_sd_values(f"Speaking '{ssml}' ")
@@ -618,13 +471,13 @@ class SpeechServer(speechserver.SpeechServer):
             interrupt = interrupt and (time.time() - self._lastKeyEchoTime) > 0.5
 
         if len(text) == 1:
-            tokens = ["SPEECH DISPATCHER: Speaking '", text.replace("\n", "\\n"), "' as char"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            msg = f"SPEECH DISPATCHER: Speaking '{text}' as char"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._apply_acss(acss)
             self._send_command(self._client.char, text)
         else:
-            tokens = ["SPEECH DISPATCHER: Speaking '", text, "' as string"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            msg = f"SPEECH DISPATCHER: Speaking '{text}' as string"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._speak(text, acss)
 
     def sayAll(self, utteranceIterator, progressCallback):
@@ -632,16 +485,18 @@ class SpeechServer(speechserver.SpeechServer):
 
     def speakCharacter(self, character, acss=None):
         self._apply_acss(acss)
-        name = chnames.getCharacterName(character)
+
+        name = character
+        script = script_manager.getManager().getActiveScript()
+        if script and script.utilities.speakMathSymbolNames():
+            name = mathsymbols.getCharacterName(character)
+
         if not name or name == character:
-            tokens = ["SPEECH DISPATCHER: Speaking '", character.replace("\n", "\\n"), "' as char"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            msg = f"SPEECH DISPATCHER: Speaking '{character}' as char"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._send_command(self._client.char, character)
             return
 
-        if orca_state.activeScript:
-            name = orca_state.activeScript.\
-                utilities.adjustForPronunciation(name)
         self.speak(name, acss)
 
     def speakKeyEvent(self, event, acss=None):
@@ -649,13 +504,13 @@ class SpeechServer(speechserver.SpeechServer):
         lockingStateString = event.getLockingStateString()
         event_string = f"{event_string} {lockingStateString}".strip()
         if len(event_string) == 1:
-            tokens = ["SPEECH DISPATCHER: Speaking '", event_string, "' as key"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            msg = f"SPEECH DISPATCHER: Speaking '{event_string}' as key"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._apply_acss(acss)
             self._send_command(self._client.key, event_string)
         else:
-            tokens = ["SPEECH DISPATCHER: Speaking '", event_string, "' as string"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            msg = f"SPEECH DISPATCHER: Speaking '{event_string}' as string"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             self.speak(event_string, acss=acss)
         self._lastKeyEchoTime = time.time()
 

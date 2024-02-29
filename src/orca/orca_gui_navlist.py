@@ -32,8 +32,10 @@ from gi.repository import GObject, Gdk, Gtk
 from . import debug
 from . import guilabels
 from . import orca_state
+from . import script_manager
 from .ax_event_synthesizer import AXEventSynthesizer
 from .ax_object import AXObject
+
 
 class OrcaNavListGUI:
 
@@ -47,7 +49,7 @@ class OrcaNavListGUI:
         self._gui.set_keep_above(True)
         self._gui.set_focus_on_map(True)
         self._gui.set_accept_focus(True)
-        self._script = orca_state.activeScript
+        self._script = script_manager.getManager().getActiveScript()
         self._document = None
 
     def _createNavListDialog(self, columnHeaders, rows, selectedRow):
@@ -113,11 +115,6 @@ class OrcaNavListGUI:
         return dialog
 
     def showGUI(self):
-        self._document = self._script.utilities.documentFrame()
-        x, y, width, height = self._script.utilities.getBoundingBox(self._document)
-        if (width and height):
-            self._gui.move(x + 100, y + 100)
-
         self._gui.show_all()
         ts = orca_state.lastInputEvent.timestamp
         if ts == 0:

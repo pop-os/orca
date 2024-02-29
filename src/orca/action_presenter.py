@@ -28,75 +28,91 @@ __license__   = "LGPL"
 
 import gi
 
+gi.require_version("Gdk", "3.0")
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import Gdk, GLib, Gtk
 
 from . import cmdnames
 from . import debug
+from . import focus_manager
 from . import input_event
 from . import keybindings
 from . import messages
-from . import orca
-from . import orca_state
 from .ax_object import AXObject
+
 
 class ActionPresenter:
     """Provides menu for performing accessible actions on an object."""
 
     def __init__(self):
-        self._handlers = self._setup_handlers()
-        self._bindings = self._setup_bindings()
+        self._handlers = self.get_handlers(True)
+        self._bindings = keybindings.KeyBindings()
         self._gui = None
         self._obj = None
 
-    def get_bindings(self):
+    def get_bindings(self, refresh=False, is_desktop=True):
         """Returns the action-presenter keybindings."""
+
+        if refresh:
+            msg = "ACTION PRESENTER: Refreshing bindings."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            self._setup_bindings()
+        elif self._bindings.isEmpty():
+            self._setup_bindings()
 
         return self._bindings
 
-    def get_handlers(self):
+    def get_handlers(self, refresh=False):
         """Returns the action-presenter handlers."""
+
+        if refresh:
+            msg = "ACTION PRESENTER: Refreshing handlers."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            self._setup_handlers()
 
         return self._handlers
 
     def _setup_handlers(self):
-        """Sets up and returns the action-presenter input event handlers."""
+        """Sets up the action-presenter input event handlers."""
 
-        handlers = {}
+        self._handlers = {}
 
-        handlers["show_actions_menu"] = \
+        self._handlers["show_actions_menu"] = \
             input_event.InputEventHandler(
                 self.show_actions_menu,
                 cmdnames.SHOW_ACTIONS_MENU)
 
-        return handlers
+        msg = "ACTION PRESENTER: Handlers set up."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
     def _setup_bindings(self):
-        """Sets up and returns the action-presenter key bindings."""
+        """Sets up the action-presenter key bindings."""
 
-        bindings = keybindings.KeyBindings()
+        self._bindings = keybindings.KeyBindings()
 
-        bindings.add(
+        self._bindings.add(
             keybindings.KeyBinding(
                 "a",
                 keybindings.defaultModifierMask,
                 keybindings.ORCA_SHIFT_MODIFIER_MASK,
                 self._handlers.get("show_actions_menu")))
 
-        return bindings
+        msg = "ACTION PRESENTER: Bindings set up."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
 
     def _perform_action(self, action):
         """Attempts to perform the named action."""
 
         result = AXObject.do_named_action(self._obj, action)
-        tokens = ["ActionPresenter: Performing", action, "on", self._obj, "succeeded:", result]
+        tokens = ["ACTION PRESENTER: Performing", action, "on", self._obj, "succeeded:", result]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         self._gui = None
 
     def show_actions_menu(self, script, event=None):
         """Shows a menu with all the available accessible actions."""
 
-        obj = orca.getActiveModeAndObjectOfInterest()[1] or orca_state.locusOfFocus
+        obj = focus_manager.getManager().get_active_mode_and_object_of_interest()[1] \
+            or focus_manager.getManager().get_locus_of_focus()
         if obj is None:
             full = messages.LOCATION_NOT_FOUND_FULL
             brief = messages.LOCATION_NOT_FOUND_BRIEF
@@ -107,11 +123,9 @@ class ActionPresenter:
         for i in range(AXObject.get_n_actions(obj)):
             name = AXObject.get_action_name(obj, i)
             description = AXObject.get_action_description(obj, i)
-            msg = (
-                f"ActionPresenter: Action {i} on {obj}: '{name}' "
-                f"(localized description: '{description}')"
-            )
-            debug.println(debug.LEVEL_INFO, msg, True)
+            tokens = [f"ACTION PRESENTER: Action {i} on", obj,
+                      f": '{name}' localized description: '{description}'"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             actions[name] = description or name
 
         if not actions.items():
@@ -121,7 +135,10 @@ class ActionPresenter:
 
         self._obj = obj
         self._gui = ActionMenu(actions, self._perform_action)
-        self._gui.show_gui()
+        timeout = 500
+        msg = f"ACTION PRESENTER: Delaying popup {timeout}ms due to GtkMenu grab conflict."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        GLib.timeout_add(timeout, self._gui.show_gui)
         return True
 
 
@@ -130,6 +147,7 @@ class ActionMenu(Gtk.Menu):
 
     def __init__(self, actions, handler):
         super().__init__()
+        self.connect("popped-up", self._on_popped_up)
         self.on_option_selected = handler
         for name, description in actions.items():
             menu_item = Gtk.MenuItem(label=description)
@@ -141,14 +159,36 @@ class ActionMenu(Gtk.Menu):
 
         self.on_option_selected(option)
 
+    def _on_popped_up(self, *args):
+        """Handler for the 'popped-up' menu signal"""
+
+        msg = "ACTION PRESENTER: ActionMenu popped up"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+
     def show_gui(self):
         """Shows the menu"""
 
         self.show_all()
-        time_stamp = orca_state.lastInputEvent.timestamp
-        if time_stamp == 0:
-            time_stamp = Gtk.get_current_event_time()
-        self.popup(None, None, None, None, 0, time_stamp)
+        display = Gdk.Display.get_default()
+        seat = display.get_default_seat()
+        device = seat.get_pointer()
+        screen, x, y = device.get_position()
+
+        event = Gdk.Event.new(Gdk.EventType.BUTTON_PRESS)
+        event.set_screen(screen)
+        event.set_device(device)
+        event.time = Gtk.get_current_event_time()
+        event.x = x
+        event.y = y
+
+        rect = Gdk.Rectangle()
+        rect.x = x
+        rect.y = y
+        rect.width = 1
+        rect.height = 1
+
+        window = Gdk.get_default_root_window()
+        self.popup_at_rect(window, rect, Gdk.Gravity.NORTH_WEST, Gdk.Gravity.NORTH_WEST, event)
 
 
 _presenter = ActionPresenter()

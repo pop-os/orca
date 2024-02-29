@@ -36,7 +36,7 @@ cgettext = gettext.gettext
 
 # Tell gettext where to find localized strings.
 #
-localedir = "@localedir@".replace('${prefix}', '@prefix@')
+localedir = os.path.join('@prefix@','@localedir@')
 gettext.bindtextdomain ("@GETTEXT_PACKAGE@", localedir)
 gettext.textdomain("orca")
 
@@ -71,12 +71,12 @@ def setModuleLocale(moduleName, newLocale=None):
         importlib.reload(module)
 
 def setLocaleForMessages(newLocale=None):
-    modules = ['orca.tutorialgenerator', 'orca.messages']
+    modules = ['orca.messages']
     for module in modules:
         setModuleLocale(module, newLocale)
 
 def setLocaleForNames(newLocale=None):
-    modules = ['orca.chnames', 'orca.keynames', 'orca.phonnames',
+    modules = ['orca.keynames', 'orca.phonnames',
                'orca.text_attribute_names', 'orca.object_properties',
                'orca.cmdnames', 'orca.keybindings', 'orca.colornames',
                'orca.mathsymbols']

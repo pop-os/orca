@@ -1,3 +1,39 @@
+orca (46~beta-1) experimental; urgency=medium
+
+  * New upstream beta.
+    - control: Add meson, git, and gir1.2-gtk-3.0 build-dependencies.
+    - control: Drop python3-pyatspi dependency.
+    - docs: Install README.md instead of README.
+    - manpages: Install docs/orca.1 instead of docs/man/orca.1.
+  * control: Bump at-spi runtime deps to 2.50.0~ too.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 20 Jan 2024 20:13:20 +0100
+
+orca (46~alpha-1) experimental; urgency=medium
+
+  * New upstream alpha.
+    - control: Bump at-spi build-dep to 2.50.0~.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 20 Jan 2024 20:13:20 +0100
+
+orca (45.2-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 06 Jan 2024 19:41:00 +0100
+
+orca (45.1-2) unstable; urgency=medium
+
+  * Rebuild on buildd (Closes: Bug#1053703)
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 09 Oct 2023 13:17:06 +0200
+
+orca (45.1-1) unstable; urgency=medium
+
+  * New upstream release (Closes: Bug#1053119)
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 06 Oct 2023 19:30:11 +0200
+
 orca (45.0-1ubuntu1) mantic; urgency=medium
 
   * Merge with Debian

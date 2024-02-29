@@ -26,13 +26,12 @@ __copyright__ = "Copyright (c) 2013-2014 Igalia, S.L."
 __license__   = "LGPL"
 
 import orca.debug as debug
-import orca.orca as orca
-import orca.orca_state as orca_state
+import orca.focus_manager as focus_manager
 import orca.scripts.default as default
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
-
 from .script_utilities import Utilities
+
 
 class Script(default.Script):
 
@@ -53,19 +52,18 @@ class Script(default.Script):
 
         if self.utilities.isToggleDescendantOfComboBox(newFocus):
             newFocus = AXObject.find_ancestor(newFocus, AXUtilities.is_combo_box) or newFocus
-            orca.setLocusOfFocus(event, newFocus, False)
+            focus_manager.getManager().set_locus_of_focus(event, newFocus, False)
         elif self.utilities.isInOpenMenuBarMenu(newFocus):
             window = self.utilities.topLevelObject(newFocus)
-            windowChanged = window and orca_state.activeWindow != window
-            if windowChanged:
-                orca.setActiveWindow(window)
+            if window and focus_manager.getManager().get_active_window() != window:
+                focus_manager.getManager().set_active_window(window)
 
         super().locusOfFocusChanged(event, oldFocus, newFocus)
 
     def onActiveDescendantChanged(self, event):
         """Callback for object:active-descendant-changed accessibility events."""
 
-        if not self.utilities.isTypeahead(orca_state.locusOfFocus):
+        if not self.utilities.isTypeahead(focus_manager.getManager().get_locus_of_focus()):
             msg = "GTK: locusOfFocus is not typeahead. Passing along to default script."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             super().onActiveDescendantChanged(event)
@@ -79,7 +77,7 @@ class Script(default.Script):
         """Callback for object:state-changed:checked accessibility events."""
 
         obj = event.source
-        if self.utilities.isSameObject(obj, orca_state.locusOfFocus):
+        if self.utilities.isSameObject(obj, focus_manager.getManager().get_locus_of_focus()):
             default.Script.onCheckedChanged(self, event)
             return
 
@@ -107,30 +105,41 @@ class Script(default.Script):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
-        if self.utilities.isTypeahead(orca_state.locusOfFocus) \
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if self.utilities.isTypeahead(focus) \
            and AXObject.supports_table(event.source) \
            and not AXUtilities.is_focused(event.source):
             return
 
-        ancestor = AXObject.find_ancestor(orca_state.locusOfFocus, lambda x: x == event.source)
+        ancestor = AXObject.find_ancestor(focus, lambda x: x == event.source)
         if not ancestor:
-            orca.setLocusOfFocus(event, event.source)
+            focus_manager.getManager().set_locus_of_focus(event, event.source)
             return
 
         if AXObject.supports_table(ancestor):
             return
 
-        if AXUtilities.is_menu(ancestor) \
-           and AXObject.find_ancestor(ancestor, AXUtilities.is_menu) is None:
-            return
+        if AXUtilities.is_menu(ancestor):
+            if AXUtilities.is_selected(focus):
+                msg = "GTK: Event source is ancestor of selected focus. Ignoring."
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return
+            msg = "GTK: Event source is ancestor of unselected focus. Updating focus."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-        orca.setLocusOfFocus(event, event.source)
+        focus_manager.getManager().set_locus_of_focus(event, event.source)
 
     def onFocusedChanged(self, event):
         """Callback for object:state-changed:focused accessibility events."""
 
         if self.utilities.isUselessPanel(event.source):
             msg = "GTK: Event source believed to be useless panel"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            return
+
+        focus = focus_manager.getManager().get_locus_of_focus()
+        if AXObject.is_ancestor(focus, event.source) and AXUtilities.is_focused(focus):
+            msg = "GTK: Ignoring focus change on ancestor of still-focused locusOfFocus"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
@@ -141,10 +150,10 @@ class Script(default.Script):
 
         if self.utilities.isEntryCompletionPopupItem(event.source):
             if event.detail1:
-                orca.setLocusOfFocus(event, event.source)
+                focus_manager.getManager().set_locus_of_focus(event, event.source)
                 return
-            if orca_state.locusOfFocus == event.source:
-                orca.setLocusOfFocus(event, None)
+            if focus_manager.getManager().get_locus_of_focus() == event.source:
+                focus_manager.getManager().set_locus_of_focus(event, None)
                 return
 
         if AXUtilities.is_icon_or_canvas(event.source) \
@@ -156,8 +165,9 @@ class Script(default.Script):
     def onSelectionChanged(self, event):
         """Callback for object:selection-changed accessibility events."""
 
+        focus = focus_manager.getManager().get_locus_of_focus()
         if self.utilities.isComboBoxWithToggleDescendant(event.source) \
-            and self.utilities.isOrDescendsFrom(orca_state.locusOfFocus, event.source):
+            and self.utilities.isOrDescendsFrom(focus, event.source):
             super().onSelectionChanged(event)
             return
 
@@ -165,7 +175,7 @@ class Script(default.Script):
         if AXUtilities.is_combo_box(event.source) and not isFocused:
             return
 
-        if not isFocused and self.utilities.isTypeahead(orca_state.locusOfFocus):
+        if not isFocused and self.utilities.isTypeahead(focus):
             msg = "GTK: locusOfFocus believed to be typeahead. Presenting change."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
 
@@ -201,7 +211,7 @@ class Script(default.Script):
     def onTextDeleted(self, event):
         """Callback for object:text-changed:delete accessibility events."""
 
-        if not self.utilities.isShowingAndVisible(event.source):
+        if not (AXUtilities.is_showing(event.source) and AXUtilities.is_visible(event.source)):
             tokens = ["GTK:", event.source, "is not showing and visible"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
@@ -211,7 +221,7 @@ class Script(default.Script):
     def onTextInserted(self, event):
         """Callback for object:text-changed:insert accessibility events."""
 
-        if not self.utilities.isShowingAndVisible(event.source):
+        if not (AXUtilities.is_showing(event.source) and AXUtilities.is_visible(event.source)):
             tokens = ["GTK:", event.source, "is not showing and visible"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
@@ -222,7 +232,7 @@ class Script(default.Script):
         """Callback for object:text-selection-changed accessibility events."""
 
         obj = event.source
-        if not self.utilities.isSameObject(obj, orca_state.locusOfFocus):
+        if not self.utilities.isSameObject(obj, focus_manager.getManager().get_locus_of_focus()):
             return
 
         default.Script.onTextSelectionChanged(self, event)

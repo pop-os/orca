@@ -34,6 +34,7 @@ import os
 import re
 import subprocess
 import sys
+import types
 
 from datetime import datetime
 
@@ -125,12 +126,6 @@ debugFile = None
 eventDebugLevel  = LEVEL_FINEST
 eventDebugFilter = None
 
-# If True, we output debug information for the event queue.  We
-# use this in addition to log level to prevent debug logic from
-# bogging down event handling.
-#
-debugEventQueue = False
-
 # What module(s) should be traced if traceit is being used. By default
 # we'll just attend to ourself. (And by default, we will not enable
 # traceit.) Note that enabling this functionality will drag your system
@@ -220,24 +215,76 @@ def _asString(obj):
             f"({obj.detail1}, {obj.detail2}, {_asString(obj.any_data)})"
         )
 
+    if isinstance(obj, (Atspi.Role, Atspi.StateType, Atspi.CollectionMatchType,
+                        Atspi.TextBoundaryType, Atspi.ScrollType)):
+        return obj.value_nick
+
+    if isinstance(obj, Atspi.Rect):
+        return f"(x:{obj.x}, y:{obj.y}, width:{obj.width}, height:{obj.height})"
+
+    if isinstance(obj, list):
+        return f"[{', '.join(map(_asString, obj))}]"
+
+    if isinstance(obj, str) and len(obj) > 100:
+        obj = f"{obj[0:100]} (...)"
+        return obj
+
+    if isinstance(obj, types.FunctionType):
+        if hasattr(obj, "__self__"):
+            return f"{obj.__module__}.{obj.__self__.__class__.__name__}.{obj.__name__}"
+        return f"{obj.__module__}.{obj.__name__}"
+
+    if isinstance(obj, types.MethodType):
+        if hasattr(obj, "__self__"):
+            return f"{obj.__self__.__class__.__name__}.{obj.__name__}"
+        return f"{obj.__name__}"
+
+    if isinstance(obj, types.FrameType):
+        module_name = inspect.getmodulename(obj.f_code.co_filename)
+        return f"{module_name}.{obj.f_code.co_name}"
+
+    if isinstance(obj, inspect.FrameInfo):
+        module_name = inspect.getmodulename(obj.filename)
+        return f"{module_name}.{obj.function}"
+
     return str(obj)
 
-def printTokens(level, tokens, timestamp=False):
+def printTokens(level, tokens, timestamp=False, stack=False):
     if level < debugLevel:
         return
 
     text = " ".join(map(_asString, tokens))
     text = re.sub(r"[ \u00A0]+", " ", text)
     text = re.sub(r" (?=[,.:)])(?![\n])", "", text)
-    println(level, text, timestamp)
+    println(level, text, timestamp, stack)
 
-def printMessage(level, text, timestamp=False):
+def printMessage(level, text, timestamp=False, stack=False):
     if level < debugLevel:
         return
 
-    println(level, text, timestamp)
+    println(level, text, timestamp, stack)
 
-def println(level, text="", timestamp=False):
+def _stackAsString(max_frames=4):
+    callers = []
+    current_module = inspect.getmodule(inspect.currentframe())
+    stack = inspect.stack()
+    for i in range(1, len(stack)):
+        frame = stack[i]
+        module = inspect.getmodule(frame[0])
+        if module == current_module:
+            continue
+        if frame.function == 'main':
+            continue
+        if module is None or module.__name__ is None:
+            continue
+        callers.append(frame)
+        if len(callers) >= max_frames:
+            break
+
+    callers.reverse()
+    return " > ".join(map(_asString, callers))
+
+def println(level, text="", timestamp=False, stack=False):
     """Prints the text to stderr unless debug is enabled.
 
     If debug is enabled the text will be redirected to the
@@ -253,6 +300,9 @@ def println(level, text="", timestamp=False):
         if timestamp:
             text = text.replace("\n", f"\n{' ' * 18}")
             text = f"{datetime.now().strftime('%H:%M:%S.%f')} - {text}"
+        if stack:
+            text += f" {_stackAsString()}"
+
         if debugFile:
             try:
                 debugFile.writelines([text, "\n"])
@@ -289,11 +339,12 @@ def printResult(level, result=None):
         args.locals[key] = str(value)
     fArgs = str.replace(inspect.formatargvalues(*args), "'", "")
 
-    callString = 'CALL:   %s.%s (line %s) -> %s.%s%s' % (
-        inspect.getmodulename(prev[1]), prev[3], prev[2],
-        inspect.getmodulename(current[1]), current[3], fArgs)
-    string = f'{callString}\nRESULT: {result}'
-    println(level, f'{string}')
+    callString = (
+        f"CALL:   {inspect.getmodulename(prev[1])}.{prev[3]} (line {prev[2]})"
+        f" -> {inspect.getmodulename(current[1])}.{current[3]}{fArgs}"
+    )
+    string = f"{callString}\nRESULT: {result}"
+    println(level, f"{string}")
 
 def printObjectEvent(level, event, sourceInfo=None, timestamp=False):
     """Prints out an Python Event object.  The given level may be
@@ -311,28 +362,11 @@ def printObjectEvent(level, event, sourceInfo=None, timestamp=False):
         return
 
     level = max(level, eventDebugLevel)
-
-    anydata = event.any_data
-    if isinstance(anydata, str) and len(anydata) > 100:
-        anydata = f"{anydata[0:100]} (...)"
-
-    text = "OBJECT EVENT: %s (%d, %d, %s)" \
-           % (event.type, event.detail1, event.detail2, anydata)
-    println(level, text, timestamp)
+    tokens = ["OBJECT EVENT:", event]
+    printTokens(level, tokens, timestamp)
 
     if sourceInfo:
         println(level, f"{' ' * 18}{sourceInfo}", timestamp)
-
-def printInputEvent(level, string, timestamp=False):
-    """Prints out an input event.  The given level may be overridden
-    if the eventDebugLevel (see setEventDebugLevel) is greater.
-
-    Arguments:
-    - level: the accepted debug level
-    - string: the string representing the input event
-    """
-
-    println(max(level, eventDebugLevel), string, timestamp)
 
 def printDetails(level, indent, accessible, includeApp=True, timestamp=False):
     """Lists the details of the given accessible with the given
@@ -382,10 +416,16 @@ def getAccessibleDetails(level, acc, indent="", includeApp=True):
     actions_string = f"{indent}actions='{AXObject.actions_as_string(acc)}'"
     iface_string = f"{indent}interfaces='{AXObject.supported_interfaces_as_string(acc)}'"
     attr_string = f"{indent}attributes='{AXObject.attributes_as_string(acc)}'"
-
-    string += "%s %s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n" \
-                  % (name_string, role_string, desc_string, state_string, rel_string,
-                     actions_string, iface_string, attr_string, path_string)
+    string += (
+        f"{name_string} {role_string}\n"
+        f"{desc_string}\n"
+        f"{state_string}\n"
+        f"{rel_string}\n"
+        f"{actions_string}\n"
+        f"{iface_string}\n"
+        f"{attr_string}\n"
+        f"{path_string}\n"
+    )
     return string
 
 # The following code originated from the following URL:

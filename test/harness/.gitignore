@@ -1,0 +1,10 @@
+orca-customizations.py
+orca-customizations.pyc
+user-settings.conf
+utils.pyc
+*.debug
+*.speech
+*.braille
+*.out
+app-settings
+orca-scripts

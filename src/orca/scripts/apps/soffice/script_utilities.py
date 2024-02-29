@@ -33,14 +33,15 @@ gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 
 import orca.debug as debug
+import orca.focus_manager as focus_manager
 import orca.keybindings as keybindings
 import orca.messages as messages
-import orca.orca_state as orca_state
 import orca.script_utilities as script_utilities
 from orca.ax_object import AXObject
 from orca.ax_selection import AXSelection
+from orca.ax_table import AXTable
+from orca.ax_text import AXText
 from orca.ax_utilities import AXUtilities
-
 
 #############################################################################
 #                                                                           #
@@ -99,12 +100,14 @@ class Utilities(script_utilities.Utilities):
         # TODO - JD: This is needed because the default behavior is to fall
         # back on the name, which is bogus. Once that has been fixed, this
         # hack can go.
+        # https://bugs.documentfoundation.org/show_bug.cgi?id=158030
         if AXUtilities.is_table_cell(obj) and text == name \
            and (self.isSpreadSheetCell(obj) or self.isTextDocumentCell(obj)):
             return ""
 
         # More bogusness from (at least) Calc combined with the aforementioned
         # fallback-to-name behavior....
+        # https://bugs.documentfoundation.org/show_bug.cgi?id=158029
         if self.isDocument(obj) and text == name and text.startswith("file:///"):
             return ""
 
@@ -126,78 +129,8 @@ class Utilities(script_utilities.Utilities):
 
         return ''
 
-    def getRowColumnAndTable(self, cell):
-        """Returns the (row, column, table) tuple for cell."""
-
-        if not AXUtilities.is_table_cell(cell):
-            return -1, -1, None
-
-        cellParent = AXObject.get_parent(cell)
-        if AXUtilities.is_table_cell(cellParent):
-            cell = cellParent
-            cellParent = AXObject.get_parent(cell)
-
-        table = cellParent
-        if table is not None and not AXUtilities.is_table(table):
-            table = AXObject.get_parent(table)
-
-        try:
-            iTable = table.queryTable()
-        except Exception:
-            return -1, -1, None
-
-        index = self.cellIndex(cell)
-        row = iTable.getRowAtIndex(index)
-        column = iTable.getColumnAtIndex(index)
-
-        return row, column, table
-
-    def rowHeadersForCell(self, obj):
-        rowHeader, colHeader = self.getDynamicHeadersForCell(obj)
-        if rowHeader:
-            return [rowHeader]
-
-        return super().rowHeadersForCell(obj)
-
-    def columnHeadersForCell(self, obj):
-        rowHeader, colHeader = self.getDynamicHeadersForCell(obj)
-        if colHeader:
-            return [colHeader]
-
-        return super().columnHeadersForCell(obj)
-
-    def getDynamicHeadersForCell(self, obj, onlyIfNew=False):
-        if not (self._script.dynamicRowHeaders or self._script.dynamicColumnHeaders):
-            return None, None
-
-        objRow, objCol, table = self.getRowColumnAndTable(obj)
-        if not table:
-            return None, None
-
-        headersRow = self._script.dynamicColumnHeaders.get(hash(table))
-        headersCol = self._script.dynamicRowHeaders.get(hash(table))
-        if headersRow == objRow or headersCol == objCol:
-            return None, None
-
-        getRowHeader = headersCol is not None
-        getColHeader = headersRow is not None
-        if onlyIfNew:
-            getRowHeader = \
-                getRowHeader and objRow != self._script.pointOfReference.get("lastRow")
-            getColHeader = \
-                getColHeader and objCol!= self._script.pointOfReference.get("lastColumn")
-
-        parentTable = table.queryTable()
-        rowHeader, colHeader = None, None
-        if getColHeader:
-            colHeader = parentTable.getAccessibleAt(headersRow, objCol)
-
-        if getRowHeader:
-            rowHeader = parentTable.getAccessibleAt(objRow, headersCol)
-
-        return rowHeader, colHeader
-
-    def isSameObject(self, obj1, obj2, comparePaths=False, ignoreNames=False):
+    def isSameObject(self, obj1, obj2, comparePaths=False, ignoreNames=False,
+                     ignoreDescriptions=True):
         if obj1 == obj2:
             return True
 
@@ -208,12 +141,8 @@ class Utilities(script_utilities.Utilities):
             return False
 
         name = AXObject.get_name(obj1)
-        if name == AXObject.get_name(obj2):
-            if AXUtilities.is_frame(obj1):
-                return True
-            if AXUtilities.is_table_cell(obj1) and not name:
-                if self.isZombie(obj1) and self.isZombie(obj2):
-                    return False
+        if name == AXObject.get_name(obj2) and AXUtilities.is_frame(obj1):
+            return True
 
         return super().isSameObject(obj1, obj2, comparePaths, ignoreNames)
 
@@ -231,70 +160,13 @@ class Utilities(script_utilities.Utilities):
             return super().isLayoutOnly(obj)
 
         if AXUtilities.is_frame(obj):
-            return name == AXObject.get_name(orca_state.activeWindow)
+            return name == AXObject.get_name(focus_manager.getManager().get_active_window())
 
         if AXUtilities.is_panel(obj) and AXObject.get_child_count(obj):
             if AXObject.get_name(AXObject.get_child(obj, 0)) == name:
                 return True
 
         return super().isLayoutOnly(obj)
-
-    def isAnInputLine(self, obj):
-        if not obj:
-            return False
-        if obj == self.locateInputLine(obj):
-            return True
-
-        parent = AXObject.get_parent(obj)
-        if AXUtilities.is_panel(parent) or AXUtilities.is_extended(parent):
-            if self.spreadSheetCellName(parent):
-                return False
-
-        parent = AXObject.get_parent(parent)
-        if AXUtilities.is_text(parent):
-            return True
-
-        return False
-
-    def locateInputLine(self, obj):
-        """Return the spread sheet input line. This only needs to be found
-        the very first time a spread sheet table cell gets focus. We use the
-        table cell to work back up the component hierarchy until we have found
-        the common panel that both it and the input line reside in. We then
-        use that as the base component to search for a component which has a
-        paragraph role. This will be the input line.
-
-        Arguments:
-        - obj: the spread sheet table cell that has just got focus.
-
-        Returns the spread sheet input line component.
-        """
-
-        if self._script.inputLineForCell is not None:
-            topLevel = self.topLevelObject(self._script.inputLineForCell)
-            if self.isSameObject(orca_state.activeWindow, topLevel):
-                return self._script.inputLineForCell
-
-        scrollPane = AXObject.find_ancestor(obj, AXUtilities.is_scroll_pane)
-        if scrollPane is None:
-            return None
-
-        toolbar = None
-        for child in AXObject.iter_children(AXObject.get_parent(scrollPane),
-                                             AXUtilities.is_tool_bar):
-            toolbar = child
-            break
-
-        if toolbar is None:
-            msg = "ERROR: Calc inputline toolbar not found."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return None
-
-        allParagraphs = self.findAllDescendants(toolbar, AXUtilities.is_paragraph)
-        if len(allParagraphs) == 1:
-            self._script.inputLineForCell = allParagraphs[0]
-
-        return self._script.inputLineForCell
 
     def frameAndDialog(self, obj):
         """Returns the frame and (possibly) the dialog containing
@@ -325,20 +197,16 @@ class Utilities(script_utilities.Utilities):
     def _flowsFromOrToSelection(obj):
         relationSet = AXObject.get_relations(obj)
         flows = [Atspi.RelationType.FLOWS_FROM, Atspi.RelationType.FLOWS_TO]
-        relations = filter(lambda r: r.getRelationType() in flows, relationSet)
-        targets = [r.getTarget(0) for r in relations]
+        relations = filter(lambda r: r.get_relation_type() in flows, relationSet)
+        targets = [r.get_target(0) for r in relations]
         for target in targets:
-            try:
-                nSelections = target.queryText().getNSelections()
-            except Exception:
-                return False
-            if nSelections:
+            if AXText.has_selected_text(target):
                 return True
 
         return False
 
     def objectContentsAreInClipboard(self, obj=None):
-        obj = obj or orca_state.locusOfFocus
+        obj = obj or focus_manager.getManager().get_locus_of_focus()
         if not obj:
             return False
 
@@ -355,9 +223,13 @@ class Utilities(script_utilities.Utilities):
     #                                                                       #
     #########################################################################
 
-    def drawingView(self, obj=orca_state.locusOfFocus):
+    def drawingView(self, obj=None):
         """Attempts to locate the Impress drawing view, which is the
         area in which slide editing occurs."""
+
+        obj = obj or focus_manager.getManager().get_locus_of_focus()
+        if not obj:
+            return None
 
         return AXObject.find_descendant(self.topLevelObject(obj), self.isDrawingView)
 
@@ -370,31 +242,34 @@ class Utilities(script_utilities.Utilities):
 
         return False
 
-    def isInImpress(self, obj=orca_state.locusOfFocus):
+    def isInImpress(self, obj=None):
         """Returns True if obj is in OOo Impress."""
+
+        obj = obj or focus_manager.getManager().get_locus_of_focus()
+        if obj is None:
+            return False
 
         # Having checked English, Spanish, and Arabic, it would seem
         # that the Frame name will end with "Impress", unlocalized.
         #
-        if obj:
-            try:
-                topLevel = self.topLevelObject(obj)
-            except Exception:
-                tokens = ["ERROR: Exception getting top-level object for", obj]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                return False
-            if not topLevel:
-                return False
-            if self.isDead(topLevel):
-                tokens = ["SOFFICE: Top level object", topLevel, "is dead."]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                return False
-            if AXObject.get_name(topLevel).endswith("Impress"):
-                return True
+        try:
+            topLevel = self.topLevelObject(obj)
+        except Exception:
+            tokens = ["ERROR: Exception getting top-level object for", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            return False
+        if not topLevel:
+            return False
+        if AXObject.is_dead(topLevel):
+            tokens = ["SOFFICE: Top level object", topLevel, "is dead."]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            return False
+        if AXObject.get_name(topLevel).endswith("Impress"):
+            return True
 
         return False
 
-    def slideAndTaskPanes(self, obj=orca_state.locusOfFocus):
+    def slideAndTaskPanes(self, obj=None):
         """Attempts to locate the Impress slide pane and task pane."""
 
         drawingView = self.drawingView(obj)
@@ -437,7 +312,7 @@ class Utilities(script_utilities.Utilities):
         positionAndCount = AXObject.get_name(dv).split(":")[1]
         position, count = positionAndCount.split("/")
         title = ""
-        for child in dv:
+        for child in enumerate(AXObject.iter_children(dv)):
             childCount = AXObject.get_child_count(child)
             if not childCount:
                 continue
@@ -485,13 +360,8 @@ class Utilities(script_utilities.Utilities):
             if lastKey in ["BackSpace", "ISO_Left_Tab"]:
                 return True
 
-        if event.type.startswith("focus:"):
-            if lastKey == "Return":
-                try:
-                    charCount = event.source.queryText().characterCount
-                except Exception:
-                    charCount = 0
-                return charCount > 0
+        if event.type.startswith("focus:") and lastKey == "Return":
+            return AXText.get_character_count(event.source) > 0
 
         return False
 
@@ -504,7 +374,7 @@ class Utilities(script_utilities.Utilities):
         if not comboBox:
             return None
 
-        if not self.isZombie(comboBox):
+        if AXObject.is_valid(comboBox):
             return comboBox
 
         parent = AXObject.get_parent(comboBox)
@@ -512,7 +382,7 @@ class Utilities(script_utilities.Utilities):
             return comboBox
 
         replicant = self.findReplicant(parent, comboBox)
-        if replicant and not self.isZombie(replicant):
+        if replicant and AXObject.is_valid(replicant):
             comboBox = replicant
 
         return comboBox
@@ -551,7 +421,7 @@ class Utilities(script_utilities.Utilities):
 
     def isSelectedTextDeletionEvent(self, event):
         if event.type.startswith("object:state-changed:selected") and not event.detail1:
-            return self.isDead(orca_state.locusOfFocus) and self.lastInputEventWasDelete()
+            return self.lastInputEventWasDelete() and focus_manager.getManager().focus_is_dead()
 
         return super().isSelectedTextDeletionEvent(event)
 
@@ -583,34 +453,25 @@ class Utilities(script_utilities.Utilities):
             return super().selectedChildren(obj)
 
         # We will need to special case this due to the possibility of there
-        # being lots of children (which may also prove to be zombie objects).
+        # being lots of children (which may also prove to be invalid objects).
         # This is why we can't have nice things.
         if self.isSpreadSheetTable(obj):
             return []
 
         return AXSelection.get_selected_children(obj)
 
-    def getFirstCaretPosition(self, obj):
-        try:
-            obj.queryText()
-        except Exception:
-            if AXObject.get_child_count(obj):
-                return self.getFirstCaretPosition(AXObject.get_child(obj, 0))
-
-        return obj, 0
-
     def getWordAtOffsetAdjustedForNavigation(self, obj, offset=None):
-        return self.getWordAtOffset(obj, offset)
+        return AXText.get_word_at_offset(obj, offset)
 
-    def shouldReadFullRow(self, obj):
-        if self._script._lastCommandWasStructNav:
+    def shouldReadFullRow(self, obj, prevObj=None):
+        if self._script.getTableNavigator().last_input_event_was_navigation_command():
             return False
 
         lastKey, mods = self.lastKeyAndModifiers()
         if lastKey in ["Tab", "ISO_Left_Tab"]:
             return False
 
-        return super().shouldReadFullRow(obj)
+        return super().shouldReadFullRow(obj, prevObj)
 
     def presentEventFromNonShowingObject(self, event):
         return self.inDocumentContent(event.source)
@@ -632,20 +493,8 @@ class Utilities(script_utilities.Utilities):
         return res
 
     def _getCellNameForCoordinates(self, obj, row, col, includeContents=False):
-        try:
-            table = obj.queryTable()
-        except Exception:
-            tokens = ["SOFFICE: Exception querying Table interface of", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return
-
-        try:
-            cell = table.getAccessibleAt(row, col)
-        except Exception:
-            msg = "SOFFICE: Exception getting cell (%i,%i) of %s" % (row, col, obj)
-            debug.println(debug.LEVEL_INFO, msg, True)
-            return
-
+        # https://bugs.documentfoundation.org/show_bug.cgi?id=158030
+        cell = AXTable.get_cell_at(obj, row, col)
         name = self.spreadSheetCellName(cell)
         if includeContents:
             text = self.displayedText(cell)
@@ -661,9 +510,7 @@ class Utilities(script_utilities.Utilities):
 
         first = AXSelection.get_selected_child(obj, 0)
         last = AXSelection.get_selected_child(obj, -1)
-        firstCoords = self.coordinatesForCell(first)
-        lastCoords = self.coordinatesForCell(last)
-        return firstCoords, lastCoords
+        return AXTable.get_cell_coordinates(first), AXTable.get_cell_coordinates(last)
 
     def getSelectionContainer(self, obj):
         # Writer implements the selection interface on the document and all its
@@ -708,7 +555,7 @@ class Utilities(script_utilities.Utilities):
 
         unselected = sorted(previous.difference(current))
         selected = sorted(current.difference(previous))
-        focusCoords = tuple(self.coordinatesForCell(orca_state.locusOfFocus))
+        focusCoords = AXTable.get_cell_coordinates(focus_manager.getManager().get_locus_of_focus())
         if focusCoords in selected:
             selected.remove(focusCoords)
 
@@ -743,9 +590,8 @@ class Utilities(script_utilities.Utilities):
         if not (AXObject.supports_table(obj) and AXObject.supports_selection(obj)):
             return True
 
-        table = obj.queryTable()
-        cols = set(table.getSelectedColumns())
-        rows = set(table.getSelectedRows())
+        cols = set(AXTable.get_selected_columns(obj))
+        rows = set(AXTable.get_selected_rows(obj))
 
         selectedCols = sorted(cols.difference(set(self._calcSelectedColumns)))
         unselectedCols = sorted(set(self._calcSelectedColumns).difference(cols))
@@ -768,11 +614,12 @@ class Utilities(script_utilities.Utilities):
         self._calcSelectedColumns = list(cols)
         self._calcSelectedRows = list(rows)
 
-        if len(cols) == table.nColumns:
+        columnCount = AXTable.get_column_count(obj)
+        if len(cols) == columnCount:
             self._script.speakMessage(messages.DOCUMENT_SELECTED_ALL)
             return True
 
-        if not len(cols) and len(unselectedCols) == table.nColumns:
+        if not cols and len(unselectedCols) == columnCount:
             self._script.speakMessage(messages.DOCUMENT_UNSELECTED_ALL)
             return True
 

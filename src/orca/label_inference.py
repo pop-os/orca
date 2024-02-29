@@ -32,7 +32,11 @@ gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 
 from . import debug
+from .ax_component import AXComponent
+from .ax_hypertext import AXHypertext
 from .ax_object import AXObject
+from .ax_table import AXTable
+from .ax_text import AXText
 from .ax_utilities import AXUtilities
 
 class LabelInference:
@@ -59,30 +63,32 @@ class LabelInference:
         Returns the text which we think is the label, or None.
         """
 
-        debug.println(debug.LEVEL_INFO, f"INFER label for: {obj}", True)
+        tokens = ["LABEL INFERENCE: Infer label for", obj]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         if not obj:
             return None, []
 
         if focusedOnly and not AXUtilities.is_focused(obj):
-            debug.println(debug.LEVEL_INFO, "INFER - object not focused", True)
+            tokens = ["LABEL INFERENCE:", obj, "is not focused"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return None, []
 
         result, objects = None, []
         if not result:
             result, objects = self.inferFromTextLeft(obj)
-            debug.println(debug.LEVEL_INFO, f"INFER - Text Left: {result}", True)
+            debug.printMessage(debug.LEVEL_INFO, f"LABEL INFERENCE: Text Left: '{result}'", True)
         if not result or self._preferRight(obj):
             result, objects = self.inferFromTextRight(obj) or result
-            debug.println(debug.LEVEL_INFO, f"INFER - Text Right: {result}", True)
+            debug.printMessage(debug.LEVEL_INFO, f"LABEL INFERENCE: Text Right: '{result}'", True)
         if not result:
             result, objects = self.inferFromTable(obj)
-            debug.println(debug.LEVEL_INFO, f"INFER - Table: {result}", True)
+            debug.printMessage(debug.LEVEL_INFO, f"LABEL INFERENCE: Table: '{result}'", True)
         if not result:
             result, objects = self.inferFromTextAbove(obj)
-            debug.println(debug.LEVEL_INFO, f"INFER - Text Above: {result}", True)
+            debug.printMessage(debug.LEVEL_INFO, f"LABEL INFERENCE: Text Above: '{result}'", True)
         if not result:
             result, objects = self.inferFromTextBelow(obj)
-            debug.println(debug.LEVEL_INFO, f"INFER - Text Below: {result}", True)
+            debug.printMessage(debug.LEVEL_INFO, f"LABEL INFERENCE: Text Below: '{result}'", True)
 
         # TODO - We probably do not wish to "infer" from these. Instead, we
         # should ensure that this content gets presented as part of the widget.
@@ -90,7 +96,8 @@ class LabelInference:
         # are each something other than a label.)
         if not result:
             result, objects = AXObject.get_name(obj), []
-            debug.println(debug.LEVEL_INFO, f"INFER - Name: {result}", True)
+            debug.printMessage(debug.LEVEL_INFO, f"LABEL INFERENCE: Name: '{result}'", True)
+
         if result:
             result = result.strip()
             result = result.replace("\n", " ")
@@ -98,8 +105,9 @@ class LabelInference:
         # Desperate times call for desperate measures....
         if not result:
             result, objects = self.inferFromTextLeft(obj, proximity=200)
-            tokens = ["INFER - Text Left with proximity of 200:", result]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.printMessage(
+                debug.LEVEL_INFO,
+                f"LABEL INFERENCE: Text Left with proximity of 200: '{result}'", True)
 
         self.clearCache()
         return result, objects
@@ -151,12 +159,7 @@ class LabelInference:
         if len(children) > 1:
             return False
 
-        try:
-            text = obj.queryText()
-        except NotImplementedError:
-            return True
-
-        string = text.getText(0, -1).strip()
+        string = AXText.get_all_text(obj).strip()
         if string.count(self._script.EMBEDDED_OBJECT_CHARACTER) > 1:
             return False
 
@@ -215,30 +218,16 @@ class LabelInference:
             return rv
 
         extents = 0, 0, 0, 0
-        text = self._script.utilities.queryNonEmptyText(obj)
-        if text:
+        if AXObject.supports_text(obj):
             if not AXUtilities.is_text_input(obj):
                 if endOffset == -1:
-                    try:
-                        endOffset = text.characterCount
-                    except Exception:
-                        tokens = ["ERROR: Exception getting character count for", obj]
-                        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                        return extents
-
-                extents = text.getRangeExtents(startOffset, endOffset, 0)
+                    endOffset = AXText.get_character_count(obj)
+                rect = AXText.get_range_rect(obj, startOffset, endOffset)
+                extents = rect.x, rect.y, rect.width, rect.height
 
         if not (extents[2] and extents[3]):
-            try:
-                ext = obj.queryComponent().getExtents(0)
-            except NotImplementedError:
-                tokens = ["INFO:", obj, "does not implement the component interface"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            except Exception:
-                tokens = ["ERROR: Exception getting extents for", obj]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            else:
-                extents = ext.x, ext.y, ext.width, ext.height
+            ext = AXComponent.get_rect(obj)
+            extents = ext.x, ext.y, ext.width, ext.height
 
         self._extentsCache[(hash(obj), startOffset, endOffset)] = extents
         return extents
@@ -270,7 +259,7 @@ class LabelInference:
 
         key = hash(obj)
         if self._isWidget(obj):
-            start, end = self._script.utilities.getHyperlinkRange(obj)
+            start = AXHypertext.get_link_start_offset(obj)
             obj = AXObject.get_parent(obj)
 
         rv = self._script.utilities.getLineContentsAtOffset(obj, start, True, False)
@@ -470,19 +459,6 @@ class LabelInference:
 
         return self._getTag(obj) in ['td', 'th']
 
-    def _getCellFromTable(self, table, rowindex, colindex):
-        if not AXObject.supports_table(table):
-            return None
-
-        if rowindex < 0 or colindex < 0:
-            return None
-
-        iface = table.queryTable()
-        if rowindex >= iface.nRows or colindex >= iface.nColumns:
-            return None
-
-        return table.queryTable().getAccessibleAt(rowindex, colindex)
-
     def _getCellFromRow(self, row, colindex):
         if 0 <= colindex < AXObject.get_child_count(row):
             return row[colindex]
@@ -490,7 +466,7 @@ class LabelInference:
         return None
 
     def _getTag(self, obj):
-        attrs = self._script.utilities.objectAttributes(obj)
+        attrs = AXObject.get_attributes_dict(obj)
         return attrs.get('tag')
 
     def inferFromTable(self, obj, proximityForRight=50):
@@ -519,12 +495,12 @@ class LabelInference:
 
         cellLeft = cellRight = cellAbove = cellBelow = None
         gridrow = AXObject.find_ancestor(cell, self._isRow)
-        rowindex, colindex = self._script.utilities.coordinatesForCell(cell)
+        rowindex, colindex = AXTable.get_cell_coordinates(cell, prefer_attribute=False)
         if colindex > -1:
-            cellLeft = self._getCellFromTable(grid, rowindex, colindex - 1)
-            cellRight = self._getCellFromTable(grid, rowindex, colindex + 1)
-            cellAbove = self._getCellFromTable(grid, rowindex - 1, colindex)
-            cellBelow = self._getCellFromTable(grid, rowindex + 1, colindex)
+            cellLeft = AXTable.get_cell_at(grid, rowindex, colindex - 1)
+            cellRight = AXTable.get_cell_at(grid, rowindex, colindex + 1)
+            cellAbove = AXTable.get_cell_at(grid, rowindex - 1, colindex)
+            cellBelow = AXTable.get_cell_at(grid, rowindex + 1, colindex)
         elif gridrow and AXObject.get_parent(cell) == gridrow:
             cellindex = AXObject.get_index_in_parent(cell)
             cellLeft = self._getCellFromRow(gridrow, cellindex - 1)
@@ -580,12 +556,8 @@ class LabelInference:
         # as a functional label. Therefore, see if this table looks like a grid
         # of widgets with the functional labels in the first row.
 
-        try:
-            table = grid.queryTable()
-        except NotImplementedError:
-            return None, []
-
-        firstRow = [table.getAccessibleAt(0, i) for i in range(table.nColumns)]
+        columns = AXTable.get_column_count(grid)
+        firstRow = [AXTable.get_cell_at(grid, 0, i) for i in range(columns)]
         if not firstRow or list(filter(self._isWidget, firstRow)):
             return None, []
 
@@ -597,7 +569,8 @@ class LabelInference:
                 return False
             return not AXUtilities.have_same_role(AXObject.get_child(x, 0), obj)
 
-        cells = [table.getAccessibleAt(i, colindex) for i in range(1, table.nRows)]
+        rows = AXTable.get_row_count(grid)
+        cells = [AXTable.get_cell_at(grid, i, colindex) for i in range(1, rows)]
         if list(filter(isMatch, cells)):
             return None, []
 

@@ -27,14 +27,15 @@ __copyright__ = "Copyright (c) 2010-2013 Igalia, S.L."
 __license__   = "LGPL"
 
 import orca.debug as debug
-import orca.orca as orca
-import orca.orca_state as orca_state
+import orca.focus_manager as focus_manager
 import orca.scripts.toolkits.clutter as clutter
 from orca.ax_object import AXObject
+from orca.ax_text import AXText
 from orca.ax_utilities import AXUtilities
 
 from .formatting import Formatting
 from .script_utilities import Utilities
+
 
 class Script(clutter.Script):
 
@@ -83,8 +84,9 @@ class Script(clutter.Script):
 
         # If we're already in a dialog, and a label inside that dialog changes its name,
         # present the new name. Example: the "Command not found" label in the Run dialog.
-        dialog = AXObject.find_ancestor(orca_state.locusOfFocus, AXUtilities.is_dialog)
-        tokens = ["GNOME SHELL: focus", orca_state.locusOfFocus, "is in dialog:", dialog]
+        dialog = AXObject.find_ancestor(
+            focus_manager.getManager().get_locus_of_focus(), AXUtilities.is_dialog)
+        tokens = ["GNOME SHELL: focus is in dialog:", dialog]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         if dialog and AXObject.is_ancestor(event.source, dialog):
             msg = "GNOME SHELL: Label changed name in current dialog. Presenting."
@@ -99,11 +101,13 @@ class Script(clutter.Script):
         # event switcher, seem to have the right state. Since the ones with
         # the wrong state seem to be things we don't want to present anyway
         # we'll stop doing so and hope we are right.
+        # TODO - JD: 1) Is this logic still needed? 2) If so, is clearing the
+        # cache still needed?
         if event.detail1:
             if AXUtilities.is_panel(event.source):
-                AXObject.clear_cache(event.source)
+                AXObject.clear_cache(event.source, False, "Ensuring we have the correct state.")
             if AXUtilities.is_selected(event.source):
-                orca.setLocusOfFocus(event, event.source)
+                focus_manager.getManager().set_locus_of_focus(event, event.source)
             return
 
         clutter.Script.onSelectedChanged(self, event)
@@ -123,22 +127,18 @@ class Script(clutter.Script):
            and not self.utilities.labelsForObject(event.source):
             descendant = AXObject.find_descendant(event.source, AXUtilities.is_slider)
             if descendant is not None:
-                orca.setLocusOfFocus(event, descendant)
+                focus_manager.getManager().set_locus_of_focus(event, descendant)
                 return
 
         clutter.Script.onFocusedChanged(self, event)
 
     def echoPreviousWord(self, obj, offset=None):
-        try:
-            text = obj.queryText()
-        except NotImplementedError:
-            return False
-
-        if not offset:
-            if text.caretOffset == -1:
-                offset = text.characterCount - 1
+        if offset is None:
+            caretOffset = AXText.get_caret_offset(obj)
+            if caretOffset == -1:
+                offset = AXText.get_character_count(obj) - 1
             else:
-                offset = text.caretOffset - 1
+                offset = caretOffset - 1
 
         if offset == 0:
             return False

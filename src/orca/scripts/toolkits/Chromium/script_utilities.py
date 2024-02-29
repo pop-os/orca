@@ -33,7 +33,7 @@ from gi.repository import Atspi
 import re
 
 from orca import debug
-from orca import orca_state
+from orca import focus_manager
 from orca.scripts import web
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
@@ -139,7 +139,8 @@ class Utilities(web.Utilities):
         # is opened/expanded, a menu with that same name appears. It would be
         # nice if there were a connection (parent/child or an accessible relation)
         # between the two....
-        return self.treatAsMenu(orca_state.locusOfFocus) and super().isPopupMenuForCurrentItem(obj)
+        return self.treatAsMenu(focus_manager.getManager().get_locus_of_focus()) \
+            and super().isPopupMenuForCurrentItem(obj)
 
     def isFrameForPopupMenu(self, obj):
         # The ancestry of a popup menu appears to be a menu bar (even though
@@ -161,7 +162,7 @@ class Utilities(web.Utilities):
             return None
 
         menu = AXObject.find_descendant(obj, AXUtilities.is_menu)
-        tokens = ["CHROMIUM: HACK: Popup menu for", obj, ":", menu]
+        tokens = ["CHROMIUM: Popup menu for", obj, ":", menu]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return menu
 
@@ -246,11 +247,12 @@ class Utilities(web.Utilities):
     def setCaretPosition(self, obj, offset, documentFrame=None):
         super().setCaretPosition(obj, offset, documentFrame)
 
+        # TODO - JD: Is this hack still needed?
         link = AXObject.find_ancestor(obj, AXUtilities.is_link)
         if link is not None:
             tokens = ["CHROMIUM: HACK: Grabbing focus on", obj, "'s ancestor", link]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            self.grabFocus(link)
+            AXObject.grab_focus(link)
 
     def handleAsLiveRegion(self, event):
         if not super().handleAsLiveRegion(event):
@@ -282,7 +284,8 @@ class Utilities(web.Utilities):
             return ""
 
         bar = statusBars[0]
-        AXObject.clear_cache(bar)
+        # TODO - JD: Is this still needed?
+        AXObject.clear_cache(bar, False, "Ensuring we have correct name for find results.")
         if len(re.findall(r"\d+", AXObject.get_name(bar))) == 2:
             return AXObject.get_name(bar)
 
@@ -333,7 +336,7 @@ class Utilities(web.Utilities):
         return True
 
     def inFindContainer(self, obj=None):
-        obj = obj or orca_state.locusOfFocus
+        obj = obj or focus_manager.getManager().get_locus_of_focus()
         if not (AXUtilities.is_entry(obj) or AXUtilities.is_push_button(obj)):
             return False
         if self.inDocumentContent(obj):
@@ -367,46 +370,6 @@ class Utilities(web.Utilities):
             return []
 
         return super().findAllDescendants(root, includeIf, excludeIf)
-
-    def accessibleAtPoint(self, root, x, y, coordType=None):
-        result = super().accessibleAtPoint(root, x, y, coordType)
-
-        # Chromium cannot do a hit test of web content synchronously. So what it
-        # does is return a guess, then fire off an async hit test. The next time
-        # one calls it, Chromium returns the previous async hit test result if
-        # the point is still within its bounds. Therefore, we need to call
-        # accessibleAtPoint() twice to be safe.
-        msg = "CHROMIUM: Getting accessibleAtPoint again due to async hit test result."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        result = super().accessibleAtPoint(root, x, y, coordType)
-        return result
-
-    def _isActiveAndShowingAndNotIconified(self, obj):
-        if super()._isActiveAndShowingAndNotIconified(obj):
-            return True
-
-        if obj and AXObject.get_application(obj) != self._script.app:
-            return False
-
-        # FIXME: This can potentially be non-performant because AT-SPI2 will recursively
-        # clear the cache of all descendants. This is an attempt to work around what may
-        # be a lack of window:activate and object:state-changed events from Chromium
-        # windows in at least some environments.
-        try:
-            tokens = ["CHROMIUM: Clearing cache for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            AXObject.clear_cache(obj)
-        except Exception:
-            tokens = ["CHROMIUM: Exception clearing cache for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
-        if super()._isActiveAndShowingAndNotIconified(obj):
-            tokens = ["CHROMIUM:", obj, "deemed to be active and showing after cache clear"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return True
-
-        return False
 
     def _shouldCalculatePositionAndSetSize(self, obj):
         # Chromium calculates posinset and setsize for description lists based on the

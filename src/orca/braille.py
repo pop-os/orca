@@ -35,7 +35,6 @@ import locale
 import signal
 import os
 import re
-import subprocess
 
 from gi.repository import GLib
 
@@ -43,18 +42,19 @@ from . import brltablenames
 from . import cmdnames
 from . import debug
 from . import logger
-from . import orca_state
+from . import script_manager
 from . import settings
 from . import settings_manager
 
 from .ax_event_synthesizer import AXEventSynthesizer
+from .ax_hypertext import AXHypertext
 from .ax_object import AXObject
+from .ax_text import AXText
 from .orca_platform import tablesdir
 
 _logger = logger.getLogger()
 log = _logger.newLog("braille")
 _monitor = None
-_settingsManager = settings_manager.getManager()
 
 try:
     msg = "BRAILLE: About to import brlapi."
@@ -63,7 +63,6 @@ try:
     import brlapi
     _brlAPI = None
     _brlAPIAvailable = True
-    _brlAPIConnectable = True
     _brlAPIRunning = False
     _brlAPISourceId = 0
 except Exception:
@@ -71,7 +70,6 @@ except Exception:
     debug.printMessage(debug.LEVEL_WARNING, msg, True)
     _brlAPIAvailable = False
     _brlAPIRunning = False
-    _brlAPIConnectable = False
 else:
     tokens = ["BRAILLE: brlapi imported", brlapi]
     debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -201,6 +199,14 @@ _saved = None
 #
 idle = False
 
+# BRLAPI priority levels if Orca should have idle, normal or high priority
+BRLAPI_PRIORITY_IDLE = 0
+BRLAPI_PRIORITY_DEFAULT = 50
+BRLAPI_PRIORITY_HIGH = 70
+
+# Saved BRLAPI priority
+brlapi_priority = BRLAPI_PRIORITY_DEFAULT
+
 # Translators: These are the braille translation table names for different
 # languages. You could read about braille tables at:
 # http://en.wikipedia.org/wiki/Braille
@@ -308,19 +314,6 @@ if louis:
     tokens = ["BRAILLE: Default contraction table is:", _defaultContractionTable]
     debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-def _printBrailleEvent(level, command):
-    """Prints out a Braille event.  The given level may be overridden
-    if the eventDebugLevel (see debug.setEventDebugLevel) is greater in
-    debug.py.
-
-    Arguments:
-    - command: the BrlAPI command for the key that was pressed.
-    """
-
-    debug.printInputEvent(
-        level,
-        f"BRAILLE EVENT: {repr(command)}")
-
 class Region:
     """A Braille region to be displayed on the display.  The width of
     each region is determined by its string.
@@ -365,11 +358,10 @@ class Region:
                     )
                     debug.printMessage(debug.LEVEL_INFO, msg, True)
                 else:
-                    msg = (
-                        f"BRAILLE: Not contracting '{string}' "
-                        f"due to problem with liblouis."
-                    )
-                    debug.printMessage(debug.LEVEL_INFO, msg, True)
+                    tokens = ["BRAILLE: Not contracting '", string,
+                              "' due to problem with liblouis."]
+                    debug.printTokens(debug.LEVEL_WARNING, tokens, True)
+
             self.string = self.rawLine
             self.cursorOffset = cursorOffset
 
@@ -527,12 +519,9 @@ class Component(Region):
         associated with this region.  Note that the zeroeth character may have
         been scrolled off the display."""
 
-        if orca_state.activeScript and orca_state.activeScript.utilities.\
-           grabFocusBeforeRouting(self.accessible, offset):
-            try:
-                self.accessible.queryComponent().grabFocus()
-            except Exception:
-                pass
+        script = script_manager.getManager().getActiveScript()
+        if script and script.utilities.grabFocusBeforeRouting(self.accessible, offset):
+            AXObject.grab_focus(self.accessible)
 
         if AXObject.do_action(self.accessible, 0):
             return
@@ -597,14 +586,15 @@ class Text(Region):
         """
 
         self.accessible = accessible
-        if orca_state.activeScript and self.accessible:
-            [string, self.caretOffset, self.lineOffset] = \
-                 orca_state.activeScript.getTextLineAtCaret(
-                     self.accessible, startOffset=startOffset, endOffset=endOffset)
-        else:
-            string = ""
-            self.caretOffset = 0
-            self.lineOffset = 0
+        string = ""
+        self.caretOffset = 0
+        self.lineOffset = 0
+        if self.accessible:
+            script = script_manager.getManager().getActiveScript()
+            if script:
+                [string, self.caretOffset, self.lineOffset] = \
+                     script.getTextLineAtCaret(
+                         self.accessible, startOffset=startOffset, endOffset=endOffset)
 
         try:
             endOffset = endOffset - self.lineOffset
@@ -658,9 +648,8 @@ class Text(Region):
         if not _regionWithFocus:
             return False
 
-        [string, caretOffset, lineOffset] = \
-                 orca_state.activeScript.getTextLineAtCaret(self.accessible)
-
+        script = script_manager.getManager().getActiveScript()
+        [string, caretOffset, lineOffset] = script.getTextLineAtCaret(self.accessible)
         cursorOffset = min(caretOffset - lineOffset, len(string))
 
         if lineOffset != self.lineOffset:
@@ -705,8 +694,8 @@ class Text(Region):
         if caretOffset < 0:
             return
 
-        orca_state.activeScript.utilities.setCaretOffset(
-            self.accessible, caretOffset)
+        script = script_manager.getManager().getActiveScript()
+        script.utilities.setCaretOffset(self.accessible, caretOffset)
 
     def getAttributeMask(self, getLinkMask=True):
         """Creates a string which can be used as the attrOr field of brltty's
@@ -720,10 +709,8 @@ class Text(Region):
           unreasonable amount of time (AKA Gecko).
         """
 
-        try:
-            self.accessible.queryText()
-        except NotImplementedError:
-            return ''
+        if AXText.is_whitespace_or_empty(self.accessible):
+            return ""
 
         # Start with an empty mask.
         #
@@ -734,29 +721,21 @@ class Text(Region):
         attrIndicator = settings.textAttributesBrailleIndicator
         selIndicator = settings.brailleSelectorIndicator
         linkIndicator = settings.brailleLinkIndicator
-        script = orca_state.activeScript
+        script = script_manager.getManager().getActiveScript()
         if script is None:
             msg = "BRAILLE: Cannot get attribute mask without active script."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return ""
 
         if getLinkMask and linkIndicator != settings.BRAILLE_UNDERLINE_NONE:
-            try:
-                hyperText = self.accessible.queryHypertext()
-                nLinks = hyperText.getNLinks()
-            except Exception:
-                nLinks = 0
-
-            n = 0
-            while n < nLinks:
-                link = hyperText.getLink(n)
-                if self.lineOffset <= link.startIndex:
-                    for i in range(link.startIndex, link.endIndex):
-                        try:
-                            regionMask[i] |= linkIndicator
-                        except Exception:
-                            pass
-                n += 1
+            links = AXHypertext.get_all_links(self.accessible)
+            for link in links:
+                startOffset = AXHypertext.get_link_start_offset(link)
+                endOffset = AXHypertext.get_link_end_offset(link)
+                maskStart = max(startOffset - self.lineOffset, 0)
+                maskEnd = min(endOffset - self.lineOffset, stringLength)
+                for i in range(maskStart, maskEnd):
+                  regionMask[i] |= linkIndicator
 
         if attrIndicator:
             keys, enabledAttributes = script.utilities.stringToKeysAndDict(
@@ -765,8 +744,7 @@ class Text(Region):
             offset = self.lineOffset
             while offset < lineEndOffset:
                 attributes, startOffset, endOffset = \
-                    script.utilities.textAttributes(self.accessible,
-                                                    offset, True)
+                    AXText.get_text_attributes_at_offset(self.accessible, offset)
                 if endOffset <= offset:
                     break
                 mask = settings.BRAILLE_UNDERLINE_NONE
@@ -783,7 +761,7 @@ class Text(Region):
                         regionMask[i] |= attrIndicator
 
         if selIndicator:
-            selections = script.utilities.allTextSelections(self.accessible)
+            selections = AXText.get_selected_ranges(self.accessible)
             for startOffset, endOffset in selections:
                 maskStart = max(startOffset - self.lineOffset, 0)
                 maskEnd = min(endOffset - self.lineOffset, stringLength)
@@ -896,8 +874,8 @@ class ReviewText(Region):
         been scrolled off the display."""
 
         caretOffset = self.getCaretOffset(offset)
-        orca_state.activeScript.utilities.setCaretOffset(
-            self.accessible, caretOffset)
+        script = script_manager.getManager().getActiveScript()
+        script.utilities.setCaretOffset(self.accessible, caretOffset)
 
 class Line:
     """A horizontal line on the display.  Each Line is composed of a sequential
@@ -1154,7 +1132,7 @@ def _idleBraille():
         try:
             msg = "BRAILLE: Attempting to idle braille."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
-            _brlAPI.setParameter(brlapi.PARAM_CLIENT_PRIORITY, 0, False, 0)
+            _brlAPI.setParameter(brlapi.PARAM_CLIENT_PRIORITY, 0, False, BRLAPI_PRIORITY_IDLE)
             idle = True
         except Exception:
             msg = "BRAILLE: Idling braille failled. This requires BrlAPI >= 0.8."
@@ -1203,7 +1181,7 @@ def _enableBraille():
                 # Restore default priority
                 msg = "BRAILLE: Attempting to de-idle braille."
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
-                _brlAPI.setParameter(brlapi.PARAM_CLIENT_PRIORITY, 0, False, 50)
+                _brlAPI.setParameter(brlapi.PARAM_CLIENT_PRIORITY, 0, False, brlapi_priority)
                 idle = False
             except Exception:
                 msg = "BRAILLE: could not restore priority"
@@ -1225,7 +1203,7 @@ def disableBraille():
         msg = "BRAILLE: BrlApi running and not idle."
         debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-        if not _idleBraille() and not _settingsManager.getSetting('enableBraille'):
+        if not _idleBraille() and not settings_manager.getManager().getSetting('enableBraille'):
             # BrlAPI before 0.8 and we really want to shut down
             msg = "BRAILLE: could not go idle, completely shut down"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -1237,7 +1215,7 @@ def checkBrailleSetting():
     msg = "BRAILLE: Checking braille setting."
     debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-    if not _settingsManager.getSetting('enableBraille'):
+    if not settings_manager.getManager().getSetting('enableBraille'):
         disableBraille()
 
 def refresh(panToCursor=True, targetCursorCell=0, getLinkMask=True, stopFlash=True):
@@ -1277,8 +1255,8 @@ def refresh(panToCursor=True, targetCursorCell=0, getLinkMask=True, stopFlash=Tr
         killFlash(restoreSaved=False)
 
     # TODO - JD: This should be taken care of in orca.py.
-    if not _settingsManager.getSetting('enableBraille') \
-       and not _settingsManager.getSetting('enableBrailleMonitor'):
+    if not settings_manager.getManager().getSetting('enableBraille') \
+       and not settings_manager.getManager().getSetting('enableBrailleMonitor'):
         if _brlAPIRunning:
             msg = "BRAILLE: FIXME - Braille disabled, but not properly shut down."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -1291,10 +1269,10 @@ def refresh(panToCursor=True, targetCursorCell=0, getLinkMask=True, stopFlash=Tr
         _lastTextInfo = (None, 0, 0, 0)
         return
 
-
     lastTextObj, lastCaretOffset, lastLineOffset, lastCursorCell = _lastTextInfo
-    msg = "BRAILLE: Last text obj: %s (Caret: %i, Line: %i, Cell: %i)" % _lastTextInfo
-    debug.println(debug.LEVEL_INFO, msg, True)
+    tokens = ["BRAILLE: Last text object:", lastTextObj,
+              f"(Caret: {lastCaretOffset}, Line: {lastLineOffset}, Cell: {lastCursorCell})"]
+    debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
     if _regionWithFocus and isinstance(_regionWithFocus, Text):
         currentTextObj = _regionWithFocus.accessible
@@ -1308,9 +1286,10 @@ def refresh(panToCursor=True, targetCursorCell=0, getLinkMask=True, stopFlash=Tr
     onSameLine = currentTextObj and currentTextObj == lastTextObj \
         and currentLineOffset == lastLineOffset
 
-    msg = "BRAILLE: Current text obj: %s (Caret: %i, Line: %i). On same line: %s" % \
-        (currentTextObj, currentCaretOffset, currentLineOffset, bool(onSameLine))
-    debug.println(debug.LEVEL_INFO, msg, True)
+    tokens = ["BRAILLE: Current text object:", currentTextObj,
+              f"(Caret: {currentCaretOffset}, Line: {currentLineOffset}). On same line:",
+              bool(onSameLine)]
+    debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
     if targetCursorCell < 0:
         targetCursorCell = _displaySize[0] + targetCursorCell + 1
@@ -1425,10 +1404,10 @@ def refresh(panToCursor=True, targetCursorCell=0, getLinkMask=True, stopFlash=Tr
 
     submask += '\x00' * (len(substring) - len(submask))
 
-    if _settingsManager.getSetting('enableBraille'):
+    if settings_manager.getManager().getSetting('enableBraille'):
         _enableBraille()
 
-    if _settingsManager.getSetting('enableBraille') and _brlAPIRunning:
+    if settings_manager.getManager().getSetting('enableBraille') and _brlAPIRunning:
         writeStruct = brlapi.WriteStruct()
         writeStruct.regionBegin = 1
         writeStruct.regionSize = len(substring)
@@ -1773,7 +1752,16 @@ def _processBrailleEvent(event):
     - event: the BrlAPI input event (expanded)
     """
 
-    _printBrailleEvent(debug.LEVEL_FINE, event)
+    tokens = ["BRAILLE: Processing event", event]
+    debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+    script = script_manager.getManager().getActiveScript()
+    if script and event['command'] not in dontInteruptSpeechKeys:
+        # We aren't killing flash here because we were not doing so before, when
+        # this logic was in orca.py; instead, we were calling speech.stop. But that
+        # code predated the existence of presentationInterrupt. Maybe flash should
+        # be killed as well?
+        script.presentationInterrupt(killFlash=False)
 
     consumed = False
 
@@ -1787,9 +1775,9 @@ def _processBrailleEvent(event):
             # the command was consumed.
             #
             consumed = _callback(event)
-        except Exception:
-            debug.printMessage(debug.LEVEL_WARNING, "Issue processing event:")
-            debug.printException(debug.LEVEL_WARNING)
+        except Exception as error:
+            msg = f"WARNING: Could not process braille event: {error}"
+            debug.printMessage(debug.LEVEL_WARNING, msg, True)
             consumed = False
 
     if settings.timeoutCallback and (settings.timeoutTime > 0):
@@ -1803,9 +1791,9 @@ def _brlAPIKeyReader(source, condition):
     """
     try:
         key = _brlAPI.readKey(False)
-    except Exception:
-        debug.printMessage(debug.LEVEL_WARNING, "BrlTTY seems to have disappeared:")
-        debug.printException(debug.LEVEL_WARNING)
+    except Exception as error:
+        msg = f"WARNING: Could not read BrlApi key: {error}"
+        debug.printMessage(debug.LEVEL_WARNING, msg, True)
         shutdown()
         return
     if key:
@@ -1850,55 +1838,36 @@ def setupKeyRanges(keys):
     msg = "BRAILLE: Key ranges set up."
     debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-def _canConnect():
-    # TODO - JD: We should create a wrapper class for all things brlapi.
-    # In the meantime, don't crash. https://gitlab.gnome.org/GNOME/orca/-/issues/386
+def setBrlapiPriority(level=BRLAPI_PRIORITY_DEFAULT):
+    """Set BRLAPI priority
 
-    global _brlAPIConnectable
+    Arguments:
+    -level: the priority level to apply, default to braille.PRIORITY_DEFAULT
+    """
 
-    if not _brlAPIConnectable:
-        return False
+    global idle, brlapi_priority
+
+    if not _brlAPIAvailable or not _brlAPIRunning \
+       or not settings_manager.getManager().getSetting('enableBraille'):
+        return
+
+    if idle:
+        msg = "BRAILLE: Braille is idle, don't change BRLAPI priority."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        brlapi_priority = level
+        return
 
     try:
-        import brlapi
-    except ModuleNotFoundError as error:
-        msg = f"BRAILLE: {error}"
-        debug.printMessage(debug.LEVEL_WARNING, msg)
-        _brlAPIConnectable = False
-        return False
-
-    known_errors = [
-        brlapi.ERROR_AUTHENTICATION,
-        brlapi.ERROR_CONNREFUSED,
-        brlapi.ERROR_DEVICEBUSY,
-        brlapi.ERROR_DRIVERERROR,
-        brlapi.ERROR_EMPTYKEY,
-        brlapi.ERROR_EOF,
-        brlapi.ERROR_GAIERR,
-        brlapi.ERROR_ILLEGAL_INSTRUCTION,
-        brlapi.ERROR_INVALID_PACKET,
-        brlapi.ERROR_INVALID_PARAMETER,
-        brlapi.ERROR_LIBCERR,
-        brlapi.ERROR_NOMEM,
-        brlapi.ERROR_OPNOTSUPP,
-        brlapi.ERROR_PROTOCOL_VERSION,
-        brlapi.ERROR_READONLY_PARAMETER,
-        brlapi.ERROR_SUCCESS,
-        brlapi.ERROR_TTYBUSY,
-        brlapi.ERROR_UNKNOWNTTY,
-        brlapi.ERROR_UNKNOWN_INSTRUCTION
-    ]
-
-    cmd = ['python3', '-c', 'import brlapi; brlapi.Connection()']
-    process_result = subprocess.run(cmd, capture_output=True, text=True)
-    if process_result.returncode not in known_errors:
-        context_msg = "BRAILLE: Error while trying to establish BrlAPI connection:"
-        error_msg = process_result.stderr.strip()
-        tokens = [context_msg, error_msg]
-        debug.printTokens(debug.LEVEL_WARNING, tokens, True)
-        _brlAPIConnectable = False
-
-    return _brlAPIConnectable
+        tokens = ["BRAILLE: Setting priority to:", level]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        _brlAPI.setParameter(brlapi.PARAM_CLIENT_PRIORITY, 0, False, level)
+    except Exception as error:
+        msg = f"BRAILLE: Cannot set priority: {error}"
+        debug.printMessage(debug.LEVEL_WARNING, msg, True)
+    else:
+        msg = "BRAILLE: Priority set."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        brlapi_priority = level
 
 def init(callback=None):
     """Initializes the braille module, connecting to the BrlTTY driver.
@@ -1910,9 +1879,6 @@ def init(callback=None):
     """
 
     if not settings.enableBraille:
-        return False
-
-    if not _canConnect():
         return False
 
     global _brlAPI
@@ -1973,10 +1939,9 @@ def init(callback=None):
         msg = "BRAILLE: Initialization failed: BrlApi is not defined."
         debug.printMessage(debug.LEVEL_WARNING, msg, True)
         return False
-    except Exception:
-        msg = "BRAILLE: Initialization failed."
+    except Exception as error:
+        msg = f"WARNING: Braille initialization failed: {error}"
         debug.printMessage(debug.LEVEL_WARNING, msg, True)
-        debug.printException(debug.LEVEL_WARNING)
 
         _brlAPIRunning = False
 
