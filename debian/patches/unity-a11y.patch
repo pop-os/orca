@@ -4,11 +4,10 @@ Subject: [PATCH] Add hacks to better support Unity7
 
 https://bugzilla.gnome.org/show_bug.cgi?id=783063
 ---
- configure.ac                                    |  1 +
  src/orca/script_utilities.py                    |  1 +
- src/orca/scripts/apps/Makefile.am               |  1 +
+ src/orca/scripts/apps/meson.build               |  1 +
  src/orca/scripts/apps/__init__.py               |  1 +
- src/orca/scripts/apps/unity/Makefile.am         |  7 +++
+ src/orca/scripts/apps/unity/meson.build         | 10 +++
  src/orca/scripts/apps/unity/__init__.py         |  1 +
  src/orca/scripts/apps/unity/script.py           | 67 +++++++++++++++++++++++++
  src/orca/scripts/apps/unity/script_utilities.py | 34 +++++++++++++
@@ -18,18 +17,6 @@ https://bugzilla.gnome.org/show_bug.cgi?id=783063
  create mode 100644 src/orca/scripts/apps/unity/script.py
  create mode 100644 src/orca/scripts/apps/unity/script_utilities.py
 
-diff --git a/configure.ac b/configure.ac
-index 58664fa..878aecc 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -105,6 +105,7 @@ src/orca/scripts/apps/soffice/Makefile
- src/orca/scripts/apps/SeaMonkey/Makefile
- src/orca/scripts/apps/smuxi-frontend-gnome/Makefile
- src/orca/scripts/apps/Thunderbird/Makefile
-+src/orca/scripts/apps/unity/Makefile
- src/orca/scripts/apps/xfwm4/Makefile
- src/orca/scripts/switcher/Makefile
- src/orca/scripts/terminal/Makefile
 diff --git a/src/orca/script_utilities.py b/src/orca/script_utilities.py
 index 21953b8..c952233 100644
 --- a/src/orca/script_utilities.py
@@ -42,18 +29,18 @@ index 21953b8..c952233 100644
                           Atspi.Role.PAGE, # For Evince bug
                           Atspi.Role.WINDOW,
                           Atspi.Role.FRAME]
-diff --git a/src/orca/scripts/apps/Makefile.am b/src/orca/scripts/apps/Makefile.am
-index 90df6e8..765e877 100644
---- a/src/orca/scripts/apps/Makefile.am
-+++ b/src/orca/scripts/apps/Makefile.am
-@@ -17,6 +17,7 @@ SUBDIRS = \
- 	SeaMonkey \
- 	smuxi-frontend-gnome \
- 	Thunderbird \
-+	unity \
- 	xfwm4
+diff --git a/src/orca/scripts/apps/meson.build b/src/orca/scripts/apps/meson.build
+index 095f9e90a..815f5929f 100644
+--- a/src/orca/scripts/apps/meson.build
++++ b/src/orca/scripts/apps/meson.build
+@@ -13,6 +13,7 @@ subdir('soffice')
+ subdir('SeaMonkey')
+ subdir('smuxi-frontend-gnome')
+ subdir('Thunderbird')
++subdir('unity')
+ subdir('xfwm4')
  
- orca_python_PYTHON = \
+ lib_sources = [
 diff --git a/src/orca/scripts/apps/__init__.py b/src/orca/scripts/apps/__init__.py
 index 157501a..b57d670 100644
 --- a/src/orca/scripts/apps/__init__.py
@@ -64,19 +51,22 @@ index 157501a..b57d670 100644
             'Thunderbird',
 +           'unity',
             'xfwm4']
-diff --git a/src/orca/scripts/apps/unity/Makefile.am b/src/orca/scripts/apps/unity/Makefile.am
+diff --git a/src/orca/scripts/apps/unity/meson.build b/src/orca/scripts/apps/unity/meson.build
 new file mode 100644
-index 0000000..452d6b0
+index 000000000..a1e80211f
 --- /dev/null
-+++ b/src/orca/scripts/apps/unity/Makefile.am
-@@ -0,0 +1,7 @@
-+orca_python_PYTHON = \
-+	__init__.py \
-+	script.py \
-+	script_utilities.py
++++ b/src/orca/scripts/apps/unity/meson.build
+@@ -0,0 +1,10 @@
++lib_sources = [
++  '__init__.py',
++  'script.py',
++  'script_utilities.py',
++]
 +
-+orca_pythondir=$(pkgpythondir)/scripts/apps/unity
-+
++python3.install_sources(
++  lib_sources,
++  subdir: meson.project_name() / 'scripts' / 'apps' / 'unity'
++)
 diff --git a/src/orca/scripts/apps/unity/__init__.py b/src/orca/scripts/apps/unity/__init__.py
 new file mode 100644
 index 0000000..585c964
