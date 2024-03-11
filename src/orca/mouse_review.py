@@ -310,7 +310,8 @@ class _ItemContext:
                                         inMouseReview=True,
                                         interrupt=True)
 
-        if not self._script.utilities.hasPresentableText(self._obj):
+        # TODO: Remove the special case for Newton once we implement AXText.
+        if not AXObject.is_newton(self._obj) and not self._script.utilities.hasPresentableText(self._obj):
             msg = "MOUSE REVIEW: Not presenting object which lacks presentable text."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
@@ -569,12 +570,15 @@ class MouseReviewer:
     def _on_mouse_moved(self, event):
         """Callback for mouse:abs events."""
 
-        pX, pY = event.detail1, event.detail2
-        window, windowX, windowY = self._accessible_window_at_point(pX, pY)
-        tokens = [f"MOUSE REVIEW: Window at ({pX}, {pY}) is", window]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        if not window:
-            return
+        if event.type == "newton:pointer-moved":
+            window, windowX, windowY = event.source, event.detail1, event.detail2
+        else:
+            pX, pY = event.detail1, event.detail2
+            window, windowX, windowY = self._accessible_window_at_point(pX, pY)
+            tokens = [f"MOUSE REVIEW: Window at ({pX}, {pY}) is", window]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            if not window:
+                return
 
         script = script_manager.getManager().getScript(AXObject.get_application(window))
         if not script:
@@ -658,6 +662,9 @@ class MouseReviewer:
         """Generic listener for events of interest."""
 
         if event.type.startswith("mouse:abs"):
+            self._enqueue_event(event)
+
+    def _enqueue_event(self, event):
             self._event_queue.append(event)
             GLib.timeout_add(50, self._process_event)
 

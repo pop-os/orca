@@ -224,6 +224,8 @@ class AXObject:
             return False
 
         try:
+            if AXObject.is_newton(obj):
+                return obj.supports_component()
             iface = Atspi.Accessible.get_component_iface(obj)
         except Exception as error:
             msg = f"AXObject: Exception calling get_component_iface on {obj}: {error}"
@@ -1530,7 +1532,10 @@ class AXObject:
             return False
 
         try:
-            result = Atspi.Component.grab_focus(obj)
+            if AXObject.is_newton(obj):
+                result = obj.grab_focus()
+            else:
+                result = Atspi.Component.grab_focus(obj)
         except Exception as error:
             msg = f"AXObject: Exception in grab_focus: {error}"
             AXObject.handle_error(obj, error, msg)

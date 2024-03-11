@@ -283,7 +283,10 @@ class AXComponent:
             return None
 
         try:
-            result = Atspi.Component.get_accessible_at_point(obj, x, y, Atspi.CoordType.WINDOW)
+            if AXObject.is_newton(obj):
+                result = obj.get_accessible_at_point(x, y, int(Atspi.CoordType.WINDOW))
+            else:
+                result = Atspi.Component.get_accessible_at_point(obj, x, y, Atspi.CoordType.WINDOW)
         except Exception as error:
             msg = f"AXComponent: Exception in get_child_at_point: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)

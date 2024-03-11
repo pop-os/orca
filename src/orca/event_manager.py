@@ -36,6 +36,7 @@ import time
 from . import debug
 from . import focus_manager
 from . import input_event
+from . import mouse_review
 from . import orca_modifier_manager
 from . import orca_state
 from . import script_manager
@@ -382,6 +383,11 @@ class EventManager:
 
     def _enqueue_object_event(self, e):
         """Callback for Atspi object events."""
+
+        if e.type == "newton:pointer-moved":
+            reviewer = mouse_review.getReviewer()
+            reviewer._enqueue_event(e)
+            return
 
         if self._ignore(e):
             return
