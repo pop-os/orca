@@ -18,7 +18,7 @@ To run an end-to-end prototype of the Newton accessibility stack, first set up a
 
 3. Build and install the `wayland-protocols` package from the `accessibility` branch of [my fork of wayland-protocols](https://gitlab.freedesktop.org/mwcampbell/wayland-protocols), using the standard procedure for building and installing this package with Meson.
 
-4. Build and install Mutter from the `wayland-native-a11y` branch of [my fork of Mutter](https://gitlab.gnome.org/mwcampbell/mutter), again using the standard procedure for building and installing this package with Meson.
+4. Build and install Mutter from the `newton-prototype-2` branch of [my fork of Mutter](https://gitlab.gnome.org/mwcampbell/mutter), again using the standard procedure for building and installing this package with Meson.
 
 5. Build and install the `newton_atspi_compat` Python package from the [newton_atspi_compat repository](https://gitlab.gnome.org/mwcampbell/newton_atspi_compat), by running these commands from the root of a working copy of that repository:
 
