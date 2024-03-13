@@ -1,5 +1,5 @@
 project('orca',
-  version: '46.beta',
+  version: '46.0',
   meson_version: '>= 1.0.0',
 )
 
@@ -40,6 +40,7 @@ optional_modules = {
   'brlapi': 'braille output',
   'louis': 'contracted braille',
   'psutil': 'system information commands',
+  'gi.repository.Wnck': 'mouse review',
 }
 
 summary = {}
@@ -60,8 +61,9 @@ endif
 
 # Experimental (checked via pkg-config)
 if get_option('spiel')
-  dependency('spiel-0.1',
-            fallback: ['spiel', 'spiel_lib_dep'],
+  dependency('spiel-1.0',
+            version: '>= 1.0.0',
+           fallback: ['spiel', 'spiel_lib_dep'],
     default_options: [
       'docs=false',
       'tests=false',
