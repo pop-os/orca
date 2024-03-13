@@ -1,4 +1,4 @@
-# Orca v46.beta
+# Orca v46.0
 
 [TOC]
 
@@ -40,6 +40,7 @@ Orca also has the following dependencies:
 * py-setproctitle  - Python library to set the process title (optional)
 * gstreamer-1.0    - GStreamer - Streaming media framework (optional)
 * python3-psutil   - Process and system utilities (optional)
+* libwnck3         - Used for mouse review (optional)
 
 You are strongly encouraged to also have the latest stable versions
 of AT-SPI2 and ATK for the GNOME 46.x release.
@@ -221,7 +222,8 @@ By default, Orca uses speech-dispatcher for its TTS support. In addition, there 
 basic support for [Spiel](https://github.com/eeejay/spiel) which allows choosing
 voices from multiple synthesizers, currently including eSpeak and Piper.
 
-To test Spiel, configure Orca to build from the latest source:
+To test Spiel, configure Orca to build from the latest source. Once compiled,
+`meson devenv` will be used to run Orca.
 
 ```
 meson setup --force-fallback-for=spiel -Dspiel=true _build
@@ -252,3 +254,44 @@ To switch from Speech Dispatcher to Spiel, use `orca --replace --speech-system=s
 this flag is highly recommended while Orca's Spiel support is experimental. If you would like
 to use Spiel by default, you can select it in Orca's Preferences dialog. To then switch back
 to Speech Dispatcher, use `orca --replace --speech-system=speechdispatcherfactory`.
+
+```
+# Enter the development environment
+meson devenv -C _build
+
+# Run Orca
+orca --replace --speech-system=spiel
+
+# Exit the development environment
+exit
+```
+
+### Building Spiel from Source
+
+For advanced users, Spiel and providers may be built from source. If you are
+unsure, consider using the available Flatpaks and consult the documentation for
+your distribution before proceeding.
+
+1. Build and install Orca with Spiel
+
+   Be sure to build Orca as described above, so the correct `libspeechprovider`
+   version is available when building a provider in the next step. If you
+   previously built Orca, follow the steps to update and re-build before
+   continuing.
+
+2. Next build and install a provider
+
+   ```sh
+   # Clone the repository, then select a provider in the "providers/" directory
+   git clone https://github.com/eeejay/spiel-demos.git
+   cd spiel-demos/providers/espeak
+
+   # Build and install
+   meson setup _build
+   meson compile -C _build
+   meson install -C _build
+   ```
+
+Now start Orca following the [instructions](#experimental-features) above and
+the Spiel providers you installed will start automatically.
+

@@ -801,7 +801,7 @@ class Utilities(script_utilities.Utilities):
         if not self.inDocumentContent(obj) or self._script.browseModeIsSticky():
             return True
 
-        rv = AXText.get_character_count(obj) > 0
+        rv = AXText.get_character_count(obj) > 0 or AXUtilities.is_editable(obj)
         if rv and self._treatObjectAsWhole(obj, -1) and AXObject.get_name(obj) \
             and not self.isCellWithNameFromHeader(obj):
             tokens = ["WEB: Treating", obj, "as non-text: named object treated as whole."]
@@ -3991,7 +3991,8 @@ class Utilities(script_utilities.Utilities):
             lastKey, mods = self.lastKeyAndModifiers()
             return lastKey == "Return"
         if event.type.startswith("object:text-") or event.type.endswith("accessible-name"):
-            return AXUtilities.is_status_bar(event.source) or AXUtilities.is_label(event.source)
+            return AXUtilities.is_status_bar(event.source) or AXUtilities.is_label(event.source) \
+                or AXUtilities.is_frame(event.source)
         if event.type.startswith("object:children-changed"):
             return True
 

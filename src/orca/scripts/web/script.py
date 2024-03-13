@@ -107,6 +107,20 @@ class Script(default.Script):
         self.attributeNamesDict["text-align"] = "justification"
         self.attributeNamesDict["text-indent"] = "indent"
 
+    def activate(self):
+        """Called when this script is activated."""
+
+        tokens = ["WEB: Activating script for", self.app]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+        in_doc = self.utilities.inDocumentContent()
+        reason = f"script activation, in document content: {in_doc}"
+        self.caretNavigation.suspend_commands(self, not in_doc, reason)
+        self.structuralNavigation.suspend_commands(self, not in_doc, reason)
+        self.liveRegionManager.suspend_commands(self, not in_doc, reason)
+        self.tableNavigator.suspend_commands(self, not in_doc, reason)
+        super().activate()
+
     def deactivate(self):
         """Called when this script is deactivated."""
 
@@ -1227,6 +1241,18 @@ class Script(default.Script):
             self._madeFindAnnouncement = False
             self._inFocusMode = False
 
+            oldDocument = self.utilities.getTopLevelDocumentForObject(oldFocus)
+            if not document and self.utilities.isDocument(oldFocus):
+                oldDocument = oldFocus
+
+            if oldFocus and not oldDocument:
+                msg = "WEB: Not refreshing grabs because we weren't in a document before"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return False
+
+            tokens = ["WEB: Refreshing grabs because we left document", oldDocument]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
             reason = "locus of focus no longer in document"
             self.caretNavigation.suspend_commands(self, True, reason)
             self.structuralNavigation.suspend_commands(self, True, reason)
@@ -2126,7 +2152,7 @@ class Script(default.Script):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
-        return True
+        return False
 
     def onRowReordered(self, event):
         """Callback for object:row-reordered accessibility events."""

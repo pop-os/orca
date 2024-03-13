@@ -39,8 +39,11 @@ from . import settings_manager
 from .acss import ACSS
 from .ssml import SSML, SSMLCapabilities
 
+gi.require_version("GLib", "2.0")
+from gi.repository import GLib
+
 try:
-    gi.require_version('Spiel', '0.1')
+    gi.require_version('Spiel', '1.0')
     from gi.repository import Spiel
     _spiel_available = True
 except Exception:
@@ -150,16 +153,6 @@ class SpeechServer(speechserver.SpeechServer):
             debug.printMessage(debug.LEVEL_WARNING, msg, True)
             return
 
-        # Maintain a speaker singleton for all providers
-        if SpeechServer.DEFAULT_SPEAKER is None:
-            SpeechServer.DEFAULT_SPEAKER = Spiel.Speaker.new_sync(None)
-            SpeechServer.DEFAULT_SPEAKER.props.providers.connect('items-changed',
-                                                                 SpeechServer._updateProviders)
-            SpeechServer._updateProviders(SpeechServer.DEFAULT_SPEAKER.props.providers)
-
-        provider_name = SpeechServer._SERVER_NAMES.get(serverId, serverId)
-        self._default_voice_name = guilabels.SPEECH_DEFAULT_VOICE % provider_name
-
         try:
             self._init()
         except Exception as error:
@@ -223,9 +216,8 @@ class SpeechServer(speechserver.SpeechServer):
             return None
 
         acss_name = acss_family.get(speechserver.VoiceFamily.NAME)
-        acss_lang = acss_family.get(speechserver.VoiceFamily.LANG)
-        acss_dialect = acss_family.get(speechserver.VoiceFamily.DIALECT)
-        acss_language = f"{acss_lang}-{acss_dialect}"
+        acss_lang, acss_dialect = self._get_language_and_dialect(acss_family)
+        accs_lang_dialect = f"{acss_lang}-{acss_dialect}"
 
         fallback = self._speaker.props.voices[0]
         fallback_lang = None
@@ -234,7 +226,7 @@ class SpeechServer(speechserver.SpeechServer):
             for language in voice.props.languages:
                 [lang, _, dialect] = language.partition("-")
                 if lang == acss_lang:
-                    if fallback_lang not in [acss_language, acss_lang]:
+                    if fallback_lang not in [accs_lang_dialect, acss_lang]:
                         fallback = voice
                         fallback_lang = language
 
@@ -294,10 +286,20 @@ class SpeechServer(speechserver.SpeechServer):
                 current[acss_property] = default
 
     def _init(self):
+        # Maintain a speaker singleton for all providers
+        if SpeechServer.DEFAULT_SPEAKER is None:
+            SpeechServer.DEFAULT_SPEAKER = Spiel.Speaker.new_sync(None)
+            SpeechServer.DEFAULT_SPEAKER.props.providers.connect('items-changed',
+                                                                 SpeechServer._updateProviders)
+            SpeechServer._updateProviders(SpeechServer.DEFAULT_SPEAKER.props.providers)
+
         self._speaker = SpeechServer.DEFAULT_SPEAKER
         self._current_voice_profiles = ()
         self._current_voice_properties = {}
+        self._default_voice_name = guilabels.SPEECH_DEFAULT_VOICE % \
+            SpeechServer._SERVER_NAMES.get(self._id, self._id)
 
+        # Load the provider voices for this server
         if self._id != SpeechServer.DEFAULT_SERVER_ID:
             self._provider = SpeechServer._active_providers[self._id]
             self._voices_id = self._provider.props.voices.connect('items-changed',
@@ -396,8 +398,8 @@ class SpeechServer(speechserver.SpeechServer):
 
         features = voice.props.features
         if features & Spiel.VoiceFeature.SSML_SAY_AS_CHARACTERS_GLYPHS:
-            text = ("<speak>",
-                    f'<say-as interpret-as="characters" format="glyphs">{character}</say-as>',
+            text = ("<speak>"
+                    f'<say-as interpret-as="characters" format="glyphs">{character}</say-as>'
                     "</speak>")
         elif features & Spiel.VoiceFeature.SSML_SAY_AS_CHARACTERS:
             text = f'<speak><say-as interpret-as="characters">{character}</say-as></speak>'
@@ -432,8 +434,6 @@ class SpeechServer(speechserver.SpeechServer):
         # if interrupt:
         #     self._speaker.cancel()
 
-        utterance = self._create_utterance(text, acss)
-
         if len(text) == 1:
             msg = f"SPIEL: Speaking '{text}' as char"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -442,6 +442,7 @@ class SpeechServer(speechserver.SpeechServer):
         else:
             msg = f"SPIEL: Speaking '{text}' as string"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
+            utterance = self._create_utterance(text, acss)
             self._speak_utterance(utterance, acss)
 
     def sayAll(self, utteranceIterator, progressCallback):
@@ -585,6 +586,19 @@ class SpeechServer(speechserver.SpeechServer):
         self.speak(decrease and messages.SPEECH_SOFTER \
                    or messages.SPEECH_LOUDER, acss=acss)
 
+    def _maybe_shutdown(self):
+        # We're the last speaker, wrap things up
+        if len(SpeechServer._active_servers.values()) == 1:
+            while SpeechServer.DEFAULT_SPEAKER.props.speaking:
+                GLib.MainContext.default().iteration(False)
+
+            # Ensure nothing squeaks through
+            SpeechServer.DEFAULT_SPEAKER.pause()
+            SpeechServer.DEFAULT_SPEAKER = None
+            return True
+
+        return False
+
     def increaseSpeechRate(self, step=5):
         self._change_default_speech_rate(step)
 
@@ -607,9 +621,9 @@ class SpeechServer(speechserver.SpeechServer):
         self._speaker.cancel()
 
     def shutdown(self):
-        self._speaker.cancel()
         if self._id != SpeechServer.DEFAULT_SERVER_ID:
             self._provider.props.voices.disconnect(self._voices_id)
+        self._maybe_shutdown()
         del SpeechServer._active_servers[self._id]
 
     def reset(self, text=None, acss=None):
