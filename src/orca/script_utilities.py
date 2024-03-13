@@ -2009,13 +2009,8 @@ class Utilities:
         return obj, offset
 
     def getFirstCaretPosition(self, obj):
-        # TODO - JD: Do we still need this function?
-        if AXObject.supports_text(obj):
-            return obj, 0
-
-        if AXObject.get_child_count(obj):
-            return self.getFirstCaretPosition(AXObject.get_child(obj, 0))
-
+        # TODO - JD: Do we still need this function? We need to audit callers,
+        # mainly in structural navigation.
         return obj, 0
 
     def setCaretPosition(self, obj, offset, documentFrame=None):
@@ -2182,7 +2177,7 @@ class Utilities:
         adjusting for repeat character counts and punctuation.
         """
 
-        if segment.isnumeric():
+        if segment.isalnum():
             return line + segment
 
         count = len(segment)
@@ -3741,6 +3736,9 @@ class Utilities:
 
     def isDeleteCommandTextDeletionEvent(self, event):
         if not event.type.startswith("object:text-changed:delete"):
+            return False
+
+        if event.type.endswith("system"):
             return False
 
         return self.lastInputEventWasDelete()
