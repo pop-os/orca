@@ -42,6 +42,7 @@ from gi.repository import Atspi
 
 from . import debug
 from .ax_object import AXObject
+from .ax_utilities import AXUtilities
 
 class AXText:
     """Utilities for obtaining information about accessible text."""
@@ -50,10 +51,16 @@ class AXText:
     def get_character_at_offset(obj, offset=None):
         """Returns the character, start, and end for the current or specified offset."""
 
+        length = AXText.get_character_count(obj)
+        if not length:
+            return "", 0, 0
+
         if offset is None:
             offset = AXText.get_caret_offset(obj)
 
-        if offset < 0:
+        if not 0 <= offset <= length:
+            msg = f"WARNING: Offset {offset} is not valid. No character can be provided."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return "", 0, 0
 
         try:
@@ -108,12 +115,14 @@ class AXText:
     def get_word_at_offset(obj, offset=None):
         """Returns the word, start, and end for the current or specified offset."""
 
+        length = AXText.get_character_count(obj)
+        if not length:
+            return "", 0, 0
+
         if offset is None:
             offset = AXText.get_caret_offset(obj)
 
-        if offset < 0:
-            return "", 0, 0
-
+        offset = min(max(0, offset), length - 1)
         try:
             result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.WORD)
         except Exception as error:
@@ -166,12 +175,18 @@ class AXText:
     def get_line_at_offset(obj, offset=None):
         """Returns the line, start, and end for the current or specified offset."""
 
+        length = AXText.get_character_count(obj)
+        if not length:
+            return "", 0, 0
+
         if offset is None:
             offset = AXText.get_caret_offset(obj)
 
-        if offset < 0:
-            return "", 0, 0
-
+        # Don't adjust the length in multiline text because we want to say "blank" at the end.
+        if not AXUtilities.is_multi_line(obj):
+            offset = min(max(0, offset), length - 1)
+        else:
+            offset = max(0, offset)
         try:
             result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.LINE)
         except Exception as error:
@@ -225,12 +240,14 @@ class AXText:
     def get_sentence_at_offset(obj, offset=None):
         """Returns the sentence, start, and end for the current or specified offset."""
 
+        length = AXText.get_character_count(obj)
+        if not length:
+            return "", 0, 0
+
         if offset is None:
             offset = AXText.get_caret_offset(obj)
 
-        if offset < 0:
-            return "", 0, 0
-
+        offset = min(max(0, offset), length - 1)
         try:
             result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.SENTENCE)
         except Exception as error:
@@ -296,12 +313,14 @@ class AXText:
     def get_paragraph_at_offset(obj, offset=None):
         """Returns the paragraph, start, and end for the current or specified offset."""
 
+        length = AXText.get_character_count(obj)
+        if not length:
+            return "", 0, 0
+
         if offset is None:
             offset = AXText.get_caret_offset(obj)
 
-        if offset < 0:
-            return "", 0, 0
-
+        offset = min(max(0, offset), length - 1)
         try:
             result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.PARAGRAPH)
         except Exception as error:
@@ -664,12 +683,11 @@ class AXText:
         except Exception as error:
             msg = f"AXText: Exception in get_text_attributes_at_offset: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return {}, 0, 0
+            return {}, 0, AXText.get_character_count(obj)
 
         tokens = ["AXText: Attributes for", obj, f"at offset {offset} : {result}"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        return result[0], result[1], result[2]
-
+        return result[0] or {}, result[1] or 0, result[2] or AXText.get_character_count(obj)
 
     @staticmethod
     def get_all_text_attributes(obj, start_offset=0, end_offset=-1):

@@ -526,6 +526,12 @@ class Script(script.Script):
     def addKeyGrabs(self, reason=""):
         """ Sets up the key grabs currently needed by this script. """
 
+        if not orca_state.device:
+            msg = "WARNING: Attempting to add key grabs without a device."
+            debug.printMessage(debug.LEVEL_WARNING, msg, True, True)
+            return
+
+        # TODO - JD: Move this logic into the Orca Modifier Manager.
         for modifier in ["Insert", "KP_Insert"]:
             if modifier in settings.orcaModifierKeys \
                and modifier not in orca_state.grabbedModifiers:
@@ -553,6 +559,7 @@ class Script(script.Script):
             debug.printMessage(debug.LEVEL_WARNING, msg, True, True)
             return
 
+        # TODO - JD: Move this logic into the Orca Modifier Manager.
         for modifier in ["Insert", "KP_Insert"]:
             if modifier in orca_state.grabbedModifiers:
                 orca_state.device.remove_key_grab(orca_state.grabbedModifiers[modifier])
@@ -1440,6 +1447,12 @@ class Script(script.Script):
                 msg = "DEFAULT: Event is for frame other than the active window"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return
+            focus = focus_manager.getManager().get_locus_of_focus()
+            if AXUtilities.is_editable(focus) and AXText.get_character_count(focus) \
+               and AXText.get_all_text(focus) in event.any_data:
+                msg = "DEFAULT: Event is redundant notification for the locusOfFocus"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return
         elif event.source != focus_manager.getManager().get_locus_of_focus():
             msg = "DEFAULT: Event is for object other than the locusOfFocus"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -2104,11 +2117,17 @@ class Script(script.Script):
         self.speakMessage(sentence, voice)
         return True
 
-    def echoPreviousWord(self, obj, offset=None):
+    def echoPreviousWord(self, obj):
         """Speaks the word prior to the caret if at a word boundary."""
 
-        start = AXText.get_character_at_offset(obj, offset)[1]
-        previousChar, previousStart = AXText.get_character_at_offset(obj, start - 1)[0:-1]
+        offset = AXText.get_caret_offset(obj)
+        if offset == -1:
+            offset = AXText.get_character_count(obj)
+
+        if offset <= 0:
+            return False
+
+        previousChar, previousStart = AXText.get_character_at_offset(obj, offset - 1)[0:-1]
         if not self.utilities.isWordDelimiter(previousChar):
             return False
 
@@ -2263,10 +2282,6 @@ class Script(script.Script):
 
 
         offset = AXText.get_caret_offset(obj)
-        if offset < 1:
-            self.sayCharacter(obj)
-            return
-
         word, startOffset, endOffset = \
             self.utilities.getWordAtOffsetAdjustedForNavigation(obj, offset)
 
