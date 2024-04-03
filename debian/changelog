@@ -1,3 +1,10 @@
+orca (46.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * control: Bump atk-bridge dependency version.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 01 Apr 2024 16:18:28 +0200
+
 orca (46.0-1ubuntu1) noble; urgency=medium
 
   * Merge with Debian. Remaining changes:
