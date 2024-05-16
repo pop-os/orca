@@ -371,6 +371,8 @@ class AXObject:
             return False
 
         try:
+            if AXObject.is_newton(obj):
+                return obj.supports_text()
             iface = Atspi.Accessible.get_text_iface(obj)
         except Exception as error:
             msg = f"AXObject: Exception calling get_text_iface on {obj}: {error}"

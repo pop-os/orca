@@ -64,7 +64,10 @@ class AXText:
             return "", 0, 0
 
         try:
-            result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.CHAR)
+            if AXObject.is_newton(obj):
+                result = obj.get_string_at_offset(offset, int(Atspi.TextGranularity.CHAR))
+            else:
+                result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.CHAR)
         except Exception as error:
             try:
                 result = Atspi.Text.get_text_at_offset(obj, offset, Atspi.TextBoundaryType.CHAR)
@@ -124,7 +127,10 @@ class AXText:
 
         offset = min(max(0, offset), length - 1)
         try:
-            result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.WORD)
+            if AXObject.is_newton(obj):
+                result = obj.get_string_at_offset(offset, int(Atspi.TextGranularity.WORD))
+            else:
+                result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.WORD)
         except Exception as error:
             try:
                 result = Atspi.Text.get_text_at_offset(
@@ -188,7 +194,10 @@ class AXText:
         else:
             offset = max(0, offset)
         try:
-            result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.LINE)
+            if AXObject.is_newton(obj):
+                result = obj.get_string_at_offset(offset, int(Atspi.TextGranularity.LINE))
+            else:
+                result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.LINE)
         except Exception as error:
             try:
                 result = Atspi.Text.get_text_at_offset(
@@ -249,7 +258,10 @@ class AXText:
 
         offset = min(max(0, offset), length - 1)
         try:
-            result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.SENTENCE)
+            if AXObject.is_newton(obj):
+                result = obj.get_string_at_offset(offset, int(Atspi.TextGranularity.SENTENCE))
+            else:
+                result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.SENTENCE)
         except Exception as error:
             try:
                 result = Atspi.Text.get_text_at_offset(
@@ -322,7 +334,10 @@ class AXText:
 
         offset = min(max(0, offset), length - 1)
         try:
-            result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.PARAGRAPH)
+            if AXObject.is_newton(obj):
+                result = obj.get_string_at_offset(offset, int(Atspi.TextGranularity.PARAGRAPH))
+            else:
+                result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.PARAGRAPH)
         except Exception as error:
             msg = f"AXText: Exception in get_paragraph_at_offset: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -382,7 +397,10 @@ class AXText:
             return 0
 
         try:
-            count = Atspi.Text.get_character_count(obj)
+            if AXObject.is_newton():
+                count = obj.get_character_count()
+            else:
+                count = Atspi.Text.get_character_count(obj)
         except Exception as error:
             msg = f"AXText: Exception in get_character_count: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -400,7 +418,10 @@ class AXText:
             return -1
 
         try:
-            offset = Atspi.Text.get_caret_offset(obj)
+            if AXObject.is_newton(obj):
+                offset = obj.get_caret_offset()
+            else:
+                offset = Atspi.Text.get_caret_offset(obj)
         except Exception as error:
             msg = f"AXText: Exception in get_caret_offset: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -418,7 +439,10 @@ class AXText:
             return False
 
         try:
-            result = Atspi.Text.set_caret_offset(obj, offset)
+            if AXObject.is_newton(obj):
+                result = obj.set_caret_offset(offset)
+            else:
+                result = Atspi.Text.set_caret_offset(obj, offset)
         except Exception as error:
             msg = f"AXText: Exception in set_caret_offset: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -448,7 +472,10 @@ class AXText:
             return ""
 
         try:
-            result = Atspi.Text.get_text(obj, start_offset, end_offset)
+            if AXObject.is_newton(obj):
+                result = obj.get_text(start_offset, end_offset)
+            else:
+                result = Atspi.Text.get_text(obj, start_offset, end_offset)
         except Exception as error:
             msg = f"AXText: Exception in get_substring: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -467,7 +494,10 @@ class AXText:
             return ""
 
         try:
-            result = Atspi.Text.get_text(obj, 0, length)
+            if AXObject.is_newton(obj):
+                result = obj.get_text(0, length)
+            else:
+                result = Atspi.Text.get_text(obj, 0, length)
         except Exception as error:
             msg = f"AXText: Exception in get_all_text: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -492,7 +522,10 @@ class AXText:
             return 0
 
         try:
-            result = Atspi.Text.get_n_selections(obj)
+            if AXObject.is_newton(obj):
+                result = obj.get_n_selections()
+            else:
+                result = Atspi.Text.get_n_selections(obj)
         except Exception as error:
             msg = f"AXText: Exception in _get_n_selections: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -510,7 +543,10 @@ class AXText:
             return
 
         try:
-            Atspi.Text.remove_selection(obj, selection_number)
+            if AXObject.is_newton(obj):
+                obj.remove_selection(selection_number)
+            else:
+                Atspi.Text.remove_selection(obj, selection_number)
         except Exception as error:
             msg = f"AXText: Exception in _remove_selection: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -574,7 +610,10 @@ class AXText:
         selections = []
         for i in range(count):
             try:
-                result = Atspi.Text.get_selection(obj, i)
+                if AXObject.is_newton(obj):
+                    result = obj.get_selection(i)
+                else:
+                    result = Atspi.Text.get_selection(obj, i)
             except Exception as error:
                 msg = f"AXText: Exception in get_selected_ranges: {error}"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -623,7 +662,10 @@ class AXText:
             return False
 
         try:
-            result = Atspi.Text.add_selection(obj, start_offset, end_offset)
+            if AXObject.is_newton(obj):
+                result = obj.add_selection(start_offset, end_offset)
+            else:
+                result = Atspi.Text.add_selection(obj, start_offset, end_offset)
         except Exception as error:
             msg = f"AXText: Exception in _add_selection: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -639,7 +681,10 @@ class AXText:
             return False
 
         try:
-            result = Atspi.Text.set_selection(obj, selection_number, start_offset, end_offset)
+            if AXObject.is_newton(obj):
+                result = obj.set_selection(selection_number, start_offset, end_offset)
+            else:
+                result = Atspi.Text.set_selection(obj, selection_number, start_offset, end_offset)
         except Exception as error:
             msg = f"AXText: Exception in set_selected_text: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -679,7 +724,10 @@ class AXText:
             offset = AXText.get_caret_offset(obj)
 
         try:
-            result = Atspi.Text.get_attribute_run(obj, offset, include_defaults=True)
+            if AXObject.is_newton(obj):
+                result = obj.get_attribute_run(offset, True)
+            else:
+                result = Atspi.Text.get_attribute_run(obj, offset, include_defaults=True)
         except Exception as error:
             msg = f"AXText: Exception in get_text_attributes_at_offset: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -726,7 +774,10 @@ class AXText:
             return -1
 
         try:
-            offset = Atspi.Text.get_offset_at_point(obj, x, y, Atspi.CoordType.WINDOW)
+            if AXObject.is_newton(obj):
+                offset = obj.get_offset_at_point(x, y, int(Atspi.CoordType.WINDOW))
+            else:
+                offset = Atspi.Text.get_offset_at_point(obj, x, y, Atspi.CoordType.WINDOW)
         except Exception as error:
             msg = f"AXText: Exception in get_offset_at_point: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -747,7 +798,10 @@ class AXText:
             offset = AXText.get_caret_offset(obj)
 
         try:
-            rect = Atspi.Text.get_character_extents(obj, offset, Atspi.CoordType.WINDOW)
+            if AXObject.is_newton(obj):
+                rect = obj.get_character_extents(offset, int(Atspi.CoordType.WINDOW))
+            else:
+                rect = Atspi.Text.get_character_extents(obj, offset, Atspi.CoordType.WINDOW)
         except Exception as error:
             msg = f"AXText: Exception in get_character_rect: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -765,7 +819,10 @@ class AXText:
             return Atspi.Rect()
 
         try:
-            rect = Atspi.Text.get_range_extents(obj, start, end, Atspi.CoordType.WINDOW)
+            if AXObject.is_newton(obj):
+                rect = obj.get_range_extents(start, end, int(Atspi.CoordType.WINDOW))
+            else:
+                rect = Atspi.Text.get_range_extents(obj, start, end, Atspi.CoordType.WINDOW)
         except Exception as error:
             tokens = ["AXText: Exception in get_range_rect for", obj, f":{ error}"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -956,8 +1013,12 @@ class AXText:
             end_offset = length - 1
 
         try:
-            result = Atspi.Text.scroll_substring_to_point(
-                obj, start_offset, end_offset, Atspi.CoordType.WINDOW, x, y)
+            if AXObject.is_newton(obj):
+                result = obj.scroll_substring_to_point(
+                    start_offset, end_offset, int(Atspi.CoordType.WINDOW), x, y)
+            else:
+                result = Atspi.Text.scroll_substring_to_point(
+                    obj, start_offset, end_offset, Atspi.CoordType.WINDOW, x, y)
         except Exception as error:
             msg = f"AXText: Exception in scroll_substring_to_point: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -982,7 +1043,10 @@ class AXText:
             end_offset = length - 1
 
         try:
-            result = Atspi.Text.scroll_substring_to(obj, start_offset, end_offset, location)
+            if AXObject.is_newton(obj):
+                result = obj.scroll_substring_to(start_offset, end_offset, int(location))
+            else:
+                result = Atspi.Text.scroll_substring_to(obj, start_offset, end_offset, location)
         except Exception as error:
             msg = f"AXText: Exception in scroll_substring_to_location: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
