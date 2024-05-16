@@ -56,7 +56,7 @@ class EventManager:
         self._gidleId        = 0
         self._gidleLock      = threading.Lock()
         self._listener = Atspi.EventListener.new(self._enqueue_object_event)
-        self._newtonConsumer = newton_atspi_compat.Consumer(self._enqueue_object_event)
+        self._newtonConsumer = newton_atspi_compat.Consumer(self._enqueue_object_event, self._process_newton_key_event)
         orca_state.device = None
         self.bypassedKey = None
         debug.printMessage(debug.LEVEL_INFO, 'Event manager initialized', True)
@@ -67,8 +67,8 @@ class EventManager:
         debug.printMessage(debug.LEVEL_INFO, 'EVENT MANAGER: Activating', True)
         orca_state.device = Atspi.Device.new()
         orca_state.device.event_count = 0
-        orca_state.device.key_watcher = \
-            orca_state.device.add_key_watcher(self._processKeyboardEvent)
+        #orca_state.device.key_watcher = \
+        #    orca_state.device.add_key_watcher(self._processKeyboardEvent)
 
         self._active = True
         debug.printMessage(debug.LEVEL_INFO, 'EVENT MANAGER: Activated', True)
@@ -888,7 +888,7 @@ class EventManager:
             # with a double press
             script = script_manager.getManager().getActiveScript()
             if pressed and script is not None:
-                if keyboardEvent.keyval_name in orca_state.grabbedModifiers:
+                if device and keyboardEvent.keyval_name in orca_state.grabbedModifiers:
                     device.remove_key_grab(orca_state.grabbedModifiers[keyboardEvent.keyval_name])
                     del orca_state.grabbedModifiers[keyboardEvent.keyval_name]
                     self.bypassedKey = keyboardEvent.keyval_name
@@ -902,6 +902,18 @@ class EventManager:
 
         # TODO - JD: Figure out exactly why this is here.
         orca_modifier_manager.getManager().update_key_map(keyboardEvent)
+
+    def _process_newton_key_event(self, released, state, keysym, unichar, keycode):
+        if unichar:
+            try:
+                text = chr(unichar)
+            except:
+                text = None
+        else:
+            text = None
+        def on_main_thread():
+            self._processKeyboardEvent(None, not released, keycode, keysym, state, text)
+        GLib.idle_add(on_main_thread)
 
     def process_braille_event(self, event):
         """Processes this BrailleEvent."""
