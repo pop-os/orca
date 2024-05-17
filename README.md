@@ -10,11 +10,7 @@ To run an end-to-end prototype of the Newton accessibility stack, first set up a
 
 1. [Install Rust](https://rustup.rs/).
 
-2. To compile a demo application, check out the `accesskit-unix2-prototype` branch of [my egui fork](https://github.com/mwcampbell/egui) and build the `hello_world` sample. Run the following from the root of the egui checkout:
-
-    ```bash
-    cargo build -p hello_world
-    ```
+2. Build and install [my AccessKit implementation branch of GTK](https://gitlab.gnome.org/mwcampbell/gtk/tree/accesskit) as documented in that branch's README.
 
 3. Build and install the `wayland-protocols` package from the `accessibility` branch of [my fork of wayland-protocols](https://gitlab.freedesktop.org/mwcampbell/wayland-protocols), using the standard procedure for building and installing this package with Meson.
 
@@ -37,13 +33,7 @@ Then, to run the prototype:
 
 2. Start Orca.
 
-3. Run the egui `hello_world` example from a terminal within the Mutter or GNOME Shell session. Run the following in the root of the egui checkout:
-
-    ```bash
-    ./target/debug/hello_world
-    ```
-
-Orca will only say "frame" when the egui `hello_world` initially receives focus. The fact that it doesn't say the window title is a known limitation that will be resolved soon. But once you focus a control in the window, e.g. by pressing Tab, Orca will start presenting more meaningful information.
+3. Run your choice of GTK 4 app using the modified version of GTK you built above.
 
 ------
 
