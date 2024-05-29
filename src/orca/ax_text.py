@@ -397,7 +397,7 @@ class AXText:
             return 0
 
         try:
-            if AXObject.is_newton():
+            if AXObject.is_newton(obj):
                 count = obj.get_character_count()
             else:
                 count = Atspi.Text.get_character_count(obj)
