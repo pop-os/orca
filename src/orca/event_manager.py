@@ -904,13 +904,13 @@ class EventManager:
         orca_modifier_manager.getManager().update_key_map(keyboardEvent)
 
     def _process_newton_key_event(self, released, state, keysym, unichar, keycode):
-        if unichar:
+        if unichar and unichar >= 0x20:
             try:
                 text = chr(unichar)
             except:
-                text = None
+                text = ""
         else:
-            text = None
+            text = ""
         def on_main_thread():
             self._processKeyboardEvent(None, not released, keycode, keysym, state, text)
         GLib.idle_add(on_main_thread)
