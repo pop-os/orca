@@ -57,6 +57,7 @@ class EventManager:
         self._gidleLock      = threading.Lock()
         self._listener = Atspi.EventListener.new(self._enqueue_object_event)
         self._newtonConsumer = newton_atspi_compat.Consumer(self._enqueue_object_event, self._process_newton_key_event)
+        orca_state.newton_consumer = self._newtonConsumer
         orca_state.device = None
         self.bypassedKey = None
         debug.printMessage(debug.LEVEL_INFO, 'Event manager initialized', True)
@@ -81,6 +82,7 @@ class EventManager:
         self._eventQueue = queue.Queue(0)
         self._scriptListenerCounts = {}
         orca_state.device = None
+        orca_state.newton_consumer = None
         debug.printMessage(debug.LEVEL_INFO, 'EVENT MANAGER: Deactivated', True)
 
     def pauseQueuing(self, pause=True, clearQueue=False, reason=""):

@@ -65,3 +65,5 @@ device = None
 # A list of AT-SPI key grabs for modifiers (ie, insert)
 #
 grabbedModifiers = {}
+
+newton_consumer = None

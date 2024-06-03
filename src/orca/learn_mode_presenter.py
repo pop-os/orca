@@ -132,7 +132,10 @@ class LearnModePresenter:
 
         msg = "LEARN MODE PRESENTER: Grabbing keyboard"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
-        Atspi.Device.grab_keyboard(orca_state.device)
+        if orca_state.newton_consumer:
+            orca_state.newton_consumer.grab_keyboard()
+        else:
+            Atspi.Device.grab_keyboard(orca_state.device)
 
         msg = "LEARN MODE PRESENTER: Is now active"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -155,7 +158,10 @@ class LearnModePresenter:
 
         msg = "LEARN MODE PRESENTER: Ungrabbing keyboard"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
-        Atspi.Device.ungrab_keyboard(orca_state.device)
+        if orca_state.newton_consumer:
+            orca_state.newton_consumer.ungrab_keyboard()
+        else:
+            Atspi.Device.ungrab_keyboard(orca_state.device)
 
         msg = "LEARN MODE PRESENTER: Is now inactive"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
