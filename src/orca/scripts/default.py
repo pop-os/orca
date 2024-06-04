@@ -29,7 +29,9 @@ __license__   = "LGPL"
 
 import gi
 gi.require_version('Atspi', '2.0')
+gi.require_version('Gdk', '3.0')
 from gi.repository import Atspi
+from gi.repository import Gdk
 
 import re
 import time
@@ -526,6 +528,13 @@ class Script(script.Script):
     def addKeyGrabs(self, reason=""):
         """ Sets up the key grabs currently needed by this script. """
 
+        if orca_state.newton_consumer:
+            modifiers = [Gdk.keyval_from_name(name) for name in settings.orcaModifierKeys]
+            self.keyBindings = self.getKeyBindings()
+            keystrokes = self.keyBindings.getNewtonKeystrokeGrabs()
+            orca_state.newton_consumer.set_key_grabs(modifiers, keystrokes)
+            return
+
         if not orca_state.device:
             msg = "WARNING: Attempting to add key grabs without a device."
             debug.printMessage(debug.LEVEL_WARNING, msg, True, True)
@@ -553,6 +562,10 @@ class Script(script.Script):
         msg = "DEFAULT: Clearing key bindings"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
         self.keyBindings = keybindings.KeyBindings()
+
+        if orca_state.newton_consumer:
+            orca_state.newton_consumer.set_key_grabs([], [])
+            return
 
         if not orca_state.device:
             msg = "WARNING: Attempting to remove key grabs without a device."

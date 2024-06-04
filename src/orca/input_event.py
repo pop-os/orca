@@ -617,6 +617,9 @@ class KeyboardEvent(InputEvent):
     def isLockingKey(self):
         """Return True if this is a locking key."""
 
+        if self._script and self._script.learnModePresenter.is_active():
+            return False
+
         if self.keyType:
             return self.keyType in KeyboardEvent.TYPE_LOCKING
 

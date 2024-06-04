@@ -336,6 +336,14 @@ class KeyBinding:
 
         return bool(self._grab_ids)
 
+    def getNewtonKeystrokeGrab(self):
+        if not (self.keysymstring and self._enabled):
+            return None
+        if self.modifiers & ORCA_MODIFIER_MASK:
+            return None
+        keysym = Gdk.keyval_from_name(self.keysymstring)
+        return (keysym, self.modifiers)
+
     def addGrabs(self):
         """Adds key grabs for this KeyBinding."""
 
@@ -428,6 +436,14 @@ class KeyBindings:
         """Returns True if there are no bindings in this set of keybindings."""
 
         return not self.keyBindings
+
+    def getNewtonKeystrokeGrabs(self):
+        result = []
+        for binding in self.keyBindings:
+            keystroke = binding.getNewtonKeystrokeGrab()
+            if keystroke:
+                result.append(keystroke)
+        return result
 
     def addKeyGrabs(self, reason=""):
         """Adds grabs for all enabled bindings in this set of keybindings."""
