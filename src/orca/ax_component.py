@@ -81,7 +81,10 @@ class AXComponent:
             return Atspi.Rect()
 
         try:
-            rect = Atspi.Component.get_extents(obj, Atspi.CoordType.WINDOW)
+            if AXObject.is_newton(obj):
+                return obj.get_extents(int(Atspi.CoordType.WINDOW))
+            else:
+                rect = Atspi.Component.get_extents(obj, Atspi.CoordType.WINDOW)
         except Exception as error:
             msg = f"AXComponent: Exception in get_rect: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
