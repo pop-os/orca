@@ -16,7 +16,7 @@ To run an end-to-end prototype of the Newton accessibility stack, first set up a
 
 4. Build and install Mutter from the `newton` branch of [my fork of Mutter](https://gitlab.gnome.org/mwcampbell/mutter), again using the standard procedure for building and installing this package with Meson.
 
-5. Build and install the `newton_atspi_compat` Python package from the [newton_atspi_compat repository](https://gitlab.gnome.org/mwcampbell/newton_atspi_compat), by running these commands from the root of a working copy of that repository:
+5. Build and install the `newton_atspi_compat` Python package from the [newton_consumer repository](https://gitlab.gnome.org/mwcampbell/newton_consumer), by running these commands from the root of a working copy of that repository:
 
     ```bash
     python -m pip wheel .
