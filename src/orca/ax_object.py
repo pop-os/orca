@@ -186,6 +186,8 @@ class AXObject:
             return False
 
         try:
+            if AXObject.is_newton(obj):
+                return obj.supports_action()
             iface = Atspi.Accessible.get_action_iface(obj)
         except Exception as error:
             msg = f"AXObject: Exception calling get_action_iface on {obj}: {error}"
@@ -1385,7 +1387,10 @@ class AXObject:
             return 0
 
         try:
-            count = Atspi.Action.get_n_actions(obj)
+            if AXObject.is_newton(obj):
+                count = obj.get_n_actions()
+            else:
+                count = Atspi.Action.get_n_actions(obj)
         except Exception as error:
             msg = f"AXObject: Exception in get_n_actions: {error}"
             AXObject.handle_error(obj, error, msg)
@@ -1412,7 +1417,10 @@ class AXObject:
             return ""
 
         try:
-            name = Atspi.Action.get_action_name(obj, i)
+            if AXObject.is_newton(obj):
+                name = obj.get_action_name(i)
+            else:
+                name = Atspi.Action.get_action_name(obj, i)
         except Exception as error:
             msg = f"AXObject: Exception in get_action_name: {error}"
             AXObject.handle_error(obj, error, msg)
@@ -1439,7 +1447,10 @@ class AXObject:
             return ""
 
         try:
-            description = Atspi.Action.get_action_description(obj, i)
+            if AXObject.is_newton(obj):
+                description = ""
+            else:
+                description = Atspi.Action.get_action_description(obj, i)
         except Exception as error:
             msg = f"AXObject: Exception in get_action_description: {error}"
             AXObject.handle_error(obj, error, msg)
@@ -1455,7 +1466,10 @@ class AXObject:
             return ""
 
         try:
-            keybinding = Atspi.Action.get_key_binding(obj, i)
+            if AXObject.is_newton(obj):
+                keybinding = ""
+            else:
+                keybinding = Atspi.Action.get_key_binding(obj, i)
         except Exception as error:
             msg = f"AXObject: Exception in get_action_key_binding: {error}"
             AXObject.handle_error(obj, error, msg)
@@ -1490,7 +1504,10 @@ class AXObject:
             return False
 
         try:
-            result = Atspi.Action.do_action(obj, i)
+            if AXObject.is_newton(obj):
+                result = obj.do_action(i)
+            else:
+                result = Atspi.Action.do_action(obj, i)
         except Exception as error:
             msg = f"AXObject: Exception in do_action: {error}"
             AXObject.handle_error(obj, error, msg)
