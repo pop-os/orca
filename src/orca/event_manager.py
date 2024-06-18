@@ -388,7 +388,8 @@ class EventManager:
 
         if e.type == "newton:pointer-moved":
             reviewer = mouse_review.getReviewer()
-            reviewer._enqueue_event(e)
+            if reviewer._active:
+                reviewer._enqueue_event(e)
             return
 
         if self._ignore(e):

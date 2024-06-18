@@ -36,12 +36,7 @@ gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 from gi.repository import GLib
 
-try:
-    gi.require_version("Wnck", "3.0")
-    from gi.repository import Wnck
-    _mouseReviewCapable = True
-except Exception:
-    _mouseReviewCapable = False
+_mouseReviewCapable = True # always true in the Newton prototype
 
 from . import cmdnames
 from . import debug
@@ -310,8 +305,7 @@ class _ItemContext:
                                         inMouseReview=True,
                                         interrupt=True)
 
-        # TODO: Remove the special case for Newton once we implement AXText.
-        if not AXObject.is_newton(self._obj) and not self._script.utilities.hasPresentableText(self._obj):
+        if not self._script.utilities.hasPresentableText(self._obj):
             msg = "MOUSE REVIEW: Not presenting object which lacks presentable text."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
@@ -431,25 +425,6 @@ class MouseReviewer:
         self._currentMouseOver = _ItemContext(obj=obj, frame=frame, script=script)
 
         self._eventListener.register("mouse:abs")
-        screen = Wnck.Screen.get_default()
-        if screen:
-            # On first startup windows and workspace are likely to be None,
-            # but the signals we connect to will get emitted when proper values
-            # become available;  but in case we got disabled and re-enabled we
-            # have to get the initial values manually.
-            stacked = screen.get_windows_stacked()
-            if stacked:
-                stacked.reverse()
-                self._all_windows = stacked
-            self._workspace = screen.get_active_workspace()
-            if self._workspace:
-                self._update_workspace_windows()
-
-            i = screen.connect("window-stacking-changed", self._on_stacking_changed)
-            self._handlerIds[i] = screen
-            i = screen.connect("active-workspace-changed", self._on_workspace_changed)
-            self._handlerIds[i] = screen
-
         self._active = True
 
     def deactivate(self):
