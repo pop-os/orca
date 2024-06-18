@@ -2521,6 +2521,12 @@ class Script(script.Script):
                 iterator = AXText.iter_line
 
             for string, start, end in iterator(obj, offset):
+                # Some speech engines won't call us back if we pass
+                # an empty or whitespace-only string, as we would get
+                # for blank lines in line mode.
+                if not string.strip():
+                    continue
+
                 voice = self.speechGenerator.voice(obj=obj, string=string)
                 if voice and isinstance(voice, list):
                     voice = voice[0]
