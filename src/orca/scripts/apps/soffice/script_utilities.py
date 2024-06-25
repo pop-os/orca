@@ -230,6 +230,9 @@ class Utilities(script_utilities.Utilities):
         Arguments:
         - event: the accessible event being examined
         """
+        # default logic for editable comboboxes works for LibreOffice >= 24.8
+        if self.isEditableDescendantOfComboBox(event.source):
+            return super().isAutoTextEvent(event)
 
         if AXObject.get_role(event.source) != Atspi.Role.PARAGRAPH:
             return False
@@ -360,6 +363,15 @@ class Utilities(script_utilities.Utilities):
 
     def presentEventFromNonShowingObject(self, event):
         return self.inDocumentContent(event.source)
+
+    def _isTopLevelObject(self, obj):
+        # https://bugs.documentfoundation.org/show_bug.cgi?id=160806
+        if AXObject.get_parent(obj) is None and AXObject.get_role(obj) in self._topLevelRoles():
+            tokens = ["SOFFICE:", obj, "has no parent. Treating as top-level."]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+            return True
+
+        return super()._isTopLevelObject(obj)
 
     def columnConvert(self, column):
         """ Convert a spreadsheet column into it's column label."""
