@@ -3,6 +3,9 @@ orca (46.2-1) unstable; urgency=medium
   [ Jeremy Bícha ]
   * Drop gedit patch: orca already handles org.*. app IDs
 
+  [ Samuel Thibault ]
+  * source/lintian-overrides: Shut lintian warning.
+
  -- Samuel Thibault <sthibault@debian.org>  Tue, 25 Jun 2024 21:45:24 +0200
 
 orca (46.1-1) unstable; urgency=medium
