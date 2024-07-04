@@ -68,15 +68,15 @@ class SpeechServer(speechserver.SpeechServer):
     @staticmethod
     def getSpeechServers():
         servers = []
-        default = SpeechServer._getSpeechServer(SpeechServer.DEFAULT_SERVER_ID)
+        default = SpeechServer._get_speech_server(SpeechServer.DEFAULT_SERVER_ID)
         if default is not None:
             servers.append(default)
             for module in default.list_output_modules():
-                servers.append(SpeechServer._getSpeechServer(module))
+                servers.append(SpeechServer._get_speech_server(module))
         return servers
 
     @classmethod
-    def _getSpeechServer(cls, serverId):
+    def _get_speech_server(cls, serverId):
         """Return an active server for given id.
 
         Attempt to create the server if it doesn't exist yet.  Returns None
@@ -90,9 +90,9 @@ class SpeechServer(speechserver.SpeechServer):
         return cls._active_servers.get(serverId)
 
     @staticmethod
-    def getSpeechServer(info=None):
+    def get_speech_server(info=None):
         thisId = info[1] if info is not None else SpeechServer.DEFAULT_SERVER_ID
-        return SpeechServer._getSpeechServer(thisId)
+        return SpeechServer._get_speech_server(thisId)
 
     @staticmethod
     def shutdownActiveServers():
@@ -150,8 +150,6 @@ class SpeechServer(speechserver.SpeechServer):
             debug.printMessage(debug.LEVEL_WARNING, msg, True)
         else:
             SpeechServer._active_servers[serverId] = self
-
-        self._lastKeyEchoTime = None
 
     def _init(self):
         self._client = client = speechd.SSIPClient('Orca', component=self._id)
@@ -275,7 +273,7 @@ class SpeechServer(speechserver.SpeechServer):
             f"volume {self._current_voice_properties.get(ACSS.GAIN)}, "
             f"language {self._get_language_and_dialect(family)[0]}, "
             f"punctuation: "
-            f"{styles.get(settings_manager.getManager().getSetting('verbalizePunctuationStyle'))}\n"
+            f"{styles.get(settings_manager.get_manager().get_setting('verbalizePunctuationStyle'))}\n"
             f"SD rate {sd_rate}, pitch {sd_pitch}, volume {sd_volume}, language {sd_language}"
         )
         debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -397,7 +395,7 @@ class SpeechServer(speechserver.SpeechServer):
         self.speak(decrease and messages.SPEECH_SOFTER \
                    or messages.SPEECH_LOUDER, acss=acss)
 
-    def getInfo(self):
+    def get_info(self):
         return [self._SERVER_NAMES.get(self._id, self._id), self._id]
 
     def getVoiceFamilies(self):
@@ -463,13 +461,6 @@ class SpeechServer(speechserver.SpeechServer):
         #if interrupt:
         #    self._cancel()
 
-        # "We will not interrupt a key echo in progress." (Said the comment in
-        # speech.py where these next two lines used to live. But the code here
-        # suggests we haven't been doing anything with the lastKeyEchoTime in
-        # years. TODO - JD: Dig into this and if it's truly useless, kill it.)
-        if self._lastKeyEchoTime:
-            interrupt = interrupt and (time.time() - self._lastKeyEchoTime) > 0.5
-
         if len(text) == 1:
             msg = f"SPEECH DISPATCHER: Speaking '{text}' as char"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -480,14 +471,14 @@ class SpeechServer(speechserver.SpeechServer):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._speak(text, acss)
 
-    def sayAll(self, utteranceIterator, progressCallback):
-        GLib.idle_add(self._say_all, utteranceIterator, progressCallback)
+    def say_all(self, utterance_iterator, progress_callback):
+        GLib.idle_add(self._say_all, utterance_iterator, progress_callback)
 
-    def speakCharacter(self, character, acss=None):
+    def speak_character(self, character, acss=None):
         self._apply_acss(acss)
 
         name = character
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         if script and script.utilities.speakMathSymbolNames():
             name = mathsymbols.getCharacterName(character)
 
@@ -499,9 +490,9 @@ class SpeechServer(speechserver.SpeechServer):
 
         self.speak(name, acss)
 
-    def speakKeyEvent(self, event, acss=None):
-        event_string = event.getKeyName()
-        lockingStateString = event.getLockingStateString()
+    def speak_key_event(self, event, acss=None):
+        event_string = event.get_key_name()
+        lockingStateString = event.get_locking_state_string()
         event_string = f"{event_string} {lockingStateString}".strip()
         if len(event_string) == 1:
             msg = f"SPEECH DISPATCHER: Speaking '{event_string}' as key"
@@ -512,7 +503,6 @@ class SpeechServer(speechserver.SpeechServer):
             msg = f"SPEECH DISPATCHER: Speaking '{event_string}' as string"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self.speak(event_string, acss=acss)
-        self._lastKeyEchoTime = time.time()
 
     def increaseSpeechRate(self, step=5):
         self._change_default_speech_rate(step)

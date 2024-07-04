@@ -102,16 +102,6 @@ except Exception:
     settings.enableBrailleMonitor = False
 
 
-# brlapi keys which are not allowed to interrupt speech:
-#
-dontInteruptSpeechKeys = []
-if _brlAPIAvailable:
-    dontInteruptSpeechKeys = [ \
-        brlapi.KEY_CMD_HWINLT, brlapi.KEY_CMD_HWINRT, \
-        brlapi.KEY_CMD_FWINLT, brlapi.KEY_CMD_FWINRT, \
-        brlapi.KEY_CMD_FWINLTSKIP, brlapi.KEY_CMD_FWINRTSKIP, \
-        brlapi.KEY_CMD_LNUP, brlapi.KEY_CMD_LNDN]
-
 # Common names for most used BrlTTY commands, to be shown in the GUI:
 # ATM, the ones used in default.py are:
 #
@@ -368,7 +358,7 @@ class Region:
     def __str__(self):
         return "Region: '%s', %d" % (self.string, self.cursorOffset)
 
-    def processRoutingKey(self, offset):
+    def process_routing_key(self, offset):
         """Processes a cursor routing key press on this Component.  The offset
         is 0-based, where 0 represents the leftmost character of string
         associated with this region.  Note that the zeroeth character may have
@@ -449,7 +439,7 @@ class Region:
 
         return offset
 
-    def setContractedBraille(self, contracted):
+    def set_contracted_braille(self, contracted):
         if contracted:
             self.contractionTable = settings.brailleContractionTable or _defaultContractionTable
             self.contractRegion()
@@ -513,13 +503,13 @@ class Component(Region):
         """
         return -1
 
-    def processRoutingKey(self, offset):
+    def process_routing_key(self, offset):
         """Processes a cursor routing key press on this Component.  The offset
         is 0-based, where 0 represents the leftmost character of string
         associated with this region.  Note that the zeroeth character may have
         been scrolled off the display."""
 
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         if script and script.utilities.grabFocusBeforeRouting(self.accessible, offset):
             AXObject.grab_focus(self.accessible)
 
@@ -577,7 +567,7 @@ class Text(Region):
     as bugzilla bug 319754.]]]"""
 
     def __init__(self, accessible, label="", eol="",
-                 startOffset=None, endOffset=None):
+                 startOffset=None, endOffset=None, caretOffset=None):
         """Creates a new Text region.
 
         Arguments:
@@ -585,16 +575,24 @@ class Text(Region):
         - label: an optional label to display
         """
 
+        tokens = ["BRAILLE: Creating text region for", accessible,
+                  f"label:'{label}', offsets: {startOffset}-{endOffset}, caret: {caretOffset}"]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
         self.accessible = accessible
         string = ""
         self.caretOffset = 0
         self.lineOffset = 0
         if self.accessible:
-            script = script_manager.getManager().getActiveScript()
-            if script:
-                [string, self.caretOffset, self.lineOffset] = \
-                     script.getTextLineAtCaret(
-                         self.accessible, startOffset=startOffset, endOffset=endOffset)
+            if caretOffset is not None:
+                self.caretOffset = caretOffset
+            else:
+                self.caretOffset = AXText.get_caret_offset(self.accessible)
+            if startOffset is not None:
+                self.caretOffset = max(startOffset, self.caretOffset)
+            string, self.lineOffset = AXText.get_line_at_offset(
+                self.accessible, self.caretOffset)[0:2]
+            string = string.replace("\ufffc", " ")
 
         try:
             endOffset = endOffset - self.lineOffset
@@ -648,8 +646,8 @@ class Text(Region):
         if not _regionWithFocus:
             return False
 
-        script = script_manager.getManager().getActiveScript()
-        [string, caretOffset, lineOffset] = script.getTextLineAtCaret(self.accessible)
+        string, lineOffset = AXText.get_line_at_offset(self.accessible)[0:2]
+        caretOffset = AXText.get_caret_offset(self.accessible)
         cursorOffset = min(caretOffset - lineOffset, len(string))
 
         if lineOffset != self.lineOffset:
@@ -682,7 +680,7 @@ class Text(Region):
 
         return min(self.lineOffset + offset, self._maxCaretOffset)
 
-    def processRoutingKey(self, offset):
+    def process_routing_key(self, offset):
         """Processes a cursor routing key press on this Component.  The offset
         is 0-based, where 0 represents the leftmost character of text
         associated with this region.  Note that the zeroeth character may have
@@ -694,7 +692,7 @@ class Text(Region):
         if caretOffset < 0:
             return
 
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         script.utilities.setCaretOffset(self.accessible, caretOffset)
 
     def getAttributeMask(self, getLinkMask=True):
@@ -721,7 +719,7 @@ class Text(Region):
         attrIndicator = settings.textAttributesBrailleIndicator
         selIndicator = settings.brailleSelectorIndicator
         linkIndicator = settings.brailleLinkIndicator
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         if script is None:
             msg = "BRAILLE: Cannot get attribute mask without active script."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -804,8 +802,8 @@ class Text(Region):
         offset -= len(self.label)
         return offset
 
-    def setContractedBraille(self, contracted):
-        Region.setContractedBraille(self, contracted)
+    def set_contracted_braille(self, contracted):
+        Region.set_contracted_braille(self, contracted)
         if not contracted:
             self.string += self.eol
 
@@ -867,14 +865,14 @@ class ReviewText(Region):
 
         return self.lineOffset + offset
 
-    def processRoutingKey(self, offset):
+    def process_routing_key(self, offset):
         """Processes a cursor routing key press on this Component.  The offset
         is 0-based, where 0 represents the leftmost character of text
         associated with this region.  Note that the zeroeth character may have
         been scrolled off the display."""
 
         caretOffset = self.getCaretOffset(offset)
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         script.utilities.setCaretOffset(self.accessible, caretOffset)
 
 class Line:
@@ -981,7 +979,7 @@ class Line:
         else:
             return [foundRegion, offset - pos]
 
-    def processRoutingKey(self, offset):
+    def process_routing_key(self, offset):
         """Processes a cursor routing key press on this Component.  The offset
         is 0-based, where 0 represents the leftmost character of string
         associated with this line.  Note that the zeroeth character may have
@@ -989,11 +987,11 @@ class Line:
 
         [region, regionOffset] = self.getRegionAtOffset(offset)
         if region:
-            region.processRoutingKey(regionOffset)
+            region.process_routing_key(regionOffset)
 
-    def setContractedBraille(self, contracted):
+    def set_contracted_braille(self, contracted):
         for region in self.regions:
-            region.setContractedBraille(contracted)
+            region.set_contracted_braille(contracted)
 
 def getRegionAtCell(cell):
     """Given a 1-based cell offset, return the braille region
@@ -1203,7 +1201,7 @@ def disableBraille():
         msg = "BRAILLE: BrlApi running and not idle."
         debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-        if not _idleBraille() and not settings_manager.getManager().getSetting('enableBraille'):
+        if not _idleBraille() and not settings_manager.get_manager().get_setting('enableBraille'):
             # BrlAPI before 0.8 and we really want to shut down
             msg = "BRAILLE: could not go idle, completely shut down"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -1215,7 +1213,7 @@ def checkBrailleSetting():
     msg = "BRAILLE: Checking braille setting."
     debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-    if not settings_manager.getManager().getSetting('enableBraille'):
+    if not settings_manager.get_manager().get_setting('enableBraille'):
         disableBraille()
 
 def refresh(panToCursor=True, targetCursorCell=0, getLinkMask=True, stopFlash=True):
@@ -1255,8 +1253,8 @@ def refresh(panToCursor=True, targetCursorCell=0, getLinkMask=True, stopFlash=Tr
         killFlash(restoreSaved=False)
 
     # TODO - JD: This should be taken care of in orca.py.
-    if not settings_manager.getManager().getSetting('enableBraille') \
-       and not settings_manager.getManager().getSetting('enableBrailleMonitor'):
+    if not settings_manager.get_manager().get_setting('enableBraille') \
+       and not settings_manager.get_manager().get_setting('enableBrailleMonitor'):
         if _brlAPIRunning:
             msg = "BRAILLE: FIXME - Braille disabled, but not properly shut down."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -1404,10 +1402,10 @@ def refresh(panToCursor=True, targetCursorCell=0, getLinkMask=True, stopFlash=Tr
 
     submask += '\x00' * (len(substring) - len(submask))
 
-    if settings_manager.getManager().getSetting('enableBraille'):
+    if settings_manager.get_manager().get_setting('enableBraille'):
         _enableBraille()
 
-    if settings_manager.getManager().getSetting('enableBraille') and _brlAPIRunning:
+    if settings_manager.get_manager().get_setting('enableBraille') and _brlAPIRunning:
         writeStruct = brlapi.WriteStruct()
         writeStruct.regionBegin = 1
         writeStruct.regionSize = len(substring)
@@ -1588,9 +1586,9 @@ def displayKeyEvent(event):
     """Displays a KeyboardEvent. Typically reserved for locking keys like
     Caps Lock and Num Lock."""
 
-    lockingStateString = event.getLockingStateString()
+    lockingStateString = event.get_locking_state_string()
     if lockingStateString:
-        keyname = event.getKeyName()
+        keyname = event.get_key_name()
         msg = f"{keyname} {lockingStateString}"
         displayMessage(msg, flashTime=settings.brailleFlashTime)
 
@@ -1628,53 +1626,53 @@ def _getRangeForOffset(offset):
 
     return [0, 0]
 
-def panLeft(panAmount=0):
+def panLeft(pan_amount=0):
     """Pans the display to the left, limiting the pan to the beginning
     of the line being displayed.
 
     Arguments:
-    - panAmount: the amount to pan.  A value of 0 means the entire
+    - pan_amount: the amount to pan.  A value of 0 means the entire
                  width of the physical display.
 
     Returns True if a pan actually happened.
     """
 
     oldX = viewport[0]
-    if panAmount == 0:
+    if pan_amount == 0:
         oldStart, oldEnd = _getRangeForOffset(oldX)
         newStart, newEnd = _getRangeForOffset(oldStart - _displaySize[0])
-        panAmount = max(0, min(oldStart - newStart, _displaySize[0]))
+        pan_amount = max(0, min(oldStart - newStart, _displaySize[0]))
 
-    viewport[0] = max(0, viewport[0] - panAmount)
-    msg = f"BRAILLE: Panning left. Amount: {panAmount} (from {oldX} to {viewport[0]})"
+    viewport[0] = max(0, viewport[0] - pan_amount)
+    msg = f"BRAILLE: Panning left. Amount: {pan_amount} (from {oldX} to {viewport[0]})"
     debug.printMessage(debug.LEVEL_INFO, msg, True)
     return oldX != viewport[0]
 
-def panRight(panAmount=0):
+def panRight(pan_amount=0):
     """Pans the display to the right, limiting the pan to the length
     of the line being displayed.
 
     Arguments:
-    - panAmount: the amount to pan.  A value of 0 means the entire
+    - pan_amount: the amount to pan.  A value of 0 means the entire
                  width of the physical display.
 
     Returns True if a pan actually happened.
     """
 
     oldX = viewport[0]
-    if panAmount == 0:
+    if pan_amount == 0:
         oldStart, oldEnd = _getRangeForOffset(oldX)
         newStart, newEnd = _getRangeForOffset(oldEnd)
-        panAmount = max(0, min(newStart - oldStart, _displaySize[0]))
+        pan_amount = max(0, min(newStart - oldStart, _displaySize[0]))
 
     if len(_lines) > 0:
         lineNum = viewport[1]
-        newX = viewport[0] + panAmount
+        newX = viewport[0] + pan_amount
         string, focusOffset, attributeMask, ranges = _lines[lineNum].getLineInfo()
         if newX < len(string):
             viewport[0] = newX
 
-    msg = f"BRAILLE: Panning right. Amount: {panAmount} (from {oldX} to {viewport[0]})"
+    msg = f"BRAILLE: Panning right. Amount: {pan_amount} (from {oldX} to {viewport[0]})"
     debug.printMessage(debug.LEVEL_INFO, msg, True)
     return oldX != viewport[0]
 
@@ -1707,7 +1705,7 @@ def returnToRegionWithFocus(inputEvent=None):
 
     return True
 
-def setContractedBraille(event):
+def set_contracted_braille(event):
     """Turns contracted braille on or off based upon the event.
 
     Arguments:
@@ -1718,10 +1716,10 @@ def setContractedBraille(event):
     settings.enableContractedBraille = \
         (event.event["flags"] & brlapi.KEY_FLG_TOGGLE_ON) != 0
     for line in _lines:
-        line.setContractedBraille(settings.enableContractedBraille)
+        line.set_contracted_braille(settings.enableContractedBraille)
     refresh()
 
-def processRoutingKey(event):
+def process_routing_key(event):
     """Processes a cursor routing key event.
 
     Arguments:
@@ -1740,7 +1738,7 @@ def processRoutingKey(event):
     if len(_lines) > 0:
         cursor = cell + viewport[0]
         lineNum = viewport[1]
-        _lines[lineNum].processRoutingKey(cursor)
+        _lines[lineNum].process_routing_key(cursor)
 
     return True
 
@@ -1754,16 +1752,6 @@ def _processBrailleEvent(event):
 
     tokens = ["BRAILLE: Processing event", event]
     debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-    script = script_manager.getManager().getActiveScript()
-    if script and event['command'] not in dontInteruptSpeechKeys:
-        # We aren't killing flash here because we were not doing so before, when
-        # this logic was in orca.py; instead, we were calling speech.stop. But that
-        # code predated the existence of presentationInterrupt. Maybe flash should
-        # be killed as well?
-        script.presentationInterrupt(killFlash=False)
-
-    consumed = False
 
     if settings.timeoutCallback and (settings.timeoutTime > 0):
         signal.signal(signal.SIGALRM, settings.timeoutCallback)
@@ -1848,7 +1836,7 @@ def setBrlapiPriority(level=BRLAPI_PRIORITY_DEFAULT):
     global idle, brlapi_priority
 
     if not _brlAPIAvailable or not _brlAPIRunning \
-       or not settings_manager.getManager().getSetting('enableBraille'):
+       or not settings_manager.get_manager().get_setting('enableBraille'):
         return
 
     if idle:

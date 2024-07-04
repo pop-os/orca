@@ -18,6 +18,10 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=broad-exception-caught
+# pylint: disable=wrong-import-position
+# pylint: disable=too-many-public-methods
+
 """Provides support for synthesizing accessible input events."""
 
 __id__        = "$Id$"
@@ -30,11 +34,9 @@ __license__   = "LGPL"
 import time
 
 import gi
-
 gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
-
 gi.require_version("Gtk", "3.0")
+from gi.repository import Atspi
 from gi.repository import Gtk
 
 from . import debug
@@ -42,7 +44,7 @@ from . import focus_manager
 from .ax_component import AXComponent
 from .ax_object import AXObject
 from .ax_text import AXText
-from .ax_utilities import AXUtilities
+from .ax_utilities_role import AXUtilitiesRole
 
 class AXEventSynthesizer:
     """Provides support for synthesizing accessible input events."""
@@ -53,7 +55,7 @@ class AXEventSynthesizer:
     def _window_coordinates_to_screen_coordinates(x, y):
         # TODO - JD: This is a workaround to keep things working until we have something like
         # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/158
-        active_window = focus_manager.getManager().get_active_window()
+        active_window = focus_manager.get_manager().get_active_window()
         if active_window is None:
             msg = "AXEventSynthesizer: Could not get active window to adjust coordinates"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -89,7 +91,7 @@ class AXEventSynthesizer:
         """Returns the current mouse coordinates."""
 
         root_window = Gtk.Window().get_screen().get_root_window()
-        window, x_coord, y_coord, modifiers = root_window.get_pointer()
+        _window, x_coord, y_coord, _modifiers = root_window.get_pointer()
         tokens = ["AXEventSynthesizer: Mouse coordinates:", x_coord, ",", y_coord]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return x_coord, y_coord
@@ -282,9 +284,9 @@ class AXEventSynthesizer:
     def _containing_document(obj):
         """Returns the document containing obj"""
 
-        document = AXObject.find_ancestor(obj, AXUtilities.is_document)
+        document = AXObject.find_ancestor(obj, AXUtilitiesRole.is_document)
         while document:
-            ancestor = AXObject.find_ancestor(document, AXUtilities.is_document)
+            ancestor = AXObject.find_ancestor(document, AXUtilitiesRole.is_document)
             if ancestor is None or ancestor == document:
                 break
             document = ancestor
@@ -395,7 +397,7 @@ class AXEventSynthesizer:
     def try_all_clickable_actions(obj):
         """Attempts to perform a click-like action if one is available."""
 
-        actions = ["click", "press", "jump", "open"]
+        actions = ["click", "press", "jump", "open", "activate"]
         for action in actions:
             if AXObject.do_named_action(obj, action):
                 tokens = ["AXEventSynthesizer: '", action, "' on", obj, "performed successfully"]
@@ -410,5 +412,7 @@ class AXEventSynthesizer:
         return False
 
 _synthesizer = AXEventSynthesizer()
-def getSynthesizer():
+def get_synthesizer():
+    """Returns the Event Synthesizer."""
+
     return _synthesizer

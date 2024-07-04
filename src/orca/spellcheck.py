@@ -162,7 +162,7 @@ class SpellCheck:
             return False
 
         msg = messages.MISSPELLED_WORD_CONTEXT % string
-        voice = self._script.speechGenerator.voice(string=msg)
+        voice = self._script.speech_generator.voice(string=msg)
         self._script.speakMessage(msg, voice=voice)
         return True
 
@@ -172,7 +172,7 @@ class SpellCheck:
 
         self._script.clearBraille()
         msg = self.getCompletionMessage()
-        voice = self._script.speechGenerator.voice(string=msg)
+        voice = self._script.speech_generator.voice(string=msg)
         self._script.presentMessage(msg, voice=voice)
         return True
 
@@ -182,7 +182,7 @@ class SpellCheck:
 
         if self.presentMistake(detailed):
             self.presentSuggestion(detailed)
-            if detailed or settings_manager.getManager().getSetting('spellcheckPresentContext'):
+            if detailed or settings_manager.get_manager().get_setting('spellcheckPresentContext'):
                 self.presentContext()
             return True
 
@@ -197,10 +197,10 @@ class SpellCheck:
             return False
 
         msg = messages.MISSPELLED_WORD % word
-        voice = self._script.speechGenerator.voice(string=msg)
+        voice = self._script.speech_generator.voice(string=msg)
         self._script.speakMessage(msg, voice=voice)
-        if detailed or settings_manager.getManager().getSetting('spellcheckSpellError'):
-            self._script.spellCurrentItem(word)
+        if detailed or settings_manager.get_manager().get_setting('spellcheckSpellError'):
+            self._script.spell_item(word)
 
         return True
 
@@ -218,10 +218,10 @@ class SpellCheck:
         label = self._script.utilities.displayedLabel(entry) or AXObject.get_name(entry)
         string = self._script.utilities.substring(entry, 0, -1)
         msg = f"{label} {string}"
-        voice = self._script.speechGenerator.voice(string=msg)
+        voice = self._script.speech_generator.voice(string=msg)
         self._script.speakMessage(msg, voice=voice)
-        if detailed or settings_manager.getManager().getSetting('spellcheckSpellSuggestion'):
-            self._script.spellCurrentItem(string)
+        if detailed or settings_manager.get_manager().get_setting('spellcheckSpellSuggestion'):
+            self._script.spell_item(string)
 
         return True
 
@@ -245,13 +245,13 @@ class SpellCheck:
         string = AXObject.get_name(items[0])
 
         msg = f"{label} {string}"
-        voice = self._script.speechGenerator.voice(string=msg)
+        voice = self._script.speech_generator.voice(string=msg)
         self._script.speakMessage(msg.strip(), voice=voice)
-        if detailed or settings_manager.getManager().getSetting('spellcheckSpellSuggestion'):
-            self._script.spellCurrentItem(string)
+        if detailed or settings_manager.get_manager().get_setting('spellcheckSpellSuggestion'):
+            self._script.spell_item(string)
 
-        if settings_manager.getManager().getSetting('enablePositionSpeaking') \
-           and items[0] == focus_manager.getManager().get_locus_of_focus():
+        if settings_manager.get_manager().get_setting('enablePositionSpeaking') \
+           and items[0] == focus_manager.get_manager().get_locus_of_focus():
             index, total = self._getSuggestionIndexAndPosition(items[0])
             msg = object_properties.GROUP_INDEX_SPEECH % {"index": index, "total": total}
             self._script.speakMessage(msg)
@@ -280,7 +280,7 @@ class SpellCheck:
     def _getSuggestionIndexAndPosition(self, suggestion):
         return -1, -1
 
-    def getAppPreferencesGUI(self):
+    def get_app_preferences_gui(self):
 
         from gi.repository import Gtk
 
@@ -297,26 +297,26 @@ class SpellCheck:
         alignment.add(grid)
 
         label = guilabels.SPELL_CHECK_SPELL_ERROR
-        value = settings_manager.getManager().getSetting('spellcheckSpellError')
+        value = settings_manager.get_manager().get_setting('spellcheckSpellError')
         self.spellErrorCheckButton = Gtk.CheckButton.new_with_mnemonic(label)
         self.spellErrorCheckButton.set_active(value)
         grid.attach(self.spellErrorCheckButton, 0, 0, 1, 1)
 
         label = guilabels.SPELL_CHECK_SPELL_SUGGESTION
-        value = settings_manager.getManager().getSetting('spellcheckSpellSuggestion')
+        value = settings_manager.get_manager().get_setting('spellcheckSpellSuggestion')
         self.spellSuggestionCheckButton = Gtk.CheckButton.new_with_mnemonic(label)
         self.spellSuggestionCheckButton.set_active(value)
         grid.attach(self.spellSuggestionCheckButton, 0, 1, 1, 1)
 
         label = guilabels.SPELL_CHECK_PRESENT_CONTEXT
-        value = settings_manager.getManager().getSetting('spellcheckPresentContext')
+        value = settings_manager.get_manager().get_setting('spellcheckPresentContext')
         self.presentContextCheckButton = Gtk.CheckButton.new_with_mnemonic(label)
         self.presentContextCheckButton.set_active(value)
         grid.attach(self.presentContextCheckButton, 0, 2, 1, 1)
 
         return frame
 
-    def getPreferencesFromGUI(self):
+    def get_preferences_from_gui(self):
         """Returns a dictionary with the app-specific preferences."""
 
         return {

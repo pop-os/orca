@@ -314,11 +314,11 @@ class StateZone(Zone):
         if attr not in ["string", "brailleString"]:
             return super().__getattribute__(attr)
 
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         if attr == "string":
-            generator = script.speechGenerator
+            generator = script.speech_generator
         else:
-            generator = script.brailleGenerator
+            generator = script.braille_generator
 
         result = generator.getStateIndicator(self.accessible, role=self.role)
         if result:
@@ -339,11 +339,11 @@ class ValueZone(Zone):
         if attr not in ["string", "brailleString"]:
             return super().__getattribute__(attr)
 
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         if attr == "string":
-            generator = script.speechGenerator
+            generator = script.speech_generator
         else:
-            generator = script.brailleGenerator
+            generator = script.braille_generator
 
         result = ""
 
@@ -481,7 +481,7 @@ class Context:
         self.targetCharInfo = None
         self.focusZone = None
         self.container = None
-        self.focusObj = focus_manager.getManager().get_locus_of_focus()
+        self.focusObj = focus_manager.get_manager().get_locus_of_focus()
         self.topLevel = None
         self.bounds = Atspi.Rect()
 
@@ -663,11 +663,11 @@ class Context:
             string = ""
             redundant = [Atspi.Role.TABLE_ROW]
             if role not in redundant:
-                string = self.script.speechGenerator.getName(accessible, inFlatReview=True)
+                string = self.script.speech_generator.getName(accessible, inFlatReview=True)
 
             useless = [Atspi.Role.TABLE_CELL, Atspi.Role.LABEL]
             if not string and role not in useless:
-                string = self.script.speechGenerator.getRoleName(accessible)
+                string = self.script.speech_generator.getRoleName(accessible)
             if string:
                 zones.append(Zone(accessible, string, *extents))
 

@@ -19,6 +19,9 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=broad-exception-caught
+# pylint: disable=wrong-import-position
+
 """
 Utilities for obtaining position-related information about accessible objects.
 These utilities are app-type- and toolkit-agnostic. Utilities that might have
@@ -44,7 +47,7 @@ from gi.repository import Atspi
 
 from . import debug
 from .ax_object import AXObject
-from .ax_utilities import AXUtilities
+from .ax_utilities_role import AXUtilitiesRole
 
 
 class AXComponent:
@@ -218,7 +221,7 @@ class AXComponent:
                 tokens = ["AXComponent: Treating", obj, "as offscreen due to size and no children"]
                 debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 return True
-            if AXUtilities.is_menu(obj):
+            if AXUtilitiesRole.is_menu(obj):
                 tokens = ["AXComponent: Treating", obj, "as offscreen due to size and role"]
                 debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 return True
@@ -257,7 +260,7 @@ class AXComponent:
     def _object_bounds_includes_children(obj):
         """Returns True if obj's rect is expected to include the rects of its children."""
 
-        if AXUtilities.is_menu(obj) or AXUtilities.is_page_tab(obj):
+        if AXUtilitiesRole.is_menu(obj) or AXUtilitiesRole.is_page_tab(obj):
             return False
 
         rect = AXComponent.get_rect(obj)

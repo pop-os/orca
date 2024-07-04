@@ -27,58 +27,41 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2018 Igalia, S.L."
 __license__   = "LGPL"
 
-import gi
-gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
-
-import orca.scripts.toolkits.gtk as gtk
+from orca.scripts.toolkits import gtk
 from .chat import Chat
 
 class Script(gtk.Script):
 
-    def __init__(self, app):
-        """Creates a new script for the given application."""
-
-        # So we can take an educated guess at identifying the buddy list.
-        self._buddyListAncestries = [[Atspi.Role.TREE_TABLE,
-                                      Atspi.Role.SCROLL_PANE,
-                                      Atspi.Role.SPLIT_PANE,
-                                      Atspi.Role.SPLIT_PANE,
-                                      Atspi.Role.FILLER,
-                                      Atspi.Role.FRAME]]
-
-        super().__init__(app)
-
-    def getChat(self):
+    def get_chat(self):
         """Returns the 'chat' class for this script."""
 
-        return Chat(self, self._buddyListAncestries)
+        return Chat(self)
 
-    def setupInputEventHandlers(self):
-        """Defines InputEventHandler fields for this script."""
+    def setup_input_event_handlers(self):
+        """Defines the input event handlers for this script."""
 
-        super().setupInputEventHandlers()
-        self.inputEventHandlers.update(self.chat.inputEventHandlers)
+        super().setup_input_event_handlers()
+        self.input_event_handlers.update(self.chat.input_event_handlers)
 
-    def getAppKeyBindings(self):
+    def get_app_key_bindings(self):
         """Returns the application-specific keybindings for this script."""
 
-        return self.chat.keyBindings
+        return self.chat.key_bindings
 
-    def getAppPreferencesGUI(self):
+    def get_app_preferences_gui(self):
         """Return a GtkGrid containing the application unique configuration."""
 
-        return self.chat.getAppPreferencesGUI()
+        return self.chat.get_app_preferences_gui()
 
-    def getPreferencesFromGUI(self):
+    def get_preferences_from_gui(self):
         """Returns a dictionary with the app-specific preferences."""
 
-        return self.chat.getPreferencesFromGUI()
+        return self.chat.get_preferences_from_gui()
 
-    def onTextInserted(self, event):
-        """Called whenever text is added to an object."""
+    def on_text_inserted(self, event):
+        """Callback for object:text-changed:insert accessibility events."""
 
         if self.chat.presentInsertedText(event):
             return
 
-        super().onTextInserted(event)
+        super().on_text_inserted(event)

@@ -36,11 +36,11 @@ from . import debug
 from . import focus_manager
 from . import guilabels
 from . import input_event
+from . import input_event_manager
 from . import keybindings
 from . import messages
 from . import object_properties
 from . import orca_gui_navlist
-from . import orca_state
 from . import settings
 from . import settings_manager
 from .ax_collection import AXCollection
@@ -93,7 +93,7 @@ class StructuralNavigationObject:
           and predicate.
         """
 
-        self.structuralNavigation = structuralNavigation
+        self.structural_navigation = structuralNavigation
         self.objType = objType
         self.bindings = bindings
         self.predicate = predicate
@@ -102,13 +102,13 @@ class StructuralNavigationObject:
         self._dialogData = dialogData
         self.getter = getter
 
-        self.inputEventHandlers = {}
-        self.keyBindings = keybindings.KeyBindings()
+        self.input_event_handlers = {}
+        self.key_bindings = keybindings.KeyBindings()
         self.functions = []
         self._setUpHandlersAndBindings()
 
     def _setUpHandlersAndBindings(self):
-        """Adds the inputEventHandlers and keyBindings for this object."""
+        """Adds the.input_event_handlers and keyBindings for this object."""
 
         # Set up the basic handlers.  These are our traditional goPrevious
         # and goNext functions.
@@ -117,15 +117,15 @@ class StructuralNavigationObject:
         if previousBinding:
             [keysymstring, modifiers, description] = previousBinding
             handlerName = f"{self.objType}GoPrevious"
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(self.goPrevious, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(self.goPrevious)
 
@@ -133,15 +133,15 @@ class StructuralNavigationObject:
         if nextBinding:
             [keysymstring, modifiers, description] = nextBinding
             handlerName = f"{self.objType}GoNext"
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(self.goNext, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(self.goNext)
 
@@ -149,15 +149,15 @@ class StructuralNavigationObject:
         if listBinding:
             [keysymstring, modifiers, description] = listBinding
             handlerName = f"{self.objType}ShowList"
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(self.showList, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(self.showList)
 
@@ -171,15 +171,15 @@ class StructuralNavigationObject:
             handlerName = "%sGoPreviousLevel%dHandler" % (self.objType, level)
             keysymstring, modifiers, description = binding
 
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(handler, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(handler)
 
@@ -190,15 +190,15 @@ class StructuralNavigationObject:
             handlerName = "%sGoNextLevel%dHandler" % (self.objType, level)
             keysymstring, modifiers, description = binding
 
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(handler, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(handler)
 
@@ -209,15 +209,15 @@ class StructuralNavigationObject:
             handlerName = "%sShowListAtLevel%dHandler" % (self.objType, level)
             keysymstring, modifiers, description = binding
 
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(handler, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(handler)
 
@@ -244,35 +244,35 @@ class StructuralNavigationObject:
             handlerName = f"{self.objType}Go{direction}"
             keysymstring, modifiers, description = binding
 
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(handler, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(handler)
 
     def goPrevious(self, script, inputEvent):
         """Go to the previous object."""
-        self.structuralNavigation.goObject(self, False, inputEvent)
+        self.structural_navigation.goObject(self, False, inputEvent)
 
     def goNext(self, script, inputEvent):
         """Go to the next object."""
-        self.structuralNavigation.goObject(self, True, inputEvent)
+        self.structural_navigation.goObject(self, True, inputEvent)
 
     def showList(self, script, inputEvent):
         """Show a list of all the items with this object type."""
 
-        objects = self.structuralNavigation._getAll(self)
+        objects = self.structural_navigation._getAll(self)
 
         def _isValidMatch(x):
             if AXObject.is_dead(x):
                 return False
-            return not (script.utilities.isHidden(x) or script.utilities.isEmpty(x))
+            return not (script.utilities.isHidden(x) or script.utilities.is_empty(x))
 
         objects = list(filter(_isValidMatch, objects))
 
@@ -311,7 +311,7 @@ class StructuralNavigationObject:
         """
 
         def goPreviousAtLevel(script, inputEvent):
-            self.structuralNavigation.goObject(self, False, inputEvent, arg=level)
+            self.structural_navigation.goObject(self, False, inputEvent, arg=level)
         return goPreviousAtLevel
 
     def goNextAtLevelFactory(self, level):
@@ -326,7 +326,7 @@ class StructuralNavigationObject:
         """
 
         def goNextAtLevel(script, inputEvent):
-            self.structuralNavigation.goObject(self, True, inputEvent, arg=level)
+            self.structural_navigation.goObject(self, True, inputEvent, arg=level)
         return goNextAtLevel
 
     def showListAtLevelFactory(self, level):
@@ -340,10 +340,10 @@ class StructuralNavigationObject:
         """
 
         def showListAtLevel(script, inputEvent):
-            objects = self.structuralNavigation._getAll(self, arg=level)
+            objects = self.structural_navigation._getAll(self, arg=level)
 
             def _isValidMatch(x):
-                return not (script.utilities.isHidden(x) or script.utilities.isEmpty(x))
+                return not (script.utilities.isHidden(x) or script.utilities.is_empty(x))
 
             objects = list(filter(_isValidMatch, objects))
             if self.predicate is not None:
@@ -373,13 +373,13 @@ class StructuralNavigationObject:
         def goLastLiveRegion(script, inputEvent):
             """Go to the last liveRegion."""
             if settings.inferLiveRegions:
-                script.liveRegionManager.goLastLiveRegion()
+                script.live_region_manager.goLastLiveRegion()
             else:
                 script.presentMessage(messages.LIVE_REGIONS_OFF)
 
         def goContainerEdge(script, inputEvent):
             isStart = direction == "Start"
-            self.structuralNavigation.goEdge(self, isStart, inputEvent)
+            self.structural_navigation.goEdge(self, isStart, inputEvent)
 
         if self.objType == StructuralNavigation.CONTAINER:
             return goContainerEdge
@@ -396,7 +396,7 @@ class StructuralNavigationObject:
 class StructuralNavigation:
     """This class implements the structural navigation functionality which
     is available to scripts. Scripts interested in implementing structural
-    navigation need to override getEnabledStructuralNavigationTypes() and
+    navigation need to override get_enabled_structural_navigation_types() and
     return a list of StructuralNavigation object types which should be
     enabled.
     """
@@ -408,7 +408,7 @@ class StructuralNavigation:
     # methods: _fooBindings(), _fooPredicate(), _fooCriteria(), and
     # _fooPresentation(). With these in place, and with the object
     # FOO included among the object types returned by the script's
-    # getEnabledStructuralNavigationTypes(), the StructuralNavigation
+    # get_enabled_structural_navigation_types(), the StructuralNavigation
     # object should be created and set up automagically. At least that
     # is the idea. :-) This hopefully will also enable easy re-definition
     # of existing StructuralNavigationObjects on a script-by-script basis.
@@ -611,7 +611,7 @@ class StructuralNavigation:
                  enabled = not self._suspended)
 
         for structuralNavigationObject in self.enabledObjects.values():
-            handlers = structuralNavigationObject.inputEventHandlers
+            handlers = structuralNavigationObject.input_event_handlers
             for key in handlers:
                 handlers[key].set_enabled(not self._suspended and self.enabled)
             self._handlers.update(handlers)
@@ -627,7 +627,7 @@ class StructuralNavigation:
             msg = "STRUCTURAL NAVIGATION: Refreshing bindings."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._setup_bindings()
-        elif self._bindings.isEmpty():
+        elif self._bindings.is_empty():
             self._setup_bindings()
 
         return self._bindings
@@ -642,20 +642,20 @@ class StructuralNavigation:
         self._bindings.add(
             keybindings.KeyBinding(
                 "z",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers["toggleStructuralNavigationHandler"],
                 1,
                 not self._suspended))
 
         for structuralNavigationObject in self.enabledObjects.values():
-            bindings = structuralNavigationObject.keyBindings.keyBindings
+            bindings = structuralNavigationObject.key_bindings.key_bindings
             for keybinding in bindings:
                 keybinding.set_enabled(self.enabled and not self._suspended)
                 self._bindings.add(keybinding)
 
         # This pulls in the user's overrides to alternative keys.
-        self._bindings = settings_manager.getManager().overrideKeyBindings(
+        self._bindings = settings_manager.get_manager().override_key_bindings(
             self._handlers, self._bindings, False)
 
         msg = f"STRUCTURAL NAVIGATION: Bindings set up. Suspended: {self._suspended}"
@@ -667,12 +667,10 @@ class StructuralNavigation:
     def last_input_event_was_navigation_command(self):
         """Returns true if the last input event was a navigation command."""
 
-        result = self._last_input_event is not None \
-            and (self._last_input_event == orca_state.lastNonModifierKeyEvent \
-                or orca_state.lastNonModifierKeyEvent.isReleaseFor(self._last_input_event))
-
+        manager = input_event_manager.get_manager()
+        result = manager.last_event_equals_or_is_release_for_event(self._last_input_event)
         if self._last_input_event is not None:
-            string = self._last_input_event.asSingleLineString()
+            string = self._last_input_event.as_single_line_string()
         else:
             string = "None"
 
@@ -688,14 +686,14 @@ class StructuralNavigation:
             msg += f": {reason}"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-        for binding in self._bindings.keyBindings:
-            script.keyBindings.remove(binding, includeGrabs=True)
+        for binding in self._bindings.key_bindings:
+            script.key_bindings.remove(binding, include_grabs=True)
 
         self._handlers = self.get_handlers(True)
         self._bindings = self.get_bindings(True)
 
-        for binding in self._bindings.keyBindings:
-            script.keyBindings.add(binding, includeGrabs=not self._suspended)
+        for binding in self._bindings.key_bindings:
+            script.key_bindings.add(binding, include_grabs=not self._suspended)
 
     def toggleStructuralNavigation(self, script, inputEvent, presentMessage=True):
         """Toggles structural navigation keys."""
@@ -740,7 +738,7 @@ class StructuralNavigation:
         """Returns all the instances of structuralNavigationObject."""
 
         modalDialog = self._script.utilities.getModalDialog(
-            focus_manager.getManager().get_locus_of_focus())
+            focus_manager.get_manager().get_locus_of_focus())
         inModalDialog = bool(modalDialog)
         if self._inModalDialog != inModalDialog:
             msg = (
@@ -847,7 +845,7 @@ class StructuralNavigation:
         def _isValidMatch(obj):
             if AXObject.is_dead(obj):
                 return False
-            if self._script.utilities.isHidden(obj) or self._script.utilities.isEmpty(obj):
+            if self._script.utilities.isHidden(obj) or self._script.utilities.is_empty(obj):
                 return False
             if structuralNavigationObject.predicate is None:
                 return True
@@ -930,8 +928,8 @@ class StructuralNavigation:
             return False
 
         if role == Atspi.Role.SECTION \
-           and not self._script.utilities.isLandmark(obj) \
-           and not self._script.utilities.isBlockquote(obj):
+           and not AXUtilities.is_landmark(obj) \
+           and not AXUtilities.is_block_quote(obj):
             return False
 
         return self._script.utilities.inDocumentContent(obj)
@@ -1010,7 +1008,7 @@ class StructuralNavigation:
         if self._presentWithSayAll(obj, offset):
             return
 
-        self._script.updateBraille(obj)
+        self._script.update_braille(obj)
         self._script.sayLine(obj)
 
     def _presentObject(self, obj, offset, priorObj=None):
@@ -1032,8 +1030,8 @@ class StructuralNavigation:
 
     def _presentWithSayAll(self, obj, offset):
         if self._script.inSayAll() \
-           and settings_manager.getManager().getSetting('structNavInSayAll'):
-            self._script.sayAll(obj, offset)
+           and settings_manager.get_manager().get_setting('structNavInSayAll'):
+            self._script.say_all(obj, offset)
             return True
 
         return False
@@ -1041,7 +1039,7 @@ class StructuralNavigation:
     def _getRoleName(self, obj):
         # Another case where we'll do this for now, and clean it up when
         # object presentation is refactored.
-        return self._script.speechGenerator.getLocalizedRoleName(obj)
+        return self._script.speech_generator.getLocalizedRoleName(obj)
 
     def _getSelectedItem(self, obj):
         # Another case where we'll do this for now, and clean it up when
@@ -1081,7 +1079,7 @@ class StructuralNavigation:
         # object presentation is refactored.
         label = self._script.utilities.displayedLabel(obj)
         if not label:
-            label, objects = self._script.labelInference.infer(
+            label, objects = self._script.label_inference.infer(
                 obj, focusedOnly=False)
 
         return label
@@ -1741,7 +1739,7 @@ class StructuralNavigation:
 
         thisList = None
         priorList = None
-        focus = focus_manager.getManager().get_locus_of_focus()
+        focus = focus_manager.get_manager().get_locus_of_focus()
         if AXUtilities.is_list_item(obj):
             thisList = AXObject.find_ancestor(obj, AXUtilities.is_list)
             priorList = AXObject.find_ancestor(focus, AXUtilities.is_list)

@@ -44,9 +44,6 @@ from orca.ax_utilities import AXUtilities
 
 class BrailleGenerator(braille_generator.BrailleGenerator):
 
-    def __init__(self, script):
-        super().__init__(script)
-
     def getLocalizedRoleName(self, obj, **args):
         if not self._script.utilities.inDocumentContent(obj):
             return super().getLocalizedRoleName(obj, **args)
@@ -93,7 +90,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
             result.append(object_properties.ROLE_HEADING_LEVEL_BRAILLE % level)
 
         elif self._script.utilities.isLink(obj) \
-                and obj == focus_manager.getManager().get_locus_of_focus():
+                and obj == focus_manager.get_manager().get_locus_of_focus():
             if AXUtilities.is_image(AXObject.get_parent(obj)):
                 result.append(messages.IMAGE_MAP_LINK)
 
@@ -177,7 +174,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         if result and result[0] and not self._script.utilities.hasExplicitName(obj):
             result[0] = result[0].strip()
         elif not result and AXUtilities.is_check_box(obj):
-            gridCell = AXObject.find_ancestor(obj, self._script.utilities.isGridCell)
+            gridCell = AXObject.find_ancestor(obj, AXUtilities.is_grid_cell)
             if gridCell:
                 return super()._generateName(gridCell, **args)
 
@@ -205,27 +202,14 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         rad = self._script.utilities.realActiveDescendant(obj)
         return self._generateDisplayedText(rad, **args)
 
-    def _generateTableCellRow(self, obj, **args):
-        if not self._script.utilities.inDocumentContent(obj):
-            return super()._generateTableCellRow(obj, **args)
-
-        if not self._script.utilities.shouldReadFullRow(obj, args.get('priorObj')):
-            return self._generateRealTableCell(obj, **args)
-
-        row = AXObject.find_ancestor(obj, AXUtilities.is_table_row)
-        if row and AXObject.get_name(row) and not self._script.utilities.isLayoutOnly(row):
-            return self.generate(row, includeContext=False)
-
-        return super()._generateTableCellRow(obj, **args)
-
     def generateBraille(self, obj, **args):
         if not self._script.utilities.inDocumentContent(obj):
             tokens = ["WEB:", obj, "is not in document content. Calling default braille generator."]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return super().generateBraille(obj, **args)
 
-        tokens = ["WEB: Generating braille for document object", obj]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        tokens = ["WEB: Generating braille for document object", obj, args]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
 
         result = []
 
@@ -270,7 +254,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         for i, content in enumerate(contents):
             acc, start, end, string = content
             regions, fRegion = self.generateBraille(
-                acc, startOffset=start, endOffset=end, string=string,
+                acc, startOffset=start, endOffset=end, caretOffset=offset, string=string,
                 index=i, total=len(contents))
             if not regions:
                 continue

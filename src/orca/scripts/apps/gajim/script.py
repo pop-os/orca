@@ -25,80 +25,53 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2010 Joanmarie Diggs."
 __license__   = "LGPL"
 
-import gi
-gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
-
-import orca.chat as chat
-import orca.scripts.default as default
+from orca import chat
+from orca.scripts import default
 from orca.ax_utilities import AXUtilities
-
-########################################################################
-#                                                                      #
-# The Empathy script class.                                            #
-#                                                                      #
-########################################################################
 
 class Script(default.Script):
 
-    def __init__(self, app):
-        """Creates a new script for the given application."""
-
-        # So we can take an educated guess at identifying the buddy list.
-        #
-        self._buddyListAncestries = [[Atspi.Role.TABLE,
-                                      Atspi.Role.SCROLL_PANE,
-                                      Atspi.Role.FILLER,
-                                      Atspi.Role.SPLIT_PANE,
-                                      Atspi.Role.FILLER,
-                                      Atspi.Role.FRAME]]
-
-        default.Script.__init__(self, app)
-
-    def getChat(self):
+    def get_chat(self):
         """Returns the 'chat' class for this script."""
 
-        return chat.Chat(self, self._buddyListAncestries)
+        return chat.Chat(self)
 
-    def setupInputEventHandlers(self):
-        """Defines InputEventHandler fields for this script that can be
-        called by the key and braille bindings. Here we need to add the
-        handlers for chat functionality.
-        """
+    def setup_input_event_handlers(self):
+        """Defines the input event handlers for this script."""
 
-        default.Script.setupInputEventHandlers(self)
-        self.inputEventHandlers.update(self.chat.inputEventHandlers)
+        default.Script.setup_input_event_handlers(self)
+        self.input_event_handlers.update(self.chat.input_event_handlers)
 
-    def getAppKeyBindings(self):
+    def get_app_key_bindings(self):
         """Returns the application-specific keybindings for this script."""
 
-        return self.chat.keyBindings
+        return self.chat.key_bindings
 
-    def getAppPreferencesGUI(self):
+    def get_app_preferences_gui(self):
         """Return a GtkGrid containing the application unique configuration
         GUI items for the current application. The chat-related options get
         created by the chat module."""
 
-        return self.chat.getAppPreferencesGUI()
+        return self.chat.get_app_preferences_gui()
 
-    def getPreferencesFromGUI(self):
+    def get_preferences_from_gui(self):
         """Returns a dictionary with the app-specific preferences."""
 
-        return self.chat.getPreferencesFromGUI()
+        return self.chat.get_preferences_from_gui()
 
-    def onTextInserted(self, event):
-        """Called whenever text is added to an object."""
+    def on_text_inserted(self, event):
+        """Callback for object:text-changed:insert accessibility events."""
 
         if self.chat.presentInsertedText(event):
             return
 
-        default.Script.onTextInserted(self, event)
+        default.Script.on_text_inserted(self, event)
 
-    def onWindowActivated(self, event):
-        """Called whenever a toplevel window is activated."""
+    def on_window_activated(self, event):
+        """Callback for window:activate accessibility events."""
 
         # Hack to "tickle" the accessible hierarchy. Otherwise, the
         # events we need to present text added to the chatroom are
         # missing.
         AXUtilities.find_all_page_tabs(event.source)
-        default.Script.onWindowActivated(self, event)
+        default.Script.on_window_activated(self, event)

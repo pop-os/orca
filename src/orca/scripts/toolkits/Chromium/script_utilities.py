@@ -19,6 +19,9 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# For the "AXUtilities has no ... member"
+# pylint: disable=E1101
+
 """Custom script utilities for Chromium"""
 
 __id__        = "$Id$"
@@ -27,13 +30,11 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2018-2019 Igalia, S.L."
 __license__   = "LGPL"
 
-import gi
-gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
 import re
 
 from orca import debug
 from orca import focus_manager
+from orca import input_event_manager
 from orca.scripts import web
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
@@ -69,8 +70,8 @@ class Utilities(web.Utilities):
         if rv is not None:
             return rv
 
-        roles = [Atspi.Role.STATIC, Atspi.Role.TEXT]
-        rv = AXObject.get_role(obj) in roles and self._getTag(obj) in (None, "", "br")
+        rv = AXUtilities.is_static(obj) or AXUtilities.is_text(obj) \
+            and self._getTag(obj) in (None, "", "br")
         if rv:
             tokens = ["CHROMIUM:", obj, "believed to be static text leaf"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
@@ -139,7 +140,7 @@ class Utilities(web.Utilities):
         # is opened/expanded, a menu with that same name appears. It would be
         # nice if there were a connection (parent/child or an accessible relation)
         # between the two....
-        return self.treatAsMenu(focus_manager.getManager().get_locus_of_focus()) \
+        return self.treatAsMenu(focus_manager.get_manager().get_locus_of_focus()) \
             and super().isPopupMenuForCurrentItem(obj)
 
     def isFrameForPopupMenu(self, obj):
@@ -217,11 +218,11 @@ class Utilities(web.Utilities):
         return result
 
     def autocompleteForPopup(self, obj):
-        relation = AXObject.get_relation(obj, Atspi.RelationType.POPUP_FOR)
-        if not relation:
+        targets = AXUtilities.get_is_popup_for(obj)
+        if not targets:
             return None
 
-        target = relation.get_target(0)
+        target = targets[0]
         if AXUtilities.is_autocomplete(target):
             return target
 
@@ -238,9 +239,7 @@ class Utilities(web.Utilities):
             return False
 
         if event.type.startswith("object:text-caret-moved"):
-            lastKey, mods = self.lastKeyAndModifiers()
-            if lastKey in ["Down", "Up"]:
-                return True
+            return input_event_manager.get_manager().last_event_was_up_or_down()
 
         return False
 
@@ -253,26 +252,6 @@ class Utilities(web.Utilities):
             tokens = ["CHROMIUM: HACK: Grabbing focus on", obj, "'s ancestor", link]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             AXObject.grab_focus(link)
-
-    def handleAsLiveRegion(self, event):
-        if not super().handleAsLiveRegion(event):
-            return False
-
-        if not event.type.startswith("object:children-changed:add"):
-            return True
-
-        # At least some of the time, we're getting text insertion events immediately
-        # followed by children-changed events to tell us that the object whose text
-        # changed is now being added to the accessibility tree. Furthermore the
-        # additions are not always coming to us in presentational order, whereas
-        # the text changes appear to be. So most of the time, we can ignore the
-        # children-changed events. Except for when we can't.
-        if AXUtilities.is_table(event.any_data):
-            return True
-
-        msg = "CHROMIUM: Event is believed to be redundant live region notification"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return False
 
     def getFindResultsCount(self, root=None):
         root = root or self._findContainer
@@ -336,7 +315,7 @@ class Utilities(web.Utilities):
         return True
 
     def inFindContainer(self, obj=None):
-        obj = obj or focus_manager.getManager().get_locus_of_focus()
+        obj = obj or focus_manager.get_manager().get_locus_of_focus()
         if not (AXUtilities.is_entry(obj) or AXUtilities.is_push_button(obj)):
             return False
         if self.inDocumentContent(obj):
@@ -364,7 +343,7 @@ class Utilities(web.Utilities):
 
         # Don't bother if the root is a 'pre' or 'code' element. Those often have
         # nothing but a TON of static text leaf nodes, which we want to ignore.
-        if self._getTag(root) in ('pre', 'code'):
+        if AXUtilities.is_code(root):
             tokens = ["CHROMIUM: Returning 0 descendants for pre/code", root]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return []
@@ -375,7 +354,7 @@ class Utilities(web.Utilities):
         # Chromium calculates posinset and setsize for description lists based on the
         # number of terms present. If we want to present the number of values associated
         # with a given term, we need to work those values out ourselves.
-        if self.isDescriptionListDescription(obj):
+        if AXUtilities.is_description_value(obj):
             return True
 
         if self.inDocumentContent(obj):
@@ -389,7 +368,7 @@ class Utilities(web.Utilities):
         # will not jibe with the values of its siblings. Thus if a sibling has a value,
         # assume that the missing attributes are missing on purpose.
         for sibling in AXObject.iter_children(AXObject.get_parent(obj)):
-            if self.getPositionInSet(sibling) is not None:
+            if isinstance(AXUtilities.get_position_in_set(sibling), int):
                 tokens = ["CHROMIUM:", obj, "'s sibling", sibling, "has posinset."]
                 debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 return False

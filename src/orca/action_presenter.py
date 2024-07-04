@@ -59,7 +59,7 @@ class ActionPresenter:
             msg = "ACTION PRESENTER: Refreshing bindings."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._setup_bindings()
-        elif self._bindings.isEmpty():
+        elif self._bindings.is_empty():
             self._setup_bindings()
 
         return self._bindings
@@ -95,7 +95,7 @@ class ActionPresenter:
         self._bindings.add(
             keybindings.KeyBinding(
                 "a",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_SHIFT_MODIFIER_MASK,
                 self._handlers.get("show_actions_menu")))
 
@@ -111,10 +111,10 @@ class ActionPresenter:
         # TODO - JD: Consider having set_locus_of_focus always update the active script.
         reason = "Action Presenter menu is being destroyed"
         app = AXObject.get_application(self._obj)
-        script = script_manager.getManager().getScript(app, self._obj)
-        script_manager.getManager().setActiveScript(script, reason)
+        script = script_manager.get_manager().get_script(app, self._obj)
+        script_manager.get_manager().set_active_script(script, reason)
 
-        manager = focus_manager.getManager()
+        manager = focus_manager.get_manager()
         manager.clear_state(reason)
         manager.set_active_window(self._window)
         manager.set_locus_of_focus(None, self._obj)
@@ -130,7 +130,7 @@ class ActionPresenter:
     def show_actions_menu(self, script, event=None):
         """Shows a menu with all the available accessible actions."""
 
-        manager = focus_manager.getManager()
+        manager = focus_manager.get_manager()
         obj = manager.get_active_mode_and_object_of_interest()[1] or manager.get_locus_of_focus()
         if obj is None:
             full = messages.LOCATION_NOT_FOUND_FULL
@@ -148,7 +148,7 @@ class ActionPresenter:
             actions[name] = description or name
 
         if not actions.items():
-            name = AXObject.get_name(obj) or script.speechGenerator.getLocalizedRoleName(obj)
+            name = AXObject.get_name(obj) or script.speech_generator.getLocalizedRoleName(obj)
             script.presentMessage(messages.NO_ACTIONS_FOUND_ON % name)
             return True
 
@@ -221,5 +221,5 @@ class ActionMenu(Gtk.Menu):
 
 
 _presenter = ActionPresenter()
-def getPresenter():
+def get_presenter():
     return _presenter

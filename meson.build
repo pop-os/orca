@@ -1,5 +1,5 @@
 project('orca',
-  version: '46.2',
+  version: '47.alpha',
   meson_version: '>= 1.0.0',
 )
 
@@ -62,7 +62,7 @@ endif
 # Experimental (checked via pkg-config)
 if get_option('spiel')
   dependency('spiel-1.0',
-            version: '>= 1.0.0',
+            version: '>= 1.0.1',
            fallback: ['spiel', 'spiel_lib_dep'],
     default_options: [
       'docs=false',
@@ -101,3 +101,10 @@ subdir('po')
 subdir('src')
 
 summary(summary)
+
+# This may be removed once Spiel is widely available
+if get_option('force_fallback_for').contains('spiel')
+  warning('Spiel is being built as a subproject that may need to be updated.\n\n' +
+          '    See the README.md in this directory or in the Orca repository at:\n' +
+          '    https://gitlab.gnome.org/GNOME/orca/blob/main/README.md#experimental-features\n')
+endif

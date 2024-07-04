@@ -18,6 +18,11 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=broad-exception-caught
+# pylint: disable=wrong-import-position
+# pylint: disable=too-many-public-methods
+# pylint: disable=too-many-instance-attributes
+
 """Provides support for handling input events."""
 
 __id__        = "$Id$"
@@ -27,12 +32,14 @@ __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
                 "Copyright (c) 2011-2016 Igalia, S.L."
 __license__   = "LGPL"
 
-import gi
-gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
-
+import inspect
 import math
 import time
+
+import gi
+gi.require_version("Atspi", "2.0")
+gi.require_version("Gdk", "3.0")
+from gi.repository import Atspi
 from gi.repository import Gdk
 from gi.repository import GLib
 
@@ -41,7 +48,7 @@ from . import focus_manager
 from . import keybindings
 from . import keynames
 from . import messages
-from . import orca_state
+from . import orca_modifier_manager
 from . import script_manager
 from . import settings
 from .ax_object import AXObject
@@ -52,58 +59,34 @@ BRAILLE_EVENT      = "braille"
 MOUSE_BUTTON_EVENT = "mouse:button"
 
 class InputEvent:
+    """Provides support for handling input events."""
 
-    def __init__(self, eventType):
+    def __init__(self, event_type):
         """Creates a new KEYBOARD_EVENT, BRAILLE_EVENT, or MOUSE_BUTTON_EVENT."""
 
-        self.type = eventType
+        self.type = event_type
         self.time = time.time()
-        self._clickCount = 0
+        self._click_count = 0
 
-    def getClickCount(self):
+    def get_click_count(self):
         """Return the count of the number of clicks a user has made."""
 
-        return self._clickCount
+        return self._click_count
 
-    def setClickCount(self):
+    def set_click_count(self, count):
         """Updates the count of the number of clicks a user has made."""
 
-        pass
+        self._click_count = count
 
-    def asSingleLineString(self):
+    def as_single_line_string(self):
         """Returns a single-line string representation of this event."""
 
         return f"{self.type}"
 
-def _getXkbStickyKeysState():
-    from subprocess import check_output
-
-    try:
-        output = check_output(['xkbset', 'q'])
-        for line in output.decode('ASCII', errors='ignore').split('\n'):
-            if line.startswith('Sticky-Keys = '):
-                return line.endswith('On')
-    except Exception:
-        pass
-    return False
-
 class KeyboardEvent(InputEvent):
+    """Provides support for handling keyboard events."""
 
-    stickyKeys = _getXkbStickyKeysState()
-
-    duplicateCount = 0
     orcaModifierPressed = False
-
-    # Whether last press of the Orca modifier was alone
-    lastOrcaModifierAlone = False
-    lastOrcaModifierAloneTime = None
-    # Whether the current press of the Orca modifier is alone
-    currentOrcaModifierAlone = False
-    currentOrcaModifierAloneTime = None
-    # When the second orca press happened
-    secondOrcaModifierTime = None
-    # Sticky modifiers state, to be applied to the next keyboard event
-    orcaStickyModifiers = 0
 
     TYPE_UNKNOWN          = "unknown"
     TYPE_PRINTABLE        = "printable"
@@ -231,6 +214,9 @@ class KeyboardEvent(InputEvent):
                                 Gdk.KEY_Yacute,
                                 Gdk.KEY_yacute]
 
+    # pylint:disable=too-many-arguments
+    # pylint:disable=too-many-branches
+    # pylint:disable=too-many-statements
     def __init__(self, pressed, keycode, keysym, modifiers, text):
         """Creates a new InputEvent of type KEYBOARD_EVENT.
 
@@ -254,23 +240,16 @@ class KeyboardEvent(InputEvent):
             self.modifiers |= (1 << Atspi.ModifierType.NUMLOCK)
         self.event_string = text
         self.keyval_name = Gdk.keyval_name(keysym)
-        if self.event_string  == "" or self.event_string == " ":
+        if self.event_string in ("", " "):
             self.event_string = self.keyval_name
         self.timestamp = time.time()
-        self.is_duplicate = self in [orca_state.lastInputEvent,
-                                     orca_state.lastNonModifierKeyEvent]
         self._script = None
-        self._app = None
         self._window = None
         self._obj = None
-        self._obj_after_consuming = None
         self._handler = None
         self._consumer = None
-        self._should_consume = None
-        self._consume_reason = None
         self._did_consume = None
         self._result_reason = None
-        self._bypassOrca = None
         self._is_kp_with_numlock = False
 
         # Some implementors don't populate this field at all. More often than not,
@@ -292,192 +271,38 @@ class KeyboardEvent(InputEvent):
             if self.modifiers & (1 << Atspi.ModifierType.NUMLOCK):
                 self._is_kp_with_numlock = True
 
-        # We typically do little to nothing in the case of a key release. Therefore skip doing
-        # this work.
-        if pressed:
-            self._script = script_manager.getManager().getActiveScript()
-            self._window = focus_manager.getManager().get_active_window()
-            if self._script:
-                self._app = self._script.app
-                if not focus_manager.getManager().can_be_active_window(self._window):
-                    self._window = focus_manager.getManager().find_active_window()
-                    tokens = ["INPUT EVENT: Updating window and active window to", self._window]
-                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                    focus_manager.getManager().set_active_window(self._window)
-
-            # We set this after getting the window because changing the window can cause focus to
-            # be updated if the current locus of focus is not in the window we just set as active.
-            self._obj = focus_manager.getManager().get_locus_of_focus()
-
-            if self._window and self._app != AXObject.get_application(self._window):
-                self._script = script_manager.getManager().getScript(
-                    AXObject.get_application(self._window))
-                self._app = self._script.app
-                tokens = ["INPUT EVENT: Updated script to", self._script]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        elif self._isReleaseForLastNonModifierKeyEvent():
-            self._script = orca_state.lastNonModifierKeyEvent._script
-            self._window = orca_state.lastNonModifierKeyEvent._window
-            self._obj = orca_state.lastNonModifierKeyEvent._obj
-            self._obj_after_consuming = orca_state.lastNonModifierKeyEvent._obj_after_consuming
+        self.key_type = None
+        if self.is_navigation_key():
+            self.key_type = KeyboardEvent.TYPE_NAVIGATION
+        elif self.is_action_key():
+            self.key_type = KeyboardEvent.TYPE_ACTION
+        elif self.is_modifier_key():
+            self.key_type = KeyboardEvent.TYPE_MODIFIER
+            if self.is_orca_modifier():
+                KeyboardEvent.orcaModifierPressed = pressed
+        elif self.is_function_key():
+            self.key_type = KeyboardEvent.TYPE_FUNCTION
+        elif self.is_diacritical_key():
+            self.key_type = KeyboardEvent.TYPE_DIACRITICAL
+        elif self.is_locking_key():
+            self.key_type = KeyboardEvent.TYPE_LOCKING
+        elif self.is_alphabetic_key():
+            self.key_type = KeyboardEvent.TYPE_ALPHABETIC
+        elif self.is_numeric_key():
+            self.key_type = KeyboardEvent.TYPE_NUMERIC
+        elif self.is_punctuation_key():
+            self.key_type = KeyboardEvent.TYPE_PUNCTUATION
+        elif self.is_space():
+            self.key_type = KeyboardEvent.TYPE_SPACE
         else:
-            self._script = script_manager.getManager().getActiveScript()
-            self._window = focus_manager.getManager().get_active_window()
-            self._obj = focus_manager.getManager().get_locus_of_focus()
-            self._obj_after_consuming = self._obj
-
-        if self.is_duplicate:
-            KeyboardEvent.duplicateCount += 1
-        else:
-            KeyboardEvent.duplicateCount = 0
-
-        self.keyType = None
-
-        role = AXObject.get_role(self._obj)
-        _mayEcho = pressed or role == Atspi.Role.TERMINAL
-
-        if KeyboardEvent.stickyKeys and not self.isOrcaModifier() \
-           and not KeyboardEvent.lastOrcaModifierAlone:
-            doubleEvent = self._getDoubleClickCandidate()
-            if doubleEvent and \
-               doubleEvent.modifiers & keybindings.ORCA_MODIFIER_MASK:
-                # this is the second event of a double-click, and sticky Orca
-                # affected the first, so copy over the modifiers to the second
-                KeyboardEvent.orcaStickyModifiers = doubleEvent.modifiers
-
-        if not self.isOrcaModifier():
-            if KeyboardEvent.orcaModifierPressed:
-                KeyboardEvent.currentOrcaModifierAlone = False
-                KeyboardEvent.currentOrcaModifierAloneTime = None
-            else:
-                KeyboardEvent.lastOrcaModifierAlone = False
-                KeyboardEvent.lastOrcaModifierAloneTime = None
-
-        if self.isNavigationKey():
-            self.keyType = KeyboardEvent.TYPE_NAVIGATION
-            self.shouldEcho = _mayEcho and settings.enableNavigationKeys
-        elif self.isActionKey():
-            self.keyType = KeyboardEvent.TYPE_ACTION
-            self.shouldEcho = _mayEcho and settings.enableActionKeys
-        elif self.isModifierKey():
-            self.keyType = KeyboardEvent.TYPE_MODIFIER
-            self.shouldEcho = _mayEcho and settings.enableModifierKeys
-            if self.isOrcaModifier() and not self.is_duplicate:
-                now = time.time()
-                if KeyboardEvent.lastOrcaModifierAlone:
-                    if pressed:
-                        KeyboardEvent.secondOrcaModifierTime = now
-                    if (KeyboardEvent.secondOrcaModifierTime <
-                        KeyboardEvent.lastOrcaModifierAloneTime + 0.5):
-                        # double-orca, let the real action happen
-                        self._bypassOrca = True
-                    if not pressed:
-                        KeyboardEvent.lastOrcaModifierAlone = False
-                        KeyboardEvent.lastOrcaModifierAloneTime = False
-                else:
-                    KeyboardEvent.orcaModifierPressed = pressed
-                    if pressed:
-                        KeyboardEvent.currentOrcaModifierAlone = True
-                        KeyboardEvent.currentOrcaModifierAloneTime = now
-                    else:
-                        KeyboardEvent.lastOrcaModifierAlone = \
-                            KeyboardEvent.currentOrcaModifierAlone
-                        KeyboardEvent.lastOrcaModifierAloneTime = \
-                            KeyboardEvent.currentOrcaModifierAloneTime
-        elif self.isFunctionKey():
-            self.keyType = KeyboardEvent.TYPE_FUNCTION
-            self.shouldEcho = _mayEcho and settings.enableFunctionKeys
-        elif self.isDiacriticalKey():
-            self.keyType = KeyboardEvent.TYPE_DIACRITICAL
-            self.shouldEcho = _mayEcho and settings.enableDiacriticalKeys
-        elif self.isLockingKey():
-            self.keyType = KeyboardEvent.TYPE_LOCKING
-            self.shouldEcho = settings.presentLockingKeys
-            if self.shouldEcho is None:
-                self.shouldEcho = not settings.onlySpeakDisplayedText
-            self.shouldEcho = self.shouldEcho and pressed
-        elif self.isAlphabeticKey():
-            self.keyType = KeyboardEvent.TYPE_ALPHABETIC
-            self.shouldEcho = _mayEcho \
-                and (settings.enableAlphabeticKeys or settings.enableEchoByCharacter)
-        elif self.isNumericKey():
-            self.keyType = KeyboardEvent.TYPE_NUMERIC
-            self.shouldEcho = _mayEcho \
-                and (settings.enableNumericKeys or settings.enableEchoByCharacter)
-        elif self.isPunctuationKey():
-            self.keyType = KeyboardEvent.TYPE_PUNCTUATION
-            self.shouldEcho = _mayEcho \
-                and (settings.enablePunctuationKeys or settings.enableEchoByCharacter)
-        elif self.isSpace():
-            self.keyType = KeyboardEvent.TYPE_SPACE
-            self.shouldEcho = _mayEcho \
-                and (settings.enableSpace or settings.enableEchoByCharacter)
-        else:
-            self.keyType = KeyboardEvent.TYPE_UNKNOWN
-            self.shouldEcho = False
-
-        if not self.isLockingKey():
-            self.shouldEcho = self.shouldEcho and settings.enableKeyEcho
-
-        if not self.isModifierKey():
-            self.setClickCount()
-
-        if orca_state.bypassNextCommand and pressed:
-            KeyboardEvent.orcaModifierPressed = False
+            self.key_type = KeyboardEvent.TYPE_UNKNOWN
 
         if KeyboardEvent.orcaModifierPressed:
             self.modifiers |= keybindings.ORCA_MODIFIER_MASK
 
-        if KeyboardEvent.stickyKeys:
-            # apply all recorded sticky modifiers
-            self.modifiers |= KeyboardEvent.orcaStickyModifiers
-            if self.isModifierKey():
-                # add this modifier to the sticky ones
-                KeyboardEvent.orcaStickyModifiers |= self.modifiers
-            else:
-                # Non-modifier key, so clear the sticky modifiers. If the user
-                # actually double-presses that key, the modifiers of this event
-                # will be copied over to the second event, see earlier in this
-                # function.
-                KeyboardEvent.orcaStickyModifiers = 0
-
-        self._should_consume, self._consume_reason = self.shouldConsume()
-
-    def _getDoubleClickCandidate(self):
-        lastEvent = orca_state.lastNonModifierKeyEvent
-        if isinstance(lastEvent, KeyboardEvent) \
-           and lastEvent.event_string == self.event_string \
-           and self.time - lastEvent.time <= settings.doubleClickTimeout:
-            return lastEvent
-        return None
-
-    def setClickCount(self):
-        """Updates the count of the number of clicks a user has made."""
-
-        doubleEvent = self._getDoubleClickCandidate()
-        if not doubleEvent:
-            self._clickCount = 1
-            return
-
-        self._clickCount = doubleEvent.getClickCount()
-        if self.is_duplicate:
-            return
-
-        if self.type == Atspi.EventType.KEY_RELEASED_EVENT:
-            return
-
-        if self._clickCount < 3:
-            if doubleEvent._obj != doubleEvent._obj_after_consuming:
-                tokens = ["KEYBOARD EVENT: Resetting click count due to focus change from",
-                          doubleEvent._obj, "to", doubleEvent._obj_after_consuming]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                self._clickCount = 1
-                return
-            self._clickCount += 1
-            return
-
-        self._clickCount = 1
+    # pylint:enable=too-many-arguments
+    # pylint:enable=too-many-branches
+    # pylint:enable=too-many-statements
 
     def __eq__(self, other):
         if not other:
@@ -489,7 +314,7 @@ class KeyboardEvent(InputEvent):
         return False
 
     def __str__(self):
-        if self._shouldObscure():
+        if self._should_obscure():
             keyid = hw_code = modifiers = event_string = keyval_name = key_type = "*"
         else:
             keyid = self.id
@@ -497,7 +322,7 @@ class KeyboardEvent(InputEvent):
             modifiers = self.modifiers
             event_string = self.event_string
             keyval_name = self.keyval_name
-            key_type = self.keyType
+            key_type = self.key_type
 
         return (f"KEYBOARD_EVENT:  type={self.type.value_name.upper()}\n") \
              + f"                 id={keyid}\n" \
@@ -505,28 +330,27 @@ class KeyboardEvent(InputEvent):
              + f"                 modifiers={modifiers}\n" \
              + f"                 event_string=({event_string})\n" \
              + f"                 keyval_name=({keyval_name})\n" \
-             + ("                 timestamp=%d\n" % self.timestamp) \
+             + f"                 timestamp=%{self.timestamp}\n" \
              + f"                 time={time.time():f}\n" \
-             + f"                 keyType={key_type}\n" \
-             + f"                 clickCount={self._clickCount}\n" \
-             + f"                 shouldEcho={self.shouldEcho}\n"
+             + f"                 key_type={key_type}\n" \
+             + f"                 clickCount={self._click_count}\n" \
 
-    def asSingleLineString(self):
+    def as_single_line_string(self):
         """Returns a single-line string representation of this event."""
 
-        if self._shouldObscure():
+        if self._should_obscure():
             return "(obscured)"
 
         return (
-            f"'{self.event_string}' ({self.keyval_name}) mods: {self.modifiers} "
+            f"'{self.keyval_name}' ({self.hw_code}) mods: {self.modifiers} "
             f"{self.type.value_nick}"
         )
 
-    def _shouldObscure(self):
+    def _should_obscure(self):
         if not AXUtilities.is_password_text(self._obj):
             return False
 
-        if not self.isPrintableKey():
+        if not self.is_printable_key():
             return False
 
         if self.modifiers & keybindings.CTRL_MODIFIER_MASK \
@@ -536,106 +360,73 @@ class KeyboardEvent(InputEvent):
 
         return True
 
-    def _isReleaseForLastNonModifierKeyEvent(self):
-        last = orca_state.lastNonModifierKeyEvent
-        if not last:
-            return False
-
-        if not last.isPressedKey() or self.isPressedKey():
-            return False
-
-        if self.id == last.id and self.hw_code == last.hw_code:
-            return self.modifiers == last.modifiers
-
-        return False
-
-    def isReleaseFor(self, other):
-        """Return True if this is the release event for other."""
-
-        if not other:
-            return False
-
-        if not other.isPressedKey() or self.isPressedKey():
-            return False
-
-        return self.id == other.id \
-            and self.hw_code == other.hw_code \
-            and self.modifiers == other.modifiers \
-            and self.event_string == other.event_string \
-            and self.keyval_name == other.keyval_name \
-            and self.keyType == other.keyType \
-            and self._clickCount == other._clickCount
-
-    def isNavigationKey(self):
+    def is_navigation_key(self):
         """Return True if this is a navigation key."""
 
-        if self.keyType:
-            return self.keyType == KeyboardEvent.TYPE_NAVIGATION
+        if self.key_type:
+            return self.key_type == KeyboardEvent.TYPE_NAVIGATION
 
         return self.event_string in \
             ["Left", "Right", "Up", "Down", "Home", "End"]
 
-    def isActionKey(self):
+    def is_action_key(self):
         """Return True if this is an action key."""
 
-        if self.keyType:
-            return self.keyType == KeyboardEvent.TYPE_ACTION
+        if self.key_type:
+            return self.key_type == KeyboardEvent.TYPE_ACTION
 
         return self.event_string in \
             ["Return", "Escape", "Tab", "BackSpace", "Delete",
              "Page_Up", "Page_Down"]
 
-    def isAlphabeticKey(self):
+    def is_alphabetic_key(self):
         """Return True if this is an alphabetic key."""
 
-        if self.keyType:
-            return self.keyType == KeyboardEvent.TYPE_ALPHABETIC
+        if self.key_type:
+            return self.key_type == KeyboardEvent.TYPE_ALPHABETIC
 
         if not len(self.event_string) == 1:
             return False
 
         return self.event_string.isalpha()
 
-    def isDiacriticalKey(self):
+    def is_diacritical_key(self):
         """Return True if this is a non-spacing diacritical key."""
 
-        if self.keyType:
-            return self.keyType == KeyboardEvent.TYPE_DIACRITICAL
+        if self.key_type:
+            return self.key_type == KeyboardEvent.TYPE_DIACRITICAL
 
         return self.event_string.startswith("dead_")
 
-    def isFunctionKey(self):
+    def is_function_key(self):
         """Return True if this is a function key."""
 
-        if self.keyType:
-            return self.keyType == KeyboardEvent.TYPE_FUNCTION
+        if self.key_type:
+            return self.key_type == KeyboardEvent.TYPE_FUNCTION
 
         return self.event_string in \
             ["F1", "F2", "F3", "F4", "F5", "F6",
              "F7", "F8", "F9", "F10", "F11", "F12"]
 
-    def isLockingKey(self):
+    def is_locking_key(self):
         """Return True if this is a locking key."""
 
-        if self.keyType:
-            return self.keyType in KeyboardEvent.TYPE_LOCKING
+        if self.key_type:
+            return self.key_type in KeyboardEvent.TYPE_LOCKING
 
-        lockingKeys = ["Caps_Lock", "Shift_Lock", "Num_Lock", "Scroll_Lock"]
-        if self.event_string not in lockingKeys:
+        locking_keys = ["Caps_Lock", "Shift_Lock", "Num_Lock", "Scroll_Lock"]
+        if self.event_string not in locking_keys:
             return False
-
-        if not orca_state.bypassNextCommand and not self._bypassOrca:
-            return self.event_string not in settings.orcaModifierKeys
 
         return True
 
-    def isModifierKey(self):
+    def is_modifier_key(self):
         """Return True if this is a modifier key."""
 
-        if self.keyType:
-            return self.keyType == KeyboardEvent.TYPE_MODIFIER
+        if self.key_type:
+            return self.key_type == KeyboardEvent.TYPE_MODIFIER
 
-        if self.isOrcaModifier():
+        if self.is_orca_modifier():
             return True
 
         return self.event_string in \
@@ -643,47 +434,39 @@ class KeyboardEvent(InputEvent):
              'Shift_L', 'Shift_R', 'Meta_L', 'Meta_R',
              'ISO_Level3_Shift']
 
-    def isNumericKey(self):
+    def is_numeric_key(self):
         """Return True if this is a numeric key."""
 
-        if self.keyType:
-            return self.keyType == KeyboardEvent.TYPE_NUMERIC
+        if self.key_type:
+            return self.key_type == KeyboardEvent.TYPE_NUMERIC
 
         if not len(self.event_string) == 1:
             return False
 
         return self.event_string.isnumeric()
 
-    def isOrcaModifier(self, checkBypassMode=True):
+    def is_orca_modifier(self):
         """Return True if this is the Orca modifier key."""
 
-        if checkBypassMode and orca_state.bypassNextCommand:
-            return False
+        if self.keyval_name == "KP_0" and self.modifiers & keybindings.SHIFT_MODIFIER_MASK:
+            return orca_modifier_manager.get_manager().is_orca_modifier("KP_Insert")
 
-        if self.event_string in settings.orcaModifierKeys:
-            return True
+        return orca_modifier_manager.get_manager().is_orca_modifier(self.keyval_name)
 
-        if self.keyval_name == "KP_0" \
-           and "KP_Insert" in settings.orcaModifierKeys \
-           and self.modifiers & keybindings.SHIFT_MODIFIER_MASK:
-            return True
-
-        return False
-
-    def isOrcaModified(self):
+    def is_orca_modified(self):
         """Return True if this key is Orca modified."""
 
-        if orca_state.bypassNextCommand:
+        if self.is_orca_modifier():
             return False
 
         return self.modifiers & keybindings.ORCA_MODIFIER_MASK
 
-    def isKeyPadKeyWithNumlockOn(self):
+    def is_keypad_key_with_numlock_on(self):
         """Return True if this is a key pad key with numlock on."""
 
         return self._is_kp_with_numlock
 
-    def isPrintableKey(self):
+    def is_printable_key(self):
         """Return True if this is a printable key."""
 
         if self.event_string in ["space", " "]:
@@ -694,55 +477,50 @@ class KeyboardEvent(InputEvent):
 
         return self.event_string.isprintable()
 
-    def isPressedKey(self):
+    def is_pressed_key(self):
         """Returns True if the key is pressed"""
 
         return self.type == Atspi.EventType.KEY_PRESSED_EVENT
 
-    def isPunctuationKey(self):
+    def is_punctuation_key(self):
         """Return True if this is a punctuation key."""
 
-        if self.keyType:
-            return self.keyType == KeyboardEvent.TYPE_PUNCTUATION
+        if self.key_type:
+            return self.key_type == KeyboardEvent.TYPE_PUNCTUATION
 
         if not len(self.event_string) == 1:
             return False
 
-        if self.isAlphabeticKey() or self.isNumericKey():
+        if self.is_alphabetic_key() or self.is_numeric_key():
             return False
 
         return self.event_string.isprintable() and not self.event_string.isspace()
 
-    def isSpace(self):
+    def is_space(self):
         """Return True if this is the space key."""
 
-        if self.keyType:
-            return self.keyType == KeyboardEvent.TYPE_SPACE
+        if self.key_type:
+            return self.key_type == KeyboardEvent.TYPE_SPACE
 
         return self.event_string in ["space", " "]
 
-    def isFromApplication(self, app):
-        """Return True if this is associated with the specified app."""
-
-        return self._app == app
-
-    def isCharacterEchoable(self):
+    def is_character_echoable(self):
         """Returns True if the script will echo this event as part of
         character echo. We do this to not double-echo a given printable
         character."""
 
-        if not self.isPrintableKey():
+        if not self.is_printable_key():
             return False
 
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         return script and script.utilities.willEchoCharacter(self)
 
-    def getLockingState(self):
+    def get_locking_state(self):
         """Returns True if the event locked a locking key, False if the
         event unlocked a locking key, and None if we do not know or this
         is not a locking key."""
 
-        if not self.isLockingKey():
+        if not self.is_locking_key():
             return None
 
         if self.event_string == "Caps_Lock":
@@ -756,11 +534,11 @@ class KeyboardEvent(InputEvent):
 
         return not self.modifiers & (1 << mod)
 
-    def getLockingStateString(self):
+    def get_locking_state_string(self):
         """Returns the string which reflects the locking state we wish to
         include when presenting a locking key."""
 
-        locked = self.getLockingState()
+        locked = self.get_locking_state()
         if locked is None:
             return ''
 
@@ -769,22 +547,56 @@ class KeyboardEvent(InputEvent):
 
         return messages.LOCKING_KEY_STATE_ON
 
-    def getKeyName(self):
+    def get_key_name(self):
         """Returns the string to be used for presenting the key to the user."""
 
-        return keynames.getKeyName(self.event_string)
+        return keynames.get_key_name(self.event_string)
 
-    def getObject(self):
+    def get_object(self):
         """Returns the object believed to be associated with this key event."""
 
         return self._obj
 
-    def getHandler(self):
+    def set_object(self, obj):
+        """Sets the object believed to be associated with this key event."""
+
+        if not inspect.getmodulename(inspect.stack()[1].filename).startswith("input_event"):
+            raise PermissionError("Unauthorized setter of input event property")
+
+        self._obj = obj
+
+    def get_window(self):
+        """Returns the window believed to be associated with this key event."""
+
+        return self._window
+
+    def set_window(self, window):
+        """Sets the window believed to be associated with this key event."""
+
+        if not inspect.getmodulename(inspect.stack()[1].filename).startswith("input_event"):
+            raise PermissionError("Unauthorized setter of input event property")
+
+        self._window = window
+
+    def get_script(self):
+        """Returns the script believed to be associated with this key event."""
+
+        return self._script
+
+    def set_script(self, script):
+        """Sets the script believed to be associated with this key event."""
+
+        if not inspect.getmodulename(inspect.stack()[1].filename).startswith("input_event"):
+            raise PermissionError("Unauthorized setter of input event property")
+
+        self._script = script
+
+    def get_handler(self):
         """Returns the handler associated with this key event."""
 
         return self._handler
 
-    def _getUserHandler(self):
+    def _get_user_handler(self):
         # TODO - JD: This should go away once plugin support is in place.
         try:
             bindings = settings.keyBindingsMap.get(self._script.__module__)
@@ -797,109 +609,104 @@ class KeyboardEvent(InputEvent):
                 bindings = None
 
         try:
-            handler = bindings.getInputHandler(self)
+            handler = bindings.get_input_handler(self)
         except Exception:
             handler = None
 
         return handler
 
-    def shouldConsume(self):
-        """Returns True if this event should be consumed."""
-
-        if not self.timestamp:
-            return False, 'No timestamp'
-
+    def _present(self):
         if not self._script:
-            return False, 'No active script when received'
-
-        if self.is_duplicate:
-            return False, 'Is duplicate'
-
-        if orca_state.capturingKeys:
-            return False, 'Capturing keys'
-
-        if orca_state.bypassNextCommand:
-            return False, 'Bypass next command'
-
-        self._handler = self._getUserHandler() \
-            or self._script.keyBindings.getInputHandler(self)
-
-        scriptConsumes = self._handler is not None and self._handler.is_enabled()
-
-        if self._isReleaseForLastNonModifierKeyEvent():
-            return scriptConsumes, 'Is release for last non-modifier keyevent'
-
-        if self._script.learnModePresenter.is_active():
-            self._consumer = self._script.learnModePresenter.handle_event
-            return True, 'In Learn Mode'
-
-        if self.isModifierKey():
-            if not self.isOrcaModifier():
-                return False, 'Non-Orca modifier not in Learn Mode'
-            return True, 'Orca modifier'
-
-        if not self._handler:
-            return False, 'No handler'
-
-        if not self._handler.is_enabled():
-            return False, 'Handler is disabled'
-
-        return scriptConsumes, 'Script indication'
-
-    def isHandledBy(self, method):
-        if not self._handler:
             return False
 
-        return method.__func__ == self._handler.function
-
-    def _present(self, inputEvent=None):
-        if self.isPressedKey():
+        if self.is_pressed_key():
             self._script.presentationInterrupt()
 
-        if self._script.learnModePresenter.is_active():
+        if self._script.get_learn_mode_presenter().is_active():
             return False
 
         return self._script.presentKeyboardEvent(self)
 
+    # pylint:disable=too-many-branches
+    # pylint:disable=too-many-return-statements
+    def should_echo(self):
+        """Returns True if this input event should be echoed."""
+
+        if not (self.is_pressed_key() or AXUtilities.is_terminal(self._obj)):
+            return False
+
+        if self.is_locking_key():
+            if settings.presentLockingKeys is None:
+                return not settings.onlySpeakDisplayedText
+            return settings.presentLockingKeys
+
+        if not settings.enableKeyEcho:
+            return False
+
+        if self.is_navigation_key():
+            return settings.enableNavigationKeys
+        if self.is_action_key():
+            return settings.enableActionKeys
+        if self.is_modifier_key():
+            return settings.enableModifierKeys
+        if self.is_function_key():
+            return settings.enableFunctionKeys
+        if self.is_diacritical_key():
+            if settings.enableDiacriticalKeys is None:
+                return not settings.onlySpeakDisplayedText
+            return settings.enableDiacriticalKeys
+        if self.is_alphabetic_key():
+            return settings.enableAlphabeticKeys or settings.enableEchoByCharacter
+        if self.is_numeric_key():
+            return settings.enableNumericKeys or settings.enableEchoByCharacter
+        if self.is_punctuation_key():
+            return settings.enablePunctuationKeys or settings.enableEchoByCharacter
+        if self.is_space():
+            return settings.enableSpace or settings.enableEchoByCharacter
+
+        return False
+    # pylint:enable=too-many-branches
+    # pylint:enable=too-many-return-statements
+
     def process(self):
         """Processes this input event."""
 
-        startTime = time.time()
-        if not self._shouldObscure():
-            data = "'%s' (%d)" % (self.event_string, self.hw_code)
+        start_time = time.time()
+        if not self._should_obscure():
+            data = f"'{self.event_string}' ({self.hw_code})"
         else:
             data = "(obscured)"
 
-        if self.is_duplicate:
-            data = '%s DUPLICATE EVENT #%i' % (data, KeyboardEvent.duplicateCount)
+        debug.printMessage(debug.LEVEL_INFO, f"\n{self}")
 
         msg = f'\nvvvvv PROCESS {self.type.value_name.upper()}: {data} vvvvv'
         debug.printMessage(debug.LEVEL_INFO, msg, False)
 
-        tokens = ["HOST_APP:", self._app]
+        tokens = ["SCRIPT:", self._script]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         tokens = ["WINDOW:", self._window]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        tokens = ["LOCATION:", self._obj_after_consuming or self._obj]
+        tokens = ["LOCATION:", self._obj]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        tokens = ["CONSUME:", self._should_consume, self._consume_reason]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        if self._script:
+            self._handler = self._get_user_handler() \
+                or self._script.key_bindings.get_input_handler(self)
+            tokens = ["HANDLER:", self._handler]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+            if self._script.get_learn_mode_presenter().is_active():
+                self._consumer = self._script.get_learn_mode_presenter().handle_event
+                tokens = ["CONSUMER:", self._consumer]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         self._did_consume, self._result_reason = self._process()
         tokens = ["CONSUMED:", self._did_consume, self._result_reason]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        script = script_manager.getManager().getActiveScript()
-        if debug.LEVEL_INFO >= debug.debugLevel and script is not None:
-            attributes = script.getTransferableAttributes()
-            for key, value in attributes.items():
-                msg = f"INPUT EVENT: {key}: {value}"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-
-        msg = f"TOTAL PROCESSING TIME: {time.time() - startTime:.4f}"
+        msg = f"TOTAL PROCESSING TIME: {time.time() - start_time:.4f}"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         msg = f"^^^^^ PROCESS {self.type.value_name.upper()}: {data} ^^^^^\n"
@@ -910,85 +717,30 @@ class KeyboardEvent(InputEvent):
     def _process(self):
         """Processes this input event."""
 
-        if self._bypassOrca:
-            if (self.event_string == "Caps_Lock" \
-                or self.event_string == "Shift_Lock") \
-               and self.type == Atspi.EventType.KEY_PRESSED_EVENT:
-                    self._lock_mod()
-                    self.keyType = KeyboardEvent.TYPE_LOCKING
-                    self._present()
-            return False, 'Bypassed orca modifier'
-
-        orca_state.lastInputEvent = self
-        if not self.isModifierKey():
-            orca_state.lastNonModifierKeyEvent = self
-
-        if not self._script:
-            return False, 'No active script'
-
-        if self.is_duplicate:
-            return False, 'Is duplicate'
+        if self.is_orca_modifier() and self._click_count == 2:
+            orca_modifier_manager.get_manager().toggle_modifier(self)
+            if self.keyval_name in ["Caps_Lock", "Shift_Lock"]:
+                self.key_type = KeyboardEvent.TYPE_LOCKING
 
         self._present()
 
-        if not self.isPressedKey():
-            return self._should_consume, 'Consumed based on handler'
-
-        if orca_state.capturingKeys:
-            return False, 'Capturing keys'
-
-        if self.isOrcaModifier():
+        if self.is_orca_modifier():
             return True, 'Orca modifier'
-
-        if orca_state.bypassNextCommand:
-            if not self.isModifierKey():
-                orca_state.bypassNextCommand = False
-                self._script.addKeyGrabs("bypassed next command")
-            return False, 'Bypass next command'
-
-        if not self._should_consume:
-            return False, 'Should not consume'
 
         if not (self._consumer or self._handler):
             return False, 'No consumer or handler'
 
-        if self._consumer or self._handler.function:
-            GLib.timeout_add(1, self._consume)
-            return True, 'Will be consumed'
+        if self._consumer or (self._handler.function and self._handler.is_enabled()):
+            if self.is_pressed_key():
+                GLib.timeout_add(1, self._consume)
+                return True, 'Will be consumed'
+            return True, 'Is release for consumed handler'
 
         return False, 'Unaddressed case'
 
-    def _lock_mod(self):
-        def lock_mod(modifiers, modifier):
-            def lockit():
-                try:
-                    if modifiers & modifier:
-                        lock = Atspi.KeySynthType.UNLOCKMODIFIERS
-                        debug.printMessage(debug.LEVEL_INFO, "Unlocking capslock", True)
-                    else:
-                        lock = Atspi.KeySynthType.LOCKMODIFIERS
-                        debug.printMessage(debug.LEVEL_INFO, "Locking capslock", True)
-                    Atspi.generate_keyboard_event(modifier, "", lock)
-                    debug.printMessage(debug.LEVEL_INFO, "Done with capslock", True)
-                except Exception:
-                    debug.printMessage(debug.LEVEL_INFO, "Could not trigger capslock, " \
-                        "at-spi2-core >= 2.32 is needed for triggering capslock", True)
-                    pass
-            return lockit
-        if self.event_string == "Caps_Lock":
-            modifier = 1 << Atspi.ModifierType.SHIFTLOCK
-        elif self.event_string == "Shift_Lock":
-            modifier = 1 << Atspi.ModifierType.SHIFT
-        else:
-            tokens = ["Unknown locking key", self.event_string]
-            debug.printTokens(debug.LEVEL_WARNING, tokens, True)
-            return
-        debug.printMessage(debug.LEVEL_INFO, "Scheduling capslock", True)
-        GLib.timeout_add(1, lock_mod(self.modifiers, modifier))
-
     def _consume(self):
-        startTime = time.time()
-        data = "'%s' (%d)" % (self.event_string, self.hw_code)
+        start_time = time.time()
+        data = f"'{self.event_string}' ({self.hw_code})"
         msg = f'\nvvvvv CONSUME {self.type.value_name.upper()}: {data} vvvvv'
         debug.printMessage(debug.LEVEL_INFO, msg, False)
 
@@ -996,21 +748,15 @@ class KeyboardEvent(InputEvent):
             msg = f'KEYBOARD EVENT: Consumer is {self._consumer.__name__}'
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._consumer(self)
-        elif self._handler.function:
+        elif self._handler.function and self._handler.is_enabled():
             msg = f'KEYBOARD EVENT: Handler is {self._handler}'
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._handler.function(self._script, self)
         else:
-            msg = 'KEYBOARD EVENT: No handler or consumer'
+            msg = 'KEYBOARD EVENT: No enabled handler or consumer'
             debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-        self._obj_after_consuming = focus_manager.getManager().get_locus_of_focus()
-        if (self._obj != self._obj_after_consuming):
-            tokens = ["KEYBOARD EVENT: Consumer changed focus from", self._obj, "to",
-                      self._obj_after_consuming]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        msg = f'TOTAL PROCESSING TIME: {time.time() - startTime:.4f}'
+        msg = f'TOTAL PROCESSING TIME: {time.time() - start_time:.4f}'
         debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         msg = f'^^^^^ CONSUME {self.type.value_name.upper()}: {data} ^^^^^\n'
@@ -1019,21 +765,17 @@ class KeyboardEvent(InputEvent):
         return False
 
 class BrailleEvent(InputEvent):
+    """Provides support for handling braille events."""
 
     def __init__(self, event):
-        """Creates a new InputEvent of type BRAILLE_EVENT.
-
-        Arguments:
-        - event: the integer BrlTTY command for this event.
-        """
         super().__init__(BRAILLE_EVENT)
         self.event = event
-        self._script = script_manager.getManager().getActiveScript()
+        self._script = script_manager.get_manager().get_active_script()
 
     def __str__(self):
         return f"{self.type.upper()} {self.event}"
 
-    def getHandler(self):
+    def get_handler(self):
         """Returns the handler associated with this event."""
 
         command = self.event["command"]
@@ -1041,8 +783,8 @@ class BrailleEvent(InputEvent):
         user_bindings_map = settings.brailleBindingsMap
         if self._script.name in user_bindings_map:
             user_bindings = user_bindings_map[self._script.name]
-        elif "default" in user_bindings_map:
-            user_bindings = user_bindings_map["default"]
+        else:
+            user_bindings = user_bindings_map.get("default")
 
         if user_bindings and command in user_bindings:
             handler = user_bindings[command]
@@ -1050,12 +792,14 @@ class BrailleEvent(InputEvent):
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return handler
 
-        handler = self._script.brailleBindings.get(command)
+        handler = self._script.braille_bindings.get(command)
         tokens = [f"BRAILLE EVENT: Handler for command {command} is", handler]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return handler
 
     def process(self):
+        """Processes this event."""
+
         tokens = ["\nvvvvv PROCESS", self, "vvvvv"]
         debug.printTokens(debug.LEVEL_INFO, tokens, False)
 
@@ -1069,9 +813,9 @@ class BrailleEvent(InputEvent):
         return result
 
     def _process(self):
-        handler = self.getHandler()
+        handler = self.get_handler()
         if not handler:
-            if self._script.learnModePresenter.is_active():
+            if self._script.get_learn_mode_presenter().is_active():
                 tokens = ["BRAILLE EVENT: Learn mode presenter handles", self]
                 debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 return True
@@ -1080,15 +824,15 @@ class BrailleEvent(InputEvent):
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return False
 
-        try:
-            handler.processInputEvent(self._script, self)
-        except Exception as error:
-            tokens = ["BRAILLE EVENT: Exception processing:", self, f": {error}"]
-            debug.printTokens(debug.LEVEL_WARNING, tokens, True)
+        if handler.function:
+            tokens = ["BRAILLE EVENT: Handler is:", handler]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            handler.function(self._script, self)
 
         return True
 
 class MouseButtonEvent(InputEvent):
+    """Provides support for handling mouse button events."""
 
     try:
         display = Gdk.Display.get_default()
@@ -1098,36 +842,34 @@ class MouseButtonEvent(InputEvent):
         _pointer = None
 
     def __init__(self, event):
-        """Creates a new InputEvent of type MOUSE_BUTTON_EVENT."""
-
         super().__init__(MOUSE_BUTTON_EVENT)
         self.x = event.detail1
         self.y = event.detail2
         self.pressed = event.type.endswith('p')
         self.button = event.type[len("mouse:button:"):-1]
-        self._script = script_manager.getManager().getActiveScript()
-        self.window = focus_manager.getManager().get_active_window()
+        self._script = script_manager.get_manager().get_active_script()
+        self.window = focus_manager.get_manager().get_active_window()
         self.app = None
 
         if self.pressed:
-            self._validateCoordinates()
+            self._validate_coordinates()
 
         if not self._script:
             return
 
-        if not focus_manager.getManager().can_be_active_window(self.window):
-            self.window = focus_manager.getManager().find_active_window()
+        if not focus_manager.get_manager().can_be_active_window(self.window):
+            self.window = focus_manager.get_manager().find_active_window()
 
         if not self.window:
             return
 
         self.app = AXObject.get_application(self.window)
 
-    def _validateCoordinates(self):
+    def _validate_coordinates(self):
         if not self._pointer:
             return
 
-        screen, x, y = self._pointer.get_position()
+        x, y = self._pointer.get_position()[1:]
         if math.sqrt((self.x - x)**2 + (self.y - y)**2) < 25:
             return
 
@@ -1138,29 +880,10 @@ class MouseButtonEvent(InputEvent):
         debug.printMessage(debug.LEVEL_INFO, msg, True)
         self.x, self.y = x, y
 
-    def setClickCount(self):
-        """Updates the count of the number of clicks a user has made."""
-
-        if not self.pressed:
-            return
-
-        lastInputEvent = orca_state.lastInputEvent
-        if not isinstance(lastInputEvent, MouseButtonEvent):
-            self._clickCount = 1
-            return
-
-        if self.time - lastInputEvent.time < settings.doubleClickTimeout \
-            and lastInputEvent.button == self.button:
-            if self._clickCount < 2:
-                self._clickCount += 1
-                return
-
-        self._clickCount = 1
-
-
 class InputEventHandler:
+    """A handler for an input event."""
 
-    def __init__(self, function, description, learnModeEnabled=True, enabled=True):
+    def __init__(self, function, description, learn_mode_enabled=True, enabled=True):
         """Creates a new InputEventHandler instance.  All bindings
         (e.g., key bindings and braille bindings) will be handled
         by an instance of an InputEventHandler.
@@ -1172,7 +895,7 @@ class InputEventHandler:
                     False
         - description: a localized string describing what this InputEvent
                        does
-        - learnModeEnabled: if True, the description will be spoken and
+        - learn_mode_enabled: if True, the description will be spoken and
                             brailled if learn mode is enabled.  If False,
                             the function will be called no matter what.
         - enabled: Whether this hander can be used, i.e. based on mode, the
@@ -1181,7 +904,7 @@ class InputEventHandler:
 
         self.function = function
         self.description = description
-        self.learnModeEnabled = learnModeEnabled
+        self.learn_mode_enabled = learn_mode_enabled
         self._enabled = enabled
 
     def __eq__(self, other):
@@ -1190,7 +913,7 @@ class InputEventHandler:
         if not other:
             return False
 
-        return (self.function == other.function)
+        return self.function == other.function
 
     def __str__(self):
         return f"{self.description} (enabled: {self._enabled})"
@@ -1206,26 +929,3 @@ class InputEventHandler:
         """Sets this handler's enabled state."""
 
         self._enabled = enabled
-
-    def processInputEvent(self, script, inputEvent):
-        """Processes an input event.
-
-        This function is expected to return True if it consumes the
-        event; otherwise it is expected to return False.
-
-        Arguments:
-        - script:     the script (if any) associated with this event
-        - inputEvent: the input event to pass to the function bound
-                      to this InputEventHandler instance.
-        """
-
-        if not self._enabled:
-            return False
-
-        consumed = False
-        try:
-            consumed = self.function(script, inputEvent)
-        except Exception:
-            debug.printException(debug.LEVEL_SEVERE)
-
-        return consumed

@@ -25,22 +25,13 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2005-2009 Sun Microsystems Inc."
 __license__   = "LGPL"
 
-import gi
-gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
-
-import orca.braille as braille
-import orca.braille_generator as braille_generator
-import orca.object_properties as object_properties
+from orca import braille
+from orca import braille_generator
 from orca.ax_object import AXObject
 from orca.ax_table import AXTable
-from orca.ax_utilities import AXUtilities
 
 
 class BrailleGenerator(braille_generator.BrailleGenerator):
-
-    def __init__(self, script):
-        super().__init__(script)
 
     def _generateRoleName(self, obj, **args):
         if self._script.utilities.isDocument(obj):
@@ -77,56 +68,14 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
 
         return [braille.Component(obj, " ".join((objectText, cellName)))]
 
-    def _generateTableCellDelimiter(self, obj, **args):
-        return braille.Region(object_properties.TABLE_CELL_DELIMITER_BRAILLE)
-
-    def _generateTableCellRow(self, obj, **args):
-        if not self._script.utilities.shouldReadFullRow(obj, args.get('priorObj')):
-            return self._generateRealTableCell(obj, **args)
-
-        if not self._script.utilities.isSpreadSheetCell(obj):
-            return super()._generateTableCellRow(obj, **args)
-
-        cells = self._script.utilities.getShowingCellsInSameRow(obj)
-        if not cells:
-            return []
-
-        result = []
-        for cell in cells:
-            cellResult = self._generateRealTableCell(cell, **args)
-            if cellResult and result:
-                result.append(self._generateTableCellDelimiter(obj, **args))
-            result.extend(cellResult)
-
-        return result
-
-    def _generateChildTab(self, obj, **args):
-        """If we are in the slide presentation scroll pane, also announce the
-        current page tab. See bug #538056 for more details.
-        """
-        result = []
-        rolesList = [Atspi.Role.SCROLL_PANE, \
-                     Atspi.Role.PANEL, \
-                     Atspi.Role.PANEL, \
-                     Atspi.Role.ROOT_PANE, \
-                     Atspi.Role.FRAME, \
-                     Atspi.Role.APPLICATION]
-        if self._script.utilities.hasMatchingHierarchy(obj, rolesList):
-            parent = AXObject.get_parent(obj)
-            for child in AXObject.iter_children(parent, AXUtilities.is_page_tab_list):
-                for tab in AXObject.iter_children(child, AXUtilities.is_selected):
-                    args['role'] = AXObject.get_role(tab)
-                    result.extend(self.generate(tab, **args))
-        return result
-
     def _generateAncestors(self, obj, **args):
-        if self._script.getTableNavigator().last_input_event_was_navigation_command():
+        if self._script.get_table_navigator().last_input_event_was_navigation_command():
             return []
 
         return super()._generateAncestors(obj, **args)
 
     def _generateIncludeContext(self, obj, **args):
-        if self._script.getTableNavigator().last_input_event_was_navigation_command():
+        if self._script.get_table_navigator().last_input_event_was_navigation_command():
             return False
 
         return super()._generateIncludeContext(obj, **args)
