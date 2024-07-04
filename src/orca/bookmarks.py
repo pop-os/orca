@@ -52,7 +52,7 @@ class Bookmarks:
             msg = "BOOKMARKS: Refreshing bindings."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._setup_bindings()
-        elif self._bindings.isEmpty():
+        elif self._bindings.is_empty():
             self._setup_bindings()
 
         return self._bindings
@@ -108,21 +108,21 @@ class Bookmarks:
         self._bindings.add(
             keybindings.KeyBinding(
                 "b",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("goToNextBookmark")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "b",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_SHIFT_MODIFIER_MASK,
                 self._handlers.get("goToPrevBookmark")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "b",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_ALT_MODIFIER_MASK,
                 self._handlers.get("saveBookmarks")))
 
@@ -130,14 +130,14 @@ class Bookmarks:
             self._bindings.add(
                 keybindings.KeyBinding(
                     str(i + 1),
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     keybindings.ORCA_MODIFIER_MASK,
                     self._handlers.get("goToBookmark")))
 
             self._bindings.add(
                 keybindings.KeyBinding(
                     str(i + 1),
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     keybindings.ORCA_ALT_MODIFIER_MASK,
                     self._handlers.get("addBookmark")))
 
@@ -165,7 +165,7 @@ class Bookmarks:
             self._script.presentMessage(messages.BOOKMARK_NOT_FOUND)
             return
 
-        self._script.flatReviewPresenter.present_item(script, inputEvent)
+        self._script.get_flat_review_presenter().present_item(script, inputEvent)
 
         # update the currentbookmark
         self._currentbookmarkindex = index
@@ -245,13 +245,13 @@ class Bookmarks:
         """ Read saved bookmarks from disk.  Currently an unpickled object
         that represents a bookmark """
         filename = filename or self._script.name.split(' ')[0]
-        orcaDir = settings_manager.getManager().getPrefsDir()
-        if not orcaDir:
+        orca_dir = settings_manager.get_manager().get_prefs_dir()
+        if not orca_dir:
             return
 
-        orcaBookmarksDir = os.path.join(orcaDir, "bookmarks")
+        orca_bookmarks_dir = os.path.join(orca_dir, "bookmarks")
         try:
-            inputFile = open( os.path.join( orcaBookmarksDir, \
+            inputFile = open( os.path.join( orca_bookmarks_dir, \
                         f'{filename}.pkl'), "r")
             bookmarks = pickle.load(inputFile.buffer)
             inputFile.close()
@@ -263,14 +263,14 @@ class Bookmarks:
         """ Write bookmarks to disk.  bookmarksObj must be a pickleable 
         object. """
         filename = filename or self._script.name.split(' ')[0]
-        orcaDir = settings_manager.getManager().getPrefsDir()
-        orcaBookmarksDir = os.path.join(orcaDir, "bookmarks")
+        orca_dir = settings_manager.get_manager().get_prefs_dir()
+        orca_bookmarks_dir = os.path.join(orca_dir, "bookmarks")
         # create directory if it does not exist.  correct place??
         try:
-            os.stat(orcaBookmarksDir)
+            os.stat(orca_bookmarks_dir)
         except OSError:
-            os.mkdir(orcaBookmarksDir)
-        output = open( os.path.join( orcaBookmarksDir, \
+            os.mkdir(orca_bookmarks_dir)
+        output = open( os.path.join( orca_bookmarks_dir, \
                     f'{filename}.pkl'), "w", os.O_CREAT)
         pickle.dump(bookmarksObj, output.buffer)
         output.close()

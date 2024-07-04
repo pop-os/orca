@@ -25,57 +25,16 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2015 Igalia, S.L."
 __license__   = "LGPL"
 
-import orca.scripts.toolkits.gtk as gtk
-import orca.scripts.toolkits.WebKitGtk as WebKitGtk
+from orca import input_event_manager
+from orca import focus_manager
+from orca.scripts.toolkits import gtk
+from orca.scripts.toolkits import WebKitGTK
 from orca.ax_object import AXObject
 from orca.ax_table import AXTable
 from orca.ax_utilities import AXUtilities
 
 
-class Utilities(WebKitGtk.Utilities, gtk.Utilities):
-
-    def __init__(self, script):
-        super().__init__(script)
-
-    def isComposeMessageBody(self, obj):
-        if not AXUtilities.is_editable(obj):
-            return False
-
-        return self.isEmbeddedDocument(obj)
-
-    def isReceivedMessage(self, obj):
-        if AXUtilities.is_editable(obj):
-            return False
-
-        return self.isEmbeddedDocument(obj)
-
-    def isReceivedMessageHeader(self, obj):
-        if not AXUtilities.is_table(obj):
-            return False
-
-        return self.isReceivedMessage(AXObject.get_parent(obj))
-
-    def isReceivedMessageContent(self, obj):
-        if not AXUtilities.is_section(obj):
-            return False
-
-        return self.isReceivedMessage(AXObject.get_parent(obj))
-
-    def isComposeAutocomplete(self, obj):
-        if not AXUtilities.is_table(obj):
-            return False
-
-        if not AXUtilities.manages_descendants(obj):
-            return False
-
-        return AXUtilities.is_window(self.topLevelObject(obj))
-
-    def findMessageBodyChild(self, root):
-        candidate = AXObject.find_descendant(root, self.isDocument)
-        if self.isEmbeddedDocument(candidate):
-            return self.findMessageBodyChild(candidate)
-
-        return candidate
+class Utilities(WebKitGTK.Utilities, gtk.Utilities):
 
     def isMessageListStatusCell(self, obj):
         if not self.isMessageListToggleCell(obj):
@@ -88,7 +47,7 @@ class Utilities(WebKitGtk.Utilities, gtk.Utilities):
         return headers[0] and AXObject.get_name(headers[0]) != AXObject.get_name(obj)
 
     def isMessageListToggleCell(self, obj):
-        if self.isWebKitGtk(obj):
+        if self.isWebKitGTK(obj):
             return False
 
         if not gtk.Utilities.hasMeaningfulToggleAction(self, obj):
@@ -99,32 +58,46 @@ class Utilities(WebKitGtk.Utilities, gtk.Utilities):
 
         return True
 
+    def isIgnorableEventFromDocumentPreview(self, obj):
+        if not self.isDocumentPreview(obj):
+            return False
+
+        if not input_event_manager.get_manager().last_event_was_unmodified_arrow():
+            return False
+
+        focus = focus_manager.get_manager().get_locus_of_focus()
+        if self.isWebKitGTK(focus):
+            return False
+        if not AXUtilities.is_table_cell(focus):
+            return False
+        if not AXObject.find_ancestor(focus, AXUtilities.is_tree_or_tree_table):
+            return False
+
+        return True
+
+    def isDocumentPreview(self, obj):
+        """Returns True if obj is or descends from the preview document."""
+
+        if not self.isWebKitGTK(obj):
+            return False
+
+        if AXUtilities.is_document(obj):
+            document = obj
+        else:
+            document = AXObject.find_ancestor(obj, AXUtilities.is_document)
+        if not document:
+            return False
+
+        return AXObject.find_ancestor(document, AXUtilities.is_page_tab)
+
     def realActiveDescendant(self, obj):
-        if self.isWebKitGtk(obj):
+        if self.isWebKitGTK(obj):
             return super().realActiveDescendant(obj)
 
+        # TODO - JD: Is this still needed?
         # This is some mystery child of the 'Messages' panel which fails to show
         # up in the hierarchy or emit object:state-changed:focused events.
         if AXUtilities.is_layered_pane(obj):
             return AXObject.find_descendant(obj, AXUtilities.is_tree_table) or obj
 
         return gtk.Utilities.realActiveDescendant(self, obj)
-
-    def setCaretAtStart(self, obj):
-        if self.isReceivedMessageContent(obj):
-            obj = self.findMessageBodyChild(obj) or obj
-
-        child, index = super().setCaretAtStart(obj)
-        if child and index == -1:
-            child, index = super().setCaretAtStart(child)
-
-        return child, index
-
-    def treatAsBrowser(self, obj):
-        if not self.isEmbeddedDocument(obj):
-            return False
-
-        if AXObject.find_ancestor(obj, AXUtilities.is_split_pane) is not None:
-            return False
-
-        return True

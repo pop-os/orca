@@ -18,6 +18,9 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=broad-exception-caught
+# pylint: disable=wrong-import-position
+
 """
 Utilities for performing tasks related to accessibility inspection.
 These utilities are app-type- and toolkit-agnostic. Utilities that might have
@@ -42,7 +45,9 @@ from gi.repository import Atspi
 
 from . import debug
 from .ax_object import AXObject
+from .ax_table import AXTable
 from .ax_utilities_collection import AXUtilitiesCollection
+from .ax_utilities_relation import AXUtilitiesRelation
 from .ax_utilities_role import AXUtilitiesRole
 from .ax_utilities_state import AXUtilitiesState
 
@@ -51,6 +56,16 @@ class AXUtilities:
     """Utilities for performing tasks related to accessibility inspection."""
 
     COMPARE_COLLECTION_PERFORMANCE = False
+
+    @staticmethod
+    def clear_all_cache_now(obj=None, reason=""):
+        """Clears all cached information immediately."""
+
+        AXObject.clear_cache_now(reason)
+        AXUtilitiesRelation.clear_cache_now(reason)
+        AXUtilitiesState.clear_cache_now(reason)
+        if AXUtilitiesRole.is_table_related(obj):
+            AXTable.clear_cache_now(reason)
 
     @staticmethod
     def get_desktop():
@@ -237,6 +252,61 @@ class AXUtilities:
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return True
 
+    @staticmethod
+    def is_redundant_object(obj1, obj2):
+        """Returns True if obj2 is redundant to obj1."""
+
+        if obj1 == obj2:
+            return False
+
+        if AXObject.get_name(obj1) != AXObject.get_name(obj2) \
+           or AXObject.get_role(obj1) != AXObject.get_role(obj2):
+            return False
+
+        tokens = ["AXUtilities:", obj2, "is redundant to", obj1]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        return True
+
+    @staticmethod
+    def get_set_size(obj):
+        """Returns the total number of objects in this container."""
+
+        result = AXObject.get_attribute(obj, "setsize", False)
+        if isinstance(result, str) and result.isnumeric():
+            return int(result)
+
+        if AXUtilitiesRole.is_table_row(obj):
+            return AXTable.get_row_count(AXTable.get_table(obj))
+
+        return None
+
+    @staticmethod
+    def get_position_in_set(obj):
+        """Returns the position of obj with respect to the number of items in its container."""
+
+        result = AXObject.get_attribute(obj, "posinset", False)
+        if isinstance(result, str) and result.isnumeric():
+            # ARIA posinset is 1-based.
+            return int(result) - 1
+
+        if AXUtilitiesRole.is_table_row(obj):
+            result = AXObject.get_attribute(obj, "rowindex", False)
+            if isinstance(result, str) and result.isnumeric():
+                # ARIA posinset is 1-based.
+                return int(result) - 1
+
+            if AXObject.get_child_count(obj):
+                cell = AXObject.find_descendant(obj, AXUtilitiesRole.is_table_cell_or_header)
+                result = AXObject.get_attribute(cell, "rowindex", False)
+
+            if isinstance(result, str) and result.isnumeric():
+                # ARIA posinset is 1-based.
+                return int(result) - 1
+
+        return None
+
+for name, method in inspect.getmembers(AXUtilitiesRelation, predicate=inspect.isfunction):
+    setattr(AXUtilities, name, method)
 
 for name, method in inspect.getmembers(AXUtilitiesRole, predicate=inspect.isfunction):
     setattr(AXUtilities, name, method)

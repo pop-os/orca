@@ -25,7 +25,7 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2010 Joanmarie Diggs."
 __license__   = "LGPL"
 
-import orca.chat as chat
+from orca import chat
 from orca.ax_text import AXText
 
 ########################################################################
@@ -36,9 +36,8 @@ from orca.ax_text import AXText
 
 class Chat(chat.Chat):
 
-    def __init__(self, script, buddyListAncestries):
-
-        chat.Chat.__init__(self, script, buddyListAncestries)
+    def __init__(self, script):
+        chat.Chat.__init__(self, script)
 
     def isTypingStatusChangedEvent(self, event):
         """Returns True if event is associated with a change in typing status.

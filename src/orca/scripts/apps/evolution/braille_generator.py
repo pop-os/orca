@@ -25,17 +25,17 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2015 Igalia, S.L."
 __license__   = "LGPL"
 
-import orca.braille as braille
-import orca.braille_generator as braille_generator
-import orca.scripts.toolkits.WebKitGtk as WebKitGtk
+from orca import braille
+from orca import braille_generator
+from orca.scripts import web
 
-class BrailleGenerator(WebKitGtk.BrailleGenerator, braille_generator.BrailleGenerator):
+class BrailleGenerator(web.BrailleGenerator, braille_generator.BrailleGenerator):
 
     def __init__(self, script):
         super().__init__(script)
         self._cache = {}
 
-    def _isMessageListToggleCell(self, obj):
+    def _is_message_list_toggle_cell(self, obj):
         cached = self._cache.get(hash(obj), {})
         rv = cached.get("isMessageListToggleCell")
         if rv is None:
@@ -46,7 +46,7 @@ class BrailleGenerator(WebKitGtk.BrailleGenerator, braille_generator.BrailleGene
         return rv
 
     def _generateRealActiveDescendantDisplayedText(self, obj, **args):
-        if self._isMessageListToggleCell(obj):
+        if self._is_message_list_toggle_cell(obj):
             return []
 
         return super()._generateRealActiveDescendantDisplayedText(obj, **args)
@@ -63,7 +63,7 @@ class BrailleGenerator(WebKitGtk.BrailleGenerator, braille_generator.BrailleGene
             return isinstance(x, (braille.Component, braille.Text))
 
         def isObj(x):
-            return self._script.utilities.isSameObject(obj, x.accessible)
+            return obj == x.accessible
 
         matches = [r for r in result if hasObj(r) and isObj(r)]
         if matches:

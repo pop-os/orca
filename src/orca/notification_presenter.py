@@ -43,7 +43,6 @@ from . import guilabels
 from . import input_event
 from . import keybindings
 from . import messages
-from . import orca_state
 
 class NotificationPresenter:
     """Provides access to the notification history."""
@@ -68,7 +67,7 @@ class NotificationPresenter:
             msg = "NOTIFICATION PRESENTER: Refreshing bindings."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._setup_bindings()
-        elif self._bindings.isEmpty():
+        elif self._bindings.is_empty():
             self._setup_bindings()
 
         return self._bindings
@@ -136,28 +135,28 @@ class NotificationPresenter:
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("present_last_notification")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("present_next_notification")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("present_previous_notification")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("show_notification_list")))
 
@@ -339,7 +338,7 @@ class NotificationListGUI:
 
         if response == Gtk.ResponseType.APPLY and self._model is not None:
             self._model.clear()
-            getPresenter().clear_list()
+            get_presenter().clear_list()
             self._script.presentMessage(messages.NOTIFICATION_NO_MESSAGES)
             time.sleep(1)
             self._gui.destroy()
@@ -348,13 +347,10 @@ class NotificationListGUI:
         """Shows the notifications list dialog."""
 
         self._gui.show_all()
-        time_stamp = orca_state.lastInputEvent.timestamp
-        if time_stamp == 0:
-            time_stamp = Gtk.get_current_event_time()
-        self._gui.present_with_time(time_stamp)
+        self._gui.present_with_time(Gtk.get_current_event_time())
 
 _presenter = NotificationPresenter()
-def getPresenter():
+def get_presenter():
     """Returns the Notification Presenter"""
 
     return _presenter

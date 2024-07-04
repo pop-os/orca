@@ -26,14 +26,13 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2010-2013 Igalia, S.L."
 __license__   = "LGPL"
 
-import orca.scripts.default as default
+from orca.scripts import default
 from .script_utilities import Utilities
 
 
 class Script(default.Script):
 
-    def __init__(self, app):
-        default.Script.__init__(self, app)
+    def get_utilities(self):
+        """Returns the utilities for this script."""
 
-    def getUtilities(self):
         return Utilities(self)

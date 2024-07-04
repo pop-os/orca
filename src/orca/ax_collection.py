@@ -18,6 +18,9 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=broad-exception-caught
+# pylint: disable=wrong-import-position
+
 """
 Utilities for obtaining objects via the collection interface.
 These utilities are app-type- and toolkit-agnostic. Utilities that might have
@@ -100,6 +103,8 @@ class AXCollection:
         """Returns a list of objects matching the specified rule."""
 
         if not AXObject.supports_collection(obj):
+            tokens = ["AXCollection:", obj, "does not implement this interface."]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return []
 
         if rule is None:
@@ -124,6 +129,8 @@ class AXCollection:
         """Returns the first object matching the specified rule."""
 
         if not AXObject.supports_collection(obj):
+            tokens = ["AXCollection:", obj, "does not implement this interface."]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         if rule is None:

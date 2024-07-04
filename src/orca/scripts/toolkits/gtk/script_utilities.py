@@ -25,13 +25,10 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2013-2014 Igalia, S.L."
 __license__   = "LGPL"
 
-import gi
-gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
 import re
 
-import orca.debug as debug
-import orca.script_utilities as script_utilities
+from orca import debug
+from orca import script_utilities
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
 
@@ -140,13 +137,6 @@ class Utilities(script_utilities.Utilities):
     def isEntryCompletionPopupItem(self, obj):
         return AXUtilities.is_table_cell(obj) \
             and AXObject.find_ancestor(obj, AXUtilities.is_window) is not None
-
-    def isPopOver(self, obj):
-        return AXObject.has_relation(obj, Atspi.RelationType.POPUP_FOR)
-
-    def isSameObject(self, obj1, obj2, comparePaths=False, ignoreNames=False,
-                     ignoreDescriptions=True):
-        return super().isSameObject(obj1, obj2, comparePaths, ignoreNames, False)
 
     def isUselessPanel(self, obj):
         if not AXUtilities.is_panel(obj):

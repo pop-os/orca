@@ -28,15 +28,11 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2010 Joanmarie Diggs."
 __license__   = "LGPL"
 
-import gi
-gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
-
-import orca.debug as debug
-import orca.focus_manager as focus_manager
-import orca.keybindings as keybindings
-import orca.messages as messages
-import orca.script_utilities as script_utilities
+from orca import debug
+from orca import focus_manager
+from orca import input_event_manager
+from orca import messages
+from orca import script_utilities
 from orca.ax_object import AXObject
 from orca.ax_selection import AXSelection
 from orca.ax_table import AXTable
@@ -121,30 +117,13 @@ class Utilities(script_utilities.Utilities):
         return False
 
     def spreadSheetCellName(self, cell):
-        nameList = AXObject.get_name(cell).split()
-        for name in nameList:
+        name_list = AXObject.get_name(cell).split()
+        for name in name_list:
             name = name.replace('.', '')
             if not name.isalpha() and name.isalnum():
                 return name
 
         return ''
-
-    def isSameObject(self, obj1, obj2, comparePaths=False, ignoreNames=False,
-                     ignoreDescriptions=True):
-        if obj1 == obj2:
-            return True
-
-        if not AXUtilities.have_same_role(obj1, obj2):
-            return False
-
-        if AXUtilities.is_paragraph(obj1):
-            return False
-
-        name = AXObject.get_name(obj1)
-        if name == AXObject.get_name(obj2) and AXUtilities.is_frame(obj1):
-            return True
-
-        return super().isSameObject(obj1, obj2, comparePaths, ignoreNames)
 
     def isLayoutOnly(self, obj):
         """Returns True if the given object is a container which has
@@ -160,7 +139,7 @@ class Utilities(script_utilities.Utilities):
             return super().isLayoutOnly(obj)
 
         if AXUtilities.is_frame(obj):
-            return name == AXObject.get_name(focus_manager.getManager().get_active_window())
+            return name == AXObject.get_name(focus_manager.get_manager().get_active_window())
 
         if AXUtilities.is_panel(obj) and AXObject.get_child_count(obj):
             if AXObject.get_name(AXObject.get_child(obj, 0)) == name:
@@ -185,9 +164,9 @@ class Utilities(script_utilities.Utilities):
 
         parent = AXObject.get_parent_checked(obj)
         while parent:
-            if AXObject.get_role(parent) == Atspi.Role.FRAME:
+            if AXUtilities.is_frame(parent):
                 results[0] = parent
-            if AXObject.get_role(parent) == Atspi.Role.TABLE:
+            elif AXUtilities.is_table(parent):
                 results[1] = parent
             parent = AXObject.get_parent_checked(parent)
 
@@ -195,10 +174,8 @@ class Utilities(script_utilities.Utilities):
 
     @staticmethod
     def _flowsFromOrToSelection(obj):
-        relationSet = AXObject.get_relations(obj)
-        flows = [Atspi.RelationType.FLOWS_FROM, Atspi.RelationType.FLOWS_TO]
-        relations = filter(lambda r: r.get_relation_type() in flows, relationSet)
-        targets = [r.get_target(0) for r in relations]
+        targets = AXUtilities.get_flows_from(obj)
+        targets.extend(AXUtilities.get_flows_to(obj))
         for target in targets:
             if AXText.has_selected_text(target):
                 return True
@@ -206,7 +183,7 @@ class Utilities(script_utilities.Utilities):
         return False
 
     def objectContentsAreInClipboard(self, obj=None):
-        obj = obj or focus_manager.getManager().get_locus_of_focus()
+        obj = obj or focus_manager.get_manager().get_locus_of_focus()
         if not obj:
             return False
 
@@ -234,72 +211,21 @@ class Utilities(script_utilities.Utilities):
         if self.isEditableDescendantOfComboBox(event.source):
             return super().isAutoTextEvent(event)
 
-        if AXObject.get_role(event.source) != Atspi.Role.PARAGRAPH:
+        if not AXUtilities.is_paragraph(event.source):
             return False
 
-        lastKey, mods = self.lastKeyAndModifiers()
+        manager = input_event_manager.get_manager()
         if event.type.startswith("object:text-changed:insert"):
             if not event.any_data:
                 return False
 
-            if lastKey == "Tab" and event.any_data != "\t":
+            if manager.last_event_was_tab() and event.any_data != "\t":
                 return True
 
-            if lastKey in ["BackSpace", "ISO_Left_Tab"]:
+            if manager.last_event_was_backspace():
                 return True
 
-        if event.type.startswith("focus:") and lastKey == "Return":
-            return AXText.get_character_count(event.source) > 0
-
         return False
-
-    def containingComboBox(self, obj):
-        if AXUtilities.is_combo_box(obj):
-            comboBox = obj
-        else:
-            comboBox = AXObject.find_ancestor(obj, AXUtilities.is_combo_box)
-
-        if not comboBox:
-            return None
-
-        if AXObject.is_valid(comboBox):
-            return comboBox
-
-        parent = AXObject.get_parent(comboBox)
-        if not parent:
-            return comboBox
-
-        replicant = self.findReplicant(parent, comboBox)
-        if replicant and AXObject.is_valid(replicant):
-            comboBox = replicant
-
-        return comboBox
-
-    def isComboBoxSelectionChange(self, event):
-        comboBox = self.containingComboBox(event.source)
-        if not comboBox:
-            return False
-
-        lastKey, mods = self.lastKeyAndModifiers()
-        if lastKey not in ["Down", "Up"]:
-            return False
-
-        return True
-
-    def isComboBoxNoise(self, event):
-        role = AXObject.get_role(event.source)
-        if role == Atspi.Role.TEXT and event.type.startswith("object:text-"):
-            return self.isComboBoxSelectionChange(event)
-
-        return False
-
-    def isPresentableTextChangedEventForLocusOfFocus(self, event):
-        if self.isComboBoxNoise(event):
-            msg = "SOFFICE: Event is believed to be combo box noise"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return False
-
-        return super().isPresentableTextChangedEventForLocusOfFocus(event)
 
     def isReadOnlyTextArea(self, obj):
         if not super().isReadOnlyTextArea(obj):
@@ -309,19 +235,10 @@ class Utilities(script_utilities.Utilities):
 
     def isSelectedTextDeletionEvent(self, event):
         if event.type.startswith("object:state-changed:selected") and not event.detail1:
-            return self.lastInputEventWasDelete() and focus_manager.getManager().focus_is_dead()
+            return input_event_manager.get_manager().last_event_was_delete() \
+                and focus_manager.get_manager().focus_is_dead()
 
         return super().isSelectedTextDeletionEvent(event)
-
-    def lastInputEventWasRedo(self):
-        if super().lastInputEventWasRedo():
-            return True
-
-        keyString, mods = self.lastKeyAndModifiers()
-        if mods & keybindings.COMMAND_MODIFIER_MASK and keyString.lower() == 'y':
-            return not (mods & keybindings.SHIFT_MODIFIER_MASK)
-
-        return False
 
     def selectedChildren(self, obj):
         # TODO - JD: Are these overrides still needed? They appear to be
@@ -352,11 +269,10 @@ class Utilities(script_utilities.Utilities):
         return AXText.get_word_at_offset(obj, offset)
 
     def shouldReadFullRow(self, obj, prevObj=None):
-        if self._script.getTableNavigator().last_input_event_was_navigation_command():
+        if self._script.get_table_navigator().last_input_event_was_navigation_command():
             return False
 
-        lastKey, mods = self.lastKeyAndModifiers()
-        if lastKey in ["Tab", "ISO_Left_Tab"]:
+        if input_event_manager.get_manager().last_event_was_tab_navigation():
             return False
 
         return super().shouldReadFullRow(obj, prevObj)
@@ -452,7 +368,7 @@ class Utilities(script_utilities.Utilities):
 
         unselected = sorted(previous.difference(current))
         selected = sorted(current.difference(previous))
-        focusCoords = AXTable.get_cell_coordinates(focus_manager.getManager().get_locus_of_focus())
+        focusCoords = AXTable.get_cell_coordinates(focus_manager.get_manager().get_locus_of_focus())
         if focusCoords in selected:
             selected.remove(focusCoords)
 

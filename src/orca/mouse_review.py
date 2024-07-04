@@ -18,6 +18,12 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=broad-exception-caught
+# pylint: disable=wrong-import-position
+# pylint: disable=too-many-arguments
+# pylint: disable=too-many-return-statements
+# pylint: disable=too-many-instance-attributes
+
 """Mouse review mode."""
 
 __id__        = "$Id$"
@@ -28,6 +34,7 @@ __copyright__ = "Copyright (c) 2008 Eitan Isaacson" \
 __license__   = "LGPL"
 
 import math
+import os
 import time
 from collections import deque
 
@@ -36,12 +43,14 @@ gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 from gi.repository import GLib
 
+_MOUSE_REVIEW_CAPABLE = False
 try:
-    gi.require_version("Wnck", "3.0")
-    from gi.repository import Wnck
-    _mouseReviewCapable = True
+    if os.environ.get("XDG_SESSION_TYPE", "").lower() != "wayland":
+        gi.require_version("Wnck", "3.0")
+        from gi.repository import Wnck
+        _MOUSE_REVIEW_CAPABLE = Wnck.Screen.get_default() is not None
 except Exception:
-    _mouseReviewCapable = False
+    pass
 
 from . import cmdnames
 from . import debug
@@ -85,7 +94,7 @@ class _StringContext:
             and self._start == other._start \
             and self._end == other._end
 
-    def isSubstringOf(self, other):
+    def is_substring_of(self, other):
         """Returns True if this is a substring of other."""
 
         if other is None:
@@ -94,27 +103,27 @@ class _StringContext:
         if not (self._obj and other._obj):
             return False
 
-        thisBox = self.getBoundingBox()
-        if thisBox == (0, 0, 0, 0):
+        this_box = self.get_bounding_box()
+        if this_box == (0, 0, 0, 0):
             return False
 
-        otherBox = other.getBoundingBox()
-        if otherBox == (0, 0, 0, 0):
+        other_box = other.get_bounding_box()
+        if other_box == (0, 0, 0, 0):
             return False
 
         # We get various and sundry results for the bounding box if the implementor
         # included newline characters as part of the word or line at offset. Try to
         # detect this and adjust the bounding boxes before getting the intersection.
-        if thisBox[3] != otherBox[3] and self._obj == other._obj:
-            thisNewLineCount = self._string.count("\n")
-            if thisNewLineCount and thisBox[3] / thisNewLineCount == otherBox[3]:
-                thisBox = *thisBox[0:3], otherBox[3]
+        if this_box[3] != other_box[3] and self._obj == other._obj:
+            this_newline_count = self._string.count("\n")
+            if this_newline_count and this_box[3] / this_newline_count == other_box[3]:
+                this_box = *this_box[0:3], other_box[3]
 
-        thisRect = Atspi.Rect()
-        thisRect.x, thisRect.y, thisRect.width, thisRect.height = thisBox
-        otherRect = Atspi.Rect()
-        otherRect.x, otherRect.y, otherRect.width, otherRect.height = otherBox
-        if AXComponent.get_rect_intersection(thisRect, otherRect) != thisRect:
+        this_rect = Atspi.Rect()
+        this_rect.x, this_rect.y, this_rect.width, this_rect.height = this_box
+        other_rect = Atspi.Rect()
+        other_rect.x, other_rect.y, other_rect.width, other_rect.height = other_box
+        if AXComponent.get_rect_intersection(this_rect, other_rect) != this_rect:
             return False
 
         if not (self._string and self._string.strip() in other._string):
@@ -124,12 +133,12 @@ class _StringContext:
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return True
 
-    def getBoundingBox(self):
+    def get_bounding_box(self):
         """Returns the bounding box associated with this context's range."""
 
         return self._rect.x, self._rect.y, self._rect.width, self._rect.height
 
-    def getString(self):
+    def get_string(self):
         """Returns the string associated with this context."""
 
         return self._string
@@ -147,10 +156,10 @@ class _StringContext:
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
-        voice = self._script.speechGenerator.voice(obj=self._obj, string=self._string)
+        voice = self._script.speech_generator.voice(obj=self._obj, string=self._string)
         string = self._script.utilities.adjustForRepeats(self._string)
 
-        focus_manager.getManager().emit_region_changed(
+        focus_manager.get_manager().emit_region_changed(
             self._obj, self._start, self._end, focus_manager.MOUSE_REVIEW)
         self._script.speakMessage(string, voice=voice, interrupt=False)
         self._script.displayBrailleMessage(self._string, -1)
@@ -178,7 +187,7 @@ class _ItemContext:
         self._boundary = boundary
         self._frame = frame
         self._script = script
-        self._string = self._getStringContext()
+        self._string = self._get_string_context()
         self._time = time.time()
         self._rect = AXComponent.get_rect(obj)
 
@@ -188,13 +197,13 @@ class _ItemContext:
             and self._obj == other._obj \
             and self._string == other._string
 
-    def _treatAsDuplicate(self, prior):
+    def _treat_as_duplicate(self, prior):
         if self._obj != prior._obj or self._frame != prior._frame:
             msg = "MOUSE REVIEW: Not a duplicate: different objects"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
-        if self.getString() and prior.getString() and not self._isSubstringOf(prior):
+        if self.get_string() and prior.get_string() and not self._is_substring_of(prior):
             msg = "MOUSE REVIEW: Not a duplicate: not a substring of"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
@@ -214,16 +223,16 @@ class _ItemContext:
         debug.printMessage(debug.LEVEL_INFO, msg, True)
         return True
 
-    def _treatAsSingleObject(self):
+    def _treat_as_single_object(self):
         return AXText.is_whitespace_or_empty(self._obj)
 
-    def _getStringContext(self):
+    def _get_string_context(self):
         """Returns the _StringContext associated with the specified point."""
 
         if not (self._script and self._obj):
             return _StringContext(self._obj)
 
-        if self._treatAsSingleObject():
+        if self._treat_as_single_object():
             return _StringContext(self._obj, self._script)
 
         try:
@@ -239,53 +248,52 @@ class _ItemContext:
 
         return _StringContext(self._obj, self._script, string, start, end)
 
-    def _getContainer(self):
-        roles = [Atspi.Role.DIALOG,
-                 Atspi.Role.FRAME,
-                 Atspi.Role.LAYERED_PANE,
-                 Atspi.Role.MENU,
-                 Atspi.Role.PAGE_TAB,
-                 Atspi.Role.TOOL_BAR,
-                 Atspi.Role.WINDOW]
-        return AXObject.find_ancestor(self._obj, lambda x: AXObject.get_role(x) in roles)
+    def _get_container(self):
+        def is_container(x):
+            return AXUtilities.is_dialog_or_window(x) \
+                or AXUtilities.is_layered_pane(x) \
+                or AXUtilities.is_menu(x) \
+                or AXUtilities.is_page_tab(x) \
+                or AXUtilities.is_tool_bar(x)
+        return AXObject.find_ancestor(self._obj, is_container)
 
-    def _isSubstringOf(self, other):
+    def _is_substring_of(self, other):
         """Returns True if this is a substring of other."""
 
-        return self._string.isSubstringOf(other._string)
+        return self._string.is_substring_of(other._string)
 
-    def getObject(self):
+    def get_object(self):
         """Returns the accessible object associated with this context."""
 
         return self._obj
 
-    def getBoundingBox(self):
+    def get_bounding_box(self):
         """Returns the bounding box associated with this context."""
 
-        x, y, width, height = self._string.getBoundingBox()
+        x, y, width, height = self._string.get_bounding_box()
         if not (width or height):
             return self._rect.x, self._rect.y, self._rect.width, self._rect.height
 
         return x, y, width, height
 
-    def getString(self):
+    def get_string(self):
         """Returns the string associated with this context."""
 
-        return self._string.getString()
+        return self._string.get_string()
 
-    def getTime(self):
+    def get_time(self):
         """Returns the time associated with this context."""
 
         return self._time
 
-    def _isInlineChild(self, prior):
+    def _is_inline_child(self, prior):
         if not self._obj or not prior._obj:
             return False
 
         if AXObject.get_parent(prior._obj) != self._obj:
             return False
 
-        if self._treatAsSingleObject():
+        if self._treat_as_single_object():
             return False
 
         return AXUtilities.is_link(prior._obj)
@@ -293,7 +301,7 @@ class _ItemContext:
     def present(self, prior):
         """Presents this context to the user."""
 
-        if self == prior or self._treatAsDuplicate(prior):
+        if self == prior or self._treat_as_duplicate(prior):
             msg = "MOUSE REVIEW: Not presenting due to no change"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
@@ -310,22 +318,17 @@ class _ItemContext:
                                         inMouseReview=True,
                                         interrupt=True)
 
-        if not self._script.utilities.hasPresentableText(self._obj):
-            msg = "MOUSE REVIEW: Not presenting object which lacks presentable text."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return False
-
-        if self._obj and self._obj != prior._obj and not self._isInlineChild(prior):
-            priorObj = prior._obj or self._getContainer()
-            focus_manager.getManager().emit_region_changed(
+        if self._obj and self._obj != prior._obj and not self._is_inline_child(prior):
+            prior_obj = prior._obj or self._get_container()
+            focus_manager.get_manager().emit_region_changed(
                 self._obj, mode=focus_manager.MOUSE_REVIEW)
-            self._script.presentObject(self._obj, priorObj=priorObj, inMouseReview=True)
-            if self._string.getString() == AXObject.get_name(self._obj):
+            self._script.presentObject(self._obj, priorObj=prior_obj, inMouseReview=True)
+            if self._string.get_string() == AXObject.get_name(self._obj):
                 return True
             if not self._script.utilities.isEditableTextArea(self._obj):
                 return True
             if AXUtilities.is_table_cell(self._obj) \
-               and self._string.getString() == self._script.utilities.displayedText(self._obj):
+               and self._string.get_string() == self._script.utilities.displayedText(self._obj):
                 return True
 
         if self._string != prior._string and self._string.present():
@@ -338,22 +341,22 @@ class MouseReviewer:
     """Main class for the mouse-review feature."""
 
     def __init__(self):
-        self._active = settings_manager.getManager().getSetting("enableMouseReview")
-        self._currentMouseOver = _ItemContext()
+        self._active = settings_manager.get_manager().get_setting("enableMouseReview")
+        self._current_mouse_over = _ItemContext()
         self._workspace = None
         self._windows = []
         self._all_windows = []
-        self._handlerIds = {}
-        self._eventListener = Atspi.EventListener.new(self._listener)
-        self.inMouseEvent = False
+        self._handler_ids = {}
+        self._event_listener = Atspi.EventListener.new(self._listener)
+        self.in_mouse_event = False
         self._event_queue = deque()
         self._handlers = self.get_handlers(True)
         self._bindings = keybindings.KeyBindings()
 
-        if not _mouseReviewCapable:
+        if not _MOUSE_REVIEW_CAPABLE:
             msg = "MOUSE REVIEW ERROR: Wnck is not available"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return
+            self._active = False
 
         if not self._active:
             return
@@ -364,10 +367,10 @@ class MouseReviewer:
         """Returns the mouse-review keybindings."""
 
         if refresh:
-            msg = "MOUSE REVIEW: Refreshing bindings."
+            msg = f"MOUSE REVIEW: Refreshing bindings. Is desktop: {is_desktop}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._setup_bindings()
-        elif self._bindings.isEmpty():
+        elif self._bindings.is_empty():
             self._setup_bindings()
 
         return self._bindings
@@ -403,7 +406,7 @@ class MouseReviewer:
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("toggleMouseReviewHandler")))
 
@@ -413,83 +416,86 @@ class MouseReviewer:
     def activate(self):
         """Activates mouse review."""
 
-        if not _mouseReviewCapable:
+        if not _MOUSE_REVIEW_CAPABLE:
             msg = "MOUSE REVIEW ERROR: Wnck is not available"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
+            self._active = False
             return
 
         # Set up the initial object as the one with the focus to avoid
         # presenting irrelevant info the first time.
-        obj = focus_manager.getManager().get_locus_of_focus()
+        obj = focus_manager.get_manager().get_locus_of_focus()
         script = None
         frame = None
         if obj:
-            script = script_manager.getManager().getScript(AXObject.get_application(obj), obj)
+            script = script_manager.get_manager().get_script(AXObject.get_application(obj), obj)
         if script:
             frame = script.utilities.topLevelObject(obj)
-        self._currentMouseOver = _ItemContext(obj=obj, frame=frame, script=script)
+        self._current_mouse_over = _ItemContext(obj=obj, frame=frame, script=script)
 
-        self._eventListener.register("mouse:abs")
+        self._event_listener.register("mouse:abs")
         screen = Wnck.Screen.get_default()
-        if screen:
-            # On first startup windows and workspace are likely to be None,
-            # but the signals we connect to will get emitted when proper values
-            # become available;  but in case we got disabled and re-enabled we
-            # have to get the initial values manually.
-            stacked = screen.get_windows_stacked()
-            if stacked:
-                stacked.reverse()
-                self._all_windows = stacked
-            self._workspace = screen.get_active_workspace()
-            if self._workspace:
-                self._update_workspace_windows()
+        if screen is None:
+            self._active = False
+            return
 
-            i = screen.connect("window-stacking-changed", self._on_stacking_changed)
-            self._handlerIds[i] = screen
-            i = screen.connect("active-workspace-changed", self._on_workspace_changed)
-            self._handlerIds[i] = screen
+        # On first startup windows and workspace are likely to be None,
+        # but the signals we connect to will get emitted when proper values
+        # become available;  but in case we got disabled and re-enabled we
+        # have to get the initial values manually.
+        stacked = screen.get_windows_stacked()
+        if stacked:
+            stacked.reverse()
+            self._all_windows = stacked
+        self._workspace = screen.get_active_workspace()
+        if self._workspace:
+            self._update_workspace_windows()
 
+        i = screen.connect("window-stacking-changed", self._on_stacking_changed)
+        self._handler_ids[i] = screen
+        i = screen.connect("active-workspace-changed", self._on_workspace_changed)
+        self._handler_ids[i] = screen
         self._active = True
 
     def deactivate(self):
         """Deactivates mouse review."""
 
-        self._eventListener.deregister("mouse:abs")
-        for key, value in self._handlerIds.items():
+        self._event_listener.deregister("mouse:abs")
+        for key, value in self._handler_ids.items():
             value.disconnect(key)
-        self._handlerIds = {}
+        self._handler_ids = {}
         self._workspace = None
         self._windows = []
         self._all_windows = []
         self._event_queue.clear()
         self._active = False
 
-    def getCurrentItem(self):
+    def get_current_item(self):
         """Returns the accessible object being reviewed."""
 
-        if not _mouseReviewCapable:
+        if not _MOUSE_REVIEW_CAPABLE:
             return None
 
         if not self._active:
             return None
 
-        obj = self._currentMouseOver.getObject()
+        obj = self._current_mouse_over.get_object()
 
-        if time.time() - self._currentMouseOver.getTime() > 0.1:
+        if time.time() - self._current_mouse_over.get_time() > 0.1:
             tokens = ["MOUSE REVIEW: Treating", obj, "as stale"]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         return obj
 
-    def toggle(self, script=None, event=None):
+    def toggle(self, script=None, _event=None):
         """Toggle mouse reviewing on or off."""
 
-        if not _mouseReviewCapable:
+        if not _MOUSE_REVIEW_CAPABLE:
             return
 
         self._active = not self._active
-        settings_manager.getManager().setSetting("enableMouseReview", self._active)
+        settings_manager.get_manager().set_setting("enableMouseReview", self._active)
 
         if not self._active:
             self.deactivate()
@@ -498,7 +504,7 @@ class MouseReviewer:
             self.activate()
             msg = messages.MOUSE_REVIEW_ENABLED
 
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         if script is not None:
             script.presentMessage(msg)
 
@@ -515,13 +521,13 @@ class MouseReviewer:
         if self._workspace:
             self._update_workspace_windows()
 
-    def _on_workspace_changed(self, screen, prev_ws=None):
+    def _on_workspace_changed(self, screen, _prev_ws=None):
         """Callback for Wnck's active-workspace-changed signal."""
 
         self._workspace = screen.get_active_workspace()
         self._update_workspace_windows()
 
-    def _accessible_window_at_point(self, pX, pY):
+    def _accessible_window_at_point(self, point_x, point_y):
         """Returns the accessible window and window based coordinates for the screen coordinates."""
 
         window = None
@@ -530,57 +536,64 @@ class MouseReviewer:
                 continue
 
             x, y, width, height = w.get_client_window_geometry()
-            if x <= pX <= x + width and y <= pY <= y + height:
+            if x <= point_x <= x + width and y <= point_y <= y + height:
                 window = w
                 break
 
         if not window:
             return None, -1, -1
 
-        windowApp = window.get_application()
-        if not windowApp:
+        window_app = window.get_application()
+        if not window_app:
             return None, -1, -1
 
-        app = AXUtilities.get_application_with_pid(windowApp.get_pid())
+        app = AXUtilities.get_application_with_pid(window_app.get_pid())
         if not app:
             return None, -1, -1
 
         # Adjust the pointer screen coordinates to be relative to the window. This is
         # needed because we won't be able to get the screen coordinates in Wayland.
-        relativeX = pX - x
-        relativeY = pY - y
+        relative_x = point_x - x
+        relative_y = point_y - y
 
-        candidates = [o for o in AXObject.iter_children(
-            app, lambda x: AXComponent.object_contains_point(x, relativeX, relativeY))]
+        candidates = list(AXObject.iter_children(
+            app, lambda x: AXComponent.object_contains_point(x, relative_x, relative_y)))
         if len(candidates) == 1:
-            return candidates[0], relativeX, relativeY
+            return candidates[0], relative_x, relative_y
 
         name = window.get_name()
         matches = [o for o in candidates if AXObject.get_name(o) == name]
         if len(matches) == 1:
-            return matches[0], relativeX, relativeY
+            return matches[0], relative_x, relative_y
 
         matches = [o for o in matches if AXUtilities.is_active(o)]
         if len(matches) == 1:
-            return matches[0], relativeX, relativeY
+            return matches[0], relative_x, relative_y
 
         return None, -1, -1
+
+    def _is_multi_paragraph_object(self, obj):
+        """Returns True if obj has multiple paragraphs of text."""
+
+        string = AXText.get_all_text(obj)
+        chunks = list(filter(lambda x: x.strip(), string.split("\n\n")))
+        return len(chunks) > 1
 
     def _on_mouse_moved(self, event):
         """Callback for mouse:abs events."""
 
-        pX, pY = event.detail1, event.detail2
-        window, windowX, windowY = self._accessible_window_at_point(pX, pY)
-        tokens = [f"MOUSE REVIEW: Window at ({pX}, {pY}) is", window]
+        point_x, point_y = event.detail1, event.detail2
+        window, window_x, window_y = self._accessible_window_at_point(point_x, point_y)
+        tokens = [f"MOUSE REVIEW: Window at ({point_x}, {point_y}) is", window]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         if not window:
             return
 
-        script = script_manager.getManager().getScript(AXObject.get_application(window))
+        script = script_manager.get_manager().get_script(AXObject.get_application(window))
         if not script:
             return
 
-        focus = focus_manager.getManager().get_locus_of_focus()
+        focus = focus_manager.get_manager().get_locus_of_focus()
         if AXObject.is_dead(focus):
             menu = None
         elif AXUtilities.is_menu(focus):
@@ -590,39 +603,39 @@ class MouseReviewer:
 
         obj = None
         if menu:
-            obj = AXComponent.get_descendant_at_point(menu, windowX, windowY)
-            tokens = ["MOUSE REVIEW: Object in", menu, f"at ({windowX}, {windowY}) is", obj]
+            obj = AXComponent.get_descendant_at_point(menu, window_x, window_y)
+            tokens = ["MOUSE REVIEW: Object in", menu, f"at ({window_x}, {window_y}) is", obj]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         if obj is None:
-            obj = AXComponent.get_descendant_at_point(window, windowX, windowY)
-            tokens = ["MOUSE REVIEW: Object in", window, f"at ({windowX}, {windowY}) is", obj]
+            obj = AXComponent.get_descendant_at_point(window, window_x, window_y)
+            tokens = ["MOUSE REVIEW: Object in", window, f"at ({window_x}, {window_y}) is", obj]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        script = script_manager.getManager().getScript(AXObject.get_application(window), obj)
+        script = script_manager.get_manager().get_script(AXObject.get_application(window), obj)
         if menu and obj and not AXObject.find_ancestor(obj, AXUtilities.is_menu):
             if AXComponent.objects_overlap(obj, menu):
                 tokens = ["MOUSE REVIEW:", obj, "believed to be under", menu]
                 debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 return
 
-        objDocument = script.utilities.getTopLevelDocumentForObject(obj)
-        if objDocument and script.utilities.inDocumentContent():
+        obj_document = script.utilities.getTopLevelDocumentForObject(obj)
+        if obj_document and script.utilities.inDocumentContent():
             document = script.utilities.activeDocument()
-            if document != objDocument:
+            if document != obj_document:
                 tokens = ["MOUSE REVIEW:", obj, "is not in active document", document]
                 debug.printTokens(debug.LEVEL_INFO, tokens, True)
                 return
 
         boundary = None
-        x, y, width, height = self._currentMouseOver.getBoundingBox()
-        if y <= windowY <= y + height and self._currentMouseOver.getString():
+        _x, y, _width, height = self._current_mouse_over.get_bounding_box()
+        if y <= window_y <= y + height and self._current_mouse_over.get_string():
             boundary = Atspi.TextBoundaryType.WORD_START
-        elif obj == self._currentMouseOver.getObject():
+        elif obj == self._current_mouse_over.get_object():
             boundary = Atspi.TextBoundaryType.LINE_START
         elif AXUtilities.is_selectable(obj):
             boundary = Atspi.TextBoundaryType.LINE_START
-        elif script.utilities.isMultiParagraphObject(obj):
+        elif self._is_multi_paragraph_object(obj):
             boundary = Atspi.TextBoundaryType.LINE_START
 
         if len(self._event_queue):
@@ -630,9 +643,9 @@ class MouseReviewer:
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
-        new = _ItemContext(windowX, windowY, obj, boundary, window, script)
-        if new.present(self._currentMouseOver):
-            self._currentMouseOver = new
+        new = _ItemContext(window_x, window_y, obj, boundary, window, script)
+        if new.present(self._current_mouse_over):
+            self._current_mouse_over = new
 
     def _process_event(self):
         if not self._event_queue:
@@ -642,15 +655,15 @@ class MouseReviewer:
         if len(self._event_queue):
             return
 
-        startTime = time.time()
+        start_time = time.time()
         tokens = ["\nvvvvv PROCESS OBJECT EVENT", event.type, "vvvvv"]
         debug.printTokens(debug.LEVEL_INFO, tokens, False)
 
-        self.inMouseEvent = True
+        self.in_mouse_event = True
         self._on_mouse_moved(event)
-        self.inMouseEvent = False
+        self.in_mouse_event = False
 
-        msg = f"TOTAL PROCESSING TIME: {time.time() - startTime:.4f}\n"
+        msg = f"TOTAL PROCESSING TIME: {time.time() - start_time:.4f}\n"
         msg += f"^^^^^ PROCESS OBJECT EVENT {event.type} ^^^^^\n"
         debug.printMessage(debug.LEVEL_INFO, msg, False)
 
@@ -663,5 +676,7 @@ class MouseReviewer:
 
 
 _reviewer = MouseReviewer()
-def getReviewer():
+def get_reviewer():
+    """Returns the Mouse Reviewer singleton."""
+
     return _reviewer

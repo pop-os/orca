@@ -25,8 +25,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: orca help master\n"
-"POT-Creation-Date: 2024-03-18 10:26+0000\n"
-"PO-Revision-Date: 2024-03-20 16:24+0100\n"
+"POT-Creation-Date: 2024-02-22 10:22+0000\n"
+"PO-Revision-Date: 2024-02-22 15:19+0100\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -3293,7 +3293,7 @@ msgid ""
 "I, and Say All."
 msgstr ""
 "Das Layout bestimmt auch die Zuweisung einiger Tastenkürzel zu <app>Orca</"
-"app>-Befehlen, inbesondere in der Übersicht, »Wo bin ich« und »Alles "
+"app>-Befehlen, insbesondere in der Übersicht, »Wo bin ich« und »Alles "
 "vorlesen«."
 
 #. (itstool) path: steps/title
@@ -3591,9 +3591,9 @@ msgid ""
 "media player is starting to play, and warnings that your battery level is "
 "getting low."
 msgstr ""
-"Die GNOME-Arbeitsumgebung beinhaltet einen »Benachrichtungsbereich«, der "
+"Die GNOME-Arbeitsumgebung beinhaltet einen »Benachrichtigungsbereich«, der "
 "verwendet werden kann, um dem Benutzer Informationen zu präsentieren. "
-"Beispiele an Benachrichtungen sind Chat-Nachrichten, Details zum Lied, das "
+"Beispiele an Benachrichtigungen sind Chat-Nachrichten, Details zum Lied, das "
 "Ihr Mediaplayer anfängt zu spielen, sowie Warnungen zum Ladezustand des "
 "Akkus."
 
@@ -3608,9 +3608,9 @@ msgid ""
 "type or to change focus. For this reason, <app>Orca</app> has three commands "
 "which you can use to access previously-displayed notification messages:"
 msgstr ""
-"Da Benachrichtungen dem Benutzer Informationen präsentieren sollen, ohne ihn "
-"in seiner Tätigkeit zu unterbrechen, neigen diese Nachrichten dazu, ziemlich "
-"schnell aufzutauchen und wieder zu verschwinden. Sie sind nicht "
+"Da Benachrichtigungen dem Benutzer Informationen präsentieren sollen, ohne "
+"ihn in seiner Tätigkeit zu unterbrechen, neigen diese Nachrichten dazu, "
+"ziemlich schnell aufzutauchen und wieder zu verschwinden. Sie sind nicht "
 "fokussierbar. Auch wenn <app>Orca</app> Ihnen aufkommende Benachrichtigungen "
 "vorlesen wird, ist es zu einfach, <app>Orca</app>s Meldungen versehentlich "
 "zu unterbrechen, indem weitergetippt oder der Fokus geändert wird. Aus "
@@ -4818,7 +4818,8 @@ msgstr ""
 #: C/howto_toggling_caps_lock.page:34
 msgid "Press <key>CapsLock</key> to toggle its locked state."
 msgstr ""
-"Drücken Sie <key>CapsLock</key>, um seinen Status ein- oder auszuschalten."
+"Drücken Sie die <key>Feststelltaste</key>, um seinen Status ein- oder "
+"auszuschalten."
 
 #. (itstool) path: info/title
 #: C/howto_whereami.page:5
@@ -5438,7 +5439,7 @@ msgstr ""
 "wird <app>Orca</app> in diesen Fällen den Text auf der Braillezeile mit den "
 "Punkten 7 und 8 »unterstreichen«. Falls Sie es wünschen, können Sie den "
 "Indikator auf nur Punkt 7 oder nur Punkt 8 setzen, oder insgesamt "
-"deaktiveren."
+"deaktivieren."
 
 #. (itstool) path: section/p
 #: C/preferences_braille.page:112
@@ -5866,7 +5867,7 @@ msgstr ""
 "vorlesen« aktivieren</gui> angekreuzt, können die Tasten <key>Hoch</key> und "
 "<key>Runter</key> verwendet werden, um sich während »Alles vorlesen« etwas "
 "erneut anhören oder uninteressanten Text überspringen zu können, ohne »Alles "
-"vorlesen« neustarten zu müssen."
+"vorlesen« neu starten zu müssen."
 
 #. (itstool) path: section/p
 #: C/preferences_general.page:108
@@ -6304,7 +6305,7 @@ msgstr "<gui>Einfg</gui>"
 #. (itstool) path: item/p
 #: C/preferences_key_bindings.page:33
 msgid "<gui>Insert, KP_Insert</gui>"
-msgstr "<gui>Einfügen,Einf (Nmblck)</gui>"
+msgstr "<gui>Einfügen, Einf (Nmblck)</gui>"
 
 #. (itstool) path: item/p
 #: C/preferences_key_bindings.page:34

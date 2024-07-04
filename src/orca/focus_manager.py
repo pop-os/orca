@@ -177,11 +177,11 @@ class FocusManager:
             return
 
         # TODO - JD: Consider always updating the active script here.
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         if event and (script and not script.app):
             app = AXObject.get_application(event.source)
-            script = script_manager.getManager().getScript(app, event.source)
-            script_manager.getManager().setActiveScript(script, "Setting locus of focus")
+            script = script_manager.get_manager().get_script(app, event.source)
+            script_manager.get_manager().set_active_script(script, "Setting locus of focus")
 
         old_focus = self._focus
         if AXObject.is_dead(old_focus):
@@ -218,7 +218,7 @@ class FocusManager:
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
-        script.locusOfFocusChanged(event, old_focus, self._focus)
+        script.locus_of_focus_changed(event, old_focus, self._focus)
 
     def active_window_is_active(self):
         """Returns True if the window we think is currently active is actually active."""
@@ -352,12 +352,16 @@ class FocusManager:
 
         if set_window_as_focus:
             self.set_locus_of_focus(None, self._window, notify_script)
-        elif self._window and self._focus and not self.focus_is_in_active_window():
+        elif not (self.focus_is_active_window() or self.focus_is_in_active_window()):
             tokens = ["FOCUS MANAGER: Focus", self._focus, "is not in", self._window]
             debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
             self.set_locus_of_focus(None, self._window, notify_script=True)
 
+        app = AXObject.get_application(self._focus)
+        script = script_manager.get_manager().get_script(app, self._focus)
+        script_manager.get_manager().set_active_script(script, "Setting active window")
+
 
 _manager = FocusManager()
-def getManager():
+def get_manager():
     return _manager

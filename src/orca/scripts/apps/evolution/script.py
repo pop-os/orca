@@ -28,156 +28,70 @@ __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
 __license__   = "LGPL"
 
 
-import orca.debug as debug
-import orca.focus_manager as focus_manager
-import orca.scripts.toolkits.gtk as gtk
-import orca.scripts.toolkits.WebKitGtk as WebKitGtk
-import orca.settings_manager as settings_manager
-from orca.ax_object import AXObject
+from orca import debug
 from orca.ax_utilities import AXUtilities
-
+from orca.scripts.toolkits import gtk
+from orca.scripts.toolkits import WebKitGTK
 from .braille_generator import BrailleGenerator
 from .speech_generator import SpeechGenerator
 from .script_utilities import Utilities
 
 
-########################################################################
-#                                                                      #
-# The Evolution script class.                                          #
-#                                                                      #
-########################################################################
+class Script(WebKitGTK.Script, gtk.Script):
 
-class Script(WebKitGtk.Script, gtk.Script):
+    def get_braille_generator(self):
+        """Returns the braille generator for this script."""
 
-    def __init__(self, app):
-        """Creates a new script for the given application.
-
-        Arguments:
-        - app: the application to create a script for.
-        """
-
-        if settings_manager.getManager().getSetting('sayAllOnLoad') is None:
-            settings_manager.getManager().setSetting('sayAllOnLoad', False)
-
-        super().__init__(app)
-        self.presentIfInactive = False
-
-    def getBrailleGenerator(self):
         return BrailleGenerator(self)
 
-    def getSpeechGenerator(self):
+    def get_speech_generator(self):
+        """Returns the speech generator for this script."""
+
         return SpeechGenerator(self)
 
-    def getUtilities(self):
+    def get_utilities(self):
+        """Returns the utilities for this script."""
+
         return Utilities(self)
 
-    def isActivatableEvent(self, event):
-        """Returns True if the given event is one that should cause this
-        script to become the active script.  This is only a hint to
-        the focus tracking manager and it is not guaranteed this
-        request will be honored.  Note that by the time the focus
-        tracking manager calls this method, it thinks the script
-        should become active.  This is an opportunity for the script
-        to say it shouldn't.
-        """
-
-        if event.type.startswith("focus:") and AXUtilities.is_menu(event.source):
-            return True
-
-        window = self.utilities.topLevelObject(event.source)
-        if not AXUtilities.is_active(window):
-            return False
-
-        return True
-
     def stopSpeechOnActiveDescendantChanged(self, event):
-        """Whether or not speech should be stopped prior to setting the
-        locusOfFocus in onActiveDescendantChanged.
-
-        Arguments:
-        - event: the Event
-
-        Returns True if speech should be stopped; False otherwise.
-        """
-
         return False
 
-    ########################################################################
-    #                                                                      #
-    # AT-SPI OBJECT EVENT HANDLERS                                         #
-    #                                                                      #
-    ########################################################################
+    def on_busy_changed(self, event):
+        """Callback for object:state-changed:busy accessibility events."""
 
-    def onActiveDescendantChanged(self, event):
-        """Callback for object:active-descendant-changed accessibility events."""
-
-        if not event.any_data:
-            msg = "EVOLUTION: Ignoring event. No any_data."
+        if self.utilities.isIgnorableEventFromDocumentPreview(event.source):
+            msg = "EVOLUTION: Ignoring event from document preview"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return
-
-        if self.utilities.isComposeAutocomplete(event.source):
-            if AXUtilities.is_selected(event.any_data):
-                msg = "EVOLUTION: Source is compose autocomplete with selected child."
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                focus_manager.getManager().set_locus_of_focus(event, event.any_data)
-            else:
-                msg = "EVOLUTION: Source is compose autocomplete without selected child."
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                focus_manager.getManager().set_locus_of_focus(event, event.source)
-            return
-
-        focus = focus_manager.getManager().get_locus_of_focus()
-        if AXUtilities.is_table_cell(focus):
-            table = AXObject.find_ancestor(focus, AXUtilities.is_tree_or_tree_table)
-            if table is not None and table != event.source:
-                msg = "EVOLUTION: Event is from a different tree or tree table."
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                return
-
-        child = AXObject.get_active_descendant_checked(event.source, event.any_data)
-        if child is not None and child != event.any_data:
-            tokens = ["EVOLUTION: Bogus any_data suspected. Setting focus to", child]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            focus_manager.getManager().set_locus_of_focus(event, child)
             return
 
         msg = "EVOLUTION: Passing event to super class for processing."
         debug.printMessage(debug.LEVEL_INFO, msg, True)
-        super().onActiveDescendantChanged(event)
+        super().on_busy_changed(event)
 
-    def onBusyChanged(self, event):
-        """Callback for object:state-changed:busy accessibility events."""
-        pass
+    def on_caret_moved(self, event):
+        """Callback for object:text-caret-moved accessibility events."""
 
-    def onFocus(self, event):
-        """Callback for focus: accessibility events."""
-
-        if self.utilities.isWebKitGtk(event.source):
+        if self.utilities.isIgnorableEventFromDocumentPreview(event.source):
+            msg = "EVOLUTION: Ignoring event from document preview"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             return
 
-        # This is some mystery child of the 'Messages' panel which fails to show
-        # up in the hierarchy or emit object:state-changed:focused events.
-        if AXUtilities.is_layered_pane(event.source):
-            obj = self.utilities.realActiveDescendant(event.source)
-            focus_manager.getManager().set_locus_of_focus(event, obj)
+        msg = "EVOLUTION: Passing event to super class for processing."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        super().on_caret_moved(event)
+
+    def on_focused_changed(self, event):
+        """Callback for object:state-changed:focused accessibility events."""
+
+        # TODO - JD: Figure out what's causing this in Evolution or WebKit and file a bug.
+        # When the selected message changes and the preview panel is showing, a panel with the
+        # `iframe` tag claims focus. We don't want to update our location in response.
+        if AXUtilities.is_internal_frame(event.source):
+            tokens = ["EVOLUTION: Ignoring event from internal frame", event.source]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return
 
-        gtk.Script.onFocus(self, event)
-
-    def onNameChanged(self, event):
-        """Callback for object:property-change:accessible-name events."""
-
-        if self.utilities.isWebKitGtk(event.source):
-            return
-
-        gtk.Script.onNameChanged(self, event)
-
-    def onSelectionChanged(self, event):
-        """Callback for object:selection-changed accessibility events."""
-
-        if AXUtilities.is_combo_box(event.source) \
-           and not AXUtilities.is_focused(event.source):
-            return
-
-        gtk.Script.onSelectionChanged(self, event)
+        msg = "EVOLUTION: Passing event to super class for processing."
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        super().on_focused_changed(event)

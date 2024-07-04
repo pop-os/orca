@@ -25,13 +25,9 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2005-2009 Sun Microsystems Inc."
 __license__   = "LGPL"
 
-import gi
-gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
-
-import orca.messages as messages
-import orca.settings_manager as settings_manager
-import orca.speech_generator as speech_generator
+from orca import messages
+from orca import settings_manager
+from orca import speech_generator
 from orca.ax_component import AXComponent
 from orca.ax_object import AXObject
 from orca.ax_table import AXTable
@@ -42,21 +38,6 @@ from orca.ax_utilities import AXUtilities
 class SpeechGenerator(speech_generator.SpeechGenerator):
     def __init__(self, script):
         speech_generator.SpeechGenerator.__init__(self, script)
-
-    def _generateLabel(self, obj, **args):
-        """Returns the label for an object as an array of strings (and
-        possibly voice and audio specifications).  The label is
-        determined by the displayedLabel method of the script utility,
-        and an empty array will be returned if no label can be found.
-        """
-        result = []
-        label = self._script.utilities.displayedLabel(obj) or ""
-        if not label:
-            label = self._script.utilities.displayedLabel(AXObject.get_parent(obj)) or ""
-        if label:
-            result.append(label.strip())
-            result.extend(self.voice(speech_generator.DEFAULT, obj=obj, **args))
-        return result
 
     def _generateName(self, obj, **args):
         """Returns an array of strings for use by speech and braille that
@@ -77,30 +58,6 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             return result
 
         return super()._generateName(obj, **args)
-
-    def _generateLabelAndName(self, obj, **args):
-        if AXObject.get_role(obj) != Atspi.Role.COMBO_BOX:
-            return super()._generateLabelAndName(obj, **args)
-
-        # TODO - JD: This should be the behavior by default because many
-        # toolkits use the label for the name.
-        result = []
-        label = self._script.utilities.displayedLabel(obj) or AXObject.get_name(obj)
-        if label:
-            result.append(label)
-            result.extend(self.voice(speech_generator.DEFAULT, obj=obj, **args))
-
-        name = AXObject.get_name(obj)
-        if label == name or not name:
-            selected = self._script.utilities.selectedChildren(obj)
-            if selected:
-                name = AXObject.get_name(selected[0])
-
-        if name:
-            result.append(name)
-            result.extend(self.voice(speech_generator.DEFAULT, obj=obj, **args))
-
-        return result
 
     def _generateAnyTextSelection(self, obj, **args):
         comboBoxEntry = self._script.utilities.getEntryForEditableComboBox(obj)
@@ -123,43 +80,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         return result
 
-    def _generateDescription(self, obj, **args):
-        """Returns an array of strings (and possibly voice and audio
-        specifications) that represent the description of the object,
-        if that description is different from that of the name and
-        label.
-        """
-        if settings_manager.getManager().getSetting('onlySpeakDisplayedText'):
-            return []
-
-        if not settings_manager.getManager().getSetting('speakDescription'):
-            return []
-
-        if not args.get('formatType', '').endswith('WhereAmI'):
-            return []
-
-        result = []
-        description = AXObject.get_description(obj)
-        if description:
-            # The description of some OOo paragraphs consists of the name
-            # and the displayed text, with punctuation added. Try to spot
-            # this and, if found, ignore the description.
-            #
-            text = self._script.utilities.displayedText(obj) or ""
-            desc = description.replace(text, "")
-            for item in AXObject.get_name(obj).split():
-                desc = desc.replace(item, "")
-            for char in desc.strip():
-                if char.isalnum():
-                    result.append(description)
-                    break
-
-        if result:
-            result.extend(self.voice(speech_generator.SYSTEM, obj=obj, **args))
-        return result
-
     def _generateCurrentLineText(self, obj, **args):
-        if AXObject.get_role(obj) == Atspi.Role.COMBO_BOX:
+        if AXUtilities.is_combo_box(obj):
             entry = self._script.utilities.getEntryForEditableComboBox(obj)
             if entry:
                 return super()._generateCurrentLineText(entry)
@@ -168,7 +90,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         # TODO - JD: The SayLine, etc. code should be generated and not put
         # together in the scripts. In addition, the voice crap needs to go
         # here. Then it needs to be removed from the scripts.
-        [text, caretOffset, startOffset] = self._script.getTextLineAtCaret(obj)
+        text = AXText.get_line_at_offset(obj)[0]
         if not text:
             result = [messages.BLANK]
             result.extend(self.voice(string=text, obj=obj, **args))
@@ -179,18 +101,18 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
     def _generateToggleState(self, obj, **args):
         """Treat toggle buttons in the toolbar specially. This is so we can
         have more natural sounding speech such as "bold on", "bold off", etc."""
-        result = []
-        role = args.get('role', AXObject.get_role(obj))
-        if role == Atspi.Role.TOGGLE_BUTTON \
-           and AXObject.get_role(AXObject.get_parent(obj)) == Atspi.Role.TOOL_BAR:
-            if AXUtilities.is_checked(obj):
-                result.append(messages.ON)
-            else:
-                result.append(messages.OFF)
-            result.extend(self.voice(speech_generator.SYSTEM, obj=obj, **args))
-        elif role == Atspi.Role.TOGGLE_BUTTON:
-            result.extend(speech_generator.SpeechGenerator._generateToggleState(
-                self, obj, **args))
+
+        if not AXUtilities.is_toggle_button(obj, args.get("role")):
+            return []
+
+        if not AXUtilities.is_tool_bar(AXObject.get_parent(obj)):
+            return super()._generateToggleState(obj, **args)
+
+        if AXUtilities.is_checked(obj):
+            result = [messages.ON]
+        else:
+            result = [messages.OFF]
+        result.extend(self.voice(speech_generator.SYSTEM, obj=obj, **args))
         return result
 
     def _generateTooLong(self, obj, **args):
@@ -201,7 +123,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         Returns an indication of how many characters are greater than the size
         of the spread sheet cell, or None if the message fits.
         """
-        if settings_manager.getManager().getSetting('onlySpeakDisplayedText'):
+        if settings_manager.get_manager().get_setting('onlySpeakDisplayedText'):
             return []
 
         # TODO - JD: Can this be moved to AXText?
@@ -252,15 +174,15 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         result = super()._generateRealTableCell(obj, **args)
 
         if not self._script.utilities.isSpreadSheetCell(obj):
-            if self._script.getTableNavigator().last_input_event_was_navigation_command():
+            if self._script.get_table_navigator().last_input_event_was_navigation_command():
                 return result
 
-            if settings_manager.getManager().getSetting('speakCellCoordinates'):
+            if settings_manager.get_manager().get_setting('speakCellCoordinates'):
                 result.append(AXObject.get_name(obj))
             return result
 
         isBasicWhereAmI = args.get('formatType') == 'basicWhereAmI'
-        speakCoordinates = settings_manager.getManager().getSetting('speakSpreadsheetCoordinates')
+        speakCoordinates = settings_manager.get_manager().get_setting('speakSpreadsheetCoordinates')
         if speakCoordinates or isBasicWhereAmI:
             label = AXTable.get_label_for_cell_coordinates(obj) \
                 or self._script.utilities.spreadSheetCellName(obj)
@@ -286,23 +208,6 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         return result
 
-    def _generateTableCellRow(self, obj, **args):
-        if not self._script.utilities.shouldReadFullRow(obj, args.get('priorObj')):
-            return self._generateRealTableCell(obj, **args)
-
-        if not self._script.utilities.isSpreadSheetCell(obj):
-            return super()._generateTableCellRow(obj, **args)
-
-        cells = self._script.utilities.getShowingCellsInSameRow(obj)
-        if not cells:
-            return []
-
-        result = []
-        for cell in cells:
-            result.extend(self._generateRealTableCell(cell, **args))
-
-        return result
-
     def _generateEndOfTableIndicator(self, obj, **args):
         """Returns an array of strings (and possibly voice and audio
         specifications) indicating that this cell is the last cell
@@ -311,12 +216,11 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         dialog).
         """
 
-        if self._script.getTableNavigator().last_input_event_was_navigation_command() \
+        if self._script.get_table_navigator().last_input_event_was_navigation_command() \
            or self._script.inSayAll():
             return []
 
-        topLevel = self._script.utilities.topLevelObject(obj)
-        if topLevel and AXObject.get_role(topLevel) == Atspi.Role.DIALOG:
+        if AXUtilities.is_dialog_or_alert(self._script.utilities.topLevelObject(obj)):
             return []
 
         return super()._generateEndOfTableIndicator(obj, **args)

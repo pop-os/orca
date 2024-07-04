@@ -27,8 +27,9 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2014 Igalia, S.L."
 __license__   = "LGPL"
 
-import orca.focus_manager as focus_manager
-import orca.spellcheck as spellcheck
+from orca import focus_manager
+from orca import input_event_manager
+from orca import spellcheck
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
 
@@ -42,17 +43,11 @@ class SpellCheck(spellcheck.SpellCheck):
         if event.source != self._changeToEntry:
             return False
 
-        focus = focus_manager.getManager().get_locus_of_focus()
+        focus = focus_manager.get_manager().get_locus_of_focus()
         if not AXUtilities.is_push_button(focus):
             return False
 
-        lastKey, mods = self._script.utilities.lastKeyAndModifiers()
-        keys = self._script.utilities.mnemonicShortcutAccelerator(focus)
-        for key in keys:
-            if key.endswith(lastKey.upper()):
-                return True
-
-        return False
+        return input_event_manager.get_manager().last_event_was_shortcut_for(focus)
 
     def _isCandidateWindow(self, window):
         if not AXUtilities.is_dialog(window):
@@ -76,7 +71,7 @@ class SpellCheck(spellcheck.SpellCheck):
         def isError(x):
             return AXUtilities.is_label(x) \
                     and ":" not in AXObject.get_name(x) \
-                    and not AXObject.get_relations(x)
+                    and AXUtilities.object_is_unrelated(x)
 
         return AXObject.find_descendant(root, isError)
 

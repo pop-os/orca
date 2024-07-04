@@ -34,10 +34,7 @@ from gi.repository import Atspi
 gi.require_version('Atk', '1.0')
 from gi.repository import Atk
 
-import re
-import sys
 import time
-import traceback
 
 from . import braille
 from . import debug
@@ -48,33 +45,9 @@ from . import settings_manager
 from .ax_hypertext import AXHypertext
 from .ax_object import AXObject
 from .ax_table import AXTable
+from .ax_text import AXText
 from .ax_utilities import AXUtilities
 from .ax_value import AXValue
-
-# Python 3.10 compatibility:
-try:
-    import collections.abc as collections_abc
-except ImportError:
-    import collections as collections_abc
-
-def _formatExceptionInfo(maxTBlevel=5):
-    cla, exc, trbk = sys.exc_info()
-    excName = cla.__name__
-    try:
-        excArgs = exc.args
-    except KeyError:
-        excArgs = "<no args>"
-    excTb = traceback.format_tb(trbk, maxTBlevel)
-    return (excName, excArgs, excTb)
-
-# [[[WDW - general note -- for all the _generate* methods, it would be great if
-# we could return an empty array if we can determine the method does not
-# apply to the object.  This would allow us to reduce the number of strings
-# needed in formatting.py.]]]
-
-# The prefix to use for the individual generator methods
-#
-METHOD_PREFIX = "_generate"
 
 class Generator:
     """Takes accessible objects and generates a presentation for those
@@ -85,65 +58,6 @@ class Generator:
         self._mode = mode
         self._script = script
         self._activeProgressBars = {}
-        self._methodsDict = {}
-        for method in \
-            [z for z in [getattr(self, y).__get__(self, self.__class__) \
-                         for y in [x for x in dir(self) if x.startswith(METHOD_PREFIX)]] \
-                            if isinstance(z, collections_abc.Callable)]:
-            name = method.__name__[len(METHOD_PREFIX):]
-            name = name[0].lower() + name[1:]
-            self._methodsDict[name] = method
-        self._verifyFormatting()
-
-    def _addGlobals(self, globalsDict):
-        """Other things to make available from the formatting string.
-        """
-        globalsDict['obj'] = None
-        globalsDict['role'] = None
-
-    def _verifyFormatting(self):
-
-        # Verify the formatting strings are OK.  This is only
-        # for verification and does not effect the function of
-        # Orca at all.
-        #
-        # TODO - JD: Given the above, can this just be killed?
-        #
-        # Populate the entire globals with empty arrays
-        # for the results of all the legal method names.
-        #
-        globalsDict = {}
-        for key in self._methodsDict.keys():
-            globalsDict[key] = []
-        self._addGlobals(globalsDict)
-
-        for roleKey in self._script.formatting[self._mode]:
-            for key in ["focused", "unfocused"]:
-                try:
-                    evalString = \
-                        self._script.formatting[self._mode][roleKey][key]
-                except Exception:
-                    continue
-                else:
-                    if not evalString:
-                        # It's legal to have an empty string.
-                        #
-                        continue
-                    while True:
-                        try:
-                            eval(evalString, globalsDict)
-                            break
-                        except NameError:
-                            info = _formatExceptionInfo()
-                            arg = info[1][0]
-                            arg = arg.replace("name '", "")
-                            arg = arg.replace("' is not defined", "")
-                            if arg not in self._methodsDict:
-                                debug.printException(debug.LEVEL_SEVERE)
-                            globalsDict[arg] = []
-                        except Exception:
-                            debug.printException(debug.LEVEL_SEVERE)
-                            break
 
     def _overrideRole(self, newRole, args):
         """Convenience method to allow you to temporarily override the role in
@@ -172,123 +86,7 @@ class Generator:
         return []
 
     def generate(self, obj, **args):
-        """Returns an array of strings (and possibly voice and audio
-        specifications) that represent the complete presentation for the
-        object.  The presentation to be generated depends highly upon the
-        formatting strings in formatting.py.
-
-        args is a dictionary that may contain any of the following:
-        - alreadyFocused: if True, we're getting an object
-          that previously had focus
-        - priorObj: if set, represents the object that had focus before
-          this object
-        - includeContext: boolean (default=True) which says whether
-          the context for an object should be included as a prefix
-          and suffix
-        - role: a role to override the object's role
-        - formatType: the type of formatting, such as
-          'focused', 'basicWhereAmI', etc.
-        - forceMnemonic: boolean (default=False) which says if we
-          should ignore the settings.enableMnemonicSpeaking setting
-        - forceTutorial: boolean (default=False) which says if we
-          should force a tutorial to be spoken or not
-        """
-
-        if AXObject.is_dead(obj):
-            msg = "GENERATOR: Cannot generate presentation for dead obj"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return []
-
-        startTime = time.time()
-        result = []
-        globalsDict = {}
-        self._addGlobals(globalsDict)
-        globalsDict['obj'] = obj
-        try:
-            globalsDict['role'] = args.get('role', AXObject.get_role(obj))
-        except Exception as error:
-            tokens = ["GENERATOR: Cannot generate presentation for", obj, ":", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return result
-        try:
-            # We sometimes want to override the role.  We'll keep the
-            # role in the args dictionary as a means to let us do so.
-            #
-            args['role'] = globalsDict['role']
-
-            # We loop through the format string, catching each error
-            # as we go.  Each error should always be a NameError,
-            # where the name is the name of one of our generator
-            # functions.  When we encounter this, we call the function
-            # and get its results, placing them in the globals for the
-            # the call to eval.
-            #
-            args['mode'] = self._mode
-            if not args.get('formatType', None):
-                if args.get('alreadyFocused', False):
-                    args['formatType'] = 'focused'
-                else:
-                    args['formatType'] = 'unfocused'
-
-            formatting = self._script.formatting.getFormat(**args)
-
-            # Add in the context if this is the first time
-            # we've been called.
-            #
-            if not args.get('recursing', False):
-                if args.get('includeContext', True):
-                    prefix = self._script.formatting.getPrefix(**args)
-                    suffix = self._script.formatting.getSuffix(**args)
-                    formatting = f'{prefix} + {formatting} + {suffix}'
-                args['recursing'] = True
-
-            tokens = [self._mode.upper(), "GENERATOR: Starting", args.get('formatType'),
-                      "generation for", obj, "(using role:", args.get('role'), ")"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-            # Reset 'usedDescriptionFor*' if a previous generator used it.
-            self._script.pointOfReference['usedDescriptionForName'] = False
-            self._script.pointOfReference['usedDescriptionForUnrelatedLabels'] = False
-            self._script.pointOfReference['usedDescriptionForAlert'] = False
-
-            def debuginfo(x):
-                return self._resultElementToString(x, False)
-
-            assert(formatting)
-            while True:
-                currentTime = time.time()
-                try:
-                    result = eval(formatting, globalsDict)
-                    break
-                except NameError:
-                    result = []
-                    info = _formatExceptionInfo()
-                    arg = info[1][0]
-                    arg = arg.replace("name '", "")
-                    arg = arg.replace("' is not defined", "")
-                    if arg not in self._methodsDict:
-                        debug.printException(debug.LEVEL_SEVERE)
-                        break
-                    globalsDict[arg] = self._methodsDict[arg](obj, **args)
-                    duration = f"{time.time() - currentTime:.4f}"
-                    if isinstance(globalsDict[arg], list):
-                        stringResult = " ".join(filter(lambda x: x,
-                                                        map(debuginfo, globalsDict[arg])))
-                        debug.printMessage(
-                            debug.LEVEL_ALL,
-                            f"{' ' * 18}GENERATION TIME: {duration} ----> {arg}=[{stringResult}]")
-
-        except Exception:
-            debug.printException(debug.LEVEL_SEVERE)
-            result = []
-
-        duration = f"{time.time() - startTime:.4f}"
-        debug.printMessage(debug.LEVEL_ALL, f"{' ' * 18}COMPLETION TIME: {duration}")
-        self._debugResultInfo(result)
-        if args.get('isProgressBarUpdate') and result and result[0]:
-            self.setProgressBarUpdateTimeAndValue(obj)
-
-        return result
+        return []
 
     def _resultElementToString(self, element, includeAll=True):
         if not includeAll:
@@ -341,7 +139,7 @@ class Generator:
         needed a _generateDescription for whereAmI. :-) See below.
         """
         result = []
-        self._script.pointOfReference['usedDescriptionForName'] = False
+        self._script.point_of_reference['usedDescriptionForName'] = False
         name = AXObject.get_name(obj)
         role = args.get('role', AXObject.get_role(obj))
         parent = AXObject.get_parent(obj)
@@ -351,7 +149,7 @@ class Generator:
             description = AXObject.get_description(obj)
             if description:
                 result.append(description)
-                self._script.pointOfReference['usedDescriptionForName'] = True
+                self._script.point_of_reference['usedDescriptionForName'] = True
             else:
                 link = None
                 if role == Atspi.Role.LINK:
@@ -392,6 +190,13 @@ class Generator:
         and braille.  The name will only be present if the name is
         different from the label.
         """
+
+        if AXUtilities.is_menu(obj, args.get("role")) \
+           and self._script.utilities.isPopupMenuForCurrentItem(obj):
+            tokens = ["GENERATOR:", obj, "is popup menu for current item."]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            return []
+
         result = []
         label = self._generateLabel(obj, **args)
         name = self._generateName(obj, **args)
@@ -408,18 +213,19 @@ class Generator:
         if not name:
             return result
 
-        # Try to eliminate names which are redundant to the label.
-        # Convert all non-alphanumeric characters to space and get the words.
-        nameWords = re.sub(r"[\W_]", " ", name[0]).split()
-        labelWords = re.sub(r"[\W_]", " ", label[0]).split()
-
-        # If all of the words in the name are in the label, the name is redundant.
-        if set(nameWords).issubset(set(labelWords)):
-            tokens = ["GENERATOR: name '", name[0], "' is redundant to label '", label[0], "'"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return result
+        if self._script.utilities.stringsAreRedundant(name[0], label[0]):
+            if len(name[0]) < len(label[0]):
+                return label
+            return name
 
         result.extend(name)
+        if result:
+            return result
+
+        parent = AXObject.get_parent(obj)
+        if AXUtilities.is_autocomplete(parent):
+            result = self._generateLabelAndName(parent, **args)
+
         return result
 
     def _generateLabelOrName(self, obj, **args):
@@ -434,14 +240,14 @@ class Generator:
         return result
 
     def _generateUnrelatedLabelsOrDescription(self, obj, **args):
-        result = self._generateUnrelatedLabels(obj, **args)
-        if result:
-            self._script.pointOfReference['usedDescriptionForUnrelatedLabels'] = False
-            return result
-
         result = self._generateDescription(obj, **args)
         if result:
-            self._script.pointOfReference['usedDescriptionForUnrelatedLabels'] = True
+            self._script.point_of_reference['usedDescriptionForUnrelatedLabels'] = True
+            return result
+
+        result = self._generateUnrelatedLabels(obj, **args)
+        if result:
+            self._script.point_of_reference['usedDescriptionForUnrelatedLabels'] = False
 
         return result
 
@@ -451,13 +257,13 @@ class Generator:
         is different from that of the name and label.
         """
 
-        if self._script.pointOfReference.get('usedDescriptionForName'):
+        if self._script.point_of_reference.get('usedDescriptionForName'):
             return []
 
-        if self._script.pointOfReference.get('usedDescriptionForAlert'):
+        if self._script.point_of_reference.get('usedDescriptionForAlert'):
             return []
 
-        if self._script.pointOfReference.get('usedDescriptionForUnrelatedLabels'):
+        if self._script.point_of_reference.get('usedDescriptionForUnrelatedLabels'):
             return []
 
         description = AXObject.get_description(obj) \
@@ -558,25 +364,34 @@ class Generator:
         object, but only if it is insensitive (i.e., grayed out and
         inactive).  Otherwise, and empty array will be returned.
         """
-        result = []
-        if not args.get('mode', None):
-            args['mode'] = self._mode
-        args['stringType'] = 'insensitive'
-        if not AXUtilities.is_sensitive(obj):
-            result.append(self._script.formatting.getString(**args))
-        return result
+
+        if AXUtilities.is_sensitive(obj):
+            return []
+
+        if self._mode == "braille":
+            return [object_properties.STATE_INSENSITIVE_BRAILLE]
+        if self._mode == "speech":
+            return [object_properties.STATE_INSENSITIVE_SPEECH]
+        if self._mode == "sound":
+            return [object_properties.STATE_INSENSITIVE_SOUND]
+
+        return []
 
     def _generateInvalid(self, obj, **args):
         error = self._script.utilities.getError(obj)
         if not error:
             return []
 
-        result = []
-        if not args.get('mode', None):
-            args['mode'] = self._mode
-        args['stringType'] = 'invalid'
-        indicators = self._script.formatting.getString(**args)
+        if self._mode == "braille":
+            indicators = object_properties.INVALID_INDICATORS_BRAILLE
+        elif self._mode == "speech":
+            indicators = object_properties.INVALID_INDICATORS_SPEECH
+        elif self._mode == "sound":
+            indicators = object_properties.INVALID_INDICATORS_SOUND
+        else:
+            return []
 
+        result = []
         if error == 'spelling':
             indicator = indicators[1]
         elif error == 'grammar':
@@ -599,31 +414,39 @@ class Generator:
         user must give it a value).  Otherwise, and empty array will
         be returned.
         """
-        result = []
-        if not args.get('mode', None):
-            args['mode'] = self._mode
-        args['stringType'] = 'required'
-        isRequired = AXUtilities.is_required(obj)
-        if not isRequired and AXUtilities.is_radio_button(obj):
-            parent = AXObject.get_parent(obj)
-            isRequired = AXUtilities.is_required(parent)
-        if isRequired:
-            result.append(self._script.formatting.getString(**args))
-        return result
+
+        is_required = AXUtilities.is_required(obj)
+        if not is_required and AXUtilities.is_radio_button(obj):
+            is_required = AXUtilities.is_required(AXObject.get_parent(obj))
+        if not is_required:
+            return []
+
+        if self._mode == "braille":
+            return [object_properties.STATE_REQUIRED_BRAILLE]
+        if self._mode == "speech":
+            return [object_properties.STATE_REQUIRED_SPEECH]
+        if self._mode == "sound":
+            return [object_properties.STATE_REQUIRED_SOUND]
+
+        return []
 
     def _generateReadOnly(self, obj, **args):
         """Returns an array of strings for use by speech and braille that
         represent the read only state of this object, but only if it
         is read only (i.e., it is a text area that cannot be edited).
         """
-        result = []
-        if not args.get('mode', None):
-            args['mode'] = self._mode
-        args['stringType'] = 'readonly'
-        if AXUtilities.is_read_only(obj) \
-           or self._script.utilities.isReadOnlyTextArea(obj):
-            result.append(self._script.formatting.getString(**args))
-        return result
+
+        if not (AXUtilities.is_read_only(obj) or self._script.utilities.isReadOnlyTextArea(obj)):
+            return []
+
+        if self._mode == "braille":
+            return [object_properties.STATE_READ_ONLY_BRAILLE]
+        if self._mode == "speech":
+            return [object_properties.STATE_READ_ONLY_SPEECH]
+        if self._mode == "sound":
+            return [object_properties.STATE_READ_ONLY_SOUND]
+
+        return []
 
     def _generateCellCheckedState(self, obj, **args):
         """Returns an array of strings for use by speech and braille that
@@ -645,18 +468,21 @@ class Generator:
         for check boxes. [[[WDW - should we return an empty array if
         we can guarantee we know this thing is not checkable?]]]
         """
-        result = []
-        if not args.get('mode', None):
-            args['mode'] = self._mode
-        args['stringType'] = 'checkbox'
-        indicators = self._script.formatting.getString(**args)
-        if AXUtilities.is_checked(obj):
-            result.append(indicators[1])
-        elif AXUtilities.is_indeterminate(obj):
-            result.append(indicators[2])
+
+        if self._mode == "braille":
+            indicators = object_properties.CHECK_BOX_INDICATORS_BRAILLE
+        elif self._mode == "speech":
+            indicators = object_properties.CHECK_BOX_INDICATORS_SPEECH
+        elif self._mode == "sound":
+            indicators = object_properties.CHECK_BOX_INDICATORS_SOUND
         else:
-            result.append(indicators[0])
-        return result
+            return []
+
+        if AXUtilities.is_checked(obj):
+            return [indicators[1]]
+        if AXUtilities.is_indeterminate(obj):
+            return [indicators[2]]
+        return [indicators[0]]
 
     def _generateRadioState(self, obj, **args):
         """Returns an array of strings for use by speech and braille that
@@ -664,16 +490,19 @@ class Generator:
         for check boxes. [[[WDW - should we return an empty array if
         we can guarantee we know this thing is not checkable?]]]
         """
-        result = []
-        if not args.get('mode', None):
-            args['mode'] = self._mode
-        args['stringType'] = 'radiobutton'
-        indicators = self._script.formatting.getString(**args)
-        if AXUtilities.is_checked(obj):
-            result.append(indicators[1])
+
+        if self._mode == "braille":
+            indicators = object_properties.RADIO_BUTTON_INDICATORS_BRAILLE
+        elif self._mode == "speech":
+            indicators = object_properties.RADIO_BUTTON_INDICATORS_SPEECH
+        elif self._mode == "sound":
+            indicators = object_properties.RADIO_BUTTON_INDICATORS_SOUND
         else:
-            result.append(indicators[0])
-        return result
+            return []
+
+        if AXUtilities.is_checked(obj):
+            return [indicators[1]]
+        return [indicators[0]]
 
     def _generateChildWidget(self, obj, **args):
         widgetRoles = [Atspi.Role.CHECK_BOX,
@@ -695,16 +524,18 @@ class Generator:
         return []
 
     def _generateSwitchState(self, obj, **args):
-        result = []
-        if not args.get('mode', None):
-            args['mode'] = self._mode
-        args['stringType'] = 'switch'
-        indicators = self._script.formatting.getString(**args)
-        if AXUtilities.is_checked(obj) or AXUtilities.is_pressed(obj):
-            result.append(indicators[1])
+        if self._mode == "braille":
+            indicators = object_properties.SWITCH_INDICATORS_BRAILLE
+        elif self._mode == "speech":
+            indicators = object_properties.SWITCH_INDICATORS_SPEECH
+        elif self._mode == "sound":
+            indicators = object_properties.SWITCH_INDICATORS_SOUND
         else:
-            result.append(indicators[0])
-        return result
+            return []
+
+        if AXUtilities.is_checked(obj) or AXUtilities.is_pressed(obj):
+            return [indicators[1]]
+        return [indicators[0]]
 
     def _generateToggleState(self, obj, **args):
         """Returns an array of strings for use by speech and braille that
@@ -712,16 +543,19 @@ class Generator:
         for check boxes. [[[WDW - should we return an empty array if
         we can guarantee we know this thing is not checkable?]]]
         """
-        result = []
-        if not args.get('mode', None):
-            args['mode'] = self._mode
-        args['stringType'] = 'togglebutton'
-        indicators = self._script.formatting.getString(**args)
-        if AXUtilities.is_checked(obj) or AXUtilities.is_pressed(obj):
-            result.append(indicators[1])
+
+        if self._mode == "braille":
+            indicators = object_properties.TOGGLE_BUTTON_INDICATORS_BRAILLE
+        elif self._mode == "speech":
+            indicators = object_properties.TOGGLE_BUTTON_INDICATORS_SPEECH
+        elif self._mode == "sound":
+            indicators = object_properties.TOGGLE_BUTTON_INDICATORS_SOUND
         else:
-            result.append(indicators[0])
-        return result
+            return []
+
+        if AXUtilities.is_checked(obj) or AXUtilities.is_pressed(obj):
+            return [indicators[1]]
+        return [indicators[0]]
 
     def _generateCheckedStateIfCheckable(self, obj, **args):
         if AXUtilities.is_checkable(obj) or AXUtilities.is_check_menu_item(obj):
@@ -734,17 +568,20 @@ class Generator:
 
     def _generateMenuItemCheckedState(self, obj, **args):
         """Returns an array of strings for use by speech and braille that
-        represent the checked state of the menu item, only if it is
-        checked. Otherwise, and empty array will be returned.
+        represent the checked state of the menu item.
         """
-        result = []
-        if not args.get('mode', None):
-            args['mode'] = self._mode
-        args['stringType'] = 'checkbox'
-        indicators = self._script.formatting.getString(**args)
+        if self._mode == "braille":
+            indicators = object_properties.CHECK_BOX_INDICATORS_BRAILLE
+        elif self._mode == "speech":
+            indicators = object_properties.CHECK_BOX_INDICATORS_SPEECH
+        elif self._mode == "sound":
+            indicators = object_properties.CHECK_BOX_INDICATORS_SOUND
+        else:
+            return []
+
         if AXUtilities.is_checked(obj):
-            result.append(indicators[1])
-        return result
+            return [indicators[1]]
+        return [indicators[0]]
 
     def _generateExpandableState(self, obj, **args):
         """Returns an array of strings for use by speech and braille that
@@ -752,19 +589,22 @@ class Generator:
         tree node. If the object is not expandable, an empty array
         will be returned.
         """
-        result = []
-        if not args.get('mode', None):
-            args['mode'] = self._mode
-        args['stringType'] = 'expansion'
-        indicators = self._script.formatting.getString(**args)
-        if AXUtilities.is_collapsed(obj):
-            result.append(indicators[0])
-        elif AXUtilities.is_expanded(obj):
-            result.append(indicators[1])
-        elif AXUtilities.is_expandable(obj):
-            result.append(indicators[0])
+        if self._mode == "braille":
+            indicators = object_properties.EXPANSION_INDICATORS_BRAILLE
+        elif self._mode == "speech":
+            indicators = object_properties.EXPANSION_INDICATORS_SPEECH
+        elif self._mode == "sound":
+            indicators = object_properties.EXPANSION_INDICATORS_SOUND
+        else:
+            return []
 
-        return result
+        if AXUtilities.is_collapsed(obj):
+            return [indicators[0]]
+        if AXUtilities.is_expanded(obj):
+            return [indicators[1]]
+        if AXUtilities.is_expandable(obj):
+            return [indicators[0]]
+        return []
 
     def _generateMultiselectableState(self, obj, **args):
         """Returns an array of strings (and possibly voice and audio
@@ -773,13 +613,17 @@ class Generator:
         is not multiselectable, an empty array will be returned.
         """
 
-        result = []
-        if not args.get('mode', None):
-            args['mode'] = self._mode
-        args['stringType'] = 'multiselect'
-        if AXUtilities.is_multiselectable(obj) and AXObject.get_child_count(obj):
-            result.append(self._script.formatting.getString(**args))
-        return result
+        if not (AXUtilities.is_multiselectable(obj) and AXObject.get_child_count(obj)):
+            return []
+
+        # TODO - JD: There is no braille property and the braille generation
+        # doesn't generate this state. Shouldn't it be presented in braille?
+
+        if self._mode == "speech":
+            return [object_properties.STATE_MULTISELECT_SPEECH]
+        if self._mode == "sound":
+            return [object_properties.STATE_MULTISELECT_SOUND]
+        return []
 
     #####################################################################
     #                                                                   #
@@ -863,70 +707,6 @@ class Generator:
 
         return [description]
 
-    def _generateTableCell2ChildLabel(self, obj, **args):
-        """Returns an array of strings for use by speech and braille for the
-        label of a toggle in a table cell that has a special 2 child
-        pattern that we run into.  Otherwise, an empty array is
-        returned.
-        """
-        result = []
-
-        # If this table cell has 2 children and one of them has a
-        # 'toggle' action and the other does not, then present this
-        # as a checkbox where:
-        # 1) we get the checked state from the cell with the 'toggle' action
-        # 2) we get the label from the other cell.
-        # See Orca bug #376015 for more details.
-        #
-        if AXObject.get_child_count(obj) == 2:
-            cellOrder = []
-            hasToggle = [False, False]
-            for i, child in enumerate(AXObject.iter_children(obj)):
-                if self._script.utilities.hasMeaningfulToggleAction(child):
-                    hasToggle[i] = True
-                    break
-            if hasToggle[0] and not hasToggle[1]:
-                cellOrder = [ 1, 0 ]
-            elif not hasToggle[0] and hasToggle[1]:
-                cellOrder = [ 0, 1 ]
-            if cellOrder:
-                for i in cellOrder:
-                    if not hasToggle[i]:
-                        result.extend(self.generate(AXObject.get_child(obj, i), **args))
-        return result
-
-    def _generateTableCell2ChildToggle(self, obj, **args):
-        """Returns an array of strings for use by speech and braille for the
-        toggle value of a toggle in a table cell that has a special 2
-        child pattern that we run into.  Otherwise, an empty array is
-        returned.
-        """
-        result = []
-
-        # If this table cell has 2 children and one of them has a
-        # 'toggle' action and the other does not, then present this
-        # as a checkbox where:
-        # 1) we get the checked state from the cell with the 'toggle' action
-        # 2) we get the label from the other cell.
-        # See Orca bug #376015 for more details.
-        #
-        if AXObject.get_child_count(obj) == 2:
-            cellOrder = []
-            hasToggle = [False, False]
-            for i, child in enumerate(AXObject.iter_children(obj)):
-                if self._script.utilities.hasMeaningfulToggleAction(child):
-                    hasToggle[i] = True
-                    break
-            if hasToggle[0] and not hasToggle[1]:
-                cellOrder = [ 1, 0 ]
-            elif not hasToggle[0] and hasToggle[1]:
-                cellOrder = [ 0, 1 ]
-            if cellOrder:
-                for i in cellOrder:
-                    if hasToggle[i]:
-                        result.extend(self.generate(AXObject.get_child(obj, i), **args))
-        return result
-
     def _generateColumnHeaderIfToggleAndNoText(self, obj, **args):
         """If this table cell has a "toggle" action, and doesn't have any
         label associated with it then also speak the table column
@@ -999,7 +779,6 @@ class Generator:
 
         presentAll = args.get('readingRow') is True \
             or args.get('formatType') == 'detailedWhereAmI' \
-            or self._mode == 'braille' \
             or self._script.utilities.shouldReadFullRow(obj, args.get('priorObj'))
 
         if not presentAll:
@@ -1007,7 +786,12 @@ class Generator:
 
         args['readingRow'] = True
         result = []
-        cells = self._script.utilities.getShowingCellsInSameRow(obj, forceFullRow=True)
+        cells = self._script.utilities.getShowingCellsInSameRow(
+            obj, forceFullRow=not self._script.utilities.isSpreadSheetCell(obj))
+
+        row = AXObject.find_ancestor(obj, AXUtilities.is_table_row)
+        if row and AXObject.get_name(row) and not self._script.utilities.isLayoutOnly(row):
+            return self.generate(row)
 
         # Remove any pre-calcuated values which only apply to obj and not row cells.
         doNotInclude = ['startOffset', 'endOffset', 'string']
@@ -1055,6 +839,9 @@ class Generator:
     def _generateEndOffset(self, obj, **args):
         return args.get('endOffset')
 
+    def _generateCaretOffset(self, obj, **args):
+        return args.get('caretOffset')
+
     def _generateCurrentLineText(self, obj, **args ):
         """Returns an array of strings for use by speech and braille
         that represents the current line of text, if
@@ -1065,7 +852,7 @@ class Generator:
         if result:
             return result
 
-        [text, caretOffset, startOffset] = self._script.getTextLineAtCaret(obj)
+        text = AXText.get_line_at_offset(obj)[0]
         if text and self._script.EMBEDDED_OBJECT_CHARACTER not in text:
             return [text]
 
@@ -1096,15 +883,16 @@ class Generator:
         represents the tree node level of the object, or an empty
         array if the object is not a tree node.
         """
-        result = []
-        if not args.get('mode', None):
-            args['mode'] = self._mode
-        args['stringType'] = 'nodelevel'
+
         level = self._script.utilities.nodeLevel(obj)
-        if level >= 0:
-            result.append(self._script.formatting.getString(**args)\
-                          % (level + 1))
-        return result
+        if level < 0:
+            return []
+
+        if self._mode == "braille":
+            return [object_properties.NODE_LEVEL_BRAILLE % (level + 1)]
+        if self._mode == "speech":
+            return [object_properties.NODE_LEVEL_SPEECH % (level + 1)]
+        return []
 
     #####################################################################
     #                                                                   #
@@ -1120,12 +908,11 @@ class Generator:
         consider returning an empty array if there is no value.
         """
 
-        role = args.get('role', AXObject.get_role(obj))
-        if role == Atspi.Role.COMBO_BOX:
+        if AXUtilities.is_combo_box(obj, args.get("role")):
             value = self._script.utilities.getComboBoxValue(obj)
             return [value]
 
-        if role == Atspi.Role.SEPARATOR and not AXUtilities.is_focused(obj):
+        if AXUtilities.is_separator(obj, args.get("role")) and not AXUtilities.is_focused(obj):
             return []
 
         result = AXValue.get_current_value_text(obj)
@@ -1158,15 +945,15 @@ class Generator:
         if start is not None and end is not None:
             return []
 
-        result = []
-        if not args.get('mode', None):
-            args['mode'] = self._mode
-        args['stringType'] = 'nestinglevel'
-        nestingLevel = self._script.utilities.nestingLevel(obj)
-        if nestingLevel:
-            result.append(self._script.formatting.getString(**args)\
-                          % nestingLevel)
-        return result
+        level = self._script.utilities.nestingLevel(obj)
+        if not level:
+            return []
+
+        if self._mode == "braille":
+            return [object_properties.NESTING_LEVEL_BRAILLE % (level)]
+        if self._mode == "speech":
+            return [object_properties.NESTING_LEVEL_SPEECH % (level)]
+        return []
 
     def _generateRadioButtonGroup(self, obj, **args):
         """Returns an array of strings for use by speech and braille that
@@ -1177,9 +964,9 @@ class Generator:
             return []
 
         radioGroupLabel = None
-        relation = AXObject.get_relation(obj, Atspi.RelationType.LABELLED_BY)
-        if relation:
-            radioGroupLabel = relation.get_target(0)
+        labels = AXUtilities.get_is_labelled_by(obj, False)
+        if labels:
+            radioGroupLabel = labels[0]
         if radioGroupLabel:
             return [self._script.utilities.displayedText(radioGroupLabel)]
 
@@ -1249,7 +1036,7 @@ class Generator:
         return []
 
     def _getProgressBarUpdateInterval(self):
-        return int(settings_manager.getManager().getSetting('progressBarUpdateInterval'))
+        return int(settings_manager.get_manager().get_setting('progressBarUpdateInterval'))
 
     def _shouldPresentProgressBarUpdate(self, obj, **args):
         percent = AXValue.get_value_as_percent(obj)
@@ -1299,56 +1086,48 @@ class Generator:
         self._activeProgressBars[obj] = lastTime, lastValue
 
     def _getAlternativeRole(self, obj, **args):
-        if self._script.utilities.isMath(obj):
-            if self._script.utilities.isMathSubOrSuperScript(obj):
+        if AXUtilities.is_math_related(obj):
+            if AXUtilities.is_math_sub_or_super_script(obj):
                 return 'ROLE_MATH_SCRIPT_SUBSUPER'
-            if self._script.utilities.isMathUnderOrOverScript(obj):
+            if AXUtilities.is_math_under_or_over_script(obj):
                 return 'ROLE_MATH_SCRIPT_UNDEROVER'
-            if self._script.utilities.isMathMultiScript(obj):
+            if AXUtilities.is_math_multi_script(obj):
                 return 'ROLE_MATH_MULTISCRIPT'
-            if self._script.utilities.isMathEnclose(obj):
+            if AXUtilities.is_math_enclose(obj):
                 return 'ROLE_MATH_ENCLOSED'
-            if self._script.utilities.isMathFenced(obj):
+            if AXUtilities.is_math_fenced(obj):
                 return 'ROLE_MATH_FENCED'
-            if self._script.utilities.isMathTable(obj):
+            if AXUtilities.is_math_table(obj):
                 return 'ROLE_MATH_TABLE'
-            if self._script.utilities.isMathTableRow(obj):
+            if AXUtilities.is_math_table_row(obj):
                 return 'ROLE_MATH_TABLE_ROW'
-        if self._script.utilities.isDPub(obj):
-            if self._script.utilities.isLandmark(obj):
+        if AXUtilities.is_dpub(obj):
+            if AXUtilities.is_landmark(obj):
                 return 'ROLE_DPUB_LANDMARK'
             if AXUtilities.is_section(obj):
                 return 'ROLE_DPUB_SECTION'
-        if self._script.utilities.isSwitch(obj):
+        if AXUtilities.is_switch(obj):
             return 'ROLE_SWITCH'
         if self._script.utilities.isAnchor(obj):
             return Atspi.Role.STATIC
-        if self._script.utilities.isBlockquote(obj):
+        if AXUtilities.is_block_quote(obj):
             return Atspi.Role.BLOCK_QUOTE
-        if self._script.utilities.isComment(obj):
+        if AXUtilities.is_comment(obj):
             return Atspi.Role.COMMENT
-        if self._script.utilities.isContentDeletion(obj):
-            return 'ROLE_CONTENT_DELETION'
         if self._script.utilities.isContentError(obj):
             return 'ROLE_CONTENT_ERROR'
-        if self._script.utilities.isContentInsertion(obj):
-            return 'ROLE_CONTENT_INSERTION'
-        if self._script.utilities.isContentMarked(obj):
-            return 'ROLE_CONTENT_MARK'
-        if self._script.utilities.isContentSuggestion(obj):
-            return 'ROLE_CONTENT_SUGGESTION'
-        if self._script.utilities.isDescriptionList(obj):
+        if AXUtilities.is_description_list(obj):
             return Atspi.Role.DESCRIPTION_LIST
-        if self._script.utilities.isDescriptionListTerm(obj):
+        if AXUtilities.is_description_term(obj):
             return Atspi.Role.DESCRIPTION_TERM
-        if self._script.utilities.isDescriptionListDescription(obj):
+        if AXUtilities.is_description_value(obj):
             return Atspi.Role.DESCRIPTION_VALUE
-        if self._script.utilities.isFeedArticle(obj):
+        if AXUtilities.is_feed_article(obj):
             return 'ROLE_ARTICLE_IN_FEED'
-        if self._script.utilities.isFeed(obj):
+        if AXUtilities.is_feed(obj):
             return 'ROLE_FEED'
-        if self._script.utilities.isLandmark(obj):
-            if self._script.utilities.isLandmarkRegion(obj):
+        if AXUtilities.is_landmark(obj):
+            if AXUtilities.is_landmark_region(obj):
                 return 'ROLE_REGION'
             return Atspi.Role.LANDMARK
         if self._script.utilities.isFocusableLabel(obj):
@@ -1382,111 +1161,111 @@ class Generator:
                 if AXUtilities.is_vertical(obj):
                     return object_properties.ROLE_SPLITTER_HORIZONTAL
 
-        if self._script.utilities.isContentSuggestion(obj):
+        if AXUtilities.is_suggestion(obj):
             return object_properties.ROLE_CONTENT_SUGGESTION
 
-        if self._script.utilities.isFeed(obj):
+        if AXUtilities.is_feed(obj):
             return object_properties.ROLE_FEED
 
-        if self._script.utilities.isFigure(obj):
+        if AXUtilities.is_figure(obj):
             return object_properties.ROLE_FIGURE
 
         if self._script.utilities.isMenuButton(obj):
             return object_properties.ROLE_MENU_BUTTON
 
-        if self._script.utilities.isSwitch(obj):
+        if AXUtilities.is_switch(obj):
             return object_properties.ROLE_SWITCH
 
-        if self._script.utilities.isDPub(obj):
-            if self._script.utilities.isLandmark(obj):
-                if self._script.utilities.isDPubAcknowledgments(obj):
+        if AXUtilities.is_dpub(obj):
+            if AXUtilities.is_landmark(obj):
+                if AXUtilities.is_dpub_acknowledgments(obj):
                     return object_properties.ROLE_ACKNOWLEDGMENTS
-                if self._script.utilities.isDPubAfterword(obj):
+                if AXUtilities.is_dpub_afterword(obj):
                     return object_properties.ROLE_AFTERWORD
-                if self._script.utilities.isDPubAppendix(obj):
+                if AXUtilities.is_dpub_appendix(obj):
                     return object_properties.ROLE_APPENDIX
-                if self._script.utilities.isDPubBibliography(obj):
+                if AXUtilities.is_dpub_bibliography(obj):
                     return object_properties.ROLE_BIBLIOGRAPHY
-                if self._script.utilities.isDPubChapter(obj):
+                if AXUtilities.is_dpub_chapter(obj):
                     return object_properties.ROLE_CHAPTER
-                if self._script.utilities.isDPubConclusion(obj):
+                if AXUtilities.is_dpub_conclusion(obj):
                     return object_properties.ROLE_CONCLUSION
-                if self._script.utilities.isDPubCredits(obj):
+                if AXUtilities.is_dpub_credits(obj):
                     return object_properties.ROLE_CREDITS
-                if self._script.utilities.isDPubEndnotes(obj):
+                if AXUtilities.is_dpub_endnotes(obj):
                     return object_properties.ROLE_ENDNOTES
-                if self._script.utilities.isDPubEpilogue(obj):
+                if AXUtilities.is_dpub_epilogue(obj):
                     return object_properties.ROLE_EPILOGUE
-                if self._script.utilities.isDPubErrata(obj):
+                if AXUtilities.is_dpub_errata(obj):
                     return object_properties.ROLE_ERRATA
-                if self._script.utilities.isDPubForeword(obj):
+                if AXUtilities.is_dpub_foreword(obj):
                     return object_properties.ROLE_FOREWORD
-                if self._script.utilities.isDPubGlossary(obj):
+                if AXUtilities.is_dpub_glossary(obj):
                     return object_properties.ROLE_GLOSSARY
-                if self._script.utilities.isDPubIndex(obj):
+                if AXUtilities.is_dpub_index(obj):
                     return object_properties.ROLE_INDEX
-                if self._script.utilities.isDPubIntroduction(obj):
+                if AXUtilities.is_dpub_introduction(obj):
                     return object_properties.ROLE_INTRODUCTION
-                if self._script.utilities.isDPubPagelist(obj):
+                if AXUtilities.is_dpub_pagelist(obj):
                     return object_properties.ROLE_PAGELIST
-                if self._script.utilities.isDPubPart(obj):
+                if AXUtilities.is_dpub_part(obj):
                     return object_properties.ROLE_PART
-                if self._script.utilities.isDPubPreface(obj):
+                if AXUtilities.is_dpub_preface(obj):
                     return object_properties.ROLE_PREFACE
-                if self._script.utilities.isDPubPrologue(obj):
+                if AXUtilities.is_dpub_prologue(obj):
                     return object_properties.ROLE_PROLOGUE
-                if self._script.utilities.isDPubToc(obj):
+                if AXUtilities.is_dpub_toc(obj):
                     return object_properties.ROLE_TOC
             elif role == "ROLE_DPUB_SECTION":
-                if self._script.utilities.isDPubAbstract(obj):
+                if AXUtilities.is_dpub_abstract(obj):
                     return object_properties.ROLE_ABSTRACT
-                if self._script.utilities.isDPubColophon(obj):
+                if AXUtilities.is_dpub_colophon(obj):
                     return object_properties.ROLE_COLOPHON
-                if self._script.utilities.isDPubCredit(obj):
+                if AXUtilities.is_dpub_credit(obj):
                     return object_properties.ROLE_CREDIT
-                if self._script.utilities.isDPubDedication(obj):
+                if AXUtilities.is_dpub_dedication(obj):
                     return object_properties.ROLE_DEDICATION
-                if self._script.utilities.isDPubEpigraph(obj):
+                if AXUtilities.is_dpub_epigraph(obj):
                     return object_properties.ROLE_EPIGRAPH
-                if self._script.utilities.isDPubExample(obj):
+                if AXUtilities.is_dpub_example(obj):
                     return object_properties.ROLE_EXAMPLE
-                if self._script.utilities.isDPubPullquote(obj):
+                if AXUtilities.is_dpub_pullquote(obj):
                     return object_properties.ROLE_PULLQUOTE
-                if self._script.utilities.isDPubQna(obj):
+                if AXUtilities.is_dpub_qna(obj):
                     return object_properties.ROLE_QNA
             elif role == Atspi.Role.LIST_ITEM:
-                if self._script.utilities.isDPubBiblioentry(obj):
+                if AXUtilities.is_dpub_biblioentry(obj):
                     return object_properties.ROLE_BIBLIOENTRY
-                if self._script.utilities.isDPubEndnote(obj):
+                if AXUtilities.is_dpub_endnote(obj):
                     return object_properties.ROLE_ENDNOTE
             else:
-                if self._script.utilities.isDPubCover(obj):
+                if AXUtilities.is_dpub_cover(obj):
                     return object_properties.ROLE_COVER
-                if self._script.utilities.isDPubPagebreak(obj):
+                if AXUtilities.is_dpub_pagebreak(obj):
                     return object_properties.ROLE_PAGEBREAK
-                if self._script.utilities.isDPubSubtitle(obj):
+                if AXUtilities.is_dpub_subtitle(obj):
                     return object_properties.ROLE_SUBTITLE
 
-        if self._script.utilities.isLandmark(obj):
-            if self._script.utilities.isLandmarkWithoutType(obj):
+        if AXUtilities.is_landmark(obj):
+            if AXUtilities.is_landmark_without_type(obj):
                 return ''
-            if self._script.utilities.isLandmarkBanner(obj):
+            if AXUtilities.is_landmark_banner(obj):
                 return object_properties.ROLE_LANDMARK_BANNER
-            if self._script.utilities.isLandmarkComplementary(obj):
+            if AXUtilities.is_landmark_complementary(obj):
                 return object_properties.ROLE_LANDMARK_COMPLEMENTARY
-            if self._script.utilities.isLandmarkContentInfo(obj):
+            if AXUtilities.is_landmark_contentinfo(obj):
                 return object_properties.ROLE_LANDMARK_CONTENTINFO
-            if self._script.utilities.isLandmarkMain(obj):
+            if AXUtilities.is_landmark_main(obj):
                 return object_properties.ROLE_LANDMARK_MAIN
-            if self._script.utilities.isLandmarkNavigation(obj):
+            if AXUtilities.is_landmark_navigation(obj):
                 return object_properties.ROLE_LANDMARK_NAVIGATION
-            if self._script.utilities.isLandmarkRegion(obj):
+            if AXUtilities.is_landmark_region(obj):
                 return object_properties.ROLE_LANDMARK_REGION
-            if self._script.utilities.isLandmarkSearch(obj):
+            if AXUtilities.is_landmark_search(obj):
                 return object_properties.ROLE_LANDMARK_SEARCH
-            if self._script.utilities.isLandmarkForm(obj):
+            if AXUtilities.is_landmark_form(obj):
                 role = Atspi.Role.FORM
-        elif self._script.utilities.isComment(obj):
+        elif AXUtilities.is_comment(obj):
             role = Atspi.Role.COMMENT
 
         if not isinstance(role, Atspi.Role):
@@ -1497,13 +1276,18 @@ class Generator:
 
         nonlocalized = Atspi.role_get_name(role)
         atkRole = Atk.role_for_name(nonlocalized)
-        if atkRole == Atk.Role.INVALID and role == Atspi.Role.STATUS_BAR:
-            atkRole = Atk.role_for_name("statusbar")
+        if atkRole == Atk.Role.INVALID:
+            if role == Atspi.Role.STATUS_BAR:
+                atkRole = Atk.Role.STATUSBAR
+            elif role == Atspi.Role.EDITBAR:
+                atkRole = Atk.Role.EDIT_BAR
+            elif role == Atspi.Role.TEAROFF_MENU_ITEM:
+                atkRole = Atk.Role.TEAR_OFF_MENU_ITEM
 
         return Atk.role_get_localized_name(atkRole)
 
     def getStateIndicator(self, obj, **args):
-        if self._script.utilities.isSwitch(obj):
+        if AXUtilities.is_switch(obj):
             return self._generateSwitchState(obj, **args)
 
         role = args.get('role', AXObject.get_role(obj))

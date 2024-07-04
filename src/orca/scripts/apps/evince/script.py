@@ -35,53 +35,36 @@ from orca.scripts.toolkits import gtk
 from orca.ax_utilities import AXUtilities
 from orca.structural_navigation import StructuralNavigation
 
-
-########################################################################
-#                                                                      #
-# The evince script class.                                             #
-#                                                                      #
-########################################################################
-
 class Script(gtk.Script):
 
-    def __init__(self, app):
-        """Creates a new script for the given application.
+    def setup_input_event_handlers(self):
+        """Defines the input event handlers for this script."""
 
-        Arguments:
-        - app: the application to create a script for.
-        """
+        super().setup_input_event_handlers()
+        self.input_event_handlers.update(self.structural_navigation.get_handlers(True))
 
-        gtk.Script.__init__(self, app)
-
-    def setupInputEventHandlers(self):
-        """Defines InputEventHandler fields for this script that can be
-        called by the key and braille bindings."""
-
-        gtk.Script.setupInputEventHandlers(self)
-        self.inputEventHandlers.update(self.structuralNavigation.get_handlers(True))
-
-    def getAppKeyBindings(self):
+    def get_app_key_bindings(self):
         """Returns the application-specific keybindings for this script."""
 
         keyBindings = keybindings.KeyBindings()
 
-        layout = settings_manager.getManager().getSetting('keyboardLayout')
+        layout = settings_manager.get_manager().get_setting('keyboardLayout')
         isDesktop = layout == settings.GENERAL_KEYBOARD_LAYOUT_DESKTOP
 
-        structNavBindings = self.structuralNavigation.get_bindings(
+        structNavBindings = self.structural_navigation.get_bindings(
             refresh=True, is_desktop=isDesktop)
-        for keyBinding in structNavBindings.keyBindings:
+        for keyBinding in structNavBindings.key_bindings:
             keyBindings.add(keyBinding)
 
         return keyBindings
 
-    def getStructuralNavigation(self):
+    def get_structural_navigation(self):
         """Returns the 'structural navigation' class for this script."""
 
-        types = self.getEnabledStructuralNavigationTypes()
+        types = self.get_enabled_structural_navigation_types()
         return StructuralNavigation(self, types, True)
 
-    def getEnabledStructuralNavigationTypes(self):
+    def get_enabled_structural_navigation_types(self):
         """Returns a list of the structural navigation object types
         enabled in this script."""
 
@@ -102,11 +85,11 @@ class Script(gtk.Script):
 
         return enabledTypes
 
-    def onCaretMoved(self, event):
+    def on_caret_moved(self, event):
         """Callback for object:text-caret-moved accessibility events."""
 
         obj = event.source
         if AXUtilities.is_focused(obj):
-            focus_manager.getManager().set_locus_of_focus(event, event.source, False)
+            focus_manager.get_manager().set_locus_of_focus(event, event.source, False)
 
-        gtk.Script.onCaretMoved(self, event)
+        gtk.Script.on_caret_moved(self, event)

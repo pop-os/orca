@@ -34,9 +34,9 @@ from . import cmdnames
 from . import debug
 from . import focus_manager
 from . import input_event
+from . import input_event_manager
 from . import keybindings
 from . import messages
-from . import orca_state
 from . import settings_manager
 from .ax_object import AXObject
 from .ax_table import AXTable
@@ -67,7 +67,7 @@ class TableNavigator:
             msg = "TABLE NAVIGATOR: Refreshing bindings."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._setup_bindings()
-        elif self._bindings.isEmpty():
+        elif self._bindings.is_empty():
             self._setup_bindings()
 
         return self._bindings
@@ -90,12 +90,10 @@ class TableNavigator:
     def last_input_event_was_navigation_command(self):
         """Returns true if the last input event was a navigation command."""
 
-        result = self._last_input_event is not None \
-            and (self._last_input_event == orca_state.lastNonModifierKeyEvent \
-                or orca_state.lastNonModifierKeyEvent.isReleaseFor(self._last_input_event))
-
+        manager = input_event_manager.get_manager()
+        result = manager.last_event_equals_or_is_release_for_event(self._last_input_event)
         if self._last_input_event is not None:
-            string = self._last_input_event.asSingleLineString()
+            string = self._last_input_event.as_single_line_string()
         else:
             string = "None"
 
@@ -111,7 +109,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "t",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_SHIFT_MODIFIER_MASK,
                 self._handlers.get("table_navigator_toggle_enabled"),
                 1,
@@ -120,7 +118,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "Left",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.SHIFT_ALT_MODIFIER_MASK,
                 self._handlers.get("table_cell_left"),
                 1,
@@ -129,7 +127,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "Right",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.SHIFT_ALT_MODIFIER_MASK,
                 self._handlers.get("table_cell_right"),
                 1,
@@ -138,7 +136,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "Up",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.SHIFT_ALT_MODIFIER_MASK,
                 self._handlers.get("table_cell_up"),
                 1,
@@ -147,7 +145,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "Down",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.SHIFT_ALT_MODIFIER_MASK,
                 self._handlers.get("table_cell_down"),
                 1,
@@ -156,7 +154,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "Home",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.SHIFT_ALT_MODIFIER_MASK,
                 self._handlers.get("table_cell_first"),
                 1,
@@ -165,7 +163,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "End",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.SHIFT_ALT_MODIFIER_MASK,
                 self._handlers.get("table_cell_last"),
                 1,
@@ -174,7 +172,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "Left",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_ALT_SHIFT_MODIFIER_MASK,
                 self._handlers.get("table_cell_beginning_of_row"),
                 1,
@@ -183,7 +181,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "Right",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_ALT_SHIFT_MODIFIER_MASK,
                 self._handlers.get("table_cell_end_of_row"),
                 1,
@@ -192,7 +190,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "Up",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_ALT_SHIFT_MODIFIER_MASK,
                 self._handlers.get("table_cell_top_of_column"),
                 1,
@@ -201,7 +199,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "Down",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_ALT_SHIFT_MODIFIER_MASK,
                 self._handlers.get("table_cell_bottom_of_column"),
                 1,
@@ -210,7 +208,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "r",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_SHIFT_MODIFIER_MASK,
                 self._handlers["set_dynamic_column_headers_row"],
                 1,
@@ -219,7 +217,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "r",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_SHIFT_MODIFIER_MASK,
                 self._handlers["clear_dynamic_column_headers_row"],
                 2,
@@ -228,7 +226,7 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "c",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_SHIFT_MODIFIER_MASK,
                 self._handlers["set_dynamic_row_headers_column"],
                 1,
@@ -237,14 +235,14 @@ class TableNavigator:
         self._bindings.add(
             keybindings.KeyBinding(
                 "c",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_SHIFT_MODIFIER_MASK,
                 self._handlers["clear_dynamic_row_headers_column"],
                 2,
                 self._enabled and not self._suspended))
 
         # This pulls in the user's overrides to alternative keys.
-        self._bindings = settings_manager.getManager().overrideKeyBindings(
+        self._bindings = settings_manager.get_manager().override_key_bindings(
             self._handlers, self._bindings, False)
 
         msg = f"TABLE NAVIGATOR: Bindings set up. Suspended: {self._suspended}"
@@ -359,14 +357,14 @@ class TableNavigator:
             msg += f": {reason}"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-        for binding in self._bindings.keyBindings:
-            script.keyBindings.remove(binding, includeGrabs=True)
+        for binding in self._bindings.key_bindings:
+            script.key_bindings.remove(binding, include_grabs=True)
 
         self._handlers = self.get_handlers(True)
         self._bindings = self.get_bindings(True)
 
-        for binding in self._bindings.keyBindings:
-            script.keyBindings.add(binding, includeGrabs=not self._suspended)
+        for binding in self._bindings.key_bindings:
+            script.key_bindings.add(binding, include_grabs=not self._suspended)
 
     def _toggle_enabled(self, script, event=None):
         """Toggles table navigation."""
@@ -428,7 +426,7 @@ class TableNavigator:
     def _get_current_cell(self):
         """Returns the current cell."""
 
-        cell = focus_manager.getManager().get_locus_of_focus()
+        cell = focus_manager.get_manager().get_locus_of_focus()
 
         # We might have nested cells. So far this has only been seen in Gtk, where the
         # parent of a table cell is also a table cell. From the user's perspective, we
@@ -481,7 +479,7 @@ class TableNavigator:
         row, col = self._get_cell_coordinates(current)
         cell = AXTable.get_cell_on_left(current)
 
-        if settings_manager.getManager().getSetting("skipBlankCells"):
+        if settings_manager.get_manager().get_setting("skipBlankCells"):
             while cell and self._is_blank(cell) and not AXTable.is_start_of_row(cell):
                 cell = AXTable.get_cell_on_left(cell)
 
@@ -504,7 +502,7 @@ class TableNavigator:
         row, col = self._get_cell_coordinates(current)
         cell = AXTable.get_cell_on_right(current)
 
-        if settings_manager.getManager().getSetting("skipBlankCells"):
+        if settings_manager.get_manager().get_setting("skipBlankCells"):
             while cell and self._is_blank(cell) and not AXTable.is_end_of_row(cell):
                 cell = AXTable.get_cell_on_right(cell)
 
@@ -527,7 +525,7 @@ class TableNavigator:
         row, col = self._get_cell_coordinates(current)
         cell = AXTable.get_cell_above(current)
 
-        if settings_manager.getManager().getSetting("skipBlankCells"):
+        if settings_manager.get_manager().get_setting("skipBlankCells"):
             while cell and self._is_blank(cell) and not AXTable.is_top_of_column(cell):
                 cell = AXTable.get_cell_above(cell)
 
@@ -550,7 +548,7 @@ class TableNavigator:
         row, col = self._get_cell_coordinates(current)
         cell = AXTable.get_cell_below(current)
 
-        if settings_manager.getManager().getSetting("skipBlankCells"):
+        if settings_manager.get_manager().get_setting("skipBlankCells"):
             while cell and self._is_blank(cell) and not AXTable.is_bottom_of_column(cell):
                 cell = AXTable.get_cell_below(cell)
 
@@ -686,7 +684,7 @@ class TableNavigator:
             script.presentMessage(messages.TABLE_NOT_IN_A)
             return True
 
-        table = AXTable.get_table(focus_manager.getManager().get_locus_of_focus())
+        table = AXTable.get_table(focus_manager.get_manager().get_locus_of_focus())
         if table:
             script.presentationInterrupt()
             AXTable.clear_dynamic_column_headers_row(table)
@@ -721,7 +719,7 @@ class TableNavigator:
             script.presentMessage(messages.TABLE_NOT_IN_A)
             return True
 
-        table = AXTable.get_table(focus_manager.getManager().get_locus_of_focus())
+        table = AXTable.get_table(focus_manager.get_manager().get_locus_of_focus())
         if table:
             script.presentationInterrupt()
             AXTable.clear_dynamic_row_headers_column(table)
@@ -744,19 +742,19 @@ class TableNavigator:
             AXObject.grab_focus(cell)
 
         obj = AXObject.find_descendant(cell, AXObject.supports_text) or cell
-        focus_manager.getManager().set_locus_of_focus(None, obj, False)
+        focus_manager.get_manager().set_locus_of_focus(None, obj, False)
         if AXObject.supports_text(obj) and not script.utilities.isGUICell(cell):
             script.utilities.setCaretPosition(obj, 0)
 
         script.presentObject(cell, offset=0, priorObj=previous_cell, interrupt=True)
 
         # TODO - JD: This should be part of the normal table cell presentation.
-        if settings_manager.getManager().getSetting("speakCellCoordinates"):
+        if settings_manager.get_manager().get_setting("speakCellCoordinates"):
             script.presentMessage(
                 messages.TABLE_CELL_COORDINATES % {"row" : row + 1, "column" : col + 1})
 
         # TODO - JD: Ditto.
-        if settings_manager.getManager().getSetting("speakCellSpan"):
+        if settings_manager.get_manager().get_setting("speakCellSpan"):
             rowspan, colspan = AXTable.get_cell_spans(cell)
             if rowspan > 1 or colspan > 1:
                 script.presentMessage(messages.cellSpan(rowspan, colspan))
