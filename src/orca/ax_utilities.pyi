@@ -70,6 +70,9 @@ class AXUtilities:
     def is_redundant_object(obj1, obj2): ...
 
     @staticmethod
+    def get_set_members(obj): ...
+
+    @staticmethod
     def get_set_size(obj): ...
 
     @staticmethod
@@ -117,6 +120,9 @@ class AXUtilities:
 
     @staticmethod
     def get_widget_roles(): ...
+
+    @staticmethod
+    def get_localized_role_name(obj, role=None): ...
 
     @staticmethod
     def have_same_role(obj1, obj2): ...

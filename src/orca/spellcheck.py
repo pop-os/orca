@@ -105,13 +105,13 @@ class SpellCheck:
         if not self._errorWidget:
             return ""
 
-        return self._script.utilities.displayedText(self._errorWidget)
+        return AXText.get_all_text(self._errorWidget) or AXObject.get_name(self._errorWidget)
 
     def getCompletionMessage(self):
         if not self._errorWidget:
             return ""
 
-        return self._script.utilities.displayedText(self._errorWidget)
+        return AXText.get_all_text(self._errorWidget) or AXObject.get_name(self._errorWidget)
 
     def getChangeToEntry(self):
         return self._changeToEntry
@@ -216,7 +216,7 @@ class SpellCheck:
             return False
 
         label = self._script.utilities.displayedLabel(entry) or AXObject.get_name(entry)
-        string = self._script.utilities.substring(entry, 0, -1)
+        string = AXText.get_substring(entry, 0, -1)
         msg = f"{label} {string}"
         voice = self._script.speech_generator.voice(string=msg)
         self._script.speakMessage(msg, voice=voice)
@@ -282,6 +282,8 @@ class SpellCheck:
 
     def get_app_preferences_gui(self):
 
+        import gi
+        gi.require_version("Gtk", "3.0")
         from gi.repository import Gtk
 
         frame = Gtk.Frame()

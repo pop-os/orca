@@ -50,6 +50,7 @@ from orca import settings
 from orca import settings_manager
 from orca import sound
 from orca import speech
+from orca import speech_and_verbosity_manager
 from orca import speechserver
 
 from orca.ax_document import AXDocument
@@ -84,11 +85,6 @@ class Script(script.Script):
         # pointer.
         #
         self.lastMouseRoutingTime = None
-
-        # The last location of the mouse, which we might want if routing
-        # the pointer elsewhere.
-        #
-        self.oldMouseCoordinates = [0, 0]
 
         self._lastWordCheckedForSpelling = ""
 
@@ -692,7 +688,7 @@ class Script(script.Script):
         if old_focus is None:
             old_focus = active_window
 
-        utterances = self.speech_generator.generateSpeech(
+        utterances = self.speech_generator.generate_speech(
             new_focus,
             priorObj=old_focus)
 
@@ -727,7 +723,7 @@ class Script(script.Script):
         if not obj:
             return
 
-        result, focusedRegion = self.braille_generator.generateBraille(obj, **args)
+        result, focusedRegion = self.braille_generator.generate_braille(obj, **args)
         if not result:
             return
 
@@ -951,10 +947,6 @@ class Script(script.Script):
     def route_pointer_to_item(self, event=None):
         """Moves the mouse pointer to the current item."""
 
-        # Store the original location for scripts which want to restore
-        # it later.
-        #
-        self.oldMouseCoordinates = self.utilities.absoluteMouseCoordinates()
         self.lastMouseRoutingTime = time.time()
         if self.get_flat_review_presenter().is_active():
             self.get_flat_review_presenter().route_pointer_to_object(self, event)
@@ -985,7 +977,7 @@ class Script(script.Script):
             return True
 
         if AXText.get_character_count(focus):
-            if self.get_event_synthesizer().click_character(focus, 1):
+            if self.get_event_synthesizer().click_character(focus, None, 1):
                 return True
 
         if self.get_event_synthesizer().click_object(focus, 1):
@@ -1004,7 +996,7 @@ class Script(script.Script):
             return True
 
         focus = focus_manager.get_manager().get_locus_of_focus()
-        if self.get_event_synthesizer().click_character(focus, 3):
+        if self.get_event_synthesizer().click_character(focus, None, 3):
             return True
 
         if self.get_event_synthesizer().click_object(focus, 3):
@@ -1024,11 +1016,6 @@ class Script(script.Script):
 
         if not obj or AXObject.is_dead(obj):
             self.presentMessage(messages.LOCATION_NOT_FOUND_FULL)
-            return True
-
-        if AXText.is_whitespace_or_empty(obj):
-            utterances = self.speech_generator.generateSpeech(obj)
-            speech.speak(utterances)
             return True
 
         speech.say_all(self.textLines(obj, offset), self.__sayAllProgressCallback)
@@ -1412,7 +1399,7 @@ class Script(script.Script):
             return
 
         # TODO - JD: Unlike the other state-changed callbacks, it seems unwise
-        # to call generateSpeech() here because that also will present the
+        # to call generate_speech() here because that also will present the
         # expandable state if appropriate for the object type. The generators
         # need to gain some smarts w.r.t. state changes.
 
@@ -1424,6 +1411,7 @@ class Script(script.Script):
     def on_selection_changed(self, event):
         """Callback for object:selection-changed accessibility events."""
 
+        focus = focus_manager.get_manager().get_locus_of_focus()
         if self.utilities.handlePasteLocusOfFocusChange():
             if self.utilities.topLevelObjectIsActiveAndCurrent(event.source):
                 focus_manager.get_manager().set_locus_of_focus(event, event.source, False)
@@ -1431,11 +1419,24 @@ class Script(script.Script):
             return
         elif AXUtilities.manages_descendants(event.source):
             return
-        elif not (AXUtilities.is_showing(event.source) and AXUtilities.is_visible(event.source)) \
-             and not AXObject.find_ancestor(event.source, AXUtilities.is_combo_box):
-            tokens = ["DEFAULT: Ignoring event: source is not showing and visible", event.source]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return
+        elif event.source == focus:
+            # There is a bug in (at least) Pidgin in which a newly-expanded submenu lacks the
+            # showing and visible states, causing the logic below to be triggered. Work around
+            # that here by trusting selection changes from the locus of focus are probably valid
+            # even if the state set is not.
+            pass
+        elif not (AXUtilities.is_showing(event.source) and AXUtilities.is_visible(event.source)):
+            # If the current combobox is collapsed, its menu child that fired the event might lack
+            # the showing and visible states. This happens in (at least) Thunderbird's calendar
+            # new-appointment comboboxes. Therefore check to see if the event came from the current
+            # combobox. This is necessary because (at least) VSCode's debugger has some hidden menu
+            # that the user is not in which is firing this event. This is why we cannot have nice
+            # things.
+            combobox = AXObject.find_ancestor(event.source, AXUtilities.is_combo_box)
+            if combobox != focus and event.source != AXObject.get_parent(focus):
+                tokens = ["DEFAULT: Ignoring event: source lacks showing + visible", event.source]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                return
 
         if AXUtilities.is_tree_or_tree_table(event.source):
             active_window = focus_manager.get_manager().get_active_window()
@@ -1463,6 +1464,11 @@ class Script(script.Script):
         mouseReviewItem = self.get_mouse_reviewer().get_current_item()
         selectedChildren = self.utilities.selectedChildren(event.source)
         focus = focus_manager.get_manager().get_locus_of_focus()
+        if focus in selectedChildren:
+            msg = "DEFAULT: Ignoring event believed to be redundant to focus change"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            return
+
         for child in selectedChildren:
             if AXObject.find_ancestor(focus, lambda x: x == child):
                 tokens = ["DEFAULT: Child", child, "is ancestor of locusOfFocus"]
@@ -1518,7 +1524,7 @@ class Script(script.Script):
             if not event.detail1:
                 return
 
-            speech.speak(self.speech_generator.generateSpeech(obj))
+            speech.speak(self.speech_generator.generate_speech(obj))
             msg = self.utilities.getNotificationContent(obj)
             self.displayBrailleMessage(msg, flashTime=settings.brailleFlashTime)
             self.get_notification_presenter().save_notification(msg)
@@ -1595,7 +1601,8 @@ class Script(script.Script):
             self.speak_character(string)
         else:
             voice = self.speech_generator.voice(string=string)
-            string = self.utilities.adjustForRepeats(string)
+            manager = speech_and_verbosity_manager.get_manager()
+            string = manager.adjust_for_repeats(string)
             self.speakMessage(string, voice)
 
     def on_text_inserted(self, event):
@@ -1662,7 +1669,8 @@ class Script(script.Script):
                 self.speak_character(string)
             else:
                 voice = self.speech_generator.voice(obj=event.source, string=string)
-                string = self.utilities.adjustForRepeats(string)
+                manager = speech_and_verbosity_manager.get_manager()
+                string = manager.adjust_for_repeats(string)
                 self.speakMessage(string, voice)
 
         if len(string) != 1:
@@ -1731,7 +1739,7 @@ class Script(script.Script):
             self._save_focused_object_info(event.source)
 
         self.update_braille(event.source, isProgressBarUpdate=isProgressBarUpdate)
-        speech.speak(self.speech_generator.generateSpeech(
+        speech.speak(self.speech_generator.generate_speech(
             event.source, alreadyFocused=True, isProgressBarUpdate=isProgressBarUpdate))
         self.__play(self.sound_generator.generateSound(
             event.source, alreadyFocused=True, isProgressBarUpdate=isProgressBarUpdate))
@@ -1950,7 +1958,8 @@ class Script(script.Script):
             return False
 
         voice = self.speech_generator.voice(obj=obj, string=sentence)
-        sentence = self.utilities.adjustForRepeats(sentence)
+        manager = speech_and_verbosity_manager.get_manager()
+        sentence = manager.adjust_for_repeats(sentence)
         self.speakMessage(sentence, voice)
         return True
 
@@ -1978,7 +1987,8 @@ class Script(script.Script):
             return False
 
         voice = self.speech_generator.voice(obj=obj, string=word)
-        word = self.utilities.adjustForRepeats(word)
+        manager = speech_and_verbosity_manager.get_manager()
+        word = manager.adjust_for_repeats(word)
         self.speakMessage(word, voice)
         return True
 
@@ -2027,7 +2037,7 @@ class Script(script.Script):
 
         self.point_of_reference["lastTextUnitSpoken"] = "char"
 
-    def sayLine(self, obj):
+    def sayLine(self, obj, offset=None):
         """Speaks the line of an AccessibleText object that contains the
         caret, unless the line is empty in which case it's ignored.
 
@@ -2036,8 +2046,12 @@ class Script(script.Script):
                interface
         """
 
-        line, startOffset = AXText.get_line_at_offset(obj)[0:2]
+        if offset is None:
+            offset = AXText.get_caret_offset(obj)
+
+        line, startOffset = AXText.get_line_at_offset(obj, offset)[0:2]
         if len(line) and line != "\n":
+            # TODO - JD: This needs to be done in the generators.
             indentationDescription = self.utilities.indentationDescription(line)
             if indentationDescription:
                 self.speakMessage(indentationDescription)
@@ -2052,10 +2066,13 @@ class Script(script.Script):
                 if not string:
                     continue
 
+                # TODO - JD: This needs to be done in the generators.
                 voice = self.speech_generator.voice(
                     obj=obj, string=string, language=language, dialect=dialect)
-                string = self.utilities.adjustForLinks(obj, string, start)
-                string = self.utilities.adjustForRepeats(string)
+                # TODO - JD: Can we combine all the adjusting?
+                manager = speech_and_verbosity_manager.get_manager()
+                string = manager.adjust_for_links(obj, string, start)
+                string = manager.adjust_for_repeats(string)
                 if self.utilities.shouldVerbalizeAllPunctuation(obj):
                     string = self.utilities.verbalizeAllPunctuation(string)
 
@@ -2068,10 +2085,8 @@ class Script(script.Script):
                 result.extend(voice)
                 utterance.append(result)
             speech.speak(utterance)
-        else:
-            # Speak blank line if appropriate.
-            #
-            self.sayCharacter(obj)
+        elif settings_manager.get_manager().get_setting("speakBlankLines"):
+            self.speakMessage(messages.BLANK, interrupt=False)
 
         self.point_of_reference["lastTextUnitSpoken"] = "line"
 
@@ -2099,7 +2114,8 @@ class Script(script.Script):
                 obj, startOffset, endOffset, focus_manager.CARET_TRACKING)
 
             voice = self.speech_generator.voice(obj=obj, string=phrase)
-            phrase = self.utilities.adjustForRepeats(phrase)
+            manager = speech_and_verbosity_manager.get_manager()
+            phrase = manager.adjust_for_repeats(phrase)
             if self.utilities.shouldVerbalizeAllPunctuation(obj):
                 phrase = self.utilities.verbalizeAllPunctuation(phrase)
 
@@ -2155,7 +2171,7 @@ class Script(script.Script):
 
         if not args.get("speechonly", False):
             self.update_braille(obj, **args)
-        utterances = self.speech_generator.generateSpeech(obj, **args)
+        utterances = self.speech_generator.generate_speech(obj, **args)
         speech.speak(utterances, interrupt=interrupt)
 
     def stopSpeechOnActiveDescendantChanged(self, event):
@@ -2315,7 +2331,7 @@ class Script(script.Script):
             offset = AXText.get_caret_offset(obj)
 
         while obj:
-            speech.speak(self.speech_generator.generateContext(obj, priorObj=priorObj))
+            speech.speak(self.speech_generator.generate_context(obj, priorObj=priorObj))
 
             style = settings_manager.get_manager().get_setting('sayAllStyle')
             if style == settings.SAYALL_STYLE_SENTENCE and AXText.supports_sentence_iteration(obj):
@@ -2328,8 +2344,10 @@ class Script(script.Script):
                 if voice and isinstance(voice, list):
                     voice = voice[0]
 
-                string = self.utilities.adjustForLinks(obj, string, start)
-                string = self.utilities.adjustForRepeats(string)
+                # TODO - JD: Can we combine all the adjusting?
+                manager = speech_and_verbosity_manager.get_manager()
+                string = manager.adjust_for_links(obj, string, start)
+                string = manager.adjust_for_repeats(string)
 
                 context = speechserver.SayAllContext(obj, string, start, end)
                 tokens = ["DEFAULT:", context]
@@ -2544,7 +2562,7 @@ class Script(script.Script):
 
         Arguments:
         - region: a braille.Region (e.g. what is returned by the braille
-          generator's generateBraille() method.
+          generator's generate_braille() method.
         - line: a braille.Line
         """
 
@@ -2556,7 +2574,7 @@ class Script(script.Script):
 
         Arguments:
         - regions: a series of braille.Region instances (a single instance
-          being what is returned by the braille generator's generateBraille()
+          being what is returned by the braille generator's generate_braille()
           method.
         - line: a braille.Line
         """

@@ -89,8 +89,6 @@ class InputEventManager:
         for kd in binding.key_definitions():
             grab_ids.append(self._device.add_key_grab(kd, None))
 
-        tokens = ["INPUT EVENT MANAGER: Grab IDs for", binding, ":", grab_ids]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return grab_ids
 
     def remove_grabs_for_keybinding(self, binding):
@@ -109,9 +107,6 @@ class InputEventManager:
 
         for grab_id in grab_ids:
             self._device.remove_key_grab(grab_id)
-
-        tokens = ["INPUT EVENT MANAGER: Grab IDs removed for", binding, ":", grab_ids]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
     def map_keycode_to_modifier(self, keycode):
         """Maps keycode as a modifier, returns the newly-mapped modifier."""
@@ -218,10 +213,15 @@ class InputEventManager:
 
         event.set_click_count(self._determine_keyboard_event_click_count(event))
         result = event.process()
-        self._last_input_event = event
-        if not event.is_modifier_key():
-            self._last_non_modifier_key_event = event
 
+        if event.is_modifier_key():
+            if self.is_release_for(event, self._last_input_event):
+                msg = "INPUT EVENT MANAGER: Clearing last non modifier key event"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                self._last_non_modifier_key_event = None
+        else:
+            self._last_non_modifier_key_event = event
+        self._last_input_event = event
         return result
 
     def _determine_keyboard_event_click_count(self, event):
@@ -279,13 +279,19 @@ class InputEventManager:
         if event1 is None or event2 is None:
             return False
 
+        if not isinstance(event1, input_event.KeyboardEvent) \
+           or not isinstance(event2, input_event.KeyboardEvent):
+            return False
+
         if event1.is_pressed_key() or not event2.is_pressed_key():
             return False
 
         result = event1.id == event2.id \
             and event1.hw_code == event2.hw_code \
-            and event1.modifiers == event2.modifiers \
-            and event1.keyval_name == event2.keyval_name \
+            and event1.keyval_name == event2.keyval_name
+
+        if result and not event1.is_modifier_key:
+            result = event1.modifiers == event2.modifiers
 
         msg = (
             f"INPUT EVENT MANAGER: {event1.as_single_line_string()} "

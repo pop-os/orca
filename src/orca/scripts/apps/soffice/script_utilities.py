@@ -66,49 +66,6 @@ class Utilities(script_utilities.Utilities):
     #                                                                       #
     #########################################################################
 
-    def displayedText(self, obj):
-        """Returns the text being displayed for an object. Overridden here
-        because OpenOffice uses symbols (e.g. ">>" for buttons but exposes
-        more useful information via the accessible's name.
-
-        Arguments:
-        - obj: the object
-
-        Returns the text being displayed for an object or None if there isn't
-        any text being shown.
-        """
-
-        name = AXObject.get_name(obj)
-        if name and AXUtilities.is_push_button(obj):
-            return name
-
-        if AXUtilities.is_table_cell(obj):
-            strings = list(map(self.displayedText, [x for x in AXObject.iter_children(obj)]))
-            text = "\n".join(strings)
-            if text.strip():
-                return text
-
-        try:
-            text = super().displayedText(obj)
-        except Exception:
-            return ""
-
-        # TODO - JD: This is needed because the default behavior is to fall
-        # back on the name, which is bogus. Once that has been fixed, this
-        # hack can go.
-        # https://bugs.documentfoundation.org/show_bug.cgi?id=158030
-        if AXUtilities.is_table_cell(obj) and text == name \
-           and (self.isSpreadSheetCell(obj) or self.isTextDocumentCell(obj)):
-            return ""
-
-        # More bogusness from (at least) Calc combined with the aforementioned
-        # fallback-to-name behavior....
-        # https://bugs.documentfoundation.org/show_bug.cgi?id=158029
-        if self.isDocument(obj) and text == name and text.startswith("file:///"):
-            return ""
-
-        return text
-
     def isCellBeingEdited(self, obj):
         parent = AXObject.get_parent(obj)
         if AXUtilities.is_panel(parent) or AXUtilities.is_extended(parent):
@@ -189,7 +146,7 @@ class Utilities(script_utilities.Utilities):
 
         if self.isSpreadSheetCell(obj):
             contents = self.getClipboardContents()
-            string = self.displayedText(obj) or "\n"
+            string = AXText.get_all_text(obj) or "\n"
             return string in contents
 
         return super().objectContentsAreInClipboard(obj)
@@ -240,31 +197,6 @@ class Utilities(script_utilities.Utilities):
 
         return super().isSelectedTextDeletionEvent(event)
 
-    def selectedChildren(self, obj):
-        # TODO - JD: Are these overrides still needed? They appear to be
-        # quite old.
-
-        if obj is None:
-            return []
-
-        if not AXObject.supports_selection(obj) and AXUtilities.is_combo_box(obj):
-            child = AXObject.find_descendant(obj, AXObject.supports_selection)
-            if child:
-                return super().selectedChildren(child)
-
-        # Things only seem broken for certain tables, e.g. the Paths table.
-        # TODO - JD: File the LibreOffice bugs and reference them here.
-        if not AXUtilities.is_table(obj):
-            return super().selectedChildren(obj)
-
-        # We will need to special case this due to the possibility of there
-        # being lots of children (which may also prove to be invalid objects).
-        # This is why we can't have nice things.
-        if self.isSpreadSheetTable(obj):
-            return []
-
-        return AXSelection.get_selected_children(obj)
-
     def getWordAtOffsetAdjustedForNavigation(self, obj, offset=None):
         return AXText.get_word_at_offset(obj, offset)
 
@@ -310,7 +242,7 @@ class Utilities(script_utilities.Utilities):
         cell = AXTable.get_cell_at(obj, row, col)
         name = self.spreadSheetCellName(cell)
         if includeContents:
-            text = self.displayedText(cell)
+            text = AXText.get_all_text(cell)
             name = f"{text} {name}"
 
         return name.strip()

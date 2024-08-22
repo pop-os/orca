@@ -31,7 +31,6 @@ __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
                 "Copyright (c) 2018-2023 Igalia, S.L."
 __license__   = "LGPL"
 
-import time
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -49,12 +48,9 @@ from .ax_utilities_role import AXUtilitiesRole
 class AXEventSynthesizer:
     """Provides support for synthesizing accessible input events."""
 
-    _banner = None
-
     @staticmethod
     def _window_coordinates_to_screen_coordinates(x, y):
-        # TODO - JD: This is a workaround to keep things working until we have something like
-        # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/158
+        # TODO - JD: Remove this when we bump dependencies to AT-SPI 2.52.
         active_window = focus_manager.get_manager().get_active_window()
         if active_window is None:
             msg = "AXEventSynthesizer: Could not get active window to adjust coordinates"
@@ -87,53 +83,111 @@ class AXEventSynthesizer:
         return new_x, new_y
 
     @staticmethod
-    def _get_mouse_coordinates():
-        """Returns the current mouse coordinates."""
-
-        root_window = Gtk.Window().get_screen().get_root_window()
-        _window, x_coord, y_coord, _modifiers = root_window.get_pointer()
-        tokens = ["AXEventSynthesizer: Mouse coordinates:", x_coord, ",", y_coord]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        return x_coord, y_coord
+    def _highest_ancestor(obj):
+        """Returns the highest obtainable ancestor of obj, stopping before the application."""
+        parent = AXObject.get_parent(obj)
+        return parent is None or AXUtilitiesRole.is_application(parent)
 
     @staticmethod
-    def _generate_mouse_event(x_coord, y_coord, event):
-        """Synthesize a mouse event at a specific screen coordinate."""
+    def _is_scrolled_off_screen(obj, offset=None, ancestor=None):
+        """Returns true if obj, or the caret offset therein, is scrolled off-screen."""
 
-        old_x, old_y = AXEventSynthesizer._get_mouse_coordinates()
-        tokens = ["AXEventSynthesizer: Generating", event, "mouse event at", x_coord, ",", y_coord]
+        tokens = ["AXEventSynthesizer: Checking if", obj, "is scrolled offscreen"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        screen_x, screen_y = AXEventSynthesizer._window_coordinates_to_screen_coordinates(
-            x_coord, y_coord)
+        rect = AXComponent.get_rect(obj)
+        ancestor = ancestor or AXObject.find_ancestor(obj, AXEventSynthesizer._highest_ancestor)
+        if ancestor is None:
+            tokens = ["AXEventSynthesizer: Could not get ancestor of", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            return False
+
+        ancestor_rect = AXComponent.get_rect(ancestor)
+        intersection = AXComponent.get_rect_intersection(ancestor_rect, rect)
+        if AXComponent.is_empty_rect(intersection):
+            tokens = ["AXEventSynthesizer:", obj, "is outside of", ancestor, ancestor_rect]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            return True
+
+        if offset is None:
+            tokens = ["AXEventSynthesizer:", obj, "is not scrolled offscreen"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            return False
+
+        extents = AXText.get_character_rect(obj, offset)
+        if AXComponent.is_empty_rect(extents):
+            tokens = ["AXEventSynthesizer: Could not get character rect of", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            return False
+
+        intersection = AXComponent.get_rect_intersection(extents, rect)
+        if AXComponent.is_empty_rect(intersection):
+            tokens = ["AXEventSynthesizer:", obj, "'s caret", extents, "not in obj", rect]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            return True
+
+        return False
+
+    @staticmethod
+    def _generate_mouse_event_new(obj, relative_x, relative_y, event):
+        tokens = ["AXEventSynthesizer: Attempting to generate new mouse event on", obj,
+                  f"at relative coordinates {relative_x},{relative_y}"]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+        try:
+            device = Atspi.Device.new()
+            Atspi.Device.generate_mouse_event(device, obj, relative_x, relative_y, event)
+        except AttributeError:
+            message = "AXEventSynthesizer: Atspi.Device.generate_mouse_event requires v2.52."
+            debug.printMessage(debug.LEVEL_INFO, message, True)
+            return False
+        except Exception as error:
+            message = f"AXEventSynthesizer: Exception in _generate_mouse_event_new: {error}"
+            debug.printMessage(debug.LEVEL_INFO, message, True)
+            return False
+        return True
+
+    @staticmethod
+    def _generate_mouse_event_legacy(obj, screen_x, screen_y, event):
+        # TODO - JD: Remove this when we bump dependencies to AT-SPI 2.52.
+        tokens = ["AXEventSynthesizer: Attempting to generate legacy mouse event on", obj,
+                  f"at screen coordinates {screen_x},{screen_y}"]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         try:
             success = Atspi.generate_mouse_event(screen_x, screen_y, event)
         except Exception as error:
-            tokens = ["AXEventSynthesizer: Exception in _generate_mouse_event:", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            success = False
-        else:
-            tokens = ["AXEventSynthesizer: Atspi.generate_mouse_event returned", success]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        # There seems to be a timeout / lack of reply from this blocking call.
-        # But often the mouse event is successful. Pause briefly before checking.
-        time.sleep(1)
-
-        new_x, new_y = AXEventSynthesizer._get_mouse_coordinates()
-        if old_x == new_x and old_y == new_y and (old_x, old_y) != (screen_x, screen_y):
-            msg = "AXEventSynthesizer: Mouse event possible failure. Pointer didn't move"
-            debug.println(debug.LEVEL_INFO, msg, True)
+            message = f"AXEventSynthesizer: Exception in _generate_mouse_event_legacy: {error}"
+            debug.printMessage(debug.LEVEL_INFO, message, True)
             return False
+        return success
 
+    @staticmethod
+    def _generate_mouse_event(obj, relative_x, relative_y, event):
+        """Synthesize a mouse event at a specific screen coordinate."""
+
+        if not AXEventSynthesizer._generate_mouse_event_new(obj, relative_x, relative_y, event):
+            rect = AXComponent.get_rect(obj)
+            screen_x, screen_y = AXEventSynthesizer._window_coordinates_to_screen_coordinates(
+                rect.x + relative_x, rect.y + relative_y)
+            AXEventSynthesizer._generate_mouse_event_legacy(obj, screen_x, screen_y, event)
         return True
 
     @staticmethod
-    def _mouse_event_on_character(obj, event):
+    def _mouse_event_on_character(obj, offset, event):
         """Performs the specified mouse event on the current character in obj."""
 
-        extents = AXText.get_character_rect(obj)
+        if offset is None:
+            offset = max(AXText.get_caret_offset(obj), 0)
+
+        if AXEventSynthesizer._is_scrolled_off_screen(obj, offset):
+            AXEventSynthesizer.scroll_into_view(obj, offset)
+            if AXEventSynthesizer._is_scrolled_off_screen(obj, offset):
+                tokens = ["AXEventSynthesizer:", obj, "is still offscreen. Setting caret."]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                AXText.set_caret_offset(obj, offset)
+
+        extents = AXText.get_character_rect(obj, offset)
         if AXComponent.is_empty_rect(extents):
             return False
 
@@ -144,24 +198,33 @@ class AXEventSynthesizer:
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return False
 
-        x_coord = max(extents.x, extents.y + (extents.width / 2) - 1)
-        y_coord = extents.y + extents.height / 2
-        return AXEventSynthesizer._generate_mouse_event(x_coord, y_coord, event)
+        relative_x = (extents.x - rect.x) + extents.width / 2
+        relative_y = (extents.y - rect.y) + extents.height / 2
+        return AXEventSynthesizer._generate_mouse_event(obj, relative_x, relative_y, event)
 
     @staticmethod
     def _mouse_event_on_object(obj, event):
         """Performs the specified mouse event on obj."""
 
-        x_coord, y_coord = AXComponent.get_center_point(obj)
-        return AXEventSynthesizer._generate_mouse_event(x_coord, y_coord, event)
+        if AXEventSynthesizer._is_scrolled_off_screen(obj):
+            AXEventSynthesizer.scroll_into_view(obj)
+            if AXEventSynthesizer._is_scrolled_off_screen(obj):
+                tokens = ["AXEventSynthesizer:", obj, "is still offscreen. Grabbing focus."]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                AXObject.grab_focus(obj)
+
+        rect = AXComponent.get_rect(obj)
+        relative_x = rect.width / 2
+        relative_y = rect.height / 2
+        return AXEventSynthesizer._generate_mouse_event(obj, relative_x, relative_y, event)
 
     @staticmethod
-    def route_to_character(obj):
+    def route_to_character(obj, offset=None):
         """Routes the pointer to the current character in obj."""
 
-        tokens = ["AXEventSynthesizer: Attempting to route to character in", obj]
+        tokens = [f"AXEventSynthesizer: Attempting to route to offset {offset} in", obj]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        return AXEventSynthesizer._mouse_event_on_character(obj, "abs")
+        return AXEventSynthesizer._mouse_event_on_character(obj, offset, "abs")
 
     @staticmethod
     def route_to_object(obj):
@@ -172,16 +235,12 @@ class AXEventSynthesizer:
         return AXEventSynthesizer._mouse_event_on_object(obj, "abs")
 
     @staticmethod
-    def route_to_point(x_coord, y_coord):
-        """Routes the pointer to the specified coordinates."""
-
-        return AXEventSynthesizer._generate_mouse_event(x_coord, y_coord, "abs")
-
-    @staticmethod
-    def click_character(obj, button=1):
+    def click_character(obj, offset=None, button=1):
         """Single click on the current character in obj using the specified button."""
 
-        return AXEventSynthesizer._mouse_event_on_character(obj, f"b{button}c")
+        tokens = [f"AXEventSynthesizer: Attempting to click at offset {offset} in", obj]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        return AXEventSynthesizer._mouse_event_on_character(obj, offset, f"b{button}c")
 
     @staticmethod
     def click_object(obj, button=1):
@@ -190,75 +249,22 @@ class AXEventSynthesizer:
         return AXEventSynthesizer._mouse_event_on_object(obj, f"b{button}c")
 
     @staticmethod
-    def click_point(x_coord, y_coord, button=1):
-        """Single click on the given point using the specified button."""
-
-        return AXEventSynthesizer._generate_mouse_event(x_coord, y_coord, f"b{button}c")
-
-    @staticmethod
-    def double_click_character(obj, button=1):
-        """Double click on the current character in obj using the specified button."""
-
-        return AXEventSynthesizer._mouse_event_on_character(obj, f"b{button}d")
-
-    @staticmethod
-    def double_click_object(obj, button=1):
-        """Double click on obj using the specified button."""
-
-        return AXEventSynthesizer._mouse_event_on_object(obj, f"b{button}d")
-
-    @staticmethod
-    def double_click_point(x_coord, y_coord, button=1):
-        """Double click on the given point using the specified button."""
-
-        return AXEventSynthesizer._generate_mouse_event(x_coord, y_coord, f"b{button}d")
-
-    @staticmethod
-    def press_at_character(obj, button=1):
-        """Performs a press on the current character in obj using the specified button."""
-
-        return AXEventSynthesizer._mouse_event_on_character(obj, f"b{button}p")
-
-    @staticmethod
-    def press_at_object(obj, button=1):
-        """Performs a press on obj using the specified button."""
-
-        return AXEventSynthesizer._mouse_event_on_object(obj, f"b{button}p")
-
-    @staticmethod
-    def press_at_point(x_coord, y_coord, button=1):
-        """Performs a press on the given point using the specified button."""
-
-        return AXEventSynthesizer._generate_mouse_event(x_coord, y_coord, f"b{button}p")
-
-    @staticmethod
-    def release_at_character(obj, button=1):
-        """Performs a release on the current character in obj using the specified button."""
-
-        return AXEventSynthesizer._mouse_event_on_character(obj, f"b{button}r")
-
-    @staticmethod
-    def release_at_object(obj, button=1):
-        """Performs a release on obj using the specified button."""
-
-        return AXEventSynthesizer._mouse_event_on_object(obj, f"b{button}r")
-
-    @staticmethod
-    def release_at_point(x_coord, y_coord, button=1):
-        """Performs a release on the given point using the specified button."""
-
-        return AXEventSynthesizer._generate_mouse_event(x_coord, y_coord, f"b{button}r")
-
-    @staticmethod
     def _scroll_to_location(obj, location, start_offset=None, end_offset=None):
         """Attempts to scroll to the specified location."""
 
         before = AXComponent.get_position(obj)
-        if not AXText.scroll_substring_to_location(obj, location, start_offset, end_offset):
-            AXComponent.scroll_object_to_location(obj, location)
-
+        AXText.scroll_substring_to_location(obj, location, start_offset, end_offset)
+        AXObject.clear_cache(obj, False, "To obtain updated location after scroll.")
         after = AXComponent.get_position(obj)
-        tokens = ["AXEventSynthesizer: Before scroll:", before, "After scroll:", after]
+        tokens = ["AXEventSynthesizer: Text scroll, before:", before, "after:", after]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        if before != after:
+            return
+
+        AXComponent.scroll_object_to_location(obj, location)
+        AXObject.clear_cache(obj, False, "To obtain updated location after scroll.")
+        after = AXComponent.get_position(obj)
+        tokens = ["AXEventSynthesizer: Object scroll, before:", before, "after:", after]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
     @staticmethod
@@ -266,11 +272,18 @@ class AXEventSynthesizer:
         """Attempts to scroll obj to the specified point."""
 
         before = AXComponent.get_position(obj)
-        if not AXText.scroll_substring_to_point(obj, x_coord, y_coord, start_offset, end_offset):
-            AXComponent.scroll_object_to_point(obj, x_coord, y_coord)
-
+        AXText.scroll_substring_to_point(obj, x_coord, y_coord, start_offset, end_offset)
+        AXObject.clear_cache(obj, False, "To obtain updated location after scroll.")
         after = AXComponent.get_position(obj)
-        tokens = ["AXEventSynthesizer: Before scroll:", before, "After scroll:", after]
+        tokens = ["AXEventSynthesizer: Text scroll, before:", before, "after:", after]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        if before != after:
+            return
+
+        AXComponent.scroll_object_to_point(obj, x_coord, y_coord)
+        AXObject.clear_cache(obj, False, "To obtain updated location after scroll.")
+        after = AXComponent.get_position(obj)
+        tokens = ["AXEventSynthesizer: Object scroll, before:", before, "after:", after]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
     @staticmethod
@@ -281,82 +294,26 @@ class AXEventSynthesizer:
             obj, Atspi.ScrollType.ANYWHERE, start_offset, end_offset)
 
     @staticmethod
-    def _containing_document(obj):
-        """Returns the document containing obj"""
+    def scroll_to_center(obj, start_offset=None, end_offset=None):
+        """Attempts to scroll obj to the center of its window."""
 
-        document = AXObject.find_ancestor(obj, AXUtilitiesRole.is_document)
-        while document:
-            ancestor = AXObject.find_ancestor(document, AXUtilitiesRole.is_document)
-            if ancestor is None or ancestor == document:
-                break
-            document = ancestor
-
-        return document
-
-    @staticmethod
-    def _get_obscuring_banner(obj):
-        """"Returns the banner obscuring obj from view."""
-
-        document = AXEventSynthesizer._containing_document(obj)
-        if not document:
-            tokens = ["AXEventSynthesizer: No obscuring banner found for", obj, ". No document."]
+        ancestor = AXObject.find_ancestor(obj, AXEventSynthesizer._highest_ancestor)
+        if ancestor is None:
+            tokens = ["AXEventSynthesizer: Could not get ancestor of", obj]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return None
+            return
 
-        if not AXObject.supports_component(document):
-            tokens = ["AXEventSynthesizer: No obscuring banner found for", obj, ". No doc iface."]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return None
-
-        obj_rect = AXComponent.get_rect(obj)
-        doc_rect = AXComponent.get_rect(document)
-        left = AXComponent.get_descendant_at_point(document, doc_rect.x, obj_rect.y)
-        right = AXComponent.get_descendant_at_point(
-            document, doc_rect.x + doc_rect.width, obj_rect.y)
-        if not (left and right and left == right != document):
-            tokens = ["AXEventSynthesizer: No obscuring banner found for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return None
-
-        tokens = ["AXEventSynthesizer:", obj, "believed to be obscured by banner", left]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        return left
-
-    @staticmethod
-    def _scroll_below_banner(obj, banner, start_offset, end_offset, margin=25):
-        """Attempts to scroll obj below banner."""
-
-        obj_rect = AXComponent.get_rect(obj)
-        banner_rect = AXComponent.get_rect(banner)
-
-        tokens = ["AXEventSynthesizer: Extents of banner: ", banner_rect]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        AXEventSynthesizer._scroll_to_point(
-            obj, obj_rect.x, banner_rect.y + banner_rect.height + margin, start_offset, end_offset)
+        ancestor_rect = AXComponent.get_rect(ancestor)
+        x_coord = ancestor_rect.x + ancestor_rect.width / 2
+        y_coord = ancestor_rect.y + ancestor_rect.height / 2
+        AXEventSynthesizer._scroll_to_point(obj, x_coord, y_coord, start_offset, end_offset)
 
     @staticmethod
     def scroll_to_top_edge(obj, start_offset=None, end_offset=None):
         """Attempts to scroll obj to the top edge."""
 
-        if AXEventSynthesizer._banner and not AXObject.is_dead(AXEventSynthesizer._banner):
-            msg = (
-                f"AXEventSynthesizer: Suspected existing banner found: "
-                f"{AXEventSynthesizer._banner}"
-            )
-            debug.println(debug.LEVEL_INFO, msg, True)
-            AXEventSynthesizer._scroll_below_banner(
-                obj, AXEventSynthesizer._banner, start_offset, end_offset)
-            return
-
         AXEventSynthesizer._scroll_to_location(
             obj, Atspi.ScrollType.TOP_EDGE, start_offset, end_offset)
-
-        AXEventSynthesizer._banner = AXEventSynthesizer._get_obscuring_banner(obj)
-        if AXEventSynthesizer._banner:
-            msg = f"AXEventSynthesizer: Re-scrolling {obj} due to banner"
-            AXEventSynthesizer._scroll_below_banner(
-                obj, AXEventSynthesizer._banner, start_offset, end_offset)
-            debug.println(debug.LEVEL_INFO, msg, True)
 
     @staticmethod
     def scroll_to_top_left(obj, start_offset=None, end_offset=None):

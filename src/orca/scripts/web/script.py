@@ -28,6 +28,8 @@ __copyright__ = "Copyright (c) 2005-2009 Sun Microsystems Inc." \
 __license__   = "LGPL"
 
 import time
+import gi
+gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
 from orca import caret_navigation
@@ -48,6 +50,7 @@ from orca import structural_navigation
 from orca.acss import ACSS
 from orca.scripts import default
 from orca.ax_document import AXDocument
+from orca.ax_event_synthesizer import AXEventSynthesizer
 from orca.ax_object import AXObject
 from orca.ax_table import AXTable
 from orca.ax_text import AXText
@@ -569,7 +572,7 @@ class Script(default.Script):
                 if self.utilities.isLinkAncestorOfImageInContents(obj, contents):
                     continue
 
-                utterances = self.speech_generator.generateContents(
+                utterances = self.speech_generator.generate_contents(
                     [content], eliminatePauses=True, priorObj=priorObj)
                 priorObj = obj
 
@@ -801,19 +804,25 @@ class Script(default.Script):
     def speakContents(self, contents, **args):
         """Speaks the specified contents."""
 
-        utterances = self.speech_generator.generateContents(contents, **args)
+        utterances = self.speech_generator.generate_contents(contents, **args)
         speech.speak(utterances)
 
     def sayCharacter(self, obj):
         """Speaks the character at the current caret position."""
 
-        if not self.caret_navigation.last_input_event_was_navigation_command() \
-           and not self.utilities.isContentEditableWithEmbeddedObjects(obj):
+        tokens = ["WEB: Say character for", obj]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        if not self.utilities.inDocumentContent(obj):
+            msg = "WEB: Object is not in document content."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             super().sayCharacter(obj)
             return
 
         document = self.utilities.getTopLevelDocumentForObject(obj)
         obj, offset = self.utilities.getCaretContext(documentFrame=document)
+        tokens = ["WEB: Adjusted object and offset for say character to", obj, offset]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
         if not obj:
             return
 
@@ -830,8 +839,10 @@ class Script(default.Script):
             return
 
         obj, start, end, string = contents[0]
-        if start > 0:
-            string = string or "\n"
+        if start > 0 and string == "\n":
+            if settings_manager.get_manager().get_setting("speakBlankLines"):
+                self.speakMessage(messages.BLANK, interrupt=False)
+                return
 
         if string:
             self.speakMisspelledIndicator(obj, start)
@@ -844,8 +855,11 @@ class Script(default.Script):
     def sayWord(self, obj):
         """Speaks the word at the current caret position."""
 
-        isEditable = self.utilities.isContentEditableWithEmbeddedObjects(obj)
-        if not self.caret_navigation.last_input_event_was_navigation_command() and not isEditable:
+        tokens = ["WEB: Say word for", obj]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        if not self.utilities.inDocumentContent(obj):
+            msg = "WEB: Object is not in document content."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
             super().sayWord(obj)
             return
 
@@ -854,51 +868,79 @@ class Script(default.Script):
         if input_event_manager.get_manager().last_event_was_right():
             offset -= 1
 
+        tokens = ["WEB: Adjusted object and offset for say word to", obj, offset]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
         wordContents = self.utilities.getWordContentsAtOffset(obj, offset, useCache=True)
         textObj, startOffset, endOffset, word = wordContents[0]
         self.speakMisspelledIndicator(textObj, startOffset)
         self.speakContents(wordContents)
         self.point_of_reference["lastTextUnitSpoken"] = "word"
 
-    def sayLine(self, obj):
+    def sayLine(self, obj, offset=None):
         """Speaks the line at the current caret position."""
 
-        lastCommandWasCaretNav = self.caret_navigation.last_input_event_was_navigation_command()
-        lastCommandWasStructNav = \
-            self.structural_navigation.last_input_event_was_navigation_command() \
-            or self.get_table_navigator().last_input_event_was_navigation_command()
+        tokens = ["WEB: Say line for", obj]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        if not self.utilities.inDocumentContent(obj):
+            msg = "WEB: Object is not in document content."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            super().sayLine(obj)
+            return
 
-        isEditable = self.utilities.isContentEditableWithEmbeddedObjects(obj)
-        if not (lastCommandWasCaretNav or lastCommandWasStructNav) and not isEditable:
+        # TODO - JD: We're making an exception here because the default script's sayLine()
+        # handles verbalized punctuation, indentation, repeats, etc. That adjustment belongs
+        # in the generators, but that's another potentially non-trivial change.
+        if AXUtilities.is_editable(obj) and "\ufffc" not in AXText.get_line_at_offset(obj)[0]:
+            msg = "WEB: Object is editable and line has no EOCs."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            if not self._inFocusMode:
+                self.utilities.setCaretPosition(obj, 0)
             super().sayLine(obj)
             return
 
         document = self.utilities.getTopLevelDocumentForObject(obj)
-        priorObj = None
-        if lastCommandWasCaretNav or isEditable:
-            priorObj, priorOffset = self.utilities.getPriorContext(documentFrame=document)
+        priorObj, _priorOffset = self.utilities.getPriorContext(documentFrame=document)
 
-        obj, offset = self.utilities.getCaretContext(documentFrame=document)
+        if offset is None:
+            obj, offset = self.utilities.getCaretContext(documentFrame=document)
+            tokens = ["WEB: Adjusted object and offset for say line to", obj, offset]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
         contents = self.utilities.getLineContentsAtOffset(obj, offset, useCache=True)
+        if contents and contents[0] and not self._inFocusMode:
+            self.utilities.setCaretPosition(contents[0][0], contents[0][1])
+
         self.speakContents(contents, priorObj=priorObj)
         self.point_of_reference["lastTextUnitSpoken"] = "line"
 
     def presentObject(self, obj, **args):
+        if obj is None:
+            return
+
         if not self.utilities.inDocumentContent(obj) or AXUtilities.is_document(obj):
             super().presentObject(obj, **args)
             return
 
         if AXUtilities.is_status_bar(obj):
+            if not self._inFocusMode:
+                self.utilities.setCaretPosition(obj, 0)
             super().presentObject(obj, **args)
             return
 
         priorObj = args.get("priorObj")
         if self.caret_navigation.last_input_event_was_navigation_command() \
+           or self.structural_navigation.last_input_event_was_navigation_command() \
+           or self.get_table_navigator().last_input_event_was_navigation_command() \
            or args.get("includeContext") or AXTable.get_table(obj):
             priorObj, priorOffset = self.utilities.getPriorContext()
             args["priorObj"] = priorObj
 
+        AXEventSynthesizer.scroll_to_center(obj, start_offset=0)
+
         if AXUtilities.is_entry(obj):
+            if not self._inFocusMode:
+                self.utilities.setCaretPosition(obj, 0)
             super().presentObject(obj, **args)
             return
 
@@ -912,6 +954,8 @@ class Script(default.Script):
         useCache = False
         offset = args.get("offset", 0)
         contents = self.utilities.getObjectContentsAtOffset(obj, offset, useCache)
+        if contents and contents[0] and not self._inFocusMode:
+            self.utilities.setCaretPosition(contents[0][0], contents[0][1])
         self.displayContents(contents)
         self.speakContents(contents, **args)
 
@@ -985,7 +1029,7 @@ class Script(default.Script):
 
         line = self.getNewBrailleLine(clearBraille=True, addLine=True)
         document = args.get("documentFrame")
-        result = self.braille_generator.generateContents(contents, documentFrame=document)
+        result = self.braille_generator.generate_contents(contents, documentFrame=document)
         if not result:
             msg = "WEB: Generating braille contents failed"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -1064,8 +1108,6 @@ class Script(default.Script):
             return
 
         if self._inMouseOverObject:
-            x, y = self.oldMouseCoordinates
-            self.get_event_synthesizer().route_to_point(x, y)
             self.restorePreMouseOverContext()
             return
 
@@ -1087,6 +1129,7 @@ class Script(default.Script):
         """Cleans things up after a mouse-over object has been hidden."""
 
         obj, offset = self._preMouseOverContext
+        self.get_event_synthesizer().route_to_object(obj)
         self.utilities.setCaretPosition(obj, offset)
         self.speakContents(self.utilities.getObjectContentsAtOffset(obj, offset))
         self.update_braille(obj)
@@ -1295,7 +1338,7 @@ class Script(default.Script):
         if contents:
             self.speakContents(contents, **args)
         else:
-            utterances = self.speech_generator.generateSpeech(new_focus, **args)
+            utterances = self.speech_generator.generate_speech(new_focus, **args)
             speech.speak(utterances)
 
         self._save_focused_object_info(new_focus)
@@ -1380,7 +1423,12 @@ class Script(default.Script):
             self.utilities.clearCaretContext()
 
         shouldPresent = True
-        if not (AXUtilities.is_showing(event.source) or AXUtilities.is_visible(event.source)):
+        mgr = settings_manager.get_manager()
+        if mgr.get_setting('onlySpeakDisplayedText'):
+            shouldPresent = False
+            msg = "WEB: Not presenting due to settings"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+        elif not (AXUtilities.is_showing(event.source) or AXUtilities.is_visible(event.source)):
             shouldPresent = False
             msg = "WEB: Not presenting because source is not showing or visible"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -1392,13 +1440,19 @@ class Script(default.Script):
             shouldPresent = False
             tokens = ["WEB: Not presenting due to focus mode for", obj]
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        elif mgr.get_setting('speechVerbosityLevel') != settings.VERBOSITY_LEVEL_VERBOSE:
+            shouldPresent = not event.detail1
+            tokens = ["WEB: Brief verbosity set. Should present", obj, f": {shouldPresent}"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
-        if not settings_manager.get_manager().get_setting(
-                'onlySpeakDisplayedText') and shouldPresent:
+        if shouldPresent:
             if event.detail1:
                 self.presentMessage(messages.PAGE_LOADING_START)
             elif AXObject.get_name(event.source):
-                msg = messages.PAGE_LOADING_END_NAMED % AXObject.get_name(event.source)
+                if mgr.get_setting('speechVerbosityLevel') != settings.VERBOSITY_LEVEL_VERBOSE:
+                    msg = AXObject.get_name(event.source)
+                else:
+                    msg = messages.PAGE_LOADING_END_NAMED % AXObject.get_name(event.source)
                 self.presentMessage(msg, resetStyles=False)
             else:
                 self.presentMessage(messages.PAGE_LOADING_END)
@@ -1485,8 +1539,6 @@ class Script(default.Script):
 
     def on_caret_moved(self, event):
         """Callback for object:text-caret-moved accessibility events."""
-
-        self.utilities.sanity_check_active_window()
 
         if not AXObject.is_valid(event.source):
             msg = "WEB: Event source is not valid"
@@ -1616,9 +1668,13 @@ class Script(default.Script):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
-        obj, offset = self.utilities.findFirstCaretContext(event.source, event.detail1)
         notify = force = handled = False
         AXObject.clear_cache(event.source, False, "Updating state for caret moved event.")
+
+        if self._inFocusMode:
+            obj, offset = event.source, event.detail1
+        else:
+            obj, offset = self.utilities.findFirstCaretContext(event.source, event.detail1)
 
         if input_event_manager.get_manager().last_event_was_page_navigation():
             msg = "WEB: Caret moved due to scrolling."
@@ -1634,7 +1690,8 @@ class Script(default.Script):
              (AXUtilities.is_focused(event.source) or not AXUtilities.is_focusable(event.source)):
             msg = "WEB: Editable object is not (yet) the locus of focus."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
-            notify = force = handled = True
+            notify = force = handled = \
+                input_event_manager.get_manager().last_event_was_line_navigation()
 
         elif input_event_manager.get_manager().last_event_was_caret_navigation():
             msg = "WEB: Caret moved due to native caret navigation."
@@ -1657,11 +1714,6 @@ class Script(default.Script):
         obj, offset = self.utilities.getCaretContext()
         if obj != event.source:
             msg = "WEB: Event source is not context object"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return True
-
-        if not AXUtilities.checked_state_did_change(event.source):
-            msg = "WEB: Ignoring event, state hasn't changed"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return True
 
@@ -1755,7 +1807,7 @@ class Script(default.Script):
         if self.lastMouseRoutingTime and 0 < time.time() - self.lastMouseRoutingTime < 1:
             utterances = []
             utterances.append(messages.NEW_ITEM_ADDED)
-            utterances.extend(self.speech_generator.generateSpeech(event.any_data, force=True))
+            utterances.extend(self.speech_generator.generate_speech(event.any_data, force=True))
             speech.speak(utterances)
             self._lastMouseOverObject = event.any_data
             self.preMouseOverContext = self.utilities.getCaretContext()
@@ -2093,6 +2145,7 @@ class Script(default.Script):
             msg = "WEB: Event believed to be browser UI page switch"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             if event.detail1:
+                AXUtilities.clear_all_cache_now(reason=msg)
                 self.presentObject(event.source, priorObj=focus, interrupt=True)
             return True
 
@@ -2431,6 +2484,11 @@ class Script(default.Script):
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
+        if self.structural_navigation.last_input_event_was_navigation_command():
+            msg = "WEB: Ignoring: Last input event was structural navigation command."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            return True
+
         char = AXText.get_character_at_offset(event.source)[0]
         manager = input_event_manager.get_manager()
         if char == self.EMBEDDED_OBJECT_CHARACTER \
@@ -2456,9 +2514,3 @@ class Script(default.Script):
         debug.printMessage(debug.LEVEL_INFO, msg, True)
         self._lastMouseButtonContext = None, -1
         return False
-
-    def get_transferable_attributes(self):
-        return {"_inFocusMode": self._inFocusMode,
-                "_focusModeIsSticky": self._focusModeIsSticky,
-                "_browseModeIsSticky": self._browseModeIsSticky,
-        }

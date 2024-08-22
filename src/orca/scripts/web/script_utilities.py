@@ -38,7 +38,6 @@ from orca import debug
 from orca import focus_manager
 from orca import input_event_manager
 from orca import script_utilities
-from orca import script_manager
 from orca import settings_manager
 from orca.ax_component import AXComponent
 from orca.ax_document import AXDocument
@@ -101,8 +100,6 @@ class Utilities(script_utilities.Utilities):
         self._isNonNavigableEmbeddedDocument = {}
         self._isParentOfNullChild = {}
         self._inferredLabels = {}
-        self._descriptionListTerms = {}
-        self._valuesForTerm = {}
         self._displayedLabelText = {}
         self._preferDescriptionOverName = {}
         self._shouldFilter = {}
@@ -190,8 +187,6 @@ class Utilities(script_utilities.Utilities):
         self._isNonNavigableEmbeddedDocument = {}
         self._isParentOfNullChild = {}
         self._inferredLabels = {}
-        self._descriptionListTerms = {}
-        self._valuesForTerm = {}
         self._displayedLabelText = {}
         self._preferDescriptionOverName = {}
         self._shouldFilter = {}
@@ -241,38 +236,6 @@ class Utilities(script_utilities.Utilities):
     def _getDocumentsEmbeddedBy(self, frame):
         return list(filter(self.isDocument, AXUtilities.get_embeds(frame)))
 
-    def sanity_check_active_window(self):
-        app = self._script.app
-        window = focus_manager.get_manager().get_active_window()
-        if AXObject.get_parent(window) == app:
-            return True
-
-        tokens = ["WARNING:", window, "is not child of", app]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        # TODO - JD: Is this exception handling still needed?
-        try:
-            script = script_manager.get_manager().get_script(app, window)
-            tokens = ["WEB: Script for active Window is", script]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        except Exception:
-            msg = "ERROR: Exception getting script for active window"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-        else:
-            if isinstance(script, type(self._script)):
-                attrs = script.get_transferable_attributes()
-                for attr, value in attrs.items():
-                    tokens = ["WEB: Setting", attr, "to", value]
-                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                    setattr(self._script, attr, value)
-
-        window = focus_manager.get_manager().find_active_window(app)
-        self._script.app = AXObject.get_application(window)
-        tokens = ["WEB: updating script's app to", self._script.app]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        focus_manager.get_manager().set_active_window(window)
-        return True
-
     def activeDocument(self, window=None):
         window = window or focus_manager.get_manager().get_active_window()
         documents = self._getDocumentsEmbeddedBy(window)
@@ -282,7 +245,7 @@ class Utilities(script_utilities.Utilities):
         return None
 
     def documentFrame(self, obj=None):
-        if not obj and self.sanity_check_active_window():
+        if not obj:
             document = self.activeDocument()
             if document:
                 return document
@@ -578,19 +541,10 @@ class Utilities(script_utilities.Utilities):
             return ""
 
         if self._preserveTree(obj):
-            utterances = self._script.speech_generator.generateSpeech(obj)
-            return self._script.speech_generator.utterancesToString(utterances)
+            utterances = self._script.speech_generator.generate_speech(obj)
+            return self._script.speech_generator.utterances_to_string(utterances)
 
         return super().expandEOCs(obj, startOffset, endOffset).strip()
-
-    def substring(self, obj, startOffset, endOffset):
-        if not self.inDocumentContent(obj):
-            return super().substring(obj, startOffset, endOffset)
-
-        if self.treatAsTextObject(obj):
-            return AXText.get_substring(obj, startOffset, endOffset)
-
-        return ""
 
     def textAttributes(self, acc, offset=None, get_defaults=False):
         attrs = super().textAttributes(acc, offset, get_defaults)
@@ -1695,7 +1649,7 @@ class Utilities(script_utilities.Utilities):
             indices.reverse()
 
         for i in indices:
-            result = self._findSelectionBoundaryObject(root[i], findStart)
+            result = self._findSelectionBoundaryObject(AXObject.get_child(root, i), findStart)
             if result:
                 return result
 
@@ -1756,7 +1710,7 @@ class Utilities(script_utilities.Utilities):
         return subtree
 
     def handleTextSelectionChange(self, obj, speakMessage=True):
-        if not self.inDocumentContent(obj):
+        if not self.inDocumentContent(obj) or self._script.inFocusMode():
             return super().handleTextSelectionChange(obj)
 
         oldStart, oldEnd = \
@@ -2039,7 +1993,7 @@ class Utilities(script_utilities.Utilities):
             return False
 
         if AXUtilities.is_list(obj) and offset is not None:
-            string = self.substring(obj, offset, offset + 1)
+            string = AXText.get_substring(obj, offset, offset + 1)
             if string and string != self.EMBEDDED_OBJECT_CHARACTER:
                 return True
 
@@ -2293,12 +2247,12 @@ class Utilities(script_utilities.Utilities):
             if rv is not None:
                 return rv
 
-            displayedText = string or AXObject.get_name(obj)
+            text = string or AXObject.get_name(obj)
             rv = True
-            if ((self.isTextBlockElement(obj) or self.isLink(obj)) and not displayedText) \
+            if ((self.isTextBlockElement(obj) or self.isLink(obj)) and not text) \
                or (self.isContentEditableWithEmbeddedObjects(obj) and not string.strip()) \
                or self.isEmptyAnchor(obj) \
-               or (AXComponent.has_no_size(obj) and not displayedText) \
+               or (AXComponent.has_no_size(obj) and not text) \
                or self.isHidden(obj) \
                or self.isOffScreenLabel(obj) \
                or self.isUselessImage(obj) \
@@ -2891,36 +2845,6 @@ class Utilities(script_utilities.Utilities):
         self._isCodeDescendant[hash(obj)] = rv
         return rv
 
-    def descriptionListTerms(self, obj):
-        if not obj:
-            return []
-
-        rv = self._descriptionListTerms.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = super().descriptionListTerms(obj)
-        if not self.inDocumentContent(obj):
-            return rv
-
-        self._descriptionListTerms[hash(obj)] = rv
-        return rv
-
-    def valuesForTerm(self, obj):
-        if not obj:
-            return []
-
-        rv = self._valuesForTerm.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = super().valuesForTerm(obj)
-        if not self.inDocumentContent(obj):
-            return rv
-
-        self._valuesForTerm[hash(obj)] = rv
-        return rv
-
     def getComboBoxValue(self, obj):
         attrs = AXObject.get_attributes_dict(obj, False)
         return attrs.get("valuetext", super().getComboBoxValue(obj))
@@ -3376,7 +3300,7 @@ class Utilities(script_utilities.Utilities):
 
         labels = AXUtilities.get_is_labelled_by(obj)
         strings = [AXObject.get_name(label)
-                   or self.displayedText(label) for label in labels if label is not None]
+                   or AXText.get_all_text(label) for label in labels if label is not None]
         rv = " ".join(strings)
 
         self._displayedLabelText[hash(obj)] = rv
@@ -4193,7 +4117,8 @@ class Utilities(script_utilities.Utilities):
         offset = max(0, offset)
         if treatAsText:
             allText = AXText.get_all_text(obj)
-            if allText[offset] != self.EMBEDDED_OBJECT_CHARACTER or role == Atspi.Role.ENTRY:
+            if (allText and allText[offset] != self.EMBEDDED_OBJECT_CHARACTER) \
+               or role == Atspi.Role.ENTRY:
                 msg = "WEB: First caret context is unchanged"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return obj, offset

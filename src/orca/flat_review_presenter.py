@@ -27,8 +27,9 @@ __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
                 "Copyright (c) 2016-2023 Igalia, S.L."
 __license__   = "LGPL"
 
-import gi
+import time
 
+import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
@@ -44,6 +45,8 @@ from . import messages
 from . import script_manager
 from . import settings_manager
 from . import settings
+from . import speech_and_verbosity_manager
+from .ax_event_synthesizer import AXEventSynthesizer
 
 
 class FlatReviewPresenter:
@@ -978,19 +981,31 @@ class FlatReviewPresenter:
         """Attempts to synthesize a left click on the current accessible."""
 
         self._context = self.get_or_create_context(script)
-        return self._context.clickCurrent(1)
+        obj = self._context.getCurrentAccessible()
+        offset = self._context.getCurrentTextOffset()
+        if offset >= 0:
+            return AXEventSynthesizer.click_character(obj, offset, 1)
+        return AXEventSynthesizer.click_object(obj, 1)
 
     def right_click_on_object(self, script, event=None):
         """Attempts to synthesize a left click on the current accessible."""
 
         self._context = self.get_or_create_context(script)
-        return self._context.clickCurrent(3)
+        obj = self._context.getCurrentAccessible()
+        offset = self._context.getCurrentTextOffset()
+        if offset >= 0:
+            return AXEventSynthesizer.click_character(obj, offset, 3)
+        return AXEventSynthesizer.click_object(obj, 3)
 
     def route_pointer_to_object(self, script, event=None):
         """Routes the mouse pointer to the current accessible."""
 
         self._context = self.get_or_create_context(script)
-        return self._context.routeToCurrent()
+        obj = self._context.getCurrentAccessible()
+        offset = self._context.getCurrentTextOffset()
+        if offset >= 0:
+            return AXEventSynthesizer.route_to_character(obj, offset)
+        return AXEventSynthesizer.route_to_object(obj)
 
     def get_braille_regions(self, script, event=None):
         """Returns the braille regions and region with focus being reviewed."""
@@ -1092,7 +1107,8 @@ class FlatReviewPresenter:
             elif speech_type == 3:
                 script.phoneticSpellCurrentItem(line_string)
             else:
-                line_string = script.utilities.adjustForRepeats(line_string)
+                manager = speech_and_verbosity_manager.get_manager()
+                line_string = manager.adjust_for_repeats(line_string)
                 script.speakMessage(line_string, voice)
 
         focus_manager.get_manager().emit_region_changed(
@@ -1123,7 +1139,8 @@ class FlatReviewPresenter:
                 elif speech_type == 3:
                     script.phoneticSpellCurrentItem(word_string)
                 elif speech_type == 1:
-                    word_string = script.utilities.adjustForRepeats(word_string)
+                    manager = speech_and_verbosity_manager.get_manager()
+                    word_string = manager.adjust_for_repeats(word_string)
                     script.speakMessage(word_string, voice)
 
         focus_manager.get_manager().emit_region_changed(
@@ -1201,7 +1218,7 @@ class FlatReviewContextGUI:
         """Shows the dialog."""
 
         self._gui.show_all()
-        self._gui.present_with_time(Gtk.get_current_event_time())
+        self._gui.present_with_time(time.time())
 
 
 _presenter = FlatReviewPresenter()

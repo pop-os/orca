@@ -41,12 +41,15 @@ __copyright__ = "Copyright (c) 2024 Igalia, S.L." \
                 "Copyright (c) 2024 GNOME Foundation Inc."
 __license__   = "LGPL"
 
+import re
+
 import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 
 from . import debug
 from .ax_object import AXObject
+from .ax_utilities_role import AXUtilitiesRole
 from .ax_utilities_state import AXUtilitiesState
 
 class AXText:
@@ -55,6 +58,9 @@ class AXText:
     @staticmethod
     def get_text_for_debugging(obj):
         """Returns the text content of obj for debugging."""
+
+        if not AXObject.supports_text(obj):
+            return ""
 
         try:
             result = Atspi.Text.get_text(obj, 0, Atspi.Text.get_character_count(obj))
@@ -205,7 +211,10 @@ class AXText:
             offset = AXText.get_caret_offset(obj)
 
         # Don't adjust the length in multiline text because we want to say "blank" at the end.
-        if not AXUtilitiesState.is_multi_line(obj):
+        # This may or may not be sufficient. GTK3 seems to give us the correct, empty line. But
+        # (at least) Chromium does not. See comment below.
+        if not AXUtilitiesState.is_multi_line(obj) \
+           and not AXUtilitiesRole.is_paragraph(obj) and not AXUtilitiesRole.is_section(obj):
             offset = min(max(0, offset), length - 1)
         else:
             offset = max(0, offset)
@@ -223,6 +232,11 @@ class AXText:
             # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/161
             msg = f"WARNING: String at offset failed; text at offset succeeded: {error}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
+        else:
+            # Try again, e.g. Chromium returns "", -1, -1.
+            if result.start_offset == result.end_offset == -1 and offset == length:
+                offset -= 1
+                result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.LINE)
 
         debug_string = result.content.replace("\n", "\\n")
         tokens = [f"AXText: Line at offset {offset} in", obj,
@@ -476,7 +490,7 @@ class AXText:
             result = Atspi.Text.get_text(obj, start_offset, end_offset)
         except Exception as error:
             msg = f"AXText: Exception in get_substring: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True, True)
             return ""
 
         debug_string = result.replace("\n", "\\n")
@@ -967,6 +981,12 @@ class AXText:
             return True
 
         return not AXText.get_all_text(obj).strip()
+
+    @staticmethod
+    def has_presentable_text(obj):
+        """Returns True if obj has presentable text."""
+
+        return bool(re.search(r"\w+", AXText.get_all_text(obj)))
 
     @staticmethod
     def scroll_substring_to_point(obj, x, y, start_offset, end_offset):
