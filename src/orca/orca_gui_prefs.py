@@ -27,6 +27,8 @@ __license__   = "LGPL"
 
 import gi
 gi.require_version("Atspi", "2.0")
+gi.require_version("Gdk", "3.0")
+gi.require_version("Gtk", "3.0")
 from gi.repository import Atspi
 
 import os
@@ -1944,7 +1946,7 @@ class OrcaSetupGUI(orca_gtkbuilder.GtkBuilderWrapper):
             OrcaSetupGUI.DIALOG.set_title(title)
 
         OrcaSetupGUI.DIALOG.show_all()
-        OrcaSetupGUI.DIALOG.present_with_time(Gtk.get_current_event_time())
+        OrcaSetupGUI.DIALOG.present_with_time(time.time())
 
     def _initComboBox(self, combobox):
         """Initialize the given combo box to take a list of int/str pairs.

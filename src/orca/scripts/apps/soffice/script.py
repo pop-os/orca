@@ -27,6 +27,8 @@ __copyright__ = "Copyright (c) 2005-2009 Sun Microsystems Inc." \
                 "Copyright (c) 2010-2013 The Orca Team."
 __license__   = "LGPL"
 
+import gi
+gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
 from orca import cmdnames
@@ -271,7 +273,7 @@ class Script(default.Script):
 
         text = AXTable.get_cell_formula(focus)
         if not text:
-            text = self.utilities.displayedText(focus) or messages.EMPTY
+            text = AXText.get_all_text(focus) or messages.EMPTY
 
         self.presentMessage(text)
         return True
@@ -316,7 +318,7 @@ class Script(default.Script):
             # But this will get us to speak the entire paragraph when navigation by
             # paragraph has occurred.
             if input_event_manager.get_manager().last_event_was_paragraph_navigation():
-                string = self.utilities.displayedText(new_focus)
+                string = AXText.get_all_text(new_focus)
                 if string:
                     voice = self.speech_generator.voice(obj=new_focus, string=string)
                     self.speakMessage(string, voice=voice)

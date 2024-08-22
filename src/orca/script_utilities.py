@@ -35,6 +35,8 @@ import time
 from difflib import SequenceMatcher
 
 gi.require_version("Atspi", "2.0")
+gi.require_version("Gdk", "3.0")
+gi.require_version("Gtk", "3.0")
 from gi.repository import Atspi
 from gi.repository import Gdk
 from gi.repository import Gtk
@@ -109,10 +111,7 @@ class Utilities:
         # First see if this accessible implements RELATION_NODE_PARENT_OF.
         # If it does, the full target list are the nodes. If it doesn't
         # we'll do an old-school, row-by-row search for child nodes.
-        def pred(x):
-            return AXObject.get_index_in_parent(x) >= 0
-
-        nodes = list(filter(pred, AXUtilities.get_is_node_parent_of(obj)))
+        nodes = AXUtilities.get_is_node_parent_of(obj)
         tokens = ["SCRIPT UTILITIES:", len(nodes), "child nodes for", obj, "via node-parent-of"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         if nodes:
@@ -200,14 +199,14 @@ class Utilities:
         """
 
         labels = AXUtilities.get_is_labelled_by(obj)
-        return " ".join(map(self.displayedText, labels))
+        return " ".join(AXText.get_all_text(label) or AXObject.get_name(label) for label in labels)
 
     def preferDescriptionOverName(self, obj):
         return False
 
     def detailsContentForObject(self, obj):
         details = self.detailsForObject(obj)
-        return list(map(self.displayedText, details))
+        return list(map(AXText.get_all_text, details))
 
     def detailsForObject(self, obj, textOnly=True):
         """Return a list of objects containing details for obj."""
@@ -231,42 +230,7 @@ class Utilities:
         """Returns the text being displayed for the object describing obj."""
 
         descriptions = AXUtilities.get_is_described_by(obj)
-        return " ".join(map(self.displayedText, descriptions))
-
-    def displayedText(self, obj):
-        """Returns the text being displayed for an object.
-
-        Arguments:
-        - obj: the object
-
-        Returns the text being displayed for an object or None if there isn't
-        any text being shown.
-        """
-
-        # TODO - JD: It's finally time to consider killing this for real.
-
-        name = AXObject.get_name(obj)
-        role = AXObject.get_role(obj)
-        if role in [Atspi.Role.PUSH_BUTTON, Atspi.Role.LABEL] and name:
-            return name
-
-        displayedText = AXText.get_all_text(obj)
-        if self.EMBEDDED_OBJECT_CHARACTER in displayedText:
-            displayedText = None
-
-        if not displayedText and role not in [Atspi.Role.COMBO_BOX, Atspi.Role.SPIN_BUTTON]:
-            # TODO - JD: This should probably get nuked. But all sorts of
-            # existing code might be relying upon this bogus hack. So it
-            # will need thorough testing when removed.
-            displayedText = name
-
-        if not displayedText and role in [Atspi.Role.PUSH_BUTTON, Atspi.Role.LIST_ITEM]:
-            labels = self.unrelatedLabels(obj, minimumWords=1)
-            if not labels:
-                labels = self.unrelatedLabels(obj, onlyShowing=False, minimumWords=1)
-            displayedText = " ".join(map(self.displayedText, labels))
-
-        return displayedText
+        return " ".join(AXText.get_all_text(d) or AXObject.get_name(d) for d in descriptions)
 
     def documentFrame(self, obj=None):
         """Returns the document frame which is displaying the content.
@@ -508,7 +472,7 @@ class Utilities:
         return AXValue.get_value_as_percent(obj) is not None
 
     def topLevelObjectIsActiveWindow(self, obj):
-        return obj == focus_manager.get_manager().get_active_window()
+        return self.topLevelObject(obj) == focus_manager.get_manager().get_active_window()
 
     def isProgressBarUpdate(self, obj):
         if not settings_manager.get_manager().get_setting('speakProgressBarUpdates') \
@@ -718,14 +682,6 @@ class Utilities:
     def isFocusableLabel(self, obj):
         return AXUtilities.is_label(obj) and AXUtilities.is_focusable(obj)
 
-    def isNonFocusableList(self, obj):
-        return AXUtilities.is_list(obj) and not AXUtilities.is_focusable(obj)
-
-    def isStatusBarNotification(self, obj):
-        if not AXUtilities.is_notification(obj):
-            return False
-        return AXObject.find_ancestor(obj, AXUtilities.is_status_bar) is not None
-
     def getNotificationContent(self, obj):
         if not AXUtilities.is_notification(obj):
             return ""
@@ -738,7 +694,7 @@ class Utilities:
         if text and text not in tokens:
             tokens.append(text)
         else:
-            labels = " ".join(map(self.displayedText, self.unrelatedLabels(obj, False, 1)))
+            labels = " ".join(map(AXText.get_all_text, self.unrelatedLabels(obj, False, 1)))
             if labels and labels not in tokens:
                 tokens.append(labels)
 
@@ -832,7 +788,7 @@ class Utilities:
         elif self.isHidden(obj):
             layoutOnly = True
         else:
-            if not (self.displayedText(obj) or self.displayedLabel(obj)):
+            if not (AXObject.get_name(obj) or self.displayedLabel(obj) or AXText.get_all_text(obj)):
                 layoutOnly = True
 
         if layoutOnly:
@@ -1073,7 +1029,7 @@ class Utilities:
     def hasPresentableText(self, obj):
         if self.isStaticTextLeaf(obj):
             return False
-        return bool(re.search(r"\w+", AXText.get_all_text(obj)))
+        return AXText.has_presentable_text(obj)
 
     def getOnScreenObjects(self, root, extents=None):
         if not self.isOnScreen(root, extents):
@@ -1205,7 +1161,8 @@ class Utilities:
             return obj
 
         def pred(x):
-            return x and not self.isStaticTextLeaf(x) and self.displayedText(x).strip()
+            return x and not self.isStaticTextLeaf(x) \
+                and (AXObject.get_name(x) or AXText.get_all_text(x))
 
         child = AXObject.find_descendant(obj, pred)
         if child is not None:
@@ -1372,6 +1329,7 @@ class Utilities:
                      Atspi.Role.FRAME,
                      Atspi.Role.LIST_BOX,
                      Atspi.Role.LIST,
+                     Atspi.Role.LIST_ITEM,
                      Atspi.Role.MENU,
                      Atspi.Role.MENU_BAR,
                      Atspi.Role.PUSH_BUTTON,
@@ -1409,7 +1367,7 @@ class Utilities:
         # Eliminate things suspected to be labels for widgets
         labels_filtered = []
         for label in labels:
-            name = AXObject.get_name(label) or self.displayedText(label)
+            name = AXObject.get_name(label) or AXText.get_all_text(label)
             if name and name in [rootName, AXObject.get_name(AXObject.get_parent(label))]:
                 continue
             if len(name.split()) < minimumWords:
@@ -1536,11 +1494,17 @@ class Utilities:
         Returns the fully expanded text for the object.
         """
 
-        try:
-            string = self.substring(obj, startOffset, endOffset)
-        except Exception:
-            return ""
+        # TODO - JD: Audit all callers and eliminate these arguments having been set to None.
+        if startOffset is None:
+            tokens = ["SCRIPT UTILITIES: expandEOCs called with start offset of None on", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+            startOffset = 0
+        if endOffset is None:
+            tokens = ["SCRIPT UTILITIES: expandEOCs called with end offset of None on", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+            endOffset = -1
 
+        string = AXText.get_substring(obj, startOffset, endOffset)
         if self.EMBEDDED_OBJECT_CHARACTER not in string:
             return string
 
@@ -1562,7 +1526,17 @@ class Utilities:
                     result += " "
                 toBuild[i] = result
 
-        return "".join(toBuild)
+        result = "".join(toBuild)
+        tokens = ["SCRIPT UTILITIES: Expanded EOCs for", obj, f"range: {startOffset}:{endOffset}:",
+                 f"'{result}'"]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+        if self.EMBEDDED_OBJECT_CHARACTER in result:
+            msg = "SCRIPT UTILITIES: Unable to expand EOCs"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            return ""
+
+        return result
 
     def getError(self, obj):
         return AXUtilities.is_invalid_entry(obj)
@@ -1611,10 +1585,6 @@ class Utilities:
     def setCaretOffset(self, obj, offset):
         # TODO - JD. Remove this function if the web override can be adjusted
         AXText.set_caret_offset(obj, offset)
-
-    def substring(self, obj, startOffset, endOffset):
-        # TODO - JD. Remove this function if the web override can be adjusted
-        return AXText.get_substring(obj, startOffset, endOffset)
 
     def getAppNameForAttribute(self, attribName):
         """Converts the given Atk attribute name into the application's
@@ -1692,7 +1662,7 @@ class Utilities:
                 break
             startOffset = max(start, startOffset)
             endOffset = min(end, endOffset)
-            string = self.substring(obj, startOffset, endOffset)
+            string = AXText.get_substring(obj, startOffset, endOffset)
             rv.append([startOffset, endOffset, string, language, dialect])
 
         return rv
@@ -1756,31 +1726,6 @@ class Utilities:
     #                                                                       #
     #########################################################################
 
-    def _addRepeatSegment(self, segment, line):
-        """Add in the latest line segment, adjusting for repeat characters
-        and punctuation.
-
-        Arguments:
-        - segment: the segment of repeated characters.
-        - line: the current built-up line to characters to speak.
-
-        Returns: the current built-up line plus the new segment, after
-        adjusting for repeat character counts and punctuation.
-        """
-
-        if segment.isalnum():
-            return line + segment
-
-        count = len(segment)
-        if count >= settings.repeatCharacterLimit and segment[0] not in self._script.whitespace:
-            repeatChar = segment[0]
-            repeatSegment = messages.repeatedCharCount(repeatChar, count)
-            line = f"{line} {repeatSegment} "
-        else:
-            line += segment
-
-        return line
-
     def shouldVerbalizeAllPunctuation(self, obj):
         if not (AXUtilities.is_code(obj) or self.isCodeDescendant(obj)):
             return False
@@ -1801,31 +1746,6 @@ class Utilities:
             result = re.sub(r"\%s" % symbol, charName, result)
 
         return result
-
-    def adjustForLinks(self, obj, line, startOffset):
-        """Adjust line to include the word "link" after any hypertext links.
-
-        Arguments:
-        - obj: the accessible object that this line came from.
-        - line: the string to adjust for links.
-        - startOffset: the caret offset at the start of the line.
-
-        Returns: a new line adjusted to add the speaking of "link" after
-        text which is also a link.
-        """
-
-        endOffset = startOffset + len(line)
-        links = AXHypertext.get_all_links_in_range(obj, startOffset, endOffset)
-        offsets = [AXHypertext.get_link_end_offset(link) for link in links]
-        offsets = sorted([offset - startOffset for offset in offsets], reverse=True)
-        tokens = list(line)
-        for o in offsets:
-            string = f" {messages.LINK}"
-            if o < len(tokens) and tokens[o].isalnum():
-                string += " "
-            tokens[o:o] = string
-
-        return "".join(tokens)
 
     @staticmethod
     def _convertWordToDigits(word):
@@ -1871,42 +1791,6 @@ class Utilities:
         newLine = ''.join(map(pronunciation_dict.getPronunciation, words))
         return newLine
 
-    def adjustForRepeats(self, line):
-        """Adjust line to include repeat character counts. As some people
-        will want this and others might not, there is a setting in
-        settings.py that determines whether this functionality is enabled.
-
-        repeatCharacterLimit = <n>
-
-        If <n> is 0, then there would be no repeat characters.
-        Otherwise <n> would be the number of same characters (or more)
-        in a row that cause the repeat character count output.
-        If the value is set to 1, 2 or 3 then it's treated as if it was
-        zero. In other words, no repeat character count is given.
-
-        Arguments:
-        - line: the string to adjust for repeat character counts.
-
-        Returns: a new line adjusted for repeat character counts (if enabled).
-        """
-
-        if (len(line) < 4) or (settings.repeatCharacterLimit < 4):
-            return line
-
-        newLine = ''
-        segment = lastChar = line[0]
-
-        for i in range(1, len(line)):
-            if line[i] == lastChar:
-                segment += line[i]
-            else:
-                newLine = self._addRepeatSegment(segment, newLine)
-                segment = line[i]
-
-            lastChar = line[i]
-
-        return self._addRepeatSegment(segment, newLine)
-
     def indentationDescription(self, line):
         if settings_manager.get_manager().get_setting('onlySpeakDisplayedText') \
            or not settings_manager.get_manager().get_setting('enableSpeechIndentation'):
@@ -1928,16 +1812,6 @@ class Utilities:
                 result += f"{messages.tabsCount(end - start)} "
 
         return result
-
-    @staticmethod
-    def absoluteMouseCoordinates():
-        """Gets the absolute position of the mouse pointer."""
-
-        from gi.repository import Gtk
-        rootWindow = Gtk.Window().get_screen().get_root_window()
-        window, x, y, modifiers = rootWindow.get_pointer()
-
-        return x, y
 
     @staticmethod
     def appendString(text, newText, delimiter=" "):
@@ -2135,28 +2009,12 @@ class Utilities:
         return root, offset
 
     def selectedChildren(self, obj):
-        children = AXSelection.get_selected_children(obj)
-        if children:
-            return children
+        # TODO - JD: This was originally in the LO script. See if it is still an issue when
+        # lots of cells are selected.
+        if self.isSpreadSheetTable(obj):
+            return []
 
-        msg = "SCRIPT UTILITIES: Selected children not retrieved via selection interface."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-
-        role = AXObject.get_role(obj)
-        if role == Atspi.Role.MENU and not children:
-            children = self.findAllDescendants(obj, AXUtilities.is_selected)
-
-        if role == Atspi.Role.COMBO_BOX \
-           and children and AXObject.get_role(children[0]) == Atspi.Role.MENU:
-            children = self.selectedChildren(children[0])
-            name = AXObject.get_name(obj)
-            if not children and name:
-                def pred(x):
-                    return AXObject.get_name(x) == name
-
-                children = self.findAllDescendants(obj, pred)
-
-        return children
+        return AXSelection.get_selected_children(obj)
 
     def speakSelectedCellRange(self, obj):
         return False
@@ -2215,17 +2073,6 @@ class Utilities:
             return AXTable.get_selected_row_count(obj)
         return AXSelection.get_selected_child_count(obj)
 
-    def popupMenuFor(self, obj):
-        if obj is None:
-            return None
-
-        menus = [child for child in AXObject.iter_children(obj, AXUtilities.is_menu)]
-        for menu in menus:
-            if AXUtilities.is_enabled(menu):
-                return menu
-
-        return None
-
     def isButtonWithPopup(self, obj):
         return AXUtilities.is_button(obj) and AXUtilities.has_popup(obj)
 
@@ -2245,9 +2092,6 @@ class Utilities:
 
     def isMenuWithNoSelectedChild(self, obj):
         return AXUtilities.is_menu(obj) and not self.selectedChildCount(obj)
-
-    def isMenuButton(self, obj):
-        return AXUtilities.is_button(obj) and self.popupMenuFor(obj) is not None
 
     def inMenu(self, obj=None):
         obj = obj or focus_manager.get_manager().get_locus_of_focus()
@@ -2314,18 +2158,18 @@ class Utilities:
 
     def getComboBoxValue(self, obj):
         if not AXObject.get_child_count(obj):
-            return self.displayedText(obj)
+            return AXObject.get_name(obj) or AXText.get_all_text(obj)
 
         entry = self.getEntryForEditableComboBox(obj)
         if entry:
-            return self.displayedText(entry)
+            return AXText.get_all_text(entry)
 
         selected = self._script.utilities.selectedChildren(obj)
         selected = selected or self._script.utilities.selectedChildren(AXObject.get_child(obj, 0))
         if len(selected) == 1:
-            return selected[0].name or self.displayedText(selected[0])
+            return AXObject.get_name(selected[0]) or AXText.get_all_text(selected[0])
 
-        return self.displayedText(obj)
+        return AXObject.get_name(obj) or AXText.get_all_text(obj)
 
     def isNonModalPopOver(self, obj):
         if not AXUtilities.get_is_popup_for(obj):
@@ -2655,97 +2499,6 @@ class Utilities:
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return replicant
 
-    def getFunctionalChildCount(self, obj):
-        targets = AXUtilities.get_is_node_parent_of(obj)
-        return len(targets) or AXObject.get_child_count(obj)
-
-    def getFunctionalChildren(self, obj, sibling=None):
-        result = AXUtilities.get_is_node_parent_of(obj)
-        if result:
-            return result
-        if AXUtilities.is_description_term(sibling):
-            return self.descriptionListTerms(obj)
-        if AXUtilities.is_description_value(sibling):
-            return self.valuesForTerm(self.termForValue(sibling))
-        return [x for x in AXObject.iter_children(obj)]
-
-    def getFunctionalParent(self, obj):
-        targets = AXUtilities.get_is_node_child_of(obj)
-        if targets:
-            return targets[0]
-        return AXObject.get_parent(obj)
-
-    def _shouldCalculatePositionAndSetSize(self, obj):
-        return True
-
-    def getPositionAndSetSize(self, obj, **args):
-        if obj is None:
-            return -1, -1
-
-        posinset = AXUtilities.get_position_in_set(obj)
-        setsize = AXUtilities.get_set_size(obj)
-        if posinset is not None and setsize is not None:
-            tokens = ["SCRIPT UTILITIES:", obj, f"posinset:{posinset} setsize:{setsize}"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return posinset, setsize
-
-        if not self._shouldCalculatePositionAndSetSize(obj):
-            return -1, -1
-
-        if AXUtilities.is_table_cell(obj) and args.get("readingRow"):
-            row = AXTable.get_cell_coordinates(obj)[0]
-            rowcount = AXTable.get_row_count(AXTable.get_table(obj))
-            return row, rowcount
-
-        if AXUtilities.is_combo_box(obj):
-            selected = self.selectedChildren(obj)
-            if selected:
-                obj = selected[0]
-            else:
-                def isMenu(x):
-                    return AXUtilities.is_menu(x) or AXUtilities.is_list_box(x)
-
-                selected = self.selectedChildren(AXObject.find_descendant(obj, isMenu))
-                if selected:
-                    obj = selected[0]
-                else:
-                    return -1, -1
-
-        parent = self.getFunctionalParent(obj)
-        childCount = self.getFunctionalChildCount(parent)
-        if childCount > 100 and parent == AXObject.get_parent(obj):
-            return AXObject.get_index_in_parent(obj), childCount
-
-        siblings = self.getFunctionalChildren(parent, obj)
-        if len(siblings) < 100 and not AXObject.find_ancestor(obj, AXUtilities.is_combo_box):
-            layoutRoles = [Atspi.Role.SEPARATOR, Atspi.Role.TEAROFF_MENU_ITEM]
-
-            def isNotLayoutOnly(x):
-                return AXObject.is_valid(x) and AXObject.get_role(x) not in layoutRoles
-
-            siblings = list(filter(isNotLayoutOnly, siblings))
-
-        if not (siblings and obj in siblings):
-            return -1, -1
-
-        if self.isFocusableLabel(obj):
-            siblings = list(filter(self.isFocusableLabel, siblings))
-            if len(siblings) == 1:
-                return -1, -1
-
-        position = siblings.index(obj)
-        setSize = len(siblings)
-        return position, setSize
-
-    def termForValue(self, obj):
-        if not AXUtilities.is_description_value(obj):
-            return None
-
-        while obj and not AXUtilities.is_description_term(obj):
-            obj = AXObject.get_previous_sibling(obj)
-
-        return obj
-
     def valuesForTerm(self, obj):
         if not AXUtilities.is_description_term(obj):
             return []
@@ -2757,9 +2510,6 @@ class Utilities:
             obj = AXObject.get_next_sibling(obj)
 
         return values
-
-    def getValueCountForTerm(self, obj):
-        return len(self.valuesForTerm(obj))
 
     def getRoleDescription(self, obj, isBraille=False):
         return ""
@@ -3247,6 +2997,9 @@ class Utilities:
     def stringsAreRedundant(self, str1, str2, threshold=0.7):
         if not (str1 and str2):
             return False
+
+        if str1 in str2 or str2 in str1:
+            return True
 
         similarity = round(SequenceMatcher(None, str1.lower(), str2.lower()).ratio(), 2)
         msg = (

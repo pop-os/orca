@@ -341,7 +341,7 @@ ROLE_HEADING_LEVEL_BRAILLE = _("h%d")
 # Translators: The %(level)d is in reference to a heading level in HTML (e.g.,
 # For <h3>, the level is 3) and the %(role)s is in reference to a previously
 # translated rolename for the heading.
-ROLE_HEADING_LEVEL_SPEECH = _("%(role)s level %(level)d")
+ROLE_HEADING_LEVEL_SPEECH = _("%(role)s %(level)d")
 
 # Translators: This string should be treated as a role describing an object.
 # Examples of roles include "checkbox", "radio button", "paragraph", and "link."
@@ -467,12 +467,6 @@ ROLE_LANDMARK_SEARCH = C_("role", "search")
 # possible for users to quickly identify if the link is associated with content
 # already read.
 ROLE_VISITED_LINK = _("visited link")
-
-# Translators: This string should be treated as a role describing an object.
-# Examples of roles include "checkbox", "radio button", "paragraph", and "link."
-# A menu button is button widget that causes a menu to appear when the user
-# activates the button.
-ROLE_MENU_BUTTON = _("menu button")
 
 # Translators: This string refers to a row or column whose sort-order has been set
 # to ascending.
