@@ -1,0 +1,1388 @@
+orca (46.1-0pop1) noble; urgency=medium
+
+  * Switch to newton fork
+
+ -- Michael Aaron Murphy <michael@mmurphy.dev>  Fri, 23 Aug 2024 12:12:15 +0200
+
+orca (46.2-1) unstable; urgency=medium
+
+  [ Jeremy Bícha ]
+  * Drop gedit patch: orca already handles org.*. app IDs
+
+  [ Samuel Thibault ]
+  * source/lintian-overrides: Shut lintian warning.
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 25 Jun 2024 21:45:24 +0200
+
+orca (46.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * control: Bump atk-bridge dependency version.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 01 Apr 2024 16:18:28 +0200
+
+orca (46.0-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 13 Mar 2024 16:26:29 +0100
+
+orca (46~beta-1) experimental; urgency=medium
+
+  * New upstream beta.
+    - control: Add meson, git, and gir1.2-gtk-3.0 build-dependencies.
+    - control: Drop python3-pyatspi dependency.
+    - docs: Install README.md instead of README.
+    - manpages: Install docs/orca.1 instead of docs/man/orca.1.
+  * control: Bump at-spi runtime deps to 2.50.0~ too.
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 23 Feb 2024 01:42:50 +0100
+
+orca (46~alpha-1) experimental; urgency=medium
+
+  * New upstream alpha.
+    - control: Bump at-spi build-dep to 2.50.0~.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 20 Jan 2024 20:13:20 +0100
+
+orca (45.2-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 06 Jan 2024 19:41:00 +0100
+
+orca (45.1-2) unstable; urgency=medium
+
+  * Rebuild on buildd (Closes: Bug#1053703)
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 09 Oct 2023 13:17:06 +0200
+
+orca (45.1-1) unstable; urgency=medium
+
+  * New upstream release (Closes: Bug#1053119)
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 06 Oct 2023 19:30:11 +0200
+
+orca (45.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * watch: Also check non-alpha/beta/rc releases.
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 15 Sep 2023 13:55:35 +0100
+
+orca (45~rc-1) experimental; urgency=medium
+
+  * New upstream rc release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 06 Sep 2023 21:51:13 +0200
+
+orca (45~beta-1) experimental; urgency=medium
+
+  * New upstream beta release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 14 Aug 2023 13:57:19 +0200
+
+orca (45~alpha-1) experimental; urgency=medium
+
+  * New upstream alpha release.
+    - control: Bump libatspi2.0-dev build-dep to at least version 2.48.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 06 Aug 2023 13:44:01 +0200
+
+orca (44.1-2) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 03 Aug 2023 13:22:26 +0200
+
+orca (44.1-1) experimental; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 25 May 2023 18:02:11 +0200
+
+orca (44.0-1) experimental; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 24 Mar 2023 19:16:16 +0100
+
+orca (43.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 29 Jan 2023 16:25:52 +0100
+
+orca (43.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * control: Make Multi-Arch: foreign.
+  * control, rules: Replace dh-python and --with python3 with
+    dh-sequence-python3.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 26 Sep 2022 00:50:48 +0200
+
+orca (43~beta-1) experimental; urgency=medium
+
+  * New upstream beta release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 29 Aug 2022 16:40:12 +0200
+
+orca (43~alpha-1) experimental; urgency=medium
+
+  * New upstream alpha release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 03 Jul 2022 23:07:43 +0200
+
+orca (42.2-1) unstable; urgency=medium
+
+  * New upstream release.
+    - patches/git-webkitgtk2: merged.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 03 Jul 2022 22:51:29 +0200
+
+orca (42.1-2) unstable; urgency=high
+
+  * debian/patches/git-webkitgtk2: Fix screen reading of webkitgtk 2.36 which
+    doesn't implement Collection any more.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 19 May 2022 16:58:25 +0200
+
+orca (42.1-1) unstable; urgency=medium
+
+  [ Samuel Thibault ]
+  * New upstream release.
+  * control: Drop gnome-orca transition package, fixed since stretch.
+    - orca.install: drop etc and usr, already installed.
+
+  [ Debian Janitor ]
+  * Bump debhelper from old 12 to 13.
+    + debian/rules: Drop --fail-missing argument to dh_missing, which is now the
+      default.
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 18 May 2022 00:55:57 +0200
+
+orca (42.0-1) unstable; urgency=medium
+
+  [ Samuel Thibault ]
+  * New upstream release.
+
+  [ Debian Janitor ]
+  * Remove constraints unnecessary since buster:
+    + Build-Depends: Drop versioned constraint on gettext, gnome-pkg-tools,
+      libatk-bridge2.0-dev, libatspi2.0-dev, python-gi-dev, python3,
+      python3-brlapi, python3-louis, python3-pyatspi and python3-speechd.
+    + orca: Drop versioned constraint on gir1.2-gtk-3.0, python3-brlapi,
+      python3-gi, python3-louis, python3-pyatspi, python3-speechd and
+      speech-dispatcher in Depends.
+    + orca: Drop versioned constraint on gnome-orca in Replaces.
+    + orca: Drop versioned constraint on gnome-orca in Breaks.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 24 Mar 2022 00:47:37 +0100
+
+orca (42~rc-1) experimental; urgency=medium
+
+  * New upstream rc release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 12 Mar 2022 01:48:56 +0100
+
+orca (42~beta-1) experimental; urgency=medium
+
+  * New upstream beta release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 15 Feb 2022 20:54:01 +0100
+
+orca (41.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * control: Bump Standards-Version to 4.6.0 (no change)
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 31 Jan 2022 19:05:27 +0100
+
+orca (41.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 05 Dec 2021 18:19:09 +0100
+
+orca (41.0-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 18 Sep 2021 23:30:44 +0200
+
+orca (41~rc-1) experimental; urgency=medium
+
+  * New upstream RC release.
+    - patches/git-keyhandling: Upstreamed.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 04 Sep 2021 15:19:57 +0200
+
+orca (41~beta-2) experimental; urgency=medium
+
+  * patches/git-keyhandling: Fix reverting to legacy key snooping.
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 25 Aug 2021 15:21:20 +0200
+
+orca (41~beta-1) experimental; urgency=medium
+
+  * New upstream beta release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 24 Aug 2021 14:27:38 +0200
+
+orca (41~alpha-1) experimental; urgency=medium
+
+  * New upstream alpha release.
+  * control: Set Rules-Requires-Root to no.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 05 Aug 2021 16:11:51 +0200
+
+orca (40.0-1) experimental; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 19 Mar 2021 13:22:46 +0100
+
+orca (40~rc-1) experimental; urgency=medium
+
+  * New upstream beta release.
+  * watch: Support beta and rc markers.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 11 Mar 2021 19:53:09 +0100
+
+orca (40~beta-1) experimental; urgency=medium
+
+  * New upstream beta release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 22 Feb 2021 15:41:01 +0100
+
+orca (3.38.2-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 23 Dec 2020 22:02:25 +0100
+
+orca (3.38.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Bump debhelper compat from 11 to 12.
+  * control: Suggest brltty, for Braille support.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 03 Dec 2020 18:35:16 +0100
+
+orca (3.38.0-2) unstable; urgency=medium
+
+  [ Colomban Wendling ]
+  * control: Add xkbset dependency (Closes: #972621).
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 01 Nov 2020 02:25:03 +0100
+
+orca (3.38.0-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 11 Sep 2020 19:14:55 +0200
+
+orca (3.37.90-1) experimental; urgency=medium
+
+  * New upstream beta release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 10 Aug 2020 13:57:08 +0200
+
+orca (3.37.2-1) experimental; urgency=medium
+
+  * New upstream alpha release (Closes: #910649, #914123).
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 01 Jun 2020 21:44:52 +0200
+
+orca (3.37.1-1) experimental; urgency=medium
+
+  * New upstream alpha release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 23 Apr 2020 23:28:01 +0200
+
+orca (3.36.6-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 31 Aug 2020 18:17:26 +0200
+
+orca (3.36.5-1) unstable; urgency=medium
+
+  * New upstream release (Closes: #968248)
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 12 Aug 2020 03:37:29 +0200
+
+orca (3.36.4-1) unstable; urgency=medium
+
+  [ Samuel Thibault ]
+  * New upstream release.
+  * rules: Drop now-default -Wl,--as-needed option
+  * control: Bump Standards-Version to 4.5.0 (no change)
+  * gbp.conf: Import from upstream tags.
+
+  [ Dmitry Shachnev ]
+  * rules: Also drop -Wl,-z,defs and hardening=+all.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 10 Aug 2020 13:48:55 +0200
+
+orca (3.36.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * patches/no-default-tty7: braille: remove fallback on VT 7.
+  * control: Update alioth list domain.
+  * control: Drop python3-gst-1.0, gstreamer0.10-plugins-base recommends, we
+    already depend on newer packages.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 01 Jun 2020 20:45:01 +0200
+
+orca (3.36.2-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 23 Apr 2020 23:20:00 +0200
+
+orca (3.36.1-1) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Set debhelper-compat version in Build-Depends.
+  * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository,
+    Repository-Browse.
+  * Update standards version to 4.4.1, no changes needed.
+
+  [ Samuel Thibault ]
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 11 Mar 2020 23:55:49 +0100
+
+orca (3.34.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * watch: Track only even versions.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 02 Feb 2020 00:23:44 +0100
+
+orca (3.34.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 25 Nov 2019 18:57:57 +0100
+
+orca (3.34.0-2) unstable; urgency=medium
+
+  * patches/gedit: Fix using gedit script for gedit 3.34.
+  * watch: Generalize pattern.
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 24 Sep 2019 01:43:09 +0200
+
+orca (3.34.0-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 09 Sep 2019 23:02:02 +0200
+
+orca (3.33.91-1) experimental; urgency=medium
+
+  * New upstream unstable release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 27 Aug 2019 23:11:59 +0200
+
+orca (3.33.90-1) experimental; urgency=medium
+
+  * New upstream unstable release.
+  * control:
+    - Switch from intltool to gettext dependency.
+    - Make orca recommend gstreamer1.0-plugins-good.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 05 Aug 2019 00:50:25 +0200
+
+orca (3.33.3-1) experimental; urgency=medium
+
+  * New upstream unstable release.
+  * control: Drop x-python3-version >= 3.3, which is already available in
+    oldstable.
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 19 Jun 2019 10:14:25 +0200
+
+orca (3.33.1-1) experimental; urgency=medium
+
+  * New upstream unstable release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 24 Apr 2019 18:21:40 +0200
+
+orca (3.31.92-1) experimental; urgency=medium
+
+  * New upstream unstable release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 10 Mar 2019 00:19:05 +0100
+
+orca (3.31.91-1) experimental; urgency=medium
+
+  * New upstream unstable release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 22 Feb 2019 00:51:36 +0100
+
+orca (3.31.4-1) experimental; urgency=medium
+
+  * New upstream unstable release.
+    - debian/patches/git-braille-garbage: Upstreamed.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 14 Jan 2019 20:21:00 +0100
+
+orca (3.31.1-2) experimental; urgency=medium
+
+  * debian/patches/git-braille-garbage: Fix spurious garbage at end of lines.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 10 Jan 2019 21:48:28 +0100
+
+orca (3.31.1-1) experimental; urgency=medium
+
+  * New upstream unstable release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 12 Nov 2018 20:08:45 +0100
+
+orca (3.32.0-2) UNRELEASED; urgency=medium
+
+  * control: Bump Standards-Version to 4.4.0 (no changes).
+  * control: Drop X-Python3-Version 3.3
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 05 Aug 2019 23:45:51 +0200
+
+orca (3.32.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * control: Add missing gir1.2-gstreamer-1.0, gstreamer1.0-plugins-good
+    dependencies. Closes: Bug#931687.
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 30 Jul 2019 20:33:05 +0200
+
+orca (3.30.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 20 Oct 2018 12:36:06 +0200
+
+orca (3.30.0-1) unstable; urgency=medium
+
+  * New upstream release.
+    Closes: #870256.
+  * control: Bump Standards-Version to 4.2.0 (no changes).
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 03 Oct 2018 10:28:41 +0200
+
+orca (3.28.1-3) unstable; urgency=medium
+
+  * control: Bump Standards-Version to 4.1.5 (no changes).
+  * control: Add missing libgstreamer1.0-dev Build-Depends and python3-gst-1.0
+    Recommends for sound support.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 02 Aug 2018 17:03:08 +0200
+
+orca (3.28.1-2) unstable; urgency=high
+
+  * patches/wordwrap: Fix not mistakenly auto-enabling word wrap option.
+  * patches/update: Fix missing braille updates in firefox.
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 29 Jun 2018 00:41:01 +0200
+
+orca (3.28.1-1) unstable; urgency=medium
+
+  [ Jeremy Bicha ]
+  * New upstream release
+  * Drop all patches: applied in new release
+  * Add fix-brlmon-regression.patch:
+    - Cherry-pick fix from gnome-3-28 branch
+
+  [ Samuel Thibault ]
+  * Bump Standards-Version to 4.1.4
+
+ -- Jeremy Bicha <jbicha@debian.org>  Sun, 13 May 2018 10:58:49 -0400
+
+orca (3.28.0-3) unstable; urgency=medium
+
+  * cherry-pick upstream fix to release brlapi when braille is deactivated.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 07 Apr 2018 11:08:50 +0200
+
+orca (3.28.0-2) unstable; urgency=medium
+
+  * cherry-pick upstream fix for random dots appearing at end of braille
+    output.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 07 Apr 2018 11:02:16 +0200
+
+orca (3.28.0-1) unstable; urgency=medium
+
+  * New upstream release
+  * Release to unstable
+
+ -- Jeremy Bicha <jbicha@debian.org>  Mon, 26 Mar 2018 10:50:29 -0400
+
+orca (3.27.91-1) experimental; urgency=medium
+
+  * New upstream development release
+  * Update Vcs fields for migration to https://salsa.debian.org/
+  * Bump at-spi2 dependencies to 2.26
+
+ -- Jeremy Bicha <jbicha@debian.org>  Mon, 19 Feb 2018 13:01:48 -0500
+
+orca (3.26.0-5) unstable; urgency=medium
+
+  * Add missing Breaks/Replaces for renamed package (Closes: #885130)
+
+ -- Jeremy Bicha <jbicha@debian.org>  Sun, 24 Dec 2017 08:25:54 -0500
+
+orca (3.26.0-4) unstable; urgency=medium
+
+  * Rename source and binary to orca to match upstream naming
+  * Remove old NEWS.Debian from 2014
+
+ -- Jeremy Bicha <jbicha@debian.org>  Thu, 21 Dec 2017 16:14:12 -0500
+
+gnome-orca (3.26.0-3) unstable; urgency=medium
+
+  * Update Vcs fields for conversion to git
+  * Add debian/gbp.conf
+  * Bump Standards-Version to 4.1.2
+  * Bump debhelper compat to 11
+  * Build with all hardening flags
+
+ -- Jeremy Bicha <jbicha@debian.org>  Wed, 20 Dec 2017 13:44:04 -0500
+
+gnome-orca (3.26.0-2) unstable; urgency=medium
+
+  [ Samuel Thibault ]
+  * control: Bump Standards-Version to 4.1.1 (no changes).
+
+  [ Jeremy Bicha ]
+  * Don't recommend the GTK+ 2 library libgail-common, since
+    GTK+2 already recommends it
+
+ -- Jeremy Bicha <jbicha@debian.org>  Fri, 01 Dec 2017 21:42:32 -0500
+
+gnome-orca (3.26.0-1) unstable; urgency=medium
+
+  [ Jeremy Bicha ]
+  * New upstream release
+  * Switch to dh
+  * Bump debhelper compat to 10
+  * debian/control.in:
+    - Bump python-gobject to >= 3.18
+    - Bump python3-pyatspi and at-spi2-atk to >= 2.18
+  * Drop patches applied in new release:
+    - 0001-Return-immediately-in-isLayoutOnly-if-obj-is-dead.patch
+    - 0001-Handle-another-Atspi-The-process-appears-to-be-hung-.patch
+    - 0001-Add-check-for-dead-accessibles-before-attempting-to-.patch
+    - 0001-Handle-yet-another-Atspi-The-process-appears-to-be-h.patch
+
+  [ Samuel Thibault ]
+  * control: Update maintainer mailing list.
+  * control: Bump Standards-Version to 4.1.0 (no change)
+
+ -- Jeremy Bicha <jbicha@debian.org>  Fri, 15 Sep 2017 22:17:03 -0400
+
+gnome-orca (3.24.0-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream release
+  * Drop patch git-0da4c2ed3d4dedb2229e542ff47257f1d2ab1a50: applied
+    upstream
+  * Add dh-python to list of Build-Depends (thanks lintian)
+
+ -- Paul Gevers <elbrus@debian.org>  Sun, 25 Jun 2017 15:18:44 +0200
+
+gnome-orca (3.22.2-3) unstable; urgency=medium
+
+  * Team upload.
+  * cherry-pick upstream commits to prevent Synaptic (and other badly
+    behaving binaries) from causing harm to the Orca experience:
+    - edbfafbd89409bfb1e4a4e3a9339c0b2de7435d6
+    - d51f87a7f000d099da98247dc7ca337b2b5483be
+    - 382c5408afc7dd25f9b477a5e30c50ba917155c0
+    - ea02cc2d268348c22ffe8c23099f6b023d4c90a7
+    (Closes: #859262)
+
+ -- Paul Gevers <elbrus@debian.org>  Wed, 03 May 2017 20:21:45 +0200
+
+gnome-orca (3.22.2-2) unstable; urgency=medium
+
+  * git-0da4c2ed3d4dedb2229e542ff47257f1d2ab1a50: cherry-pick upstream fix for
+    crash with Writer table (Closes: Bug#852863).
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 28 Jan 2017 11:52:33 +0100
+
+gnome-orca (3.22.2-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 12 Nov 2016 14:33:58 +0100
+
+gnome-orca (3.22.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * control: Update uploader.
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 13 Oct 2016 00:19:43 +0200
+
+gnome-orca (3.20.2-1) unstable; urgency=low
+
+  [ Samuel Thibault ]
+  * control: Bump Standards-Version to 3.9.8 (no change)
+
+  [ Mario Lang ]
+  * New upstream version (Closes: Bug#825502).
+
+ -- Mario Lang <mlang@debian.org>  Sat, 28 May 2016 12:39:01 +0200
+
+gnome-orca (3.20.0-1) unstable; urgency=low
+
+  [ Samuel Thibault ]
+  * control: Bump Standards-Version to 3.9.7 (no change).
+
+  [ Mario Lang ]
+  * New upstream release.
+    - Drop debian/patches/mate-notifications.diff.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 03 Apr 2016 23:24:31 +0200
+
+gnome-orca (3.18.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/patches/password-not-spoken.diff: Remove, merged upstream.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 10 Nov 2015 19:49:35 +0100
+
+gnome-orca (3.18.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * orca-dm-wrapper: do not start the at-spi bus ourself, lightdm-gtk-greeter
+    2.0.0 now does it by itself.
+  * patches/password-not-spoken.diff: Make sure to bring focus on password
+    entry when typing a key, so we don't echo it. (Closes: #800602)
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 20 Oct 2015 23:32:02 +0200
+
+gnome-orca (3.18.0-1) unstable; urgency=low
+
+  * New upstream release.
+    - Drop patch upstream-e292943.diff (merged upstream).
+
+ -- Mario Lang <mlang@debian.org>  Tue, 06 Oct 2015 11:15:44 +0200
+
+gnome-orca (3.16.2-2) unstable; urgency=medium
+
+  * Fix "Binding to report notifications does not work" by
+    cherry-picking e292943 from upstream. (Closes: #798206)
+
+ -- Mario Lang <mlang@debian.org>  Tue, 08 Sep 2015 10:14:19 +0200
+
+gnome-orca (3.16.2-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Fri, 22 May 2015 09:41:07 +0200
+
+gnome-orca (3.16.1-2) unstable; urgency=low
+
+  * Upload to unstable.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 28 Apr 2015 23:14:06 +0200
+
+gnome-orca (3.16.1-1) experimental; urgency=low
+
+  * New upstream release (Closes: Bug#782979):
+
+ -- Mario Lang <mlang@debian.org>  Wed, 22 Apr 2015 12:04:15 +0200
+
+gnome-orca (3.16.0-1) experimental; urgency=low
+
+  * New upstream release.
+  * Drop debian/patches/lightdm, merged upstream.
+  * Drop debian/patches/libreoffice, from upstream.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 06 Apr 2015 18:40:38 +0200
+
+gnome-orca (3.14.0-4) unstable; urgency=medium
+
+  * Team upload.
+  * patches/libreoffice: New patch to fix various issues with LibreOffice.
+    Closes: #766686.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sun, 15 Feb 2015 23:51:25 +0100
+
+gnome-orca (3.14.0-3) unstable; urgency=medium
+
+  * Team upload.
+  * patches/lightdm: New patch to fix braille output when using lightdm.
+    Closes: #777378.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 07 Feb 2015 20:36:45 +0100
+
+gnome-orca (3.14.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * patches/mate-notifications.diff: New patch to fix notifications in MATE.
+    Closes: #757847.
+  * orca-dm-wrapper: New script to start Orca in lightdm.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 25 Oct 2014 23:34:35 +0200
+
+gnome-orca (3.14.0-1) unstable; urgency=medium
+
+  [ Samuel Thibault ]
+  * New upstream release.
+    - Autostart orca in MATE and Cinnamon too. Closes: #760777.
+  * Bump Standards-Version to 3.9.6 (no changes).
+
+  [ Michael Biebl ]
+  * Bump required version of python-gi to (>= 3.10) as per configure.ac.
+  * Update Homepage: URL.
+  * Upload to unstable.
+
+ -- Michael Biebl <biebl@debian.org>  Thu, 02 Oct 2014 16:29:10 +0200
+
+gnome-orca (3.13.90-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 25 Aug 2014 11:19:47 +0200
+
+gnome-orca (3.13.3-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 17 Jul 2014 07:38:22 +0200
+
+gnome-orca (3.12.2-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 17 Jul 2014 07:38:22 +0200
+
+gnome-orca (3.12.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Andreas Henriksson <andreas@fatal.se>  Fri, 09 May 2014 21:07:17 +0200
+
+gnome-orca (3.12.0-1) unstable; urgency=low
+
+  [ Emilio Pozuelo Monfort ]
+  * debian/control.in:
+    + Depend on gsettings-desktop-schemas, needed for the a11y gsettings
+      keys. Closes: #741211.
+
+  [ Mario Lang ]
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Wed, 26 Mar 2014 09:02:03 +0100
+
+gnome-orca (3.10.2-1) unstable; urgency=low
+
+  * team upload
+
+  [ Josselin Mouette ]
+  * Remove gnome-mag recommendation (Closes: #712483)
+  * Same for wget, according to NEWS it is gone.
+  * Recommend libgail-common for gtk2 applications.
+
+  [ Jordi Mallach ]
+  * New upstream release (3.8.1). (Closes: #683352)
+  * Remove 05_remove_pythonpath.patch, obsolete.
+  * Update Build-Depends as per configure.ac.
+  * Move everything to depend on python3 packages.
+  * Move to dh_python3.
+
+  [ Jeremy Bicha ]
+  * Update homepage (Closes: #732975)
+
+  [ Emilio Pozuelo Monfort ]
+  * New upstream release (3.10.2).
+  * debian/control.in:
+    + Update build dependencies.
+    + Tighten dependency on speech-dispatcher to >= 0.8, otherwise
+      Orca won't work.
+  * debian/NEWS:
+    + Explain what's happened to the Orca window.
+
+  [ Paul Gevers ]
+  * Package now depends on python3-speechd (Closes: #739188)
+  * Bump Standards-Version to 3.9.5 (no changes needed)
+  * Add bug numbers in this changelog entry where appropriate
+
+ -- Paul Gevers <elbrus@debian.org>  Sun, 23 Feb 2014 09:13:13 +0100
+
+gnome-orca (3.4.2-2) unstable; urgency=low
+
+  * Recommend xbrlapi instead of brltty-x11 (closes: #653663).
+
+ -- Jordi Mallach <jordi@debian.org>  Sun, 10 Jun 2012 00:42:54 +0200
+
+gnome-orca (3.4.2-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Jordi Mallach <jordi@debian.org>  Tue, 15 May 2012 02:23:29 +0200
+
+gnome-orca (3.4.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Drop 01_orca_setup_without_desktop.patch, obsolete.
+
+ -- Jordi Mallach <jordi@debian.org>  Wed, 18 Apr 2012 18:53:28 +0200
+
+gnome-orca (3.4.0-2) unstable; urgency=low
+
+  * Add 01_orca_setup_without_desktop.patch, cherry-picked from git, to fix
+    regression on the text mode configuration when running outside a
+    desktop session.
+
+ -- Jordi Mallach <jordi@debian.org>  Fri, 30 Mar 2012 20:43:18 +0200
+
+gnome-orca (3.4.0-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Jordi Mallach <jordi@debian.org>  Mon, 26 Mar 2012 22:27:42 +0200
+
+gnome-orca (3.3.92-1) unstable; urgency=low
+
+  * New upstream release.
+  * Update python and at-spi build dependencies.
+  * Don't depend on libatk-adaptor and at-spi2-core directly, this will be
+    provided by pyatspi2.
+  * Drop 01_man_errors.patch: applied upstream.
+  * Drop 11_debian_gdm.patch: obsolete.
+
+ -- Jordi Mallach <jordi@debian.org>  Tue, 20 Mar 2012 15:51:30 +0100
+
+gnome-orca (3.2.2-2) unstable; urgency=low
+
+  * Remove check-dist.mk.
+  * Really upload to unstable.
+
+ -- Jordi Mallach <jordi@debian.org>  Sat, 03 Mar 2012 11:11:13 +0100
+
+gnome-orca (3.2.2-1) experimental; urgency=low
+
+  [ Josselin Mouette ]
+  * Recommend brltty-x11. Closes: #653663.
+
+  [ Jordi Mallach ]
+  * New upstream release.
+  * Upload to unstable.
+  * Update (Build-)Depends with configure.ac requirements for GTK+3.
+    Orca no longer depends on GNOME2 libs (closes: #649209).
+  * Update Vcs-* URLs.
+  * Move Homepage to the source paragraph.
+  * Require python >= 2.6, as it includes python-json.
+  * Depend on gir1.2-wnck-3.0, gir1.2-gtk-3.0 and gir1.2-pango-1.0.
+  * Update and rewrite copyright using format 1.0.
+  * Update Standards-Version to 3.9.3.
+  * Update watch file.
+
+ -- Jordi Mallach <jordi@debian.org>  Sat, 03 Mar 2012 10:05:44 +0100
+
+gnome-orca (3.0.4-1) experimental; urgency=low
+
+  * New upstream release
+  * debian/patches/11_debian_gdm.patch: Updated.
+  * debian/control{,.in}: Drop outdated Conflicts/Replaces on
+    gnome-orca-common.
+  * Drop libbonobo2-dev from Build-Depends.
+  * Add python-pyatspi2 and gnome-doc-utils to Build-Depends.
+
+ -- Mario Lang <mlang@debian.org>  Fri, 29 Jul 2011 17:36:37 +0200
+
+gnome-orca (2.91.6-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/patches/04_solaris_specific_fixes.patch: Removed.
+  * debian/patches/05_remove_pythonpath.patch,
+    debian/patches/11_debian_gdm.patch: Updated.
+  * debian/pyversions: Bump to 2.6 which is required now.
+  * debian/control{,.in}: Add python-xdg and python-yaml to (Build-)Depends.
+  * Bump Standards-Version to 3.9.1 (no changes).
+
+ -- Mario Lang <mlang@debian.org>  Sun, 20 Feb 2011 14:53:46 +0100
+
+gnome-orca (2.30.2-2) unstable; urgency=low
+
+  * Add missing dependency on python-dbus. Closes: #576226.
+
+ -- Josselin Mouette <joss@debian.org>  Sat, 06 Nov 2010 22:51:12 +0100
+
+gnome-orca (2.30.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/patches/01_man_errors.patch: Added to fix a few man warnings.
+
+ -- Mario Lang <mlang@debian.org>  Fri, 25 Jun 2010 13:38:29 +0200
+
+gnome-orca (2.30.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Fri, 30 Apr 2010 10:42:45 +0200
+
+gnome-orca (2.30.0-2) unstable; urgency=low
+
+  * 11_debian_gdm.patch: new patch. The user under which the GDM session
+    is running is Debian-gdm, not gdm. This causes a security issue.
+
+ -- Josselin Mouette <joss@debian.org>  Fri, 23 Apr 2010 18:07:51 +0200
+
+gnome-orca (2.30.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Switch to source format 3.0 (quilt).
+    - Add debian/source/format.
+    - Remove /usr/share/cdbs/1/rules/simple-patchsys.mk include.
+  * Upgrade Standards-Version from 3.8.3 to 3.8.4 (no changes).
+
+ -- Mario Lang <mlang@debian.org>  Sun, 11 Apr 2010 17:30:34 +0200
+
+gnome-orca (2.28.3-2) unstable; urgency=low
+
+  * Add liblouis-dev to Build-Depends to fix table directory detection
+    (Closes: Bug#570057).
+  * Build-Depend on python instead of python-dev.
+  * Remove mentioning of Sun APO from package description.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 16 Feb 2010 10:47:13 +0100
+
+gnome-orca (2.28.3-1) unstable; urgency=low
+
+  * New upstream bugfix release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 07 Jan 2010 22:49:41 +0100
+
+gnome-orca (2.28.2-1) unstable; urgency=low
+
+  * New upstream bugfix release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 17 Dec 2009 12:44:03 +0100
+
+gnome-orca (2.28.1-1) unstable; urgency=low
+
+  * debian/control{,.in}: Add Vcs-Browser field.
+  * New upstream bugfix release.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 20 Oct 2009 21:07:00 +0200
+
+gnome-orca (2.28.0-1) unstable; urgency=low
+
+  * New major upstream release.
+  * debian/watch: Update to track 2.28.
+  * debian/rules: Drop check-dist.mk to allow uploads to unstable.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 24 Sep 2009 13:55:39 +0200
+
+gnome-orca (2.27.92-2) experimental; urgency=low
+
+  * debian/patches/01_no_default_desktop_item.patch: Removed
+    (Closes: Bug#546830).
+
+ -- Mario Lang <mlang@debian.org>  Thu, 17 Sep 2009 10:01:29 +0200
+
+gnome-orca (2.27.92-1) experimental; urgency=low
+
+  [ Emilio Pozuelo Monfort ]
+  * Stop build depending on python-gnome2-desktop, it's not needed.
+
+  [ Mario Lang ]
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 07 Sep 2009 17:00:25 +0200
+
+gnome-orca (2.27.91-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/{control,.in}:
+    - Add python-pyatspi2 as an alternative Depends to python-pyatspi to
+      ease testing of at-spi2 (not in the archive yet).
+    - Bump Standards-Version from 3.8.2 to 3.8.3 (no changes).
+
+ -- Mario Lang <mlang@debian.org>  Tue, 25 Aug 2009 16:25:23 +0200
+
+gnome-orca (2.27.90-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/control{,.in}:
+    - Build-Depends: Remove at-spi and libatspi-dev, unneeded.
+    - Build-Depends: Add python-dbus and python-pyatspi.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 10 Aug 2009 23:53:07 +0200
+
+gnome-orca (2.27.5-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/patches/04_solaris_specific_fixes.patch: Mostly merged
+    upstream.
+  * debian/{control,.in}: (Build-)Depend on python-louis and drop binary
+    package gnome-orca-louis.
+  * debian/gnome-orca-louis.install: Deleted.
+  * Remove python-glade2 from (Build-)Depends.
+  * Upgrade Standards-Version to 3.8.2 (no changes required).
+  * Change Maintainer to point to the Debian Accessibility Team.
+
+ -- Mario Lang <mlang@debian.org>  Wed, 29 Jul 2009 10:34:50 +0200
+
+gnome-orca (2.27.2-2) experimental; urgency=low
+
+  * Fix "gnome-orca_2.27.2-1(hppa/experimental): FTBFS: intltool-update:
+    command not found" by adding intltool (>= 0.40) to Build-Depends.
+    (Closes: #531465)
+
+ -- Mario Lang <mlang@debian.org>  Tue, 02 Jun 2009 19:29:39 +0200
+
+gnome-orca (2.27.2-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/patches/02_disable_brlmodule.patch: Remove because upstream
+    dropped the old-style brl module.
+  * debian/control{,.in}:
+    - Add liblouis-dev to Build-Depends.
+    - Add new binary package gnome-orca-louis for the internal liblouis
+      bindings so that gnome-orca can stay arch: all.
+    - Upgrade Standards-Version from 3.8.0 to 3.8.1 (no changes).
+  * debian/gnome-orca{.install,-louis.install}: Added to adjust for
+    new -louis binary package.
+
+ -- Mario Lang <mlang@debian.org>  Wed, 27 May 2009 11:03:08 +0200
+
+gnome-orca (2.25.92-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 02 Mar 2009 22:45:39 +0100
+
+gnome-orca (2.25.91-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 01 Mar 2009 14:22:07 +0100
+
+gnome-orca (2.24.3-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 13 Jan 2009 19:00:59 +0100
+
+gnome-orca (2.24.2-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 30 Nov 2008 21:43:35 +0100
+
+gnome-orca (2.24.1-1) experimental; urgency=low
+
+  * debian/watch: Updated to point to 2.24.
+  * New upstream release.
+  * debian/patches/01_no_default_desktop_item.patch: Updated.
+  * debian/patches/04_solaris_specific_fixes.patch: Updated for new
+    startup script in 2.24.1.
+  * debian/patches/05_remove_pythonpath.patch: Updated.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 21 Oct 2008 12:24:36 +0200
+
+gnome-orca (2.24.0-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 02 Oct 2008 18:45:40 +0200
+
+gnome-orca (2.23.92-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 09 Sep 2008 12:05:34 +0200
+
+gnome-orca (2.23.90-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Wed, 20 Aug 2008 01:24:20 +0200
+
+gnome-orca (2.23.6-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/control{,.in}: Add python-gnome2-desktop to Build-Depends
+    (for wnck).
+
+ -- Mario Lang <mlang@debian.org>  Fri, 08 Aug 2008 02:30:53 +0200
+
+gnome-orca (2.23.4-1) experimental; urgency=low
+
+  * New upstream release.
+  * Bump Standards-Version to 3.8.0 (no changes).
+
+ -- Mario Lang <mlang@debian.org>  Mon, 16 Jun 2008 21:14:04 +0200
+
+gnome-orca (2.23.3-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 02 Jun 2008 20:57:02 +0200
+
+gnome-orca (2.23.2-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/patches/04_solaris_specific_fixes.patch: Updated.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 12 May 2008 20:52:30 +0200
+
+gnome-orca (2.23.1-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/patches/04_solaris_specific_fixes.patch: Update.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 22 Apr 2008 00:29:41 +0200
+
+gnome-orca (2.22.1-2) unstable; urgency=low
+
+  * Fix bashisms in orca startup script (Closes: Bug#468681).
+  * Remove the explicit setting of PYTHONPATH in the orca startup
+    script (Closes: Bug#476905).
+  * Nack 2.22.1-1.1 NMU.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 20 Apr 2008 15:16:35 +0200
+
+gnome-orca (2.22.1-1) unstable; urgency=low
+
+  * Add debian/patches/04_solaris_specific_fixes.patch again.
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 07 Apr 2008 22:00:25 +0200
+
+gnome-orca (2.22.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Tighten Depends on python-pyatspi to >= 1.22.0.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 11 Mar 2008 19:44:14 +0100
+
+gnome-orca (2.21.91-1) experimental; urgency=low
+
+  * Depend on libgail-gnome-module (from Ubuntu gnome-orca package).
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Wed, 20 Feb 2008 12:16:48 +0100
+
+gnome-orca (2.21.90-1) experimental; urgency=low
+
+  * New upstream release.
+  * Update debian/patches/02_disable_brlmodule.patch.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 05 Feb 2008 22:17:19 +0100
+
+gnome-orca (2.21.4-1) experimental; urgency=low
+
+  * Add Vcs-Svn field.
+  * New upstream version.
+  * Update Standards-Version to 3.7.3 (no changes).
+
+ -- Mario Lang <mlang@debian.org>  Wed, 19 Dec 2007 00:19:24 +0100
+
+gnome-orca (2.21.3-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 04 Dec 2007 18:52:37 +0100
+
+gnome-orca (2.21.2-1) experimental; urgency=low
+
+  * New upstream release.
+  * Depend on python-pyatspi.
+  * debian/patches/04_solaris_specific_fixes.patch: Removed.
+  * Update watch file to point to 2.21 branch.
+  * Remove dependency on at-spi and libatspi1.0-0, this is covered by
+    python-pyatspi.
+  * Add Homepage field to debian/control{,.in}.
+
+ -- Mario Lang <mlang@debian.org>  Sat, 01 Dec 2007 18:31:22 +0100
+
+gnome-orca (2.20.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * Depend on python-brlapi instead of just recommending it
+    (Closes: Bug#452374).
+
+ -- Mario Lang <mlang@debian.org>  Tue, 27 Nov 2007 19:56:27 +0100
+
+gnome-orca (2.20.1-2) unstable; urgency=low
+
+  * debian/patches/02_disable_brlmodule.patch: Added a simple
+    hack to disable building the brl module (which is only needed for
+    backwards-compatibility to brltty 3.7.2).
+  * debian/patches/02_libbrlapi_fix.patch: Removed, obsolete.
+  * debian/control{,.in}: Now that we do no longer distribute the brl module
+    we can make gnome-orca arch: all and remove gnome-orca-common again.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 01 Nov 2007 17:10:22 +0100
+
+gnome-orca (2.20.1-1) unstable; urgency=low
+
+  * Fix debian/watch file to point to 2.20.
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 01 Nov 2007 15:58:04 +0100
+
+gnome-orca (2.20.0.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Sat, 13 Oct 2007 22:04:58 +0200
+
+gnome-orca (2.20.0-1) unstable; urgency=low
+
+  * New Upstream release.
+  * debian/control.in: Assume maintainership as per discussion with
+    Kartik Mistry.
+  * debian/rules: Remove /usr/share/gnome-pkg-tools/1/rules/check-dist.mk.
+
+ -- Mario Lang <mlang@debian.org>  Fri, 21 Sep 2007 10:29:17 +0200
+
+gnome-orca (2.19.91-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 02 Sep 2007 13:24:53 +0200
+
+gnome-orca (2.19.90-2) experimental; urgency=low
+
+  * Drop libbrlapi1-dev from Build-Depends.
+  * Recoomend python-brlapi instead of brltty.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 26 Aug 2007 13:50:45 +0200
+
+gnome-orca (2.19.90-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 30 Jul 2007 02:22:47 +0200
+
+gnome-orca (2.19.6-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 30 Jul 2007 02:16:49 +0200
+
+gnome-orca (2.19.5-1) experimental; urgency=low
+
+  * debian/control.in: Remove myself from Uploaders list since this is
+    handled by gnome-pkg-tools now.
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Tue, 10 Jul 2007 17:50:46 +0200
+
+gnome-orca (2.19.4-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 18 Jun 2007 11:25:05 +0200
+
+gnome-orca (2.19.3-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 04 Jun 2007 16:33:54 +0200
+
+gnome-orca (2.19.2-2) experimental; urgency=low
+
+  * debian/control.in:
+    * Drop {Build-,}Depends on python-at-spi, it is not needed.
+    * Better Description borrowed from docs/doc-set/orca.html.
+    * Drop Build-Depends on libgnome-speech3-dev.  orca uses Bonobo at
+      runtime to communicate with GNOME Speech.
+    * Depend on libgnome-speech7 instead of 3.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 14 May 2007 01:03:25 +0200
+
+gnome-orca (2.19.2-1) experimental; urgency=low
+
+  [ Loic Minier ]
+  * Include the new check-dist Makefile to prevent accidental uploads to
+    unstable; bump build-dep on gnome-pkg-tools to >= 0.10.
+
+  [ Mario Lang ]
+  * Add a debian/watch file.
+  * New upstream release.
+
+ -- Mario Lang <mlang@debian.org>  Sun, 13 May 2007 20:11:32 +0200
+
+gnome-orca (2.19.1-1) experimental; urgency=low
+
+  * New upstream release.
+  * debian/patches/03_manpage_fix.patch: Revmoed.
+
+ -- Mario Lang <mlang@debian.org>  Thu, 03 May 2007 10:18:28 +0200
+
+gnome-orca (2.18.1-3) unstable; urgency=low
+
+  * Convert to cdbs (removed most of debian/rules and converted patches
+    to simple-patchsys).
+  * debian/patches/04_solaris_specific_fixes.patch:
+    Updated patch for startup shell script (orca.in).
+  * debian/rules: Add a rule to run dh_pysupport without having to include
+    cdbs class python-distutils.mk (which does not work with this package).
+  * debian/control.in: Tighten up some version dependencies to ensure the user
+    is getting recent versions.
+
+ -- Mario Lang <mlang@debian.org>  Mon, 30 Apr 2007 04:02:41 +0200
+
+gnome-orca (2.18.1-2) unstable; urgency=low
+
+  * Upload to unstable; drop check-dist include.
+  * Wrap build-deps and deps.
+
+ -- Loic Minier <lool@dooz.org>  Thu, 26 Apr 2007 10:31:01 +0200
+
+gnome-orca (2.18.1-1) experimental; urgency=low
+
+  [Kartik Mistry]
+  * New upstream release, See NEWS for changes in details
+    - Fixes orca --text-setup (Closes: #408876)
+  * debian/rules: we use CFLAGS in configure now
+  * debian/patches/01_no_default_desktop_item.dpatch: updated to work
+  * debian/control: updated dependency for gnome-mag to (>= 0.12.5)
+  * debian/control: updated dependency for python-pyorbit to (>= 2.14.0)
+    (Closes: #414989)
+
+ -- Kartik Mistry <kartik.mistry@gmail.com>  Thu, 12 Apr 2007 17:37:26 +0530
+
+gnome-orca (2.17.4-2) experimental; urgency=low
+
+  [ Loic Minier ]
+  * GNOME Team uploads:
+    - Add a build-dep on gnome-pkg-tools.
+    - Rename clean: to clean::.
+    - Include uploaders.mk.
+
+  [ Kartik Mistry ]
+  * Splitted package in two binaries: gnome-orca/gnome-orca-common since large
+    part of script are falls under binary-indep
+  * debian/dirs: removed it
+  * debian/copyright: updated according to standard copyright file
+  * Fix typo debian/pyversion to debian/pyversions, file is fixed now
+  * Added gnome-orca.manpages
+  * debian/control: minor cleanups, reflect package splits
+  * debian/rules: minor cleanups, reflect package splits
+  * Added patch for uselss paragrpah in orca manpage (Closes: #408878)
+  * Added patch for solaris specific terms in /usr/bin/orca (Closes: #408875)
+  * debian/README.Debian: in proper format now
+
+  [ Loic Minier ]
+  * Cleanups.
+  * Add a get-orig-source target to retrieve the upstream tarball.
+  * Include the new check-dist Makefile to prevent accidental uploads to
+    unstable; bump build-dep on gnome-pkg-tools to >= 0.10.
+
+ -- Loic Minier <lool@dooz.org>  Tue, 10 Apr 2007 14:14:15 +0200
+
+gnome-orca (2.17.4-1) experimental; urgency=low
+
+  * Initial release (Closes: #402551)
+  * Added patches from Ubuntu, 01_no_default_desktop and 02_libbrlapi_fix
+
+ -- Kartik Mistry <kartik.mistry@gmail.com>  Sat, 23 Dec 2006 22:52:10 +0530

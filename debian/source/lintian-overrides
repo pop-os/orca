@@ -1,0 +1,12 @@
+# Yes, these are sources (with some long lines)
+source-is-missing [test/html/aria-button-toggle.html]
+source-is-missing [test/html/bug-544771.html]
+source-is-missing [test/html/bugzilla-advanced.html]
+source-is-missing [test/html/inner-iframe.html]
+source-is-missing [test/html/java-sun-com.html]
+source-is-missing [test/html/math-mathvariant.html]
+source-is-missing [test/html/math-torture-test.html]
+source-is-missing [test/html/orca-wiki.html]
+source-is-missing [test/html/w3-data-uri-image-data-uri-description.html]
+source-is-missing [test/html/w3-data-uri-image-external-description-fragment.html]
+source-is-missing [test/html/w3-data-uri-image-external-description.html]

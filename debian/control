@@ -1,0 +1,61 @@
+Source: orca
+Section: gnome
+Priority: optional
+Maintainer: Debian Accessibility Team <pkg-a11y-devel@alioth-lists.debian.net>
+Uploaders: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>,
+           Samuel Thibault <sthibault@debian.org>, Jeremy Bícha <jbicha@ubuntu.com>, Jordi Mallach <jordi@debian.org>
+Build-Depends: debhelper-compat (= 13), meson, git,
+               dh-sequence-python3,
+               dh-sequence-gnome,
+               gettext,
+               libatk-bridge2.0-dev (>= 2.50.0~),
+               libatspi2.0-dev (>= 2.50.0~),
+               libgstreamer1.0-dev,
+               pkgconf,
+               python3,
+               python-gi-dev,
+               gir1.2-gtk-3.0,
+               python3-brlapi,
+               python3-louis, liblouis-dev,
+               python3-speechd,
+               yelp-tools
+Rules-Requires-Root: no
+Standards-Version: 4.6.2
+Vcs-Browser: https://salsa.debian.org/gnome-team/orca
+Vcs-Git: https://salsa.debian.org/gnome-team/orca.git
+Homepage: https://wiki.gnome.org/Projects/Orca
+
+Package: orca
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends},
+         ${python3:Depends},
+         gir1.2-glib-2.0,
+         gir1.2-gtk-3.0,
+         gir1.2-pango-1.0,
+         gir1.2-wnck-3.0,
+         gir1.2-gstreamer-1.0, gstreamer1.0-plugins-good,
+         gir1.2-atspi-2.0 (>= 2.50.0~),
+         python3-brlapi,
+         python3-cairo,
+         python3-gi,
+         python3-louis,
+         at-spi2-core (>= 2.50.0~),
+         python3-speechd,
+         speech-dispatcher,
+         gsettings-desktop-schemas,
+         xkbset,
+Recommends: xbrlapi
+Suggests: brltty
+Description: Scriptable screen reader
+ A flexible, extensible, and powerful assistive technology that
+ provides end-user access to applications and toolkits that support the
+ AT-SPI (e.g., the GNOME desktop).
+ .
+ Orca defines a set of default behaviors (reactions to application events) and
+ key bindings (reaction to user key presses). These default behaviors and key
+ bindings can be overwritten on a per-application basis. Orca creates a script
+ object for each running application, which merges both the default behaviors
+ and key bindings, and the application specific ones. Orca provides the
+ infrastructure to activate and deactivate scripts, as well as a host of
+ services accessible from within the scripts.
