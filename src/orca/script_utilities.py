@@ -694,7 +694,8 @@ class Utilities:
         if text and text not in tokens:
             tokens.append(text)
         else:
-            labels = " ".join(map(AXText.get_all_text, self.unrelatedLabels(obj, False, 1)))
+            labels = " ".join(map(lambda x: AXText.get_all_text(x) or AXObject.get_name(x),
+                                  self.unrelatedLabels(obj, False, 1)))
             if labels and labels not in tokens:
                 tokens.append(labels)
 
@@ -1169,32 +1170,6 @@ class Utilities:
             return child
 
         return obj
-
-    def isStatusBarDescendant(self, obj):
-        if obj is None:
-            return False
-
-        return AXObject.find_ancestor(obj, AXUtilities.is_status_bar) is not None
-
-    def statusBarItems(self, obj):
-        if not AXUtilities.is_status_bar(obj):
-            return []
-
-        start = time.time()
-        items = self._script.point_of_reference.get('statusBarItems')
-        if not items:
-
-            def include(x):
-                return not AXUtilities.is_status_bar(x)
-
-            items = list(filter(include, self.getOnScreenObjects(obj)))
-            self._script.point_of_reference['statusBarItems'] = items
-
-        end = time.time()
-        msg = f"SCRIPT UTILITIES: Time getting status bar items: {end - start:.4f}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-
-        return items
 
     def infoBar(self, root):
         return None
@@ -2311,46 +2286,6 @@ class Utilities:
         )
         debug.printMessage(debug.LEVEL_INFO, msg, True)
         return word, start, end
-
-    def textAtPoint(self, obj, x, y, boundary=None):
-        # TODO - JD: Audit callers so we don't have to use boundaries.
-        # Also, can the logic be entirely moved to AXText?
-        if boundary in (None, Atspi.TextBoundaryType.LINE_START):
-            string, start, end = AXText.get_line_at_point(obj, x, y)
-        elif boundary == Atspi.TextBoundaryType.SENTENCE_START:
-            string, start, end = AXText.get_sentence_at_point(obj, x, y)
-        elif boundary == Atspi.TextBoundaryType.WORD_START:
-            string, start, end = AXText.get_word_at_point(obj, x, y)
-        elif boundary == Atspi.TextBoundaryType.CHAR:
-            string, start, end = AXText.get_character_at_point(obj, x, y)
-        else:
-            return "", 0, 0
-
-        if not string:
-            return "", start, end
-
-        if boundary == Atspi.TextBoundaryType.WORD_START and not string.strip():
-            return "", 0, 0
-
-        extents = AXText.get_range_rect(obj, start, end)
-        rect = Atspi.Rect()
-        rect.x = x
-        rect.y = y
-        rect.width = rect.height = 0
-        if not AXComponent.get_rect_intersection(extents, rect) and string != "\n":
-            return "", 0, 0
-
-        if not string.endswith("\n") or string == "\n":
-            return string, start, end
-
-        if boundary == Atspi.TextBoundaryType.CHAR:
-            return string, start, end
-
-        char = self.textAtPoint(obj, x, y, Atspi.TextBoundaryType.CHAR)
-        if char[0] == "\n" and char[2] - char[1] == 1:
-            return char
-
-        return string, start, end
 
     def visibleRows(self, obj, table_rect):
         nRows = AXTable.get_row_count(obj)

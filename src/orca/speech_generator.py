@@ -164,6 +164,9 @@ class SpeechGenerator(generator.Generator):
             result.append(dialogs)
         return result
 
+    def _generate_result_separator(self, _obj, **_args):
+        return PAUSE
+
     def _generate_pause(self, _obj, **args):
         if not settings_manager.get_manager().get_setting('enablePauseBreaks') \
            or args.get('eliminatePauses', False):
@@ -495,9 +498,6 @@ class SpeechGenerator(generator.Generator):
         role = args.get("role")
         if AXUtilities.is_list(obj, role) or AXUtilities.is_list_box(obj, role):
             set_size = AXUtilities.get_set_size(obj)
-            if set_size is None:
-                children = list(AXObject.iter_children(obj, AXUtilities.is_list_item))
-                set_size = len(children)
             if set_size:
                 result = [messages.listItemCount(set_size)]
                 result.extend(self.voice(SYSTEM, obj=obj, **args))
@@ -1003,39 +1003,6 @@ class SpeechGenerator(generator.Generator):
         position += 1
         result.append(string % {"index": position, "total": total})
         result.extend(self.voice(SYSTEM, obj=obj, **args))
-        return result
-
-    @log_generator_output
-    def _generate_status_bar_items(self, obj, **args):
-        if not AXUtilities.is_status_bar(obj):
-            return []
-
-        items = self._script.utilities.statusBarItems(obj)
-        if not items or items == [obj]:
-            return []
-
-        result = []
-        for child in items:
-            if child == obj:
-                continue
-
-            child_result = self.generate(child, includeContext=False)
-            if child_result:
-                result.extend(child_result)
-                if not isinstance(child_result[-1], Pause):
-                    result.extend(self._generate_pause(child, **args))
-
-        return result
-
-    @log_generator_output
-    def _generate_list_box_item_widgets(self, obj, **_args):
-        if not AXUtilities.is_list_box(AXObject.get_parent(obj)):
-            return []
-
-        result = []
-        widgets = AXUtilities.get_all_widgets(obj)
-        for widget in widgets:
-            result.append(self.generate(widget, includeContext=False))
         return result
 
     ################################### KEYBOARD ###################################
@@ -2559,9 +2526,8 @@ class SpeechGenerator(generator.Generator):
             return []
 
         result = self._generate_default_prefix(obj, **args)
-        result += self._generate_accessible_label_and_name(obj, **args)
-        if not result:
-            result += self._generate_text_content(obj, **args)
+        result += (self._generate_accessible_label_and_name(obj, **args) or \
+            self._generate_text_line(obj, **args))
 
         if settings_manager.get_manager().get_setting("speakContextList"):
             if args.get("index", 0) + 1 < args.get("total", 1):
@@ -2584,9 +2550,8 @@ class SpeechGenerator(generator.Generator):
             return []
 
         result = self._generate_default_prefix(obj, **args)
-        result += self._generate_accessible_label_and_name(obj, **args)
-        if not result:
-            result += self._generate_text_content(obj, **args)
+        result += (self._generate_accessible_label_and_name(obj, **args) or \
+            self._generate_text_line(obj, **args))
 
         if settings_manager.get_manager().get_setting("speakContextList"):
             if args.get("index", 0) + 1 < args.get("total", 1):
@@ -3073,7 +3038,7 @@ class SpeechGenerator(generator.Generator):
         format_type = args.get("formatType", "unfocused")
         result += self._generate_accessible_label_and_name(obj, **args)
 
-        if format_type != "focused":
+        if format_type not in ["focused", "ancestor"]:
             result += self._generate_focused_item(obj, **args)
             result += self._generate_pause(obj, **args)
 
@@ -3095,17 +3060,18 @@ class SpeechGenerator(generator.Generator):
             return result
 
         result += (self._generate_accessible_label_and_name(obj, **args) or \
-            self._generate_text_content(obj, **args))
+            self._generate_text_line(obj, **args))
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_state_checked_if_checkable(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_state_unselected(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_state_expanded(obj, **args)
+        if AXUtilities.is_focusable(obj):
+            result += self._generate_descendants(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_position_in_list(obj, **args)
         result += self._generate_pause(obj, **args)
-        result += self._generate_list_box_item_widgets(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
 
@@ -3322,6 +3288,7 @@ class SpeechGenerator(generator.Generator):
     def _generate_notification(self, obj, **args):
         """Generates speech for the notification role."""
 
+        # TODO - JD: Should this instead or also be using the logic in getNotificationContent?
         result = []
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_accessible_label_and_name(obj, **args)
@@ -3683,8 +3650,7 @@ class SpeechGenerator(generator.Generator):
             return result
 
         result += self._generate_pause(obj, **args)
-        # TODO - JD: Move this logic here.
-        result += self._generate_status_bar_items(obj, **args)
+        result += self._generate_descendants(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
 
