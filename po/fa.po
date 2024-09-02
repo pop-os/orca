@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orca master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/orca/issues\n"
-"POT-Creation-Date: 2024-08-12 12:04+0000\n"
-"PO-Revision-Date: 2024-08-18 15:37+0330\n"
+"POT-Creation-Date: 2024-08-28 15:55+0000\n"
+"PO-Revision-Date: 2024-09-01 11:27+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: \n"
 "Language: fa\n"
@@ -72,23 +72,23 @@ msgstr "تیم"
 #. Translators: short braille for the rolename of a color chooser.
 #: src/orca/braille_rolenames.py:70
 msgid "clrchsr"
-msgstr "رنگ‌گزین"
+msgstr "رنگزین"
 
 #. Translators: short braille for the rolename of a column header.
 #. Translators: short braille for the rolename of a table column header.
 #: src/orca/braille_rolenames.py:73 src/orca/braille_rolenames.py:232
 msgid "colhdr"
-msgstr "سرایند ستون"
+msgstr "سرستون"
 
 #. Translators: short braille for the rolename of a combo box.
 #: src/orca/braille_rolenames.py:76
 msgid "cbo"
-msgstr ""
+msgstr "جعبا"
 
 #. Translators: short braille for the rolename of a date editor.
 #: src/orca/braille_rolenames.py:79
 msgid "dat"
-msgstr "ویرایشگر تاریخ"
+msgstr "تاریخ"
 
 #. Translators: short braille for the rolename of a desktop icon.
 #. Translators: short braille for the rolename of a icon.
@@ -109,7 +109,7 @@ msgstr "قاب"
 #: src/orca/braille_rolenames.py:91
 msgctxt "shortbraille"
 msgid "dial"
-msgstr "شماره‌گیری"
+msgstr "شماره"
 
 #. Translators: short braille for the rolename of a dialog.
 #: src/orca/braille_rolenames.py:94
@@ -119,7 +119,7 @@ msgstr "گفتگو"
 #. Translators: short braille for the rolename of a directory pane.
 #: src/orca/braille_rolenames.py:97
 msgid "dip"
-msgstr "قاب شاخه"
+msgstr "قابشاخ"
 
 #. Translators: short braille for the rolename of an HTML document frame.
 #. Translators: short braille for the rolename of an html container.
@@ -130,12 +130,12 @@ msgstr "زبان نشانه‌گذاری فرامتن"
 #. Translators: short braille for the rolename of a drawing area.
 #: src/orca/braille_rolenames.py:103
 msgid "draw"
-msgstr "ترسیم"
+msgstr "رسم"
 
 #. Translators: short braille for the rolename of a file chooser.
 #: src/orca/braille_rolenames.py:106
 msgid "fchsr"
-msgstr "پرونده‌گزین"
+msgstr "پرونگز"
 
 #. Translators: short braille for the rolename of a filler.
 #: src/orca/braille_rolenames.py:109
@@ -145,7 +145,7 @@ msgstr "پرکن"
 #. Translators: short braille for the rolename of a font chooser.
 #: src/orca/braille_rolenames.py:112
 msgid "fnt"
-msgstr "قلم‌گزین"
+msgstr "قلمگز"
 
 #. Translators: short braille for the rolename of a form.
 #. You should attempt to treat it as an abbreviation of
@@ -159,7 +159,7 @@ msgstr "از"
 #. Translators: short braille for the rolename of a glass pane.
 #: src/orca/braille_rolenames.py:124
 msgid "gpn"
-msgstr "قاب شیشه‌ای"
+msgstr "قابشیشه"
 
 #. Translators: short braille for the rolename of a heading.
 #: src/orca/braille_rolenames.py:127
@@ -330,7 +330,7 @@ msgstr "سلول"
 #. Translators: short braille for the rolename of a tear off menu item.
 #: src/orca/braille_rolenames.py:238
 msgid "tomnuitm"
-msgstr ""
+msgstr "موردفهرست"
 
 #. Translators: short braille for the rolename of a terminal.
 #: src/orca/braille_rolenames.py:241
@@ -613,21 +613,21 @@ msgstr "آلمانی بلژیکی سطح ۱"
 #. typically a widget, without clicking on it.
 #: src/orca/cmdnames.py:37
 msgid "Route the pointer to the current item"
-msgstr ""
+msgstr "مسیریابی نشانگر به مورد کنونی"
 
 #. Translators: Orca has a command to synthesize mouse events. This string
 #. describes the Orca command to generate a left mouse button click on the
 #. current item, typically a widget.
 #: src/orca/cmdnames.py:42
 msgid "Perform left click on current item"
-msgstr ""
+msgstr "انجام کلیک چپ روی مورد کنونی"
 
 #. Translators: Orca has a command to synthesize mouse events. This string
 #. describes the Orca command to generate a right mouse button click on the
 #. current item, typically a widget.
 #: src/orca/cmdnames.py:47
 msgid "Perform right click on current item"
-msgstr ""
+msgstr "انجام کلیک راست روی مورد کنونی"
 
 #. Translators: the Orca "SayAll" command allows the user to press a key and have
 #. the entire document in a window be automatically spoken to the user. If the
@@ -653,7 +653,7 @@ msgstr "با بازنگری ساده کل پنجره را بخوان"
 #. with focus as well as its mnemonic.
 #: src/orca/cmdnames.py:67
 msgid "Perform the basic Where Am I operation"
-msgstr ""
+msgstr "انجام عملیات پایه‌ای کجا هستم"
 
 #. Translators: the "Where Am I" feature of Orca allows a user to press a key and
 #. then have information about their current context spoken and brailled to them.
@@ -661,7 +661,7 @@ msgstr ""
 #. with focus as well as its mnemonic.
 #: src/orca/cmdnames.py:73
 msgid "Perform the detailed Where Am I operation"
-msgstr ""
+msgstr "انجام عملیات با جزییات کجا هستم"
 
 #. Translators: This is the description of a dedicated command to speak the
 #. current selection / highlighted object(s). For instance, in a text object,
@@ -670,13 +670,13 @@ msgstr ""
 #. the selected/highlighted icons. Etc.
 #: src/orca/cmdnames.py:80
 msgid "Speak the current selection"
-msgstr ""
+msgstr "گقتن گزینش کنونی"
 
 #. Translators: This is the description of a dedicated command to speak details
 #. about a link, such as the uri and type of link.
 #: src/orca/cmdnames.py:84
 msgid "Speak link details"
-msgstr ""
+msgstr "گفتن جزییات پیوند"
 
 #. Translators: This command will cause the dialog's default button name to be
 #. spoken and displayed in braille. The "default" button in a dialog box is the
@@ -684,19 +684,19 @@ msgstr ""
 #. box.
 #: src/orca/cmdnames.py:90
 msgid "Present the default button"
-msgstr ""
+msgstr "ارائه دکمهٔ پیش‌گزیده"
 
 #. Translators: This command will cause the window's status bar contents to be
 #. spoken and displayed in braille.
 #: src/orca/cmdnames.py:94
 msgid "Present the status bar"
-msgstr ""
+msgstr "ارائه نوار وضعیت"
 
 #. Translators: This command will cause the window's title to be spoken and
 #. displayed in braille.
 #: src/orca/cmdnames.py:98
 msgid "Present the title bar"
-msgstr ""
+msgstr "ارائه نوار عنوان"
 
 #. Translators: the Orca "Find" dialog allows a user to search for text in a
 #. window and then move focus to that text. For example, they may want to find
@@ -717,7 +717,7 @@ msgstr "نمایش فهرست کنش‌ها"
 #. string.
 #: src/orca/cmdnames.py:113
 msgid "Search for the next instance of a string"
-msgstr ""
+msgstr "جست‌وجو برای نمونهٔ بعدی رشته"
 
 #. Translators: the Orca "Find" dialog allows a user to search for text in a
 #. window and then move focus to that text. For example, they may want to find
@@ -725,7 +725,7 @@ msgstr ""
 #. string.
 #: src/orca/cmdnames.py:119
 msgid "Search for the previous instance of a string"
-msgstr ""
+msgstr "جست‌وجو برای نمونهٔ پیشین رشته"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -734,7 +734,7 @@ msgstr ""
 #. the user to explore this text by the {previous,next} {line,word,character}.
 #: src/orca/cmdnames.py:126
 msgid "Enter and exit flat review mode"
-msgstr ""
+msgstr "ورود و خروج از حالت بازبینی تخت"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -744,7 +744,7 @@ msgstr ""
 #. This switch allows the user to restrict the flat review function to a specific object.
 #: src/orca/cmdnames.py:134
 msgid "Toggle restricting flat review to the current object"
-msgstr ""
+msgstr "تغییر وضعیت محدود کردن بازبینی تخت به شی کنونی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -754,7 +754,7 @@ msgstr ""
 #. The home position is the beginning of the content in the window.
 #: src/orca/cmdnames.py:142
 msgid "Move flat review to the home position"
-msgstr ""
+msgstr "جابه‌جایی بازبینی تخت به موقعیت خانه"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -764,7 +764,7 @@ msgstr ""
 #. The home position is the last bit of information in the window.
 #: src/orca/cmdnames.py:150
 msgid "Move flat review to the end position"
-msgstr ""
+msgstr "جابه‌جایی بازبینی تخت به موقعیت پایان"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -773,7 +773,7 @@ msgstr ""
 #. the user to explore this text by the {previous,next} {line,word,character}.
 #: src/orca/cmdnames.py:158
 msgid "Move flat review to the beginning of the previous line"
-msgstr ""
+msgstr "جابه‌جایی بازبینی تخت به آغاز خط پیش"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -782,7 +782,7 @@ msgstr ""
 #. the user to explore this text by the {previous,next} {line,word,character}.
 #: src/orca/cmdnames.py:165
 msgid "Speak the current flat review line"
-msgstr ""
+msgstr "گفتن خط بازبینی تخت کنونی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -793,7 +793,7 @@ msgstr ""
 #. by character.
 #: src/orca/cmdnames.py:174
 msgid "Spell the current flat review line"
-msgstr ""
+msgstr "هجی کردن خط بازبینی تخت کنونی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -804,7 +804,7 @@ msgstr ""
 #. by character phonetically, saying "Alpha" for "a", "Bravo" for "b" and so on.
 #: src/orca/cmdnames.py:184
 msgid "Phonetically spell the current flat review line"
-msgstr ""
+msgstr "هجی کردن آوایی خط بازبینی تخت کنونی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -813,7 +813,7 @@ msgstr ""
 #. the user to explore this text by the {previous,next} {line,word,character}.
 #: src/orca/cmdnames.py:191
 msgid "Move flat review to the beginning of the next line"
-msgstr ""
+msgstr "جابه‌جایی بازبینی تخت به آغاز خط بعد"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -824,7 +824,7 @@ msgstr ""
 #. will wrap across lines if necessary).
 #: src/orca/cmdnames.py:200
 msgid "Move flat review to the previous item or word"
-msgstr ""
+msgstr "جابه‌جایی بازبینی تخت به واژه یا مورد پیش"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -834,7 +834,7 @@ msgstr ""
 #. This command will speak the current word or item.
 #: src/orca/cmdnames.py:208
 msgid "Speak the current flat review item or word"
-msgstr ""
+msgstr "گفتن واژه یا مورد بازبینی تخت کنونی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -845,7 +845,7 @@ msgstr ""
 #. character by character.
 #: src/orca/cmdnames.py:217
 msgid "Spell the current flat review item or word"
-msgstr ""
+msgstr "هجی کردن واژه یا مورد بازبینی تخت کنونی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -857,7 +857,7 @@ msgstr ""
 #. and so on.
 #: src/orca/cmdnames.py:228
 msgid "Phonetically spell the current flat review item or word"
-msgstr ""
+msgstr "هجی کردن آوایی واژه یا مورد بازبینی تخت کنونی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -868,7 +868,7 @@ msgstr ""
 #. will wrap across lines if necessary).
 #: src/orca/cmdnames.py:237
 msgid "Move flat review to the next item or word"
-msgstr ""
+msgstr "جابه‌جایی بازبینی تخت به واژه یا مورد بعد"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -879,7 +879,7 @@ msgstr ""
 #. line upward on the screen.
 #: src/orca/cmdnames.py:246
 msgid "Move flat review to the word above the current word"
-msgstr ""
+msgstr "جابه‌جایی بازبینی تخت به واژهٔ بالای خط کنونی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -891,7 +891,7 @@ msgstr ""
 #. will speak the text associated with the object.
 #: src/orca/cmdnames.py:256
 msgid "Speak the current flat review object"
-msgstr ""
+msgstr "گفتن شی بازبینی تخت کنونی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -902,7 +902,7 @@ msgstr ""
 #. line downward on the screen.
 #: src/orca/cmdnames.py:265
 msgid "Move flat review to the word below the current word"
-msgstr ""
+msgstr "جابه‌جایی بازبینی تخت به واژهٔ زیر خط کنونی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -913,7 +913,7 @@ msgstr ""
 #. will wrap across lines if necessary).
 #: src/orca/cmdnames.py:274
 msgid "Move flat review to the previous character"
-msgstr ""
+msgstr "جابه‌جایی بازبینی تخت به نویسهٔ پیش"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -923,7 +923,7 @@ msgstr ""
 #. This command will speak the current character
 #: src/orca/cmdnames.py:282
 msgid "Speak the current flat review character"
-msgstr ""
+msgstr "گفتن نویسهٔ بازبینی تخت کنونی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -934,7 +934,7 @@ msgstr ""
 #. saying "Alpha" for "a", "Bravo" for "b" and so on.
 #: src/orca/cmdnames.py:292
 msgid "Phonetically speak the current flat review character"
-msgstr ""
+msgstr "گفتن آوایی نویسهٔ بازبینی تخت کنونی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -945,7 +945,7 @@ msgstr ""
 #. value.
 #: src/orca/cmdnames.py:302
 msgid "Speak unicode value of the current flat review character"
-msgstr ""
+msgstr "گفتن مقدار یونی‌کد نویسهٔ بازبینی تخت کنونی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -956,7 +956,7 @@ msgstr ""
 #. will wrap across lines if necessary).
 #: src/orca/cmdnames.py:311
 msgid "Move flat review to the next character"
-msgstr ""
+msgstr "جابه‌جایی بازبینی تخت به نویسهٔ بعد"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -966,7 +966,7 @@ msgstr ""
 #. This command will move to and present the end of the line.
 #: src/orca/cmdnames.py:319
 msgid "Move flat review to the end of the line"
-msgstr ""
+msgstr "جابه‌جایی بازبینی تخت به پایان خط"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -976,7 +976,7 @@ msgstr ""
 #. The bottom left is the bottom left of the window currently being reviewed.
 #: src/orca/cmdnames.py:327
 msgid "Move flat review to the bottom left"
-msgstr ""
+msgstr "جابه‌جایی بازبینی تخت به پایین چپ"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -987,7 +987,7 @@ msgstr ""
 #. clipboard.
 #: src/orca/cmdnames.py:336
 msgid "Copy the contents under flat review to the clipboard"
-msgstr ""
+msgstr "رونوشت از محتوای زیر بازبینی تخت به تخته گیره"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -998,7 +998,7 @@ msgstr ""
 #. the existing contents of the clipboard.
 #: src/orca/cmdnames.py:346
 msgid "Append the contents under flat review to the clipboard"
-msgstr ""
+msgstr "افزودن محتوای زیر بازبینی تخت به تخته گیره"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -1011,20 +1011,20 @@ msgstr ""
 #. and copy the text. This string describes that command.
 #: src/orca/cmdnames.py:357
 msgid "Show flat review contents"
-msgstr ""
+msgstr "نمایش محتوای بازبینی تخت"
 
 #. Translators: when users are navigating a table, they sometimes want the
 #. entire row of a table read; other times they just want the current cell
 #. to be presented to them.
 #: src/orca/cmdnames.py:363
 msgid "Toggle whether to read just the current table cell or the whole row"
-msgstr ""
+msgstr "تغییر وضعیت این که تنها سلول جدول کنونی خوانده شود یا کل خط"
 
 #. Translators: the attributes being presented are the text attributes, such as
 #. bold, italic, font name, font size, etc.
 #: src/orca/cmdnames.py:368
 msgid "Read the attributes associated with the current text character"
-msgstr ""
+msgstr "خواندن ویژگی‌های مربوط به نویسهٔ متن کنونی"
 
 #. Translators: a refreshable braille display is an external hardware device that
 #. presents braille characters to the user. There are a limited number of cells
@@ -1062,14 +1062,14 @@ msgstr "بازگشت به شی با تمرکز صفحه‌کلید"
 #. and uncontracted.
 #: src/orca/cmdnames.py:398
 msgid "Turn contracted braille on and off"
-msgstr ""
+msgstr "خاموش و روشن کردن بریل مختصر"
 
 #. Translators: hardware braille displays often have buttons near each braille
 #. cell. These are called cursor routing keys and are a way for a user to tell
 #. the machine they are interested in a particular character on the display.
 #: src/orca/cmdnames.py:403
 msgid "Process a cursor routing key"
-msgstr "پردازش کلید مسیریابی مکان‌»ما"
+msgstr "پردازش کلید مسیریابی مکان‌نما"
 
 #. Translators: this is used to indicate the start point of a text selection.
 #: src/orca/cmdnames.py:406
@@ -1178,7 +1178,7 @@ msgstr "نمایش گفت‌وگوی پیکربندی ترجیحات برنام�
 #. and justification.
 #: src/orca/cmdnames.py:482
 msgid "Toggle the speaking of indentation and justification"
-msgstr ""
+msgstr "تغییر وضعیت گفتن تورفتگی و هم‌ترازی"
 
 #. Translators: Orca has a setting through which users can control how a number is
 #. spoken. The options are digits ("1 2 3") and words ("one hundred and twenty
@@ -1192,14 +1192,14 @@ msgstr "تغییر سبک گفتن شماره"
 #. some, most, or all, punctuation will be spoken.
 #: src/orca/cmdnames.py:492
 msgid "Cycle to the next speaking of punctuation level"
-msgstr ""
+msgstr "رفتن به گفتن بعدی سطح نقطه‌گذاری"
 
 #. Translators: Orca allows users to cycle through the speech synthesizers
 #. available on their system, such as espeak, voxin, mbrola, etc. This string
 #. is the description of the command.
 #: src/orca/cmdnames.py:497
 msgid "Cycle to the next speech synthesizer"
-msgstr ""
+msgstr "رفتن به ترکیب‌بند صحیت بعدی"
 
 #. Translators: Orca has a feature whereby users can set up different "profiles,"
 #. which are collection of settings which apply to a given task, such as a
@@ -1209,7 +1209,7 @@ msgstr ""
 #. their saved profiles without having to get into a GUI.
 #: src/orca/cmdnames.py:505
 msgid "Cycle to the next settings profile"
-msgstr ""
+msgstr "رفتن به نمایهٔ تنظیمات بعدی"
 
 #. Translators: Orca uses Speech Dispatcher to present content to users via text-
 #. to-speech. Speech Dispatcher has a feature to control how capital letters are
@@ -1220,7 +1220,7 @@ msgstr ""
 #. to get into a GUI.
 #: src/orca/cmdnames.py:514
 msgid "Cycle to the next capitalization style"
-msgstr ""
+msgstr "رفتن به سبک بزرگ کردن حروف بعدی"
 
 #. Translators: Orca has an "echo" setting which allows the user to configure
 #. what is spoken in response to a key press. Given a user who typed "Hello
@@ -1234,14 +1234,14 @@ msgstr ""
 #. choose which type of echo is being used.
 #: src/orca/cmdnames.py:526
 msgid "Cycle to the next key echo level"
-msgstr ""
+msgstr "رفتن به سطح پژواک کلید بعدی"
 
 #. Translators: this is a debug message that Orca users will not normally see. It
 #. describes a debug routine that allows the user to adjust the level of debug
 #. information that Orca generates at run time.
 #: src/orca/cmdnames.py:531
 msgid "Cycle the debug level at run time"
-msgstr ""
+msgstr "تعویض سطح اشکال‌زدایی در زمان اجرا"
 
 #. Translators: this command announces information regarding the relationship of
 #. the given bookmark to the current position. Note that in this context, the
@@ -1249,7 +1249,7 @@ msgstr ""
 #. page.
 #: src/orca/cmdnames.py:538
 msgid "Bookmark where am I with respect to current position"
-msgstr ""
+msgstr "نشانه گذاری جایی که هستم نسبت به موقعیت کنونی"
 
 #. Translators: this event handler cycles through the registered bookmarks and
 #. takes the user to the previous bookmark location. Note that in this context,
@@ -1290,38 +1290,38 @@ msgstr "ذخیرهٔ نشانک‌ها"
 #. the feature without the need to get into a GUI.
 #: src/orca/cmdnames.py:567
 msgid "Toggle mouse review mode"
-msgstr ""
+msgstr "تغییر وضعیت حالت بازبینی موشی"
 
 #. Translators: Orca has a command to present the battery status (e.g. level, whether
 #. or not it is plugged in, etc.). This string is the name of that command.
 #: src/orca/cmdnames.py:571
 msgid "Present battery status"
-msgstr ""
+msgstr "ارائه وضعیت باتری"
 
 #. Translators: Orca has a command to present the CPU and memory usage as percents.
 #. This string is the name of that command.
 #: src/orca/cmdnames.py:575
 msgid "Present CPU and memory usage"
-msgstr ""
+msgstr "ارائه استفادهٔ حافظه و پردازنده"
 
 #. Translators: Orca has a command to present the current time in speech and in
 #. braille.
 #: src/orca/cmdnames.py:579
 msgid "Present current time"
-msgstr ""
+msgstr "ارائه زمان کنونی"
 
 #. Translators: Orca has a command to present the current date in speech and in
 #. braille.
 #: src/orca/cmdnames.py:583
 msgid "Present current date"
-msgstr ""
+msgstr "ارائه تاریخ کنونی"
 
 #. Translators: Orca has a command to present the pixel size and location of
 #. the current object. This string is how this command is described in the list
 #. of keyboard shortcuts.
 #: src/orca/cmdnames.py:588
 msgid "Present size and location of current object"
-msgstr ""
+msgstr "ارائّ اندازه و مکان شی کنونی"
 
 #. Translators: This command toggles all (other) Orca commands so that the
 #. associated keystroke can by consumed by the native application. For example,
@@ -1339,7 +1339,7 @@ msgstr "تغییر وضعیت همهٔ کلیدهای فرمان اورکا"
 #. keyboard commands used to review those previous messages.
 #: src/orca/cmdnames.py:602
 msgid "Speak and braille a previous chat room message"
-msgstr ""
+msgstr "گفتن و بریل کردن پیام پیشین اتاق گپ"
 
 #. Translators: In chat applications, it is often possible to see that a "buddy"
 #. is typing currently (e.g. via a keyboard icon or status text). Some users like
@@ -1348,7 +1348,7 @@ msgstr ""
 #. is associated with the command to toggle typing status presentation on or off.
 #: src/orca/cmdnames.py:610
 msgid "Toggle whether we announce when our buddies are typing"
-msgstr ""
+msgstr "تغییر وضعیت این که نوشتن دوستانمان را اعلام کنیم کنیم یا نه"
 
 #. Translators: Orca has a command to review previous chat room messages in
 #. speech and braille. Some users prefer to have this message history combined
@@ -1359,7 +1359,7 @@ msgstr ""
 #. or off.
 #: src/orca/cmdnames.py:620
 msgid "Toggle whether we provide chat room specific message histories"
-msgstr ""
+msgstr "تغییر وضعیت این که تاریخچهٔ پیام‌های مخصوص اتاق گپ را فراهم کنیم یا نه"
 
 #. Translators: In chat applications, Orca automatically presents incoming
 #. messages in speech and braille. If a user is in multiple conversations or
@@ -1370,7 +1370,7 @@ msgstr ""
 #. the command to toggle room name presentation on or off.
 #: src/orca/cmdnames.py:631
 msgid "Toggle whether we prefix chat room messages with the name of the chat room"
-msgstr ""
+msgstr "تغییر وضعیت این که پیش از پیام‌های اتاق گپ، نام اتاق را بیاوریم یا نه"
 
 #. Translators: this is a command for a button on a refreshable braille display
 #. (an external hardware device used by people who are blind). When pressing the
@@ -1442,7 +1442,7 @@ msgstr "شش نقظه"
 #. display.
 #: src/orca/cmdnames.py:684
 msgid "Cursor Routing"
-msgstr ""
+msgstr "مسیریابی مکان‌نما"
 
 #. Translators: this is a command for a button on a refreshable braille display
 #. (an external hardware device used by people who are blind). This command
@@ -1451,7 +1451,7 @@ msgstr ""
 #. consoles, the act of copying text is erroneously called a "cut" operation.
 #: src/orca/cmdnames.py:691
 msgid "Cut Begin"
-msgstr ""
+msgstr "آغاز برش"
 
 #. Translators: this is a command for a button on a refreshable braille display
 #. (an external hardware device used by people who are blind). This command
@@ -1466,91 +1466,91 @@ msgstr "برش خط"
 #. notification message.
 #: src/orca/cmdnames.py:702
 msgid "Present last notification message"
-msgstr ""
+msgstr "ارائه آخحرین پیام آگاهی"
 
 #. Translators: this is a command which causes Orca to present a list of all the
 #. notification messages received.
 #: src/orca/cmdnames.py:706
 msgid "Present notification messages list"
-msgstr ""
+msgstr "ارائه سیاههٔ پیام‌های آگاهی"
 
 #. Translators: this is a command which causes Orca to present the previous
 #. notification message.
 #: src/orca/cmdnames.py:710
 msgid "Present previous notification message"
-msgstr ""
+msgstr "ارائه پیام آگاهی پیشین"
 
 #. Translators: this is a command which causes Orca to present the next
 #. notification message.
 #: src/orca/cmdnames.py:714
 msgid "Present next notification message"
-msgstr ""
+msgstr "ارائه پیام آگاهی بعدی"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:717
 msgid "Go to next character"
-msgstr ""
+msgstr "رفتن به نویسهٔ بعدی"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:720
 msgid "Go to previous character"
-msgstr ""
+msgstr "رفتن به نویسهٔ پیشین"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:723
 msgid "Go to next word"
-msgstr ""
+msgstr "رفتن به واژهٔ بعدی"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:726
 msgid "Go to previous word"
-msgstr ""
+msgstr "رفتن به واژهٔ پیشین"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:729
 msgid "Go to next line"
-msgstr ""
+msgstr "رفتن به خط بعدی"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:732
 msgid "Go to previous line"
-msgstr ""
+msgstr "رفتن به خط پیشین"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:735
 msgid "Go to the top of the file"
-msgstr ""
+msgstr "رفتن به بالای پرونده"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:738
 msgid "Go to the bottom of the file"
-msgstr ""
+msgstr "رفتن به پایین پرونده"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:741
 msgid "Go to the beginning of the line"
-msgstr ""
+msgstr "رفتن به آغاز خط"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:744
 msgid "Go to the end of the line"
-msgstr ""
+msgstr "رفتن به پایان خط"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:747
 msgid "Go to the next object"
-msgstr ""
+msgstr "رفتن به شی بعدی"
 
 #. Translators: this is a command related to navigating within a document.
 #: src/orca/cmdnames.py:750
 msgid "Go to the previous object"
-msgstr ""
+msgstr "رفتن به شی پیشین"
 
 #. Translators: this is for causing a collapsed combo box which was reached
 #. by Orca's caret navigation to be expanded.
 #: src/orca/cmdnames.py:755
 msgid "Cause the current combo box to be expanded"
-msgstr ""
+msgstr "موجب گسترش جعبهٔ بازشوندهٔ‌ کنونی"
 
 #. Translators: Gecko native caret navigation is where Firefox (or Thunderbird)
 #. itself controls how the arrow keys move the caret around HTML content. It's
@@ -1558,7 +1558,7 @@ msgstr ""
 #. the user the ability to toggle which application is controlling the caret.
 #: src/orca/cmdnames.py:762
 msgid "Switch between native and screen-reader caret navigation"
-msgstr ""
+msgstr "تعویض بین ناوش مکان‌نمای صفحه‌خوان و بومی"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -1569,7 +1569,7 @@ msgstr ""
 #. to cycle through the different "politeness" levels.
 #: src/orca/cmdnames.py:771
 msgid "Advance live region politeness setting"
-msgstr ""
+msgstr "تنظیمات پیشرفتهٔ مودب بودن ناحیهٔ زنده"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -1580,7 +1580,7 @@ msgstr ""
 #. to turn off live regions by default.
 #: src/orca/cmdnames.py:781
 msgid "Set default live region politeness level to off"
-msgstr ""
+msgstr "تنظیم سطح مودب بودن ناحیهٔ زنده به خاموش"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -1588,7 +1588,7 @@ msgstr ""
 #. messages.
 #: src/orca/cmdnames.py:787
 msgid "Review live region announcement"
-msgstr ""
+msgstr "بازبینی اعلامیهٔ ناحیهٔ زنده"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -1601,7 +1601,7 @@ msgstr ""
 #. enabled.
 #: src/orca/cmdnames.py:798
 msgid "Monitor live regions"
-msgstr ""
+msgstr "پایش ناحیه‌های زنده"
 
 #. Translators: hovering the mouse over certain objects on a web page causes a
 #. new object to appear such as a pop-up menu. This command will move the user
@@ -1610,14 +1610,14 @@ msgstr ""
 #. mouse over and return the user to the object he/she was in.
 #: src/orca/cmdnames.py:805
 msgid "Move focus into and away from the current mouse over"
-msgstr ""
+msgstr "جابه‌جایی تمرکز به و از شناوری کنوین موشی"
 
 #. Translators: Orca allows you to dynamically define which row of a spreadsheet
 #. or table should be treated as containing column headers. This string refers to
 #. the command to set the row.
 #: src/orca/cmdnames.py:810
 msgid "Set the row to use as dynamic column headers"
-msgstr ""
+msgstr "تنظیم ردیف برای استفاده به عنوان سرایندهای ستون پویا"
 
 #. Translators: Orca allows you to dynamically define which row of a spreadsheet
 #. or table should be treated as containing column headers. This string refers to
@@ -1625,14 +1625,14 @@ msgstr ""
 #. column headers.
 #: src/orca/cmdnames.py:816
 msgid "Clear the dynamic column headers"
-msgstr ""
+msgstr "پاک سازی سرایندهای ستون پویا"
 
 #. Translators: Orca allows you to dynamically define which column of a
 #. spreadsheet or table should be treated as containing row headers. This
 #. string refers to the command to set the column.
 #: src/orca/cmdnames.py:821
 msgid "Set the column to use as dynamic row headers"
-msgstr ""
+msgstr "تنظیم ستون برای استفاده به عنوان سرایندهای ردیف پویا"
 
 #. Translators: Orca allows you to dynamically define which column of a
 #. spreadsheet or table should be treated as containing column headers. This
@@ -1640,13 +1640,13 @@ msgstr ""
 #. as if it contained row headers.
 #: src/orca/cmdnames.py:827
 msgid "Clear the dynamic row headers"
-msgstr ""
+msgstr "پاک سازی سرایندهای ردیف پویا"
 
 #. Translators: This string refers to an Orca command. The "input line" refers
 #. to the place where one enters formulas for a spreadsheet.
 #: src/orca/cmdnames.py:831
 msgid "Present the contents of the input line"
-msgstr ""
+msgstr "ارائه محتوای خط ورودی"
 
 #. Translators: the structural navigation keys are designed to move the caret
 #. around the document content by object type. Thus H moves you to the next
@@ -1655,7 +1655,7 @@ msgstr ""
 #. writing functions.
 #: src/orca/cmdnames.py:838
 msgid "Toggle structural navigation keys"
-msgstr ""
+msgstr "تغییر وضعیت کلیدهای ناوش ساختاری"
 
 #. Translators: Orca has commands for navigating within a table, e.g. to the
 #. next cell in a given direction. This string is the description of the command
@@ -1667,442 +1667,442 @@ msgstr "تغییر وضعیت کلیدهای _پیمایش جدول"
 #. Translators: this is for navigating among blockquotes in a document.
 #: src/orca/cmdnames.py:846
 msgid "Go to previous blockquote"
-msgstr ""
+msgstr "رفتن به نقل‌قول پیشین"
 
 #. Translators: this is for navigating among blockquotes in a document.
 #: src/orca/cmdnames.py:849
 msgid "Go to next blockquote"
-msgstr ""
+msgstr "رفتن به نقل‌قول بعدی"
 
 #. Translators: this is for navigating among blockquotes in a document.
 #: src/orca/cmdnames.py:852
 msgid "Display a list of blockquotes"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از نقل‌قول‌ها"
 
 #. Translators: this is for navigating among buttons in a document.
 #: src/orca/cmdnames.py:855
 msgid "Go to previous button"
-msgstr ""
+msgstr "رفتن به دکمهٔ پیشین"
 
 #. Translators: this is for navigating among buttons in a document.
 #: src/orca/cmdnames.py:858
 msgid "Go to next button"
-msgstr ""
+msgstr "رفتن به دکمهٔ بعدی"
 
 #. Translators: this is for navigating among buttons in a document.
 #: src/orca/cmdnames.py:861
 msgid "Display a list of buttons"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از دکمه‌ها"
 
 #. Translators: this is for navigating among check boxes in a document.
 #: src/orca/cmdnames.py:864
 msgid "Go to previous check box"
-msgstr ""
+msgstr "رفتن به کادر پیشین"
 
 #. Translators: this is for navigating among check boxes in a document.
 #: src/orca/cmdnames.py:867
 msgid "Go to next check box"
-msgstr ""
+msgstr "رفتن به کادر بعدی"
 
 #. Translators: this is for navigating among check boxes in a document.
 #: src/orca/cmdnames.py:870
 msgid "Display a list of check boxes"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از کادرها"
 
 #. Translators: this is for navigating among clickable objects in a document.
 #. A "clickable" is a web element with an "onClick" handler.
 #: src/orca/cmdnames.py:874
 msgid "Go to previous clickable"
-msgstr ""
+msgstr "رفتن به کلیک کردنی پیشین"
 
 #. Translators: this is for navigating among clickable objects in a document.
 #. A "clickable" is a web element with an "onClick" handler.
 #: src/orca/cmdnames.py:878
 msgid "Go to next clickable"
-msgstr ""
+msgstr "رفتن به کلیک کردنی بعدی"
 
 #. Translators: this is for navigating among clickable objects in a document.
 #. A "clickable" is a web element with an "onClick" handler.
 #: src/orca/cmdnames.py:882
 msgid "Display a list of clickables"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از کلیک کردنی‌ها"
 
 #. Translators: this is for navigating among combo boxes in a document.
 #: src/orca/cmdnames.py:885
 msgid "Go to previous combo box"
-msgstr ""
+msgstr "رفتن به جعبهٔ بازشوندهٔ پیشین"
 
 #. Translators: this is for navigating among combo boxes in a document.
 #: src/orca/cmdnames.py:888
 msgid "Go to next combo box"
-msgstr ""
+msgstr "رفتن به جعبهٔ بازشوندهٔ بعدی"
 
 #. Translators: This string describes a document navigation command which moves
 #. to the start of the current container. Examples of containers include tables,
 #. lists, and blockquotes.
 #: src/orca/cmdnames.py:893
 msgid "Go to start of container"
-msgstr ""
+msgstr "رفتن به آغاز بارگنج"
 
 #. Translators: This string describes a document navigation command which moves
 #. to the end of the current container. Examples of containers include tables,
 #. lists, and blockquotes.
 #: src/orca/cmdnames.py:898
 msgid "Go to end of container"
-msgstr ""
+msgstr "رفتن به پایان بارگنج"
 
 #. Translators: this is for navigating among combo boxes in a document.
 #: src/orca/cmdnames.py:901
 msgid "Display a list of combo boxes"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از جعبه‌های بازشونده"
 
 #. Translators: this is for navigating among entries in a document.
 #: src/orca/cmdnames.py:904
 msgid "Go to previous entry"
-msgstr ""
+msgstr "رفتن به ورودی پیشین"
 
 #. Translators: this is for navigating among entries in a document.
 #: src/orca/cmdnames.py:907
 msgid "Go to next entry"
-msgstr ""
+msgstr "رفتن به ورودی بعدی"
 
 #. Translators: this is for navigating among entries in a document.
 #: src/orca/cmdnames.py:910
 msgid "Display a list of entries"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از ورودی‌ها"
 
 #. Translators: this is for navigating among form fields in a document.
 #: src/orca/cmdnames.py:913
 msgid "Go to previous form field"
-msgstr ""
+msgstr "رفتن به زمینهٔ پیشین"
 
 #. Translators: this is for navigating among form fields in a document.
 #: src/orca/cmdnames.py:916
 msgid "Go to next form field"
-msgstr ""
+msgstr "رفتن به زمینهٔ بعدی"
 
 #. Translators: this is for navigating among form fields in a document.
 #: src/orca/cmdnames.py:919
 msgid "Display a list of form fields"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از زمینه‌ها"
 
 #. Translators: this is for navigating among headings (e.g. <h1>) in a document.
 #: src/orca/cmdnames.py:922
 msgid "Go to previous heading"
-msgstr ""
+msgstr "رفتن به عنوان پیشین"
 
 #. Translators: this is for navigating among headings (e.g. <h1>) in a document.
 #: src/orca/cmdnames.py:925
 msgid "Go to next heading"
-msgstr ""
+msgstr "رفتن به عنوان بعدی"
 
 #. Translators: this is for navigating among headings (e.g. <h1>) in a document.
 #: src/orca/cmdnames.py:928
 msgid "Display a list of headings"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از عنوان‌ها"
 
 #. Translators: this is for navigating among headings (e.g. <h1>) in a document.
 #. <h1> is a heading at level 1, <h2> is a heading at level 2, etc.
 #: src/orca/cmdnames.py:932
 #, python-format
 msgid "Go to previous heading at level %d"
-msgstr ""
+msgstr "رفتن به عنوان پیشین در سطح %d"
 
 #. Translators: this is for navigating among headings (e.g. <h1>) in a document.
 #. <h1> is a heading at level 1, <h2> is a heading at level 2, etc.
 #: src/orca/cmdnames.py:936
 #, python-format
 msgid "Go to next heading at level %d"
-msgstr ""
+msgstr "رفتن به عنوان بعدی در سطح %d"
 
 #. Translators: this is for navigating among headings (e.g. <h1>) in a document.
 #. <h1> is a heading at level 1, <h2> is a heading at level 2, etc.
 #: src/orca/cmdnames.py:940
 #, python-format
 msgid "Display a list of headings at level %d"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از عنوان‌ها در سطح %d"
 
 #. Translators: this is for navigating among iframes in a document.
 #: src/orca/cmdnames.py:943
 msgid "Go to previous internal frame"
-msgstr ""
+msgstr "رفتن به قاب درونی پیشین"
 
 #. Translators: this is for navigating among iframes in a document.
 #: src/orca/cmdnames.py:946
 msgid "Go to next internal frame"
-msgstr ""
+msgstr "رفتن به قاب درونی بعدی"
 
 #. Translators: this is for navigating among images in a document.
 #: src/orca/cmdnames.py:949
 msgid "Display a list of internal frames"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از قاب‌های درونی"
 
 #. Translators: this is for navigating among images in a document.
 #: src/orca/cmdnames.py:952
 msgid "Go to previous image"
-msgstr ""
+msgstr "رفتن به تصویر پیشین"
 
 #. Translators: this is for navigating among images in a document.
 #: src/orca/cmdnames.py:955
 msgid "Go to next image"
-msgstr ""
+msgstr "رفتن به تصویر بعدی"
 
 #. Translators: this is for navigating among images in a document.
 #: src/orca/cmdnames.py:958
 msgid "Display a list of images"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از تصویرها"
 
 #. Translators: this is for navigating among ARIA landmarks in a document. ARIA
 #. role landmarks are the W3C defined HTML tag attribute 'role' used to identify
 #. important part of webpage like banners, main context, search etc.
 #: src/orca/cmdnames.py:963
 msgid "Go to previous landmark"
-msgstr ""
+msgstr "رفتن به نشانهٔ پیشین"
 
 #. Translators: this is for navigating among ARIA landmarks in a document. ARIA
 #. role landmarks are the W3C defined HTML tag attribute 'role' used to identify
 #. important part of webpage like banners, main context, search etc.
 #: src/orca/cmdnames.py:968
 msgid "Go to next landmark"
-msgstr ""
+msgstr "رفتن به نشانهٔ بعدی"
 
 #. Translators: this is for navigating among ARIA landmarks in a document. ARIA
 #. role landmarks are the W3C defined HTML tag attribute 'role' used to identify
 #. important part of webpage like banners, main context, search etc.
 #: src/orca/cmdnames.py:973
 msgid "Display a list of landmarks"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از نشانه‌ها"
 
 #. Translators: this is for navigating among large objects in a document.
 #. A 'large object' is a logical chunk of text, such as a paragraph, a list,
 #. a table, etc.
 #: src/orca/cmdnames.py:978
 msgid "Go to previous large object"
-msgstr ""
+msgstr "رفتن به شی بزرگ پیشین"
 
 #. Translators: this is for navigating among large objects in a document.
 #. A 'large object' is a logical chunk of text, such as a paragraph, a list,
 #. a table, etc.
 #: src/orca/cmdnames.py:983
 msgid "Go to next large object"
-msgstr ""
+msgstr "رفتن به شی بزرگ بعدی"
 
 #. Translators: this is for navigating among large objects in a document.
 #. A 'large object' is a logical chunk of text, such as a paragraph, a list,
 #. a table, etc.
 #: src/orca/cmdnames.py:988
 msgid "Display a list of large objects"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از شی‌های بزرگ"
 
 #. Translators: this is for navigating among links in a document.
 #: src/orca/cmdnames.py:991
 msgid "Go to previous link"
-msgstr ""
+msgstr "رفتن به پیوند پیشین"
 
 #. Translators: this is for navigating among links in a document.
 #: src/orca/cmdnames.py:994
 msgid "Go to next link"
-msgstr ""
+msgstr "رفتن به پیوند بعدی"
 
 #. Translators: this is for navigating among links in a document.
 #: src/orca/cmdnames.py:997
 msgid "Display a list of links"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از پیوندها"
 
 #. Translators: this is for navigating among lists in a document.
 #: src/orca/cmdnames.py:1000
 msgid "Go to previous list"
-msgstr ""
+msgstr "رفتن به سیاههٔ پیشین"
 
 #. Translators: this is for navigating among lists in a document.
 #: src/orca/cmdnames.py:1003
 msgid "Go to next list"
-msgstr ""
+msgstr "رفتن به سیاههٔ بعدی"
 
 #. Translators: this is for navigating among lists in a document.
 #: src/orca/cmdnames.py:1006
 msgid "Display a list of lists"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از سیاهه‌ها"
 
 #. Translators: this is for navigating among list items in a document.
 #: src/orca/cmdnames.py:1009
 msgid "Go to previous list item"
-msgstr ""
+msgstr "رفتن به مورد سیاههٔ پیشین"
 
 #. Translators: this is for navigating among list items in a document.
 #: src/orca/cmdnames.py:1012
 msgid "Go to next list item"
-msgstr ""
+msgstr "رفتن به مورد سیاههٔ بعدی"
 
 #. Translators: this is for navigating among list items in a document.
 #: src/orca/cmdnames.py:1015
 msgid "Display a list of list items"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از موردهای سیاهه"
 
 #. Translators: this is for navigating among live regions in a document. A live
 #. region is an area of a web page that is periodically updated, e.g. a stock
 #. ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
 #: src/orca/cmdnames.py:1020
 msgid "Go to previous live region"
-msgstr ""
+msgstr "رفتن به ناحیهٔ زندهٔ پیشین"
 
 #. Translators: this is for navigating among live regions in a document. A live
 #. region is an area of a web page that is periodically updated, e.g. a stock
 #. ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
 #: src/orca/cmdnames.py:1025
 msgid "Go to next live region"
-msgstr ""
+msgstr "رفتن به ناحیهٔ زندهٔ بعدی"
 
 #. Translators: this is for navigating among live regions in a document. A live
 #. region is an area of a web page that is periodically updated, e.g. a stock
 #. ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
 #: src/orca/cmdnames.py:1030
 msgid "Go to the last live region which made an announcement"
-msgstr ""
+msgstr "رفتن به آخرین ناحیهٔ زنده‌ای که اعلامیه داده"
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy.
 #: src/orca/cmdnames.py:1034
 msgid "Go to the parent of the object with navigator focus."
-msgstr ""
+msgstr "رفتن به والد شی‌ای با تمرکز ناوشگر."
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy.
 #: src/orca/cmdnames.py:1038
 msgid "Go to the first child of the object with navigator focus."
-msgstr ""
+msgstr "رفتن به نخستین فرزند شی‌ای با تمرکز ناوشگر."
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy.
 #: src/orca/cmdnames.py:1042
 msgid "Go to the next sibling of the object with navigator focus."
-msgstr ""
+msgstr "رفتن به همشیر بعدی شی‌ای با تمرکز ناوشگر."
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy.
 #: src/orca/cmdnames.py:1046
 msgid "Go to the previous sibling of the object with navigator focus."
-msgstr ""
+msgstr "رفتن به همشیر پیشین شی‌ای با تمرکز ناوشگر."
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy. Users are also able to synthesize a click on the objects.
 #: src/orca/cmdnames.py:1050
 msgid "Click on the object with navigator focus."
-msgstr ""
+msgstr "کلیک روی شی‌ای با تمرکز ناوشگر."
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy. This hierarchy can be simplified, and the simplification can be
 #. toggled on and off.
 #: src/orca/cmdnames.py:1055
 msgid "Toggle simplified object navigation."
-msgstr ""
+msgstr "تغییر وضعیت ناوش شی ساده شده."
 
 #. Translators: this is for navigating among paragraphs in a document.
 #: src/orca/cmdnames.py:1058
 msgid "Go to previous paragraph"
-msgstr ""
+msgstr "رفتن به بند پیشین"
 
 #. Translators: this is for navigating among paragraphs in a document.
 #: src/orca/cmdnames.py:1061
 msgid "Go to next paragraph"
-msgstr ""
+msgstr "رفتن به بند بعدی"
 
 #. Translators: this is for navigating among paragraphs in a document.
 #: src/orca/cmdnames.py:1064
 msgid "Display a list of paragraphs"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از بندها"
 
 #. Translators: this is for navigating among radio buttons in a document.
 #: src/orca/cmdnames.py:1067
 msgid "Go to previous radio button"
-msgstr ""
+msgstr "رفتن به دکمهٔ رادیویی پیشین"
 
 #. Translators: this is for navigating among radio buttons in a document.
 #: src/orca/cmdnames.py:1070
 msgid "Go to next radio button"
-msgstr ""
+msgstr "رفتن به دکمهٔ رادیویی بعدی"
 
 #. Translators: this is for navigating among radio buttons in a document.
 #: src/orca/cmdnames.py:1073
 msgid "Display a list of radio buttons"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از دکمه‌های رادیویی"
 
 #. Translators: this is for navigating among separators (e.g. <hr>) in a
 #. document.
 #: src/orca/cmdnames.py:1077
 msgid "Go to previous separator"
-msgstr ""
+msgstr "رفتن به جداساز پیشین"
 
 #. Translators: this is for navigating among separators (e.g. <hr>) in a
 #. document.
 #: src/orca/cmdnames.py:1081
 msgid "Go to next separator"
-msgstr ""
+msgstr "رفتن به جداساز بعدی"
 
 #. Translators: this is for navigating among tables in a document.
 #: src/orca/cmdnames.py:1084
 msgid "Go to previous table"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از جداسازها"
 
 #. Translators: this is for navigating among tables in a document.
 #: src/orca/cmdnames.py:1087
 msgid "Go to next table"
-msgstr ""
+msgstr "رفتن به جدول بعدی"
 
 #. Translators: this is for navigating among tables in a document.
 #: src/orca/cmdnames.py:1090
 msgid "Display a list of tables"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از جدول‌ها"
 
 #. Translators: this is for navigating among table cells in a document.
 #: src/orca/cmdnames.py:1093
 msgid "Go down one cell"
-msgstr ""
+msgstr "یک خانه به پایین رفتن"
 
 #. Translators: this is for navigating among table cells in a document.
 #: src/orca/cmdnames.py:1096
 msgid "Go to the first cell in a table"
-msgstr ""
+msgstr "رفتن به نخستین خانهٔ حدول"
 
 #. Translators: this is for navigating among table cells in a document.
 #: src/orca/cmdnames.py:1099
 msgid "Go to the last cell in a table"
-msgstr ""
+msgstr "رفتن به آخرین خانهٔ حدول"
 
 #. Translators: this is for navigating among table cells in a document.
 #: src/orca/cmdnames.py:1102
 msgid "Go left one cell"
-msgstr ""
+msgstr "یک خانه به چپ رفتن"
 
 #. Translators: this is for navigating among table cells in a document.
 #: src/orca/cmdnames.py:1105
 msgid "Go right one cell"
-msgstr ""
+msgstr "یک خانه به راست رفتن"
 
 #. Translators: this is for navigating among table cells in a document.
 #: src/orca/cmdnames.py:1108
 msgid "Go up one cell"
-msgstr ""
+msgstr "یک خانه به بالا رفتن"
 
 #. Translators: this is for navigating among table cells in a document.
 #: src/orca/cmdnames.py:1111
 msgid "Go to the beginning of the row"
-msgstr ""
+msgstr "رفتن به آغاز ردیف"
 
 #. Translators: this is for navigating among table cells in a document.
 #: src/orca/cmdnames.py:1114
 msgid "Go to the end of the row"
-msgstr ""
+msgstr "رفتن به پایان ردیف"
 
 #. Translators: this is for navigating among table cells in a document.
 #: src/orca/cmdnames.py:1117
 msgid "Go to the top of the column"
-msgstr ""
+msgstr "رفتن به بالای ستون"
 
 #. Translators: this is for navigating among table cells in a document.
 #: src/orca/cmdnames.py:1120
 msgid "Go to the bottom of the column"
-msgstr ""
+msgstr "رفتن به پایین ستون"
 
 #. Translators: When presenting the content of a line on a web page, Orca by
 #. default presents the full line, including any links or form fields on that
@@ -2117,7 +2117,7 @@ msgstr ""
 #. command to manually toggle layout mode on/off.
 #: src/orca/cmdnames.py:1133
 msgid "Toggle layout mode"
-msgstr ""
+msgstr "تغییر وضعیت حالت چینش"
 
 #. Translators: Orca has a number of commands that override the default
 #. behavior within an application. For instance, on a web page, "h" moves
@@ -2135,7 +2135,7 @@ msgstr ""
 #. between these two modes.
 #: src/orca/cmdnames.py:1149
 msgid "Switch between browse mode and focus mode"
-msgstr ""
+msgstr "تعویض بین حالت مرور و حالت تمرکز"
 
 #. Translators: (Please see the previous, detailed translator notes about
 #. Focus mode and Browse mode.) In order to minimize the amount of work Orca
@@ -2148,7 +2148,7 @@ msgstr ""
 #. This string is associated with the Orca command to enable sticky focus mode.
 #: src/orca/cmdnames.py:1160
 msgid "Enable sticky focus mode"
-msgstr ""
+msgstr "به کار انداختن حالت تمرکز چسبناک"
 
 #. Translators: (Please see the previous, detailed translator notes about
 #. Focus mode and Browse mode.) In order to minimize the amount of work Orca
@@ -2161,37 +2161,37 @@ msgstr ""
 #. This string is associated with the Orca command to enable sticky browse mode.
 #: src/orca/cmdnames.py:1171
 msgid "Enable sticky browse mode"
-msgstr ""
+msgstr "به کار انداختن حالت مروز  چسبناک"
 
 #. Translators: this is for navigating among unvisited links in a document.
 #: src/orca/cmdnames.py:1174
 msgid "Go to previous unvisited link"
-msgstr ""
+msgstr "رفتن به پیوند دیده نشدهٔ پیشین"
 
 #. Translators: this is for navigating among unvisited links in a document.
 #: src/orca/cmdnames.py:1177
 msgid "Go to next unvisited link"
-msgstr ""
+msgstr "رفتن به پیوند دیده نشدهٔ بعدی"
 
 #. Translators: this is for navigating among unvisited links in a document.
 #: src/orca/cmdnames.py:1180
 msgid "Display a list of unvisited links"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از پیوندهای دیده نشده"
 
 #. Translators: this is for navigating among visited links in a document.
 #: src/orca/cmdnames.py:1183
 msgid "Go to previous visited link"
-msgstr ""
+msgstr "رفتن به پیوند دیده شدهٔ پیشین"
 
 #. Translators: this is for navigating among visited links in a document.
 #: src/orca/cmdnames.py:1186
 msgid "Go to next visited link"
-msgstr ""
+msgstr "رفتن به پیوند دیده شدهٔ بعدی"
 
 #. Translators: this is for navigating among visited links in a document.
 #: src/orca/cmdnames.py:1189
 msgid "Display a list of visited links"
-msgstr ""
+msgstr "نمایش سیاهه‌ای از پیوندهای دیده شده"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2239,7 +2239,7 @@ msgstr "بژ"
 #: src/orca/colornames.py:60
 msgctxt "color name"
 msgid "bisque"
-msgstr ""
+msgstr "کرم"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2255,7 +2255,7 @@ msgstr "سیاه"
 #: src/orca/colornames.py:70
 msgctxt "color name"
 msgid "blanched almond"
-msgstr ""
+msgstr "کاهگلی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2287,7 +2287,7 @@ msgstr "قهوه‌ای"
 #: src/orca/colornames.py:90
 msgctxt "color name"
 msgid "burlywood"
-msgstr ""
+msgstr "خاکی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2295,7 +2295,7 @@ msgstr ""
 #: src/orca/colornames.py:95
 msgctxt "color name"
 msgid "cadet blue"
-msgstr ""
+msgstr "آبی لجنی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2303,7 +2303,7 @@ msgstr ""
 #: src/orca/colornames.py:100
 msgctxt "color name"
 msgid "chartreuse"
-msgstr ""
+msgstr "سبز روشن"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2327,7 +2327,7 @@ msgstr "مرجانی"
 #: src/orca/colornames.py:115
 msgctxt "color name"
 msgid "cornflower blue"
-msgstr ""
+msgstr "آبی کدر"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2335,7 +2335,7 @@ msgstr ""
 #: src/orca/colornames.py:120
 msgctxt "color name"
 msgid "cornsilk"
-msgstr ""
+msgstr "کاهی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2375,7 +2375,7 @@ msgstr "فیروزه‌ای تیره"
 #: src/orca/colornames.py:145
 msgctxt "color name"
 msgid "dark goldenrod"
-msgstr ""
+msgstr "ماشی سیر"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2431,7 +2431,7 @@ msgstr "نارنجی تیره"
 #: src/orca/colornames.py:180
 msgctxt "color name"
 msgid "dark orchid"
-msgstr ""
+msgstr "یاسی تیره"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2447,7 +2447,7 @@ msgstr "قرمز تیره"
 #: src/orca/colornames.py:190
 msgctxt "color name"
 msgid "dark salmon"
-msgstr ""
+msgstr "حناییِ روشن"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2463,7 +2463,7 @@ msgstr "سبز دریایی تیره"
 #: src/orca/colornames.py:200
 msgctxt "color name"
 msgid "dark slate blue"
-msgstr ""
+msgstr "آبی سنگی تیره"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2471,7 +2471,7 @@ msgstr ""
 #: src/orca/colornames.py:205
 msgctxt "color name"
 msgid "dark slate gray"
-msgstr ""
+msgstr "خاکستری سنگی تیره"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2519,7 +2519,7 @@ msgstr "خاکستری تاریک"
 #: src/orca/colornames.py:235
 msgctxt "color name"
 msgid "dodger blue"
-msgstr ""
+msgstr "نیلی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2559,7 +2559,7 @@ msgstr "ارغوانی"
 #: src/orca/colornames.py:260
 msgctxt "color name"
 msgid "gainsboro"
-msgstr ""
+msgstr "خاکستری مات"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2583,7 +2583,7 @@ msgstr "طلایی"
 #: src/orca/colornames.py:275
 msgctxt "color name"
 msgid "goldenrod"
-msgstr ""
+msgstr "خردلی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2671,7 +2671,7 @@ msgstr "اسطخودوسی"
 #: src/orca/colornames.py:330
 msgctxt "color name"
 msgid "lavender blush"
-msgstr ""
+msgstr "صورتی مات"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2687,7 +2687,7 @@ msgstr "سبز چمنی"
 #: src/orca/colornames.py:340
 msgctxt "color name"
 msgid "lemon chiffon"
-msgstr ""
+msgstr "شیرشکری"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2719,7 +2719,7 @@ msgstr "فیروزه‌ای روشن"
 #: src/orca/colornames.py:360
 msgctxt "color name"
 msgid "light goldenrod yellow"
-msgstr ""
+msgstr "لیمویی روشن"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2775,7 +2775,7 @@ msgstr "آبی آسمانی روشن"
 #: src/orca/colornames.py:395
 msgctxt "color name"
 msgid "light slate gray"
-msgstr ""
+msgstr "خاکستری سنگی روشن"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2855,7 +2855,7 @@ msgstr "آبی متوسّط"
 #: src/orca/colornames.py:445
 msgctxt "color name"
 msgid "medium orchid"
-msgstr ""
+msgstr "یاسی سیر"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2879,7 +2879,7 @@ msgstr "سبز دریایی متوسّط"
 #: src/orca/colornames.py:460
 msgctxt "color name"
 msgid "medium slate blue"
-msgstr ""
+msgstr "آبی متالیک روشن"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2927,7 +2927,7 @@ msgstr "کرم نعنایی"
 #: src/orca/colornames.py:490
 msgctxt "color name"
 msgid "misty rose"
-msgstr ""
+msgstr "بژ"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2935,7 +2935,7 @@ msgstr ""
 #: src/orca/colornames.py:495
 msgctxt "color name"
 msgid "moccasin"
-msgstr ""
+msgstr "هلویی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2959,7 +2959,7 @@ msgstr "دریایی"
 #: src/orca/colornames.py:510
 msgctxt "color name"
 msgid "old lace"
-msgstr ""
+msgstr "بژ روشن"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2975,7 +2975,7 @@ msgstr "زیتونی"
 #: src/orca/colornames.py:520
 msgctxt "color name"
 msgid "olive drab"
-msgstr ""
+msgstr "سبز ارتشی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -2999,7 +2999,7 @@ msgstr "قرمز نارنجی"
 #: src/orca/colornames.py:535
 msgctxt "color name"
 msgid "orchid"
-msgstr ""
+msgstr "یاسی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -3007,7 +3007,7 @@ msgstr ""
 #: src/orca/colornames.py:540
 msgctxt "color name"
 msgid "pale goldenrod"
-msgstr ""
+msgstr "نخودی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -3039,7 +3039,7 @@ msgstr "قرمز بنفش رنگ‌پریده"
 #: src/orca/colornames.py:560
 msgctxt "color name"
 msgid "papaya whip"
-msgstr ""
+msgstr "هلویی روشن"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -3047,7 +3047,7 @@ msgstr ""
 #: src/orca/colornames.py:565
 msgctxt "color name"
 msgid "peach puff"
-msgstr ""
+msgstr "هلویی پررنگ"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -3055,7 +3055,7 @@ msgstr ""
 #: src/orca/colornames.py:570
 msgctxt "color name"
 msgid "peru"
-msgstr ""
+msgstr "بادامی سیر"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -3119,7 +3119,7 @@ msgstr "آبی سلطنتی"
 #: src/orca/colornames.py:610
 msgctxt "color name"
 msgid "saddle brown"
-msgstr ""
+msgstr "کاکایویی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -3159,7 +3159,7 @@ msgstr "صدفی"
 #: src/orca/colornames.py:635
 msgctxt "color name"
 msgid "sienna"
-msgstr ""
+msgstr "قهوه‌ای متوسّط"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -3183,7 +3183,7 @@ msgstr "آبی آسمانی"
 #: src/orca/colornames.py:650
 msgctxt "color name"
 msgid "slate blue"
-msgstr ""
+msgstr "آبی سنگی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -3191,7 +3191,7 @@ msgstr ""
 #: src/orca/colornames.py:655
 msgctxt "color name"
 msgid "slate gray"
-msgstr ""
+msgstr "خاکستی سنگی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -3231,7 +3231,7 @@ msgstr "برنزی"
 #: src/orca/colornames.py:680
 msgctxt "color name"
 msgid "teal"
-msgstr ""
+msgstr "سبزآبی"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -3239,7 +3239,7 @@ msgstr ""
 #: src/orca/colornames.py:685
 msgctxt "color name"
 msgid "thistle"
-msgstr ""
+msgstr "بادمجانی روشن"
 
 #. Translators: This refers to a CSS color name. The name, hex value, and color
 #. can be found at http://www.w3schools.com/cssref/css_colornames.asp and at
@@ -3333,7 +3333,7 @@ msgstr "_فعّال‌سازی"
 #. a navigation command to move amongst entries.
 #: src/orca/guilabels.py:58
 msgid "Automatic focus mode during structural navigation"
-msgstr ""
+msgstr "حالت تمرکز خودکار در طول ناوش ساختاری"
 
 #. Translators: Orca has a number of commands that override the default behavior
 #. within an application. For instance, if you are at the bottom of an entry and
@@ -3353,7 +3353,7 @@ msgstr ""
 #. of the entry.
 #: src/orca/guilabels.py:76
 msgid "Automatic focus mode during caret navigation"
-msgstr ""
+msgstr "حالت تمرکز خودکار در طول ناوش مکان‌نمایی"
 
 #. Translators: Orca has a number of commands that override the default behavior
 #. within an application. For instance, if you are at the bottom of an entry and
@@ -3370,7 +3370,7 @@ msgstr ""
 #. automatically gaining focus when the page loads.
 #: src/orca/guilabels.py:91
 msgid "Automatic focus mode during native navigation"
-msgstr ""
+msgstr "حالت تمرکز خودکار در طول ناوش بومی"
 
 #. Translators: A single braille cell on a refreshable braille display consists
 #. of 8 dots. Dot 7 is the dot in the bottom left corner. If the user selects
@@ -3379,7 +3379,7 @@ msgstr ""
 #: src/orca/guilabels.py:97 src/orca/orca-setup.ui:2292 src/orca/orca-setup.ui:2392
 #: src/orca/orca-setup.ui:3311
 msgid "Dot _7"
-msgstr ""
+msgstr "نقطهٔ _۷"
 
 #. Translators: A single braille cell on a refreshable braille display consists
 #. of 8 dots. Dot 8 is the dot in the bottom right corner. If the user selects
@@ -3388,7 +3388,7 @@ msgstr ""
 #: src/orca/guilabels.py:103 src/orca/orca-setup.ui:2308
 #: src/orca/orca-setup.ui:2408 src/orca/orca-setup.ui:3327
 msgid "Dot _8"
-msgstr ""
+msgstr "نقطهٔ _۸"
 
 #. Translators: A single braille cell on a refreshable braille display consists
 #. of 8 dots. Dots 7-8 are the dots at the bottom. If the user selects this
@@ -3397,7 +3397,7 @@ msgstr ""
 #: src/orca/guilabels.py:109 src/orca/orca-setup.ui:2324
 #: src/orca/orca-setup.ui:2424 src/orca/orca-setup.ui:3343
 msgid "Dots 7 an_d 8"
-msgstr ""
+msgstr "نقطه‌های ۷ _و ۸"
 
 #. Translators: This is the label for a button in a dialog.
 #: src/orca/guilabels.py:112 src/orca/orca-setup.ui:176
@@ -3451,14 +3451,14 @@ msgstr "تلفّظ"
 #. your buddies is typing a message.
 #: src/orca/guilabels.py:146
 msgid "Announce when your _buddies are typing"
-msgstr ""
+msgstr "اعلام نوشتن _دوستانتان"
 
 #. Translators: If this checkbox is checked, then Orca will provide the user with
 #. chat room specific message histories rather than just a single history which
 #. contains the latest messages from all the chat rooms that they are in.
 #: src/orca/guilabels.py:151
 msgid "Provide chat room specific _message histories"
-msgstr ""
+msgstr "فراهم کردن تاریخچهٔ _پیام‌های مخصوص اتاق گپ"
 
 #. Translators: This is the label of a panel holding options for how messages in
 #. this application's chat rooms should be spoken. The options are: Speak messages
@@ -3467,14 +3467,14 @@ msgstr ""
 #. any channel, but only if the chat application has focus.
 #: src/orca/guilabels.py:158
 msgid "Speak messages from"
-msgstr ""
+msgstr "گفتن پیام‌ها از"
 
 #. Translators: This is the label of a radio button. If it is selected, Orca will
 #. speak all new chat messages as they appear irrespective of whether or not the
 #. chat application currently has focus. This is the default behaviour.
 #: src/orca/guilabels.py:163
 msgid "All cha_nnels"
-msgstr ""
+msgstr "همهٔ _کانال‌ها"
 
 #. Translators: This is the label of a radio button. If it is selected, Orca will
 #. speak all new chat messages as they appear if and only if the chat application
@@ -3482,20 +3482,20 @@ msgstr ""
 #: src/orca/guilabels.py:168
 #, python-format
 msgid "All channels when an_y %s window is active"
-msgstr ""
+msgstr "همهٔ کانال‌ها هنگام فعّال بودن _هر پنجرهٔ %s"
 
 #. Translators: This is the label of a radio button. If it is selected, Orca will
 #. only speak new chat messages for the currently active channel, irrespective of
 #. whether the chat application has focus.
 #: src/orca/guilabels.py:173
 msgid "A channel only if its _window is active"
-msgstr ""
+msgstr "همهٔ کانال‌ها فقط در صورت فعّال بودن _پنجره‌اش"
 
 #. Translators: If this checkbox is checked, then Orca will speak the name of the
 #. chat room prior to presenting an incoming message.
 #: src/orca/guilabels.py:177
 msgid "_Speak Chat Room name"
-msgstr ""
+msgstr "_گقتن نام اتاق گپ"
 
 #. Translators: When presenting the content of a line on a web page, Orca by
 #. default presents the full line, including any links or form fields on that
@@ -3509,7 +3509,7 @@ msgstr ""
 #. both for presentation and navigation.
 #: src/orca/guilabels.py:189
 msgid "Enable layout mode for content"
-msgstr ""
+msgstr "به کار انداختن حالت جینش برای محتوا"
 
 #. Translators: Orca's keybindings support double and triple "clicks" or key
 #. presses, similar to using a mouse. This string appears in Orca's preferences
@@ -3539,7 +3539,7 @@ msgstr "سه‌بار کلیک"
 #. select a particular speech engine by its real name (Festival, IBMTTS, etc.)
 #: src/orca/guilabels.py:205
 msgid "Default Synthesizer"
-msgstr ""
+msgstr "ترکیبگر پیش‌گزیده"
 
 #. Translators: This is a label for a column header in Orca's pronunciation
 #. dictionary. The pronunciation dictionary allows the user to correct words
@@ -3549,7 +3549,7 @@ msgstr ""
 #. corrected as it would actually appear in text being read. Example: "LOL".
 #: src/orca/guilabels.py:213
 msgid "Actual String"
-msgstr ""
+msgstr "رشتهٔ اصلی"
 
 #. Translators: This is a label for a column header in Orca's pronunciation
 #. dictionary. The pronunciation dictionary allows the user to correct words
@@ -3560,7 +3560,7 @@ msgstr ""
 #. Example: "L O L" or "Laughing Out Loud" (for Actual String "LOL").
 #: src/orca/guilabels.py:222
 msgid "Replacement String"
-msgstr ""
+msgstr "رشتهٔ جایگزین"
 
 #. Translators: Orca has an "echo" feature to present text as it is being written
 #. by the user. While Orca's "key echo" options present the actual keyboard keys
@@ -3569,7 +3569,7 @@ msgstr ""
 #. Translators: When this option is enabled, inserted text of length 1 is spoken.
 #: src/orca/guilabels.py:228 src/orca/orca-setup.ui:2793
 msgid "Enable echo by cha_racter"
-msgstr ""
+msgstr "به کار انداختن پژواک با _نویسه"
 
 #. Translators: Orca has an "echo" feature to present text as it is being written
 #. by the user. This string refers to a "key echo" option. When this option is
@@ -3577,7 +3577,7 @@ msgstr ""
 #. Translators: When this option is enabled, dead keys will be announced when pressed.
 #: src/orca/guilabels.py:233 src/orca/orca-setup.ui:2767
 msgid "Enable non-spacing _diacritical keys"
-msgstr ""
+msgstr "به کار انداختن کلید _سخنگوی بی‌فاصله"
 
 #. Translators: Orca has a "find" feature which allows the user to search the
 #. active application for on screen text and widgets. This string is the title
@@ -3607,7 +3607,7 @@ msgstr "آغاز از:"
 #. than from the top of the window.
 #: src/orca/guilabels.py:256
 msgid "C_urrent location"
-msgstr ""
+msgstr "مکان _کنونی"
 
 #. Translators: Orca has a "find" feature which allows the user to search the
 #. active application for on screen text and widgets. This label is associated
@@ -3667,7 +3667,7 @@ msgstr "فقط تطبیق واژهٔ _کامل"
 #. speaks the line that contains the results from an application's Find toolbar.
 #: src/orca/guilabels.py:300
 msgid "Minimum length of matched text:"
-msgstr ""
+msgstr "کمینهٔ درازای متن مزابق:"
 
 #. Translators: This is the label of a panel containing options for what Orca
 #. presents when the user is in the Find toolbar of an application, e.g. Firefox.
@@ -3681,7 +3681,7 @@ msgstr "گزینه‌های یافتن"
 #. which contained the last match.
 #: src/orca/guilabels.py:310
 msgid "Onl_y speak changed lines during find"
-msgstr ""
+msgstr "_فقط گفتن خط‌های تغییر یافته در طول یافتن"
 
 #. Translators: This is the label for a checkbox. This option controls whether or
 #. not Orca will automatically speak the line that contains the match while the
@@ -3689,7 +3689,7 @@ msgstr ""
 #. Firefox.
 #: src/orca/guilabels.py:316
 msgid "Speak results during _find"
-msgstr ""
+msgstr "گفتن نتیجه‌ها در طول یافتن"
 
 #. Translators: Command is a table column header where the cells in the column
 #. are a sentence that briefly describes what action Orca will take if and when
@@ -3703,7 +3703,7 @@ msgstr "فرمان"
 #. commands.
 #: src/orca/guilabels.py:326
 msgid "Key Binding"
-msgstr ""
+msgstr "ترکیب کلید"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. can be used in any setting, task, or application. They are not specific
@@ -3734,7 +3734,7 @@ msgstr "کنش‌ها"
 #. buttons.
 #: src/orca/guilabels.py:347
 msgid "Braille Bindings"
-msgstr ""
+msgstr "ترکیب‌های بریل"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. are related to saving and jumping among objects via "bookmarks".
@@ -3746,7 +3746,7 @@ msgstr "نشانک‌ها"
 #. are related to presenting the date and time.
 #: src/orca/guilabels.py:355
 msgid "Date and time"
-msgstr ""
+msgstr "تاریخ و زمان"
 
 #. Translators: Orca has a sleep mode which causes Orca to essentially behave as
 #. if it were not running for a given application. Some use cases include self-
@@ -3770,7 +3770,7 @@ msgstr "حالت خواب"
 #. used in cmdnames.py.
 #: src/orca/guilabels.py:375
 msgid "Mouse review"
-msgstr ""
+msgstr "بازبینی موشی"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. are related to object navigation.
@@ -3799,13 +3799,13 @@ msgstr "پیمایش جدول"
 #. text in the currently-focused object; etc.
 #: src/orca/guilabels.py:396
 msgid "Object details"
-msgstr ""
+msgstr "جزییات شی"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. do not currently have an associated key binding.
 #: src/orca/guilabels.py:400
 msgid "Unbound"
-msgstr ""
+msgstr "بی‌قید"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. are related to Orca's "flat review" feature. This feature allows the blind
@@ -3816,7 +3816,7 @@ msgstr ""
 #. Those commands are all listed under this group label.
 #: src/orca/guilabels.py:409
 msgid "Flat review"
-msgstr ""
+msgstr "بازبینی تخت"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. are related to Orca's speech and verbosity settings. This group of commands
@@ -3825,7 +3825,7 @@ msgstr ""
 #. are spoken.
 #: src/orca/guilabels.py:416
 msgid "Speech and verbosity"
-msgstr ""
+msgstr "گفتار و پرگویی"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -3838,7 +3838,7 @@ msgstr ""
 #. and copy the text. This string is the title of the window with the text view.
 #: src/orca/guilabels.py:427
 msgid "Flat review contents"
-msgstr ""
+msgstr "محتوای بازبینی تخت"
 
 #. Translators: Modified is a table column header in Orca's preferences dialog.
 #. This column contains a checkbox which indicates whether a key binding
@@ -3880,7 +3880,7 @@ msgstr "دریافت شد"
 #. are associated with presenting notifications.
 #: src/orca/guilabels.py:456
 msgid "Notification presenter"
-msgstr ""
+msgstr "ارائه کنندهٔ آگاهی"
 
 #. Translators: Orca's preferences can be configured on a per-application basis,
 #. allowing users to customize Orca's behavior, keybindings, etc. to work one
@@ -3891,7 +3891,7 @@ msgstr ""
 #: src/orca/guilabels.py:464
 #, python-format
 msgid "Screen Reader Preferences for %s"
-msgstr ""
+msgstr "ترجیحات صفحه‌خوان برای %s"
 
 #. Translators: This is a table column header. This column consists of a single
 #. checkbox. If the checkbox is checked, Orca will indicate the associated item
@@ -3900,7 +3900,7 @@ msgstr ""
 #. "underlining" with braille dots 7-8 a word that is bold.
 #: src/orca/guilabels.py:471
 msgid "Mark in braille"
-msgstr ""
+msgstr "نشانه‌گذاری در بریل"
 
 #. Translators: "Present Unless" is a column header of the text attributes panel
 #. of the Orca preferences dialog. On this panel, the user can select a set of
@@ -3914,7 +3914,7 @@ msgstr ""
 #. when it's not underlined). "Present" here is being used as a verb.
 #: src/orca/guilabels.py:483
 msgid "Present Unless"
-msgstr ""
+msgstr "ارائه مگر در صورت"
 
 #. Translators: This is a table column header. The "Speak" column consists of a
 #. single checkbox. If the checkbox is checked, Orca will speak the associated
@@ -4583,7 +4583,7 @@ msgstr "پخش‌کنندهٔ گفتار"
 #. system. (https://github.com/eeejay/spiel)
 #: src/orca/guilabels.py:931
 msgid "Spiel"
-msgstr ""
+msgstr "اسپیل"
 
 #. Translators: This is a label for a group of options related to Orca's behavior
 #. when presenting an application's spell check dialog.
@@ -4670,7 +4670,7 @@ msgstr "گفتن مختصات _سلول"
 #. a particular table cell spans in a table).
 #: src/orca/guilabels.py:993
 msgid "Speak _multiple cell spans"
-msgstr ""
+msgstr "گفتن دهانه‌های _چندخانه‌ای"
 
 #. Translators: This is a table column header. "Attribute" here refers to text
 #. attributes such as bold, underline, family-name, etc.
@@ -4685,14 +4685,14 @@ msgstr "نام مشخصّه"
 #. label of a checkbox in which users can indicate their default preference.
 #: src/orca/guilabels.py:1004
 msgid "Control caret navigation"
-msgstr ""
+msgstr "واپایش ناوش مکان‌نمایی"
 
 #. Translators: Orca provides keystrokes to navigate HTML content in a structural
 #. manner: go to previous/next header, list item, table, etc. This is the label
 #. of a checkbox in which users can indicate their default preference.
 #: src/orca/guilabels.py:1009
 msgid "Enable _structural navigation"
-msgstr ""
+msgstr "به کار انداختن ناوش _ساختار یافته"
 
 #. Translators: This refers to the amount of information Orca provides about a
 #. particular object that receives focus.
@@ -4971,14 +4971,14 @@ msgstr "گور"
 #.
 #: src/orca/keynames.py:263
 msgid "acute"
-msgstr ""
+msgstr "حاد"
 
 #. Translators: this is how someone would speak the name of the
 #. non-spacing diacritical key for the circumflex glyph
 #.
 #: src/orca/keynames.py:268
 msgid "circumflex"
-msgstr ""
+msgstr "دور زدن"
 
 #. Translators: this is how someone would speak the name of the
 #. non-spacing diacritical key for the tilde glyph
@@ -4992,7 +4992,7 @@ msgstr "مد"
 #.
 #: src/orca/keynames.py:278
 msgid "diaeresis"
-msgstr ""
+msgstr "دیارزیس"
 
 #. Translators: this is how someone would speak the name of the
 #. non-spacing diacritical key for the ring glyph
@@ -5006,7 +5006,7 @@ msgstr "حلقه"
 #.
 #: src/orca/keynames.py:288
 msgid "cedilla"
-msgstr ""
+msgstr "سدیلا"
 
 #. Translators: this is how someone would speak the name of the
 #. non-spacing diacritical key for the stroke glyph
@@ -5457,7 +5457,7 @@ msgstr "بزرگ‌تر از"
 #: src/orca/mathsymbols.py:1352
 msgctxt "math symbol"
 msgid "circumflex"
-msgstr ""
+msgstr "دور زدن"
 
 #. Translators: this is the spoken word for the character 'ˇ' (U+02c7) when used
 #. as a MathML operator.
@@ -5545,19 +5545,19 @@ msgstr ""
 #: src/orca/mathsymbols.py:1398
 msgctxt "math symbol"
 msgid "element of"
-msgstr ""
+msgstr "عضو"
 
 #. Translators: this is the spoken representation for the character '∉' (U+2209)
 #: src/orca/mathsymbols.py:1401
 msgctxt "math symbol"
 msgid "not an element of"
-msgstr ""
+msgstr "ناعضو"
 
 #. Translators: this is the spoken representation for the character '∊' (U+220a)
 #: src/orca/mathsymbols.py:1404
 msgctxt "math symbol"
 msgid "small element of"
-msgstr ""
+msgstr "عضو کوچک"
 
 #. Translators: this is the spoken representation for the character '∋' (U+220b)
 #: src/orca/mathsymbols.py:1407
@@ -5927,7 +5927,7 @@ msgstr ""
 #: src/orca/mathsymbols.py:1590
 msgctxt "math symbol"
 msgid "almost equal to"
-msgstr ""
+msgstr "تقریباً مساوی با"
 
 #. Translators: this is the spoken representation for the character '≉' (U+2249)
 #: src/orca/mathsymbols.py:1593
@@ -6377,13 +6377,13 @@ msgstr ""
 #: src/orca/mathsymbols.py:1815
 msgctxt "math symbol"
 msgid "square cap"
-msgstr ""
+msgstr "کلاه مربّع"
 
 #. Translators: this is the spoken representation for the character '⊔' (U+2294)
 #: src/orca/mathsymbols.py:1818
 msgctxt "math symbol"
 msgid "square cup"
-msgstr ""
+msgstr "جام مربّع"
 
 #. Translators: this is the spoken representation for the character '⊕' (U+2295)
 #. Translators: this is the spoken representation for the character '⨁' (U+2a01)
@@ -6499,7 +6499,7 @@ msgstr "درج"
 #: src/orca/mathsymbols.py:1875
 msgctxt "math symbol"
 msgid "models"
-msgstr ""
+msgstr "مدل‌ها"
 
 #. Translators: this is the spoken representation for the character '⊨' (U+22a8)
 #: src/orca/mathsymbols.py:1878
@@ -6511,7 +6511,7 @@ msgstr "درست"
 #: src/orca/mathsymbols.py:1881
 msgctxt "math symbol"
 msgid "forces"
-msgstr ""
+msgstr "اجبار می‌کند"
 
 #. Translators: this is the spoken representation for the character '⊪' (U+22aa)
 #: src/orca/mathsymbols.py:1884
@@ -6529,7 +6529,7 @@ msgstr ""
 #: src/orca/mathsymbols.py:1890
 msgctxt "math symbol"
 msgid "does not prove"
-msgstr ""
+msgstr "اثبات نمی‌کند"
 
 #. Translators: this is the spoken representation for the character '⊭' (U+22ad)
 #: src/orca/mathsymbols.py:1893
@@ -6541,7 +6541,7 @@ msgstr "نادرست"
 #: src/orca/mathsymbols.py:1896
 msgctxt "math symbol"
 msgid "does not force"
-msgstr ""
+msgstr "اجبار نمی‌کند"
 
 #. Translators: this is the spoken representation for the character '⊯' (U+22af)
 #: src/orca/mathsymbols.py:1899
@@ -6637,13 +6637,13 @@ msgstr "nor"
 #: src/orca/mathsymbols.py:1944
 msgctxt "math symbol"
 msgid "right angle with arc"
-msgstr ""
+msgstr "زاویهٔ راست با کمان"
 
 #. Translators: this is the spoken representation for the character '⊿' (U+22bf)
 #: src/orca/mathsymbols.py:1947
 msgctxt "math symbol"
 msgid "right triangle"
-msgstr ""
+msgstr "سه‌گوش راست"
 
 #. Translators: this is the spoken representation for the character '⋄' (U+22c4)
 #: src/orca/mathsymbols.py:1962
@@ -6667,7 +6667,7 @@ msgstr "عملگر ستاره"
 #: src/orca/mathsymbols.py:1971
 msgctxt "math symbol"
 msgid "division times"
-msgstr ""
+msgstr "تقسیم ضرب"
 
 #. Translators: this is the spoken representation for the character '⋈' (U+22c8)
 #: src/orca/mathsymbols.py:1974
@@ -6757,13 +6757,13 @@ msgstr "مساوی و موازی با"
 #: src/orca/mathsymbols.py:2016
 msgctxt "math symbol"
 msgid "less than with dot"
-msgstr ""
+msgstr "کوچک‌تر از با نقطه"
 
 #. Translators: this is the spoken representation for the character '⋗' (U+22d7)
 #: src/orca/mathsymbols.py:2019
 msgctxt "math symbol"
 msgid "greater than with dot"
-msgstr ""
+msgstr "بزرگ‌تر از با نقطه"
 
 #. Translators: this is the spoken representation for the character '⋘' (U+22d8)
 #: src/orca/mathsymbols.py:2022
@@ -6853,13 +6853,13 @@ msgstr ""
 #: src/orca/mathsymbols.py:2064
 msgctxt "math symbol"
 msgid "less than but not equivalent to"
-msgstr ""
+msgstr "کوچک‌تر ولی نه مساوی با"
 
 #. Translators: this is the spoken representation for the character '⋧' (U+22e7)
 #: src/orca/mathsymbols.py:2067
 msgctxt "math symbol"
 msgid "greater than but not equivalent to"
-msgstr ""
+msgstr "بزرگ‌تر ولی نه مساوی با"
 
 #. Translators: this is the spoken representation for the character '⋨' (U+22e8)
 #: src/orca/mathsymbols.py:2070
@@ -6901,71 +6901,71 @@ msgstr ""
 #: src/orca/mathsymbols.py:2088
 msgctxt "math symbol"
 msgid "vertical ellipsis"
-msgstr ""
+msgstr "سه‌نقطهٔ عمودی"
 
 #. Translators: this is the spoken representation for the character '⋯' (U+22ef)
 #: src/orca/mathsymbols.py:2091
 msgctxt "math symbol"
 msgid "midline horizontal ellipsis"
-msgstr ""
+msgstr "سه‌نقطهٔ افقی در میان خط"
 
 #. Translators: this is the spoken representation for the character '⋰' (U+22f0)
 #: src/orca/mathsymbols.py:2094
 msgctxt "math symbol"
 msgid "up right diagonal ellipsis"
-msgstr ""
+msgstr "سه‌نقطهٔ کج به بالا راست"
 
 #. Translators: this is the spoken representation for the character '⋱' (U+22f1)
 #: src/orca/mathsymbols.py:2097
 msgctxt "math symbol"
 msgid "down right diagonal ellipsis"
-msgstr ""
+msgstr "سه‌نقطهٔ کج به پایین راست"
 
 #. Translators: this is the spoken representation for the character '⋲' (U+22f2)
 #: src/orca/mathsymbols.py:2100
 msgctxt "math symbol"
 msgid "element of with long horizontal stroke"
-msgstr ""
+msgstr "عضو با خط افقی دراز"
 
 #: src/orca/mathsymbols.py:2104
 msgctxt "math symbol"
 msgid "element of with vertical bar at end of horizontal stroke"
-msgstr ""
+msgstr "عضو با نوار عمودی در پایان خط افقی"
 
 #: src/orca/mathsymbols.py:2108
 msgctxt "math symbol"
 msgid "small element of with vertical bar at end of horizontal stroke"
-msgstr ""
+msgstr "عضو کوچک با نوار عمودی در پایان خط افقی"
 
 #. Translators: this is the spoken representation for the character '⋵' (U+22f5)
 #: src/orca/mathsymbols.py:2111
 msgctxt "math symbol"
 msgid "element of with dot above"
-msgstr ""
+msgstr "عضو با نقطهٔ بالایی"
 
 #. Translators: this is the spoken representation for the character '⋶' (U+22f6)
 #: src/orca/mathsymbols.py:2114
 msgctxt "math symbol"
 msgid "element of with overbar"
-msgstr ""
+msgstr "عضو با نوار بالایی"
 
 #. Translators: this is the spoken representation for the character '⋷' (U+22f7)
 #: src/orca/mathsymbols.py:2117
 msgctxt "math symbol"
 msgid "small element of with overbar"
-msgstr ""
+msgstr "عضو کوچک با نوار بالایی"
 
 #. Translators: this is the spoken representation for the character '⋸' (U+22f8)
 #: src/orca/mathsymbols.py:2120
 msgctxt "math symbol"
 msgid "element of with underbar"
-msgstr ""
+msgstr "عضو با نوار زیرین"
 
 #. Translators: this is the spoken representation for the character '⋹' (U+22f9)
 #: src/orca/mathsymbols.py:2123
 msgctxt "math symbol"
 msgid "element of with two horizontal strokes"
-msgstr ""
+msgstr "عضو با دو خط افقی"
 
 #. Translators: this is the spoken representation for the character '⋺' (U+22fa)
 #: src/orca/mathsymbols.py:2126
@@ -7030,25 +7030,25 @@ msgstr "کف راست"
 #: src/orca/mathsymbols.py:2157
 msgctxt "math symbol"
 msgid "top brace"
-msgstr ""
+msgstr "کروشهٔ بالا"
 
 #. Translators: this is the spoken representation for the character '⏟' (U+23df)
 #: src/orca/mathsymbols.py:2160
 msgctxt "math symbol"
 msgid "bottom brace"
-msgstr ""
+msgstr "کروشهٔ پایین"
 
 #. Translators: this is the spoken representation for the character '⟨' (U+27e8)
 #: src/orca/mathsymbols.py:2163
 msgctxt "math symbol"
 msgid "left angle bracket"
-msgstr ""
+msgstr "براکت سمت چپ"
 
 #. Translators: this is the spoken representation for the character '⟩' (U+27e9)
 #: src/orca/mathsymbols.py:2166
 msgctxt "math symbol"
 msgid "right angle bracket"
-msgstr ""
+msgstr "براکت سمت راست"
 
 #. Translators: this is the spoken representation for the character '⨀' (U+2a00)
 #: src/orca/mathsymbols.py:2169
@@ -7085,48 +7085,48 @@ msgstr "اجتماع مربّعی"
 #: src/orca/mathsymbols.py:2187
 msgctxt "math symbol"
 msgid "black square"
-msgstr ""
+msgstr "مربّع سیاه"
 
 #. Translators: this is the spoken representation for the character '□' (U+25a1)
 #. when used as a geometric shape (i.e. as opposed to a bullet in a list).
 #: src/orca/mathsymbols.py:2191
 msgctxt "math symbol"
 msgid "white square"
-msgstr ""
+msgstr "لوزی سفید"
 
 #. Translators: this is the spoken representation for the character '◆' (U+25c6)
 #. when used as a geometric shape (i.e. as opposed to a bullet in a list).
 #: src/orca/mathsymbols.py:2195
 msgctxt "math symbol"
 msgid "black diamond"
-msgstr ""
+msgstr "لوزی سیاه"
 
 #. Translators: this is the spoken representation for the character '○' (U+25cb)
 #. when used as a geometric shape (i.e. as opposed to a bullet in a list).
 #: src/orca/mathsymbols.py:2199
 msgctxt "math symbol"
 msgid "white circle"
-msgstr ""
+msgstr "دایرهٔ سفید"
 
 #. Translators: this is the spoken representation for the character '●' (U+25cf)
 #. when used as a geometric shape (i.e. as opposed to a bullet in a list).
 #: src/orca/mathsymbols.py:2203
 msgctxt "math symbol"
 msgid "black circle"
-msgstr ""
+msgstr "دایرهٔ سیاه"
 
 #. Translators: this is the spoken representation for the character '◦' (U+25e6)
 #: src/orca/mathsymbols.py:2206
 msgctxt "math symbol"
 msgid "white bullet"
-msgstr ""
+msgstr "گلولهٔ سفید"
 
 #. Translators: this is the spoken representation for the character '◾' (U+25fe)
 #. when used as a geometric shape (i.e. as opposed to a bullet in a list).
 #: src/orca/mathsymbols.py:2210
 msgctxt "math symbol"
 msgid "black medium small square"
-msgstr ""
+msgstr "مربّع کوچک متوسّط سیاه"
 
 #. Translators: this is the spoken representation for the character '̱' (U+0331)
 #. which combines with the preceding character. '%s' is a placeholder for the
@@ -7261,7 +7261,7 @@ msgstr "نشانک پیدا نشد."
 #. being toggled off.
 #: src/orca/messages.py:109
 msgid "Orca command keys off."
-msgstr ""
+msgstr "کلید فرمان اورکا خاموش."
 
 #. Translators: Orca has a command which toggles all (other) Orca commands so that
 #. the associated keystroke can by consumed by the native application. For example,
@@ -7273,7 +7273,7 @@ msgstr ""
 #. being toggled back on.
 #: src/orca/messages.py:119
 msgid "Orca command keys on."
-msgstr ""
+msgstr "کلید فرمان اورکا روشن."
 
 #. Translators: Orca uses Speech Dispatcher to present content to users via
 #. text-to-speech. Speech Dispatcher has a feature to control how capital
@@ -7298,7 +7298,7 @@ msgstr "نقشک"
 #. to get into a GUI.
 #: src/orca/messages.py:139
 msgid "Capitalization style set to icon."
-msgstr ""
+msgstr "سبک بزرگی به نقشک تنظیم شد."
 
 #. Translators: Orca uses Speech Dispatcher to present content to users via
 #. text-to-speech. Speech Dispatcher has a feature to control how capital
@@ -7323,7 +7323,7 @@ msgstr "هیچ"
 #. to get into a GUI.
 #: src/orca/messages.py:159
 msgid "Capitalization style set to none."
-msgstr ""
+msgstr "سبک بزرگی به هیچ تنظیم شد."
 
 #. Translators: Orca uses Speech Dispatcher to present content to users via
 #. text-to-speech. Speech Dispatcher has a feature to control how capital
@@ -7348,7 +7348,7 @@ msgstr "نوشتار"
 #. to get into a GUI.
 #: src/orca/messages.py:179
 msgid "Capitalization style set to spell."
-msgstr ""
+msgstr "سبک بزرگی به هجی تنظیم شد."
 
 #. Translators: Native application caret navigation does not always work as the
 #. Orca user wants. As such, Orca offers the user the ability to toggle between
@@ -7357,7 +7357,7 @@ msgstr ""
 #. active / not being overridden by Orca.
 #: src/orca/messages.py:186
 msgid "The application is controlling the caret."
-msgstr ""
+msgstr "برنامه مکان‌نما را وامی‌پیاد."
 
 #. Translators: Gecko native caret navigation is where Firefox (or Thunderbird)
 #. itself controls how the arrow keys move the caret around HTML content. It's
@@ -7365,13 +7365,13 @@ msgstr ""
 #. the user the ability to toggle which application is controlling the caret.
 #: src/orca/messages.py:192
 msgid "The screen reader is controlling the caret."
-msgstr ""
+msgstr "صفحه‌خوان مکان‌نما را وامی‌پیاد."
 
 #. Translators: this is the name of a cell in a spreadsheet.
 #: src/orca/messages.py:195
 #, python-format
 msgid "Cell %s"
-msgstr ""
+msgstr "خانهٔ %s"
 
 #. Translators: this message is spoken to announce that a table cell just became
 #. selected (e.g as a result of navigation via Shift + Arrows). The string
@@ -7419,46 +7419,46 @@ msgstr "%s گزیده نشد"
 #. which allows the user to specify an option to disable as Orca is started.
 #: src/orca/messages.py:225
 msgid "Prevent use of option"
-msgstr ""
+msgstr "پرهیز از استفاده از گزینه"
 
 #. Translators: this is the description of command line option '-e, --enable'
 #. which allows the user to specify an option to enable as Orca is started.
 #: src/orca/messages.py:229
 msgid "Force use of option"
-msgstr ""
+msgstr "اجبار به استفاده از گزینه"
 
 #. Translators: This string indicates to the user what should be provided when
 #. using the '-e, --enable' or '-d, --disable' command line options.
 #: src/orca/messages.py:233
 msgid "OPTION"
-msgstr ""
+msgstr "OPTION"
 
 #. Translators: This string appears when using 'Orca -h' at the command line.
 #. It serves as a sort of title and is followed by a detailed list of Orca's
 #. optional command-line arguments.
 #: src/orca/messages.py:238
 msgid "Optional arguments"
-msgstr ""
+msgstr "آرگومان‌های اختیاری"
 
 #. Translators: This string appears when using 'Orca -h' at the command line.
 #. It is followed by a brief list of Orca's optional command-line arguments.
 #: src/orca/messages.py:242
 msgid "Usage: "
-msgstr ""
+msgstr "استفاده:"
 
 #. Translators: This message is displayed when the user starts Orca from the
 #. command line and includes an invalid option or argument. After the message,
 #. the list of invalid items, as typed by the user, is displayed.
 #: src/orca/messages.py:247
 msgid "The following are not valid: "
-msgstr ""
+msgstr "موارد زیر معتبر نیستند: "
 
 #. Translators: This is the description of command line option '-l, --list-apps'
 #. which prints the names of running applications which can be seen by assistive
 #. technologies such as Orca and Accerciser.
 #: src/orca/messages.py:252
 msgid "Print the known running applications"
-msgstr ""
+msgstr "چاپ برنامه‌ّای در حال اجرای شناخته"
 
 #. Translators: This is the description of command line option '-p, --profile'
 #. which allows you to specify a profile to be loaded. A profile stores a group
@@ -7467,7 +7467,7 @@ msgstr ""
 #. An Orca settings file contains one or more profiles.
 #: src/orca/messages.py:259
 msgid "Load profile"
-msgstr ""
+msgstr "بار کردن نمایه"
 
 #. Translators: This message is presented to the user when the specified profile
 #. could not be loaded. A profile stores a group of Orca settings configured for
@@ -7477,19 +7477,19 @@ msgstr ""
 #: src/orca/messages.py:266
 #, python-format
 msgid "Profile could not be loaded: %s"
-msgstr ""
+msgstr "نمایه نتوانست بار شود: %s"
 
 #. Translators: This message is presented to the user who attempts to launch Orca
 #. from some other environment than the graphical desktop.
 #: src/orca/messages.py:271
 msgid "Cannot start the screen reader because it cannot connect to the Desktop."
-msgstr ""
+msgstr "نمی‌توان صفحه‌خوان را آغاز کرد چون نمی‌تواند به میزکار وصل شود."
 
 #. Translators: This message is presented to the user who attempts to launch Orca
 #. but the launch fails due to an error related to the settings manager.
 #: src/orca/messages.py:276
 msgid "Could not activate the settings manager. Exiting."
-msgstr ""
+msgstr "نمی‌توان مدیر تنظیمات را فعّال کرد. خارج شدن."
 
 #. Translators: This message is presented to the user when he/she tries to launch
 #. Orca, but Orca is already running.
@@ -7498,6 +7498,8 @@ msgid ""
 "Another screen reader process is already running for this session.\n"
 "Run “orca --replace” to replace that process with a new one."
 msgstr ""
+"صفحه‌خوان دیگری از پیش در این نشست اجرا شده.\n"
+"برای جایگزینی با فرایندی جدید «orca --replace» را اجرا کنید."
 
 #. Translators: This string indicates to the user what should be provided when
 #. using the '-p, --profile' command line option.
@@ -7512,7 +7514,7 @@ msgstr "NAME"
 #. preferences.
 #: src/orca/messages.py:292
 msgid "Use alternate directory for user preferences"
-msgstr ""
+msgstr "استفاده از شاخهٔ جایگزین برای ترجیحات کاربری"
 
 #. Translators: This string indicates to the user what should be provided when
 #. using the '-u, --user-prefs' command line option.
@@ -7536,7 +7538,7 @@ msgstr "سامانهٔ گفتار"
 #: src/orca/messages.py:309
 #, python-format
 msgid "Speech system “%s” is unavailable (available: %s)"
-msgstr ""
+msgstr "سامانهٔ گفتار «%s» موجود نیست (موجود:‌%s)"
 
 #. Translators: This is the description of command line option '-v, --version'
 #. which prints the version of Orca. E.g. '1.23.4'.
@@ -7548,13 +7550,13 @@ msgstr "نگارش این برنامه"
 #. which tells Orca to replace any existing Orca process that might be running.
 #: src/orca/messages.py:321
 msgid "Replace a currently running instance of this screen reader"
-msgstr ""
+msgstr "جایگزینی نمونه‌ای در حال اجرا از این صفحه‌خوان"
 
 #. Translators: this is the description of command line option '-h, --help'
 #. which lists all the available command line options.
 #: src/orca/messages.py:325
 msgid "Show this help message and exit"
-msgstr ""
+msgstr "نمایش این پیام راهنما و خروج"
 
 #. Translators: This is the description of command line option '--debug' which
 #. causes debugging output for Orca to be sent to a file. The YYYY-MM-DD-HH:MM:SS
@@ -7564,14 +7566,14 @@ msgstr ""
 #. start with 'debug' and end with '.out', regardless of the locale.).
 #: src/orca/messages.py:333
 msgid "Send debug output to debug-YYYY-MM-DD-HH:MM:SS.out"
-msgstr ""
+msgstr "فرستادن خروجی رفع اشکال به ‪debug-YYYY-MM-DD-HH:MM:SS.out"
 
 #. Translators: This is the description of command line option '--debug-file'
 #. which allows the user to override the default date-based name of the debugging
 #. output file.
 #: src/orca/messages.py:338
 msgid "Send debug output to the specified file"
-msgstr ""
+msgstr "فرستادن خروجی رفع اشکال به پروندهٔ مشخّص"
 
 #. Translators: This string indicates to the user what should be provided when
 #. using the '--debug-file' command line option.
@@ -7585,19 +7587,19 @@ msgstr "FILE"
 #. Orca will need to be run from a terminal window.
 #: src/orca/messages.py:348
 msgid "Set up user preferences (text version)"
-msgstr ""
+msgstr "برپایی ترجیحات کاربری (نگارش متنی)"
 
 #. Translators: This is the description of command line option '-s, --setup'
 #. that will place the user in Orca's GUI preferences dialog.
 #: src/orca/messages.py:352
 msgid "Set up user preferences (GUI version)"
-msgstr ""
+msgstr "برپایی ترجیحات کاربری (نگارش گرافیکی)"
 
 #. Translators: This text is the description displayed when Orca is launched
 #. from the command line and the help text is displayed.
 #: src/orca/messages.py:356
 msgid "Report bugs on https://gitlab.gnome.org/GNOME/orca/-/issues."
-msgstr ""
+msgstr "مشکلات را روی https://gitlab.gnome.org/GNOME/orca/-/issues گزارش کنید."
 
 #. Translators: Orca normal speaks the text which was just deleted from a
 #. document via command. Depending on the circumstances, that might be a
@@ -7607,7 +7609,7 @@ msgstr ""
 #. is the full/verbose indication.
 #: src/orca/messages.py:364
 msgid "Cut selection to clipboard."
-msgstr ""
+msgstr "بریدن گزینش به تخته‌گیره."
 
 #. Translators: Orca normal speaks the text which was just deleted from a
 #. document via command. Depending on the circumstances, that might be a
@@ -7624,7 +7626,7 @@ msgstr "برش"
 #. of the clipboard have changed and match the current selection.
 #: src/orca/messages.py:376
 msgid "Copied selection to clipboard."
-msgstr ""
+msgstr "گزینش به تخته‌گیره رونوشت شد."
 
 #. Translators: This message is the brief message presented when the contents
 #. of the clipboard have changed and match the current selection.
@@ -7641,7 +7643,7 @@ msgstr "رونوشت شد"
 #. is the full/verbose indication.
 #: src/orca/messages.py:388
 msgid "Pasted contents from clipboard."
-msgstr ""
+msgstr "محتوا از تخته‌گیره جایگذاری شد."
 
 #. Translators: Orca normal speaks the text which was just inserted into a
 #. document via command. Depending on the circumstances, that might be a
@@ -7661,7 +7663,7 @@ msgstr "جایگذاشته شد"
 #. is presented when the value of the setting is toggled.
 #: src/orca/messages.py:403
 msgid "Do not announce when your buddies are typing."
-msgstr ""
+msgstr "اعلام نکردن نوشتن دوستانتان."
 
 #. Translators: In chat applications, it is often possible to see that a "buddy"
 #. is typing currently (e.g. via a keyboard icon or status text). Some users like
@@ -7670,7 +7672,7 @@ msgstr ""
 #. is presented when the value of the setting is toggled.
 #: src/orca/messages.py:410
 msgid "announce when your buddies are typing."
-msgstr ""
+msgstr "اعلام نوشتن دوستانتان."
 
 #. Translators: In chat applications, Orca automatically presents incoming
 #. messages in speech and braille. If a user is in multiple conversations or
@@ -7681,7 +7683,7 @@ msgstr ""
 #: src/orca/messages.py:418
 #, python-format
 msgid "Message from chat room %s"
-msgstr ""
+msgstr "پیام از اتاق گپ %s"
 
 #. Translators: This message is presented to inform the user that a new chat
 #. conversation has been added to the existing conversations. The "tab" here
@@ -7690,7 +7692,7 @@ msgstr ""
 #: src/orca/messages.py:424
 #, python-format
 msgid "New chat tab %s"
-msgstr ""
+msgstr "زبانهٔ‌ گپ جدید %s"
 
 #. Translators: In chat applications, Orca automatically presents incoming
 #. messages in speech and braille. If a user is in multiple conversations or
@@ -7701,7 +7703,7 @@ msgstr ""
 #. the value of the setting is toggled.
 #: src/orca/messages.py:433
 msgid "Do not speak chat room name."
-msgstr ""
+msgstr "نگفتن نام اتاق گپ."
 
 #. Translators: In chat applications, Orca automatically presents incoming
 #. messages in speech and braille. If a user is in multiple conversations or
@@ -7712,7 +7714,7 @@ msgstr ""
 #. the value of the setting is toggled.
 #: src/orca/messages.py:442
 msgid "speak chat room name."
-msgstr ""
+msgstr "گفتن نام اتاق گپ."
 
 #. Translators: Orca has a command to review previous chat room messages in
 #. speech and braille. Some users prefer to have this message history combined
@@ -7722,7 +7724,7 @@ msgstr ""
 #. translated is presented when the value of the setting is toggled.
 #: src/orca/messages.py:451
 msgid "Do not provide chat room specific message histories."
-msgstr ""
+msgstr "فراهم نکردن تاریخچه‌های پیام مختص به اتاق گپ."
 
 #. Translators: Orca has a command to review previous chat room messages in
 #. speech and braille. Some users prefer to have this message history combined
@@ -7732,7 +7734,7 @@ msgstr ""
 #. translated is presented when the value of the setting is toggled.
 #: src/orca/messages.py:459
 msgid "Provide chat room specific message histories."
-msgstr ""
+msgstr "فراهم کردن تاریخچه‌های پیام مختص به اتاق گپ."
 
 #. Translators: This phrase is spoken to inform the user that what is about to
 #. be said is content marked for deletion in a document, such as content which
@@ -7801,7 +7803,7 @@ msgstr "پایان پیشنهاد"
 #. exited as expected.
 #: src/orca/messages.py:522
 msgid "End of container."
-msgstr ""
+msgstr "پایان بارگنج."
 
 #. Translators: This is for navigating document content by moving to the start
 #. or end of a container. Examples of containers include tables, lists, and
@@ -7809,27 +7811,27 @@ msgstr ""
 #. not a container, this message will be presented.
 #: src/orca/messages.py:528
 msgid "Not in a container."
-msgstr ""
+msgstr "خارج از بارگنج."
 
 #. Translators: This message is presented when the user selects all of the items
 #. in a container that supports selection, such as a GUI table or a list of icons.
 #: src/orca/messages.py:532
 msgid "all items selected"
-msgstr ""
+msgstr "همهٔ موارد گزیده"
 
 #. Translators: Orca has a command to report CPU and memory usage. This message
 #. is presented to the user when they use this command but Orca was unable to
 #. retrieve this information.
 #: src/orca/messages.py:537
 msgid "CPU and memory usage unknown"
-msgstr ""
+msgstr "استفادهٔ حافظه و پردازنده نامعلوم"
 
 #. Translators: Orca has a command to report CPU and memory usage levels. This
 #. message presents the levels to the user.
 #: src/orca/messages.py:541
 #, python-format
 msgid "CPU: %d%%. Memory: %d%%"
-msgstr ""
+msgstr "پردازنده: %d٪. حافظه: %d٪"
 
 #. Translators: The "default" button in a dialog box is the button that gets
 #. activated when Enter is pressed anywhere within that dialog box. The string
@@ -7837,7 +7839,7 @@ msgstr ""
 #: src/orca/messages.py:546
 #, python-format
 msgid "Default button is %s"
-msgstr ""
+msgstr "دکمهٔ پیش‌گزیده %s است"
 
 #. Translators: The "default" button in a dialog box is the button that gets
 #. activated when Enter is pressed anywhere within that dialog box. This
@@ -7848,7 +7850,7 @@ msgstr ""
 #: src/orca/messages.py:554
 #, python-format
 msgid "Default button is %s. Grayed"
-msgstr ""
+msgstr "دکمهٔ پیش‌گزیده %s است. خاکستری"
 
 #. Translators: The "default" button in a dialog box is the button that gets
 #. activated when Enter is pressed anywhere within that dialog box. Orca has
@@ -7856,7 +7858,7 @@ msgstr ""
 #. present if it could not find the default button.
 #: src/orca/messages.py:560
 msgid "Default button not found"
-msgstr ""
+msgstr "دکمهٔ پیدا نشد"
 
 #. Translators: This string is part of the presentation of an item that includes
 #. one or several consecutive subscripted characters. For example, 'X' followed
@@ -7865,7 +7867,7 @@ msgstr ""
 #: src/orca/messages.py:566
 #, python-format
 msgid " subscript %s"
-msgstr ""
+msgstr " زیرنویس %s"
 
 #. Translators: This string is part of the presentation of an item that includes
 #. one or several consecutive superscripted characters. For example, 'X' followed
@@ -7874,14 +7876,14 @@ msgstr ""
 #: src/orca/messages.py:572
 #, python-format
 msgid " superscript %s"
-msgstr ""
+msgstr " بالا نویس %s"
 
 #. Translators: this message is presented when the user tries to perform a command
 #. specific to dialog boxes, such as presenting the default button, but is not in
 #. a dialog.
 #: src/orca/messages.py:577
 msgid "Not in a dialog"
-msgstr ""
+msgstr "خارج از گفت‌وگو"
 
 #. Translators: when the user selects (highlights) or unselects text in a
 #. document, Orca will speak information about what they have selected or
@@ -7889,7 +7891,7 @@ msgstr ""
 #. document by pressing Ctrl+A.
 #: src/orca/messages.py:583
 msgid "entire document selected"
-msgstr ""
+msgstr "همهٔ سند گزیده"
 
 #. Translators: when the user selects (highlights) or unselects text in a
 #. document, Orca will speak information about what they have selected or
@@ -7898,7 +7900,7 @@ msgstr ""
 #. selection to be completely removed.
 #: src/orca/messages.py:590
 msgid "entire document unselected"
-msgstr ""
+msgstr "همهٔ سند ناگزیده"
 
 #. Translators: Orca allows you to dynamically define which row of a spreadsheet
 #. or table should be treated as containing column headers. This message is
@@ -7906,7 +7908,7 @@ msgstr ""
 #: src/orca/messages.py:595
 #, python-format
 msgid "Dynamic column header set for row %d"
-msgstr ""
+msgstr "سرایند ستون پویا برای ردیف %d تنظیم شد"
 
 #. Translators: Orca allows you to dynamically define which row of a spreadsheet
 #. or table should be treated as containing column headers. This message is
@@ -7914,7 +7916,7 @@ msgstr ""
 #. contained column headers.
 #: src/orca/messages.py:601
 msgid "Dynamic column header cleared."
-msgstr ""
+msgstr "سرایند ستون پویا پاک شد."
 
 #. Translators: Orca allows you to dynamically define which column of a
 #. spreadsheet or table should be treated as containing column headers. This
@@ -7923,7 +7925,7 @@ msgstr ""
 #: src/orca/messages.py:607
 #, python-format
 msgid "Dynamic row header set for column %s"
-msgstr ""
+msgstr "سرایند ردیف پویا برای ستون %s تنظیم شد"
 
 #. Translators: Orca allows you to dynamically define which column of a
 #. spreadsheet or table should be treated as containing column headers. This
@@ -7931,7 +7933,7 @@ msgstr ""
 #. treated as if it contained row headers.
 #: src/orca/messages.py:613
 msgid "Dynamic row header cleared."
-msgstr ""
+msgstr "سرایند ردیف پویا پاک شد."
 
 #. Translators: this is used to announce that the current input line in a
 #. spreadsheet is blank/empty.
@@ -7943,19 +7945,19 @@ msgstr "خالی"
 #: src/orca/messages.py:620
 #, python-format
 msgid "%.2f kilobytes"
-msgstr ""
+msgstr "%.2f کیلوبایت"
 
 #. Translators: This is the size of a file in megabytes
 #: src/orca/messages.py:623
 #, python-format
 msgid "%.2f megabytes"
-msgstr ""
+msgstr "%.2f مگابایت"
 
 #. Translators: This message is presented to the user after performing a file
 #. search to indicate there were no matches.
 #: src/orca/messages.py:627
 msgid "No files found."
-msgstr ""
+msgstr "هیچ پرونده‌ای پیدا نشد."
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -7965,7 +7967,7 @@ msgstr ""
 #. flat review onto the existing contents of the clipboard.
 #: src/orca/messages.py:635
 msgid "Appended contents to clipboard."
-msgstr ""
+msgstr "محتوا به تخته‌گیره افزوده شد."
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -7975,7 +7977,7 @@ msgstr ""
 #. review to the clipboard.
 #: src/orca/messages.py:643
 msgid "Copied contents to clipboard."
-msgstr ""
+msgstr "محتوا در تخته‌گیره رونوشت شد."
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -7985,7 +7987,7 @@ msgstr ""
 #. not using flat review.
 #: src/orca/messages.py:651
 msgid "Not using flat review."
-msgstr ""
+msgstr "بدون استفاده از بازبینی تخت."
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -7994,7 +7996,7 @@ msgstr ""
 #. let the user know he/she just entered flat review.
 #: src/orca/messages.py:658
 msgid "Entering flat review."
-msgstr ""
+msgstr "ورود به بازبینی تخت."
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -8003,7 +8005,7 @@ msgstr ""
 #. let the user know he/she just entered flat review.
 #: src/orca/messages.py:665
 msgid "Leaving flat review."
-msgstr ""
+msgstr "خروج از بازبینی تخت."
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -8013,7 +8015,7 @@ msgstr ""
 #. object of interest.
 #: src/orca/messages.py:673
 msgid "Flat review restricted to the current object"
-msgstr ""
+msgstr "بازبینی تخت به شی کنونی محدود شد"
 
 #. Translators: the 'flat review' feature of Orca allows the blind user to
 #. explore the text in a window in a 2D fashion.  That is, Orca treats all
@@ -8023,7 +8025,7 @@ msgstr ""
 #. that is, the entire window can be explored.
 #: src/orca/messages.py:681
 msgid "Flat review unrestricted"
-msgstr ""
+msgstr "بازبینی تخت به نامحدود شد"
 
 #. Translators: this means a particular cell in a spreadsheet has a formula
 #. (e.g., "=sum(a1:d1)")
@@ -8085,7 +8087,7 @@ msgstr "پیوند ننگاشت نقشه"
 #: src/orca/messages.py:724
 #, python-format
 msgid "The key entered is already bound to %s"
-msgstr ""
+msgstr "کلید وارد شده از پیش برای %s تعیین شده"
 
 #. Translators: This is a spoken and/or brailled message letting the user know
 #. that Orca has recorded a new key combination (e.g. Alt+Ctrl+g) as a result of
@@ -8093,7 +8095,7 @@ msgstr ""
 #: src/orca/messages.py:729
 #, python-format
 msgid "Key captured: %s. Press enter to confirm."
-msgstr ""
+msgstr "کلید گرفته شده: %s. زدن ورود برای تأیید."
 
 #. Translators: This is a spoken and/or brailled message letting the user know
 #. that Orca has assigned a new key combination (e.g. Alt+Ctrl+g) as a result of
@@ -8101,21 +8103,21 @@ msgstr ""
 #: src/orca/messages.py:734
 #, python-format
 msgid "The new key is: %s"
-msgstr ""
+msgstr "کلید جدید: %s"
 
 #. Translators: This is a spoken and/or brailled message letting the user know
 #. Orca is about to delete an existing key combination (e.g. Alt+Ctrl+g) as a
 #. result of their input.
 #: src/orca/messages.py:739
 msgid "Key binding deleted. Press enter to confirm."
-msgstr ""
+msgstr "تخصیص کلید حذف شد. زدن ورود برای تأیید."
 
 #. Translators: This is a spoken and/or brailled message letting the user know
 #. Orca has deleted an existing key combination (e.g. Alt+Ctrl+g) as a result of
 #. their input.
 #: src/orca/messages.py:744
 msgid "The keybinding has been removed."
-msgstr ""
+msgstr "تخصیص کلید برداشته شد."
 
 #. Translators: This is a spoken and/or brailled message asking the user to press
 #. a new key combination (e.g., Alt+Ctrl+g) to create a new key binding for an
@@ -8711,7 +8713,7 @@ msgstr "از کار افتاده"
 #. justification will not be spoken.
 #: src/orca/messages.py:1202
 msgid "Speaking of indentation and justification disabled."
-msgstr ""
+msgstr "گفتن تورفتگی و همترازی از کار افتاد."
 
 #. Translators: This brief message indicates that indentation and
 #. justification will be spoken.
@@ -8724,7 +8726,7 @@ msgstr "به کار افتاده"
 #. justification will be spoken.
 #: src/orca/messages.py:1212
 msgid "Speaking of indentation and justification enabled."
-msgstr ""
+msgstr "گفتن تورفتگی و همترازی به کار افتاد."
 
 #. Translators: Orca has a "Learn Mode" that will allow the user to type any key
 #. on the keyboard and hear what the effects of that key would be.  The effects
@@ -8734,7 +8736,7 @@ msgstr ""
 #. entering Learn Mode.
 #: src/orca/messages.py:1220
 msgid "Learn mode.  Press escape to exit."
-msgstr ""
+msgstr "دانستن بیش‌تر.  زدن گریز برای خروج."
 
 #. Translators: Orca has a "Learn Mode" that will allow the user to type any key
 #. on the keyboard and hear what the effects of that key would be.  The effects
@@ -9193,7 +9195,7 @@ msgstr "پیونده مشاهده شدهٔ %s"
 #. when finished.
 #: src/orca/messages.py:1534
 msgid "Use Up and Down Arrow to navigate the list. Press Escape to exit."
-msgstr ""
+msgstr "استفاده از پیکان‌های بالا و پایین برای ناوش سیاهه. زدن گریز برای خروج."
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -9205,7 +9207,7 @@ msgstr ""
 #. "off" for all of the live regions.
 #: src/orca/messages.py:1544
 msgid "All live regions set to off"
-msgstr ""
+msgstr "تنظیم همهٔ نواحی زنده به خاموش"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -9217,7 +9219,7 @@ msgstr ""
 #. regions has been restored to their original values.
 #: src/orca/messages.py:1554
 msgid "live regions politeness levels restored"
-msgstr ""
+msgstr "سطوح مودّب بودن نواحی زنده بازگشت"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -9229,7 +9231,7 @@ msgstr ""
 #: src/orca/messages.py:1563
 #, python-format
 msgid "politeness level %s"
-msgstr ""
+msgstr "سطح مودّب بودن %s"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -9241,7 +9243,7 @@ msgstr ""
 #. the current live region.
 #: src/orca/messages.py:1573
 msgid "setting live region to assertive"
-msgstr ""
+msgstr "تنظیم کردن ناحیهٔ زنده به قاطع"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -9253,7 +9255,7 @@ msgstr ""
 #. the current live region.
 #: src/orca/messages.py:1583
 msgid "setting live region to off"
-msgstr ""
+msgstr "تنظیم کردن ناحیهٔ زنده به خاموش"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -9265,7 +9267,7 @@ msgstr ""
 #. the current live region.
 #: src/orca/messages.py:1593
 msgid "setting live region to polite"
-msgstr ""
+msgstr "تنظیم کردن ناحیهٔ زنده به مودّب"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -9278,7 +9280,7 @@ msgstr ""
 #. -- as long as the monitoring of live regions is enabled.
 #: src/orca/messages.py:1604
 msgid "Live regions monitoring off"
-msgstr ""
+msgstr "پایش نواحی زنده خاموش"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -9291,7 +9293,7 @@ msgstr ""
 #. -- as long as the monitoring of live regions is enabled.
 #: src/orca/messages.py:1615
 msgid "Live regions monitoring on"
-msgstr ""
+msgstr "پایش نواحی زنده روشن"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -9300,7 +9302,7 @@ msgstr ""
 #. the current live region.
 #: src/orca/messages.py:1622
 msgid "no live message saved"
-msgstr ""
+msgstr "هیچ پیام زنده‌ای ذخیره نشده"
 
 #. Translators: A live region is an area of a web page that is periodically
 #. updated, e.g. stock ticker. http://www.w3.org/TR/wai-aria/terms#def_liveregion
@@ -9309,7 +9311,7 @@ msgstr ""
 #. turned off.
 #: src/orca/messages.py:1629
 msgid "Live region support is off"
-msgstr ""
+msgstr "پشتیبانی ناحیهٔ زنده خاموش است"
 
 #. Translators: Orca has a command that allows the user to move the mouse pointer
 #. to the current object. This is a brief message which will be presented if for
@@ -9324,7 +9326,7 @@ msgstr "پیدا نشد"
 #. for some reason Orca cannot identify/find the current location.
 #: src/orca/messages.py:1639
 msgid "Could not find current location."
-msgstr ""
+msgstr "نتوانست مکان کنونی را بیابد."
 
 #. Translators: This string is used to present the state of a locking key, such
 #. as Caps Lock. If Caps Lock is "off", then letters typed will appear in
@@ -9350,7 +9352,7 @@ msgstr "روشن"
 #. line which indicates that a given word is not spelled correctly.
 #: src/orca/messages.py:1657
 msgid "misspelled"
-msgstr ""
+msgstr "اشتباه نوشته"
 
 #. Translators: Orca tries to provide more compelling output of the spell check
 #. dialog in some applications. The first thing it does is let the user know
@@ -9358,7 +9360,7 @@ msgstr ""
 #: src/orca/messages.py:1662
 #, python-format
 msgid "Misspelled word: %s"
-msgstr ""
+msgstr "واژهٔ اشتباه نوشته:‌%s"
 
 #. Translators: Orca tries to provide more compelling output of the spell check
 #. dialog in some applications. The second thing it does is give the phrase
@@ -9493,21 +9495,21 @@ msgstr "نشامگر به شی منتقل شد."
 #. mouse. If this command fails, Orca will present this message.
 #: src/orca/messages.py:1775
 msgid "Mouse over object not found."
-msgstr ""
+msgstr "موشی بالای شی پیدا نشد."
 
 #. Translators: Orca has a feature to speak the item under the pointer. This feature,
 #. known as mouse review, can be enabled and disabled via command. The following is
 #. the message which Orca will present when mouse review is toggled off via command.
 #: src/orca/messages.py:1780
 msgid "Mouse review disabled."
-msgstr ""
+msgstr "بازبینی موشی از کار افتاد."
 
 #. Translators: Orca has a feature to speak the item under the pointer. This feature,
 #. known as mouse review, can be enabled and disabled via command. The following is
 #. the message which Orca will present when mouse review is toggled on via command.
 #: src/orca/messages.py:1785
 msgid "Mouse review enabled."
-msgstr ""
+msgstr "بازبینی موشی به کار افتاد."
 
 #. Translators: Orca has a command that presents a list of structural navigation
 #. objects in a dialog box so that users can navigate more quickly than they
@@ -9516,7 +9518,7 @@ msgstr ""
 #. from getting these objects.
 #: src/orca/messages.py:1792
 msgid "Error: Could not create list of objects."
-msgstr ""
+msgstr "خطا: نتواسنت سیاههٔ اشیا را بسازد."
 
 #. Translators: the object navigator allows users to explore UI objects presented
 #. as a hierarchy. This message is spoken when the current node in the hierarchy
@@ -9616,7 +9618,7 @@ msgstr "هیچ دکمهٔ دیگری وجود ندارد."
 #. user if no more check boxes can be found.
 #: src/orca/messages.py:1862
 msgid "No more check boxes."
-msgstr "هیچ جعبهٔ تیک دیگری وجود ندارد."
+msgstr "هیچ کادر دیگری وجود ندارد."
 
 #. Translators: This is for navigating document content by moving from 'large
 #. object' to 'large object'. A 'large object' is a logical chunk of text,
@@ -9690,7 +9692,7 @@ msgstr "هیچ تصویر دیگری وجود ندارد."
 #. This is an indication that one was not found.
 #: src/orca/messages.py:1915
 msgid "No landmark found."
-msgstr ""
+msgstr "هیچ نشانه‌ای پیدا نشد."
 
 #. Translators: This is for navigating document content by moving from link to
 #. link (regardless of visited state). This is a detailed message which will be
@@ -9776,7 +9778,7 @@ msgstr "هیچ متنی گزیده نشده."
 #. if the user performs this command when not on a link.
 #: src/orca/messages.py:1977
 msgid "Not on a link."
-msgstr ""
+msgstr "نه روی پیوند."
 
 #. Translators: This message alerts the user to the fact that what will be
 #. presented next came from a notification.
@@ -9802,7 +9804,7 @@ msgstr "بالا"
 #. is empty.
 #: src/orca/messages.py:1993
 msgid "No notification messages"
-msgstr ""
+msgstr "هیچ پیام آگاهی‌ای وجود ندارد"
 
 #. Translators: Orca has a setting through which users can control how a number is
 #. spoken. The options are digits ("1 2 3") and words ("one hundred and twenty

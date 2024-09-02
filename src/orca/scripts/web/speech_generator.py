@@ -313,6 +313,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             return super()._generate_accessible_label_and_name(obj, **args)
 
         if self._script.utilities.isTextBlockElement(obj) \
+           and AXText.has_presentable_text(obj)  \
            and not AXUtilities.is_landmark(obj, args.get("role")) \
            and not self._script.utilities.isDocument(obj) \
            and not AXUtilities.is_dpub(obj, args.get("role")) \
@@ -333,13 +334,10 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             return super()._generate_accessible_name(obj, **args)
 
         if self._script.utilities.isTextBlockElement(obj) \
+           and AXText.has_presentable_text(obj)  \
            and not AXUtilities.is_landmark(obj, args.get("role")) \
            and not AXUtilities.is_dpub(obj, args.get("role")) \
            and not args.get("inFlatReview"):
-            return []
-
-        if AXUtilities.is_link(obj) and args.get("startOffset") is not None \
-           and AXText.has_presentable_text(obj):
             return []
 
         if self._script.utilities.hasVisibleCaption(obj):

@@ -1345,6 +1345,11 @@ class Script(script.Script):
                 msg = "DEFAULT: Event is redundant notification for the locusOfFocus"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return
+            if AXObject.get_name(focus) == event.any_data:
+                msg = "DEFAULT: Event is redundant notification for the locusOfFocus"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                return
+
         elif event.source != focus_manager.get_manager().get_locus_of_focus():
             msg = "DEFAULT: Event is for object other than the locusOfFocus"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -1524,9 +1529,9 @@ class Script(script.Script):
             if not event.detail1:
                 return
 
-            speech.speak(self.speech_generator.generate_speech(obj))
+            self.speakMessage(self.speech_generator.get_localized_role_name(obj))
             msg = self.utilities.getNotificationContent(obj)
-            self.displayBrailleMessage(msg, flashTime=settings.brailleFlashTime)
+            self.presentMessage(msg, resetStyles=False)
             self.get_notification_presenter().save_notification(msg)
             return
 
