@@ -1,3 +1,9 @@
+orca (47~rc-1) experimental; urgency=medium
+
+  * New upstream rc release.
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 03 Sep 2024 00:02:15 +0200
+
 orca (47~beta-1) experimental; urgency=medium
 
   * New upstream beta release.
