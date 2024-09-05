@@ -1,8 +1,7 @@
-orca (47~rc-1ubuntu1) UNRELEASED; urgency=medium
+orca (47~rc-1ubuntu1) oracular; urgency=medium
 
   * Merge with Debian (LP: #2079043). Remaining changes:
     + debian/patches/unity-a11y.patch: add hacks to better work with Unity
-    + debian/patches/gedit: rebased
     + Revert "control: Add xkbset dependency (Closes #972621)" This is in
       universe in Ubuntu so we can't depend on it. It's silently skipped if
       not available.
