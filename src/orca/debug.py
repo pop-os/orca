@@ -29,6 +29,7 @@ __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc."
 __license__   = "LGPL"
 
 import inspect
+import pprint
 import traceback
 import os
 import re
@@ -43,6 +44,7 @@ gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 
 from .ax_object import AXObject
+from .ax_text import AXText
 from .ax_utilities import AXUtilities
 
 # Used to turn off all debugging.
@@ -216,14 +218,19 @@ def _asString(obj):
         )
 
     if isinstance(obj, (Atspi.Role, Atspi.StateType, Atspi.CollectionMatchType,
-                        Atspi.TextBoundaryType, Atspi.ScrollType)):
+                        Atspi.TextGranularity, Atspi.ScrollType)):
         return obj.value_nick
 
     if isinstance(obj, Atspi.Rect):
         return f"(x:{obj.x}, y:{obj.y}, width:{obj.width}, height:{obj.height})"
 
-    if isinstance(obj, list):
+    if isinstance(obj, (list, set)):
         return f"[{', '.join(map(_asString, obj))}]"
+
+    if isinstance(obj, dict):
+        stringified = {key: _asString(value) for key, value in obj.items()}
+        formatter = pprint.PrettyPrinter(width=150)
+        return f"{formatter.pformat(stringified)}"
 
     if isinstance(obj, str) and len(obj) > 100:
         obj = f"{obj[0:100]} (...)"
@@ -412,10 +419,11 @@ def getAccessibleDetails(level, acc, indent="", includeApp=True):
     role_string = f"role='{AXObject.get_role_name(acc)}'"
     path_string = f"{indent}path={AXObject.get_path(acc)}"
     state_string = f"{indent}states='{AXObject.state_set_as_string(acc)}'"
-    rel_string = f"{indent}relations='{AXObject.relations_as_string(acc)}'"
+    rel_string = f"{indent}relations='{AXUtilities.relations_as_string(acc)}'"
     actions_string = f"{indent}actions='{AXObject.actions_as_string(acc)}'"
     iface_string = f"{indent}interfaces='{AXObject.supported_interfaces_as_string(acc)}'"
     attr_string = f"{indent}attributes='{AXObject.attributes_as_string(acc)}'"
+    text_string = f"{indent}text='{AXText.get_text_for_debugging(acc)}'"
     string += (
         f"{name_string} {role_string}\n"
         f"{desc_string}\n"
@@ -424,6 +432,7 @@ def getAccessibleDetails(level, acc, indent="", includeApp=True):
         f"{actions_string}\n"
         f"{iface_string}\n"
         f"{attr_string}\n"
+        f"{text_string}\n"
         f"{path_string}\n"
     )
     return string

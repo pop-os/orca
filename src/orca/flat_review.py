@@ -38,7 +38,6 @@ from . import focus_manager
 from . import script_manager
 from . import settings
 from .ax_component import AXComponent
-from .ax_event_synthesizer import AXEventSynthesizer
 from .ax_object import AXObject
 from .ax_text import AXText
 from .ax_utilities import AXUtilities
@@ -69,6 +68,11 @@ class Char:
         self.width = width
         self.height = height
 
+    def __str__(self):
+        return "CHAR: '%s' (%i-%i)" % \
+            (self.string.replace("\n", "\\n"),
+             self.startOffset,
+             self.endOffset)
 
 class Word:
     """A single chunk (word or object) of presentable information."""
@@ -314,13 +318,13 @@ class StateZone(Zone):
         if attr not in ["string", "brailleString"]:
             return super().__getattribute__(attr)
 
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         if attr == "string":
-            generator = script.speechGenerator
+            generator = script.speech_generator
         else:
-            generator = script.brailleGenerator
+            generator = script.braille_generator
 
-        result = generator.getStateIndicator(self.accessible, role=self.role)
+        result = generator.get_state_indicator(self.accessible, role=self.role)
         if result:
             return result[0]
 
@@ -339,18 +343,18 @@ class ValueZone(Zone):
         if attr not in ["string", "brailleString"]:
             return super().__getattribute__(attr)
 
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         if attr == "string":
-            generator = script.speechGenerator
+            generator = script.speech_generator
         else:
-            generator = script.brailleGenerator
+            generator = script.braille_generator
 
         result = ""
 
         # TODO - JD: This cobbling together beats what we had, but the
         # generators should also be doing the assembly.
-        rolename = generator.getLocalizedRoleName(self.accessible)
-        value = generator.getValue(self.accessible)
+        rolename = generator.get_localized_role_name(self.accessible)
+        value = generator.get_value(self.accessible)
         if rolename and value:
             result = f"{rolename} {value[0]}"
 
@@ -481,7 +485,7 @@ class Context:
         self.targetCharInfo = None
         self.focusZone = None
         self.container = None
-        self.focusObj = focus_manager.getManager().get_locus_of_focus()
+        self.focusObj = focus_manager.get_manager().get_locus_of_focus()
         self.topLevel = None
         self.bounds = Atspi.Rect()
 
@@ -663,11 +667,11 @@ class Context:
             string = ""
             redundant = [Atspi.Role.TABLE_ROW]
             if role not in redundant:
-                string = self.script.speechGenerator.getName(accessible, inFlatReview=True)
+                string = self.script.speech_generator.get_name(accessible, inFlatReview=True)
 
             useless = [Atspi.Role.TABLE_CELL, Atspi.Role.LABEL]
             if not string and role not in useless:
-                string = self.script.speechGenerator.getRoleName(accessible)
+                string = self.script.speech_generator.get_role_name(accessible)
             if string:
                 zones.append(Zone(accessible, string, *extents))
 
@@ -840,38 +844,6 @@ class Context:
         self.charIndex = charIndex
         self.targetCharInfo = self.getCurrent(Context.CHAR)
 
-    def _getClickPoint(self):
-        string, x, y, width, height = self.getCurrent(Context.CHAR)
-        if (x < 0 and y < 0) or (width <= 0 and height <=0):
-            return -1, -1
-
-        # Click left of center to position the caret there.
-        x = int(max(x, x + (width / 2) - 1))
-        y = int(y + height / 2)
-
-        return x, y
-
-    def routeToCurrent(self):
-        """Routes the mouse pointer to the current accessible."""
-
-        x, y = self._getClickPoint()
-        if x < 0 or y < 0:
-            return False
-
-        return AXEventSynthesizer.route_to_point(x, y)
-
-    def clickCurrent(self, button=1):
-        """Performs a mouse click on the current accessible."""
-
-        x, y = self._getClickPoint()
-        if x >= 0 and y >= 0 and AXEventSynthesizer.click_point(x, y, button):
-            return True
-
-        if AXEventSynthesizer.click_object(self.getCurrentAccessible(), button):
-            return True
-
-        return False
-
     def _getCurrentZone(self):
         if not (self.lines and 0 <= self.lineIndex < len(self.lines)):
             return None
@@ -881,6 +853,20 @@ class Context:
             return None
 
         return line.zones[self.zoneIndex]
+
+    def getCurrentTextOffset(self):
+        """Returns the current text offset in the current accessible."""
+
+        zone = self._getCurrentZone()
+        if zone is None:
+            return -1
+        if not zone.words:
+            return -1
+        word = zone.words[self.wordIndex]
+        if not word.chars:
+            return -1
+        char = word.chars[self.charIndex]
+        return char.startOffset
 
     def getCurrentAccessible(self):
         """Returns the current accessible."""

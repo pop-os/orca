@@ -19,6 +19,12 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=broad-exception-caught
+# pylint: disable=wrong-import-position
+# pylint: disable=too-many-lines
+# pylint: disable=too-many-public-methods
+# pylint: disable=too-many-return-statements
+
 """
 Utilities for obtaining information about accessible tables.
 These utilities are app-type- and toolkit-agnostic. Utilities that might have
@@ -46,7 +52,7 @@ from gi.repository import Atspi
 from . import debug
 from . import messages
 from .ax_object import AXObject
-from .ax_utilities import AXUtilities
+from .ax_utilities_role import AXUtilitiesRole
 
 class AXTable:
     """Utilities for obtaining information about accessible tables."""
@@ -378,7 +384,7 @@ class AXTable:
     def get_cell_spans(cell, prefer_attribute=True):
         """Returns the row and column spans."""
 
-        if not AXUtilities.is_table_cell_or_header(cell):
+        if not AXUtilitiesRole.is_table_cell_or_header(cell):
             return -1, -1
 
         if AXObject.supports_table_cell(cell):
@@ -433,7 +439,7 @@ class AXTable:
 
         # Cells in a tree are expected to not span multiple rows or columns.
         # Also this: https://bugreports.qt.io/browse/QTBUG-119167
-        if AXUtilities.is_tree(table):
+        if AXUtilitiesRole.is_tree(table):
             return 1, 1
 
         try:
@@ -582,6 +588,9 @@ class AXTable:
     def get_new_row_headers(cell, old_cell):
         """Returns row headers of cell that are not also headers of old_cell. """
 
+        if old_cell and not AXUtilitiesRole.is_table_cell_or_header(old_cell):
+            old_cell = AXObject.find_ancestor(old_cell, AXUtilitiesRole.is_table_cell_or_header)
+
         headers = AXTable.get_row_headers(cell)
         if old_cell is None:
             return headers
@@ -592,6 +601,9 @@ class AXTable:
     @staticmethod
     def get_new_column_headers(cell, old_cell):
         """Returns column headers of cell that are not also headers of old_cell. """
+
+        if old_cell and not AXUtilitiesRole.is_table_cell_or_header(old_cell):
+            old_cell = AXObject.find_ancestor(old_cell, AXUtilitiesRole.is_table_cell_or_header)
 
         headers = AXTable.get_column_headers(cell)
         if old_cell is None:
@@ -604,7 +616,7 @@ class AXTable:
     def get_row_headers(cell):
         """Returns the row headers for cell, doing extra work to ensure we have them all."""
 
-        if not AXUtilities.is_table_cell(cell):
+        if not AXUtilitiesRole.is_table_cell(cell):
             return []
 
         dynamic_header = AXTable.get_dynamic_row_header(cell)
@@ -681,7 +693,7 @@ class AXTable:
     def get_column_headers(cell):
         """Returns the column headers for cell, doing extra work to ensure we have them all."""
 
-        if not AXUtilities.is_table_cell(cell):
+        if not AXUtilitiesRole.is_table_cell(cell):
             return []
 
         dynamic_header = AXTable.get_dynamic_column_header(cell)
@@ -758,10 +770,10 @@ class AXTable:
     def get_cell_coordinates(cell, prefer_attribute=True, find_cell=False):
         """Returns the 0-based row and column indices."""
 
-        if not AXUtilities.is_table_cell_or_header(cell) and find_cell:
-            cell = AXObject.find_ancestor(cell, AXUtilities.is_table_cell_or_header)
+        if not AXUtilitiesRole.is_table_cell_or_header(cell) and find_cell:
+            cell = AXObject.find_ancestor(cell, AXUtilitiesRole.is_table_cell_or_header)
 
-        if not AXUtilities.is_table_cell_or_header(cell):
+        if not AXUtilitiesRole.is_table_cell_or_header(cell):
             return -1, -1
 
         if AXObject.supports_table_cell(cell):
@@ -855,7 +867,7 @@ class AXTable:
         if row_index is not None and col_index is not None:
             return row_index, col_index
 
-        row = AXObject.find_ancestor(cell, AXUtilities.is_table_row)
+        row = AXObject.find_ancestor(cell, AXUtilitiesRole.is_table_row)
         if row is None:
             return row_index, col_index
 
@@ -886,7 +898,8 @@ class AXTable:
                     return table
 
         def is_table(x):
-            if AXUtilities.is_table(x) or AXUtilities.is_tree_table(x) or AXUtilities.is_tree(x):
+            if AXUtilitiesRole.is_table(x) \
+               or AXUtilitiesRole.is_tree_table(x) or AXUtilitiesRole.is_tree(x):
                 return AXObject.supports_table(x)
             return False
 
@@ -1062,7 +1075,7 @@ class AXTable:
 
         result, reason = False, "Not enough information"
         attrs = AXObject.get_attributes_dict(table)
-        if AXUtilities.is_table(table):
+        if AXUtilitiesRole.is_table(table):
             if attrs.get("layout-guess") == "true":
                 result, reason = True, "The layout-guess attribute is true."
             elif not AXObject.supports_table(table):
@@ -1103,7 +1116,7 @@ class AXTable:
         if result:
             return result
 
-        row = AXObject.find_ancestor(cell, AXUtilities.is_table_row)
+        row = AXObject.find_ancestor(cell, AXUtilitiesRole.is_table_row)
         if row is None:
             return result
 

@@ -27,11 +27,7 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2014 Igalia, S.L."
 __license__   = "LGPL"
 
-import gi
-gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
-
-import orca.spellcheck as spellcheck
+from orca import spellcheck
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
 
@@ -45,10 +41,10 @@ class SpellCheck(spellcheck.SpellCheck):
         if not window:
             return False
 
-        role = AXObject.get_role(window)
-        if role == Atspi.Role.DIALOG:
+        if AXUtilities.is_dialog(window):
             return True
-        if role != Atspi.Role.FRAME:
+
+        if not AXUtilities.is_frame(window):
             return False
 
         if AXObject.find_descendant(window, AXUtilities.is_split_pane):
@@ -69,7 +65,7 @@ class SpellCheck(spellcheck.SpellCheck):
 
         def isError(x):
             return AXUtilities.is_label(x) \
-                  and ":" not in AXObject.get_name(x) and not AXObject.get_relations(x)
+                  and ":" not in AXObject.get_name(x) and AXUtilities.object_is_unrelated(x)
 
         return AXObject.find_descendant(panel, isError)
 
@@ -80,6 +76,7 @@ class SpellCheck(spellcheck.SpellCheck):
         return AXObject.find_descendant(root, isTable)
 
     def _getSuggestionIndexAndPosition(self, suggestion):
-        index, total = self._script.utilities.getPositionAndSetSize(suggestion)
+        index = AXUtilities.get_position_in_set(suggestion)
+        total = AXUtilities.get_set_size(suggestion)
         total -= 1
         return index, total

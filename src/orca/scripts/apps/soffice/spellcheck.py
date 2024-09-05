@@ -69,6 +69,16 @@ class SpellCheck(spellcheck.SpellCheck):
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
             return False
 
+        # for LO >= 25.2, dialog has an accessible ID of "SpellingDialog" set
+        # (older versions have no ID set, will fall back to heuristics further below)
+        dialog_id = dialog.get_accessible_id()
+        if dialog_id:
+            rv = (dialog_id == "SpellingDialog")
+            self._windows[hash(dialog)] = rv
+            tokens = ["SOFFICE:", dialog, "is spellcheck dialog based on accessible ID:", rv]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            return rv
+
         if AXObject.find_descendant(dialog, AXUtilities.is_page_tab_list) is not None:
             self._windows[hash(window)] = False
             self._windows[hash(dialog)] = False
@@ -108,7 +118,8 @@ class SpellCheck(spellcheck.SpellCheck):
         return rv
 
     def _getSuggestionIndexAndPosition(self, suggestion):
-        index, total = self._script.utilities.getPositionAndSetSize(suggestion)
+        index = AXUtilities.get_position_in_set(suggestion)
+        total = AXUtilities.get_set_size(suggestion)
         return index + 1, total
 
     def getMisspelledWord(self):
@@ -131,6 +142,6 @@ class SpellCheck(spellcheck.SpellCheck):
             return False
 
         msg = messages.MISSPELLED_WORD_CONTEXT % string
-        voice = self._script.speechGenerator.voice(string=msg)
+        voice = self._script.speech_generator.voice(string=msg)
         self._script.speakMessage(msg, voice=voice)
         return True

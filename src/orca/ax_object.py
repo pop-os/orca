@@ -18,6 +18,9 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=broad-exception-caught
+# pylint: disable=wrong-import-position
+
 """
 Utilities for obtaining information about accessible objects.
 These utilities are app-type- and toolkit-agnostic. Utilities that might have
@@ -706,14 +709,17 @@ class AXObject:
         return role
 
     @staticmethod
-    def get_role_name(obj):
+    def get_role_name(obj, localized=False):
         """Returns the accessible role name of obj"""
 
         if not AXObject.is_valid(obj):
             return ""
 
         try:
-            role_name = Atspi.Accessible.get_role_name(obj)
+            if not localized:
+                role_name = Atspi.Accessible.get_role_name(obj)
+            else:
+                role_name = Atspi.Accessible.get_localized_role_name(obj)
         except Exception as error:
             msg = f"AXObject: Exception in get_role_name: {error}"
             AXObject.handle_error(obj, error, msg)
@@ -976,100 +982,6 @@ class AXObject:
             return state.value_name[12:].replace("_", "-").lower()
 
         return ", ".join(map(as_string, AXObject.get_state_set(obj).get_states()))
-
-    @staticmethod
-    def get_relations(obj):
-        """Returns the list of Atspi.Relation objects associated with obj"""
-
-        if not AXObject.is_valid(obj):
-            return []
-
-        try:
-            relations = Atspi.Accessible.get_relation_set(obj)
-        except Exception as error:
-            msg = f"AXObject: Exception in get_relations: {error}"
-            AXObject.handle_error(obj, error, msg)
-            return []
-
-        return relations
-
-    @staticmethod
-    def get_relation(obj, relation_type):
-        """Returns the specified Atspi.Relation for obj"""
-
-        if not AXObject.is_valid(obj):
-            return None
-
-        for relation in AXObject.get_relations(obj):
-            if relation and relation.get_relation_type() == relation_type:
-                return relation
-
-        return None
-
-    @staticmethod
-    def has_relation(obj, relation_type):
-        """Returns true if obj has the specified relation type"""
-
-        if not AXObject.is_valid(obj):
-            return False
-
-        return AXObject.get_relation(obj, relation_type) is not None
-
-    @staticmethod
-    def get_relation_targets(obj, relation_type, pred=None):
-        """Returns the list of targets with the specified relation type to obj.
-        If pred is provided, a target will only be included if pred is true."""
-
-        if not AXObject.is_valid(obj):
-            return []
-
-        relation = AXObject.get_relation(obj, relation_type)
-        if relation is None:
-            return []
-
-        targets = set()
-        for i in range(relation.get_n_targets()):
-            target = relation.get_target(i)
-            if pred is None or pred(target):
-                targets.add(target)
-
-        # We want to avoid self-referential relationships.
-        type_includes_object = [Atspi.RelationType.MEMBER_OF]
-        if relation_type not in type_includes_object and obj in targets:
-            tokens = ["AXObject: ", obj, "is in its own", relation_type, "target list"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            targets.remove(obj)
-
-        return list(targets)
-
-    @staticmethod
-    def relations_as_string(obj):
-        """Returns the relations associated with obj as a string"""
-
-        if not AXObject.is_valid(obj):
-            return ""
-
-        def as_string(relations):
-            return relations.value_name[15:].replace("_", "-").lower()
-
-        def obj_as_string(acc):
-            result = AXObject.get_role_name(obj)
-            name = AXObject.get_name(obj)
-            if name:
-                result += f": '{name}'"
-            if not result:
-                result = "DEAD"
-            return f"[{result}]"
-
-        results = []
-        for rel in AXObject.get_relations(obj):
-            type_string = as_string(rel.get_relation_type())
-            targets = AXObject.get_relation_targets(obj, rel.get_relation_type())
-            target_string = ",".join(map(obj_as_string, targets))
-            results.append(f"{type_string}: {target_string}")
-
-        return "; ".join(results)
-
 
     @staticmethod
     def find_real_app_and_window_for(obj, app=None):

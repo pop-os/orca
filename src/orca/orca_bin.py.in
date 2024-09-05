@@ -47,6 +47,7 @@ sys.path.insert(1, '@libdir@')
 from orca import debug
 from orca import messages
 from orca import settings
+from orca import script_manager
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
 from orca.orca_platform import version
@@ -258,7 +259,7 @@ def main():
 
     debug.printMessage(debug.LEVEL_INFO, "INFO: About to activate settings manager.", True)
     manager.activate(args.user_prefs, settingsDict)
-    sys.path.insert(0, manager.getPrefsDir())
+    sys.path.insert(0, manager.get_prefs_dir())
 
     if args.profile:
         try:
@@ -269,19 +270,20 @@ def main():
 
     if args.speech_system:
         try:
-            # Check factory modules ("orca.<speech system>") that loaded successfully
-            factories = [f.__name__[5:] for f in manager.getSpeechServerFactories()]
+            # Check successfully loaded factory modules ("orca.<speech system>") and get their names
+            factories = [f.__name__.removeprefix("orca.") for f in manager.get_speech_server_factories()]
             if args.speech_system not in factories:
                 raise KeyError
             
             setattr(settings, 'speechSystemOverride', args.speech_system)
-            manager.setSetting('speechServerFactory', args.speech_system)
+            manager.set_setting('speechServerFactory', args.speech_system)
         except Exception:
             print(messages.CLI_SPEECH_SYSTEM_ERROR % (args.speech_system, ', '.join(factories)))
 
     if args.setup:
         cleanup(signal.SIGKILL)
-        orca.showPreferencesGUI()
+        script = script_manager.get_manager().get_default_script()
+        script.show_preferences_gui()
 
     if otherOrcas():
         print(messages.CLI_OTHER_ORCAS_ERROR)

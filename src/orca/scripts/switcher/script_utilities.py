@@ -24,23 +24,17 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2019 Igalia, S.L."
 __license__   = "LGPL"
 
-import gi
-gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
-
 from orca import script_utilities
 from orca.ax_object import AXObject
+from orca.ax_utilities import AXUtilities
 
 
 class Utilities(script_utilities.Utilities):
 
-    def __init__(self, script):
-        super().__init__(script)
-
     def isSwitcherContainer(self, obj):
         """Returns True if obj is the switcher container."""
 
-        return obj and AXObject.get_role(obj) == Atspi.Role.STATUS_BAR
+        return AXUtilities.is_status_bar(obj)
 
     def isSwitcherSelectionChangeEventType(self, event):
         """Returns True if this event is the one we use to present changes."""

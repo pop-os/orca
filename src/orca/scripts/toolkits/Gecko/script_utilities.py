@@ -34,11 +34,9 @@ import gi
 gi.require_version("Atspi", "2.0")
 
 import re
-import time
 
 from orca import debug
 from orca import focus_manager
-from orca import orca_state
 from orca.scripts import web
 from orca.ax_document import AXDocument
 from orca.ax_object import AXObject
@@ -46,12 +44,6 @@ from orca.ax_utilities import AXUtilities
 
 
 class Utilities(web.Utilities):
-
-    def __init__(self, script):
-        super().__init__(script)
-        self._lastAutoTextObjectEvent = None
-        self._lastAutoTextInputEvent = None
-        self._lastAutoTextEventTime = 0
 
     def isLayoutOnly(self, obj):
         if super().isLayoutOnly(obj):
@@ -61,20 +53,6 @@ class Utilities(web.Utilities):
             return AXUtilities.is_page_tab_list(AXObject.get_child(obj, 0))
 
         return False
-
-    def isSameObject(self, obj1, obj2, comparePaths=False, ignoreNames=False,
-                     ignoreDescriptions=True):
-        if super().isSameObject(obj1, obj2, comparePaths, ignoreNames, ignoreDescriptions):
-            return True
-
-        roles = self._topLevelRoles()
-        if not (AXObject.get_role(obj1) in roles and AXObject.get_role(obj2) in roles):
-            return False
-
-        rv = AXObject.get_name(obj1) == AXObject.get_name(obj2)
-        tokens = ["GECKO: Treating", obj1, "and", obj2, "as same object:", rv]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        return rv
 
     def getOnScreenObjects(self, root, extents=None):
         objects = super().getOnScreenObjects(root, extents)
@@ -208,7 +186,7 @@ class Utilities(web.Utilities):
 
     def inFindContainer(self, obj=None):
         if not obj:
-            obj = focus_manager.getManager().get_locus_of_focus()
+            obj = focus_manager.get_manager().get_locus_of_focus()
 
         if not obj or self.inDocumentContent(obj):
             return False
@@ -245,25 +223,6 @@ class Utilities(web.Utilities):
         label = labels[0]
         AXObject.clear_cache(label, False, "Ensuring we have correct name for find results.")
         return AXObject.get_name(label)
-
-    def isAutoTextEvent(self, event):
-        if not super().isAutoTextEvent(event):
-            return False
-
-        if self.inDocumentContent(event.source):
-            return True
-
-        if self.treatAsDuplicateEvent(self._lastAutoTextObjectEvent, event) \
-           and time.time() - self._lastAutoTextEventTime < 0.5 \
-           and orca_state.lastInputEvent.isReleaseFor(self._lastAutoTextInputEvent):
-            msg = "GECKO: Event believed to be duplicate auto text event."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return False
-
-        self._lastAutoTextObjectEvent = event
-        self._lastAutoTextInputEvent = orca_state.lastInputEvent
-        self._lastAutoTextEventTime = time.time()
-        return True
 
     def localizeTextAttribute(self, key, value):
         value = value.replace("-moz-", "")

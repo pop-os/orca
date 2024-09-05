@@ -29,6 +29,8 @@ __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
 __license__   = "LGPL"
 
 import brlapi
+import gi
+gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
 from . import script_manager
@@ -112,7 +114,7 @@ class BrlCell(Gtk.Button):
         to what occurs when a user presses the cursor routing key on his/her
         hardware braille display."""
 
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         if script is None:
             return
 
@@ -120,7 +122,7 @@ class BrlCell(Gtk.Button):
         fakeKeyPress['command'] = brlapi.KEY_CMD_ROUTE
         fakeKeyPress['argument'] = self._position
         event = BrailleEvent(fakeKeyPress)
-        script.processRoutingKey(event)
+        script.process_routing_key(event)
 
     def clear(self):
         """Clears the braille cell."""

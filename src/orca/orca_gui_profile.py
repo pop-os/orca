@@ -29,10 +29,13 @@ __license__   = "LGPL"
 
 import locale
 import sys
+import time
+
+import gi
+gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
 from . import guilabels
-from . import orca_state
 
 OS = None
 newProfile = None
@@ -89,11 +92,7 @@ class OrcaProfileGUI(Gtk.Dialog):
         self.show_all()
         self.prefsDialog = prefsDialog
         self.profileEntry.set_text(self.profileString)
-
-        ts = orca_state.lastInputEvent.timestamp
-        if ts == 0:
-            ts = Gtk.get_current_event_time()
-        self.present_with_time(ts)
+        self.present_with_time(time.time())
 
     def onResponse(self, widget, response):
         """Signal handler for the responses emitted by the dialog."""

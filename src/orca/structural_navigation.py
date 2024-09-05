@@ -36,15 +36,14 @@ from . import debug
 from . import focus_manager
 from . import guilabels
 from . import input_event
+from . import input_event_manager
 from . import keybindings
 from . import messages
 from . import object_properties
 from . import orca_gui_navlist
-from . import orca_state
 from . import settings
 from . import settings_manager
 from .ax_collection import AXCollection
-from .ax_event_synthesizer import AXEventSynthesizer
 from .ax_hypertext import AXHypertext
 from .ax_object import AXObject
 from .ax_selection import AXSelection
@@ -93,7 +92,7 @@ class StructuralNavigationObject:
           and predicate.
         """
 
-        self.structuralNavigation = structuralNavigation
+        self.structural_navigation = structuralNavigation
         self.objType = objType
         self.bindings = bindings
         self.predicate = predicate
@@ -102,13 +101,13 @@ class StructuralNavigationObject:
         self._dialogData = dialogData
         self.getter = getter
 
-        self.inputEventHandlers = {}
-        self.keyBindings = keybindings.KeyBindings()
+        self.input_event_handlers = {}
+        self.key_bindings = keybindings.KeyBindings()
         self.functions = []
         self._setUpHandlersAndBindings()
 
     def _setUpHandlersAndBindings(self):
-        """Adds the inputEventHandlers and keyBindings for this object."""
+        """Adds the.input_event_handlers and keyBindings for this object."""
 
         # Set up the basic handlers.  These are our traditional goPrevious
         # and goNext functions.
@@ -117,15 +116,15 @@ class StructuralNavigationObject:
         if previousBinding:
             [keysymstring, modifiers, description] = previousBinding
             handlerName = f"{self.objType}GoPrevious"
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(self.goPrevious, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(self.goPrevious)
 
@@ -133,15 +132,15 @@ class StructuralNavigationObject:
         if nextBinding:
             [keysymstring, modifiers, description] = nextBinding
             handlerName = f"{self.objType}GoNext"
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(self.goNext, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(self.goNext)
 
@@ -149,15 +148,15 @@ class StructuralNavigationObject:
         if listBinding:
             [keysymstring, modifiers, description] = listBinding
             handlerName = f"{self.objType}ShowList"
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(self.showList, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(self.showList)
 
@@ -171,15 +170,15 @@ class StructuralNavigationObject:
             handlerName = "%sGoPreviousLevel%dHandler" % (self.objType, level)
             keysymstring, modifiers, description = binding
 
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(handler, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(handler)
 
@@ -190,15 +189,15 @@ class StructuralNavigationObject:
             handlerName = "%sGoNextLevel%dHandler" % (self.objType, level)
             keysymstring, modifiers, description = binding
 
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(handler, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(handler)
 
@@ -209,15 +208,15 @@ class StructuralNavigationObject:
             handlerName = "%sShowListAtLevel%dHandler" % (self.objType, level)
             keysymstring, modifiers, description = binding
 
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(handler, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(handler)
 
@@ -244,35 +243,35 @@ class StructuralNavigationObject:
             handlerName = f"{self.objType}Go{direction}"
             keysymstring, modifiers, description = binding
 
-            self.inputEventHandlers[handlerName] = \
+            self.input_event_handlers[handlerName] = \
                 input_event.InputEventHandler(handler, description)
 
-            self.keyBindings.add(
+            self.key_bindings.add(
                 keybindings.KeyBinding(
                     keysymstring,
-                    keybindings.defaultModifierMask,
+                    keybindings.DEFAULT_MODIFIER_MASK,
                     modifiers,
-                    self.inputEventHandlers[handlerName]))
+                    self.input_event_handlers[handlerName]))
 
             self.functions.append(handler)
 
     def goPrevious(self, script, inputEvent):
         """Go to the previous object."""
-        self.structuralNavigation.goObject(self, False, inputEvent)
+        self.structural_navigation.goObject(self, False, inputEvent)
 
     def goNext(self, script, inputEvent):
         """Go to the next object."""
-        self.structuralNavigation.goObject(self, True, inputEvent)
+        self.structural_navigation.goObject(self, True, inputEvent)
 
     def showList(self, script, inputEvent):
         """Show a list of all the items with this object type."""
 
-        objects = self.structuralNavigation._getAll(self)
+        objects = self.structural_navigation._getAll(self)
 
         def _isValidMatch(x):
             if AXObject.is_dead(x):
                 return False
-            return not (script.utilities.isHidden(x) or script.utilities.isEmpty(x))
+            return not (script.utilities.isHidden(x) or script.utilities.is_empty(x))
 
         objects = list(filter(_isValidMatch, objects))
 
@@ -311,7 +310,7 @@ class StructuralNavigationObject:
         """
 
         def goPreviousAtLevel(script, inputEvent):
-            self.structuralNavigation.goObject(self, False, inputEvent, arg=level)
+            self.structural_navigation.goObject(self, False, inputEvent, arg=level)
         return goPreviousAtLevel
 
     def goNextAtLevelFactory(self, level):
@@ -326,7 +325,7 @@ class StructuralNavigationObject:
         """
 
         def goNextAtLevel(script, inputEvent):
-            self.structuralNavigation.goObject(self, True, inputEvent, arg=level)
+            self.structural_navigation.goObject(self, True, inputEvent, arg=level)
         return goNextAtLevel
 
     def showListAtLevelFactory(self, level):
@@ -340,10 +339,10 @@ class StructuralNavigationObject:
         """
 
         def showListAtLevel(script, inputEvent):
-            objects = self.structuralNavigation._getAll(self, arg=level)
+            objects = self.structural_navigation._getAll(self, arg=level)
 
             def _isValidMatch(x):
-                return not (script.utilities.isHidden(x) or script.utilities.isEmpty(x))
+                return not (script.utilities.isHidden(x) or script.utilities.is_empty(x))
 
             objects = list(filter(_isValidMatch, objects))
             if self.predicate is not None:
@@ -373,13 +372,13 @@ class StructuralNavigationObject:
         def goLastLiveRegion(script, inputEvent):
             """Go to the last liveRegion."""
             if settings.inferLiveRegions:
-                script.liveRegionManager.goLastLiveRegion()
+                script.live_region_manager.goLastLiveRegion()
             else:
                 script.presentMessage(messages.LIVE_REGIONS_OFF)
 
         def goContainerEdge(script, inputEvent):
             isStart = direction == "Start"
-            self.structuralNavigation.goEdge(self, isStart, inputEvent)
+            self.structural_navigation.goEdge(self, isStart, inputEvent)
 
         if self.objType == StructuralNavigation.CONTAINER:
             return goContainerEdge
@@ -396,7 +395,7 @@ class StructuralNavigationObject:
 class StructuralNavigation:
     """This class implements the structural navigation functionality which
     is available to scripts. Scripts interested in implementing structural
-    navigation need to override getEnabledStructuralNavigationTypes() and
+    navigation need to override get_enabled_structural_navigation_types() and
     return a list of StructuralNavigation object types which should be
     enabled.
     """
@@ -408,7 +407,7 @@ class StructuralNavigation:
     # methods: _fooBindings(), _fooPredicate(), _fooCriteria(), and
     # _fooPresentation(). With these in place, and with the object
     # FOO included among the object types returned by the script's
-    # getEnabledStructuralNavigationTypes(), the StructuralNavigation
+    # get_enabled_structural_navigation_types(), the StructuralNavigation
     # object should be created and set up automagically. At least that
     # is the idea. :-) This hopefully will also enable easy re-definition
     # of existing StructuralNavigationObjects on a script-by-script basis.
@@ -591,7 +590,7 @@ class StructuralNavigation:
 
         if refresh:
             msg = "STRUCTURAL NAVIGATION: Refreshing handlers."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True, True)
             self._setup_handlers()
 
         return self._handlers
@@ -611,7 +610,7 @@ class StructuralNavigation:
                  enabled = not self._suspended)
 
         for structuralNavigationObject in self.enabledObjects.values():
-            handlers = structuralNavigationObject.inputEventHandlers
+            handlers = structuralNavigationObject.input_event_handlers
             for key in handlers:
                 handlers[key].set_enabled(not self._suspended and self.enabled)
             self._handlers.update(handlers)
@@ -625,9 +624,9 @@ class StructuralNavigation:
 
         if refresh:
             msg = "STRUCTURAL NAVIGATION: Refreshing bindings."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True, True)
             self._setup_bindings()
-        elif self._bindings.isEmpty():
+        elif self._bindings.is_empty():
             self._setup_bindings()
 
         return self._bindings
@@ -642,37 +641,32 @@ class StructuralNavigation:
         self._bindings.add(
             keybindings.KeyBinding(
                 "z",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers["toggleStructuralNavigationHandler"],
                 1,
                 not self._suspended))
 
         for structuralNavigationObject in self.enabledObjects.values():
-            bindings = structuralNavigationObject.keyBindings.keyBindings
+            bindings = structuralNavigationObject.key_bindings.key_bindings
             for keybinding in bindings:
                 keybinding.set_enabled(self.enabled and not self._suspended)
                 self._bindings.add(keybinding)
 
         # This pulls in the user's overrides to alternative keys.
-        self._bindings = settings_manager.getManager().overrideKeyBindings(
+        self._bindings = settings_manager.get_manager().override_key_bindings(
             self._handlers, self._bindings, False)
 
         msg = f"STRUCTURAL NAVIGATION: Bindings set up. Suspended: {self._suspended}"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-        tokens = [self._bindings]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
     def last_input_event_was_navigation_command(self):
         """Returns true if the last input event was a navigation command."""
 
-        result = self._last_input_event is not None \
-            and (self._last_input_event == orca_state.lastNonModifierKeyEvent \
-                or orca_state.lastNonModifierKeyEvent.isReleaseFor(self._last_input_event))
-
+        manager = input_event_manager.get_manager()
+        result = manager.last_event_equals_or_is_release_for_event(self._last_input_event)
         if self._last_input_event is not None:
-            string = self._last_input_event.asSingleLineString()
+            string = self._last_input_event.as_single_line_string()
         else:
             string = "None"
 
@@ -688,14 +682,14 @@ class StructuralNavigation:
             msg += f": {reason}"
         debug.printMessage(debug.LEVEL_INFO, msg, True)
 
-        for binding in self._bindings.keyBindings:
-            script.keyBindings.remove(binding, includeGrabs=True)
+        for binding in self._bindings.key_bindings:
+            script.key_bindings.remove(binding, include_grabs=True)
 
         self._handlers = self.get_handlers(True)
         self._bindings = self.get_bindings(True)
 
-        for binding in self._bindings.keyBindings:
-            script.keyBindings.add(binding, includeGrabs=not self._suspended)
+        for binding in self._bindings.key_bindings:
+            script.key_bindings.add(binding, include_grabs=not self._suspended)
 
     def toggleStructuralNavigation(self, script, inputEvent, presentMessage=True):
         """Toggles structural navigation keys."""
@@ -740,7 +734,7 @@ class StructuralNavigation:
         """Returns all the instances of structuralNavigationObject."""
 
         modalDialog = self._script.utilities.getModalDialog(
-            focus_manager.getManager().get_locus_of_focus())
+            focus_manager.get_manager().get_locus_of_focus())
         inModalDialog = bool(modalDialog)
         if self._inModalDialog != inModalDialog:
             msg = (
@@ -847,7 +841,7 @@ class StructuralNavigation:
         def _isValidMatch(obj):
             if AXObject.is_dead(obj):
                 return False
-            if self._script.utilities.isHidden(obj) or self._script.utilities.isEmpty(obj):
+            if self._script.utilities.isHidden(obj) or self._script.utilities.is_empty(obj):
                 return False
             if structuralNavigationObject.predicate is None:
                 return True
@@ -911,7 +905,7 @@ class StructuralNavigation:
 
     def _getListDescription(self, obj):
         if AXUtilities.is_list(obj):
-            children = [x for x in AXObject.iter_children(obj, AXUtilities.is_list_item)]
+            children = list(AXObject.iter_children(obj, AXUtilities.is_list_item))
             if children:
                 if self._script.utilities.nestingLevel(obj):
                     return messages.nestedListItemCount(len(children))
@@ -921,6 +915,10 @@ class StructuralNavigation:
             children = AXUtilities.find_all_description_terms(obj)
             if children:
                 return messages.descriptionListTermCount(len(children))
+        elif AXUtilities.is_page_tab_list(obj):
+            children = list(AXObject.iter_children(obj, AXUtilities.is_page_tab))
+            if children:
+                return messages.tabListItemCount(len(children))
 
         return ""
 
@@ -930,8 +928,8 @@ class StructuralNavigation:
             return False
 
         if role == Atspi.Role.SECTION \
-           and not self._script.utilities.isLandmark(obj) \
-           and not self._script.utilities.isBlockquote(obj):
+           and not AXUtilities.is_landmark(obj) \
+           and not AXUtilities.is_block_quote(obj):
             return False
 
         return self._script.utilities.inDocumentContent(obj)
@@ -957,45 +955,6 @@ class StructuralNavigation:
 
         return obj
 
-    def _getCaretPosition(self, obj):
-        """Returns the [obj, characterOffset] where the caret should be
-        positioned. For most scripts, the object should not change and
-        the offset should be 0.  That's not always the case with Gecko.
-
-        Arguments:
-        - obj: the accessible object in which the caret should be
-          positioned.
-        """
-
-        return self._script.utilities.getFirstCaretPosition(obj)
-
-    def _setCaretPosition(self, obj, characterOffset):
-        """Sets the caret at the specified offset within obj."""
-
-        objPath = AXObject.get_path(obj)
-        objRole = AXObject.get_role(obj)
-        if objRole == Atspi.Role.INVALID:
-            return obj, characterOffset
-
-        self._script.utilities.setCaretPosition(obj, characterOffset)
-        AXObject.clear_cache(
-            obj,
-            False,
-            "Structural navigation workaround for object destruction when setting caret.")
-        if not AXUtilities.is_defunct(obj):
-            return obj, characterOffset
-
-        tokens = ["STRUCTURAL NAVIGATION:", obj, "became defunct after setting caret position"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        replicant = self._script.utilities.getObjectFromPath(objPath)
-        if replicant and AXObject.get_role(replicant) == objRole:
-            tokens = ["STRUCTURAL NAVIGATION: Updating obj to replicant", replicant]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            obj = replicant
-
-        return obj, characterOffset
-
     def _presentLine(self, obj, offset):
         """Presents the first line of the object to the user.
 
@@ -1010,30 +969,13 @@ class StructuralNavigation:
         if self._presentWithSayAll(obj, offset):
             return
 
-        self._script.updateBraille(obj)
-        self._script.sayLine(obj)
-
-    def _presentObject(self, obj, offset, priorObj=None):
-        """Presents the entire object to the user.
-
-        Arguments:
-        - obj: the accessible object to be presented.
-        - offset: the character offset within obj.
-        """
-
-        if not obj:
-            return
-
-        if self._presentWithSayAll(obj, offset):
-            return
-
-        AXEventSynthesizer.scroll_to_top_edge(obj)
-        self._script.presentObject(obj, offset=offset, priorObj=priorObj, interrupt=True)
+        self._script.update_braille(obj)
+        self._script.sayLine(obj, offset)
 
     def _presentWithSayAll(self, obj, offset):
         if self._script.inSayAll() \
-           and settings_manager.getManager().getSetting('structNavInSayAll'):
-            self._script.sayAll(obj, offset)
+           and settings_manager.get_manager().get_setting('structNavInSayAll'):
+            self._script.say_all(None, obj, offset)
             return True
 
         return False
@@ -1041,7 +983,7 @@ class StructuralNavigation:
     def _getRoleName(self, obj):
         # Another case where we'll do this for now, and clean it up when
         # object presentation is refactored.
-        return self._script.speechGenerator.getLocalizedRoleName(obj)
+        return self._script.speech_generator.get_localized_role_name(obj)
 
     def _getSelectedItem(self, obj):
         # Another case where we'll do this for now, and clean it up when
@@ -1057,8 +999,8 @@ class StructuralNavigation:
     def _getText(self, obj):
         # Another case where we'll do this for now, and clean it up when
         # object presentation is refactored.
-        text = self._script.utilities.displayedText(obj)
-        if not text:
+        text = AXText.get_all_text(obj)
+        if "\ufffc" in text:
             text = self._script.utilities.expandEOCs(obj)
         if not text:
             item = self._getSelectedItem(obj)
@@ -1081,7 +1023,7 @@ class StructuralNavigation:
         # object presentation is refactored.
         label = self._script.utilities.displayedLabel(obj)
         if not label:
-            label, objects = self._script.labelInference.infer(
+            label, objects = self._script.label_inference.infer(
                 obj, focusedOnly=False)
 
         return label
@@ -1178,14 +1120,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_block_quotes(document)
 
     def _blockquotePresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentObject(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_BLOCKQUOTES
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _blockquoteDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_BLOCKQUOTE]
@@ -1217,14 +1161,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_buttons(document)
 
     def _buttonPresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentObject(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_BUTTONS
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _buttonDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_BUTTON]
@@ -1256,14 +1202,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_check_boxes(document)
 
     def _checkBoxPresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentObject(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_CHECK_BOXES
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _checkBoxDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_CHECK_BOX]
@@ -1311,14 +1259,16 @@ class StructuralNavigation:
         return False
 
     def _chunkPresentation(self, obj, arg=None):
-        if obj is not None:
-            [newObj, characterOffset] = self._getCaretPosition(obj)
-            self._setCaretPosition(newObj, characterOffset)
-            self._presentObject(obj, 0)
-        else:
+        if obj is None:
             full = messages.NO_MORE_CHUNKS
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _chunkDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_OBJECT]
@@ -1351,14 +1301,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_combo_boxes(document)
 
     def _comboBoxPresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentObject(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_COMBO_BOXES
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _comboBoxDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_COMBO_BOX]
@@ -1394,14 +1346,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_editable_objects(document, pred=parent_is_not_editable)
 
     def _entryPresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentObject(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_ENTRIES
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _entryDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_LABEL]
@@ -1438,16 +1392,20 @@ class StructuralNavigation:
         return AXUtilities.find_all_form_fields(document, pred=is_not_noneditable_doc_frame)
 
     def _formFieldPresentation(self, obj, arg=None):
-        if obj is not None:
-            if AXUtilities.is_text(obj) and AXObject.get_child_count(obj):
-                obj = AXObject.get_child(obj, 0)
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentObject(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_FORM_FIELDS
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        # TODO - JD: Determine if this is still needed.
+        if AXUtilities.is_text(obj) and AXObject.get_child_count(obj):
+            obj = AXObject.get_child(obj, 0)
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _formFieldDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_LABEL]
@@ -1513,18 +1471,17 @@ class StructuralNavigation:
         return AXUtilities.find_all_headings(document)
 
     def _headingPresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentObject(obj, characterOffset)
-        elif arg is None:
+        if obj is None:
+            brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             full = messages.NO_MORE_HEADINGS
-            brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
+            if arg is not None:
+                full = messages.NO_MORE_HEADINGS_AT_LEVEL % arg
             self._script.presentMessage(full, brief)
-        else:
-            full = messages.NO_MORE_HEADINGS_AT_LEVEL % arg
-            brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
-            self._script.presentMessage(full, brief)
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _headingDialogData(self, arg=None):
         columnHeaders = [guilabels.SN_HEADER_HEADING]
@@ -1567,14 +1524,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_internal_frames(document)
 
     def _iframePresentation(self, obj, arg=None):
-        if obj is not None:
-            [newObj, characterOffset] = self._getCaretPosition(obj)
-            self._setCaretPosition(newObj, characterOffset)
-            self._presentObject(obj, 0)
-        else:
+        if obj is None:
             full = messages.NO_MORE_IFRAMES
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _iframeDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_IFRAME]
@@ -1609,14 +1568,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_images_and_image_maps(document)
 
     def _imagePresentation(self, obj, arg=None):
-        if obj is not None:
-            [newObj, characterOffset] = self._getCaretPosition(obj)
-            self._setCaretPosition(newObj, characterOffset)
-            self._presentObject(obj, 0)
-        else:
+        if obj is None:
             full = messages.NO_MORE_IMAGES
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _imageDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_IMAGE]
@@ -1648,15 +1609,17 @@ class StructuralNavigation:
         return AXUtilities.find_all_landmarks(document)
 
     def _landmarkPresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._script.presentMessage(AXObject.get_name(obj))
-            self._presentLine(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_LANDMARK_FOUND
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentMessage(AXObject.get_name(obj))
+        self._presentLine(obj, 0)
 
     def _landmarkDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_LANDMARK]
@@ -1686,20 +1649,20 @@ class StructuralNavigation:
         return bindings
 
     def _listGetter(self, document, arg=None):
-        results = AXUtilities.find_all_lists(document)
-        results.extend(AXUtilities.find_all_description_lists(document))
-        return results
+        return AXUtilities.find_all_lists(
+            document, include_description_lists=True, include_tab_lists=True)
 
     def _listPresentation(self, obj, arg=None):
-        if obj is not None:
-            self._script.speakMessage(self._getListDescription(obj))
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentLine(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_LISTS
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        focus_manager.get_manager().set_locus_of_focus(None, AXObject.get_child(obj, 0) or obj)
 
     def _listDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_LIST]
@@ -1728,9 +1691,8 @@ class StructuralNavigation:
         return bindings
 
     def _listItemGetter(self, document, arg=None):
-        results = AXUtilities.find_all_list_items(document)
-        results.extend(AXUtilities.find_all_description_terms(document))
-        return results
+        return AXUtilities.find_all_list_items(
+            document, include_description_terms=True, include_tabs=True)
 
     def _listItemPresentation(self, obj, arg=None):
         if obj is None:
@@ -1741,19 +1703,23 @@ class StructuralNavigation:
 
         thisList = None
         priorList = None
-        focus = focus_manager.getManager().get_locus_of_focus()
+        focus = focus_manager.get_manager().get_locus_of_focus()
         if AXUtilities.is_list_item(obj):
             thisList = AXObject.find_ancestor(obj, AXUtilities.is_list)
             priorList = AXObject.find_ancestor(focus, AXUtilities.is_list)
+        elif AXUtilities.is_page_tab(obj):
+            thisList = AXObject.find_ancestor(obj, AXUtilities.is_page_tab_list)
+            priorList = AXObject.find_ancestor(focus, AXUtilities.is_page_tab_list)
         else:
             thisList = AXObject.find_ancestor(obj, AXUtilities.is_description_list)
             priorList = AXObject.find_ancestor(focus, AXUtilities.is_description_list)
         if thisList is not None and priorList != thisList:
             self._script.speakMessage(self._getListDescription(thisList))
 
-        [obj, characterOffset] = self._getCaretPosition(obj)
-        obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-        self._presentLine(obj, characterOffset)
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _listItemDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_LIST_ITEM]
@@ -1785,14 +1751,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_live_regions(document)
 
     def _liveRegionPresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentObject(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_LIVE_REGIONS
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     ########################
     #                      #
@@ -1825,14 +1793,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_paragraphs(document, True, has_at_least_three_characters)
 
     def _paragraphPresentation(self, obj, arg=None):
-        if obj is not None:
-            [newObj, characterOffset] = self._getCaretPosition(obj)
-            self._setCaretPosition(newObj, characterOffset)
-            self._presentObject(obj, 0)
-        else:
+        if obj is None:
             full = messages.NO_MORE_PARAGRAPHS
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _paragraphDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_PARAGRAPH]
@@ -1864,14 +1834,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_radio_buttons(document)
 
     def _radioButtonPresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentObject(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_RADIO_BUTTONS
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _radioButtonDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_RADIO_BUTTON]
@@ -1901,14 +1873,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_separators(document)
 
     def _separatorPresentation(self, obj, arg=None):
-        if obj is not None:
-            [newObj, characterOffset] = self._getCaretPosition(obj)
-            self._setCaretPosition(newObj, characterOffset)
-            self._presentObject(obj, 0)
-        else:
+        if obj is None:
             full = messages.NO_MORE_SEPARATORS
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     ########################
     #                      #
@@ -1932,28 +1906,30 @@ class StructuralNavigation:
         return AXUtilities.find_all_tables(document)
 
     def _tablePresentation(self, obj, arg=None):
-        if obj is not None:
-            caption = AXTable.get_caption(obj)
-            if caption:
-                self._script.presentMessage(self._script.utilities.displayedText(caption))
-            self._script.presentMessage(AXTable.get_table_description_for_presentation(obj))
-            cell = AXTable.get_cell_at(obj, 0, 0)
-            if not cell:
-                tokens = ["STRUCTURAL NAVIGATION: Broken table interface for", obj]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                cell = AXObject.find_descendant(obj, AXUtilities.is_table_cell)
-                if cell:
-                    tokens = ["STRUCTURAL NAVIGATION: Located", cell, "for first cell"]
-                    debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-            self.lastTableCell = [0, 0]
-            self._presentObject(cell, 0, priorObj=obj)
-            [cell, characterOffset] = self._getCaretPosition(cell)
-            self._setCaretPosition(cell, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_TABLES
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        caption = AXTable.get_caption(obj)
+        if caption:
+            self._script.presentMessage(AXText.get_all_text(caption))
+        self._script.presentMessage(AXTable.get_table_description_for_presentation(obj))
+        cell = AXTable.get_cell_at(obj, 0, 0)
+        if not cell:
+            tokens = ["STRUCTURAL NAVIGATION: Broken table interface for", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            cell = AXObject.find_descendant(obj, AXUtilities.is_table_cell)
+            if cell:
+                tokens = ["STRUCTURAL NAVIGATION: Located", cell, "for first cell"]
+                debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+        self.lastTableCell = [0, 0]
+        if self._presentWithSayAll(cell, 0):
+            return
+
+        self._script.presentObject(cell, offset=0, priorObj=obj, interrupt=True)
 
     def _tableDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_CAPTION]
@@ -1962,7 +1938,7 @@ class StructuralNavigation:
         def rowData(obj):
             caption = AXTable.get_caption(obj)
             if caption:
-                name = self._script.utilities.displayedText(caption)
+                name = AXText.get_all_text(caption)
             else:
                 name = AXObject.get_name(obj)
             return [name, AXTable.get_table_description_for_presentation(obj)]
@@ -1992,14 +1968,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_unvisited_links(document)
 
     def _unvisitedLinkPresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentObject(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_UNVISITED_LINKS
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _unvisitedLinkDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_LINK]
@@ -2033,14 +2011,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_visited_links(document)
 
     def _visitedLinkPresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentObject(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_VISITED_LINKS
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _visitedLinkDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_LINK]
@@ -2073,14 +2053,16 @@ class StructuralNavigation:
         return AXUtilities.find_all_links(document)
 
     def _linkPresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentObject(obj, characterOffset)
-        else:
+        if obj is None:
             full = messages.NO_MORE_LINKS
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _linkDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_LINK]
@@ -2121,14 +2103,16 @@ class StructuralNavigation:
         return self._script.utilities.isClickableElement(obj)
 
     def _clickablePresentation(self, obj, arg=None):
-        if obj is not None:
-            [obj, characterOffset] = self._getCaretPosition(obj)
-            obj, characterOffset = self._setCaretPosition(obj, characterOffset)
-            self._presentObject(obj, characterOffset)
-        elif not arg:
+        if obj is None:
             full = messages.NO_MORE_CLICKABLES
             brief = messages.STRUCTURAL_NAVIGATION_NOT_FOUND
             self._script.presentMessage(full, brief)
+            return
+
+        if self._presentWithSayAll(obj, 0):
+            return
+
+        self._script.presentObject(obj, offset=0, interrupt=True)
 
     def _clickableDialogData(self):
         columnHeaders = [guilabels.SN_HEADER_CLICKABLE]
@@ -2171,7 +2155,7 @@ class StructuralNavigation:
 
         characterOffset = arg
         if characterOffset is None:
-            obj, characterOffset = self._getCaretPosition(obj)
+            # TODO - JD: Determine when it is None and see if this can be handled differently.
+            obj, characterOffset = self._script.utilities.getFirstCaretPosition(obj)
 
-        obj, characterOffset = self._setCaretPosition(obj, characterOffset)
         self._presentLine(obj, characterOffset)

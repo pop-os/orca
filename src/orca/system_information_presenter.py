@@ -58,7 +58,7 @@ class SystemInformationPresenter:
             msg = "SYSTEM INFORMATION PRESENTER: Refreshing bindings."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._setup_bindings()
-        elif self._bindings.isEmpty():
+        elif self._bindings.is_empty():
             self._setup_bindings()
 
         return self._bindings
@@ -109,7 +109,7 @@ class SystemInformationPresenter:
         self._bindings.add(
             keybindings.KeyBinding(
                 "t",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("presentTimeHandler"),
                 1))
@@ -117,7 +117,7 @@ class SystemInformationPresenter:
         self._bindings.add(
             keybindings.KeyBinding(
                 "t",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("presentDateHandler"),
                 2))
@@ -125,7 +125,7 @@ class SystemInformationPresenter:
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("present_battery_status"),
                 1))
@@ -133,7 +133,7 @@ class SystemInformationPresenter:
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("present_cpu_and_memory_usage"),
                 1))
@@ -144,14 +144,14 @@ class SystemInformationPresenter:
     def present_time(self, script, event=None):
         """Presents the current time."""
 
-        time_format = settings_manager.getManager().getSetting('presentTimeFormat')
+        time_format = settings_manager.get_manager().get_setting('presentTimeFormat')
         script.presentMessage(time.strftime(time_format, time.localtime()))
         return True
 
     def present_date(self, script, event=None):
         """Presents the current date."""
 
-        data_format = settings_manager.getManager().getSetting('presentDateFormat')
+        data_format = settings_manager.get_manager().get_setting('presentDateFormat')
         script.presentMessage(time.strftime(data_format, time.localtime()))
         return True
 
@@ -193,5 +193,5 @@ class SystemInformationPresenter:
 
 
 _presenter = SystemInformationPresenter()
-def getPresenter():
+def get_presenter():
     return _presenter

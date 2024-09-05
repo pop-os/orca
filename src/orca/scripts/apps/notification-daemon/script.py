@@ -25,28 +25,21 @@ __date__      = ""
 __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc."
 __license__   = "LGPL"
 
-import orca.messages as messages
-import orca.scripts.default as default
-import orca.settings as settings
+from orca import messages
+from orca.scripts import default
+from orca import settings
+from orca.ax_text import AXText
 from orca.ax_utilities import AXUtilities
-
-
-########################################################################
-#                                                                      #
-# The notification-daemon script class.                                #
-#                                                                      #
-########################################################################
 
 class Script(default.Script):
 
-    def onWindowCreated(self, event):
+    def on_window_created(self, event):
         """Callback for window:create accessibility events."""
 
-        allLabels = AXUtilities.find_all_labels(event.source)
-        texts = [self.utilities.displayedText(acc) for acc in allLabels]
+        texts = [AXText.get_all_text(acc) for acc in AXUtilities.find_all_labels(event.source)]
         text = f"{messages.NOTIFICATION} {' '.join(texts)}"
 
-        voice = self.speechGenerator.voice(obj=event.source, string=text)
+        voice = self.speech_generator.voice(obj=event.source, string=text)
         self.speakMessage(text, voice=voice)
         self.displayBrailleMessage(text, flashTime=settings.brailleFlashTime)
-        self.notificationPresenter.save_notification(text)
+        self.get_notification_presenter().save_notification(text)

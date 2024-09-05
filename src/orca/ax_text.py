@@ -19,6 +19,11 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=broad-exception-caught
+# pylint: disable=wrong-import-position
+# pylint: disable=too-many-locals
+# pylint: disable=too-many-public-methods
+
 """
 Utilities for obtaining information about accessible text.
 These utilities are app-type- and toolkit-agnostic. Utilities that might have
@@ -36,16 +41,39 @@ __copyright__ = "Copyright (c) 2024 Igalia, S.L." \
                 "Copyright (c) 2024 GNOME Foundation Inc."
 __license__   = "LGPL"
 
+import re
+
 import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 
 from . import debug
 from .ax_object import AXObject
-from .ax_utilities import AXUtilities
+from .ax_utilities_role import AXUtilitiesRole
+from .ax_utilities_state import AXUtilitiesState
 
 class AXText:
     """Utilities for obtaining information about accessible text."""
+
+    @staticmethod
+    def get_text_for_debugging(obj):
+        """Returns the text content of obj for debugging."""
+
+        if not AXObject.supports_text(obj):
+            return ""
+
+        try:
+            result = Atspi.Text.get_text(obj, 0, Atspi.Text.get_character_count(obj))
+        except Exception:
+            return ""
+
+        words = result.split()
+        if len(words) > 10:
+            debug_string = f"{' '.join(words[:5])} ... {' '.join(words[-5:])}"
+        else:
+            debug_string = result
+
+        return debug_string.replace("\n", "\\n")
 
     @staticmethod
     def get_character_at_offset(obj, offset=None):
@@ -72,10 +100,10 @@ class AXText:
                 msg = f"AXText: Exception in get_character_at_offset: {error2}"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return "", 0, 0
-            else:
-                # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/161
-                msg = f"WARNING: String at offset failed; text at offset succeeded: {error}"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+
+            # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/161
+            msg = f"WARNING: String at offset failed; text at offset succeeded: {error}"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         debug_string = result.content.replace("\n", "\\n")
         tokens = [f"AXText: Character at offset {offset} in", obj,
@@ -133,10 +161,10 @@ class AXText:
                 msg = f"AXText: Exception in get_word_at_offset: {error2}"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return "", 0, 0
-            else:
-                # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/161
-                msg = f"WARNING: String at offset failed; text at offset succeeded: {error}"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+
+            # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/161
+            msg = f"WARNING: String at offset failed; text at offset succeeded: {error}"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         tokens = [f"AXText: Word at offset {offset} in", obj,
                   f"'{result.content}' ({result.start_offset}-{result.end_offset})"]
@@ -183,7 +211,10 @@ class AXText:
             offset = AXText.get_caret_offset(obj)
 
         # Don't adjust the length in multiline text because we want to say "blank" at the end.
-        if not AXUtilities.is_multi_line(obj):
+        # This may or may not be sufficient. GTK3 seems to give us the correct, empty line. But
+        # (at least) Chromium does not. See comment below.
+        if not AXUtilitiesState.is_multi_line(obj) \
+           and not AXUtilitiesRole.is_paragraph(obj) and not AXUtilitiesRole.is_section(obj):
             offset = min(max(0, offset), length - 1)
         else:
             offset = max(0, offset)
@@ -197,10 +228,15 @@ class AXText:
                 msg = f"AXText: Exception in get_line_at_offset: {error2}"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return "", 0, 0
-            else:
-                # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/161
-                msg = f"WARNING: String at offset failed; text at offset succeeded: {error}"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+
+            # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/161
+            msg = f"WARNING: String at offset failed; text at offset succeeded: {error}"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+        else:
+            # Try again, e.g. Chromium returns "", -1, -1.
+            if result.start_offset == result.end_offset == -1 and offset == length:
+                offset -= 1
+                result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.LINE)
 
         debug_string = result.content.replace("\n", "\\n")
         tokens = [f"AXText: Line at offset {offset} in", obj,
@@ -258,10 +294,10 @@ class AXText:
                 msg = f"AXText: Exception in get_sentence_at_offset: {error2}"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return "", 0, 0
-            else:
-                # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/161
-                msg = f"WARNING: String at offset failed; text at offset succeeded: {error}"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+
+            # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/161
+            msg = f"WARNING: String at offset failed; text at offset succeeded: {error}"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         tokens = [f"AXText: Sentence at offset {offset} in", obj,
                   f"'{result.content}' ({result.start_offset}-{result.end_offset})"]
@@ -447,14 +483,18 @@ class AXText:
         if not AXObject.supports_text(obj):
             return ""
 
+        if end_offset == -1:
+            end_offset = AXText.get_character_count(obj)
+
         try:
             result = Atspi.Text.get_text(obj, start_offset, end_offset)
         except Exception as error:
             msg = f"AXText: Exception in get_substring: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.printMessage(debug.LEVEL_INFO, msg, True, True)
             return ""
 
-        tokens = ["AXText: Text of", obj, f"({start_offset}-{end_offset}): '{result}'"]
+        debug_string = result.replace("\n", "\\n")
+        tokens = ["AXText: Text of", obj, f"({start_offset}-{end_offset}): '{debug_string}'"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return result
 
@@ -941,6 +981,12 @@ class AXText:
             return True
 
         return not AXText.get_all_text(obj).strip()
+
+    @staticmethod
+    def has_presentable_text(obj):
+        """Returns True if obj has presentable text."""
+
+        return bool(re.search(r"\w+", AXText.get_all_text(obj)))
 
     @staticmethod
     def scroll_substring_to_point(obj, x, y, start_offset, end_offset):

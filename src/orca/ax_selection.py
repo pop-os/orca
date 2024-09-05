@@ -18,6 +18,9 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=broad-exception-caught
+# pylint: disable=wrong-import-position
+
 """
 Utilities for obtaining information about containers supporting selection.
 These utilities are app-type- and toolkit-agnostic. Utilities that might have
@@ -41,6 +44,7 @@ from gi.repository import Atspi
 
 from . import debug
 from .ax_object import AXObject
+from .ax_utilities_role import AXUtilitiesRole
 
 
 class AXSelection:
@@ -98,7 +102,15 @@ class AXSelection:
     def get_selected_children(obj):
         """Returns a list of all the selected children of obj."""
 
+        if obj is None:
+            return []
+
         count = AXSelection.get_selected_child_count(obj)
+        if not count and AXUtilitiesRole.is_combo_box(obj):
+            container = AXObject.find_descendant(
+                obj, lambda x: AXUtilitiesRole.is_menu(x) or AXUtilitiesRole.is_list_box(x))
+            return AXSelection.get_selected_children(container)
+
         children = set()
         for i in range(count):
             try:

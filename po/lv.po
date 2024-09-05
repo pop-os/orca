@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lv\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/orca/issues\n"
-"POT-Creation-Date: 2024-03-08 21:19+0000\n"
+"POT-Creation-Date: 2024-02-29 22:51+0000\n"
 "PO-Revision-Date: 2024-03-08 23:18+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
@@ -19,8 +19,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
-"2);\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 :"
+" 2);\n"
 "X-Generator: Lokalize 23.08.1\n"
 
 #: orca-autostart.desktop.in:4
@@ -11838,93 +11838,89 @@ msgid "vertical"
 msgstr "vertikāls"
 
 #. Translators: This is a state which applies to a check box.
-#. Please don't use the same translation as for "selected",
-#. or it will be impossible to differentiate a checkbox in a list-item.
-#: src/orca/object_properties.py:519
+#: src/orca/object_properties.py:517
 msgctxt "checkbox"
 msgid "checked"
 msgstr "atzīmēta"
 
 #. Translators: This is a state which applies to a check box.
-#. Please don't use the same translation as for "not selected",
-#. or it will be impossible to differentiate a checkbox in a list-item.
-#: src/orca/object_properties.py:524
+#: src/orca/object_properties.py:520
 msgctxt "checkbox"
 msgid "not checked"
 msgstr "nav atzīmēta"
 
 #. Translators: This is a state which applies to a switch. For an example of
 #. a switch, see https://developer.gnome.org/gtk3/stable/GtkSwitch.html
-#: src/orca/object_properties.py:528
+#: src/orca/object_properties.py:524
 msgctxt "switch"
 msgid "on"
 msgstr "ieslēgts"
 
 #. Translators: This is a state which applies to a switch. For an example of
 #. a switch, see https://developer.gnome.org/gtk3/stable/GtkSwitch.html
-#: src/orca/object_properties.py:532
+#: src/orca/object_properties.py:528
 msgctxt "switch"
 msgid "off"
 msgstr "izslēgts"
 
 #. Translators: This is a state which applies to a check box.
-#: src/orca/object_properties.py:535
+#: src/orca/object_properties.py:531
 msgctxt "checkbox"
 msgid "partially checked"
 msgstr "daļēji atzīmēts"
 
 #. Translators: This is a state which applies to a toggle button.
-#: src/orca/object_properties.py:538
+#: src/orca/object_properties.py:534
 msgctxt "togglebutton"
 msgid "pressed"
 msgstr "piespiests"
 
 #. Translators: This is a state which applies to a toggle button.
-#: src/orca/object_properties.py:541
+#: src/orca/object_properties.py:537
 msgctxt "togglebutton"
 msgid "not pressed"
 msgstr "nav piespiests"
 
 #. Translators: This is a state which applies to an item or option
 #. in a selectable list.
-#: src/orca/object_properties.py:545
+#: src/orca/object_properties.py:541
 msgctxt "listitem"
 msgid "not selected"
 msgstr "nav atlasīts"
 
 #. Translators: This is a state which applies to a radio button.
-#: src/orca/object_properties.py:548
+#: src/orca/object_properties.py:544
 msgctxt "radiobutton"
 msgid "selected"
 msgstr "atlasīts"
 
 #. Translators: This is a state which applies to a radio button.
-#: src/orca/object_properties.py:551
+#: src/orca/object_properties.py:547
 msgctxt "radiobutton"
 msgid "not selected"
 msgstr "nav atlasīts"
 
 #. Translators: This is a state which applies to a table cell.
-#: src/orca/object_properties.py:554
+#: src/orca/object_properties.py:550
 msgctxt "tablecell"
 msgid "not selected"
 msgstr "nav atlasīts"
 
 #. Translators: This is a state which applies to a link.
-#: src/orca/object_properties.py:557
+#: src/orca/object_properties.py:553
 msgctxt "link state"
 msgid "visited"
 msgstr "apmeklēta"
 
 #. Translators: This is a state which applies to a link.
-#: src/orca/object_properties.py:560
+#: src/orca/object_properties.py:556
 msgctxt "link state"
 msgid "unvisited"
 msgstr "neapmeklēta"
 
 #. Translators: This state represents an item on the screen that has been set
 #. insensitive (or grayed out).
-#: src/orca/object_properties.py:564 src/orca/object_properties.py:568
+#: src/orca/object_properties.py:560 src/orca/object_properties.py:564
 msgid "grayed"
 msgstr "ēnots"
 
@@ -11933,7 +11929,7 @@ msgstr "ēnots"
 #. It is assumed that form fields will be editable; if they lack this state,
 #. we need to present that information to the user. This string is the spoken
 #. version.
-#: src/orca/object_properties.py:575
+#: src/orca/object_properties.py:571
 msgctxt "text"
 msgid "read only"
 msgstr "tikai lasāms"
@@ -11943,27 +11939,27 @@ msgstr "tikai lasāms"
 #. It is assumed that form fields will be editable; if they lack this state,
 #. we need to present that information to the user. This string is the braille
 #. version. (Because braille displays have limited real estate, we abbreviate.)
-#: src/orca/object_properties.py:582
+#: src/orca/object_properties.py:578
 msgctxt "text"
 msgid "rdonly"
 msgstr "tikailas"
 
 #. Translators: Certain objects (such as form controls on web pages) can have
 #. STATE_REQUIRED set to inform the user that this field must be filled out.
-#: src/orca/object_properties.py:586 src/orca/object_properties.py:590
+#: src/orca/object_properties.py:582 src/orca/object_properties.py:586
 msgid "required"
 msgstr "nepieciešams"
 
 #. Translators: "multi-select" refers to a web form list in which more than
 #. one item can be selected at a time.
-#: src/orca/object_properties.py:594
+#: src/orca/object_properties.py:590
 msgid "multi-select"
 msgstr "vairāku atlase"
 
 #. Translators: STATE_INVALID_ENTRY indicates that the associated object, such
 #. as a form field, has an error. The following string is spoken when all we
 #. know is that an error has occurred, but not the type of error.
-#: src/orca/object_properties.py:599
+#: src/orca/object_properties.py:595
 msgctxt "error"
 msgid "invalid entry"
 msgstr "nederīgs ieraksts"
@@ -11973,7 +11969,7 @@ msgstr "nederīgs ieraksts"
 #. when all we know is that an error has occurred, but not the type of error.
 #. We prefer a smaller string than in speech because braille displays have a
 #. limited size.
-#: src/orca/object_properties.py:606
+#: src/orca/object_properties.py:602
 msgctxt "error"
 msgid "invalid"
 msgstr "nederīgs"
@@ -11981,7 +11977,7 @@ msgstr "nederīgs"
 #. Translators: STATE_INVALID_ENTRY indicates that the associated object, such
 #. as a form field, has an error. The following string is spoken when the error
 #. is related to spelling.
-#: src/orca/object_properties.py:611
+#: src/orca/object_properties.py:607
 msgctxt "error"
 msgid "invalid spelling"
 msgstr "nederīga pareizrakstība"
@@ -11990,7 +11986,7 @@ msgstr "nederīga pareizrakstība"
 #. as a form field, has an error. The following string is displayed in braille
 #. when the error is related to spelling. We prefer a smaller string than in
 #. speech because braille displays have a limited size.
-#: src/orca/object_properties.py:617
+#: src/orca/object_properties.py:613
 msgctxt "error"
 msgid "spelling"
 msgstr "pareizrakstība"
@@ -11998,7 +11994,7 @@ msgstr "pareizrakstība"
 #. Translators: STATE_INVALID_ENTRY indicates that the associated object, such
 #. as a form field, has an error. The following string is spoken when the error
 #. is related to grammar.
-#: src/orca/object_properties.py:622
+#: src/orca/object_properties.py:618
 msgctxt "error"
 msgid "invalid grammar"
 msgstr "nederīga gramatika"
@@ -12007,7 +12003,7 @@ msgstr "nederīga gramatika"
 #. as a form field, has an error. The following string is displayed in braille
 #. when the error is related to grammar. We prefer a smaller string than in
 #. speech because braille displays have a limited size.
-#: src/orca/object_properties.py:628
+#: src/orca/object_properties.py:624
 msgctxt "error"
 msgid "grammar"
 msgstr "gramatika"
@@ -14380,3 +14376,4 @@ msgstr "pareizrakstība"
 #~ msgid "Setup complete.  Press Return to continue."
 #~ msgstr ""
 #~ "Uzstādīšana pabeigta. Nospiediet taustiņu “ievadīšana”, lai turpinātu."
+

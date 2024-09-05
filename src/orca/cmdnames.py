@@ -32,25 +32,19 @@ __license__   = "LGPL"
 
 from .orca_i18n import _
 
-# Translators: this command will move the mouse pointer to the current item
-#  without clicking on it.             
+# Translators: this command will move the mouse pointer to the current item,
+# typically a widget, without clicking on it.
 ROUTE_POINTER_TO_ITEM = _("Route the pointer to the current item")
 
-# Translators: the 'flat review' feature of Orca allows the blind user to
-# explore the text in a window in a 2D fashion.  That is, Orca treats all
-# the text from all objects in a window (e.g., buttons, labels, etc.) as a
-# sequence of words in a sequence of lines.  The flat review feature allows
-# the user to explore this text by the {previous,next} {line,word,character}.
-# Left click means to generate a left mouse button click on the current item.
-LEFT_CLICK_REVIEW_ITEM = _("Perform left click on current flat review item")
+# Translators: Orca has a command to synthesize mouse events. This string
+# describes the Orca command to generate a left mouse button click on the
+# current item, typically a widget.
+LEFT_CLICK_REVIEW_ITEM = _("Perform left click on current item")
 
-# Translators: the 'flat review' feature of Orca allows the blind user to
-# explore the text in a window in a 2D fashion.  That is, Orca treats all
-# the text from all objects in a window (e.g., buttons, labels, etc.) as a
-# sequence of words in a sequence of lines.  The flat review feature allows
-# the user to explore this text by the {previous,next} {line,word,character}.
-# Right click means to generate a right mouse button click on the current item.
-RIGHT_CLICK_REVIEW_ITEM = _("Perform right click on current flat review item")
+# Translators: Orca has a command to synthesize mouse events. This string
+# describes the Orca command to generate a right mouse button click on the
+# current item, typically a widget.
+RIGHT_CLICK_REVIEW_ITEM = _("Perform right click on current item")
 
 # Translators: the Orca "SayAll" command allows the user to press a key and have
 # the entire document in a window be automatically spoken to the user. If the
@@ -593,12 +587,14 @@ PRESENT_CURRENT_DATE = _("Present current date")
 # of keyboard shortcuts.
 PRESENT_SIZE_AND_POSITION = _("Present size and location of current object")
 
-# Translators: Orca normally intercepts all keyboard commands and only passes
-# them along to the current application when they are not Orca commands. This
-# command causes the next command issued to be passed along to the current
-# application, bypassing Orca's interception of it.
-BYPASS_NEXT_COMMAND = \
-    _("Pass the next command on to the current application")
+# Translators: This command toggles all (other) Orca commands so that the
+# associated keystroke can by consumed by the native application. For example,
+# if there were an Orca command bound to Alt+Down, normally pressing Alt+Down
+# would cause the Orca command to be used. This would mean Alt+Down could not
+# be used in editors to move the current line of text down. By temporarily
+# disabling Orca commands, Alt+Down would be ignored by Orca and work as
+# expected in the editor.
+BYPASS_MODE_TOGGLE = _("Toggle all Orca command keys")
 
 # Translators: Orca has a command to review previous chat room messages in
 # speech and braille. This string to be translated is associated with the

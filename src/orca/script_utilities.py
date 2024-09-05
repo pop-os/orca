@@ -35,6 +35,8 @@ import time
 from difflib import SequenceMatcher
 
 gi.require_version("Atspi", "2.0")
+gi.require_version("Gdk", "3.0")
+gi.require_version("Gtk", "3.0")
 from gi.repository import Atspi
 from gi.repository import Gdk
 from gi.repository import Gtk
@@ -44,10 +46,9 @@ from . import debug
 from . import focus_manager
 from . import keynames
 from . import keybindings
-from . import input_event
+from . import input_event_manager
 from . import mathsymbols
 from . import messages
-from . import orca_state
 from . import object_properties
 from . import pronunciation_dict
 from . import script_manager
@@ -63,39 +64,15 @@ from .ax_text import AXText
 from .ax_utilities import AXUtilities
 from .ax_value import AXValue
 
-#############################################################################
-#                                                                           #
-# Utilities                                                                 #
-#                                                                           #
-#############################################################################
-
 class Utilities:
 
     _last_clipboard_update = time.time()
 
     EMBEDDED_OBJECT_CHARACTER = '\ufffc'
     ZERO_WIDTH_NO_BREAK_SPACE = '\ufeff'
-    SUPERSCRIPT_DIGITS = \
-        ['\u2070', '\u00b9', '\u00b2', '\u00b3', '\u2074',
-         '\u2075', '\u2076', '\u2077', '\u2078', '\u2079']
-    SUBSCRIPT_DIGITS = \
-        ['\u2080', '\u2081', '\u2082', '\u2083', '\u2084',
-         '\u2085', '\u2086', '\u2087', '\u2088', '\u2089']
-
     flags = re.UNICODE
     WORDS_RE = re.compile(r"(\W+)", flags)
-    SUPERSCRIPTS_RE = re.compile(f"[{''.join(SUPERSCRIPT_DIGITS)}]+", flags)
-    SUBSCRIPTS_RE = re.compile(f"[{''.join(SUBSCRIPT_DIGITS)}]+", flags)
     PUNCTUATION = re.compile(r"[^\w\s]", flags)
-
-    # generatorCache
-    #
-    DISPLAYED_DESCRIPTION = 'displayedDescription'
-    DISPLAYED_LABEL = 'displayedLabel'
-    DISPLAYED_TEXT = 'displayedText'
-    KEY_BINDING = 'keyBinding'
-    NESTING_LEVEL = 'nestingLevel'
-    NODE_LEVEL = 'nodeLevel'
 
     def __init__(self, script):
         """Creates an instance of the Utilities class.
@@ -134,10 +111,7 @@ class Utilities:
         # First see if this accessible implements RELATION_NODE_PARENT_OF.
         # If it does, the full target list are the nodes. If it doesn't
         # we'll do an old-school, row-by-row search for child nodes.
-        def pred(x):
-            return AXObject.get_index_in_parent(x) >= 0
-
-        nodes = AXObject.get_relation_targets(obj, Atspi.RelationType.NODE_PARENT_OF, pred)
+        nodes = AXUtilities.get_is_node_parent_of(obj)
         tokens = ["SCRIPT UTILITIES:", len(nodes), "child nodes for", obj, "via node-parent-of"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         if nodes:
@@ -153,12 +127,12 @@ class Utilities:
 
         for i in range(row + 1, AXTable.get_row_count(parent, prefer_attribute=False)):
             cell = AXTable.get_cell_at(parent, i, col)
-            relation = AXObject.get_relation(cell, Atspi.RelationType.NODE_CHILD_OF)
-            if not relation:
+            targets = AXUtilities.get_is_node_child_of(cell)
+            if not targets:
                 continue
 
-            nodeOf = relation.get_target(0)
-            if self.isSameObject(obj, nodeOf):
+            nodeOf = targets[0]
+            if obj == nodeOf:
                 nodes.append(cell)
             elif self.nodeLevel(nodeOf) <= nodeLevel:
                 break
@@ -202,7 +176,7 @@ class Utilities:
         maxSearch = min(len(aParents), len(bParents))
         i = 0
         while i < maxSearch:
-            if self.isSameObject(aParents[i], bParents[i]):
+            if aParents[i] == bParents[i]:
                 commonAncestor = aParents[i]
                 i += 1
             else:
@@ -224,50 +198,21 @@ class Utilities:
         if there is nothing of interest here.
         """
 
-        try:
-            return self._script.generatorCache[self.DISPLAYED_LABEL][obj]
-        except Exception:
-            if self.DISPLAYED_LABEL not in self._script.generatorCache:
-                self._script.generatorCache[self.DISPLAYED_LABEL] = {}
-            labelString = None
-
-        labels = self.labelsForObject(obj)
-        for label in labels:
-            labelString = \
-                self.appendString(labelString, self.displayedText(label))
-
-        self._script.generatorCache[self.DISPLAYED_LABEL][obj] = labelString
-        return self._script.generatorCache[self.DISPLAYED_LABEL][obj]
+        labels = AXUtilities.get_is_labelled_by(obj)
+        return " ".join(AXText.get_all_text(label) or AXObject.get_name(label) for label in labels)
 
     def preferDescriptionOverName(self, obj):
         return False
 
-    def descriptionsForObject(self, obj):
-        """Return a list of objects describing obj."""
-
-        descriptions = AXObject.get_relation_targets(obj, Atspi.RelationType.DESCRIBED_BY)
-        if not descriptions:
-            return []
-
-        labels = AXObject.get_relation_targets(obj, Atspi.RelationType.LABELLED_BY)
-        if descriptions == labels:
-            tokens = ["SCRIPT UTILITIES:", obj,
-                      "'s described-by targets are the same as labelled-by targets"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return []
-
-        return descriptions
-
     def detailsContentForObject(self, obj):
         details = self.detailsForObject(obj)
-        return list(map(self.displayedText, details))
+        return list(map(AXText.get_all_text, details))
 
     def detailsForObject(self, obj, textOnly=True):
         """Return a list of objects containing details for obj."""
 
-        details = AXObject.get_relation_targets(obj, Atspi.RelationType.DETAILS)
-        if not details and AXUtilities.is_toggle_button(obj) \
-            and AXUtilities.is_expanded(obj):
+        details = AXUtilities.get_details(obj)
+        if not details and AXUtilities.is_toggle_button(obj) and AXUtilities.is_expanded(obj):
             details = [child for child in AXObject.iter_children(obj)]
 
         if not textOnly:
@@ -284,59 +229,8 @@ class Utilities:
     def displayedDescription(self, obj):
         """Returns the text being displayed for the object describing obj."""
 
-        try:
-            return self._script.generatorCache[self.DISPLAYED_DESCRIPTION][obj]
-        except Exception:
-            if self.DISPLAYED_DESCRIPTION not in self._script.generatorCache:
-                self._script.generatorCache[self.DISPLAYED_DESCRIPTION] = {}
-
-        string = " ".join(map(self.displayedText, self.descriptionsForObject(obj)))
-        self._script.generatorCache[self.DISPLAYED_DESCRIPTION][obj] = string
-        return self._script.generatorCache[self.DISPLAYED_DESCRIPTION][obj]
-
-    def displayedText(self, obj):
-        """Returns the text being displayed for an object.
-
-        Arguments:
-        - obj: the object
-
-        Returns the text being displayed for an object or None if there isn't
-        any text being shown.
-        """
-
-        # TODO - JD: It's finally time to consider killing this for real.
-
-        try:
-            return self._script.generatorCache[self.DISPLAYED_TEXT][obj]
-        except Exception:
-            displayedText = None
-
-        name = AXObject.get_name(obj)
-        role = AXObject.get_role(obj)
-        if role in [Atspi.Role.PUSH_BUTTON, Atspi.Role.LABEL] and name:
-            return name
-
-        displayedText = AXText.get_all_text(obj)
-        if self.EMBEDDED_OBJECT_CHARACTER in displayedText:
-            displayedText = None
-
-        if not displayedText and role not in [Atspi.Role.COMBO_BOX, Atspi.Role.SPIN_BUTTON]:
-            # TODO - JD: This should probably get nuked. But all sorts of
-            # existing code might be relying upon this bogus hack. So it
-            # will need thorough testing when removed.
-            displayedText = name
-
-        if not displayedText and role in [Atspi.Role.PUSH_BUTTON, Atspi.Role.LIST_ITEM]:
-            labels = self.unrelatedLabels(obj, minimumWords=1)
-            if not labels:
-                labels = self.unrelatedLabels(obj, onlyShowing=False, minimumWords=1)
-            displayedText = " ".join(map(self.displayedText, labels))
-
-        if self.DISPLAYED_TEXT not in self._script.generatorCache:
-            self._script.generatorCache[self.DISPLAYED_TEXT] = {}
-
-        self._script.generatorCache[self.DISPLAYED_TEXT][obj] = displayedText
-        return self._script.generatorCache[self.DISPLAYED_TEXT][obj]
+        descriptions = AXUtilities.get_is_described_by(obj)
+        return " ".join(AXText.get_all_text(d) or AXObject.get_name(d) for d in descriptions)
 
     def documentFrame(self, obj=None):
         """Returns the document frame which is displaying the content.
@@ -349,7 +243,7 @@ class Utilities:
         if document:
             return document
 
-        focus = focus_manager.getManager().get_locus_of_focus()
+        focus = focus_manager.get_manager().get_locus_of_focus()
         if AXUtilities.is_document(focus):
             return focus
 
@@ -360,7 +254,7 @@ class Utilities:
 
         results = [None, None]
 
-        obj = obj or focus_manager.getManager().get_locus_of_focus()
+        obj = obj or focus_manager.get_manager().get_locus_of_focus()
         if not obj:
             msg = "SCRIPT UTILITIES: frameAndDialog() called without valid object"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -396,7 +290,7 @@ class Utilities:
         return results
 
     def presentEventFromNonShowingObject(self, event):
-        if event.source == focus_manager.getManager().get_locus_of_focus():
+        if event.source == focus_manager.get_manager().get_locus_of_focus():
             return True
 
         return False
@@ -417,49 +311,11 @@ class Utilities:
         """
 
         return AXUtilities.is_combo_box(obj) \
-            and not self.isSameObject(obj, focus_manager.getManager().get_locus_of_focus())
-
-    def hasMatchingHierarchy(self, obj, rolesList):
-        """Called to determine if the given object and it's hierarchy of
-        parent objects, each have the desired roles. Please note: You
-        should strongly consider an alternative means for determining
-        that a given object is the desired item. Failing that, you should
-        include only enough of the hierarchy to make the determination.
-        If the developer of the application you are providing access to
-        does so much as add an Adjustment to reposition a widget, this
-        method can fail. You have been warned.
-
-        Arguments:
-        - obj: the accessible object to check.
-        - rolesList: the list of desired roles for the components and the
-          hierarchy of its parents.
-
-        Returns True if all roles match.
-        """
-
-        current = obj
-        for role in rolesList:
-            if current is None:
-                return False
-
-            if not isinstance(role, list):
-                role = [role]
-
-            if isinstance(role[0], str):
-                current_role = AXObject.get_role_name(current)
-            else:
-                current_role = AXObject.get_role(current)
-
-            if current_role not in role:
-                return False
-
-            current = AXObject.get_parent_checked(current)
-
-        return True
+            and obj != focus_manager.get_manager().get_locus_of_focus()
 
     def inFindContainer(self, obj=None):
         if obj is None:
-            obj = focus_manager.getManager().get_locus_of_focus()
+            obj = focus_manager.get_manager().get_locus_of_focus()
 
         if not AXUtilities.is_entry(obj):
             return False
@@ -470,9 +326,6 @@ class Utilities:
         return ""
 
     def isAnchor(self, obj):
-        return False
-
-    def isCode(self, obj):
         return False
 
     def isCodeDescendant(self, obj):
@@ -515,22 +368,7 @@ class Utilities:
 
         return False
 
-    def isComment(self, obj):
-        return False
-
-    def isContentDeletion(self, obj):
-        return False
-
     def isContentError(self, obj):
-        return False
-
-    def isContentInsertion(self, obj):
-        return False
-
-    def isContentMarked(self, obj):
-        return False
-
-    def isContentSuggestion(self, obj):
         return False
 
     def isInlineSuggestion(self, obj):
@@ -542,223 +380,16 @@ class Utilities:
     def isLastItemInInlineContentSuggestion(self, obj):
         return False
 
-    def isEmpty(self, obj):
+    def is_empty(self, obj):
         return False
 
     def isHidden(self, obj):
-        return False
-
-    def isDPub(self, obj):
-        return False
-
-    def isDPubAbstract(self, obj):
-        return False
-
-    def isDPubAcknowledgments(self, obj):
-        return False
-
-    def isDPubAfterword(self, obj):
-        return False
-
-    def isDPubAppendix(self, obj):
-        return False
-
-    def isDPubBibliography(self, obj):
-        return False
-
-    def isDPubBacklink(self, obj):
-        return False
-
-    def isDPubBiblioref(self, obj):
-        return False
-
-    def isDPubChapter(self, obj):
-        return False
-
-    def isDPubColophon(self, obj):
-        return False
-
-    def isDPubConclusion(self, obj):
-        return False
-
-    def isDPubCover(self, obj):
-        return False
-
-    def isDPubCredit(self, obj):
-        return False
-
-    def isDPubCredits(self, obj):
-        return False
-
-    def isDPubDedication(self, obj):
-        return False
-
-    def isDPubEndnote(self, obj):
-        return False
-
-    def isDPubEndnotes(self, obj):
-        return False
-
-    def isDPubEpigraph(self, obj):
-        return False
-
-    def isDPubEpilogue(self, obj):
-        return False
-
-    def isDPubErrata(self, obj):
-        return False
-
-    def isDPubExample(self, obj):
-        return False
-
-    def isDPubFootnote(self, obj):
-        return False
-
-    def isDPubForeword(self, obj):
-        return False
-
-    def isDPubGlossary(self, obj):
-        return False
-
-    def isDPubGlossref(self, obj):
-        return False
-
-    def isDPubIndex(self, obj):
-        return False
-
-    def isDPubIntroduction(self, obj):
-        return False
-
-    def isDPubPagelist(self, obj):
-        return False
-
-    def isDPubPagebreak(self, obj):
-        return False
-
-    def isDPubPart(self, obj):
-        return False
-
-    def isDPubPreface(self, obj):
-        return False
-
-    def isDPubPrologue(self, obj):
-        return False
-
-    def isDPubPullquote(self, obj):
-        return False
-
-    def isDPubQna(self, obj):
-        return False
-
-    def isDPubSubtitle(self, obj):
-        return False
-
-    def isDPubToc(self, obj):
-        return False
-
-    def isFeed(self, obj):
-        return False
-
-    def isFeedArticle(self, obj):
-        return False
-
-    def isFigure(self, obj):
-        return False
-
-    def isGrid(self, obj):
-        return False
-
-    def isGridCell(self, obj):
-        return False
-
-    def isLandmark(self, obj):
-        return False
-
-    def isLandmarkWithoutType(self, obj):
-        return False
-
-    def isLandmarkBanner(self, obj):
-        return False
-
-    def isLandmarkComplementary(self, obj):
-        return False
-
-    def isLandmarkContentInfo(self, obj):
-        return False
-
-    def isLandmarkForm(self, obj):
-        return False
-
-    def isLandmarkMain(self, obj):
-        return False
-
-    def isLandmarkNavigation(self, obj):
-        return False
-
-    def isDPubNoteref(self, obj):
-        return False
-
-    def isLandmarkRegion(self, obj):
-        return False
-
-    def isLandmarkSearch(self, obj):
-        return False
-
-    def isSVG(self, obj):
         return False
 
     def speakMathSymbolNames(self, obj=None):
         return False
 
     def isInMath(self):
-        return False
-
-    def isMath(self, obj):
-        return False
-
-    def isMathLayoutOnly(self, obj):
-        return False
-
-    def isMathMultiline(self, obj):
-        return False
-
-    def isMathEnclosed(self, obj):
-        return False
-
-    def isMathFenced(self, obj):
-        return False
-
-    def isMathFractionWithoutBar(self, obj):
-        return False
-
-    def isMathPhantom(self, obj):
-        return False
-
-    def isMathMultiScript(self, obj):
-        return False
-
-    def isMathSubOrSuperScript(self, obj):
-        return False
-
-    def isMathUnderOrOverScript(self, obj):
-        return False
-
-    def isMathSquareRoot(self, obj):
-        return False
-
-    def isMathTable(self, obj):
-        return False
-
-    def isMathTableRow(self, obj):
-        return False
-
-    def isMathTableCell(self, obj):
-        return False
-
-    def isMathToken(self, obj):
-        return False
-
-    def isMathTopLevel(self, obj):
         return False
 
     def getMathDenominator(self, obj):
@@ -841,13 +472,12 @@ class Utilities:
         return AXValue.get_value_as_percent(obj) is not None
 
     def topLevelObjectIsActiveWindow(self, obj):
-        return self.isSameObject(
-            self.topLevelObject(obj), focus_manager.getManager().get_active_window())
+        return self.topLevelObject(obj) == focus_manager.get_manager().get_active_window()
 
     def isProgressBarUpdate(self, obj):
-        if not settings_manager.getManager().getSetting('speakProgressBarUpdates') \
-           and not settings_manager.getManager().getSetting('brailleProgressBarUpdates') \
-           and not settings_manager.getManager().getSetting('beepProgressBarUpdates'):
+        if not settings_manager.get_manager().get_setting('speakProgressBarUpdates') \
+           and not settings_manager.get_manager().get_setting('brailleProgressBarUpdates') \
+           and not settings_manager.get_manager().get_setting('beepProgressBarUpdates'):
             return False, "Updates not enabled"
 
         if not self.isProgressBar(obj):
@@ -856,11 +486,11 @@ class Utilities:
         if AXComponent.has_no_size(obj):
             return False, "Has no size"
 
-        if settings_manager.getManager().getSetting('ignoreStatusBarProgressBars'):
+        if settings_manager.get_manager().get_setting('ignoreStatusBarProgressBars'):
             if AXObject.find_ancestor(obj, AXUtilities.is_status_bar):
                 return False, "Is status bar descendant"
 
-        verbosity = settings_manager.getManager().getSetting('progressBarVerbosity')
+        verbosity = settings_manager.get_manager().get_setting('progressBarVerbosity')
         if verbosity == settings.PROGRESS_BAR_ALL:
             return True, "Verbosity is all"
 
@@ -871,31 +501,19 @@ class Utilities:
 
         if verbosity == settings.PROGRESS_BAR_APPLICATION:
             app = AXObject.get_application(obj)
-            activeApp = script_manager.getManager().getActiveScriptApp()
+            activeApp = script_manager.get_manager().get_active_script_app()
             if app == activeApp:
                 return True, "Verbosity is app"
             return False, "App is not active app"
 
         return True, "Not handled by any other case"
 
-    def isBlockquote(self, obj):
-        return AXUtilities.is_block_quote(obj)
-
-    def isDescriptionList(self, obj):
-        return AXUtilities.is_description_list(obj)
-
-    def isDescriptionListTerm(self, obj):
-        return AXUtilities.is_description_term(obj)
-
-    def isDescriptionListDescription(self, obj):
-        return AXUtilities.is_description_value(obj)
-
     def descriptionListTerms(self, obj):
-        if not self.isDescriptionList(obj):
+        if not AXUtilities.is_description_list(obj):
             return []
 
-        _include = self.isDescriptionListTerm
-        _exclude = self.isDescriptionList
+        _include = AXUtilities.is_description_term
+        _exclude = AXUtilities.is_description_list
         return self.findAllDescendants(obj, _include, _exclude)
 
     def isDocumentList(self, obj):
@@ -912,11 +530,11 @@ class Utilities:
         return AXUtilities.is_document(obj)
 
     def inDocumentContent(self, obj=None):
-        obj = obj or focus_manager.getManager().get_locus_of_focus()
+        obj = obj or focus_manager.get_manager().get_locus_of_focus()
         return self.getDocumentForObject(obj) is not None
 
     def activeDocument(self, window=None):
-        return self.getTopLevelDocumentForObject(focus_manager.getManager().get_locus_of_focus())
+        return self.getTopLevelDocumentForObject(focus_manager.get_manager().get_locus_of_focus())
 
     def isTopLevelDocument(self, obj):
         return self.isDocument(obj) and not AXObject.find_ancestor(obj, self.isDocument)
@@ -997,7 +615,7 @@ class Utilities:
             return False
 
         if prevCell is None:
-            lastColumn = self._script.pointOfReference.get("lastColumn")
+            lastColumn = self._script.point_of_reference.get("lastColumn")
         else:
             lastColumn = AXTable.get_cell_coordinates(prevCell)[1]
 
@@ -1009,7 +627,7 @@ class Utilities:
             return False
 
         if prevCell is None:
-            lastRow = self._script.pointOfReference.get("lastRow")
+            lastRow = self._script.point_of_reference.get("lastRow")
         else:
             lastRow = AXTable.get_cell_coordinates(prevCell)[0]
         return row != lastRow
@@ -1018,7 +636,7 @@ class Utilities:
         if self._script.inSayAll():
             return False
 
-        if self._script.getTableNavigator().last_input_event_was_navigation_command():
+        if self._script.get_table_navigator().last_input_event_was_navigation_command():
             return False
 
         if not self.cellRowChanged(obj, prevObj):
@@ -1029,12 +647,12 @@ class Utilities:
             return False
 
         if not self.getDocumentForObject(table):
-            return settings_manager.getManager().getSetting('readFullRowInGUITable')
+            return settings_manager.get_manager().get_setting('readFullRowInGUITable')
 
         if self.isSpreadSheetTable(table):
-            return settings_manager.getManager().getSetting('readFullRowInSpreadSheet')
+            return settings_manager.get_manager().get_setting('readFullRowInSpreadSheet')
 
-        return settings_manager.getManager().getSetting('readFullRowInDocumentTable')
+        return settings_manager.get_manager().get_setting('readFullRowInDocumentTable')
 
     def isSorted(self, obj):
         return False
@@ -1064,14 +682,6 @@ class Utilities:
     def isFocusableLabel(self, obj):
         return AXUtilities.is_label(obj) and AXUtilities.is_focusable(obj)
 
-    def isNonFocusableList(self, obj):
-        return AXUtilities.is_list(obj) and not AXUtilities.is_focusable(obj)
-
-    def isStatusBarNotification(self, obj):
-        if not AXUtilities.is_notification(obj):
-            return False
-        return AXObject.find_ancestor(obj, AXUtilities.is_status_bar) is not None
-
     def getNotificationContent(self, obj):
         if not AXUtilities.is_notification(obj):
             return ""
@@ -1084,7 +694,8 @@ class Utilities:
         if text and text not in tokens:
             tokens.append(text)
         else:
-            labels = " ".join(map(self.displayedText, self.unrelatedLabels(obj, False, 1)))
+            labels = " ".join(map(lambda x: AXText.get_all_text(x) or AXObject.get_name(x),
+                                  self.unrelatedLabels(obj, False, 1)))
             if labels and labels not in tokens:
                 tokens.append(labels)
 
@@ -1132,7 +743,7 @@ class Utilities:
             elif parentRole == Atspi.Role.TABLE:
                 layoutOnly = self.isLayoutOnly(AXObject.get_parent(obj))
         elif role == Atspi.Role.SECTION:
-            layoutOnly = not self.isBlockquote(obj)
+            layoutOnly = not AXUtilities.is_block_quote(obj)
         elif role == Atspi.Role.BLOCK_QUOTE:
             layoutOnly = False
         elif role == Atspi.Role.FILLER:
@@ -1178,7 +789,7 @@ class Utilities:
         elif self.isHidden(obj):
             layoutOnly = True
         else:
-            if not (self.displayedText(obj) or self.displayedLabel(obj)):
+            if not (AXObject.get_name(obj) or self.displayedLabel(obj) or AXText.get_all_text(obj)):
                 layoutOnly = True
 
         if layoutOnly:
@@ -1186,21 +797,6 @@ class Utilities:
             debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         return layoutOnly
-
-    @staticmethod
-    def isInActiveApp(obj):
-        """Returns True if the given object is from the same application that
-        currently has keyboard focus.
-
-        Arguments:
-        - obj: an Accessible object
-        """
-
-        focus = focus_manager.getManager().get_locus_of_focus()
-        if not (obj and focus):
-            return False
-
-        return AXObject.get_application(focus) == AXObject.get_application(obj)
 
     def isLink(self, obj):
         """Returns True if obj is a link."""
@@ -1217,9 +813,6 @@ class Utilities:
             return True
 
         return AXUtilities.is_focusable(obj) and not AXUtilities.is_editable(obj)
-
-    def isSwitch(self, obj):
-        return False
 
     def getObjectFromPath(self, path):
         start = self._script.app
@@ -1270,37 +863,6 @@ class Utilities:
 
         return path1[0:index] == path2[0:index]
 
-    def isSameObject(self, obj1, obj2, comparePaths=False, ignoreNames=False,
-                     ignoreDescriptions=True):
-        if obj1 == obj2:
-            return True
-
-        if obj1 is None or obj2 is None:
-            return False
-
-        if not AXUtilities.have_same_role(obj1, obj2):
-            return False
-
-        if not ignoreNames and AXObject.get_name(obj1) != AXObject.get_name(obj2):
-            return False
-
-        if not ignoreDescriptions \
-           and AXObject.get_description(obj1) != AXObject.get_description(obj2):
-            return False
-
-        if comparePaths and self._hasSamePath(obj1, obj2):
-            return True
-
-        # Objects which claim to be different and which are in different
-        # locations are almost certainly not recreated objects.
-        if not AXComponent.objects_have_same_rect(obj1, obj2):
-            return False
-
-        if not AXComponent.has_no_size(obj1):
-            return True
-
-        return False
-
     def isTextArea(self, obj):
         """Returns True if obj is a GUI component that is for entering text.
 
@@ -1317,15 +879,6 @@ class Utilities:
             or AXUtilities.is_text(obj) \
             or AXUtilities.is_paragraph(obj)
 
-    def labelsForObject(self, obj):
-        """Return a list of the labels for this object."""
-
-        def isNotAncestor(acc):
-            return not AXObject.find_ancestor(obj, lambda x: x == acc)
-
-        result = AXObject.get_relation_targets(obj, Atspi.RelationType.LABELLED_BY)
-        return list(filter(isNotAncestor, result))
-
     def nestingLevel(self, obj):
         """Determines the nesting level of this object.
 
@@ -1335,16 +888,9 @@ class Utilities:
 
         if obj is None:
             return 0
-
-        try:
-            return self._script.generatorCache[self.NESTING_LEVEL][obj]
-        except Exception:
-            if self.NESTING_LEVEL not in self._script.generatorCache:
-                self._script.generatorCache[self.NESTING_LEVEL] = {}
-
         def pred(x):
-            if self.isBlockquote(obj):
-                return self.isBlockquote(x)
+            if AXUtilities.is_block_quote(obj):
+                return AXUtilities.is_block_quote(x)
             if AXUtilities.is_list_item(obj):
                 return AXUtilities.is_list(AXObject.get_parent(x))
             return AXUtilities.have_same_role(obj, x)
@@ -1355,9 +901,7 @@ class Utilities:
             ancestors.append(ancestor)
             ancestor = AXObject.find_ancestor(ancestor, pred)
 
-        nestingLevel = len(ancestors)
-        self._script.generatorCache[self.NESTING_LEVEL][obj] = nestingLevel
-        return self._script.generatorCache[self.NESTING_LEVEL][obj]
+        return len(ancestors)
 
     def nodeLevel(self, obj):
         """Determines the node level of this object if it is in a tree
@@ -1371,20 +915,14 @@ class Utilities:
         if not self.isTreeDescendant(obj):
             return -1
 
-        try:
-            return self._script.generatorCache[self.NODE_LEVEL][obj]
-        except Exception:
-            if self.NODE_LEVEL not in self._script.generatorCache:
-                self._script.generatorCache[self.NODE_LEVEL] = {}
-
         nodes = []
         node = obj
         done = False
         while not done:
-            relation = AXObject.get_relation(node, Atspi.RelationType.NODE_CHILD_OF)
+            targets = AXUtilities.get_is_node_child_of(node)
             node = None
-            if relation:
-                node = relation.get_target(0)
+            if targets:
+                node = targets[0]
 
             # We want to avoid situations where something gives us an
             # infinite cycle of nodes.  Bon Echo has been seen to do
@@ -1402,8 +940,7 @@ class Utilities:
             else:
                 done = True
 
-        self._script.generatorCache[self.NODE_LEVEL][obj] = len(nodes) - 1
-        return self._script.generatorCache[self.NODE_LEVEL][obj]
+        return len(nodes) - 1
 
     def isOnScreen(self, obj, boundingbox=None):
         if AXObject.is_dead(obj):
@@ -1493,7 +1030,7 @@ class Utilities:
     def hasPresentableText(self, obj):
         if self.isStaticTextLeaf(obj):
             return False
-        return bool(re.search(r"\w+", AXText.get_all_text(obj)))
+        return AXText.has_presentable_text(obj)
 
     def getOnScreenObjects(self, root, extents=None):
         if not self.isOnScreen(root, extents):
@@ -1625,39 +1162,14 @@ class Utilities:
             return obj
 
         def pred(x):
-            return x and not self.isStaticTextLeaf(x) and self.displayedText(x).strip()
+            return x and not self.isStaticTextLeaf(x) \
+                and (AXObject.get_name(x) or AXText.get_all_text(x))
 
         child = AXObject.find_descendant(obj, pred)
         if child is not None:
             return child
 
         return obj
-
-    def isStatusBarDescendant(self, obj):
-        if obj is None:
-            return False
-
-        return AXObject.find_ancestor(obj, AXUtilities.is_status_bar) is not None
-
-    def statusBarItems(self, obj):
-        if not AXUtilities.is_status_bar(obj):
-            return []
-
-        start = time.time()
-        items = self._script.pointOfReference.get('statusBarItems')
-        if not items:
-
-            def include(x):
-                return not AXUtilities.is_status_bar(x)
-
-            items = list(filter(include, self.getOnScreenObjects(obj)))
-            self._script.pointOfReference['statusBarItems'] = items
-
-        end = time.time()
-        msg = f"SCRIPT UTILITIES: Time getting status bar items: {end - start:.4f}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-
-        return items
 
     def infoBar(self, root):
         return None
@@ -1672,7 +1184,7 @@ class Utilities:
         return roles
 
     def _locusOfFocusIsTopLevelObject(self):
-        focus = focus_manager.getManager().get_locus_of_focus()
+        focus = focus_manager.get_manager().get_locus_of_focus()
         if not focus:
             return False
 
@@ -1731,7 +1243,7 @@ class Utilities:
         return rv
 
     def topLevelObjectIsActiveAndCurrent(self, obj=None):
-        obj = obj or focus_manager.getManager().get_locus_of_focus()
+        obj = obj or focus_manager.get_manager().get_locus_of_focus()
         topLevel = self.topLevelObject(obj)
         if not topLevel:
             return False
@@ -1740,10 +1252,7 @@ class Utilities:
         if not AXUtilities.is_active(topLevel) or AXUtilities.is_defunct(topLevel):
             return False
 
-        if not self.isSameObject(topLevel, focus_manager.getManager().get_active_window()):
-            return False
-
-        return True
+        return topLevel == focus_manager.get_manager().get_active_window()
 
     @staticmethod
     def pathComparison(path1, path2):
@@ -1786,19 +1295,34 @@ class Utilities:
 
         labelRoles = [Atspi.Role.LABEL, Atspi.Role.STATIC]
         skipRoles = [Atspi.Role.COMBO_BOX,
+                     Atspi.Role.DOCUMENT_EMAIL,
+                     Atspi.Role.DOCUMENT_FRAME,
+                     Atspi.Role.DOCUMENT_PRESENTATION,
+                     Atspi.Role.DOCUMENT_SPREADSHEET,
+                     Atspi.Role.DOCUMENT_TEXT,
+                     Atspi.Role.DOCUMENT_WEB,
+                     Atspi.Role.FRAME,
                      Atspi.Role.LIST_BOX,
+                     Atspi.Role.LIST,
+                     Atspi.Role.LIST_ITEM,
                      Atspi.Role.MENU,
                      Atspi.Role.MENU_BAR,
+                     Atspi.Role.PUSH_BUTTON,
                      Atspi.Role.SCROLL_PANE,
                      Atspi.Role.SPLIT_PANE,
                      Atspi.Role.TABLE,
+                     Atspi.Role.TOGGLE_BUTTON,
                      Atspi.Role.TREE,
-                     Atspi.Role.TREE_TABLE]
+                     Atspi.Role.TREE_TABLE,
+                     Atspi.Role.WINDOW]
+
+        if AXObject.get_role(root) in skipRoles:
+            return []
 
         def _include(x):
             if not (x and AXObject.get_role(x) in labelRoles):
                 return False
-            if AXObject.get_relations(x):
+            if not AXUtilities.object_is_unrelated(x):
                 return False
             if onlyShowing and not AXUtilities.is_showing(x):
                 return False
@@ -1818,7 +1342,7 @@ class Utilities:
         # Eliminate things suspected to be labels for widgets
         labels_filtered = []
         for label in labels:
-            name = AXObject.get_name(label) or self.displayedText(label)
+            name = AXObject.get_name(label) or AXText.get_all_text(label)
             if name and name in [rootName, AXObject.get_name(AXObject.get_parent(label))]:
                 continue
             if len(name.split()) < minimumWords:
@@ -1859,7 +1383,7 @@ class Utilities:
                 and (AXObject.get_name(x) or AXObject.get_child_count(x))
 
         def cannotBeActiveWindow(x):
-            return not focus_manager.getManager().can_be_active_window(x)
+            return not focus_manager.get_manager().can_be_active_window(x)
 
         presentable = list(filter(isPresentable, set(dialogs)))
         unfocused = list(filter(cannotBeActiveWindow, presentable))
@@ -1877,9 +1401,9 @@ class Utilities:
         if not AXObject.is_valid(obj):
             return None
 
-        relation = AXObject.get_relation(obj, Atspi.RelationType.FLOWS_FROM)
-        if relation:
-            return relation.get_target(0)
+        targets = AXUtilities.get_flows_from(obj)
+        if targets:
+            return targets[0]
 
         return AXObject.get_previous_object(obj)
 
@@ -1889,9 +1413,9 @@ class Utilities:
         if not AXObject.is_valid(obj):
             return None
 
-        relation = AXObject.get_relation(obj, Atspi.RelationType.FLOWS_TO)
-        if relation:
-            return relation.get_target(0)
+        targets = AXUtilities.get_flows_to(obj)
+        if targets:
+            return targets[0]
 
         return AXObject.get_next_object(obj)
 
@@ -1909,7 +1433,7 @@ class Utilities:
 
         # TODO - JD: Move to AXText if possible
         textContents, startOffset, endOffset = AXText.get_selected_text(obj)
-        if textContents and self._script.pointOfReference.get('entireDocumentSelected'):
+        if textContents and self._script.point_of_reference.get('entireDocumentSelected'):
             return textContents, startOffset, endOffset
 
         if self.isSpreadSheetCell(obj):
@@ -1945,11 +1469,17 @@ class Utilities:
         Returns the fully expanded text for the object.
         """
 
-        try:
-            string = self.substring(obj, startOffset, endOffset)
-        except Exception:
-            return ""
+        # TODO - JD: Audit all callers and eliminate these arguments having been set to None.
+        if startOffset is None:
+            tokens = ["SCRIPT UTILITIES: expandEOCs called with start offset of None on", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+            startOffset = 0
+        if endOffset is None:
+            tokens = ["SCRIPT UTILITIES: expandEOCs called with end offset of None on", obj]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+            endOffset = -1
 
+        string = AXText.get_substring(obj, startOffset, endOffset)
         if self.EMBEDDED_OBJECT_CHARACTER not in string:
             return string
 
@@ -1971,7 +1501,17 @@ class Utilities:
                     result += " "
                 toBuild[i] = result
 
-        return "".join(toBuild)
+        result = "".join(toBuild)
+        tokens = ["SCRIPT UTILITIES: Expanded EOCs for", obj, f"range: {startOffset}:{endOffset}:",
+                 f"'{result}'"]
+        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+
+        if self.EMBEDDED_OBJECT_CHARACTER in result:
+            msg = "SCRIPT UTILITIES: Unable to expand EOCs"
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            return ""
+
+        return result
 
     def getError(self, obj):
         return AXUtilities.is_invalid_entry(obj)
@@ -1980,7 +1520,7 @@ class Utilities:
         return ""
 
     def isErrorMessage(self, obj):
-        return False
+        return bool(AXUtilities.get_is_error_for(obj))
 
     def deletedText(self, event):
         return event.any_data
@@ -2004,7 +1544,7 @@ class Utilities:
         return ""
 
     def getCaretContext(self):
-        obj = focus_manager.getManager().get_locus_of_focus()
+        obj = focus_manager.get_manager().get_locus_of_focus()
         offset = AXText.get_caret_offset(obj)
         return obj, offset
 
@@ -2014,16 +1554,12 @@ class Utilities:
         return obj, 0
 
     def setCaretPosition(self, obj, offset, documentFrame=None):
-        focus_manager.getManager().set_locus_of_focus(None, obj, False)
+        focus_manager.get_manager().set_locus_of_focus(None, obj, False)
         self.setCaretOffset(obj, offset)
 
     def setCaretOffset(self, obj, offset):
         # TODO - JD. Remove this function if the web override can be adjusted
         AXText.set_caret_offset(obj, offset)
-
-    def substring(self, obj, startOffset, endOffset):
-        # TODO - JD. Remove this function if the web override can be adjusted
-        return AXText.get_substring(obj, startOffset, endOffset)
 
     def getAppNameForAttribute(self, attribName):
         """Converts the given Atk attribute name into the application's
@@ -2101,7 +1637,7 @@ class Utilities:
                 break
             startOffset = max(start, startOffset)
             endOffset = min(end, endOffset)
-            string = self.substring(obj, startOffset, endOffset)
+            string = AXText.get_substring(obj, startOffset, endOffset)
             rv.append([startOffset, endOffset, string, language, dialect])
 
         return rv
@@ -2143,7 +1679,7 @@ class Utilities:
         determine if the script is likely to echo it as a character.
         """
 
-        focus = focus_manager.getManager().get_locus_of_focus()
+        focus = focus_manager.get_manager().get_locus_of_focus()
         if not focus or not settings.enableEchoByCharacter:
             return False
 
@@ -2165,39 +1701,14 @@ class Utilities:
     #                                                                       #
     #########################################################################
 
-    def _addRepeatSegment(self, segment, line):
-        """Add in the latest line segment, adjusting for repeat characters
-        and punctuation.
-
-        Arguments:
-        - segment: the segment of repeated characters.
-        - line: the current built-up line to characters to speak.
-
-        Returns: the current built-up line plus the new segment, after
-        adjusting for repeat character counts and punctuation.
-        """
-
-        if segment.isalnum():
-            return line + segment
-
-        count = len(segment)
-        if count >= settings.repeatCharacterLimit and segment[0] not in self._script.whitespace:
-            repeatChar = segment[0]
-            repeatSegment = messages.repeatedCharCount(repeatChar, count)
-            line = f"{line} {repeatSegment} "
-        else:
-            line += segment
-
-        return line
-
     def shouldVerbalizeAllPunctuation(self, obj):
-        if not (self.isCode(obj) or self.isCodeDescendant(obj)):
+        if not (AXUtilities.is_code(obj) or self.isCodeDescendant(obj)):
             return False
 
         # If the user has set their punctuation level to All, then the synthesizer will
         # do the work for us. If the user has set their punctuation level to None, then
         # they really don't want punctuation and we mustn't override that.
-        style = settings_manager.getManager().getSetting("verbalizePunctuationStyle")
+        style = settings_manager.get_manager().get_setting("verbalizePunctuationStyle")
         if style in [settings.PUNCTUATION_STYLE_ALL, settings.PUNCTUATION_STYLE_NONE]:
             return False
 
@@ -2210,35 +1721,6 @@ class Utilities:
             result = re.sub(r"\%s" % symbol, charName, result)
 
         return result
-
-    def adjustForLinks(self, obj, line, startOffset):
-        """Adjust line to include the word "link" after any hypertext links.
-
-        Arguments:
-        - obj: the accessible object that this line came from.
-        - line: the string to adjust for links.
-        - startOffset: the caret offset at the start of the line.
-
-        Returns: a new line adjusted to add the speaking of "link" after
-        text which is also a link.
-        """
-
-        endOffset = startOffset + len(line)
-        links = AXHypertext.get_all_links_in_range(obj, startOffset, endOffset)
-        offsets = [AXHypertext.get_link_end_offset(link) for link in links]
-        offsets = sorted([offset - startOffset for offset in offsets], reverse=True)
-        tokens = list(line)
-        for o in offsets:
-            string = f" {messages.LINK}"
-            if o < len(tokens) and tokens[o].isalnum():
-                string += " "
-            tokens[o:o] = string
-
-        return "".join(tokens)
-
-    @staticmethod
-    def _processMultiCaseString(string):
-        return re.sub(r'(?<=[a-z])(?=[A-Z])', ' ', string)
 
     @staticmethod
     def _convertWordToDigits(word):
@@ -2264,17 +1746,12 @@ class Utilities:
         # both types of spaces.
         line = line.replace("\u00a0", " ")
 
-        if settings.speakMultiCaseStringsAsWords:
-            line = self._processMultiCaseString(line)
-
         if self.speakMathSymbolNames():
             line = mathsymbols.adjustForSpeech(line)
 
         if settings.speakNumbersAsDigits:
             words = self.WORDS_RE.split(line)
             line = ''.join(map(self._convertWordToDigits, words))
-
-        line = self.adjustForDigits(line)
 
         if len(line) == 1 and not self._script.inSayAll() and self.isInMath():
             charname = mathsymbols.getCharacterName(line)
@@ -2287,76 +1764,11 @@ class Utilities:
         newLine = ""
         words = self.WORDS_RE.split(line)
         newLine = ''.join(map(pronunciation_dict.getPronunciation, words))
-
-        if settings.speakMultiCaseStringsAsWords:
-            newLine = self._processMultiCaseString(newLine)
-
         return newLine
 
-    def adjustForRepeats(self, line):
-        """Adjust line to include repeat character counts. As some people
-        will want this and others might not, there is a setting in
-        settings.py that determines whether this functionality is enabled.
-
-        repeatCharacterLimit = <n>
-
-        If <n> is 0, then there would be no repeat characters.
-        Otherwise <n> would be the number of same characters (or more)
-        in a row that cause the repeat character count output.
-        If the value is set to 1, 2 or 3 then it's treated as if it was
-        zero. In other words, no repeat character count is given.
-
-        Arguments:
-        - line: the string to adjust for repeat character counts.
-
-        Returns: a new line adjusted for repeat character counts (if enabled).
-        """
-
-        if (len(line) < 4) or (settings.repeatCharacterLimit < 4):
-            return line
-
-        newLine = ''
-        segment = lastChar = line[0]
-
-        for i in range(1, len(line)):
-            if line[i] == lastChar:
-                segment += line[i]
-            else:
-                newLine = self._addRepeatSegment(segment, newLine)
-                segment = line[i]
-
-            lastChar = line[i]
-
-        return self._addRepeatSegment(segment, newLine)
-
-    def adjustForDigits(self, string):
-        """Adjusts the string to convert digit-like text, such as subscript
-        and superscript numbers, into actual digits.
-
-        Arguments:
-        - string: the string to be adjusted
-
-        Returns: a new string which contains actual digits.
-        """
-
-        subscripted = set(re.findall(self.SUBSCRIPTS_RE, string))
-        superscripted = set(re.findall(self.SUPERSCRIPTS_RE, string))
-
-        for number in superscripted:
-            new = [str(self.SUPERSCRIPT_DIGITS.index(d)) for d in number]
-            newString = messages.DIGITS_SUPERSCRIPT % "".join(new)
-            string = re.sub(number, newString, string)
-
-        for number in subscripted:
-            new = [str(self.SUBSCRIPT_DIGITS.index(d)) for d in number]
-            newString = messages.DIGITS_SUBSCRIPT % "".join(new)
-            string = re.sub(number, newString, string)
-
-        return string
-
     def indentationDescription(self, line):
-        if settings_manager.getManager().getSetting('onlySpeakDisplayedText') \
-           or not settings_manager.getManager().getSetting('enableSpeechIndentation'):
+        if settings_manager.get_manager().get_setting('onlySpeakDisplayedText') \
+           or not settings_manager.get_manager().get_setting('enableSpeechIndentation'):
             return ""
 
         line = line.replace("\u00a0", " ")
@@ -2377,16 +1789,6 @@ class Utilities:
         return result
 
     @staticmethod
-    def absoluteMouseCoordinates():
-        """Gets the absolute position of the mouse pointer."""
-
-        from gi.repository import Gtk
-        rootWindow = Gtk.Window().get_screen().get_root_window()
-        window, x, y, modifiers = rootWindow.get_pointer()
-
-        return x, y
-
-    @staticmethod
     def appendString(text, newText, delimiter=" "):
         """Appends the newText to the given text with the delimiter in between
         and returns the new string.  Edge cases, such as no initial text or
@@ -2398,20 +1800,6 @@ class Utilities:
             return newText
 
         return text + delimiter + newText
-
-    def treatAsDuplicateEvent(self, event1, event2):
-        if not (event1 and event2):
-            return False
-
-        # The goal is to find event spam so we can ignore the event.
-        if event1 == event2:
-            return False
-
-        return event1.source == event2.source \
-            and event1.type == event2.type \
-            and event1.detail1 == event2.detail1 \
-            and event1.detail2 == event2.detail2 \
-            and event1.any_data == event2.any_data
 
     def isAutoTextEvent(self, event):
         """Returns True if event is associated with text being autocompleted
@@ -2434,14 +1822,14 @@ class Utilities:
                 if not AXUtilities.is_focused(event.source):
                     return False
 
-            lastKey, mods = self.lastKeyAndModifiers()
-            if lastKey == "Tab" and event.any_data != "\t":
+            manager = input_event_manager.get_manager()
+            if manager.last_event_was_tab() and event.any_data != "\t":
                 return True
-            if lastKey == "Return" and event.any_data != "\n":
+            if manager.last_event_was_return() and event.any_data != "\n":
                 return True
-            if lastKey in ["Up", "Down", "Page_Up", "Page_Down"]:
+            if manager.last_event_was_up_or_down() or manager.last_event_was_page_up_or_page_down():
                 return self.isEditableDescendantOfComboBox(event.source)
-            if not self.lastInputEventWasPrintableKey():
+            if not input_event_manager.get_manager().last_event_was_printable_key():
                 return False
 
             string = AXText.get_all_text(event.source)
@@ -2449,9 +1837,6 @@ class Utilities:
                 selection, start, end = AXText.get_selected_text(event.source)
                 if selection == event.any_data:
                     return True
-                if string == event.any_data and string.endswith(selection):
-                    beginning = string[:string.find(selection)]
-                    return beginning.lower().endswith(lastKey.lower())
 
         return False
 
@@ -2488,43 +1873,6 @@ class Utilities:
                or character == self._script.NO_BREAK_SPACE_CHARACTER
 
     @staticmethod
-    def _allNamesForKeyCode(keycode):
-        keymap = Gdk.Keymap.get_default()
-        entries = keymap.get_entries_for_keycode(keycode)[-1]
-        return list(map(Gdk.keyval_name, set(entries)))
-
-    @staticmethod
-    def _lastKeyCodeAndModifiers():
-        if not isinstance(orca_state.lastInputEvent, input_event.KeyboardEvent):
-            return 0, 0
-
-        event = orca_state.lastNonModifierKeyEvent
-        if event:
-            return event.hw_code, event.modifiers
-
-        return 0, 0
-
-    @staticmethod
-    def lastKeyAndModifiers():
-        """Convenience method which returns a tuple containing the event
-        string and modifiers of the last non-modifier key event or ("", 0)
-        if there is no such event."""
-
-        if isinstance(orca_state.lastInputEvent, input_event.KeyboardEvent) \
-           and orca_state.lastNonModifierKeyEvent:
-            event = orca_state.lastNonModifierKeyEvent
-            if event.keyval_name in ["BackSpace", "Delete"]:
-                eventStr = event.keyval_name
-            else:
-                eventStr = event.event_string
-            mods = orca_state.lastInputEvent.modifiers
-        else:
-            eventStr = ""
-            mods = 0
-
-        return (eventStr, mods)
-
-    @staticmethod
     def labelFromKeySequence(sequence):
         """Turns a key sequence into a user-presentable label."""
 
@@ -2552,16 +1900,9 @@ class Utilities:
         Returns: list containing strings: [mnemonic, shortcut, accelerator]
         """
 
-        try:
-            return self._script.generatorCache[self.KEY_BINDING][obj]
-        except Exception:
-            if self.KEY_BINDING not in self._script.generatorCache:
-                self._script.generatorCache[self.KEY_BINDING] = {}
-
         keybinding = AXObject.get_action_key_binding(obj, 0)
         if not keybinding:
-            self._script.generatorCache[self.KEY_BINDING][obj] = ["", "", ""]
-            return self._script.generatorCache[self.KEY_BINDING][obj]
+            return ["", "", ""]
 
         # Action is a string in the format, where the mnemonic and/or
         # accelerator can be missing.
@@ -2593,12 +1934,7 @@ class Utilities:
         mnemonic = self.labelFromKeySequence(mnemonic)
         accelerator = self.labelFromKeySequence(accelerator)
 
-        if self.KEY_BINDING not in self._script.generatorCache:
-            self._script.generatorCache[self.KEY_BINDING] = {}
-
-        self._script.generatorCache[self.KEY_BINDING][obj] = \
-            [mnemonic, fullShortcut, accelerator]
-        return self._script.generatorCache[self.KEY_BINDING][obj]
+        return [mnemonic, fullShortcut, accelerator]
 
     @staticmethod
     def stringToKeysAndDict(string):
@@ -2625,22 +1961,6 @@ class Utilities:
 
         return [keys, dictionary]
 
-    @staticmethod
-    def unicodeValueString(character):
-        """ Returns a four hex digit representation of the given character
-
-        Arguments:
-        - The character to return representation
-
-        Returns a string representaition of the given character unicode vlue
-        """
-
-        try:
-            return f"{ord(character):04x}"
-        except Exception:
-            debug.printException(debug.LEVEL_WARNING)
-            return ""
-
     def getLineContentsAtOffset(self, obj, offset, layoutMode=True, useCache=True):
         return []
 
@@ -2664,28 +1984,12 @@ class Utilities:
         return root, offset
 
     def selectedChildren(self, obj):
-        children = AXSelection.get_selected_children(obj)
-        if children:
-            return children
+        # TODO - JD: This was originally in the LO script. See if it is still an issue when
+        # lots of cells are selected.
+        if self.isSpreadSheetTable(obj):
+            return []
 
-        msg = "SCRIPT UTILITIES: Selected children not retrieved via selection interface."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-
-        role = AXObject.get_role(obj)
-        if role == Atspi.Role.MENU and not children:
-            children = self.findAllDescendants(obj, AXUtilities.is_selected)
-
-        if role == Atspi.Role.COMBO_BOX \
-           and children and AXObject.get_role(children[0]) == Atspi.Role.MENU:
-            children = self.selectedChildren(children[0])
-            name = AXObject.get_name(obj)
-            if not children and name:
-                def pred(x):
-                    return AXObject.get_name(x) == name
-
-                children = self.findAllDescendants(obj, pred)
-
-        return children
+        return AXSelection.get_selected_children(obj)
 
     def speakSelectedCellRange(self, obj):
         return False
@@ -2744,22 +2048,11 @@ class Utilities:
             return AXTable.get_selected_row_count(obj)
         return AXSelection.get_selected_child_count(obj)
 
-    def popupMenuFor(self, obj):
-        if obj is None:
-            return None
-
-        menus = [child for child in AXObject.iter_children(obj, AXUtilities.is_menu)]
-        for menu in menus:
-            if AXUtilities.is_enabled(menu):
-                return menu
-
-        return None
-
     def isButtonWithPopup(self, obj):
         return AXUtilities.is_button(obj) and AXUtilities.has_popup(obj)
 
     def isPopupMenuForCurrentItem(self, obj):
-        focus = focus_manager.getManager().get_locus_of_focus()
+        focus = focus_manager.get_manager().get_locus_of_focus()
         if obj == focus:
             return False
 
@@ -2775,11 +2068,8 @@ class Utilities:
     def isMenuWithNoSelectedChild(self, obj):
         return AXUtilities.is_menu(obj) and not self.selectedChildCount(obj)
 
-    def isMenuButton(self, obj):
-        return AXUtilities.is_button(obj) and self.popupMenuFor(obj) is not None
-
     def inMenu(self, obj=None):
-        obj = obj or focus_manager.getManager().get_locus_of_focus()
+        obj = obj or focus_manager.get_manager().get_locus_of_focus()
         if obj is None:
             return False
 
@@ -2792,7 +2082,7 @@ class Utilities:
         return False
 
     def inContextMenu(self, obj=None):
-        obj = obj or focus_manager.getManager().get_locus_of_focus()
+        obj = obj or focus_manager.get_manager().get_locus_of_focus()
         if not self.inMenu(obj):
             return False
 
@@ -2843,24 +2133,21 @@ class Utilities:
 
     def getComboBoxValue(self, obj):
         if not AXObject.get_child_count(obj):
-            return self.displayedText(obj)
+            return AXObject.get_name(obj) or AXText.get_all_text(obj)
 
         entry = self.getEntryForEditableComboBox(obj)
         if entry:
-            return self.displayedText(entry)
+            return AXText.get_all_text(entry)
 
         selected = self._script.utilities.selectedChildren(obj)
         selected = selected or self._script.utilities.selectedChildren(AXObject.get_child(obj, 0))
         if len(selected) == 1:
-            return selected[0].name or self.displayedText(selected[0])
+            return AXObject.get_name(selected[0]) or AXText.get_all_text(selected[0])
 
-        return self.displayedText(obj)
-
-    def isPopOver(self, obj):
-        return False
+        return AXObject.get_name(obj) or AXText.get_all_text(obj)
 
     def isNonModalPopOver(self, obj):
-        if not self.isPopOver(obj):
+        if not AXUtilities.get_is_popup_for(obj):
             return False
         return not AXUtilities.is_modal(obj)
 
@@ -2879,15 +2166,6 @@ class Utilities:
 
     def hasLongDesc(self, obj):
         return False
-
-    def hasDetails(self, obj):
-        return False
-
-    def isDetails(self, obj):
-        return False
-
-    def detailsFor(self, obj):
-        return []
 
     def hasVisibleCaption(self, obj):
         return False
@@ -2927,68 +2205,28 @@ class Utilities:
     def rowOrColumnCountUnknown(self, obj):
         return AXUtilities.is_indeterminate(obj)
 
-    def _boundsIncludeChildren(self, obj):
-        if obj is None:
-            return False
-
-        if AXComponent.has_no_size(obj):
-            return False
-
-        return not (AXUtilities.is_menu(obj) or AXUtilities.is_page_tab(obj))
-
     def treatAsEntry(self, obj):
         return False
 
-    def _treatAsLeafNode(self, obj):
-        if obj is None or AXObject.is_dead(obj):
-            return False
-
-        if not AXObject.get_child_count(obj):
-            return True
-
-        if AXUtilities.is_autocomplete(obj) or AXUtilities.is_table_row(obj):
-            return False
-
-        if AXUtilities.is_combo_box(obj):
-            return AXObject.find_descendant(obj, AXUtilities.is_entry) is None
-
-        if AXUtilities.is_link(obj) and AXObject.get_name(obj):
-            return True
-
-        if AXUtilities.is_expandable(obj):
-            return not AXUtilities.is_expanded(obj)
-
-        if AXUtilities.is_button(obj):
-            return True
-
-        return False
-
-    def isMultiParagraphObject(self, obj):
-        if not obj:
-            return False
-
-        if not AXObject.supports_text(obj):
-            return False
-
-        string = AXText.get_all_text(obj)
-        chunks = list(filter(lambda x: x.strip(), string.split("\n\n")))
-        return len(chunks) > 1
-
     def getWordAtOffsetAdjustedForNavigation(self, obj, offset=None):
         word, start, end = AXText.get_word_at_offset(obj, offset)
-        prevObj, prevOffset = self._script.pointOfReference.get(
+        prevObj, prevOffset = self._script.point_of_reference.get(
             "penultimateCursorPosition", (None, -1))
         if prevObj != obj:
             return word, start, end
 
+        manager = input_event_manager.get_manager()
+        wasPreviousWordNav = manager.last_event_was_previous_word_navigation()
+        wasNextWordNav = manager.last_event_was_next_word_navigation()
+
         # If we're in an ongoing series of native navigation-by-word commands, just present the
         # newly-traversed string.
         prevWord, prevStart, prevEnd = AXText.get_word_at_offset(prevObj, prevOffset)
-        if self._script.pointOfReference.get("lastTextUnitSpoken") == "word":
-            if self.lastInputEventWasPrevWordNav():
+        if self._script.point_of_reference.get("lastTextUnitSpoken") == "word":
+            if wasPreviousWordNav:
                 start = offset
                 end = prevOffset
-            elif self.lastInputEventWasNextWordNav():
+            elif wasNextWordNav:
                 start = prevOffset
                 end = offset
 
@@ -3003,7 +2241,7 @@ class Utilities:
 
         # Otherwise, attempt some smarts so that the user winds up with the same presentation
         # they would get were this an ongoing series of native navigation-by-word commands.
-        if self.lastInputEventWasPrevWordNav():
+        if wasPreviousWordNav:
             # If we moved left via native nav, this should be the start of a native-navigation
             # word boundary, regardless of what ATK/AT-SPI2 tells us.
             start = offset
@@ -3014,7 +2252,7 @@ class Utilities:
             if not (word[-1].isspace() or word[-1].isalnum()):
                 end -= 1
 
-        elif self.lastInputEventWasNextWordNav():
+        elif wasNextWordNav:
             # If we moved right via native nav, this should be the end of a native-navigation
             # word boundary, regardless of what ATK/AT-SPI2 tells us.
             end = offset
@@ -3048,46 +2286,6 @@ class Utilities:
         )
         debug.printMessage(debug.LEVEL_INFO, msg, True)
         return word, start, end
-
-    def textAtPoint(self, obj, x, y, boundary=None):
-        # TODO - JD: Audit callers so we don't have to use boundaries.
-        # Also, can the logic be entirely moved to AXText?
-        if boundary in (None, Atspi.TextBoundaryType.LINE_START):
-            string, start, end = AXText.get_line_at_point(obj, x, y)
-        elif boundary == Atspi.TextBoundaryType.SENTENCE_START:
-            string, start, end = AXText.get_sentence_at_point(obj, x, y)
-        elif boundary == Atspi.TextBoundaryType.WORD_START:
-            string, start, end = AXText.get_word_at_point(obj, x, y)
-        elif boundary == Atspi.TextBoundaryType.CHAR:
-            string, start, end = AXText.get_character_at_point(obj, x, y)
-        else:
-            return "", 0, 0
-
-        if not string:
-            return "", start, end
-
-        if boundary == Atspi.TextBoundaryType.WORD_START and not string.strip():
-            return "", 0, 0
-
-        extents = AXText.get_range_rect(obj, start, end)
-        rect = Atspi.Rect()
-        rect.x = x
-        rect.y = y
-        rect.width = rect.height = 0
-        if not AXComponent.get_rect_intersection(extents, rect) and string != "\n":
-            return "", 0, 0
-
-        if not string.endswith("\n") or string == "\n":
-            return string, start, end
-
-        if boundary == Atspi.TextBoundaryType.CHAR:
-            return string, start, end
-
-        char = self.textAtPoint(obj, x, y, Atspi.TextBoundaryType.CHAR)
-        if char[0] == "\n" and char[2] - char[1] == 1:
-            return char
-
-        return string, start, end
 
     def visibleRows(self, obj, table_rect):
         nRows = AXTable.get_row_count(obj)
@@ -3213,7 +2411,19 @@ class Utilities:
             return None
 
         def isSame(x):
-            return self.isSameObject(x, obj, comparePaths=True, ignoreNames=True)
+            if x == obj:
+                return True
+            if x is None:
+                return False
+            if not AXUtilities.have_same_role(obj, x):
+                return False
+            if self._hasSamePath(obj, x):
+                return True
+            # Objects which claim to be different and which are in different
+            # locations are almost certainly not recreated objects.
+            if not AXComponent.objects_have_same_rect(obj, x):
+                return False
+            return not AXComponent.has_no_size(x)
 
         if isSame(root):
             replicant = root
@@ -3224,119 +2434,36 @@ class Utilities:
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return replicant
 
-    def getFunctionalChildCount(self, obj):
-        relation = AXObject.get_relation(obj, Atspi.RelationType.NODE_PARENT_OF)
-        if relation:
-            return relation.get_n_targets()
-        return AXObject.get_child_count(obj)
-
-    def getFunctionalChildren(self, obj, sibling=None):
-        result = AXObject.get_relation_targets(obj, Atspi.RelationType.NODE_PARENT_OF)
-        if result:
-            return result
-        if self.isDescriptionListTerm(sibling):
-            return self.descriptionListTerms(obj)
-        if self.isDescriptionListDescription(sibling):
-            return self.valuesForTerm(self.termForValue(sibling))
-        return [x for x in AXObject.iter_children(obj)]
-
-    def getFunctionalParent(self, obj):
-        relation = AXObject.get_relation(obj, Atspi.RelationType.NODE_CHILD_OF)
-        if relation:
-            return relation.get_target(0)
-        return AXObject.get_parent(obj)
-
-    def getPositionAndSetSize(self, obj, **args):
-        if obj is None:
-            return -1, -1
-
-        if AXUtilities.is_table_cell(obj) and args.get("readingRow"):
-            row = AXTable.get_cell_coordinates(obj)[0]
-            rowcount = AXTable.get_row_count(AXTable.get_table(obj))
-            return row, rowcount
-
-        if AXUtilities.is_combo_box(obj):
-            selected = self.selectedChildren(obj)
-            if selected:
-                obj = selected[0]
-            else:
-                def isMenu(x):
-                    return AXUtilities.is_menu(x) or AXUtilities.is_list_box(x)
-
-                selected = self.selectedChildren(AXObject.find_descendant(obj, isMenu))
-                if selected:
-                    obj = selected[0]
-                else:
-                    return -1, -1
-
-        parent = self.getFunctionalParent(obj)
-        childCount = self.getFunctionalChildCount(parent)
-        if childCount > 100 and parent == AXObject.get_parent(obj):
-            return AXObject.get_index_in_parent(obj), childCount
-
-        siblings = self.getFunctionalChildren(parent, obj)
-        if len(siblings) < 100 and not AXObject.find_ancestor(obj, AXUtilities.is_combo_box):
-            layoutRoles = [Atspi.Role.SEPARATOR, Atspi.Role.TEAROFF_MENU_ITEM]
-
-            def isNotLayoutOnly(x):
-                return AXObject.is_valid(x) and AXObject.get_role(x) not in layoutRoles
-
-            siblings = list(filter(isNotLayoutOnly, siblings))
-
-        if not (siblings and obj in siblings):
-            return -1, -1
-
-        if self.isFocusableLabel(obj):
-            siblings = list(filter(self.isFocusableLabel, siblings))
-            if len(siblings) == 1:
-                return -1, -1
-
-        position = siblings.index(obj)
-        setSize = len(siblings)
-        return position, setSize
-
-    def termForValue(self, obj):
-        if not self.isDescriptionListDescription(obj):
-            return None
-
-        while obj and not self.isDescriptionListTerm(obj):
-            obj = AXObject.get_previous_sibling(obj)
-
-        return obj
-
     def valuesForTerm(self, obj):
-        if not self.isDescriptionListTerm(obj):
+        if not AXUtilities.is_description_term(obj):
             return []
 
         values = []
         obj = AXObject.get_next_sibling(obj)
-        while obj and self.isDescriptionListDescription(obj):
+        while obj and AXUtilities.is_description_value(obj):
             values.append(obj)
             obj = AXObject.get_next_sibling(obj)
 
         return values
 
-    def getValueCountForTerm(self, obj):
-        return len(self.valuesForTerm(obj))
-
     def getRoleDescription(self, obj, isBraille=False):
         return ""
 
     def getCachedTextSelection(self, obj):
-        textSelections = self._script.pointOfReference.get('textSelections', {})
+        textSelections = self._script.point_of_reference.get('textSelections', {})
         start, end, string = textSelections.get(hash(obj), (0, 0, ''))
         tokens = ["SCRIPT UTILITIES: Cached selection for", obj, f"is '{string}' ({start}, {end})"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         return start, end, string
 
     def updateCachedTextSelection(self, obj):
-        if self._script.pointOfReference.get('entireDocumentSelected'):
+        if self._script.point_of_reference.get('entireDocumentSelected'):
             selectedText = self.allSelectedText(obj)[0]
             if not selectedText:
-                self._script.pointOfReference['entireDocumentSelected'] = False
-                self._script.pointOfReference['textSelections'] = {}
+                self._script.point_of_reference['entireDocumentSelected'] = False
+                self._script.point_of_reference['textSelections'] = {}
 
-        textSelections = self._script.pointOfReference.get('textSelections', {})
+        textSelections = self._script.point_of_reference.get('textSelections', {})
 
         # Because some apps and toolkits create, destroy, and duplicate objects
         # and events.
@@ -3349,11 +2476,11 @@ class Utilities:
         tokens = ["SCRIPT UTILITIES: New selection for", obj, f"is '{string}' ({start}, {end})"]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
         textSelections[hash(obj)] = start, end, string
-        self._script.pointOfReference['textSelections'] = textSelections
+        self._script.point_of_reference['textSelections'] = textSelections
 
     @staticmethod
     def onClipboardContentsChanged(*args):
-        script = script_manager.getManager().getActiveScript()
+        script = script_manager.get_manager().get_active_script()
         if script is None:
             return
 
@@ -3397,287 +2524,8 @@ class Utilities:
         text = f"{text}{separator}{newText}"
         clipboard.set_text(text, -1)
 
-    def lastInputEventCameFromThisApp(self):
-        if not isinstance(orca_state.lastInputEvent, input_event.KeyboardEvent):
-            return False
-
-        event = orca_state.lastNonModifierKeyEvent
-        return event and event.isFromApplication(self._script.app)
-
-    def lastInputEventWasPrintableKey(self):
-        event = orca_state.lastInputEvent
-        if not isinstance(event, input_event.KeyboardEvent):
-            return False
-
-        return event.isPrintableKey()
-
-    def lastInputEventWasCommand(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        return mods & keybindings.CTRL_MODIFIER_MASK
-
-    def lastInputEventWasPageSwitch(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        if keyString.isnumeric():
-            return mods & keybindings.ALT_MODIFIER_MASK
-
-        if keyString in ["Page_Up", "Page_Down"]:
-            return mods & keybindings.CTRL_MODIFIER_MASK
-
-        return False
-
-    def lastInputEventWasUnmodifiedArrow(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        if keyString not in ["Left", "Right", "Up", "Down"]:
-            return False
-
-        if mods & keybindings.CTRL_MODIFIER_MASK \
-           or mods & keybindings.SHIFT_MODIFIER_MASK \
-           or mods & keybindings.ALT_MODIFIER_MASK \
-           or mods & keybindings.ORCA_MODIFIER_MASK:
-            return False
-
-        return True
-
-    def lastInputEventWasCaretNav(self):
-        return self.lastInputEventWasCharNav() \
-            or self.lastInputEventWasWordNav() \
-            or self.lastInputEventWasLineNav() \
-            or self.lastInputEventWasLineBoundaryNav()
-
-    def lastInputEventWasCharNav(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        if keyString not in ["Left", "Right"]:
-            return False
-
-        if mods & keybindings.CTRL_MODIFIER_MASK \
-           or mods & keybindings.ALT_MODIFIER_MASK:
-            return False
-
-        return True
-
-    def lastInputEventWasWordNav(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        if keyString not in ["Left", "Right"]:
-            return False
-
-        return mods & keybindings.CTRL_MODIFIER_MASK
-
-    def lastInputEventWasPrevWordNav(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        if not keyString == "Left":
-            return False
-
-        return mods & keybindings.CTRL_MODIFIER_MASK
-
-    def lastInputEventWasNextWordNav(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        if not keyString == "Right":
-            return False
-
-        return mods & keybindings.CTRL_MODIFIER_MASK
-
-    def lastInputEventWasLineNav(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        if keyString not in ["Up", "Down"]:
-            return False
-
-        if self.isEditableDescendantOfComboBox(focus_manager.getManager().get_locus_of_focus()):
-            return False
-
-        return not (mods & keybindings.CTRL_MODIFIER_MASK)
-
-    def lastInputEventWasLineBoundaryNav(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        if keyString not in ["Home", "End"]:
-            return False
-
-        return not (mods & keybindings.CTRL_MODIFIER_MASK)
-
-    def lastInputEventWasPageNav(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        if keyString not in ["Page_Up", "Page_Down"]:
-            return False
-
-        if self.isEditableDescendantOfComboBox(focus_manager.getManager().get_locus_of_focus()):
-            return False
-
-        return not (mods & keybindings.CTRL_MODIFIER_MASK)
-
-    def lastInputEventWasFileBoundaryNav(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        if keyString not in ["Home", "End"]:
-            return False
-
-        return mods & keybindings.CTRL_MODIFIER_MASK
-
-    def lastInputEventWasCaretNavWithSelection(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        if mods & keybindings.SHIFT_MODIFIER_MASK:
-            return keyString in ["Home", "End", "Up", "Down", "Left", "Right"]
-
-        return False
-
-    def lastInputEventWasUndo(self):
-        keycode, mods = self._lastKeyCodeAndModifiers()
-        keynames = self._allNamesForKeyCode(keycode)
-        if 'z' not in keynames:
-            return False
-
-        if mods & keybindings.CTRL_MODIFIER_MASK:
-            return not (mods & keybindings.SHIFT_MODIFIER_MASK)
-
-        return False
-
-    def lastInputEventWasRedo(self):
-        keycode, mods = self._lastKeyCodeAndModifiers()
-        keynames = self._allNamesForKeyCode(keycode)
-        if 'z' not in keynames:
-            return False
-
-        if mods & keybindings.CTRL_MODIFIER_MASK:
-            return mods & keybindings.SHIFT_MODIFIER_MASK
-
-        return False
-
-    def lastInputEventWasCut(self):
-        keycode, mods = self._lastKeyCodeAndModifiers()
-        keynames = self._allNamesForKeyCode(keycode)
-        if 'x' not in keynames:
-            return False
-
-        if mods & keybindings.CTRL_MODIFIER_MASK:
-            return not (mods & keybindings.SHIFT_MODIFIER_MASK)
-
-        return False
-
-    def lastInputEventWasCopy(self):
-        keycode, mods = self._lastKeyCodeAndModifiers()
-        keynames = self._allNamesForKeyCode(keycode)
-        if 'c' not in keynames:
-            return False
-
-        if mods & keybindings.CTRL_MODIFIER_MASK:
-            return not (mods & keybindings.SHIFT_MODIFIER_MASK)
-
-        return False
-
-    def lastInputEventWasPaste(self):
-        keycode, mods = self._lastKeyCodeAndModifiers()
-        keynames = self._allNamesForKeyCode(keycode)
-        if 'v' not in keynames:
-            return False
-
-        if mods & keybindings.CTRL_MODIFIER_MASK:
-            return not (mods & keybindings.SHIFT_MODIFIER_MASK)
-
-        return False
-
-    def lastInputEventWasSelectAll(self):
-        keycode, mods = self._lastKeyCodeAndModifiers()
-        keynames = self._allNamesForKeyCode(keycode)
-        if 'a' not in keynames:
-            return False
-
-        if mods & keybindings.CTRL_MODIFIER_MASK:
-            return not (mods & keybindings.SHIFT_MODIFIER_MASK)
-
-        return False
-
-    def lastInputEventWasDelete(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        if keyString in ["Delete", "KP_Delete"]:
-            return True
-
-        keycode, mods = self._lastKeyCodeAndModifiers()
-        keynames = self._allNamesForKeyCode(keycode)
-        if 'd' not in keynames:
-            return False
-
-        return mods & keybindings.CTRL_MODIFIER_MASK
-
-    def lastInputEventWasTab(self):
-        keyString, mods = self.lastKeyAndModifiers()
-        if keyString not in ["Tab", "ISO_Left_Tab"]:
-            return False
-
-        if mods & keybindings.CTRL_MODIFIER_MASK \
-           or mods & keybindings.ALT_MODIFIER_MASK \
-           or mods & keybindings.ORCA_MODIFIER_MASK:
-            return False
-
-        return True
-
-    def lastInputEventWasMouseButton(self):
-        return isinstance(orca_state.lastInputEvent, input_event.MouseButtonEvent)
-
-    def lastInputEventWasPrimaryMouseClick(self):
-        event = orca_state.lastInputEvent
-        if isinstance(event, input_event.MouseButtonEvent):
-            return event.button == "1" and event.pressed
-
-        return False
-
-    def lastInputEventWasMiddleMouseClick(self):
-        event = orca_state.lastInputEvent
-        if isinstance(event, input_event.MouseButtonEvent):
-            return event.button == "2" and event.pressed
-
-        return False
-
-    def lastInputEventWasSecondaryMouseClick(self):
-        event = orca_state.lastInputEvent
-        if isinstance(event, input_event.MouseButtonEvent):
-            return event.button == "3" and event.pressed
-
-        return False
-
-    def lastInputEventWasPrimaryMouseRelease(self):
-        event = orca_state.lastInputEvent
-        if isinstance(event, input_event.MouseButtonEvent):
-            return event.button == "1" and not event.pressed
-
-        return False
-
-    def lastInputEventWasMiddleMouseRelease(self):
-        event = orca_state.lastInputEvent
-        if isinstance(event, input_event.MouseButtonEvent):
-            return event.button == "2" and not event.pressed
-
-        return False
-
-    def lastInputEventWasSecondaryMouseRelease(self):
-        event = orca_state.lastInputEvent
-        if isinstance(event, input_event.MouseButtonEvent):
-            return event.button == "3" and not event.pressed
-
-        return False
-
-    def lastInputEventWasTableSort(self, delta=0.5):
-        event = orca_state.lastInputEvent
-        if not event:
-            return False
-
-        now = time.time()
-        if now - event.time > delta:
-            return False
-
-        lastSortTime = self._script.pointOfReference.get('last-table-sort-time', 0.0)
-        if now - lastSortTime < delta:
-            return False
-
-        if isinstance(event, input_event.MouseButtonEvent):
-            if not self.lastInputEventWasPrimaryMouseRelease():
-                return False
-        elif isinstance(event, input_event.KeyboardEvent):
-            if not event.isHandledBy(self._script.leftClickReviewItem):
-                keyString, mods = self.lastKeyAndModifiers()
-                if keyString not in ["Return", "space", " "]:
-                    return False
-
-        return AXUtilities.is_table_header(focus_manager.getManager().get_locus_of_focus())
-
     def isPresentableExpandedChangedEvent(self, event):
-        if self.isSameObject(event.source, focus_manager.getManager().get_locus_of_focus()):
+        if event.source == focus_manager.get_manager().get_locus_of_focus():
             return True
 
         if AXUtilities.is_table_row(event.source) or AXUtilities.is_list_box(event.source):
@@ -3706,14 +2554,14 @@ class Utilities:
                 return True
             if AXUtilities.is_password_text(event.source):
                 return True
-            if focus_manager.getManager().focus_is_dead():
+            if focus_manager.get_manager().focus_is_dead():
                 return True
         elif AXUtilities.is_table_cell(event.source) and not AXUtilities.is_selected(event.source):
             msg = "SCRIPT UTILITIES: Event is not being presented due to role and states"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
-        if focus_manager.getManager().get_locus_of_focus() in \
+        if focus_manager.get_manager().get_locus_of_focus() in \
             [event.source, AXObject.get_parent(event.source)]:
             return True
 
@@ -3728,11 +2576,7 @@ class Utilities:
         if self.isHidden(event.source):
             return False
 
-        keyString, mods = self.lastKeyAndModifiers()
-        if keyString == "BackSpace":
-            return True
-
-        return False
+        return input_event_manager.get_manager().last_event_was_backspace()
 
     def isDeleteCommandTextDeletionEvent(self, event):
         if not event.type.startswith("object:text-changed:delete"):
@@ -3741,13 +2585,13 @@ class Utilities:
         if event.type.endswith("system"):
             return False
 
-        return self.lastInputEventWasDelete()
+        return input_event_manager.get_manager().last_event_was_delete()
 
     def isUndoCommandTextDeletionEvent(self, event):
         if not event.type.startswith("object:text-changed:delete"):
             return False
 
-        if not self.lastInputEventWasUndo():
+        if not input_event_manager.get_manager().last_event_was_undo():
             return False
 
         start, end, string = self.getCachedTextSelection(event.source)
@@ -3757,7 +2601,7 @@ class Utilities:
         if not event.type.startswith("object:text-changed:delete"):
             return False
 
-        if self.lastInputEventWasPaste():
+        if input_event_manager.get_manager().last_event_was_paste():
             return False
 
         start, end, string = self.getCachedTextSelection(event.source)
@@ -3772,7 +2616,7 @@ class Utilities:
         return string and string == event.any_data and start == event.detail1
 
     def isSelectedTextRestoredEvent(self, event):
-        if not self.lastInputEventWasUndo():
+        if not input_event_manager.get_manager().last_event_was_undo():
             return False
 
         if self.isSelectedTextInsertionEvent(event):
@@ -3784,7 +2628,7 @@ class Utilities:
         if not event.type.startswith("object:text-changed:insert"):
             return False
 
-        return self.lastInputEventWasMiddleMouseClick()
+        return input_event_manager.get_manager().last_event_was_middle_click()
 
     def isEchoableTextInsertionEvent(self, event):
         if not event.type.startswith("object:text-changed:insert"):
@@ -3792,17 +2636,17 @@ class Utilities:
 
         if AXUtilities.is_focusable(event.source) \
            and not AXUtilities.is_focused(event.source) \
-           and event.source != focus_manager.getManager().get_locus_of_focus():
+           and event.source != focus_manager.get_manager().get_locus_of_focus():
             msg = "SCRIPT UTILITIES: Not echoable text insertion event: " \
                  "focusable source is not focused"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
         if AXUtilities.is_password_text(event.source):
-            return settings_manager.getManager().getSetting("enableKeyEcho")
+            return settings_manager.get_manager().get_setting("enableKeyEcho")
 
         if len(event.any_data.strip()) == 1:
-            return settings_manager.getManager().getSetting("enableEchoByCharacter")
+            return settings_manager.get_manager().get_setting("enableEchoByCharacter")
 
         return False
 
@@ -3815,13 +2659,14 @@ class Utilities:
         if not event.type.startswith("object:text-changed"):
             return False
 
-        if not self.lastInputEventWasCommand() or self.lastInputEventWasUndo():
+        manager = input_event_manager.get_manager()
+        if not manager.last_event_was_command() or manager.last_event_was_undo():
             return False
 
         if self.isBackSpaceCommandTextDeletionEvent(event):
             return False
 
-        if "delete" in event.type and self.lastInputEventWasPaste():
+        if "delete" in event.type and input_event_manager.get_manager().last_event_was_paste():
             return False
 
         if not self.isEditableTextArea(event.source):
@@ -3844,7 +2689,7 @@ class Utilities:
         return False
 
     def objectContentsAreInClipboard(self, obj=None):
-        obj = obj or focus_manager.getManager().get_locus_of_focus()
+        obj = obj or focus_manager.get_manager().get_locus_of_focus()
         if not obj or AXObject.is_dead(obj):
             return False
 
@@ -3863,23 +2708,22 @@ class Utilities:
         return obj and AXObject.get_name(obj) in contents
 
     def clearCachedCommandState(self):
-        self._script.pointOfReference['undo'] = False
-        self._script.pointOfReference['redo'] = False
-        self._script.pointOfReference['paste'] = False
-        self._script.pointOfReference['last-selection-message'] = ''
+        self._script.point_of_reference['undo'] = False
+        self._script.point_of_reference['redo'] = False
+        self._script.point_of_reference['paste'] = False
 
     def handleUndoTextEvent(self, event):
-        if self.lastInputEventWasUndo():
-            if not self._script.pointOfReference.get('undo'):
+        if input_event_manager.get_manager().last_event_was_undo():
+            if not self._script.point_of_reference.get('undo'):
                 self._script.presentMessage(messages.UNDO)
-                self._script.pointOfReference['undo'] = True
+                self._script.point_of_reference['undo'] = True
             self.updateCachedTextSelection(event.source)
             return True
 
-        if self.lastInputEventWasRedo():
-            if not self._script.pointOfReference.get('redo'):
+        if input_event_manager.get_manager().last_event_was_redo():
+            if not self._script.point_of_reference.get('redo'):
                 self._script.presentMessage(messages.REDO)
-                self._script.pointOfReference['redo'] = True
+                self._script.point_of_reference['redo'] = True
             self.updateCachedTextSelection(event.source)
             return True
 
@@ -3889,16 +2733,16 @@ class Utilities:
         if self._locusOfFocusIsTopLevelObject():
             return False
 
-        if self.lastInputEventWasUndo():
-            if not self._script.pointOfReference.get('undo'):
+        if input_event_manager.get_manager().last_event_was_undo():
+            if not self._script.point_of_reference.get('undo'):
                 self._script.presentMessage(messages.UNDO)
-                self._script.pointOfReference['undo'] = True
+                self._script.point_of_reference['undo'] = True
             return True
 
-        if self.lastInputEventWasRedo():
-            if not self._script.pointOfReference.get('redo'):
+        if input_event_manager.get_manager().last_event_was_redo():
+            if not self._script.point_of_reference.get('redo'):
                 self._script.presentMessage(messages.REDO)
-                self._script.pointOfReference['redo'] = True
+                self._script.point_of_reference['redo'] = True
             return True
 
         return False
@@ -3907,11 +2751,11 @@ class Utilities:
         if self._locusOfFocusIsTopLevelObject():
             return False
 
-        if self.lastInputEventWasPaste():
-            if not self._script.pointOfReference.get('paste'):
+        if input_event_manager.get_manager().last_event_was_paste():
+            if not self._script.point_of_reference.get('paste'):
                 self._script.presentMessage(
                     messages.CLIPBOARD_PASTED_FULL, messages.CLIPBOARD_PASTED_BRIEF)
-                self._script.pointOfReference['paste'] = True
+                self._script.point_of_reference['paste'] = True
             return True
 
         return False
@@ -3921,20 +2765,6 @@ class Utilities:
 
     def eventIsSpinnerNoise(self, event):
         return False
-
-    def eventIsUserTriggered(self, event):
-        if not orca_state.lastInputEvent:
-            msg = "SCRIPT UTILITIES: Not user triggered: No last input event."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return False
-
-        delta = time.time() - orca_state.lastInputEvent.time
-        if delta > 1:
-            msg = f"SCRIPT UTILITIES: Not user triggered: Last input event {delta:.2f}s ago."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return False
-
-        return True
 
     def presentFocusChangeReason(self):
         if self.handleUndoLocusOfFocusChange():
@@ -3968,15 +2798,15 @@ class Utilities:
         return AXTable.all_cells_are_selected(obj)
 
     def handleContainerSelectionChange(self, obj):
-        allAlreadySelected = self._script.pointOfReference.get('allItemsSelected')
+        allAlreadySelected = self._script.point_of_reference.get('allItemsSelected')
         allCurrentlySelected = self.allItemsSelected(obj)
         if allAlreadySelected and allCurrentlySelected:
             return True
 
-        self._script.pointOfReference['allItemsSelected'] = allCurrentlySelected
-        if self.lastInputEventWasSelectAll() and allCurrentlySelected:
+        self._script.point_of_reference['allItemsSelected'] = allCurrentlySelected
+        if input_event_manager.get_manager().last_event_was_select_all() and allCurrentlySelected:
             self._script.presentMessage(messages.CONTAINER_SELECTED_ALL)
-            focus_manager.getManager().set_locus_of_focus(None, obj, False)
+            focus_manager.get_manager().set_locus_of_focus(None, obj, False)
             return True
 
         return False
@@ -3993,12 +2823,16 @@ class Utilities:
         self.updateCachedTextSelection(obj)
         newStart, newEnd, newString = self.getCachedTextSelection(obj)
 
-        if self._speakTextSelectionState(len(newString)):
+        if input_event_manager.get_manager().last_event_was_select_all() and newString:
+            if not self._script.point_of_reference.get('entireDocumentSelected'):
+                self._script.point_of_reference['entireDocumentSelected'] = True
+                self._script.speakMessage(messages.DOCUMENT_SELECTED_ALL)
             return True
 
         # Even though we present a message, treat it as unhandled so the new location is
         # still presented.
-        if not self.lastInputEventWasCaretNavWithSelection() and oldString and not newString:
+        if not input_event_manager.get_manager().last_event_was_caret_selection() \
+           and oldString and not newString:
             self._script.speakMessage(messages.SELECTION_REMOVED)
             return False
 
@@ -4034,16 +2868,22 @@ class Utilities:
                     self.handleTextSelectionChange(child, False)
 
         speakMessage = speakMessage \
-            and not settings_manager.getManager().getSetting('onlySpeakDisplayedText')
+            and not settings_manager.get_manager().get_setting('onlySpeakDisplayedText')
         for start, end, message in changes:
             string = AXText.get_substring(obj, start, end)
             endsWithChild = string.endswith(self.EMBEDDED_OBJECT_CHARACTER)
             if endsWithChild:
                 end -= 1
 
-            self._script.sayPhrase(obj, start, end)
-            if speakMessage and not endsWithChild:
-                self._script.speakMessage(message, interrupt=False)
+            if len(string) > 5000 and speakMessage:
+                if message == messages.TEXT_SELECTED:
+                    self._script.speakMessage(messages.selectedCharacterCount(len(string)))
+                else:
+                    self._script.speakMessage(messages.unselectedCharacterCount(len(string)))
+            else:
+                self._script.sayPhrase(obj, start, end)
+                if speakMessage and not endsWithChild:
+                    self._script.speakMessage(message, interrupt=False)
 
             if endsWithChild:
                 child = AXHypertext.get_child_at_offset(obj, end)
@@ -4051,78 +2891,7 @@ class Utilities:
 
         return True
 
-    def _getCtrlShiftSelectionsStrings(self):
-        """Hacky and to-be-obsoleted method."""
-        return [messages.PARAGRAPH_SELECTED_DOWN,
-                messages.PARAGRAPH_UNSELECTED_DOWN,
-                messages.PARAGRAPH_SELECTED_UP,
-                messages.PARAGRAPH_UNSELECTED_UP]
-
-    def _speakTextSelectionState(self, nSelections):
-        """Hacky and to-be-obsoleted method."""
-
-        if settings_manager.getManager().getSetting('onlySpeakDisplayedText'):
-            return False
-
-        eventStr, mods = self.lastKeyAndModifiers()
-        isControlKey = mods & keybindings.CTRL_MODIFIER_MASK
-        isShiftKey = mods & keybindings.SHIFT_MODIFIER_MASK
-        selectedText = nSelections > 0
-
-        line = None
-        if (eventStr == "Page_Down") and isShiftKey and isControlKey:
-            line = messages.LINE_SELECTED_RIGHT
-        elif (eventStr == "Page_Up") and isShiftKey and isControlKey:
-            line = messages.LINE_SELECTED_LEFT
-        elif (eventStr == "Page_Down") and isShiftKey and not isControlKey:
-            if selectedText:
-                line = messages.PAGE_SELECTED_DOWN
-            else:
-                line = messages.PAGE_UNSELECTED_DOWN
-        elif (eventStr == "Page_Up") and isShiftKey and not isControlKey:
-            if selectedText:
-                line = messages.PAGE_SELECTED_UP
-            else:
-                line = messages.PAGE_UNSELECTED_UP
-        elif (eventStr == "Down") and isShiftKey and isControlKey:
-            strings = self._getCtrlShiftSelectionsStrings()
-            if selectedText:
-                line = strings[0]
-            else:
-                line = strings[1]
-        elif (eventStr == "Up") and isShiftKey and isControlKey:
-            strings = self._getCtrlShiftSelectionsStrings()
-            if selectedText:
-                line = strings[2]
-            else:
-                line = strings[3]
-        elif (eventStr == "Home") and isShiftKey and isControlKey:
-            if selectedText:
-                line = messages.DOCUMENT_SELECTED_UP
-            else:
-                line = messages.DOCUMENT_UNSELECTED_UP
-        elif (eventStr == "End") and isShiftKey and isControlKey:
-            if selectedText:
-                line = messages.DOCUMENT_SELECTED_DOWN
-            else:
-                line = messages.DOCUMENT_SELECTED_UP
-        elif self.lastInputEventWasSelectAll() and selectedText:
-            if not self._script.pointOfReference.get('entireDocumentSelected'):
-                self._script.pointOfReference['entireDocumentSelected'] = True
-                line = messages.DOCUMENT_SELECTED_ALL
-            else:
-                return True
-
-        if not line:
-            return False
-
-        if line != self._script.pointOfReference.get('last-selection-message'):
-            self._script.pointOfReference['last-selection-message'] = line
-            self._script.speakMessage(line)
-
-        return True
-
-    def shouldInterruptForLocusOfFocusChange(self, oldLocusOfFocus, newLocusOfFocus, event=None):
+    def shouldInterruptForLocusOfFocusChange(self, old_focus, new_focus, event=None):
         msg = "SCRIPT UTILITIES: Not interrupting for locusOfFocus change: "
         if event is None:
             msg += "event is None"
@@ -4132,47 +2901,40 @@ class Utilities:
         if event is not None and event.type.startswith("object:active-descendant-changed"):
             return self._script.stopSpeechOnActiveDescendantChanged(event)
 
-        if AXUtilities.is_table_cell(oldLocusOfFocus) and AXUtilities.is_text(newLocusOfFocus) \
-           and AXUtilities.is_editable(newLocusOfFocus):
+        if AXUtilities.is_table_cell(old_focus) and AXUtilities.is_text(new_focus) \
+           and AXUtilities.is_editable(new_focus):
             msg += "suspected editable cell"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
-        if not AXUtilities.is_menu_related(newLocusOfFocus) \
-           and (AXUtilities.is_check_menu_item(oldLocusOfFocus) \
-                or AXUtilities.is_radio_menu_item(oldLocusOfFocus)):
+        if not AXUtilities.is_menu_related(new_focus) \
+           and (AXUtilities.is_check_menu_item(old_focus) \
+                or AXUtilities.is_radio_menu_item(old_focus)):
             msg += "suspected menuitem state change"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
 
-        if AXObject.is_ancestor(newLocusOfFocus, oldLocusOfFocus):
-            if AXObject.get_name(oldLocusOfFocus):
+        if AXObject.is_ancestor(new_focus, old_focus):
+            if AXObject.get_name(old_focus):
                 msg += "old locusOfFocus is ancestor with name of new locusOfFocus"
                 debug.printMessage(debug.LEVEL_INFO, msg, True)
                 return False
             return True
 
-        def isOld(target):
-            return target == oldLocusOfFocus
-
-        def isNew(target):
-            return target == newLocusOfFocus
-
-        if AXObject.get_relation_targets(newLocusOfFocus,
-                                         Atspi.RelationType.CONTROLLER_FOR, isOld):
-            msg += "new locusOfFocus controls old locusOfFocus"
+        if AXUtilities.object_is_controlled_by(old_focus, new_focus) \
+           or AXUtilities.object_is_controlled_by(new_focus, old_focus):
+            msg += "new locusOfFocus and old locusOfFocus have controls relation"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             return False
-        if AXObject.get_relation_targets(oldLocusOfFocus,
-                                         Atspi.RelationType.CONTROLLER_FOR, isNew):
-            msg += "old locusOfFocus controls new locusOfFocus"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return False
+
         return True
 
-    def stringsAreRedundant(self, str1, str2, threshold=0.5):
+    def stringsAreRedundant(self, str1, str2, threshold=0.7):
         if not (str1 and str2):
             return False
+
+        if str1 in str2 or str2 in str1:
+            return True
 
         similarity = round(SequenceMatcher(None, str1.lower(), str2.lower()).ratio(), 2)
         msg = (

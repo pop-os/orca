@@ -55,9 +55,9 @@ class WhereAmIPresenter:
             msg = "WHERE AM I PRESENTER: Refreshing bindings."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._setup_bindings()
-        elif is_desktop and self._desktop_bindings.isEmpty():
+        elif is_desktop and self._desktop_bindings.is_empty():
             self._setup_bindings()
-        elif not is_desktop and self._laptop_bindings.isEmpty():
+        elif not is_desktop and self._laptop_bindings.is_empty():
             self._setup_bindings()
 
         if is_desktop:
@@ -141,28 +141,28 @@ class WhereAmIPresenter:
         self._desktop_bindings.add(
             keybindings.KeyBinding(
                 "f",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("readCharAttributesHandler")))
 
         self._desktop_bindings.add(
             keybindings.KeyBinding(
                 "e",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("present_default_button")))
 
         self._desktop_bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("presentSizeAndPositionHandler")))
 
         self._desktop_bindings.add(
             keybindings.KeyBinding(
                 "KP_Enter",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("getTitleHandler"),
                 1))
@@ -170,7 +170,7 @@ class WhereAmIPresenter:
         self._desktop_bindings.add(
             keybindings.KeyBinding(
                 "KP_Enter",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("getStatusBarHandler"),
                 2))
@@ -178,7 +178,7 @@ class WhereAmIPresenter:
         self._desktop_bindings.add(
             keybindings.KeyBinding(
                 "KP_Enter",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("whereAmIBasicHandler"),
                 1))
@@ -186,7 +186,7 @@ class WhereAmIPresenter:
         self._desktop_bindings.add(
             keybindings.KeyBinding(
                 "KP_Enter",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("whereAmIDetailedHandler"),
                 2))
@@ -194,14 +194,14 @@ class WhereAmIPresenter:
         self._desktop_bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("whereAmILinkHandler")))
 
         self._desktop_bindings.add(
             keybindings.KeyBinding(
                 "Up",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_SHIFT_MODIFIER_MASK,
                 self._handlers.get("whereAmISelectionHandler")))
 
@@ -216,28 +216,28 @@ class WhereAmIPresenter:
         self._laptop_bindings.add(
             keybindings.KeyBinding(
                 "f",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("readCharAttributesHandler")))
 
         self._laptop_bindings.add(
             keybindings.KeyBinding(
                 "e",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("present_default_button")))
 
         self._laptop_bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("presentSizeAndPositionHandler")))
 
         self._laptop_bindings.add(
             keybindings.KeyBinding(
                 "slash",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("getTitleHandler"),
                 1))
@@ -245,7 +245,7 @@ class WhereAmIPresenter:
         self._laptop_bindings.add(
             keybindings.KeyBinding(
                 "slash",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("getStatusBarHandler"),
                 2))
@@ -253,7 +253,7 @@ class WhereAmIPresenter:
         self._laptop_bindings.add(
             keybindings.KeyBinding(
                 "Return",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("whereAmIBasicHandler"),
                 1))
@@ -261,7 +261,7 @@ class WhereAmIPresenter:
         self._laptop_bindings.add(
             keybindings.KeyBinding(
                 "Return",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("whereAmIDetailedHandler"),
                 2))
@@ -269,14 +269,14 @@ class WhereAmIPresenter:
         self._laptop_bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("whereAmILinkHandler")))
 
         self._laptop_bindings.add(
             keybindings.KeyBinding(
                 "Up",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_SHIFT_MODIFIER_MASK,
                 self._handlers.get("whereAmISelectionHandler")))
 
@@ -286,12 +286,12 @@ class WhereAmIPresenter:
     def present_character_attributes(self, script, event=None):
         """Presents the font and formatting details for the current character."""
 
-        focus = focus_manager.getManager().get_locus_of_focus()
+        focus = focus_manager.get_manager().get_locus_of_focus()
         attrs = AXText.get_text_attributes_at_offset(focus)[0]
 
         # Get a dictionary of text attributes that the user cares about.
         [user_attr_list, user_attr_dict] = script.utilities.stringToKeysAndDict(
-            settings_manager.getManager().getSetting('enabledSpokenTextAttributes'))
+            settings_manager.get_manager().get_setting('enabledSpokenTextAttributes'))
 
         null_values = ['0', '0mm', 'none', 'false']
         for key in user_attr_list:
@@ -310,10 +310,10 @@ class WhereAmIPresenter:
     def present_size_and_position(self, script, event=None):
         """Presents the size and position of the current object."""
 
-        if script.flatReviewPresenter.is_active():
-            obj = script.flatReviewPresenter.get_current_object(script, event)
+        if script.get_flat_review_presenter().is_active():
+            obj = script.get_flat_review_presenter().get_current_object(script, event)
         else:
-            obj = focus_manager.getManager().get_locus_of_focus()
+            obj = focus_manager.get_manager().get_locus_of_focus()
 
         rect = AXComponent.get_rect(obj)
         if AXComponent.is_empty_rect(rect):
@@ -330,15 +330,15 @@ class WhereAmIPresenter:
     def present_title(self, script, event=None):
         """Presents the title of the current window."""
 
-        obj = focus_manager.getManager().get_locus_of_focus()
+        obj = focus_manager.get_manager().get_locus_of_focus()
         if AXObject.is_dead(obj):
-            obj = focus_manager.getManager().get_active_window()
+            obj = focus_manager.get_manager().get_active_window()
 
         if obj is None or AXObject.is_dead(obj):
             script.presentMessage(messages.LOCATION_NOT_FOUND_FULL)
             return True
 
-        title = script.speechGenerator.generateTitle(obj)
+        title = script.speech_generator.generate_window_title(obj)
         for (string, voice) in title:
             script.presentMessage(string, voice=voice)
         return True
@@ -346,7 +346,7 @@ class WhereAmIPresenter:
     def _present_default_button(self, script, event=None, dialog=None, error_messages=True):
         """Presents the default button of the current dialog."""
 
-        obj = focus_manager.getManager().get_locus_of_focus()
+        obj = focus_manager.get_manager().get_locus_of_focus()
         frame, dialog = script.utilities.frameAndDialog(obj)
         if dialog is None:
             if error_messages:
@@ -370,14 +370,12 @@ class WhereAmIPresenter:
     def present_status_bar(self, script, event=None):
         """Presents the status bar of the current window."""
 
-        obj = focus_manager.getManager().get_locus_of_focus()
+        obj = focus_manager.get_manager().get_locus_of_focus()
         frame, dialog = script.utilities.frameAndDialog(obj)
         if frame:
             statusbar = AXUtilities.get_status_bar(frame)
             if statusbar:
-                script.pointOfReference['statusBarItems'] = None
                 script.presentObject(statusbar, interrupt=True)
-                script.pointOfReference['statusBarItems'] = None
             else:
                 full = messages.STATUS_BAR_NOT_FOUND_FULL
                 brief = messages.STATUS_BAR_NOT_FOUND_BRIEF
@@ -401,7 +399,7 @@ class WhereAmIPresenter:
     def present_link(self, script, event=None, link=None):
         """Presents details about the current link."""
 
-        link = link or focus_manager.getManager().get_locus_of_focus()
+        link = link or focus_manager.get_manager().get_locus_of_focus()
         if not script.utilities.isLink(link):
             script.presentMessage(messages.NOT_ON_A_LINK)
             return True
@@ -411,7 +409,7 @@ class WhereAmIPresenter:
     def present_selected_text(self, script, event=None, obj=None):
         """Presents the selected text."""
 
-        obj = obj or focus_manager.getManager().get_locus_of_focus()
+        obj = obj or focus_manager.get_manager().get_locus_of_focus()
         if obj is None:
             script.speakMessage(messages.LOCATION_NOT_FOUND_FULL)
             return True
@@ -431,7 +429,7 @@ class WhereAmIPresenter:
     def present_selection(self, script, event=None, obj=None):
         """Presents the selected text or selected objects."""
 
-        obj = obj or focus_manager.getManager().get_locus_of_focus()
+        obj = obj or focus_manager.get_manager().get_locus_of_focus()
         if obj is None:
             script.speakMessage(messages.LOCATION_NOT_FOUND_FULL)
             return True
@@ -467,9 +465,9 @@ class WhereAmIPresenter:
             script.spellcheck.presentErrorDetails(not basic_only)
 
         if obj is None:
-            obj = focus_manager.getManager().get_locus_of_focus()
+            obj = focus_manager.get_manager().get_locus_of_focus()
         if AXObject.is_dead(obj):
-            obj = focus_manager.getManager().get_active_window()
+            obj = focus_manager.get_manager().get_active_window()
 
         if obj is None or AXObject.is_dead(obj):
             script.presentMessage(messages.LOCATION_NOT_FOUND_FULL)
@@ -507,7 +505,7 @@ class WhereAmIPresenter:
         return self._do_where_am_i(script, event, False)
 
 _presenter = WhereAmIPresenter()
-def getPresenter():
+def get_presenter():
     """Returns the Where Am I Presenter"""
 
     return _presenter

@@ -25,11 +25,9 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2014 Igalia, S.L."
 __license__   = "LGPL"
 
-import orca.debug as debug
-import orca.focus_manager as focus_manager
-import orca.script_utilities as script_utilities
+from orca import debug
+from orca import script_utilities
 from orca.ax_object import AXObject
-from orca.ax_selection import AXSelection
 from orca.ax_utilities import AXUtilities
 
 from orca.ax_text import AXText
@@ -42,16 +40,6 @@ class Utilities(script_utilities.Utilities):
 
     def clearCachedObjects(self):
         self._isLayoutOnly = {}
-
-    def selectedChildren(self, obj):
-        if AXObject.supports_selection(obj):
-            return AXSelection.get_selected_children(obj)
-
-        # This is a workaround for bgo#738705.
-        if not AXUtilities.is_panel(obj):
-            return []
-
-        return AXUtilities.find_all_selected_objects(obj)
 
     def insertedText(self, event):
         if event.any_data:
@@ -104,14 +92,3 @@ class Utilities(script_utilities.Utilities):
 
         self._isLayoutOnly[hash(obj)] = rv
         return rv
-
-
-    def isBogusWindowFocusClaim(self, event):
-        if event.type.startswith('object:state-changed:focused') and event.detail1 \
-           and AXUtilities.is_window(event.source) \
-           and not focus_manager.getManager().can_be_active_window(event.source):
-            msg = "GNOME SHELL: Event is believed to be bogus window focus claim"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return True
-
-        return False

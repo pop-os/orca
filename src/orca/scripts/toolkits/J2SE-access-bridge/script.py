@@ -25,40 +25,23 @@ __copyright__ = "Copyright (c) 2005-2009 Sun Microsystems Inc., "  \
                 "Copyright (c) 2010 Joanmarie Diggs"
 __license__   = "LGPL"
 
-import gi
-gi.require_version("Atspi", "2.0")
-from gi.repository import Atspi
-
-import orca.focus_manager as focus_manager
-import orca.input_event as input_event
-import orca.orca_state as orca_state
-import orca.scripts.default as default
+from orca import focus_manager
+from orca import input_event_manager
+from orca.scripts import default
 from orca.ax_object import AXObject
 from orca.ax_selection import AXSelection
 from orca.ax_utilities import AXUtilities
 
 from .script_utilities import Utilities
 from .speech_generator import SpeechGenerator
-from .formatting import Formatting
-
-########################################################################
-#                                                                      #
-# The Java script class.                                               #
-#                                                                      #
-########################################################################
 
 class Script(default.Script):
 
     def __init__(self, app):
-        """Creates a new script for Java applications.
-
-        Arguments:
-        - app: the application to create a script for.
-        """
-        default.Script.__init__(self, app)
+        super().__init__(app)
 
         # Some objects which issue descendant changed events lack
-        # STATE_MANAGES_DESCENDANTS. As a result, onSelectionChanged
+        # STATE_MANAGES_DESCENDANTS. As a result, on_selection_changed
         # doesn't ignore these objects. That in turn causes Orca to
         # double-speak some items and/or set the locusOfFocus to a
         # parent it shouldn't. See bgo#616582. [[[TODO - JD: remove
@@ -66,19 +49,17 @@ class Script(default.Script):
         #
         self.lastDescendantChangedSource = None
 
-    def getSpeechGenerator(self):
+    def get_speech_generator(self):
         """Returns the speech generator for this script."""
         return SpeechGenerator(self)
 
-    def getFormatting(self):
-        """Returns the formatting strings for this script."""
-        return Formatting(self)
-
-    def getUtilities(self):
+    def get_utilities(self):
         """Returns the utilities for this script."""
         return Utilities(self)
 
-    def onCaretMoved(self, event):
+    def on_caret_moved(self, event):
+        """Callback for object:text-caret-moved accessibility events."""
+
         # Java's SpinButtons are the most caret movement happy thing
         # I've seen to date.  If you Up or Down on the keyboard to
         # change the value, they typically emit three caret movement
@@ -87,32 +68,16 @@ class Script(default.Script):
         # Luckily, it only issues one value changed event.  So, we'll
         # ignore caret movement events caused by value changes and
         # just process the single value changed event.
-        #
-        isSpinBox = self.utilities.hasMatchingHierarchy(
-            event.source, [Atspi.Role.TEXT,
-                           Atspi.Role.PANEL,
-                           Atspi.Role.SPIN_BUTTON])
-        if isSpinBox:
-            eventStr, mods = self.utilities.lastKeyAndModifiers()
-            if eventStr in ["Up", "Down"] or isinstance(
-               orca_state.lastInputEvent, input_event.MouseButtonEvent):
+        if AXObject.find_ancestor(event.source, AXUtilities.is_spin_button):
+            manager = input_event_manager.get_manager()
+            if manager.last_event_was_up_or_down() or manager.last_event_was_mouse_button():
                 return
 
-        default.Script.onCaretMoved(self, event)
+        default.Script.on_caret_moved(self, event)
 
-    def onSelectionChanged(self, event):
-        """Called when an object's selection changes.
+    def on_selection_changed(self, event):
+        """Callback for object:selection-changed accessibility events."""
 
-        Arguments:
-        - event: the Event
-        """
-
-        # Avoid doing this with objects that manage their descendants
-        # because they'll issue a descendant changed event. (Note: This
-        # equality check is intentional; utilities.isSameObject() is
-        # especially thorough with trees and tables, which is not
-        # performant.
-        #
         if event.source == self.lastDescendantChangedSource:
             return
 
@@ -125,12 +90,12 @@ class Script(default.Script):
            or AXUtilities.is_page_tab_list(event.source) \
            or AXUtilities.is_tree(event.source)) \
            and AXUtilities.is_focused(event.source):
-            newFocus = AXSelection.get_selected_child(event.source, 0) or event.source
-            focus_manager.getManager().set_locus_of_focus(event, newFocus)
+            new_focus = AXSelection.get_selected_child(event.source, 0) or event.source
+            focus_manager.get_manager().set_locus_of_focus(event, new_focus)
         else:
-            default.Script.onSelectionChanged(self, event)
+            default.Script.on_selection_changed(self, event)
 
-    def onFocusedChanged(self, event):
+    def on_focused_changed(self, event):
         """Callback for object:state-changed:focused accessibility events."""
 
         if not event.detail1:
@@ -143,21 +108,17 @@ class Script(default.Script):
         # fingers and hope that's true.
         if AXUtilities.is_menu_related(event.source) \
            or AXUtilities.is_menu_related(AXObject.get_parent(event.source)):
-            focus_manager.getManager().set_locus_of_focus(event, event.source)
+            focus_manager.get_manager().set_locus_of_focus(event, event.source)
             return
 
         if AXUtilities.is_root_pane(event.source) \
-           and AXUtilities.is_menu_related(focus_manager.getManager().get_locus_of_focus()):
+           and AXUtilities.is_menu_related(focus_manager.get_manager().get_locus_of_focus()):
             return
 
-        default.Script.onFocusedChanged(self, event)
+        default.Script.on_focused_changed(self, event)
 
-    def onValueChanged(self, event):
-        """Called whenever an object's value changes.
-
-        Arguments:
-        - event: the Event
-        """
+    def on_value_changed(self, event):
+        """Callback for object:property-change:accessible-value accessibility events."""
 
         # We'll ignore value changed events for Java's toggle buttons since
         # they also send a redundant object:state-changed:checked event.
@@ -176,21 +137,11 @@ class Script(default.Script):
         # just process the single value changed event.
         #
         if AXUtilities.is_spin_button(event.source):
-            focus = focus_manager.getManager().get_locus_of_focus()
+            focus = focus_manager.get_manager().get_locus_of_focus()
             parent = AXObject.get_parent(focus)
             grandparent = AXObject.get_parent(parent)
             if grandparent == event.source:
                 self._presentTextAtNewCaretPosition(event, focus)
                 return
 
-        default.Script.onValueChanged(self, event)
-
-    def skipObjectEvent(self, event):
-
-        # Accessibility support for menus in Java is badly broken. One problem
-        # is bogus focus claims following menu-related focus claims. Therefore
-        # in this particular toolkit, we mustn't skip events for menus.
-        if AXUtilities.is_menu_related(event.source):
-            return False
-
-        return default.Script.skipObjectEvent(self, event)
+        default.Script.on_value_changed(self, event)

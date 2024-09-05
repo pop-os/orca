@@ -35,10 +35,11 @@ import subprocess
 import gi
 gi.require_version('Atspi', '2.0')
 from gi.repository import Atspi
+from gi.repository import GLib
 
 from . import debug
 from . import keybindings
-from . import orca_state
+from . import input_event_manager
 from . import settings_manager
 
 
@@ -47,17 +48,35 @@ class OrcaModifierManager:
 
     def __init__(self):
         self._grabbed_modifiers = {}
+        self._is_pressed = False
 
         # Related to hacks which will soon die.
         self._original_xmodmap = ""
         self._caps_lock_cleared = False
         self._need_to_restore_orca_modifier = False
 
-    @staticmethod
-    def is_orca_modifier(modifier):
+    def is_orca_modifier(self, modifier):
         """Returns True if modifier is one of the user's Orca modifier keys."""
 
-        return modifier in settings_manager.getManager().getSetting("orcaModifierKeys")
+        if modifier not in settings_manager.get_manager().get_setting("orcaModifierKeys"):
+            return False
+
+        if modifier in ["Insert", "KP_Insert"]:
+            return self.is_modifier_grabbed(modifier)
+
+        return True
+
+    def get_pressed_state(self):
+        """Returns True if the Orca modifier has been pressed but not yet released."""
+
+        return self._is_pressed
+
+    def set_pressed_state(self, is_pressed):
+        """Updates the pressed state of the modifier based on event."""
+
+        msg = f"ORCA MODIFIER MANAGER: Setting pressed state to {is_pressed}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        self._is_pressed = is_pressed
 
     def is_modifier_grabbed(self, modifier):
         """Returns True if there is an existing grab for modifier."""
@@ -67,14 +86,24 @@ class OrcaModifierManager:
     def add_grabs_for_orca_modifiers(self):
         """Adds grabs for all of the user's Orca modifier keys."""
 
-        for modifier in settings_manager.getManager().getSetting("orcaModifierKeys"):
-            self.add_modifier_grab(modifier)
+        for modifier in settings_manager.get_manager().get_setting("orcaModifierKeys"):
+            # TODO - JD: We currently handle CapsLock one way and Insert a different way.
+            # Ideally that will stop being the case at some point.
+            if modifier in ["Insert", "KP_Insert"]:
+                self.add_modifier_grab(modifier)
 
     def remove_grabs_for_orca_modifiers(self):
-        """Remove grabs for all of the user's Orca modifier keys."""
+        """Removes grabs for all of the user's Orca modifier keys."""
 
-        for modifier in settings_manager.getManager().getSetting("orcaModifierKeys"):
-            self.remove_modifier_grab(modifier)
+        for modifier in settings_manager.get_manager().get_setting("orcaModifierKeys"):
+            # TODO - JD: We currently handle CapsLock one way and Insert a different way.
+            # Ideally that will stop being the case at some point.
+            if modifier in ["Insert", "KP_Insert"]:
+                self.remove_modifier_grab(modifier)
+
+        msg = "ORCA MODIFIER MANAGER: Setting pressed state to False for grab removal"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        self._is_pressed = False
 
     def add_modifier_grab(self, modifier):
         """Adds a grab for modifier."""
@@ -82,29 +111,85 @@ class OrcaModifierManager:
         if modifier in self._grabbed_modifiers:
             return
 
-        if orca_state.device is None:
-            msg = "WARNING: Attempting to add modifier grabs without a device."
-            debug.printMessage(debug.LEVEL_WARNING, msg, True, True)
-            return
-
-        kd = Atspi.KeyDefinition()
-        kd.keycode = keybindings.getKeycode(modifier)
-        kd.modifiers = 0
-        self._grabbed_modifiers[modifier] = orca_state.device.add_key_grab(kd)
+        keycode = keybindings.get_keycode(modifier)
+        grab_id = input_event_manager.get_manager().add_grab_for_modifier(modifier, keycode)
+        if grab_id != -1:
+            self._grabbed_modifiers[modifier] = grab_id
 
     def remove_modifier_grab(self, modifier):
         """Removes the grab for modifier."""
 
-        if modifier not in self._grabbed_modifiers:
+        grab_id = self._grabbed_modifiers.get(modifier)
+        if grab_id is None:
             return
 
-        if orca_state.device is None:
-            msg = "WARNING: Attempting to remove modifier grabs without a device."
-            debug.printMessage(debug.LEVEL_WARNING, msg, True, True)
-            return
-
-        orca_state.device.remove_key_grab(self._grabbed_modifiers[modifier])
+        input_event_manager.get_manager().remove_grab_for_modifier(modifier, grab_id)
         del self._grabbed_modifiers[modifier]
+
+    def toggle_modifier(self, keyboard_event):
+        """Toggles the modifier to enable double-clicking causing normal behavior."""
+
+        if keyboard_event.keyval_name in ["Caps_Lock", "Shift_Lock"]:
+            self._toggle_modifier_lock(keyboard_event)
+            return
+
+        self._toggle_modifier_grab(keyboard_event)
+
+    def _toggle_modifier_grab(self, keyboard_event):
+        """Toggles the grab for a modifier to enable double-clicking causing normal behavior."""
+
+        # Because we will synthesize another press and release, wait until the real release.
+        if keyboard_event.is_pressed_key():
+            return
+
+        def toggle(hw_code):
+            Atspi.generate_keyboard_event(hw_code, "", Atspi.KeySynthType.PRESSRELEASE)
+            return False
+
+        def restore_grab(modifier):
+            self.add_modifier_grab(modifier)
+            return False
+
+        msg = "ORCA MODIFIER MANAGER: Removing grab pre-toggle"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        self.remove_modifier_grab(keyboard_event.keyval_name)
+
+        msg = f"ORCA MODIFIER MANAGER: Scheduling toggle of {keyboard_event.keyval_name}"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        GLib.timeout_add(1, toggle, keyboard_event.hw_code)
+
+        msg = "ORCA MODIFIER MANAGER: Scheduling re-adding grab post-toggle"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        GLib.timeout_add(500, restore_grab, keyboard_event.keyval_name)
+
+    def _toggle_modifier_lock(self, keyboard_event):
+        """Toggles the lock for a modifier to enable double-clicking causing normal behavior."""
+
+        if not (keyboard_event.is_pressed_key()):
+            return
+
+        def toggle(modifiers, modifier):
+            if modifiers & modifier:
+                lock = Atspi.KeySynthType.UNLOCKMODIFIERS
+                msg = "ORCA MODIFIER MANAGER: Unlocking CapsLock"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+            else:
+                lock = Atspi.KeySynthType.LOCKMODIFIERS
+                msg = "ORCA MODIFIER MANAGER: Locking CapsLock"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
+            Atspi.generate_keyboard_event(modifier, "", lock)
+            return
+
+        if keyboard_event.keyval_name == "Caps_Lock":
+            modifier = 1 << Atspi.ModifierType.SHIFTLOCK
+        elif keyboard_event.keyval_name == "Shift_Lock":
+            modifier = 1 << Atspi.ModifierType.SHIFT
+        else:
+            return
+
+        msg = "ORCA MODIFIER MANAGER: Scheduling lock change"
+        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        GLib.timeout_add(1, toggle, keyboard_event.modifiers, modifier)
 
     def refresh_orca_modifiers(self, reason=""):
         """Refreshes the Orca modifier keys."""
@@ -117,23 +202,6 @@ class OrcaModifierManager:
         self.unset_orca_modifiers(reason)
         self._original_xmodmap = subprocess.check_output(['xkbcomp', os.environ['DISPLAY'], '-'])
         self._create_orca_xmodmap()
-
-    def update_key_map(self, keyboard_event):
-        """Unsupported convenience method to call sad hacks which should go away."""
-
-        # TODO - JD: The only caller of this function is EventManager._processKeyboardEvent
-
-        msg = "ORCA MODIFIER MANAGER: Updating key map"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-
-        if self.is_orca_modifier(keyboard_event.event_string) and orca_state.bypassNextCommand:
-            self.unset_orca_modifiers()
-            self._need_to_restore_orca_modifier = True
-            return
-
-        if self._need_to_restore_orca_modifier and not orca_state.bypassNextCommand:
-            self._create_orca_xmodmap()
-            self._need_to_restore_orca_modifier = False
 
     def _create_orca_xmodmap(self):
         """Makes an Orca-specific Xmodmap so that the Orca modifier works."""
@@ -232,5 +300,5 @@ class OrcaModifierManager:
 
 
 _manager = OrcaModifierManager()
-def getManager():
+def get_manager():
     return _manager

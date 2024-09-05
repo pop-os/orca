@@ -27,11 +27,15 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2012 Igalia, S.L."
 __license__   = "LGPL"
 
+import time
+
+import gi
+gi.require_version("Gdk", "3.0")
+gi.require_version("Gtk", "3.0")
 from gi.repository import GObject, Gdk, Gtk
 
 from . import debug
 from . import guilabels
-from . import orca_state
 from . import script_manager
 from .ax_event_synthesizer import AXEventSynthesizer
 from .ax_object import AXObject
@@ -49,7 +53,7 @@ class OrcaNavListGUI:
         self._gui.set_keep_above(True)
         self._gui.set_focus_on_map(True)
         self._gui.set_accept_focus(True)
-        self._script = script_manager.getManager().getActiveScript()
+        self._script = script_manager.get_manager().get_active_script()
         self._document = None
 
     def _createNavListDialog(self, columnHeaders, rows, selectedRow):
@@ -116,10 +120,7 @@ class OrcaNavListGUI:
 
     def showGUI(self):
         self._gui.show_all()
-        ts = orca_state.lastInputEvent.timestamp
-        if ts == 0:
-            ts = Gtk.get_current_event_time()
-        self._gui.present_with_time(ts)
+        self._gui.present_with_time(time.time())
 
     def _onCursorChanged(self, widget):
         obj, offset = self._getSelectedAccessibleAndOffset()

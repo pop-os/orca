@@ -29,6 +29,7 @@ import re
 from orca import debug
 from orca import focus_manager
 from orca import keybindings
+from orca import input_event_manager
 from orca import script_utilities
 from orca import settings_manager
 from orca.ax_text import AXText
@@ -36,9 +37,6 @@ from orca.ax_utilities import AXUtilities
 
 
 class Utilities(script_utilities.Utilities):
-
-    def __init__(self, script):
-        super().__init__(script)
 
     def clearCache(self):
         pass
@@ -128,54 +126,33 @@ class Utilities(script_utilities.Utilities):
         if len(event.any_data) <= 1:
             return False
 
-        lastKey, mods = self.lastKeyAndModifiers()
-        if lastKey == "Tab":
+        manager = input_event_manager.get_manager()
+        if manager.last_event_was_tab():
             return event.any_data != "\t"
-        if lastKey == "Return" and event.any_data.startswith("\n"):
+        if manager.last_event_was_return() and event.any_data.startswith("\n"):
             return event.any_data.strip() and not event.any_data.count("\n~")
 
         return False
 
-    def lastInputEventWasCopy(self):
-        keycode, mods = self._lastKeyCodeAndModifiers()
-        keynames = self._allNamesForKeyCode(keycode)
-        if 'c' not in keynames:
-            return False
-
-        if mods & keybindings.CTRL_MODIFIER_MASK:
-            return mods & keybindings.SHIFT_MODIFIER_MASK
-
-        return False
-
-    def lastInputEventWasPaste(self):
-        keycode, mods = self._lastKeyCodeAndModifiers()
-        keynames = self._allNamesForKeyCode(keycode)
-        if 'v' not in keynames:
-            return False
-
-        if mods & keybindings.CTRL_MODIFIER_MASK:
-            return mods & keybindings.SHIFT_MODIFIER_MASK
-
-        return False
-
     def treatEventAsCommand(self, event):
-        if event.source != focus_manager.getManager().get_locus_of_focus():
+        if event.source != focus_manager.get_manager().get_locus_of_focus():
             return False
 
         if event.type.startswith("object:text-changed:insert") and event.any_data.strip():
             # To let default script handle presentation.
-            if self.lastInputEventWasPaste():
+            if input_event_manager.get_manager().last_event_was_paste():
                 return False
 
             if event.any_data.count("\n~"):
                 return False
 
-            keyString, mods = self.lastKeyAndModifiers()
-            if keyString in ["Return", "Tab", "space", " "]:
+            manager = input_event_manager.get_manager()
+            if manager.last_event_was_return_tab_or_space():
                 return re.search(r"[^\d\s]", event.any_data)
-            if mods & keybindings.ALT_MODIFIER_MASK:
+            # TODO - JD: What condition specifically is this here for?
+            if manager.last_event_was_alt_modified():
                 return True
-            if self.lastInputEventWasPrintableKey():
+            if manager.last_event_was_printable_key():
                 return len(event.any_data) > 1
             if AXText.get_caret_offset(event.source) == event.detail1 + event.detail2:
                 return True
@@ -183,24 +160,26 @@ class Utilities(script_utilities.Utilities):
         return False
 
     def treatEventAsNoise(self, event):
-        if self.lastInputEventWasCommand():
+        if input_event_manager.get_manager().last_event_was_command():
             return False
 
         if event.type.startswith("object:text-changed:delete") and event.any_data.strip():
-            keyString, mods = self.lastKeyAndModifiers()
-            if keyString in ["Return", "Tab", "space", " "]:
+            manager = input_event_manager.get_manager()
+            if manager.last_event_was_return_tab_or_space():
                 return True
-            if mods & keybindings.ALT_MODIFIER_MASK:
+            # TODO - JD: What condition specifically is this here for?
+            if manager.last_event_was_alt_modified():
                 return True
-            if len(event.any_data) > 1 and self.lastInputEventWasPrintableKey():
+            if len(event.any_data) > 1 and manager.last_event_was_printable_key():
                 return True
 
         return False
 
     def willEchoCharacter(self, event):
-        if not settings_manager.getManager().getSetting("enableEchoByCharacter"):
+        if not settings_manager.get_manager().get_setting("enableEchoByCharacter"):
             return False
 
+        # TODO - JD: What case is the modifier check handling?
         if len(event.event_string) != 1 \
            or event.modifiers & keybindings.ORCA_CTRL_MODIFIER_MASK:
             return False

@@ -25,16 +25,13 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2023 Igalia, S.L."
 __license__   = "LGPL"
 
-import orca.debug as debug
-import orca.script_utilities as script_utilities
+from orca import debug
+from orca import script_utilities
 
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
 
 class Utilities(script_utilities.Utilities):
-
-    def __init__(self, script):
-        super().__init__(script)
 
     def _isTopLevelObject(self, obj):
         # This is needed because Qt apps might insert some junk (e.g. a filler) in

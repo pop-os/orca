@@ -18,7 +18,9 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-"""Module for configuring speech and verbosity settings."""
+# pylint: disable=unused-argument
+
+"""Configures speech and verbosity settings and adjusts strings accordingly."""
 
 __id__        = "$Id$"
 __version__   = "$Revision$"
@@ -26,6 +28,8 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
                 "Copyright (c) 2016-2023 Igalia, S.L."
 __license__   = "LGPL"
+
+import re
 
 from . import cmdnames
 from . import debug
@@ -36,12 +40,11 @@ from . import messages
 from . import settings
 from . import settings_manager
 from . import speech
+from .ax_hypertext import AXHypertext
 from .ax_table import AXTable
 
-_settings_manager = settings_manager.getManager()
-
 class SpeechAndVerbosityManager:
-    """Configures speech and verbosity settings."""
+    """Configures speech and verbosity settings and adjusts strings accordingly."""
 
     def __init__(self):
         self._handlers = self.get_handlers(True)
@@ -51,10 +54,10 @@ class SpeechAndVerbosityManager:
         """Returns the speech and verbosity manager keybindings."""
 
         if refresh:
-            msg = "SPEECH AND VERBOSITY MANAGER: Refreshing bindings."
+            msg = f"SPEECH AND VERBOSITY MANAGER: Refreshing bindings.  Is desktop: {is_desktop}"
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             self._setup_bindings()
-        elif self._bindings.isEmpty():
+        elif self._bindings.is_empty():
             self._setup_bindings()
 
         return self._bindings
@@ -160,105 +163,105 @@ class SpeechAndVerbosityManager:
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("cycleCapitalizationStyleHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("cycleSpeakingPunctuationLevelHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("cycleSynthesizerHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("cycleKeyEchoHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("changeNumberStyleHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("decreaseSpeechRateHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("increaseSpeechRateHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("decreaseSpeechPitchHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("increaseSpeechPitchHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("decreaseSpeechVolumeHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("increaseSpeechVolumeHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.NO_MODIFIER_MASK,
                 self._handlers.get("toggleSpeakingIndentationJustificationHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "s",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("toggleSilenceSpeechHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "v",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("toggleSpeechVerbosityHandler")))
 
         self._bindings.add(
             keybindings.KeyBinding(
                 "F11",
-                keybindings.defaultModifierMask,
+                keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_MODIFIER_MASK,
                 self._handlers.get("toggleTableCellReadModeHandler")))
 
@@ -266,7 +269,7 @@ class SpeechAndVerbosityManager:
         debug.printMessage(debug.LEVEL_INFO, msg, True)
 
     def _get_server(self):
-        return speech.getSpeechServer()
+        return speech.get_speech_server()
 
     def decrease_rate(self, script, event=None):
         """Decreases the speech rate"""
@@ -396,7 +399,8 @@ class SpeechAndVerbosityManager:
     def cycle_capitalization_style(self, script, event=None):
         """Cycle through the speech-dispatcher capitalization styles."""
 
-        current_style = _settings_manager.getSetting('capitalizationStyle')
+        manager = settings_manager.get_manager()
+        current_style = manager.get_setting('capitalizationStyle')
         if current_style == settings.CAPITALIZATION_STYLE_NONE:
             new_style = settings.CAPITALIZATION_STYLE_SPELL
             full = messages.CAPITALIZATION_SPELL_FULL
@@ -410,7 +414,7 @@ class SpeechAndVerbosityManager:
             full = messages.CAPITALIZATION_NONE_FULL
             brief = messages.CAPITALIZATION_NONE_BRIEF
 
-        _settings_manager.setSetting('capitalizationStyle', new_style)
+        manager.set_setting('capitalizationStyle', new_style)
         script.presentMessage(full, brief)
         self.update_capitalization_style()
         return True
@@ -418,7 +422,8 @@ class SpeechAndVerbosityManager:
     def cycle_punctuation_level(self, script, event=None):
         """Cycle through the punctuation levels for speech."""
 
-        current_level = _settings_manager.getSetting('verbalizePunctuationStyle')
+        manager = settings_manager.get_manager()
+        current_level = manager.get_setting('verbalizePunctuationStyle')
         if current_level == settings.PUNCTUATION_STYLE_NONE:
             new_level = settings.PUNCTUATION_STYLE_SOME
             full = messages.PUNCTUATION_SOME_FULL
@@ -436,17 +441,19 @@ class SpeechAndVerbosityManager:
             full = messages.PUNCTUATION_NONE_FULL
             brief = messages.PUNCTUATION_NONE_BRIEF
 
-        _settings_manager.setSetting('verbalizePunctuationStyle', new_level)
+        manager.set_setting('verbalizePunctuationStyle', new_level)
         script.presentMessage(full, brief)
         self.update_punctuation_level()
         return True
 
     def cycle_key_echo(self, script, event=None):
         """Cycle through the key echo levels."""
+
+        manager = settings_manager.get_manager()
         (new_key, new_word, new_sentence) = (False, False, False)
-        key = _settings_manager.getSetting('enableKeyEcho')
-        word = _settings_manager.getSetting('enableEchoByWord')
-        sentence = _settings_manager.getSetting('enableEchoBySentence')
+        key = manager.get_setting('enableKeyEcho')
+        word = manager.get_setting('enableEchoByWord')
+        sentence = manager.get_setting('enableEchoBySentence')
 
         if (key, word, sentence) == (False, False, False):
             (new_key, new_word, new_sentence) = (True, False, False)
@@ -473,16 +480,17 @@ class SpeechAndVerbosityManager:
             full = messages.KEY_ECHO_NONE_FULL
             brief = messages.KEY_ECHO_NONE_BRIEF
 
-        _settings_manager.setSetting('enableKeyEcho', new_key)
-        _settings_manager.setSetting('enableEchoByWord', new_word)
-        _settings_manager.setSetting('enableEchoBySentence', new_sentence)
+        manager.set_setting('enableKeyEcho', new_key)
+        manager.set_setting('enableEchoByWord', new_word)
+        manager.set_setting('enableEchoBySentence', new_sentence)
         script.presentMessage(full, brief)
         return True
 
     def change_number_style(self, script, event=None):
         """Changes spoken number style between digits and words."""
 
-        speak_digits = _settings_manager.getSetting('speakNumbersAsDigits')
+        manager = settings_manager.get_manager()
+        speak_digits = manager.get_setting('speakNumbersAsDigits')
         if speak_digits:
             brief = messages.NUMBER_STYLE_WORDS_BRIEF
             full = messages.NUMBER_STYLE_WORDS_FULL
@@ -490,44 +498,47 @@ class SpeechAndVerbosityManager:
             brief = messages.NUMBER_STYLE_DIGITS_BRIEF
             full = messages.NUMBER_STYLE_DIGITS_FULL
 
-        _settings_manager.setSetting('speakNumbersAsDigits', not speak_digits)
+        manager.set_setting('speakNumbersAsDigits', not speak_digits)
         script.presentMessage(full, brief)
         return True
 
     def toggle_speech(self, script, event=None):
         """Toggles speech."""
 
+        manager = settings_manager.get_manager()
         script.presentationInterrupt()
-        if _settings_manager.getSetting('silenceSpeech'):
-            _settings_manager.setSetting('silenceSpeech', False)
+        if manager.get_setting('silenceSpeech'):
+            manager.set_setting('silenceSpeech', False)
             script.presentMessage(messages.SPEECH_ENABLED)
-        elif not _settings_manager.getSetting('enableSpeech'):
-            _settings_manager.setSetting('enableSpeech', True)
+        elif not manager.get_setting('enableSpeech'):
+            manager.set_setting('enableSpeech', True)
             speech.init()
             script.presentMessage(messages.SPEECH_ENABLED)
         else:
             script.presentMessage(messages.SPEECH_DISABLED)
-            _settings_manager.setSetting('silenceSpeech', True)
+            manager.set_setting('silenceSpeech', True)
         return True
 
     def toggle_verbosity(self, script, event=None):
         """Toggles speech verbosity level between verbose and brief."""
 
-        value = _settings_manager.getSetting('speechVerbosityLevel')
+        manager = settings_manager.get_manager()
+        value = manager.get_setting('speechVerbosityLevel')
         if value == settings.VERBOSITY_LEVEL_BRIEF:
             script.presentMessage(messages.SPEECH_VERBOSITY_VERBOSE)
-            _settings_manager.setSetting('speechVerbosityLevel', settings.VERBOSITY_LEVEL_VERBOSE)
+            manager.set_setting('speechVerbosityLevel', settings.VERBOSITY_LEVEL_VERBOSE)
         else:
             script.presentMessage(messages.SPEECH_VERBOSITY_BRIEF)
-            _settings_manager.setSetting('speechVerbosityLevel', settings.VERBOSITY_LEVEL_BRIEF)
+            manager.set_setting('speechVerbosityLevel', settings.VERBOSITY_LEVEL_BRIEF)
         return True
 
     def toggle_indentation_and_justification(self, script, event=None):
         """Toggles the speaking of indentation and justification."""
 
-        value = _settings_manager.getSetting('enableSpeechIndentation')
-        _settings_manager.setSetting('enableSpeechIndentation', not value)
-        if _settings_manager.getSetting('enableSpeechIndentation'):
+        manager = settings_manager.get_manager()
+        value = manager.get_setting('enableSpeechIndentation')
+        manager.set_setting('enableSpeechIndentation', not value)
+        if manager.get_setting('enableSpeechIndentation'):
             full = messages.INDENTATION_JUSTIFICATION_ON_FULL
             brief = messages.INDENTATION_JUSTIFICATION_ON_BRIEF
         else:
@@ -539,7 +550,7 @@ class SpeechAndVerbosityManager:
     def toggle_table_cell_reading_mode(self, script, event=None):
         """Toggles between speak cell and speak row."""
 
-        table = AXTable.get_table(focus_manager.getManager().get_locus_of_focus())
+        table = AXTable.get_table(focus_manager.get_manager().get_locus_of_focus())
         if table is None:
             script.presentMessage(messages.TABLE_NOT_IN_A)
             return True
@@ -551,8 +562,9 @@ class SpeechAndVerbosityManager:
         else:
             setting_name = 'readFullRowInDocumentTable'
 
-        speak_row = _settings_manager.getSetting(setting_name)
-        _settings_manager.setSetting(setting_name, not speak_row)
+        manager = settings_manager.get_manager()
+        speak_row = manager.get_setting(setting_name)
+        manager.set_setting(setting_name, not speak_row)
 
         if not speak_row:
             msg = messages.TABLE_MODE_ROW
@@ -562,8 +574,41 @@ class SpeechAndVerbosityManager:
         script.presentMessage(msg)
         return True
 
+    @staticmethod
+    def adjust_for_links(obj, line, start_offset):
+        """Adjust line to include the word "link" after any hypertext links."""
+
+        end_offset = start_offset + len(line)
+        links = AXHypertext.get_all_links_in_range(obj, start_offset, end_offset)
+        offsets = [AXHypertext.get_link_end_offset(link) for link in links]
+        offsets = sorted([offset - start_offset for offset in offsets], reverse=True)
+        tokens = list(line)
+        for o in offsets:
+            string = f" {messages.LINK}"
+            if o < len(tokens) and tokens[o].isalnum():
+                string += " "
+            tokens[o:o] = string
+        return "".join(tokens)
+
+    @staticmethod
+    def adjust_for_repeats(string):
+        """Adjust line to include a description of repeated symbols."""
+
+        def replacement(match):
+            char = match.group(1)
+            count = len(match.group(0))
+            if match.start() > 0 and string[match.start() - 1].isalnum():
+                return f" {messages.repeatedCharCount(char, count)}"
+            return messages.repeatedCharCount(char, count)
+
+        if len(string) < 4 or settings.repeatCharacterLimit < 4:
+            return string
+
+        pattern = re.compile(r"([^a-zA-Z0-9\s])\1{" + str(settings.repeatCharacterLimit - 1) + ",}")
+        return re.sub(pattern, replacement, string)
+
 _manager = SpeechAndVerbosityManager()
-def getManager():
+def get_manager():
     """Returns the Speech and Verbosity Manager"""
 
     return _manager

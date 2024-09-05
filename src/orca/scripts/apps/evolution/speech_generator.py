@@ -19,35 +19,39 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+"""Produces speech presentation for accessible objects."""
+
 __id__        = "$Id$"
 __version__   = "$Revision$"
 __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2015 Igalia, S.L."
 __license__   = "LGPL"
 
-import orca.scripts.toolkits.WebKitGtk as WebKitGtk
-import orca.speech_generator as speech_generator
+from orca import debug
+from orca import speech_generator
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
+from orca.scripts import web
 
+class SpeechGenerator(web.SpeechGenerator, speech_generator.SpeechGenerator):
+    """Produces speech presentation for accessible objects."""
 
-class SpeechGenerator(WebKitGtk.SpeechGenerator, speech_generator.SpeechGenerator):
+    @staticmethod
+    def log_generator_output(func):
+        """Decorator for logging."""
+
+        def wrapper(*args, **kwargs):
+            result = func(*args, **kwargs)
+            tokens = [f"EVOLUTION SPEECH GENERATOR: {func.__name__}:", result]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            return result
+        return wrapper
 
     def __init__(self, script):
         super().__init__(script)
         self._cache = {}
 
-    def _isTreeTableCell(self, obj):
-        cached = self._cache.get(hash(obj), {})
-        rv = cached.get("isTreeTableCell")
-        if rv is None:
-            rv = AXUtilities.is_tree_table(AXObject.get_parent(obj))
-            cached["isTreeTableCell"] = rv
-            self._cache[hash(obj)] = cached
-
-        return rv
-
-    def _isMessageListStatusCell(self, obj):
+    def _is_message_list_status_cell(self, obj):
         cached = self._cache.get(hash(obj), {})
         rv = cached.get("isMessageListStatusCell")
         if rv is None:
@@ -57,7 +61,7 @@ class SpeechGenerator(WebKitGtk.SpeechGenerator, speech_generator.SpeechGenerato
 
         return rv
 
-    def _isMessageListToggleCell(self, obj):
+    def _is_message_list_toggle_cell(self, obj):
         cached = self._cache.get(hash(obj), {})
         rv = cached.get("isMessageListToggleCell")
         if rv is None:
@@ -67,27 +71,7 @@ class SpeechGenerator(WebKitGtk.SpeechGenerator, speech_generator.SpeechGenerato
 
         return rv
 
-    def _isFocused(self, obj):
-        cached = self._cache.get(hash(obj), {})
-        rv = cached.get("isFocused")
-        if rv is None:
-            rv = AXUtilities.is_focused(obj)
-            cached["isFocused"] = rv
-            self._cache[hash(obj)] = cached
-
-        return rv
-
-    def _isChecked(self, obj):
-        cached = self._cache.get(hash(obj), {})
-        rv = cached.get("isChecked")
-        if rv is None:
-            rv = AXUtilities.is_checked(obj)
-            cached["isChecked"] = rv
-            self._cache[hash(obj)] = cached
-
-        return rv
-
-    def _isInNewRow(self, obj):
+    def _is_in_new_row(self, obj):
         cached = self._cache.get(hash(obj), {})
         rv = cached.get("isInNewRow")
         if rv is None:
@@ -97,61 +81,58 @@ class SpeechGenerator(WebKitGtk.SpeechGenerator, speech_generator.SpeechGenerato
 
         return rv
 
-    def _generateCellCheckedState(self, obj, **args):
-        if self._isMessageListStatusCell(obj):
+    @log_generator_output
+    def _generate_state_checked_for_cell(self, obj, **args):
+        if self._is_message_list_status_cell(obj):
             return []
 
-        if self._isMessageListToggleCell(obj):
-            if self._isInNewRow(obj) or not self._isFocused(obj):
+        if self._is_message_list_toggle_cell(obj):
+            if self._is_in_new_row(obj) or not AXUtilities.is_focused(obj):
                 return []
 
-        return super()._generateCellCheckedState(obj, **args)
+        return super()._generate_state_checked_for_cell(obj, **args)
 
-    def _generateLabel(self, obj, **args):
-        if self._isMessageListToggleCell(obj):
+    @log_generator_output
+    def _generate_accessible_label(self, obj, **args):
+        if self._is_message_list_toggle_cell(obj):
             return []
 
-        return super()._generateLabel(obj, **args)
+        return super()._generate_accessible_label(obj, **args)
 
-    def _generateName(self, obj, **args):
-        if self._isMessageListToggleCell(obj) \
-           and not self._isMessageListStatusCell(obj):
+    @log_generator_output
+    def _generate_accessible_name(self, obj, **args):
+        if self._is_message_list_toggle_cell(obj) and not self._is_message_list_status_cell(obj):
             return []
 
-        return super()._generateName(obj, **args)
+        return super()._generate_accessible_name(obj, **args)
 
-    def _generateLabelOrName(self, obj, **args):
-        if self._isMessageListToggleCell(obj) \
-           and not self._isMessageListStatusCell(obj):
-            return []
-
-        return super()._generateLabelOrName(obj, **args)
-
-    def _generateRealActiveDescendantDisplayedText(self, obj, **args):
-        if self._isMessageListToggleCell(obj) \
-           and not self._isMessageListStatusCell(obj):
-            if not self._isChecked(obj):
+    @log_generator_output
+    def _generate_real_active_descendant_displayed_text(self, obj, **args):
+        if self._is_message_list_toggle_cell(obj) and not self._is_message_list_status_cell(obj):
+            if not AXUtilities.is_checked(obj):
                 return []
-            if self._isFocused(obj) and not self._isInNewRow(obj):
+            if AXUtilities.is_focused(obj) and not self._is_in_new_row(obj):
                 return []
 
-        return super()._generateRealActiveDescendantDisplayedText(obj, **args)
+        return super()._generate_real_active_descendant_displayed_text(obj, **args)
 
-    def _generateRoleName(self, obj, **args):
-        if self._isMessageListToggleCell(obj) and not self._isFocused(obj):
+    @log_generator_output
+    def _generate_accessible_role(self, obj, **args):
+        if self._is_message_list_toggle_cell(obj) and not AXUtilities.is_focused(obj):
             return []
 
-        return super()._generateRoleName(obj, **args)
+        return super()._generate_accessible_role(obj, **args)
 
-    def _generateUnselectedCell(self, obj, **args):
-        if self._isMessageListToggleCell(obj) or self._isTreeTableCell(obj):
+    @log_generator_output
+    def _generate_state_unselected(self, obj, **args):
+        if self._is_message_list_toggle_cell(obj) \
+           or AXUtilities.is_tree_table(AXObject.get_parent(obj)):
             return []
 
-        return super()._generateUnselectedCell(obj, **args)
+        return super()._generate_state_unselected(obj, **args)
 
-    def generateSpeech(self, obj, **args):
+    def generate_speech(self, obj, **args):
         self._cache = {}
-        results = super().generateSpeech(obj, **args)
+        results = super().generate_speech(obj, **args)
         self._cache = {}
-
         return results
