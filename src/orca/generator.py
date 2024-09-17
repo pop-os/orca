@@ -67,6 +67,7 @@ class Generator:
     CACHED_TEXT: dict = {}
     CACHED_TEXT_EXPANDING_EOCS: dict = {}
     CACHED_TREE_ITEM_LEVEL: dict = {}
+    USED_DESCRIPTION_FOR_NAME: dict = {}
     USED_DESCRIPTION_FOR_STATIC_TEXT: dict = {}
 
     _lock = threading.Lock()
@@ -212,6 +213,7 @@ class Generator:
                 Generator.CACHED_TEXT = {}
                 Generator.CACHED_TEXT_EXPANDING_EOCS = {}
                 Generator.CACHED_TREE_ITEM_LEVEL = {}
+                Generator.USED_DESCRIPTION_FOR_NAME = {}
                 Generator.USED_DESCRIPTION_FOR_STATIC_TEXT = {}
 
     @staticmethod
@@ -316,6 +318,10 @@ class Generator:
             Generator.CACHED_DESCRIPTION[hash(obj)] = []
             return []
 
+        if Generator.USED_DESCRIPTION_FOR_NAME.get(hash(obj)):
+            Generator.CACHED_DESCRIPTION[hash(obj)] = []
+            return []
+
         description = AXObject.get_description(obj) \
             or self._script.utilities.displayedDescription(obj) or ""
         if not description:
@@ -323,6 +329,12 @@ class Generator:
             return []
 
         if self._script.utilities.stringsAreRedundant(AXObject.get_name(obj), description):
+            Generator.CACHED_DESCRIPTION[hash(obj)] = []
+            return []
+
+        focus = focus_manager.get_manager().get_locus_of_focus()
+        if focus and obj != focus \
+           and description in [AXObject.get_name(focus), AXObject.get_description(focus)]:
             Generator.CACHED_DESCRIPTION[hash(obj)] = []
             return []
 
@@ -357,7 +369,7 @@ class Generator:
         # presenting Qt table cells because Qt keeps giving us a different object each and
         # every time we ask for the cell. File a bug against Qt to get them to stop that.
         if focus and obj != focus and AXObject.get_role(obj) != AXObject.get_role(focus):
-            name = AXObject.get_name(obj)
+            name = AXObject.get_name(obj) or AXObject.get_description(obj)
             if name and name in [AXObject.get_name(focus), AXObject.get_description(focus)]:
                 return []
 
@@ -394,12 +406,14 @@ class Generator:
 
     @log_generator_output
     def _generate_accessible_name(self, obj, **args):
+        Generator.USED_DESCRIPTION_FOR_NAME[hash(obj)] = False
         name = AXObject.get_name(obj)
         if name:
             return [name]
 
         description = AXObject.get_description(obj)
         if description:
+            Generator.USED_DESCRIPTION_FOR_NAME[hash(obj)] = True
             return [description]
 
         link = None
@@ -522,12 +536,22 @@ class Generator:
         for child in descendants:
             if child == obj:
                 continue
+            if AXUtilities.is_section(child):
+                continue
+            if AXUtilities.is_paragraph(child):
+                continue
+            if AXUtilities.is_table_related(child):
+                continue
+            if AXUtilities.is_static(child):
+                continue
+            if AXUtilities.is_link(child):
+                continue
             if AXUtilities.is_image(child):
                 continue
             if AXUtilities.is_label(child):
                 if not AXText.has_presentable_text(child):
                     continue
-                if AXObject.get_name(child) in obj_name:
+                if obj_name and AXObject.get_name(child) in obj_name:
                     continue
                 if child in AXUtilities.get_is_labelled_by(obj):
                     continue
@@ -766,6 +790,9 @@ class Generator:
     @log_generator_output
     def _generate_state_sensitive(self, obj, **_args):
         if AXUtilities.is_sensitive(obj):
+            return []
+
+        if self._script.utilities.isSpreadSheetCell(obj):
             return []
 
         if self._mode == "braille":
