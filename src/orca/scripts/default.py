@@ -905,7 +905,10 @@ class Script(script.Script):
     def process_routing_key(self, event=None):
         """Processes a cursor routing key."""
 
-        self.presentationInterrupt()
+        # Don't kill flash here because it will restore the previous contents and
+        # then process the routing key. If the contents accept a click action, this
+        # would result in clicking on the link instead of clearing the flash message.
+        self.presentationInterrupt(killFlash=False)
         braille.process_routing_key(event)
         return True
 
@@ -1383,6 +1386,13 @@ class Script(script.Script):
 
         if not AXUtilities.selected_state_did_change(event.source):
             return
+
+        if event.detail1 and AXUtilities.is_page_tab(event.source) \
+           and not AXUtilities.is_showing(event.source):
+            AXObject.clear_cache(event.source, False, "selected page tab lacks showing state")
+            if AXUtilities.is_showing(event.source):
+                msg = "DEFAULT: Event source is now showing"
+                debug.printMessage(debug.LEVEL_INFO, msg, True)
 
         if event.source != focus_manager.get_manager().get_locus_of_focus():
             msg = "DEFAULT: Event is not for locusOfFocus"
