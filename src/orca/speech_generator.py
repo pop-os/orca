@@ -1730,11 +1730,9 @@ class SpeechGenerator(generator.Generator):
         if settings_manager.get_manager().get_setting("onlySpeakDisplayedText"):
             return []
 
-        if AXUtilities.is_sensitive(obj):
-            return []
-
-        result = [object_properties.STATE_INSENSITIVE_SPEECH]
-        result.extend(self.voice(SYSTEM, obj=obj, **args))
+        result = super()._generate_state_sensitive(obj, **args)
+        if result:
+            result.extend(self.voice(STATE, obj=obj, **args))
         return result
 
     @log_generator_output
@@ -2169,11 +2167,13 @@ class SpeechGenerator(generator.Generator):
         if args.get("includeContext") is False:
             return []
 
+        # Do not call _generate_accessible_static_text here for ancestors.
+        # The roles of objects which typically have static text we want to
+        # present (panels, groupings, dialogs) already generate it. If we
+        # include it here, it will be double-presented.
         format_type = args.get("formatType", "unfocused")
-        if format_type == "focused":
+        if format_type in ["focused", "ancestor"]:
             return []
-        if format_type == "ancestor":
-            return self._generate_accessible_static_text(obj, **args)
 
         result = []
         if format_type.endswith("WhereAmI"):
@@ -3059,8 +3059,8 @@ class SpeechGenerator(generator.Generator):
             result += self._generate_state_expanded(obj, **args)
             return result
 
-        result += (self._generate_accessible_label_and_name(obj, **args) or \
-            self._generate_text_line(obj, **args))
+        result += (self._generate_text_line(obj, **args) or \
+            self._generate_accessible_label_and_name(obj, **args))
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_state_checked_if_checkable(obj, **args)
         result += self._generate_pause(obj, **args)
@@ -3316,6 +3316,12 @@ class SpeechGenerator(generator.Generator):
 
     def _generate_page_tab(self, obj, **args):
         """Generates speech for the page-tab role."""
+
+        format_type = args.get("formatType", "unfocused")
+        if format_type == "ancestor":
+            result = self._generate_accessible_label_and_name(obj, **args)
+            result += self._generate_accessible_role(obj, **args)
+            return result
 
         result = self._generate_default_prefix(obj, **args)
         result += self._generate_accessible_label_and_name(obj, **args)
@@ -3615,8 +3621,10 @@ class SpeechGenerator(generator.Generator):
         """Generates speech for the split-pane role."""
 
         format_type = args.get("formatType", "unfocused")
-        if format_type in ["focused", "ancestor"]:
+        if format_type == "focused":
             return self._generate_value(obj, **args)
+        if format_type == "ancestor":
+            return []
 
         result = self._generate_default_prefix(obj, **args)
         result += self._generate_accessible_label_and_name(obj, **args)
@@ -3734,6 +3742,9 @@ class SpeechGenerator(generator.Generator):
         if result and not isinstance(result[-1], Pause):
             result += self._generate_pause(obj, **args)
         result += self._generate_state_invalid(obj, **args)
+        if result and not isinstance(result[-1], Pause):
+            result += self._generate_pause(obj, **args)
+        result += self._generate_state_sensitive(obj, **args)
         if result and not isinstance(result[-1], Pause):
             result += self._generate_pause(obj, **args)
         result += self._generate_tree_item_level(obj, **args)

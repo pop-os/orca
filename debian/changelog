@@ -1,3 +1,10 @@
+orca (47.0-1) unstable; urgency=medium
+
+  * New upstream release (Closes: Bug#1082036)
+    - source/lintian-overrides: Update.
+
+ -- Samuel Thibault <sthibault@debian.org>  Tue, 17 Sep 2024 23:39:05 +0200
+
 orca (47~rc-1ubuntu1) oracular; urgency=medium
 
   * Merge with Debian (LP: #2079043). Remaining changes:
