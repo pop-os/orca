@@ -295,7 +295,7 @@ class SpeechGenerator(generator.Generator):
         total = args.get("total", 1)
 
         def use_ancestor_role(x):
-            if not AXUtilities.is_heading(x) or AXUtilities.is_link(x):
+            if not (AXUtilities.is_heading(x) or AXUtilities.is_link(x)):
                 return False
             if AXObject.get_role(x) == role:
                 return False
@@ -1708,6 +1708,9 @@ class SpeechGenerator(generator.Generator):
     @log_generator_output
     def _generate_state_required(self, obj, **args):
         if settings_manager.get_manager().get_setting("onlySpeakDisplayedText"):
+            return []
+
+        if args.get("alreadyFocused"):
             return []
 
         result = super()._generate_state_required(obj, **args)
@@ -3553,9 +3556,14 @@ class SpeechGenerator(generator.Generator):
     def _generate_section(self, obj, **args):
         """Generates speech for the section role."""
 
+        format_type = args.get("formatType", "unfocused")
         result = self._generate_default_prefix(obj, **args)
-        result += self._generate_accessible_label_and_name(obj, **args)
-        result += self._generate_pause(obj, **args)
+        if AXUtilities.is_focusable(obj):
+            result += self._generate_accessible_label_and_name(obj, **args)
+            result += self._generate_pause(obj, **args)
+        if format_type == "ancestor":
+            return result
+
         result += self._generate_text_indentation(obj, **args)
         result += self._generate_text_line(obj, **args)
         result += self._generate_accessible_role(obj, **args)
