@@ -4,23 +4,33 @@ Subject: [PATCH] Add hacks to better support Unity7
 
 https://bugzilla.gnome.org/show_bug.cgi?id=783063
 ---
- src/orca/scripts/apps/meson.build               |  1 +
  src/orca/scripts/apps/__init__.py               |  1 +
- src/orca/scripts/apps/unity/meson.build         | 10 +++
+ src/orca/scripts/apps/meson.build               |  1 +
  src/orca/scripts/apps/unity/__init__.py         |  1 +
+ src/orca/scripts/apps/unity/meson.build         | 10 ++++
  src/orca/scripts/apps/unity/script.py           | 67 +++++++++++++++++++++++++
  src/orca/scripts/apps/unity/script_utilities.py | 34 +++++++++++++
- 8 files changed, 113 insertions(+)
- create mode 100644 src/orca/scripts/apps/unity/Makefile.am
+ 6 files changed, 114 insertions(+)
  create mode 100644 src/orca/scripts/apps/unity/__init__.py
+ create mode 100644 src/orca/scripts/apps/unity/meson.build
  create mode 100644 src/orca/scripts/apps/unity/script.py
  create mode 100644 src/orca/scripts/apps/unity/script_utilities.py
 
+diff --git a/src/orca/scripts/apps/__init__.py b/src/orca/scripts/apps/__init__.py
+index f8e9553..7a381b3 100644
+--- a/src/orca/scripts/apps/__init__.py
++++ b/src/orca/scripts/apps/__init__.py
+@@ -10,4 +10,5 @@ __all__ = ['evince',
+            'SeaMonkey',
+            'smuxi-frontend-gnome',
+            'Thunderbird',
++           'unity',
+            'xfwm4']
 diff --git a/src/orca/scripts/apps/meson.build b/src/orca/scripts/apps/meson.build
-index 095f9e90a..815f5929f 100644
+index 95055d8..ca00401 100644
 --- a/src/orca/scripts/apps/meson.build
 +++ b/src/orca/scripts/apps/meson.build
-@@ -13,6 +13,7 @@ subdir('soffice')
+@@ -10,6 +10,7 @@ subdir('soffice')
  subdir('SeaMonkey')
  subdir('smuxi-frontend-gnome')
  subdir('Thunderbird')
@@ -28,19 +38,16 @@ index 095f9e90a..815f5929f 100644
  subdir('xfwm4')
  
  lib_sources = [
-diff --git a/src/orca/scripts/apps/__init__.py b/src/orca/scripts/apps/__init__.py
-index 157501a..b57d670 100644
---- a/src/orca/scripts/apps/__init__.py
-+++ b/src/orca/scripts/apps/__init__.py
-@@ -16,4 +16,5 @@ __all__ = ['Banshee',
-            'SeaMonkey',
-            'smuxi-frontend-gnome',
-            'Thunderbird',
-+           'unity',
-            'xfwm4']
+diff --git a/src/orca/scripts/apps/unity/__init__.py b/src/orca/scripts/apps/unity/__init__.py
+new file mode 100644
+index 0000000..585c964
+--- /dev/null
++++ b/src/orca/scripts/apps/unity/__init__.py
+@@ -0,0 +1 @@
++from .script import Script
 diff --git a/src/orca/scripts/apps/unity/meson.build b/src/orca/scripts/apps/unity/meson.build
 new file mode 100644
-index 000000000..a1e80211f
+index 0000000..a1e8021
 --- /dev/null
 +++ b/src/orca/scripts/apps/unity/meson.build
 @@ -0,0 +1,10 @@
@@ -54,13 +61,6 @@ index 000000000..a1e80211f
 +  lib_sources,
 +  subdir: meson.project_name() / 'scripts' / 'apps' / 'unity'
 +)
-diff --git a/src/orca/scripts/apps/unity/__init__.py b/src/orca/scripts/apps/unity/__init__.py
-new file mode 100644
-index 0000000..585c964
---- /dev/null
-+++ b/src/orca/scripts/apps/unity/__init__.py
-@@ -0,0 +1 @@
-+from .script import Script
 diff --git a/src/orca/scripts/apps/unity/script.py b/src/orca/scripts/apps/unity/script.py
 new file mode 100644
 index 0000000..3a628df
