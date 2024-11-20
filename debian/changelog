@@ -1,4 +1,4 @@
-orca (47.1-1ubuntu1) UNRELEASED; urgency=medium
+orca (47.1-1ubuntu1) plucky; urgency=medium
 
   * Merge with Debian. Remaining changes:
     + debian/patches/unity-a11y.patch: add hacks to better work with Unity.
