@@ -374,7 +374,7 @@ class Script(default.Script):
             msg = "SOFFICE: Neither source nor child have focused state. Clearing cache on table."
             AXObject.clear_cache(event.source, False, msg)
 
-        if not AXObject.find_ancestor(focus, lambda x: x == event.source):
+        if event.source != focus and not AXObject.find_ancestor(focus, lambda x: x == event.source):
             msg = "SOFFICE: Working around LO bug 161444."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
             # If we immediately set focus to the table, the lack of common ancestor will result in
@@ -426,6 +426,13 @@ class Script(default.Script):
         if self._inSayAll:
             return
 
+        manager = focus_manager.get_manager()
+        focus = manager.get_locus_of_focus()
+        if AXUtilities.is_root_pane(event.source) and AXObject.is_ancestor(focus, event.source):
+            msg = "SOFFICE: Event ignored: Source is root pane ancestor of current focus."
+            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            return
+
         if self.get_table_navigator().last_input_event_was_navigation_command():
             msg = "SOFFICE: Event ignored: Last input event was table navigation."
             debug.printMessage(debug.LEVEL_INFO, msg, True)
@@ -468,12 +475,19 @@ class Script(default.Script):
                 focus_manager.get_manager().set_locus_of_focus(event, event.source, False)
                 return
 
-            focus = focus_manager.get_manager().get_locus_of_focus()
             if AXUtilities.is_paragraph(focus) or AXUtilities.is_table_cell(focus):
-                msg = "SOFFICE: Event believed to be post-editing focus claim based on role."
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                focus_manager.get_manager().set_locus_of_focus(event, event.source, False)
-                return
+               if AXObject.find_ancestor(focus, lambda x: x == event.source):
+                    msg = "SOFFICE: Event believed to be post-editing focus claim based on role."
+                    debug.printMessage(debug.LEVEL_INFO, msg, True)
+                    focus_manager.get_manager().set_locus_of_focus(event, event.source, False)
+                    return
+
+               # If we were in a cell, and a different table is claiming focus, it's likely that
+               # the current sheet has just changed. There will not be a common ancestor between
+               # the old cell and the table and we'll wind up re-announcing the frame. To prevent
+               # that, set the focus to the parent of the sheet before the default script causes the
+               # table to be presented.
+               manager.set_locus_of_focus(None, AXObject.get_parent(event.source), False)
 
         default.Script.on_focused_changed(self, event)
 

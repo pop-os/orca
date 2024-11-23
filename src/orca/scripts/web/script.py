@@ -874,7 +874,9 @@ class Script(default.Script):
         wordContents = self.utilities.getWordContentsAtOffset(obj, offset, useCache=True)
         textObj, startOffset, endOffset, word = wordContents[0]
         self.speakMisspelledIndicator(textObj, startOffset)
-        self.speakContents(wordContents, alreadyFocused=True)
+        # TODO - JD: Clean up the focused + alreadyFocused mess which by side effect is causing
+        # the content of some objects (e.g. table cells) to not be generated.
+        self.speakContents(wordContents, alreadyFocused=AXUtilities.is_text_input(textObj))
         self.point_of_reference["lastTextUnitSpoken"] = "word"
 
     def sayLine(self, obj, offset=None):
@@ -927,7 +929,7 @@ class Script(default.Script):
             super().presentObject(obj, **args)
             return
 
-        if AXUtilities.is_status_bar(obj):
+        if AXUtilities.is_status_bar(obj) or AXUtilities.is_alert(obj):
             if not self._inFocusMode:
                 self.utilities.setCaretPosition(obj, 0)
             super().presentObject(obj, **args)
