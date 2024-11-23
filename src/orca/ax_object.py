@@ -629,11 +629,12 @@ class AXObject:
 
         for i in range(AXObject.get_child_count(obj)):
             child = AXObject.get_child_checked(obj, i)
-            if child and pred(child):
+            if child is None:
+                continue
+            if pred(child):
                 return child
-
             child = AXObject._find_descendant(child, pred)
-            if child and pred(child):
+            if child:
                 return child
 
         return None
@@ -704,6 +705,14 @@ class AXObject:
             msg = f"AXObject: Exception in get_role: {error}"
             AXObject.handle_error(obj, error, msg)
             return Atspi.Role.INVALID
+
+        # Handle the fact that GTK4 is not following the Core-AAM mappings and is instead exposing
+        # roles that should be exposed as PANEL as GROUPING. This is not a problem in Orca v48
+        # because it has explicit handling for the GROUPING role. Back porting the necessary logic
+        # to v47 is a bigger change than I would like to make for a stable version. Therefore if
+        # we are given a GROUPING, pretend we were given a PANEL.
+        if role == Atspi.Role.GROUPING:
+            role = Atspi.Role.PANEL
 
         AXObject._set_known_dead_status(obj, False)
         return role
@@ -844,6 +853,10 @@ class AXObject:
             return
 
         child_count = AXObject.get_child_count(obj)
+        if child_count > 500:
+            tokens = ["AXObject:", obj, "has more than 500 children"]
+            debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+
         for index in range(child_count):
             child = AXObject.get_child(obj, index)
             if child is not None and (pred is None or pred(child)):
@@ -1313,6 +1326,9 @@ class AXObject:
             AXObject.handle_error(obj, error, msg)
             return ""
 
+        # GTK4 does this.
+        if keybinding == "<VoidSymbol>":
+            return ""
         return keybinding
 
     @staticmethod
