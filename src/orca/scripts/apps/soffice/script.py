@@ -18,6 +18,11 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=wrong-import-position
+# pylint: disable=too-many-return-statements
+# pylint: disable=too-many-branches
+# pylint: disable=too-many-public-methods
+
 """Custom script for LibreOffice."""
 
 __id__        = "$Id$"
@@ -53,16 +58,17 @@ from .speech_generator import SpeechGenerator
 
 
 class Script(default.Script):
+    """Custom script for LibreOffice."""
 
     def __init__(self, app):
         super().__init__(app)
 
-        self.speakSpreadsheetCoordinatesCheckButton = None
-        self.alwaysSpeakSelectedSpreadsheetRangeCheckButton = None
-        self.skipBlankCellsCheckButton = None
-        self.speakCellCoordinatesCheckButton = None
-        self.speakCellHeadersCheckButton = None
-        self.speakCellSpanCheckButton = None
+        self.speak_spreadsheet_coordinates_check_button = None
+        self.always_speak_selected_spreadsheet_range_check_button = None
+        self.skip_blank_cells_check_button = None
+        self.speak_cell_coordinates_check_button = None
+        self.speak_cell_headers_check_button = None
+        self.speak_cell_span_check_button = None
 
     def get_braille_generator(self):
         """Returns the braille generator for this script."""
@@ -90,7 +96,7 @@ class Script(default.Script):
         default.Script.setup_input_event_handlers(self)
         self.input_event_handlers["presentInputLineHandler"] = \
             input_event.InputEventHandler(
-                Script.presentInputLine,
+                Script.present_input_line,
                 cmdnames.PRESENT_INPUT_LINE)
 
         self.input_event_handlers["panBrailleLeftHandler"] = \
@@ -108,9 +114,9 @@ class Script(default.Script):
     def get_app_key_bindings(self):
         """Returns the application-specific keybindings for this script."""
 
-        keyBindings = keybindings.KeyBindings()
+        bindings = keybindings.KeyBindings()
 
-        keyBindings.add(
+        bindings.add(
             keybindings.KeyBinding(
                 "a",
                 keybindings.DEFAULT_MODIFIER_MASK,
@@ -118,7 +124,7 @@ class Script(default.Script):
                 self.input_event_handlers["presentInputLineHandler"]))
 
 
-        return keyBindings
+        return bindings
 
     def get_app_preferences_gui(self):
         """Return a GtkGrid containing the application unique configuration
@@ -128,59 +134,59 @@ class Script(default.Script):
         grid.set_border_width(12)
 
         label = guilabels.SPREADSHEET_SPEAK_CELL_COORDINATES
-        value = settings_manager.get_manager().get_setting('speakSpreadsheetCoordinates')
-        self.speakSpreadsheetCoordinatesCheckButton = \
+        value = settings_manager.get_manager().get_setting("speakSpreadsheetCoordinates")
+        self.speak_spreadsheet_coordinates_check_button = \
             Gtk.CheckButton.new_with_mnemonic(label)
-        self.speakSpreadsheetCoordinatesCheckButton.set_active(value)
-        grid.attach(self.speakSpreadsheetCoordinatesCheckButton, 0, 0, 1, 1)
+        self.speak_spreadsheet_coordinates_check_button.set_active(value)
+        grid.attach(self.speak_spreadsheet_coordinates_check_button, 0, 0, 1, 1)
 
         label = guilabels.SPREADSHEET_SPEAK_SELECTED_RANGE
-        value = settings_manager.get_manager().get_setting('alwaysSpeakSelectedSpreadsheetRange')
-        self.alwaysSpeakSelectedSpreadsheetRangeCheckButton = \
+        value = settings_manager.get_manager().get_setting("alwaysSpeakSelectedSpreadsheetRange")
+        self.always_speak_selected_spreadsheet_range_check_button = \
             Gtk.CheckButton.new_with_mnemonic(label)
-        self.alwaysSpeakSelectedSpreadsheetRangeCheckButton.set_active(value)
-        grid.attach(self.alwaysSpeakSelectedSpreadsheetRangeCheckButton, 0, 1, 1, 1)
+        self.always_speak_selected_spreadsheet_range_check_button.set_active(value)
+        grid.attach(self.always_speak_selected_spreadsheet_range_check_button, 0, 1, 1, 1)
 
-        tableFrame = Gtk.Frame()
-        grid.attach(tableFrame, 0, 2, 1, 1)
+        table_frame = Gtk.Frame()
+        grid.attach(table_frame, 0, 2, 1, 1)
 
         label = Gtk.Label(label=f"<b>{guilabels.TABLE_NAVIGATION}</b>")
         label.set_use_markup(True)
-        tableFrame.set_label_widget(label)
+        table_frame.set_label_widget(label)
 
-        tableAlignment = Gtk.Alignment.new(0.5, 0.5, 1, 1)
-        tableAlignment.set_padding(0, 0, 12, 0)
-        tableFrame.add(tableAlignment)
-        tableGrid = Gtk.Grid()
-        tableAlignment.add(tableGrid)
+        table_alignment = Gtk.Alignment.new(0.5, 0.5, 1, 1)
+        table_alignment.set_padding(0, 0, 12, 0)
+        table_frame.add(table_alignment)
+        table_grid = Gtk.Grid()
+        table_alignment.add(table_grid)
 
         label = guilabels.TABLE_SPEAK_CELL_COORDINATES
-        value = settings_manager.get_manager().get_setting('speakCellCoordinates')
-        self.speakCellCoordinatesCheckButton = \
+        value = settings_manager.get_manager().get_setting("speakCellCoordinates")
+        self.speak_cell_coordinates_check_button = \
             Gtk.CheckButton.new_with_mnemonic(label)
-        self.speakCellCoordinatesCheckButton.set_active(value)
-        tableGrid.attach(self.speakCellCoordinatesCheckButton, 0, 0, 1, 1)
+        self.speak_cell_coordinates_check_button.set_active(value)
+        table_grid.attach(self.speak_cell_coordinates_check_button, 0, 0, 1, 1)
 
         label = guilabels.TABLE_SPEAK_CELL_SPANS
-        value = settings_manager.get_manager().get_setting('speakCellSpan')
-        self.speakCellSpanCheckButton = \
+        value = settings_manager.get_manager().get_setting("speakCellSpan")
+        self.speak_cell_span_check_button = \
             Gtk.CheckButton.new_with_mnemonic(label)
-        self.speakCellSpanCheckButton.set_active(value)
-        tableGrid.attach(self.speakCellSpanCheckButton, 0, 1, 1, 1)
+        self.speak_cell_span_check_button.set_active(value)
+        table_grid.attach(self.speak_cell_span_check_button, 0, 1, 1, 1)
 
         label = guilabels.TABLE_ANNOUNCE_CELL_HEADER
-        value = settings_manager.get_manager().get_setting('speakCellHeaders')
-        self.speakCellHeadersCheckButton = \
+        value = settings_manager.get_manager().get_setting("speakCellHeaders")
+        self.speak_cell_headers_check_button = \
             Gtk.CheckButton.new_with_mnemonic(label)
-        self.speakCellHeadersCheckButton.set_active(value)
-        tableGrid.attach(self.speakCellHeadersCheckButton, 0, 2, 1, 1)
+        self.speak_cell_headers_check_button.set_active(value)
+        table_grid.attach(self.speak_cell_headers_check_button, 0, 2, 1, 1)
 
         label = guilabels.TABLE_SKIP_BLANK_CELLS
-        value = settings_manager.get_manager().get_setting('skipBlankCells')
-        self.skipBlankCellsCheckButton = \
+        value = settings_manager.get_manager().get_setting("skipBlankCells")
+        self.skip_blank_cells_check_button = \
             Gtk.CheckButton.new_with_mnemonic(label)
-        self.skipBlankCellsCheckButton.set_active(value)
-        tableGrid.attach(self.skipBlankCellsCheckButton, 0, 3, 1, 1)
+        self.skip_blank_cells_check_button.set_active(value)
+        table_grid.attach(self.skip_blank_cells_check_button, 0, 3, 1, 1)
 
         spellcheck = self.spellcheck.get_app_preferences_gui()
         grid.attach(spellcheck, 0, len(grid.get_children()), 1, 1)
@@ -193,37 +199,35 @@ class Script(default.Script):
 
         prefs = {
             'speakCellSpan':
-                self.speakCellSpanCheckButton.get_active(),
+                self.speak_cell_span_check_button.get_active(),
             'speakCellHeaders':
-                self.speakCellHeadersCheckButton.get_active(),
+                self.speak_cell_headers_check_button.get_active(),
             'skipBlankCells':
-                self.skipBlankCellsCheckButton.get_active(),
+                self.skip_blank_cells_check_button.get_active(),
             'speakCellCoordinates':
-                self.speakCellCoordinatesCheckButton.get_active(),
+                self.speak_cell_coordinates_check_button.get_active(),
             'speakSpreadsheetCoordinates':
-                self.speakSpreadsheetCoordinatesCheckButton.get_active(),
+                self.speak_spreadsheet_coordinates_check_button.get_active(),
             'alwaysSpeakSelectedSpreadsheetRange':
-                self.alwaysSpeakSelectedSpreadsheetRangeCheckButton.get_active(),
+                self.always_speak_selected_spreadsheet_range_check_button.get_active(),
         }
 
         prefs.update(self.spellcheck.get_preferences_from_gui())
         return prefs
 
-    def pan_braille_left(self, inputEvent=None, pan_amount=0):
-        """In document content, we want to use the panning keys to browse the
-        entire document.
-        """
+    def pan_braille_left(self, event=None, pan_amount=0):
+        """In document content, we want to use the panning keys to browse the entire document."""
 
         focus = focus_manager.get_manager().get_locus_of_focus()
         if self.get_flat_review_presenter().is_active() \
            or not self.isBrailleBeginningShowing() \
            or self.utilities.isSpreadSheetCell(focus) \
            or not self.utilities.isTextArea(focus):
-            return default.Script.pan_braille_left(self, inputEvent, pan_amount)
+            return super().pan_braille_left(event, pan_amount)
 
-        startOffset = AXText.get_line_at_offset(focus)[1]
-        if 0 < startOffset:
-            AXText.set_caret_offset(focus, startOffset - 1)
+        start_offset = AXText.get_line_at_offset(focus)[1]
+        if 0 < start_offset:
+            AXText.set_caret_offset(focus, start_offset - 1)
             return True
 
         obj = self.utilities.findPreviousObject(focus)
@@ -232,23 +236,21 @@ class Script(default.Script):
             AXText.set_caret_offset_to_end(obj)
             return True
 
-        return default.Script.pan_braille_left(self, inputEvent, pan_amount)
+        return super().pan_braille_left(event, pan_amount)
 
-    def pan_braille_right(self, inputEvent=None, pan_amount=0):
-        """In document content, we want to use the panning keys to browse the
-        entire document.
-        """
+    def pan_braille_right(self, event=None, pan_amount=0):
+        """In document content, we want to use the panning keys to browse the entire document."""
 
         focus = focus_manager.get_manager().get_locus_of_focus()
         if self.get_flat_review_presenter().is_active() \
            or not self.isBrailleEndShowing() \
            or self.utilities.isSpreadSheetCell(focus) \
            or not self.utilities.isTextArea(focus):
-            return default.Script.pan_braille_right(self, inputEvent, pan_amount)
+            return super().pan_braille_right(event, pan_amount)
 
-        endOffset = AXText.get_line_at_offset(focus)[2]
-        if endOffset < AXText.get_character_count(focus):
-            AXText.set_caret_offset(focus, endOffset)
+        end_offset = AXText.get_line_at_offset(focus)[2]
+        if end_offset < AXText.get_character_count(focus):
+            AXText.set_caret_offset(focus, end_offset)
             return True
 
         obj = self.utilities.findNextObject(focus)
@@ -257,14 +259,10 @@ class Script(default.Script):
             AXText.set_caret_offset_to_start(obj)
             return True
 
-        return default.Script.pan_braille_right(self, inputEvent, pan_amount)
+        return super().pan_braille_right(event, pan_amount)
 
-    def presentInputLine(self, inputEvent):
-        """Presents the contents of the input line for the current cell.
-
-        Arguments:
-        - inputEvent: if not None, the input event that caused this action.
-        """
+    def present_input_line(self, _event):
+        """Presents the contents of the input line for the current cell."""
 
         focus = focus_manager.get_manager().get_locus_of_focus()
         if not self.utilities.isSpreadSheetCell(focus):
@@ -279,17 +277,9 @@ class Script(default.Script):
         return True
 
     def locus_of_focus_changed(self, event, old_focus, new_focus):
-        """Called when the visual object with focus changes.
+        """Called when the visual object with focus changes."""
 
-        Arguments:
-        - event: if not None, the Event that caused the change
-        - old_focus: Accessible that is the old locus of focus
-        - new_focus: Accessible that is the new locus of focus
-        """
-
-        # Check to see if this is this is for the find command. See
-        # comment #18 of bug #354463.
-        #
+        # Check to see if this is this is for the find command. See comment #18 of bug #354463.
         if self.run_find_command and \
            event.type.startswith("object:state-changed:focused"):
             self.run_find_command = False
@@ -299,18 +289,18 @@ class Script(default.Script):
         if self.get_flat_review_presenter().is_active():
             self.get_flat_review_presenter().quit()
 
-        if self.spellcheck.isSuggestionsItem(new_focus) \
-           and not self.spellcheck.isSuggestionsItem(old_focus):
+        if self.spellcheck.is_suggestions_item(new_focus) \
+           and not self.spellcheck.is_suggestions_item(old_focus):
             self.update_braille(new_focus)
-            self.spellcheck.presentSuggestionListItem(includeLabel=True)
+            self.spellcheck.present_suggestion_list_item(include_label=True)
             return
 
         # TODO - JD: This is a hack that needs to be done better. For now it
         # fixes the broken echo previous word on Return.
-        elif new_focus != old_focus \
+        if new_focus != old_focus \
              and AXUtilities.is_paragraph(new_focus) and AXUtilities.is_paragraph(old_focus):
             if input_event_manager.get_manager().last_event_was_return() \
-               and settings_manager.get_manager().get_setting('enableEchoByWord'):
+               and settings_manager.get_manager().get_setting("enableEchoByWord"):
                 self.echoPreviousWord(old_focus)
                 return
 
@@ -328,15 +318,14 @@ class Script(default.Script):
                     return
 
         # Pass the event onto the parent class to be handled in the default way.
-        default.Script.locus_of_focus_changed(self, event,
-                                           old_focus, new_focus)
+        super().locus_of_focus_changed(event, old_focus, new_focus)
 
     def on_active_changed(self, event):
         """Callback for object:state-changed:active accessibility events."""
 
         if not AXObject.get_parent(event.source):
             msg = "SOFFICE: Event source lacks parent"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return
 
         # Prevent this events from activating the find operation.
@@ -344,28 +333,23 @@ class Script(default.Script):
         if self.run_find_command:
             return
 
-        default.Script.on_active_changed(self, event)
+        super().on_active_changed(event)
 
     def on_active_descendant_changed(self, event):
-        """Called when an object who manages its own descendants detects a
-        change in one of its children.
-
-        Arguments:
-        - event: the Event
-        """
+        """Callback for object:state-changed:active accessibility events."""
 
         manager = focus_manager.get_manager()
         focus = manager.get_locus_of_focus()
         if event.any_data == focus:
             return
 
-        if event.source == self.spellcheck.getSuggestionsList():
+        if event.source == self.spellcheck.get_suggestions_list():
             if AXUtilities.is_focused(event.source):
                 focus_manager.get_manager().set_locus_of_focus(event, event.any_data, False)
                 self.update_braille(event.any_data)
-                self.spellcheck.presentSuggestionListItem()
+                self.spellcheck.present_suggestion_list_item()
             else:
-                self.spellcheck.presentErrorDetails()
+                self.spellcheck.present_error_details()
             return
 
         if self.utilities.isSpreadSheetCell(event.any_data) \
@@ -376,7 +360,7 @@ class Script(default.Script):
 
         if event.source != focus and not AXObject.find_ancestor(focus, lambda x: x == event.source):
             msg = "SOFFICE: Working around LO bug 161444."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             # If we immediately set focus to the table, the lack of common ancestor will result in
             # the ancestry up to the frame being spoken.
             manager.set_locus_of_focus(None, AXObject.get_parent(event.source), False)
@@ -384,112 +368,7 @@ class Script(default.Script):
             # presentation of the actual event we're processing without too much chattiness.
             manager.set_locus_of_focus(event, event.source)
 
-        default.Script.on_active_descendant_changed(self, event)
-
-    def on_children_added(self, event):
-        """Callback for object:children-changed:add accessibility events."""
-
-        if self.utilities.isSpreadSheetCell(event.any_data):
-            focus_manager.get_manager().set_locus_of_focus(event, event.any_data)
-            return
-
-        AXUtilities.clear_all_cache_now(event.source, "children-changed event.")
-
-        if AXTable.is_last_cell(event.any_data):
-            activeRow = self.point_of_reference.get('lastRow', -1)
-            activeCol = self.point_of_reference.get('lastColumn', -1)
-            if activeRow < 0 or activeCol < 0:
-                return
-
-            if focus_manager.get_manager().focus_is_dead():
-                focus_manager.get_manager().set_locus_of_focus(event, event.source, False)
-
-            self.utilities.handleUndoTextEvent(event)
-            rowCount = AXTable.get_row_count(event.source)
-            if activeRow == rowCount:
-                full = messages.TABLE_ROW_DELETED_FROM_END
-                brief = messages.TABLE_ROW_DELETED
-            else:
-                full = messages.TABLE_ROW_INSERTED_AT_END
-                brief = messages.TABLE_ROW_INSERTED
-            self.presentMessage(full, brief)
-            return
-
-        default.Script.on_children_added(self, event)
-
-    def on_focused_changed(self, event):
-        """Callback for object:state-changed:focused accessibility events."""
-
-        if not event.detail1:
-            return
-
-        if self._inSayAll:
-            return
-
-        manager = focus_manager.get_manager()
-        focus = manager.get_locus_of_focus()
-        if AXUtilities.is_root_pane(event.source) and AXObject.is_ancestor(focus, event.source):
-            msg = "SOFFICE: Event ignored: Source is root pane ancestor of current focus."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return
-
-        if self.get_table_navigator().last_input_event_was_navigation_command():
-            msg = "SOFFICE: Event ignored: Last input event was table navigation."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-
-        # We will present this when the selection changes.
-        # TODO - JD: Is this still needed? If so, why is the default script not handling it?
-        if AXUtilities.is_menu(event.source):
-            return
-
-        if AXUtilities.is_text(event.source) or AXUtilities.is_list(event.source):
-            comboBox = AXObject.find_ancestor(event.source, AXUtilities.is_combo_box)
-            if comboBox:
-                focus_manager.get_manager().set_locus_of_focus(event, comboBox, True)
-                return
-
-        # TODO - JD: Why are we doing this early?
-        if AXUtilities.is_tool_bar(AXObject.get_parent(event.source)):
-            default.Script.on_focused_changed(self, event)
-            return
-
-        # TODO - JD: This is private. Also why is it here?
-        if self.utilities._flowsFromOrToSelection(event.source):
-            return
-
-        if AXUtilities.is_paragraph(event.source):
-            obj, offset = self.point_of_reference.get("lastCursorPosition", (None, -1))
-            start, end, string = self.utilities.getCachedTextSelection(obj)
-            if start != end:
-                return
-
-            manager = input_event_manager.get_manager()
-            if manager.last_event_was_left() or manager.last_event_was_right():
-                focus_manager.get_manager().set_locus_of_focus(event, event.source, False)
-                return
-
-        if self.utilities.isSpreadSheetTable(event.source):
-            if focus_manager.get_manager().focus_is_dead():
-                msg = "SOFFICE: Event believed to be post-editing focus claim."
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
-                focus_manager.get_manager().set_locus_of_focus(event, event.source, False)
-                return
-
-            if AXUtilities.is_paragraph(focus) or AXUtilities.is_table_cell(focus):
-               if AXObject.find_ancestor(focus, lambda x: x == event.source):
-                    msg = "SOFFICE: Event believed to be post-editing focus claim based on role."
-                    debug.printMessage(debug.LEVEL_INFO, msg, True)
-                    focus_manager.get_manager().set_locus_of_focus(event, event.source, False)
-                    return
-
-               # If we were in a cell, and a different table is claiming focus, it's likely that
-               # the current sheet has just changed. There will not be a common ancestor between
-               # the old cell and the table and we'll wind up re-announcing the frame. To prevent
-               # that, set the focus to the parent of the sheet before the default script causes the
-               # table to be presented.
-               manager.set_locus_of_focus(None, AXObject.get_parent(event.source), False)
-
-        default.Script.on_focused_changed(self, event)
+        super().on_active_descendant_changed(event)
 
     def on_caret_moved(self, event):
         """Callback for object:text-caret-moved accessibility events."""
@@ -504,58 +383,126 @@ class Script(default.Script):
                                  "Caret-moved event from object which lacks focused state.")
             if AXUtilities.is_focused(event.source):
                 msg = "SOFFICE: Clearing cache was needed due to missing state-changed event."
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                debug.print_message(debug.LEVEL_INFO, msg, True)
 
-        if self.utilities._flowsFromOrToSelection(event.source):
-           return
+        if self.utilities.flows_from_or_to_selection(event.source):
+            return
 
         if self.get_table_navigator().last_input_event_was_navigation_command():
             msg = "SOFFICE: Event ignored: Last input event was table navigation."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return
 
         if self.utilities.isSpreadSheetCell(focus_manager.get_manager().get_locus_of_focus()):
-            if not self.utilities.isCellBeingEdited(event.source):
+            if not self.utilities.is_cell_being_edited(event.source):
                 msg = "SOFFICE: Event ignored: Source is not cell being edited."
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                debug.print_message(debug.LEVEL_INFO, msg, True)
                 return
 
         super().on_caret_moved(event)
 
-    def on_checked_changed(self, event):
-        """Callback for object:state-changed:checked accessibility events."""
+    def on_children_added(self, event):
+        """Callback for object:children-changed:add accessibility events."""
 
-        if not AXUtilities.is_button(event.source) \
-           or not AXUtilities.is_tool_bar(AXObject.get_parent(event.source)):
-            default.Script.on_checked_changed(self, event)
+        if self.utilities.isSpreadSheetCell(event.any_data):
+            focus_manager.get_manager().set_locus_of_focus(event, event.any_data)
             return
 
-        sourceWindow = self.utilities.topLevelObject(event.source)
-        focusWindow = self.utilities.topLevelObject(
-            focus_manager.get_manager().get_locus_of_focus())
-        if sourceWindow != focusWindow:
+        AXUtilities.clear_all_cache_now(event.source, "children-changed event.")
+
+        if AXTable.is_last_cell(event.any_data):
+            active_row = self.point_of_reference.get("lastRow", -1)
+            active_col = self.point_of_reference.get("lastColumn", -1)
+            if active_row < 0 or active_col < 0:
+                return
+
+            if focus_manager.get_manager().focus_is_dead():
+                focus_manager.get_manager().set_locus_of_focus(event, event.source, False)
+
+            self.utilities.handleUndoTextEvent(event)
+            row_count = AXTable.get_row_count(event.source)
+            if active_row == row_count:
+                full = messages.TABLE_ROW_DELETED_FROM_END
+                brief = messages.TABLE_ROW_DELETED
+            else:
+                full = messages.TABLE_ROW_INSERTED_AT_END
+                brief = messages.TABLE_ROW_INSERTED
+            self.presentMessage(full, brief)
             return
 
-        if AXUtilities.is_focused(event.source):
-            self.presentObject(event.source, alreadyFocused=True, interrupt=True)
+        super().on_children_added(event)
+
+    def on_focused_changed(self, event):
+        """Callback for object:state-changed:focused accessibility events."""
+
+        if not event.detail1:
+            return
+
+        if self._inSayAll:
+            return
+
+        manager = focus_manager.get_manager()
+        focus = manager.get_locus_of_focus()
+        if AXUtilities.is_root_pane(event.source) and AXObject.is_ancestor(focus, event.source):
+            msg = "SOFFICE: Event ignored: Source is root pane ancestor of current focus."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return
+
+        if self.get_table_navigator().last_input_event_was_navigation_command():
+            msg = "SOFFICE: Event ignored: Last input event was table navigation."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+
+        if AXUtilities.is_text(event.source) or AXUtilities.is_list(event.source):
+            combobox = AXObject.find_ancestor(event.source, AXUtilities.is_combo_box)
+            if combobox:
+                focus_manager.get_manager().set_locus_of_focus(event, combobox, True)
+                return
+
+        # TODO - JD: Is this still needed?
+        if self.utilities.flows_from_or_to_selection(event.source):
+            return
+
+        if AXUtilities.is_paragraph(event.source):
+            obj, _offset = self.point_of_reference.get("lastCursorPosition", (None, -1))
+            _string, start, end = AXText.get_cached_selected_text(obj)
+            if start != end:
+                return
+
+            manager = input_event_manager.get_manager()
+            if manager.last_event_was_left() or manager.last_event_was_right():
+                focus_manager.get_manager().set_locus_of_focus(event, event.source, False)
+                return
+
+        if self.utilities.isSpreadSheetTable(event.source):
+            if focus_manager.get_manager().focus_is_dead():
+                msg = "SOFFICE: Event believed to be post-editing focus claim."
+                debug.print_message(debug.LEVEL_INFO, msg, True)
+                focus_manager.get_manager().set_locus_of_focus(event, event.source, False)
+                return
+
+            if AXUtilities.is_paragraph(focus) or AXUtilities.is_table_cell(focus):
+                if AXObject.find_ancestor(focus, lambda x: x == event.source):
+                    msg = "SOFFICE: Event believed to be post-editing focus claim based on role."
+                    debug.print_message(debug.LEVEL_INFO, msg, True)
+                    focus_manager.get_manager().set_locus_of_focus(event, event.source, False)
+                    return
+
+                # If we were in a cell, and a different table is claiming focus, it's likely that
+                # the current sheet has just changed. There will not be a common ancestor between
+                # the old cell and the table and we'll wind up re-announcing the frame. To prevent
+                # that, set the focus to the parent of the sheet before the default script causes
+                # the table to be presented.
+                manager.set_locus_of_focus(None, AXObject.get_parent(event.source), False)
+
+        super().on_focused_changed(event)
 
     def on_selected_changed(self, event):
         """Callback for object:state-changed:selected accessibility events."""
 
-        full, brief = "", ""
-        if self.utilities.isSelectedTextDeletionEvent(event):
-            msg = "SOFFICE: Change is believed to be due to deleting selected text"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            full = messages.SELECTION_DELETED
-        elif self.utilities.isSelectedTextRestoredEvent(event):
-            msg = "SOFFICE: Selection is believed to be due to restoring selected text"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            if self.utilities.handleUndoTextEvent(event):
-                full = messages.SELECTION_RESTORED
-
-        if full or brief:
-            self.presentMessage(full, brief)
-            self.utilities.updateCachedTextSelection(event.source)
+        # https://bugs.documentfoundation.org/show_bug.cgi?id=163801
+        if AXUtilities.is_paragraph(event.source):
+            msg = "SOFFICE: Ignoring event on unsupported role."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return
 
         super().on_selected_changed(event)
@@ -563,27 +510,33 @@ class Script(default.Script):
     def on_selection_changed(self, event):
         """Callback for object:selection-changed accessibility events."""
 
-        if self.utilities.isSpreadSheetTable(event.source):
-            if settings_manager.get_manager().get_setting('onlySpeakDisplayedText'):
-                return
-            if settings_manager.get_manager().get_setting('alwaysSpeakSelectedSpreadsheetRange'):
-                self.utilities.speakSelectedCellRange(event.source)
-                return
-            if self.utilities.handleRowAndColumnSelectionChange(event.source):
-                return
-            self.utilities.handleCellSelectionChange(event.source)
+        # https://bugs.documentfoundation.org/show_bug.cgi?id=163801
+        if AXUtilities.is_paragraph(event.source):
+            msg = "SOFFICE: Ignoring event on unsupported role."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return
 
-        if event.source == self.spellcheck.getSuggestionsList():
+        if self.utilities.isSpreadSheetTable(event.source):
+            if settings_manager.get_manager().get_setting("onlySpeakDisplayedText"):
+                return
+            if settings_manager.get_manager().get_setting("alwaysSpeakSelectedSpreadsheetRange"):
+                self.utilities.speakSelectedCellRange(event.source)
+                return
+            if self.utilities.handle_row_and_column_selection_change(event.source):
+                return
+            self.utilities.handle_cell_selection_change(event.source)
+            return
+
+        if event.source == self.spellcheck.get_suggestions_list():
             if focus_manager.get_manager().focus_is_active_window():
                 msg = "SOFFICE: Not presenting because locusOfFocus is window"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                debug.print_message(debug.LEVEL_INFO, msg, True)
             elif AXUtilities.is_focused(event.source):
                 focus_manager.get_manager().set_locus_of_focus(event, event.any_data, False)
                 self.update_braille(event.any_data)
-                self.spellcheck.presentSuggestionListItem()
+                self.spellcheck.present_suggestion_list_item()
             else:
-                self.spellcheck.presentErrorDetails()
+                self.spellcheck.present_error_details()
             return
 
         super().on_selection_changed(event)
@@ -592,14 +545,11 @@ class Script(default.Script):
         """Callback for window:activate accessibility events."""
 
         super().on_window_activated(event)
-        if not self.spellcheck.isCheckWindow(event.source):
+        if not self.spellcheck.is_spell_check_window(event.source):
+            self.spellcheck.deactivate()
             return
 
-        child = AXObject.get_child(event.source, 0)
-        if AXUtilities.is_dialog(child):
-            focus_manager.get_manager().set_locus_of_focus(event, child, False)
-
-        self.spellcheck.presentErrorDetails()
+        self.spellcheck.present_error_details()
 
     def on_window_deactivated(self, event):
         """Callback for window:deactivate accessibility events."""

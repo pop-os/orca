@@ -47,7 +47,9 @@ from . import ax_event_synthesizer
 from . import bypass_mode_manager
 from . import action_presenter
 from . import braille_generator
+from . import clipboard
 from . import debug
+from . import debugging_tools_manager
 from . import flat_review_finder
 from . import flat_review_presenter
 from . import keybindings
@@ -104,7 +106,7 @@ class Script:
         self.braille_bindings = self.get_braille_bindings()
 
         msg = f"SCRIPT: {self.name} initialized"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
     def __str__(self):
         return f"{self.name}"
@@ -167,6 +169,16 @@ class Script:
 
         return None
 
+    def get_clipboard_presenter(self):
+        """Returns the clipboard presenter for this script."""
+
+        return clipboard.get_presenter()
+
+    def get_debugging_tools_manager(self):
+        """Returns the debugging tools manager for this script."""
+
+        return debugging_tools_manager.get_manager()
+
     def get_utilities(self):
         """Returns the utilities for this script."""
 
@@ -202,7 +214,7 @@ class Script:
     def get_flat_review_finder(self):
         """Returns the flat review finder for this script."""
 
-        return flat_review_finder.getFinder()
+        return flat_review_finder.get_finder()
 
     def get_flat_review_presenter(self):
         """Returns the flat review presenter for this script."""
@@ -217,12 +229,12 @@ class Script:
     def get_object_navigator(self):
         """Returns the object navigator for this script."""
 
-        return object_navigator.getNavigator()
+        return object_navigator.get_navigator()
 
     def get_table_navigator(self):
         """Returns the table navigator for this script."""
 
-        return table_navigator.getNavigator()
+        return table_navigator.get_navigator()
 
     def get_speech_and_verbosity_manager(self):
         """Returns the speech and verbosity manager for this script."""
@@ -277,29 +289,29 @@ class Script:
         cached_event = self.event_cache.get(event_type, [None, 0])[0]
         if not cached_event:
             tokens = ["SCRIPT: No queued event of type", event_type]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         if detail1 is not None and detail1 != cached_event.detail1:
             tokens = ["SCRIPT: Queued event's detail1 (", cached_event.detail1,
                       ") doesn't match", detail1]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         if detail2 is not None and detail2 != cached_event.detail2:
             tokens = ["SCRIPT: Queued event's detail2 (", cached_event.detail2,
                       ") doesn't match", detail2]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         if any_data is not None and any_data != cached_event.any_data:
             tokens = ["SCRIPT: Queued event's any_data (",
                       cached_event.any_data, ") doesn't match", any_data]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         tokens = ["SCRIPT: Found matching queued event:", cached_event]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return cached_event
 
     def locus_of_focus_changed(self, event, old_focus, new_focus):

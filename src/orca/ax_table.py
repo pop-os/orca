@@ -25,15 +25,7 @@
 # pylint: disable=too-many-public-methods
 # pylint: disable=too-many-return-statements
 
-"""
-Utilities for obtaining information about accessible tables.
-These utilities are app-type- and toolkit-agnostic. Utilities that might have
-different implementations or results depending on the type of app (e.g. terminal,
-chat, web) or toolkit (e.g. Qt, Gtk) should be in script_utilities.py file(s).
-
-N.B. There are currently utilities that should never have custom implementations
-that live in script_utilities.py files. These will be moved over time.
-"""
+"""Utilities for obtaining information about accessible tables."""
 
 __id__        = "$Id$"
 __version__   = "$Revision$"
@@ -44,6 +36,7 @@ __license__   = "LGPL"
 
 import threading
 import time
+from typing import Optional
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -51,36 +44,38 @@ from gi.repository import Atspi
 
 from . import debug
 from . import messages
+from . import object_properties
 from .ax_object import AXObject
 from .ax_utilities_role import AXUtilitiesRole
+
 
 class AXTable:
     """Utilities for obtaining information about accessible tables."""
 
     # Things we cache.
-    CAPTIONS = {}
-    PHYSICAL_COORDINATES_FROM_CELL = {}
-    PHYSICAL_COORDINATES_FROM_TABLE = {}
-    PHYSICAL_SPANS_FROM_CELL = {}
-    PHYSICAL_SPANS_FROM_TABLE = {}
-    PHYSICAL_COLUMN_COUNT = {}
-    PHYSICAL_ROW_COUNT = {}
-    PRESENTABLE_COORDINATES = {}
-    PRESENTABLE_COORDINATES_LABELS = {}
-    PRESENTABLE_SPANS = {}
-    PRESENTABLE_COLUMN_COUNT = {}
-    PRESENTABLE_ROW_COUNT = {}
-    COLUMN_HEADERS_FOR_CELL = {}
-    ROW_HEADERS_FOR_CELL = {}
+    CAPTIONS: dict[int, Atspi.Accessible] = {}
+    PHYSICAL_COORDINATES_FROM_CELL: dict[int, tuple[int, int]] = {}
+    PHYSICAL_COORDINATES_FROM_TABLE: dict[int, tuple[int, int]] = {}
+    PHYSICAL_SPANS_FROM_CELL: dict[int, tuple[int, int]] = {}
+    PHYSICAL_SPANS_FROM_TABLE: dict[int, tuple[int, int]] = {}
+    PHYSICAL_COLUMN_COUNT: dict[int, int] = {}
+    PHYSICAL_ROW_COUNT: dict[int, int] = {}
+    PRESENTABLE_COORDINATES: dict[int, tuple[Optional[str], Optional[str]]] = {}
+    PRESENTABLE_COORDINATES_LABELS: dict[int, str] = {}
+    PRESENTABLE_SPANS: dict[int, tuple[Optional[str], Optional[str]]] = {}
+    PRESENTABLE_COLUMN_COUNT: dict[int, Optional[int]] = {}
+    PRESENTABLE_ROW_COUNT: dict[int, Optional[int]] = {}
+    COLUMN_HEADERS_FOR_CELL: dict[int, list[Atspi.Accessible]] = {}
+    ROW_HEADERS_FOR_CELL: dict[int, list[Atspi.Accessible]] = {}
 
     # Things which have to be explicitly cleared.
-    DYNAMIC_COLUMN_HEADERS_ROW = {}
-    DYNAMIC_ROW_HEADERS_COLUMN = {}
+    DYNAMIC_COLUMN_HEADERS_ROW: dict[int, int] = {}
+    DYNAMIC_ROW_HEADERS_COLUMN: dict[int, int] = {}
 
     _lock = threading.Lock()
 
     @staticmethod
-    def start_cache_clearing_thread():
+    def start_cache_clearing_thread() -> None:
         """Starts thread to periodically clear cached details."""
 
         thread = threading.Thread(target=AXTable._clear_stored_data)
@@ -88,7 +83,7 @@ class AXTable:
         thread.start()
 
     @staticmethod
-    def _clear_stored_data():
+    def _clear_stored_data() -> None:
         """Clears any data we have cached for objects"""
 
         while True:
@@ -96,11 +91,11 @@ class AXTable:
             AXTable._clear_all_dictionaries()
 
     @staticmethod
-    def _clear_all_dictionaries(reason=""):
+    def _clear_all_dictionaries(reason: str = "") -> None:
         msg = "AXTable: Clearing cache."
         if reason:
             msg += f" Reason: {reason}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
         with AXTable._lock:
             AXTable.CAPTIONS.clear()
@@ -118,13 +113,13 @@ class AXTable:
             AXTable.ROW_HEADERS_FOR_CELL.clear()
 
     @staticmethod
-    def clear_cache_now(reason=""):
+    def clear_cache_now(reason: str = "") -> None:
         """Clears all cached information immediately."""
 
         AXTable._clear_all_dictionaries(reason)
 
     @staticmethod
-    def get_caption(table):
+    def get_caption(table: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the accessible object containing the caption of table."""
 
         if not AXObject.supports_table(table):
@@ -137,16 +132,16 @@ class AXTable:
             caption = Atspi.Table.get_caption(table)
         except Exception as error:
             msg = f"AXTable: Exception in get_caption: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return None
 
         tokens = ["AXTable: Caption for", table, "is", caption]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.CAPTIONS[hash(table)] = caption
         return caption
 
     @staticmethod
-    def get_column_count(table, prefer_attribute=True):
+    def get_column_count(table: Atspi.Accessible, prefer_attribute: bool = True) -> int:
         """Returns the column count of table."""
 
         if not AXObject.supports_table(table):
@@ -165,16 +160,16 @@ class AXTable:
             count = Atspi.Table.get_n_columns(table)
         except Exception as error:
             msg = f"AXTable: Exception in get_column_count: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1
 
         tokens = ["AXTable: Column count for", table, "is", count]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.PHYSICAL_COLUMN_COUNT[hash(table)] = count
         return count
 
     @staticmethod
-    def _get_column_count_from_attribute(table):
+    def _get_column_count_from_attribute(table: Atspi.Accessible) -> Optional[int]:
         """Returns the value of the 'colcount' object attribute or None if not found."""
 
         if hash(table) in AXTable.PRESENTABLE_COLUMN_COUNT:
@@ -187,12 +182,12 @@ class AXTable:
             count = int(attr)
 
         tokens = ["AXTable: Column count attribute for", table, "is", count]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.PRESENTABLE_COLUMN_COUNT[hash(table)] = count
         return count
 
     @staticmethod
-    def get_row_count(table, prefer_attribute=True):
+    def get_row_count(table: Atspi.Accessible, prefer_attribute: bool = True) -> int:
         """Returns the row count of table."""
 
         if not AXObject.supports_table(table):
@@ -211,16 +206,16 @@ class AXTable:
             count = Atspi.Table.get_n_rows(table)
         except Exception as error:
             msg = f"AXTable: Exception in get_row_count: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1
 
         tokens = ["AXTable: Row count for", table, "is", count]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.PHYSICAL_ROW_COUNT[hash(table)] = count
         return count
 
     @staticmethod
-    def _get_row_count_from_attribute(table):
+    def _get_row_count_from_attribute(table: Atspi.Accessible) -> Optional[int]:
         """Returns the value of the 'rowcount' object attribute or None if not found."""
 
         if hash(table) in AXTable.PRESENTABLE_ROW_COUNT:
@@ -233,12 +228,14 @@ class AXTable:
             count = int(attr)
 
         tokens = ["AXTable: Row count attribute for", table, "is", count]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.PRESENTABLE_ROW_COUNT[hash(table)] = count
         return count
 
     @staticmethod
-    def is_non_uniform_table(table, max_rows=25, max_cols=25):
+    def is_non_uniform_table(
+        table: Atspi.Accessible, max_rows: int = 25, max_cols: int = 25
+    ) -> bool:
         """Returns True if table has at least one cell with a span > 1."""
 
         for row in range(min(max_rows, AXTable.get_row_count(table, False))):
@@ -250,31 +247,31 @@ class AXTable:
                         return True
                 except Exception as error:
                     msg = f"AXTable: Exception in is_non_uniform_table: {error}"
-                    debug.printMessage(debug.LEVEL_INFO, msg, True)
+                    debug.print_message(debug.LEVEL_INFO, msg, True)
                     return False
 
         return False
 
     @staticmethod
-    def get_selected_column_count(table):
+    def get_selected_column_count(table: Atspi.Accessible) -> int:
         """Returns the number of selected columns in table."""
 
         if not AXObject.supports_table(table):
-            return []
+            return 0
 
         try:
             count = Atspi.Table.get_n_selected_columns(table)
         except Exception as error:
             msg = f"AXTable: Exception in get_selected_column_count {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return []
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return 0
 
         tokens = ["AXTable: Selected column count for", table, "is", count]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return count
 
     @staticmethod
-    def get_selected_columns(table):
+    def get_selected_columns(table: Atspi.Accessible) -> list[int]:
         """Returns a list of column indices for the selected columns in table."""
 
         if not AXObject.supports_table(table):
@@ -284,33 +281,33 @@ class AXTable:
             columns = Atspi.Table.get_selected_columns(table)
         except Exception as error:
             msg = f"AXTable: Exception in get_selected_columns: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return []
 
         tokens = ["AXTable: Selected columns for", table, "are", columns]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return columns
 
     @staticmethod
-    def get_selected_row_count(table):
+    def get_selected_row_count(table: Atspi.Accessible) -> int:
         """Returns the number of selected rows in table."""
 
         if not AXObject.supports_table(table):
-            return []
+            return 0
 
         try:
             count = Atspi.Table.get_n_selected_rows(table)
         except Exception as error:
             msg = f"AXTable: Exception in get_selected_row_count {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return []
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return 0
 
         tokens = ["AXTable: Selected row count for", table, "is", count]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return count
 
     @staticmethod
-    def get_selected_rows(table):
+    def get_selected_rows(table: Atspi.Accessible) -> list[int]:
         """Returns a list of row indices for the selected rows in table."""
 
         if not AXObject.supports_table(table):
@@ -320,15 +317,15 @@ class AXTable:
             rows = Atspi.Table.get_selected_rows(table)
         except Exception as error:
             msg = f"AXTable: Exception in get_selected_rows: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return []
 
         tokens = ["AXTable: Selected rows for", table, "are", rows]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return rows
 
     @staticmethod
-    def all_cells_are_selected(table):
+    def all_cells_are_selected(table: Atspi.Accessible) -> bool:
         """Returns True if all cells in table are selected."""
 
         if not AXObject.supports_table(table):
@@ -345,7 +342,7 @@ class AXTable:
         return AXTable.get_selected_column_count(table) == cols
 
     @staticmethod
-    def get_cell_at(table, row, column):
+    def get_cell_at(table: Atspi.Accessible, row: int, column: int) -> Optional[Atspi.Accessible]:
         """Returns the cell at the 0-indexed row and column."""
 
         if not AXObject.supports_table(table):
@@ -356,15 +353,15 @@ class AXTable:
         except Exception as error:
             tokens = [f"AXTable: Exception getting cell at row: {row} col: {column} in", table,
                       ":", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         tokens = [f"AXTable: Cell at row: {row} col: {column} in", table, "is", cell]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return cell
 
     @staticmethod
-    def _get_cell_index(cell):
+    def _get_cell_index(cell: Atspi.Accessible) -> int:
         """Returns the index of cell to be used with the table interface."""
 
         index = AXObject.get_attribute(cell, "table-cell-index")
@@ -381,7 +378,7 @@ class AXTable:
         return AXObject.get_index_in_parent(cell)
 
     @staticmethod
-    def get_cell_spans(cell, prefer_attribute=True):
+    def get_cell_spans(cell: Atspi.Accessible, prefer_attribute: bool = True) -> tuple[int, int]:
         """Returns the row and column spans."""
 
         if not AXUtilitiesRole.is_table_cell_or_header(cell):
@@ -404,27 +401,29 @@ class AXTable:
         return row_span, col_span
 
     @staticmethod
-    def _get_cell_spans_from_attribute(cell):
+    def _get_cell_spans_from_attribute(
+        cell: Atspi.Accessible
+    ) -> tuple[Optional[str], Optional[str]]:
         """Returns the row and column spans exposed via object attribute, or None, None."""
 
         if hash(cell) in AXTable.PRESENTABLE_SPANS:
-            return AXTable.PRESENTABLE_SPANS.get(hash(cell))
+            return AXTable.PRESENTABLE_SPANS.get(hash(cell), (None, None))
 
         attrs = AXObject.get_attributes_dict(cell)
-        row_span = attrs.get("rowspan")
-        col_span = attrs.get("colspan")
+        row_span = attrs.get("rowspan", "")
+        col_span = attrs.get("colspan", "")
 
         tokens = ["AXTable: Row and col span attributes for", cell, ":", row_span, ",", col_span]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.PRESENTABLE_SPANS[hash(cell)] = row_span, col_span
         return row_span, col_span
 
     @staticmethod
-    def _get_cell_spans_from_table(cell):
+    def _get_cell_spans_from_table(cell: Atspi.Accessible) -> tuple[int, int]:
         """Returns the row and column spans of cell via the table interface."""
 
         if hash(cell) in AXTable.PHYSICAL_SPANS_FROM_TABLE:
-            return AXTable.PHYSICAL_SPANS_FROM_TABLE.get(hash(cell))
+            return AXTable.PHYSICAL_SPANS_FROM_TABLE.get(hash(cell), (-1, -1))
 
         index = AXTable._get_cell_index(cell)
         if index < 0:
@@ -446,7 +445,7 @@ class AXTable:
             result = Atspi.Table.get_row_column_extents_at_index(table, index)
         except Exception as error:
             msg = f"AXTable: Exception in _get_cell_spans_from_table: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1, -1
 
         if not result[0]:
@@ -457,7 +456,7 @@ class AXTable:
         if row_span > row_count:
             tokens = ["AXTable: Table iface row span for", cell,
                       f"{row_span} is greater than row count: {row_count}"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             row_span = 1
 
         col_span = result.col_extents
@@ -465,21 +464,21 @@ class AXTable:
         if col_span > col_count:
             tokens = ["AXTable: Table iface col span for", cell,
                       f"{col_span} is greater than col count: {col_count}"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             col_span = 1
 
         tokens = ["AXTable: Table iface spans for", cell,
                   f"are rowspan: {row_span}, colspan: {col_span}"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.PHYSICAL_SPANS_FROM_TABLE[hash(cell)] = row_span, col_span
         return row_span, col_span
 
     @staticmethod
-    def _get_cell_spans_from_table_cell(cell):
+    def _get_cell_spans_from_table_cell(cell: Atspi.Accessible) -> tuple[int, int]:
         """Returns the row and column spans of cell via the table cell interface."""
 
         if hash(cell) in AXTable.PHYSICAL_SPANS_FROM_CELL:
-            return AXTable.PHYSICAL_SPANS_FROM_CELL.get(hash(cell))
+            return AXTable.PHYSICAL_SPANS_FROM_CELL.get(hash(cell), (-1, -1))
 
         if not AXObject.supports_table_cell(cell):
             return -1, -1
@@ -491,17 +490,19 @@ class AXTable:
             col_span = Atspi.TableCell.get_column_span(cell)
         except Exception as error:
             msg = f"AXTable: Exception in _get_cell_spans_from_table_cell: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1, -1
 
         tokens = ["AXTable: TableCell iface spans for", cell,
                   f"are rowspan: {row_span}, colspan: {col_span}"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.PHYSICAL_SPANS_FROM_CELL[hash(cell)] = row_span, col_span
         return row_span, col_span
 
     @staticmethod
-    def _get_column_headers_from_table(table, column):
+    def _get_column_headers_from_table(
+        table: Atspi.Accessible, column: int
+    ) -> list[Atspi.Accessible]:
         """Returns the column headers of the indexed column via the table interface."""
 
         if not AXObject.supports_table(table):
@@ -514,18 +515,18 @@ class AXTable:
             header = Atspi.Table.get_column_header(table, column)
         except Exception as error:
             msg = f"AXTable: Exception in _get_column_headers_from_table: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return []
 
         tokens = [f"AXTable: Table iface header for column {column} of", table, "is", header]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         if header is not None:
             return [header]
 
         return []
 
     @staticmethod
-    def _get_column_headers_from_table_cell(cell):
+    def _get_column_headers_from_table_cell(cell: Atspi.Accessible) -> list[Atspi.Accessible]:
         """Returns the column headers for cell via the table cell interface."""
 
         if not AXObject.supports_table_cell(cell):
@@ -535,15 +536,15 @@ class AXTable:
             headers = Atspi.TableCell.get_column_header_cells(cell)
         except Exception as error:
             msg = f"AXTable: Exception in _get_column_headers_from_table_cell: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return []
 
         tokens = ["AXTable: TableCell iface column headers for cell are:", headers]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return headers
 
     @staticmethod
-    def _get_row_headers_from_table(table, row):
+    def _get_row_headers_from_table(table: Atspi.Accessible, row: int) -> list[Atspi.Accessible]:
         """Returns the row headers of the indexed row via the table interface."""
 
         if not AXObject.supports_table(table):
@@ -556,18 +557,18 @@ class AXTable:
             header = Atspi.Table.get_row_header(table, row)
         except Exception as error:
             msg = f"AXTable: Exception in _get_row_headers_from_table: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return []
 
         tokens = [f"AXTable: Table iface header for row {row} of", table, "is", header]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         if header is not None:
             return [header]
 
         return []
 
     @staticmethod
-    def _get_row_headers_from_table_cell(cell):
+    def _get_row_headers_from_table_cell(cell: Atspi.Accessible) -> list[Atspi.Accessible]:
         """Returns the row headers for cell via the table cell interface."""
 
         if not AXObject.supports_table_cell(cell):
@@ -577,15 +578,18 @@ class AXTable:
             headers = Atspi.TableCell.get_row_header_cells(cell)
         except Exception as error:
             msg = f"AXTable: Exception in _get_row_headers_from_table_cell: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return []
 
         tokens = ["AXTable: TableCell iface row headers for cell are:", headers]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return headers
 
     @staticmethod
-    def get_new_row_headers(cell, old_cell):
+    def get_new_row_headers(
+        cell: Atspi.Accessible,
+        old_cell: Optional[Atspi.Accessible]
+    ) -> list[Atspi.Accessible]:
         """Returns row headers of cell that are not also headers of old_cell. """
 
         if old_cell and not AXUtilitiesRole.is_table_cell_or_header(old_cell):
@@ -599,7 +603,10 @@ class AXTable:
         return list(set(headers).difference(set(old_headers)))
 
     @staticmethod
-    def get_new_column_headers(cell, old_cell):
+    def get_new_column_headers(
+        cell: Atspi.Accessible,
+        old_cell: Optional[Atspi.Accessible]
+    ) -> list[Atspi.Accessible]:
         """Returns column headers of cell that are not also headers of old_cell. """
 
         if old_cell and not AXUtilitiesRole.is_table_cell_or_header(old_cell):
@@ -613,7 +620,7 @@ class AXTable:
         return list(set(headers).difference(set(old_headers)))
 
     @staticmethod
-    def get_row_headers(cell):
+    def get_row_headers(cell: Atspi.Accessible) -> list[Atspi.Accessible]:
         """Returns the row headers for cell, doing extra work to ensure we have them all."""
 
         if not AXUtilitiesRole.is_table_cell(cell):
@@ -654,7 +661,7 @@ class AXTable:
         return result
 
     @staticmethod
-    def _get_row_headers(cell):
+    def _get_row_headers(cell: Atspi.Accessible) -> list[Atspi.Accessible]:
         """Returns the row headers for cell."""
 
         if AXObject.supports_table_cell(cell):
@@ -676,7 +683,7 @@ class AXTable:
         return headers
 
     @staticmethod
-    def has_row_headers(table, stop_after=10):
+    def has_row_headers(table: Atspi.Accessible, stop_after: int = 10) -> bool:
         """Returns True if table has any headers for rows 0-stop_after."""
 
         if not AXObject.supports_table(table):
@@ -690,7 +697,7 @@ class AXTable:
         return False
 
     @staticmethod
-    def get_column_headers(cell):
+    def get_column_headers(cell: Atspi.Accessible) -> list[Atspi.Accessible]:
         """Returns the column headers for cell, doing extra work to ensure we have them all."""
 
         if not AXUtilitiesRole.is_table_cell(cell):
@@ -731,7 +738,7 @@ class AXTable:
         return result
 
     @staticmethod
-    def _get_column_headers(cell):
+    def _get_column_headers(cell: Atspi.Accessible) -> list[Atspi.Accessible]:
         """Returns the column headers for cell."""
 
         if AXObject.supports_table_cell(cell):
@@ -753,7 +760,7 @@ class AXTable:
         return headers
 
     @staticmethod
-    def has_column_headers(table, stop_after=10):
+    def has_column_headers(table: Atspi.Accessible, stop_after: int = 10) -> bool:
         """Returns True if table has any headers for columns 0-stop_after."""
 
         if not AXObject.supports_table(table):
@@ -767,7 +774,11 @@ class AXTable:
         return False
 
     @staticmethod
-    def get_cell_coordinates(cell, prefer_attribute=True, find_cell=False):
+    def get_cell_coordinates(
+        cell: Atspi.Accessible,
+        prefer_attribute: bool = True,
+        find_cell: bool = False
+    ) -> tuple[int, int]:
         """Returns the 0-based row and column indices."""
 
         if not AXUtilitiesRole.is_table_cell_or_header(cell) and find_cell:
@@ -793,11 +804,11 @@ class AXTable:
         return row, col
 
     @staticmethod
-    def _get_cell_coordinates_from_table(cell):
+    def _get_cell_coordinates_from_table(cell: Atspi.Accessible) -> tuple[int, int]:
         """Returns the row and column indices of cell via the table interface."""
 
         if hash(cell) in AXTable.PHYSICAL_COORDINATES_FROM_TABLE:
-            return AXTable.PHYSICAL_COORDINATES_FROM_TABLE.get(hash(cell))
+            return AXTable.PHYSICAL_COORDINATES_FROM_TABLE.get(hash(cell), (-1, -1))
 
         index = AXTable._get_cell_index(cell)
         if index < 0:
@@ -806,7 +817,7 @@ class AXTable:
         table = AXTable.get_table(cell)
         if table is None:
             tokens = ["AXTable: Couldn't find table-implementing ancestor for", cell]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return -1, -1
 
         try:
@@ -814,20 +825,20 @@ class AXTable:
             column = Atspi.Table.get_column_at_index(table, index)
         except Exception as error:
             msg = f"AXTable: Exception in _get_cell_coordinates_from_table: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1, -1
 
         tokens = ["AXTable: Table iface coords for", cell, f"are row: {row}, col: {column}"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.PHYSICAL_COORDINATES_FROM_TABLE[hash(cell)] = row, column
         return row, column
 
     @staticmethod
-    def _get_cell_coordinates_from_table_cell(cell):
+    def _get_cell_coordinates_from_table_cell(cell: Atspi.Accessible) -> tuple[int, int]:
         """Returns the row and column indices of cell via the table cell interface."""
 
         if hash(cell) in AXTable.PHYSICAL_COORDINATES_FROM_CELL:
-            return AXTable.PHYSICAL_COORDINATES_FROM_CELL.get(hash(cell))
+            return AXTable.PHYSICAL_COORDINATES_FROM_CELL.get(hash(cell), (-1, -1))
 
         if not AXObject.supports_table_cell(cell):
             return -1, -1
@@ -836,33 +847,36 @@ class AXTable:
             success, row, column = Atspi.TableCell.get_position(cell)
         except Exception as error:
             msg = f"AXTable: Exception in _get_cell_coordinates_from_table_cell: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1, -1
 
         if not success:
             return -1, -1
 
         tokens = ["AXTable: TableCell iface coords for", cell, f"are row: {row}, col: {column}"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.PHYSICAL_COORDINATES_FROM_CELL[hash(cell)] = row, column
         return row, column
 
     @staticmethod
-    def _get_cell_coordinates_from_attribute(cell):
+    def _get_cell_coordinates_from_attribute(
+        cell: Atspi.Accessible
+    ) -> tuple[Optional[str], Optional[str]]:
         """Returns the 1-based indices for cell exposed via object attribute, or None, None."""
 
         if cell is None:
             return None, None
 
         if hash(cell) in AXTable.PRESENTABLE_COORDINATES:
-            return AXTable.PRESENTABLE_COORDINATES.get(hash(cell))
+            return AXTable.PRESENTABLE_COORDINATES.get(hash(cell), (None, None))
 
         attrs = AXObject.get_attributes_dict(cell)
         row_index = attrs.get("rowindex")
         col_index = attrs.get("colindex")
 
         tokens = ["AXTable: Row and col index attributes for", cell, ":", row_index, ",", col_index]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.PRESENTABLE_COORDINATES[hash(cell)] = row_index, col_index
         if row_index is not None and col_index is not None:
             return row_index, col_index
@@ -876,12 +890,40 @@ class AXTable:
         col_index = attrs.get("colindex", col_index)
 
         tokens = ["AXTable: Updated attributes based on", row, ":", row_index, col_index]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.PRESENTABLE_COORDINATES[hash(cell)] = row_index, col_index
         return row_index, col_index
 
     @staticmethod
-    def get_table(obj):
+    def get_presentable_sort_order_from_header(
+        obj: Atspi.Accessible,
+        include_name: bool = False
+    ) -> str:
+        """Returns the end-user-consumable row/column sort order from its header."""
+
+        if not AXUtilitiesRole.is_table_header(obj):
+            return ""
+
+        sort_order = AXObject.get_attribute(obj, "sort", False)
+        if not sort_order or sort_order == "none":
+            return ""
+
+        if sort_order == "ascending":
+            result = object_properties.SORT_ORDER_ASCENDING
+        elif sort_order == "descending":
+            result = object_properties.SORT_ORDER_DESCENDING
+        else:
+            result = object_properties.SORT_ORDER_OTHER
+
+        if include_name:
+            name = AXObject.get_name(obj)
+            if name:
+                result = f"{name}. {result}"
+
+        return result
+
+    @staticmethod
+    def get_table(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns obj if it is a table, otherwise returns the ancestor table of obj."""
 
         if obj is None:
@@ -892,7 +934,7 @@ class AXTable:
                 table = Atspi.TableCell.get_table(obj)
             except Exception as error:
                 msg = f"AXTable: Exception in get_table: {error}"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                debug.print_message(debug.LEVEL_INFO, msg, True)
             else:
                 if AXObject.supports_table(table):
                     return table
@@ -909,7 +951,7 @@ class AXTable:
         return AXObject.find_ancestor(obj, is_table)
 
     @staticmethod
-    def get_table_description_for_presentation(table):
+    def get_table_description_for_presentation(table: Atspi.Accessible) -> str:
         """Returns an end-user-consumable string which describes the table."""
 
         if not AXObject.supports_table(table):
@@ -921,21 +963,21 @@ class AXTable:
         return result
 
     @staticmethod
-    def get_first_cell(table):
+    def get_first_cell(table: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the first cell in table."""
 
         row, col = 0, 0
         return AXTable.get_cell_at(table, row, col)
 
     @staticmethod
-    def get_last_cell(table):
+    def get_last_cell(table: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the last cell in table."""
 
         row, col = AXTable.get_row_count(table) - 1, AXTable.get_column_count(table) - 1
         return AXTable.get_cell_at(table, row, col)
 
     @staticmethod
-    def get_cell_above(cell):
+    def get_cell_above(cell: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the cell above cell in table."""
 
         row, col = AXTable.get_cell_coordinates(cell, prefer_attribute=False)
@@ -943,7 +985,7 @@ class AXTable:
         return AXTable.get_cell_at(AXTable.get_table(cell), row, col)
 
     @staticmethod
-    def get_cell_below(cell):
+    def get_cell_below(cell: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the cell below cell in table."""
 
         row, col = AXTable.get_cell_coordinates(cell, prefer_attribute=False)
@@ -951,7 +993,7 @@ class AXTable:
         return AXTable.get_cell_at(AXTable.get_table(cell), row, col)
 
     @staticmethod
-    def get_cell_on_left(cell):
+    def get_cell_on_left(cell: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the cell to the left."""
 
         row, col = AXTable.get_cell_coordinates(cell, prefer_attribute=False)
@@ -959,7 +1001,7 @@ class AXTable:
         return AXTable.get_cell_at(AXTable.get_table(cell), row, col)
 
     @staticmethod
-    def get_cell_on_right(cell):
+    def get_cell_on_right(cell: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the cell to the right."""
 
         row, col = AXTable.get_cell_coordinates(cell, prefer_attribute=False)
@@ -967,14 +1009,14 @@ class AXTable:
         return AXTable.get_cell_at(AXTable.get_table(cell), row, col)
 
     @staticmethod
-    def get_start_of_row(cell):
+    def get_start_of_row(cell: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the cell at the start of cell's row."""
 
         row = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
         return AXTable.get_cell_at(AXTable.get_table(cell), row, 0)
 
     @staticmethod
-    def get_end_of_row(cell):
+    def get_end_of_row(cell: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the cell at the end of cell's row."""
 
         row = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
@@ -983,14 +1025,14 @@ class AXTable:
         return AXTable.get_cell_at(AXTable.get_table(cell), row, col)
 
     @staticmethod
-    def get_top_of_column(cell):
+    def get_top_of_column(cell: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the cell at the top of cell's column."""
 
         col = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[1]
         return AXTable.get_cell_at(AXTable.get_table(cell), 0, col)
 
     @staticmethod
-    def get_bottom_of_column(cell):
+    def get_bottom_of_column(cell: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the cell at the bottom of cell's column."""
 
         col = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[1]
@@ -999,21 +1041,21 @@ class AXTable:
         return AXTable.get_cell_at(AXTable.get_table(cell), row, col)
 
     @staticmethod
-    def get_cell_formula(cell):
+    def get_cell_formula(cell: Atspi.Accessible) -> Optional[str]:
         """Returns the formula associated with this cell."""
 
         attrs = AXObject.get_attributes_dict(cell, use_cache=False)
         return attrs.get("formula", attrs.get("Formula"))
 
     @staticmethod
-    def is_first_cell(cell):
+    def is_first_cell(cell: Atspi.Accessible) -> bool:
         """Returns True if this is the first cell in its table."""
 
         row, col = AXTable.get_cell_coordinates(cell, prefer_attribute=False)
         return row == 0 and col == 0
 
     @staticmethod
-    def is_last_cell(cell):
+    def is_last_cell(cell: Atspi.Accessible) -> bool:
         """Returns True if this is the last cell in its table."""
 
         row, col = AXTable.get_cell_coordinates(cell, prefer_attribute=False)
@@ -1028,14 +1070,14 @@ class AXTable:
             and col + 1 == AXTable.get_column_count(table, prefer_attribute=False)
 
     @staticmethod
-    def is_start_of_row(cell):
+    def is_start_of_row(cell: Atspi.Accessible) -> bool:
         """Returns True if this is the first cell in its row."""
 
         col = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[1]
         return col == 0
 
     @staticmethod
-    def is_end_of_row(cell):
+    def is_end_of_row(cell: Atspi.Accessible) -> bool:
         """Returns True if this is the last cell in its row."""
 
         col = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[1]
@@ -1049,14 +1091,14 @@ class AXTable:
         return col + 1 == AXTable.get_column_count(table, prefer_attribute=False)
 
     @staticmethod
-    def is_top_of_column(cell):
+    def is_top_of_column(cell: Atspi.Accessible) -> bool:
         """Returns True if this is the first cell in its column."""
 
         row = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
         return row == 0
 
     @staticmethod
-    def is_bottom_of_column(cell):
+    def is_bottom_of_column(cell: Atspi.Accessible) -> bool:
         """Returns True if this is the last cell in its column."""
 
         row = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
@@ -1070,7 +1112,7 @@ class AXTable:
         return row + 1 == AXTable.get_row_count(table, prefer_attribute=False)
 
     @staticmethod
-    def is_layout_table(table):
+    def is_layout_table(table: Atspi.Accessible) -> bool:
         """Returns True if this table should be treated as layout only."""
 
         result, reason = False, "Not enough information"
@@ -1090,15 +1132,15 @@ class AXTable:
                 result, reason = False, "Has caption"
 
         tokens = ["AXTable:", table, f"is layout only: {result} ({reason})"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
 
     @staticmethod
-    def get_label_for_cell_coordinates(cell):
+    def get_label_for_cell_coordinates(cell: Atspi.Accessible) -> str:
         """Returns the text that should be used instead of the numeric indices."""
 
         if hash(cell) in AXTable.PRESENTABLE_COORDINATES_LABELS:
-            return AXTable.PRESENTABLE_COORDINATES_LABELS.get(hash(cell))
+            return AXTable.PRESENTABLE_COORDINATES_LABELS.get(hash(cell), "")
 
         attrs = AXObject.get_attributes_dict(cell)
         result = ""
@@ -1111,7 +1153,7 @@ class AXTable:
             result = f"{col_label}{row_label}"
 
         tokens = ["AXTable: Coordinates label for", cell, f": {result}"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.PRESENTABLE_COORDINATES_LABELS[hash(cell)] = result
         if result:
             return result
@@ -1127,12 +1169,12 @@ class AXTable:
             result = f"{col_label}{row_label}"
 
         tokens = ["AXTable: Updated coordinates label based on", row, f": {result}"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         AXTable.PRESENTABLE_COORDINATES_LABELS[hash(cell)] = result
         return result
 
     @staticmethod
-    def get_dynamic_row_header(cell):
+    def get_dynamic_row_header(cell: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the user-set row header for cell."""
 
         table = AXTable.get_table(cell)
@@ -1147,7 +1189,7 @@ class AXTable:
         return AXTable.get_cell_at(table, cell_row, headers_column)
 
     @staticmethod
-    def get_dynamic_column_header(cell):
+    def get_dynamic_column_header(cell: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the user-set column header for cell."""
 
         table = AXTable.get_table(cell)
@@ -1162,19 +1204,19 @@ class AXTable:
         return AXTable.get_cell_at(table, headers_row, cell_column)
 
     @staticmethod
-    def set_dynamic_row_headers_column(table, column):
+    def set_dynamic_row_headers_column(table: Atspi.Accessible, column: int) -> None:
         """Sets the dynamic row headers column of table to column."""
 
         AXTable.DYNAMIC_ROW_HEADERS_COLUMN[hash(table)] = column
 
     @staticmethod
-    def set_dynamic_column_headers_row(table, row):
+    def set_dynamic_column_headers_row(table: Atspi.Accessible, row: int) -> None:
         """Sets the dynamic column headers row of table to row."""
 
         AXTable.DYNAMIC_COLUMN_HEADERS_ROW[hash(table)] = row
 
     @staticmethod
-    def clear_dynamic_row_headers_column(table):
+    def clear_dynamic_row_headers_column(table: Atspi.Accessible) -> None:
         """Clears the dynamic row headers column of table."""
 
         if hash(table) not in AXTable.DYNAMIC_ROW_HEADERS_COLUMN:
@@ -1183,7 +1225,7 @@ class AXTable:
         AXTable.DYNAMIC_ROW_HEADERS_COLUMN.pop(hash(table))
 
     @staticmethod
-    def clear_dynamic_column_headers_row(table):
+    def clear_dynamic_column_headers_row(table: Atspi.Accessible) -> None:
         """Clears the dynamic column headers row of table."""
 
         if hash(table) not in AXTable.DYNAMIC_COLUMN_HEADERS_ROW:

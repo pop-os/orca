@@ -21,16 +21,9 @@
 
 # pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
+# pylint: disable=duplicate-code
 
-"""
-Utilities for obtaining document-related information about accessible objects.
-These utilities are app-type- and toolkit-agnostic. Utilities that might have
-different implementations or results depending on the type of app (e.g. terminal,
-chat, web) or toolkit (e.g. Qt, Gtk) should be in script_utilities.py file(s).
-
-N.B. There are currently utilities that should never have custom implementations
-that live in script_utilities.py files. These will be moved over time.
-"""
+"""Utilities for obtaining document-related information about accessible objects."""
 
 __id__        = "$Id$"
 __version__   = "$Revision$"
@@ -58,21 +51,21 @@ from .ax_utilities_state import AXUtilitiesState
 class AXDocument:
     """Utilities for obtaining document-related information about accessible objects."""
 
-    LAST_KNOWN_PAGE = {}
+    LAST_KNOWN_PAGE: dict[int, int] = {}
     _lock = threading.Lock()
 
     @staticmethod
-    def _clear_stored_data():
+    def _clear_stored_data() -> None:
         """Clears any data we have cached for objects"""
 
         while True:
             time.sleep(60)
             msg = "AXDocument: Clearing local cache."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             AXDocument.LAST_KNOWN_PAGE.clear()
 
     @staticmethod
-    def start_cache_clearing_thread():
+    def start_cache_clearing_thread() -> None:
         """Starts thread to periodically clear cached details."""
 
         thread = threading.Thread(target=AXDocument._clear_stored_data)
@@ -80,7 +73,7 @@ class AXDocument:
         thread.start()
 
     @staticmethod
-    def did_page_change(document):
+    def did_page_change(document: Atspi.Accessible) -> bool:
         """Returns True if the current page changed."""
 
         if not AXObject.supports_document(document):
@@ -90,12 +83,12 @@ class AXDocument:
         result = old_page != AXDocument._get_current_page(document)
         if result:
             tokens = ["AXDocument: Previous page of", document, f"was {old_page}"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         return result
 
     @staticmethod
-    def _get_current_page(document):
+    def _get_current_page(document: Atspi.Accessible) -> int:
         """Returns the current page of document."""
 
         if not AXObject.supports_document(document):
@@ -105,15 +98,15 @@ class AXDocument:
             page = Atspi.Document.get_current_page_number(document)
         except Exception as error:
             msg = f"AXDocument: Exception in _get_current_page: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return 0
 
         tokens = ["AXDocument: Current page of", document, f"is {page}"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return page
 
     @staticmethod
-    def get_current_page(document):
+    def get_current_page(document: Atspi.Accessible) -> int:
         """Returns the current page of document."""
 
         if not AXObject.supports_document(document):
@@ -124,7 +117,7 @@ class AXDocument:
         return page
 
     @staticmethod
-    def get_page_count(document):
+    def get_page_count(document: Atspi.Accessible) -> int:
         """Returns the page count of document."""
 
         if not AXObject.supports_document(document):
@@ -134,15 +127,15 @@ class AXDocument:
             count = Atspi.Document.get_page_count(document)
         except Exception as error:
             msg = f"AXDocument: Exception in get_page_count: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return 0
 
         tokens = ["AXDocument: Page count of", document, f"is {count}"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return count
 
     @staticmethod
-    def get_locale(document):
+    def get_locale(document: Atspi.Accessible) -> str:
         """Returns the locale of document."""
 
         if not AXObject.supports_document(document):
@@ -152,15 +145,15 @@ class AXDocument:
             result = Atspi.Document.get_locale(document)
         except Exception as error:
             msg = f"AXDocument: Exception in get_locale: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return ""
 
         tokens = ["AXDocument: Locale of", document, f"is '{result}'"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
 
     @staticmethod
-    def _get_attributes_dict(document):
+    def _get_attributes_dict(document: Atspi.Accessible) -> dict[str, str]:
         """Returns a dict with the document-attributes of document."""
 
         if not AXObject.supports_document(document):
@@ -170,15 +163,15 @@ class AXDocument:
             result = Atspi.Document.get_document_attributes(document)
         except Exception as error:
             msg = f"AXDocument: Exception in _get_attributes_dict: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return {}
 
         tokens = ["AXDocument: Attributes of", document, "are:", result]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
 
     @staticmethod
-    def get_uri(document):
+    def get_uri(document: Atspi.Accessible) -> str:
         """Returns the uri of document."""
 
         if not AXObject.supports_document(document):
@@ -188,7 +181,7 @@ class AXDocument:
         return attributes.get("DocURL", attributes.get("URI", ""))
 
     @staticmethod
-    def get_mime_type(document):
+    def get_mime_type(document: Atspi.Accessible) -> str:
         """Returns the uri of document."""
 
         if not AXObject.supports_document(document):
@@ -198,13 +191,13 @@ class AXDocument:
         return attributes.get("MimeType", "")
 
     @staticmethod
-    def is_plain_text(document):
+    def is_plain_text(document: Atspi.Accessible) -> bool:
         """Returns True if document is a plain-text document."""
 
         return AXDocument.get_mime_type(document) == "text/plain"
 
     @staticmethod
-    def is_pdf(document):
+    def is_pdf(document: Atspi.Accessible) -> bool:
         """Returns True if document is a PDF document."""
 
         mime_type = AXDocument.get_mime_type(document)
@@ -215,14 +208,14 @@ class AXDocument:
         return False
 
     @staticmethod
-    def get_document_uri_fragment(document):
+    def get_document_uri_fragment(document: Atspi.Accessible) -> str:
         """Returns the fragment portion of document's uri."""
 
         result = urllib.parse.urlparse(AXDocument.get_uri(document))
         return result.fragment
 
     @staticmethod
-    def _get_object_counts(document):
+    def _get_object_counts(document: Atspi.Accessible) -> dict[str, int]:
         """Returns a dictionary of object counts used in a document summary."""
 
         result = {"forms": 0,
@@ -259,7 +252,7 @@ class AXDocument:
         return result
 
     @staticmethod
-    def get_document_summary(document, only_if_found=True):
+    def get_document_summary(document: Atspi.Accessible, only_if_found: bool = True) -> str:
         """Returns a string summarizing the document's structure and objects of interest."""
 
         result = []

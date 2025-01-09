@@ -21,16 +21,9 @@
 
 # pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
+# pylint: disable=duplicate-code
 
-"""
-Utilities for obtaining position-related information about accessible objects.
-These utilities are app-type- and toolkit-agnostic. Utilities that might have
-different implementations or results depending on the type of app (e.g. terminal,
-chat, web) or toolkit (e.g. Qt, Gtk) should be in script_utilities.py file(s).
-
-N.B. There are currently utilities that should never have custom implementations
-that live in script_utilities.py files. These will be moved over time.
-"""
+"""Utilities for obtaining position-related information about accessible objects."""
 
 __id__        = "$Id$"
 __version__   = "$Revision$"
@@ -40,6 +33,7 @@ __copyright__ = "Copyright (c) 2024 Igalia, S.L." \
 __license__   = "LGPL"
 
 import functools
+from typing import Optional
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -54,14 +48,14 @@ class AXComponent:
     """Utilities for obtaining position-related information about accessible objects."""
 
     @staticmethod
-    def get_center_point(obj):
+    def get_center_point(obj: Atspi.Accessible) -> tuple[float, float]:
         """Returns the center point of obj with respect to its window."""
 
         rect = AXComponent.get_rect(obj)
         return rect.x + rect.width / 2, rect.y + rect.height / 2
 
     @staticmethod
-    def get_position(obj):
+    def get_position(obj: Atspi.Accessible) -> tuple[int, int]:
         """Returns the x, y position tuple of obj with respect to its window."""
 
         if not AXObject.supports_component(obj):
@@ -71,13 +65,13 @@ class AXComponent:
             point = Atspi.Component.get_position(obj, Atspi.CoordType.WINDOW)
         except Exception as error:
             msg = f"AXComponent: Exception in get_position: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1, -1
 
         return point.x, point.y
 
     @staticmethod
-    def get_rect(obj):
+    def get_rect(obj: Atspi.Accessible) -> Atspi.Rect:
         """Returns the Atspi rect of obj with respect to its window."""
 
         if not AXObject.supports_component(obj):
@@ -87,13 +81,13 @@ class AXComponent:
             rect = Atspi.Component.get_extents(obj, Atspi.CoordType.WINDOW)
         except Exception as error:
             msg = f"AXComponent: Exception in get_rect: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return Atspi.Rect()
 
         return rect
 
     @staticmethod
-    def get_rect_intersection(rect1, rect2):
+    def get_rect_intersection(rect1: Atspi.Rect, rect2: Atspi.Rect) -> Atspi.Rect:
         """Returns a rect representing the intersection of rect1 and rect2."""
 
         result = Atspi.Rect()
@@ -113,11 +107,11 @@ class AXComponent:
             result.height = y_intersection[-1] - result.y
 
         tokens = ["AXComponent: The intersection of", rect1, "and", rect2, "is:", result]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
 
     @staticmethod
-    def get_size(obj):
+    def get_size(obj: Atspi.Accessible) -> tuple[int, int]:
         """Returns the width, height tuple of obj with respect to its window."""
 
         if not AXObject.supports_component(obj):
@@ -127,21 +121,21 @@ class AXComponent:
             point = Atspi.Component.get_size(obj, Atspi.CoordType.WINDOW)
         except Exception as error:
             msg = f"AXComponent: Exception in get_position: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1, -1
 
         # An Atspi.Point object stores width in x and height in y.
         return point.x, point.y
 
     @staticmethod
-    def has_no_size(obj):
+    def has_no_size(obj: Atspi.Accessible) -> bool:
         """Returns True if obj has a width and height of 0."""
 
         rect = AXComponent.get_rect(obj)
         return not(rect.width or rect.height)
 
     @staticmethod
-    def has_no_size_or_invalid_rect(obj):
+    def has_no_size_or_invalid_rect(obj: Atspi.Accessible) -> bool:
         """Returns True if the rect associated with obj is sizeless or invalid."""
 
         rect = AXComponent.get_rect(obj)
@@ -153,24 +147,24 @@ class AXComponent:
 
         if (rect.width < -1 or rect.height < -1):
             tokens = ["WARNING: ", obj, "has a broken rect:", rect]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             AXObject.clear_cache(obj)
             rect = AXComponent.get_rect(obj)
             if (rect.width < -1 or rect.height < -1):
                 msg = "AXComponent: Clearing cache did not fix the rect"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                debug.print_message(debug.LEVEL_INFO, msg, True)
                 return True
 
         return False
 
     @staticmethod
-    def is_empty_rect(rect):
+    def is_empty_rect(rect: Atspi.Rect) -> bool:
         """Returns True if rect's x, y, width, and height are all 0."""
 
         return rect.x == 0 and rect.y == 0 and rect.width == 0 and rect.height == 0
 
     @staticmethod
-    def is_same_rect(rect1, rect2):
+    def is_same_rect(rect1: Atspi.Rect, rect2: Atspi.Rect) -> bool:
         """Returns True if rect1 and rect2 represent the same bounding box."""
 
         return rect1.x == rect2.x \
@@ -179,7 +173,7 @@ class AXComponent:
             and rect1.height == rect2.height
 
     @staticmethod
-    def object_contains_point(obj, x, y):
+    def object_contains_point(obj: Atspi.Accessible, x: int, y: int) -> bool:
         """Returns True if obj's rect contains the specified point."""
 
         if not AXObject.supports_component(obj):
@@ -192,56 +186,56 @@ class AXComponent:
             result = Atspi.Component.contains(obj, x, y, Atspi.CoordType.WINDOW)
         except Exception as error:
             msg = f"AXComponent: Exception in object_contains_point: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
 
         tokens = ["AXComponent: ", obj, f"contains point {x}, {y}: {result}"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
 
     @staticmethod
-    def object_intersects_rect(obj, rect):
+    def object_intersects_rect(obj: Atspi.Accessible, rect: Atspi.Rect) -> bool:
         """Returns True if the Atspi.Rect associated with obj intersects rect."""
 
         intersection = AXComponent.get_rect_intersection(AXComponent.get_rect(obj), rect)
         return not AXComponent.is_empty_rect(intersection)
 
     @staticmethod
-    def object_is_off_screen(obj):
+    def object_is_off_screen(obj: Atspi.Accessible) -> bool:
         """Returns True if the rect associated with obj is off-screen"""
 
         rect = AXComponent.get_rect(obj)
         if abs(rect.x) > 10000 or abs(rect.y) > 10000:
             tokens = ["AXComponent: Treating", obj, "as offscreen due to position"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return True
 
         if rect.width == 0 or rect.height == 0:
             if not AXObject.get_child_count(obj):
                 tokens = ["AXComponent: Treating", obj, "as offscreen due to size and no children"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
                 return True
             if AXUtilitiesRole.is_menu(obj):
                 tokens = ["AXComponent: Treating", obj, "as offscreen due to size and role"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
                 return True
             tokens = ["AXComponent: Treating sizeless", obj, "as onscreen"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return False
 
         result = rect.x + rect.width < 0 and rect.y + rect.height < 0
         tokens = ["AXComponent:", obj, f"is off-screen: {result}"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
 
     @staticmethod
-    def objects_have_same_rect(obj1, obj2):
+    def objects_have_same_rect(obj1: Atspi.Accessible, obj2: Atspi.Accessible) -> bool:
         """Returns True if obj1 and obj2 have the same rect."""
 
         return AXComponent.is_same_rect(AXComponent.get_rect(obj1),AXComponent.get_rect(obj2))
 
     @staticmethod
-    def objects_overlap(obj1, obj2):
+    def objects_overlap(obj1: Atspi.Accessible, obj2: Atspi.Accessible) -> bool:
         """Returns True if the rects associated with obj1 and obj2 overlap."""
 
         intersection = AXComponent.get_rect_intersection(
@@ -249,7 +243,7 @@ class AXComponent:
         return not AXComponent.is_empty_rect(intersection)
 
     @staticmethod
-    def on_same_line(obj1, obj2, delta=0):
+    def on_same_line(obj1: Atspi.Accessible, obj2: Atspi.Accessible, delta: int = 0) -> bool:
         """Returns True if obj1 and obj2 are on the same line based on the center points."""
 
         y1_center = AXComponent.get_center_point(obj1)[1]
@@ -257,7 +251,7 @@ class AXComponent:
         return abs(y1_center - y2_center) <= delta
 
     @staticmethod
-    def _object_bounds_includes_children(obj):
+    def _object_bounds_includes_children(obj: Atspi.Accessible) -> bool:
         """Returns True if obj's rect is expected to include the rects of its children."""
 
         if AXUtilitiesRole.is_menu(obj) or AXUtilitiesRole.is_page_tab(obj):
@@ -267,7 +261,9 @@ class AXComponent:
         return rect.width > 0 and rect.height > 0
 
     @staticmethod
-    def _find_descendant_at_point(obj, x, y):
+    def _find_descendant_at_point(
+        obj: Atspi.Accessible, x: int, y: int
+    ) -> Optional[Atspi.Accessible]:
         """Checks each child to see if it has a descendant at the specified point."""
 
         for child in AXObject.iter_children(obj):
@@ -279,7 +275,7 @@ class AXComponent:
         return None
 
     @staticmethod
-    def _get_object_at_point(obj, x, y):
+    def _get_object_at_point(obj: Atspi.Accessible, x: int, y: int) -> Optional[Atspi.Accessible]:
         """Returns the child (or descendant?) of obj at the specified point."""
 
         if not AXObject.supports_component(obj):
@@ -289,15 +285,17 @@ class AXComponent:
             result = Atspi.Component.get_accessible_at_point(obj, x, y, Atspi.CoordType.WINDOW)
         except Exception as error:
             msg = f"AXComponent: Exception in get_child_at_point: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return None
 
         tokens = ["AXComponent: Child of", obj, f"at {x}, {y} is", result]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
 
     @staticmethod
-    def _get_descendant_at_point(obj, x, y):
+    def _get_descendant_at_point(
+        obj: Atspi.Accessible, x: int, y: int
+    ) -> Optional[Atspi.Accessible]:
         """Returns the deepest descendant of obj at the specified point."""
 
         child = AXComponent._get_object_at_point(obj, x, y)
@@ -313,16 +311,18 @@ class AXComponent:
         return AXComponent._get_descendant_at_point(child, x, y)
 
     @staticmethod
-    def get_descendant_at_point(obj, x, y):
+    def get_descendant_at_point(
+        obj: Atspi.Accessible, x: int, y: int
+    ) -> Optional[Atspi.Accessible]:
         """Returns the deepest descendant of obj at the specified point."""
 
         result = AXComponent._get_descendant_at_point(obj, x, y)
         tokens = ["AXComponent: Descendant of", obj, f"at {x}, {y} is", result]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
 
     @staticmethod
-    def scroll_object_to_point(obj, x, y):
+    def scroll_object_to_point(obj: Atspi.Accessible, x: int, y: int) -> bool:
         """Attempts to scroll obj to the specified point."""
 
         if not AXObject.supports_component(obj):
@@ -332,15 +332,15 @@ class AXComponent:
             result = Atspi.Component.scroll_to_point(obj, Atspi.CoordType.WINDOW, x, y)
         except Exception as error:
             msg = f"AXComponent: Exception in scroll_object_to_point: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
 
         tokens = ["AXComponent: Scrolled", obj, f"to {x}, {y}:", result]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
 
     @staticmethod
-    def scroll_object_to_location(obj, location):
+    def scroll_object_to_location(obj: Atspi.Accessible, location: Atspi.ScrollType) -> bool:
         """Attempts to scroll obj to the specified Atspi.ScrollType location."""
 
         if not AXObject.supports_component(obj):
@@ -350,18 +350,18 @@ class AXComponent:
             result = Atspi.Component.scroll_to(obj, location)
         except Exception as error:
             msg = f"AXComponent: Exception in scroll_object_to_location: {error}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
 
         tokens = ["AXComponent: Scrolled", obj, "to", location, f": {result}"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
 
     @staticmethod
-    def sort_objects_by_size(objects):
+    def sort_objects_by_size(objects: list[Atspi.Accessible]) -> list[Atspi.Accessible]:
         """Returns objects sorted from smallest to largest."""
 
-        def _size_comparison(obj1, obj2):
+        def _size_comparison(obj1: Atspi.Accessible, obj2: Atspi.Accessible) -> int:
             rect1 = AXComponent.get_rect(obj1)
             rect2 = AXComponent.get_rect(obj2)
             return (rect1.width * rect1.height) - (rect2.width * rect2.height)
@@ -369,10 +369,10 @@ class AXComponent:
         return sorted(objects, key=functools.cmp_to_key(_size_comparison))
 
     @staticmethod
-    def sort_objects_by_position(objects):
+    def sort_objects_by_position(objects: list[Atspi.Accessible]) -> list[Atspi.Accessible]:
         """Returns objects sorted from top-left to bottom-right."""
 
-        def _spatial_comparison(obj1, obj2):
+        def _spatial_comparison(obj1: Atspi.Accessible, obj2: Atspi.Accessible) -> int:
             rect1 = AXComponent.get_rect(obj1)
             rect2 = AXComponent.get_rect(obj2)
             rv = rect1.y - rect2.y or rect1.x - rect2.x

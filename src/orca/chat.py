@@ -580,9 +580,9 @@ class Chat:
             text = messages.CHAT_MESSAGE_FROM_ROOM % chatRoomName
 
         if not settings.presentChatRoomLast:
-            text = self._script.utilities.appendString(text, message)
+            text = f"{text} {message}"
         else:
-            text = self._script.utilities.appendString(message, text)
+            text = f"{message} {text}"
 
         if len(text.strip()):
             voice = self._script.speech_generator.voice(string=text)
@@ -741,7 +741,7 @@ class Chat:
             return False
 
         tokens = ["CHAT:", obj, "believed to be buddy list."]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return True
 
     def isInBuddyList(self, obj, includeList=True):
@@ -825,11 +825,11 @@ class Chat:
         if AXUtilities.is_showing(obj):
             active = self._script.utilities.topLevelObjectIsActiveAndCurrent(obj)
             tokens = ["INFO:", obj, "'s window is focused chat:", active]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return active
 
         tokens = ["INFO:", obj, "is not focused chat (not showing)"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return False
 
     def getChatRoomName(self, obj):

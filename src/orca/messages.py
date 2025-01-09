@@ -355,6 +355,12 @@ CLI_GUI_SETUP = _("Set up user preferences (GUI version)")
 # from the command line and the help text is displayed.
 CLI_EPILOG = _("Report bugs on https://gitlab.gnome.org/GNOME/orca/-/issues.")
 
+# Translators: Orca has a command to present the contents of the clipboard without
+# the user having to switch to a clipboard manager. This message is spoken by Orca
+# before speaking the text which is in the clipboard. The string substitution is
+# for the clipboard contents.
+CLIPBOARD_CONTAINS = _("Clipboard contains: %s")
+
 # Translators: Orca normal speaks the text which was just deleted from a
 # document via command. Depending on the circumstances, that might be a
 # large string. Therefore, if the text which has just been deleted from a
@@ -539,6 +545,33 @@ CPU_AND_MEMORY_USAGE_UNKNOWN = _("CPU and memory usage unknown")
 # Translators: Orca has a command to report CPU and memory usage levels. This
 # message presents the levels to the user.
 CPU_AND_MEMORY_USAGE_LEVELS = _("CPU: %d%%. Memory: %d%%")
+
+# Translators: Orca has a command for advanced users and developers to clear
+# the AT-SPI cache in case there is stale information due to an application
+# bug. This message is presented when the user tried to clear the cache but
+# an error occurred.
+DEBUG_CLEAR_CACHE_FAILED = _("Clearing cache failed.")
+
+# Translators: Orca has a command for advanced users and developers to clear
+# the AT-SPI cache in case there is stale information due to an application
+# bug. This message is presented when the user performs the command.
+DEBUG_CLEAR_CACHE = _("Clearing cache.")
+
+# Translators: this is a debug message for advanced users and developers. It
+# describes a command to print detailed debugging information about the current
+# state with respect to the accessible applications being used, such as the
+# accessibility tree of the current window, a list of all the running accessible
+# objects, etc. This message is presented to confirm to the user that the snapshot
+# capture has begun.
+DEBUG_CAPTURE_SNAPSHOT_START = _("Capturing debugging snapshot")
+
+# Translators: this is a debug message for advanced users and developers. It
+# describes a command to print detailed debugging information about the current
+# state with respect to the accessible applications being used, such as the
+# accessibility tree of the current window, a list of all the running accessible
+# objects, etc. This message is presented to confirm to the user that the snapshot
+# capture has begun.
+DEBUG_CAPTURE_SNAPSHOT_END = _("Debugging snapshot captured")
 
 # Translators: The "default" button in a dialog box is the button that gets
 # activated when Enter is pressed anywhere within that dialog box. The string
@@ -1263,6 +1296,11 @@ LEAVING_FIGURE = C_("role", "leaving figure.")
 # Translators: This message is presented when a user is navigating within a
 # form and then navigates out of it.
 LEAVING_FORM = _("leaving form.")
+
+# Translators: This message is presented when a user is navigating within a
+# panel and then navigates out of it. A grouping is a container of related
+# widgets.
+LEAVING_GROUPING = _("leaving grouping.")
 
 # Translators: This message is presented when a user is navigating within
 # a type of landmark and then navigates out of it. The word or phrase that
@@ -2550,6 +2588,10 @@ def cellSpan(rowspan, colspan):
                               rowspan) % rowspan
 
     return spanString
+
+def characterCount(count):
+    # Translators: This message describes the number of characters in a string.
+    return ngettext("%d characters", "%d characters", count) % count
 
 def selectedCharacterCount(count):
     # Translators: This message describes the number of characters that were just

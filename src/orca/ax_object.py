@@ -20,16 +20,12 @@
 
 # pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
+# pylint: disable=too-many-lines
+# pylint: disable=too-many-return-statements
+# pylint: disable=too-many-public-methods
+# pylint: disable=duplicate-code
 
-"""
-Utilities for obtaining information about accessible objects.
-These utilities are app-type- and toolkit-agnostic. Utilities that might have
-different implementations or results depending on the type of app (e.g. terminal,
-chat, web) or toolkit (e.g. Qt, Gtk) should be in script_utilities.py file(s).
-
-N.B. There are currently utilities that should never have custom implementations
-that live in script_utilities.py files. These will be moved over time.
-"""
+"""Utilities for obtaining information about accessible objects."""
 
 __id__        = "$Id$"
 __version__   = "$Revision$"
@@ -40,26 +36,28 @@ __license__   = "LGPL"
 import re
 import threading
 import time
+from typing import Callable, Generator, Optional
 
 import gi
 gi.require_version("Atspi", "2.0")
+gi.require_version("Gtk", "3.0")
 from gi.repository import Atspi
+from gi.repository import Gtk
 
 from . import debug
+from . import keynames
 
 
 class AXObject:
     """Utilities for obtaining information about accessible objects."""
 
-    KNOWN_DEAD = {}
-    REAL_APP_FOR_MUTTER_FRAME = {}
-    REAL_FRAME_FOR_MUTTER_FRAME = {}
-    OBJECT_ATTRIBUTES = {}
+    KNOWN_DEAD: dict[int, bool] = {}
+    OBJECT_ATTRIBUTES: dict[int, dict[str, str]] = {}
 
     _lock = threading.Lock()
 
     @staticmethod
-    def _clear_stored_data():
+    def _clear_stored_data() -> None:
         """Clears any data we have cached for objects"""
 
         while True:
@@ -67,41 +65,24 @@ class AXObject:
             AXObject._clear_all_dictionaries()
 
     @staticmethod
-    def _clear_all_dictionaries(reason=""):
+    def _clear_all_dictionaries(reason: str = "") -> None:
         msg = "AXObject: Clearing local cache."
         if reason:
             msg += f" Reason: {reason}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
         with AXObject._lock:
-            tokens = ["AXObject: Clearing known dead-or-alive state for",
-                        len(AXObject.KNOWN_DEAD), "objects"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             AXObject.KNOWN_DEAD.clear()
-
-            tokens = ["AXObject: Clearing", len(AXObject.REAL_APP_FOR_MUTTER_FRAME),
-                        "real apps for mutter frames"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            AXObject.REAL_APP_FOR_MUTTER_FRAME.clear()
-
-            tokens = ["AXObject: Clearing", len(AXObject.REAL_FRAME_FOR_MUTTER_FRAME),
-                        "real frames for mutter frames"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            AXObject.REAL_FRAME_FOR_MUTTER_FRAME.clear()
-
-            tokens = ["AXObject: Clearing cached object attributes for",
-                        len(AXObject.OBJECT_ATTRIBUTES), "objects"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
             AXObject.OBJECT_ATTRIBUTES.clear()
 
     @staticmethod
-    def clear_cache_now(reason=""):
+    def clear_cache_now(reason: str = "") -> None:
         """Clears all cached information immediately."""
 
         AXObject._clear_all_dictionaries(reason)
 
     @staticmethod
-    def start_cache_clearing_thread():
+    def start_cache_clearing_thread() -> None:
         """Starts thread to periodically clear cached details."""
 
         thread = threading.Thread(target=AXObject._clear_stored_data)
@@ -109,7 +90,7 @@ class AXObject:
         thread.start()
 
     @staticmethod
-    def is_bogus(obj):
+    def is_bogus(obj: Atspi.Accessible) -> bool:
         """Hack to ignore certain objects. All entries must have a bug."""
 
         # TODO - JD: Periodically check for fixes and remove hacks which are no
@@ -120,25 +101,50 @@ class AXObject:
            and AXObject.get_role(AXObject.get_parent(obj)) == Atspi.Role.FRAME \
            and Atspi.Accessible.get_toolkit_name(obj).lower() == "gecko":
             tokens = ["AXObject:", obj, "is bogus. See mozilla bug 1879750."]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True, True)
             return True
 
         return False
 
     @staticmethod
-    def is_valid(obj):
+    def has_broken_ancestry(obj: Atspi.Accessible) -> bool:
+        """Returns True if obj's ancestry is broken."""
+
+        if obj is None:
+            return False
+
+        # https://bugreports.qt.io/browse/QTBUG-130116
+        toolkit_name = Atspi.Accessible.get_toolkit_name(obj) or ""
+        if not toolkit_name.lower().startswith("qt"):
+            return False
+
+        reached_app = False
+        parent = AXObject.get_parent(obj)
+        while parent and not reached_app:
+            reached_app = AXObject.get_role(parent) == Atspi.Role.APPLICATION
+            parent = AXObject.get_parent(parent)
+
+        if not reached_app:
+            tokens = ["AXObject:", obj, "has broken ancestry. See qt bug 130116."]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return True
+
+        return False
+
+    @staticmethod
+    def is_valid(obj: Atspi.Accessible) -> bool:
         """Returns False if we know for certain this object is invalid"""
 
         return not (obj is None or AXObject.object_is_known_dead(obj))
 
     @staticmethod
-    def object_is_known_dead(obj):
+    def object_is_known_dead(obj: Atspi.Accessible) -> bool:
         """Returns True if we know for certain this object no longer exists"""
 
-        return obj and AXObject.KNOWN_DEAD.get(hash(obj)) is True
+        return bool(obj and AXObject.KNOWN_DEAD.get(hash(obj))) is True
 
     @staticmethod
-    def _set_known_dead_status(obj, is_dead):
+    def _set_known_dead_status(obj: Atspi.Accessible, is_dead: bool) -> None:
         """Updates the known-dead status of obj"""
 
         if obj is None:
@@ -151,33 +157,33 @@ class AXObject:
         AXObject.KNOWN_DEAD[hash(obj)] = is_dead
         if is_dead:
             msg = "AXObject: Adding to known dead objects"
-            debug.printMessage(debug.LEVEL_INFO, msg, True, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True, True)
             return
 
         if current_status:
             tokens = ["AXObject: Removing", obj, "from known-dead objects"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
     @staticmethod
-    def handle_error(obj, error, msg):
+    def handle_error(obj: Atspi.Accessible, error: Exception, msg: str) -> None:
         """Parses the exception and potentially updates our status for obj"""
 
-        error = str(error)
-        if re.search(r"accessible/\d+ does not exist", error):
-            msg = msg.replace(error, "object no longer exists")
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-        elif re.search(r"The application no longer exists", error):
-            msg = msg.replace(error, "app no longer exists")
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+        error_string = str(error)
+        if re.search(r"accessible/\d+ does not exist", error_string):
+            msg = msg.replace(error_string, "object no longer exists")
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+        elif re.search(r"The application no longer exists", error_string):
+            msg = msg.replace(error_string, "app no longer exists")
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         else:
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return
 
         if AXObject.KNOWN_DEAD.get(hash(obj)) is False:
             AXObject._set_known_dead_status(obj, True)
 
     @staticmethod
-    def supports_action(obj):
+    def supports_action(obj: Atspi.Accessible) -> bool:
         """Returns True if the action interface is supported on obj"""
 
         if not AXObject.is_valid(obj):
@@ -193,16 +199,23 @@ class AXObject:
         return iface is not None
 
     @staticmethod
-    def supports_collection(obj):
+    def supports_collection(obj: Atspi.Accessible) -> bool:
         """Returns True if the collection interface is supported on obj"""
 
         if not AXObject.is_valid(obj):
             return False
 
-        app_name = AXObject.get_name(AXObject.get_application(obj))
+        try:
+            app = Atspi.Accessible.get_application(obj)
+        except Exception as error:
+            msg = f"AXObject: Exception in supports_collection: {error}"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return False
+
+        app_name = AXObject.get_name(app)
         if app_name in ["soffice"]:
             tokens = ["AXObject: Treating", app_name, "as not supporting collection."]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return False
 
         try:
@@ -215,7 +228,7 @@ class AXObject:
         return iface is not None
 
     @staticmethod
-    def supports_component(obj):
+    def supports_component(obj: Atspi.Accessible) -> bool:
         """Returns True if the component interface is supported on obj"""
 
         if not AXObject.is_valid(obj):
@@ -232,7 +245,7 @@ class AXObject:
 
 
     @staticmethod
-    def supports_document(obj):
+    def supports_document(obj: Atspi.Accessible) -> bool:
         """Returns True if the document interface is supported on obj"""
 
         if not AXObject.is_valid(obj):
@@ -248,7 +261,7 @@ class AXObject:
         return iface is not None
 
     @staticmethod
-    def supports_editable_text(obj):
+    def supports_editable_text(obj: Atspi.Accessible) -> bool:
         """Returns True if the editable-text interface is supported on obj"""
 
         if not AXObject.is_valid(obj):
@@ -264,7 +277,7 @@ class AXObject:
         return iface is not None
 
     @staticmethod
-    def supports_hyperlink(obj):
+    def supports_hyperlink(obj: Atspi.Accessible) -> bool:
         """Returns True if the hyperlink interface is supported on obj"""
 
         if not AXObject.is_valid(obj):
@@ -280,7 +293,7 @@ class AXObject:
         return iface is not None
 
     @staticmethod
-    def supports_hypertext(obj):
+    def supports_hypertext(obj: Atspi.Accessible) -> bool:
         """Returns True if the hypertext interface is supported on obj"""
 
         if not AXObject.is_valid(obj):
@@ -296,7 +309,7 @@ class AXObject:
         return iface is not None
 
     @staticmethod
-    def supports_image(obj):
+    def supports_image(obj: Atspi.Accessible) -> bool:
         """Returns True if the image interface is supported on obj"""
 
         if not AXObject.is_valid(obj):
@@ -312,7 +325,7 @@ class AXObject:
         return iface is not None
 
     @staticmethod
-    def supports_selection(obj):
+    def supports_selection(obj: Atspi.Accessible) -> bool:
         """Returns True if the selection interface is supported on obj"""
 
         if not AXObject.is_valid(obj):
@@ -328,7 +341,7 @@ class AXObject:
         return iface is not None
 
     @staticmethod
-    def supports_table(obj):
+    def supports_table(obj: Atspi.Accessible) -> bool:
         """Returns True if the table interface is supported on obj"""
 
         if not AXObject.is_valid(obj):
@@ -344,7 +357,7 @@ class AXObject:
         return iface is not None
 
     @staticmethod
-    def supports_table_cell(obj):
+    def supports_table_cell(obj: Atspi.Accessible) -> bool:
         """Returns True if the table cell interface is supported on obj"""
 
         if not AXObject.is_valid(obj):
@@ -360,7 +373,7 @@ class AXObject:
         return iface is not None
 
     @staticmethod
-    def supports_text(obj):
+    def supports_text(obj: Atspi.Accessible) -> bool:
         """Returns True if the text interface is supported on obj"""
 
         if not AXObject.is_valid(obj):
@@ -375,7 +388,7 @@ class AXObject:
         return iface is not None
 
     @staticmethod
-    def supports_value(obj):
+    def supports_value(obj: Atspi.Accessible) -> bool:
         """Returns True if the value interface is supported on obj"""
 
         if not AXObject.is_valid(obj):
@@ -391,33 +404,7 @@ class AXObject:
         return iface is not None
 
     @staticmethod
-    def supported_interfaces_as_string(obj):
-        """Returns the supported interfaces of obj as a string"""
-
-        if not AXObject.is_valid(obj):
-            return ""
-
-        iface_checks = [
-            (AXObject.supports_action, "Action"),
-            (AXObject.supports_collection, "Collection"),
-            (AXObject.supports_component, "Component"),
-            (AXObject.supports_document, "Document"),
-            (AXObject.supports_editable_text, "EditableText"),
-            (AXObject.supports_hyperlink, "Hyperlink"),
-            (AXObject.supports_hypertext, "Hypertext"),
-            (AXObject.supports_image, "Image"),
-            (AXObject.supports_selection, "Selection"),
-            (AXObject.supports_table, "Table"),
-            (AXObject.supports_table_cell, "TableCell"),
-            (AXObject.supports_text, "Text"),
-            (AXObject.supports_value, "Value"),
-        ]
-
-        ifaces = [iface for check, iface in iface_checks if check(obj)]
-        return ", ".join(ifaces)
-
-    @staticmethod
-    def get_path(obj):
+    def get_path(obj: Atspi.Accessible) -> list[int]:
         """Returns the path from application to obj as list of child indices"""
 
         if not AXObject.is_valid(obj):
@@ -438,7 +425,7 @@ class AXObject:
         return path
 
     @staticmethod
-    def get_index_in_parent(obj):
+    def get_index_in_parent(obj: Atspi.Accessible) -> int:
         """Returns the child index of obj within its parent"""
 
         if not AXObject.is_valid(obj):
@@ -454,7 +441,7 @@ class AXObject:
         return index
 
     @staticmethod
-    def get_parent(obj):
+    def get_parent(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the accessible parent of obj. See also get_parent_checked."""
 
         if not AXObject.is_valid(obj):
@@ -469,18 +456,18 @@ class AXObject:
 
         if parent == obj:
             tokens = ["AXObject:", obj, "claims to be its own parent"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         if parent is None \
            and AXObject.get_role(obj) not in [Atspi.Role.INVALID, Atspi.Role.DESKTOP_FRAME]:
             tokens = ["AXObject:", obj, "claims to have no parent"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         return parent
 
     @staticmethod
-    def get_parent_checked(obj):
+    def get_parent_checked(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the parent of obj, doing checks for tree validity"""
 
         if not AXObject.is_valid(obj):
@@ -505,7 +492,7 @@ class AXObject:
         if index < 0 or index >= n_children:
             tokens = ["AXObject:", obj, "has index", index,
                       "; parent", parent, "has", n_children, "children"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return parent
 
         # This performs our check and includes any errors. We don't need the return value here.
@@ -513,7 +500,50 @@ class AXObject:
         return parent
 
     @staticmethod
-    def find_ancestor(obj, pred):
+    def _get_ancestors(obj: Atspi.Accessible) -> list[Atspi.Accessible]:
+        """Returns a list of the ancestors of obj, starting with its parent."""
+
+        ancestors = []
+        parent = AXObject.get_parent_checked(obj)
+        while parent:
+            ancestors.append(parent)
+            parent = AXObject.get_parent_checked(parent)
+        ancestors.reverse()
+        return ancestors
+
+    @staticmethod
+    def get_common_ancestor(
+        obj1: Atspi.Accessible,
+        obj2: Atspi.Accessible
+    ) -> Optional[Atspi.Accessible]:
+        """Returns the common ancestor of obj1 and obj2."""
+
+        tokens = ["AXObject: Looking for common ancestor of", obj1, "and", obj2]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        if not (obj1 and obj2):
+            return None
+
+        if obj1 == obj2:
+            return obj1
+
+        obj1_ancestors = AXObject._get_ancestors(obj1)
+        obj2_ancestors = AXObject._get_ancestors(obj2)
+        result = None
+        for a1, a2 in zip(obj1_ancestors, obj2_ancestors):
+            if a1 == a2:
+                result = a1
+            else:
+                break
+
+        tokens = ["AXObject: Common ancestor of", obj1, "and", obj2, "is", result]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        return result
+
+    @staticmethod
+    def find_ancestor(
+        obj: Atspi.Accessible,
+        pred: Callable[[Atspi.Accessible], bool]
+    ) -> Optional[Atspi.Accessible]:
         """Returns the ancestor of obj if the function pred is true"""
 
         if not AXObject.is_valid(obj):
@@ -526,7 +556,7 @@ class AXObject:
             if parent in objects:
                 tokens = ["AXObject: Circular tree suspected in find_ancestor. ",
                           parent, "already in: ", objects]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
                 return None
 
             if pred(parent):
@@ -538,8 +568,12 @@ class AXObject:
         return None
 
     @staticmethod
-    def is_ancestor(obj, ancestor):
-        """Returns true if ancestor is an ancestor of obj"""
+    def is_ancestor(
+        obj: Atspi.Accessible,
+        ancestor: Atspi.Accessible,
+        inclusive: bool = False
+    ) -> bool:
+        """Returns true if ancestor is an ancestor of obj or, if inclusive, obj is ancestor."""
 
         if not AXObject.is_valid(obj):
             return False
@@ -547,10 +581,13 @@ class AXObject:
         if not AXObject.is_valid(ancestor):
             return False
 
+        if obj == ancestor and inclusive:
+            return True
+
         return AXObject.find_ancestor(obj, lambda x: x == ancestor) is not None
 
     @staticmethod
-    def get_child(obj, index):
+    def get_child(obj: Atspi.Accessible, index: int) -> Optional[Atspi.Accessible]:
         """Returns the nth child of obj. See also get_child_checked."""
 
         if not AXObject.is_valid(obj):
@@ -575,13 +612,15 @@ class AXObject:
 
         if child == obj:
             tokens = ["AXObject:", obj, "claims to be its own child"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         return child
 
     @staticmethod
-    def get_child_checked(obj, index):
+    def get_child_checked(
+        obj: Atspi.Accessible, index: int
+    ) -> Optional[Atspi.Accessible]:
         """Returns the nth child of obj, doing checks for tree validity"""
 
         if not AXObject.is_valid(obj):
@@ -594,12 +633,15 @@ class AXObject:
         parent = AXObject.get_parent(child)
         if obj != parent:
             tokens = ["AXObject:", obj, "claims", child, "as child; child's parent is", parent]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         return child
 
     @staticmethod
-    def get_active_descendant_checked(container, reported_child):
+    def get_active_descendant_checked(
+        container: Atspi.Accessible,
+        reported_child: Atspi.Accessible
+    ) -> Optional[Atspi.Accessible]:
         """Checks the reported active descendant and return the real/valid one."""
 
         if not AXObject.has_state(container, Atspi.StateType.MANAGES_DESCENDANTS):
@@ -614,14 +656,19 @@ class AXObject:
             return reported_child
 
         if real_child != reported_child:
-            tokens = ["AXObject: ", container, f"'s child at {index} is ", real_child,
-                      "; not reported child", reported_child]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            tokens = [
+                "AXObject: ", container, f"'s child at {index} is ", real_child,
+                "; not reported child", reported_child
+            ]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         return real_child
 
     @staticmethod
-    def _find_descendant(obj, pred):
+    def _find_descendant(
+        obj: Atspi.Accessible,
+        pred: Callable[[Atspi.Accessible], bool]
+    ) -> Optional[Atspi.Accessible]:
         """Returns the descendant of obj if the function pred is true"""
 
         if not AXObject.is_valid(obj):
@@ -640,17 +687,20 @@ class AXObject:
         return None
 
     @staticmethod
-    def find_descendant(obj, pred):
+    def find_descendant(
+        obj: Atspi.Accessible,
+        pred: Callable[[Atspi.Accessible], bool]
+    ) -> Optional[Atspi.Accessible]:
         """Returns the descendant of obj if the function pred is true"""
 
         start = time.time()
         result = AXObject._find_descendant(obj, pred)
         tokens = ["AXObject: find_descendant: found", result, f"in {time.time() - start:.4f}s"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
 
     @staticmethod
-    def find_deepest_descendant(obj):
+    def find_deepest_descendant(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the deepest descendant of obj"""
 
         if not AXObject.is_valid(obj):
@@ -663,7 +713,12 @@ class AXObject:
         return AXObject.find_deepest_descendant(last_child)
 
     @staticmethod
-    def _find_all_descendants(obj, include_if, exclude_if, matches):
+    def _find_all_descendants(
+        obj: Atspi.Accessible,
+        include_if: Optional[Callable[[Atspi.Accessible], bool]],
+        exclude_if: Optional[Callable[[Atspi.Accessible], bool]],
+        matches: list[Atspi.Accessible]
+    ) -> None:
         """Returns all descendants which match the specified inclusion and exclusion"""
 
         if not AXObject.is_valid(obj):
@@ -679,21 +734,25 @@ class AXObject:
             AXObject._find_all_descendants(child, include_if, exclude_if, matches)
 
     @staticmethod
-    def find_all_descendants(root, include_if=None, exclude_if=None):
+    def find_all_descendants(
+        root: Atspi.Accessible,
+        include_if: Optional[Callable[[Atspi.Accessible], bool]] = None,
+        exclude_if: Optional[Callable[[Atspi.Accessible], bool]] = None
+    ) -> list[Atspi.Accessible]:
         """Returns all descendants which match the specified inclusion and exclusion"""
 
         start = time.time()
-        matches = []
+        matches: list[Atspi.Accessible] = []
         AXObject._find_all_descendants(root, include_if, exclude_if, matches)
         msg = (
             f"AXObject: find_all_descendants: {len(matches)} "
             f"matches found in {time.time() - start:.4f}s"
         )
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
         return matches
 
     @staticmethod
-    def get_role(obj):
+    def get_role(obj: Atspi.Accessible) -> Atspi.Role:
         """Returns the accessible role of obj"""
 
         if not AXObject.is_valid(obj):
@@ -706,19 +765,11 @@ class AXObject:
             AXObject.handle_error(obj, error, msg)
             return Atspi.Role.INVALID
 
-        # Handle the fact that GTK4 is not following the Core-AAM mappings and is instead exposing
-        # roles that should be exposed as PANEL as GROUPING. This is not a problem in Orca v48
-        # because it has explicit handling for the GROUPING role. Back porting the necessary logic
-        # to v47 is a bigger change than I would like to make for a stable version. Therefore if
-        # we are given a GROUPING, pretend we were given a PANEL.
-        if role == Atspi.Role.GROUPING:
-            role = Atspi.Role.PANEL
-
         AXObject._set_known_dead_status(obj, False)
         return role
 
     @staticmethod
-    def get_role_name(obj, localized=False):
+    def get_role_name(obj: Atspi.Accessible, localized: bool = False) -> str:
         """Returns the accessible role name of obj"""
 
         if not AXObject.is_valid(obj):
@@ -737,7 +788,24 @@ class AXObject:
         return role_name
 
     @staticmethod
-    def get_name(obj):
+    def get_accessible_id(obj: Atspi.Accessible) -> str:
+        """Returns the accessible id of obj"""
+
+        if not AXObject.is_valid(obj):
+            return ""
+
+        try:
+            result = Atspi.Accessible.get_accessible_id(obj)
+        except Exception as error:
+            msg = f"AXObject: Exception in get_accessible_id: {error}"
+            AXObject.handle_error(obj, error, msg)
+            return ""
+
+        AXObject._set_known_dead_status(obj, False)
+        return result
+
+    @staticmethod
+    def get_name(obj: Atspi.Accessible) -> str:
         """Returns the accessible name of obj"""
 
         if not AXObject.is_valid(obj):
@@ -754,7 +822,7 @@ class AXObject:
         return name
 
     @staticmethod
-    def has_same_non_empty_name(obj1, obj2):
+    def has_same_non_empty_name(obj1: Atspi.Accessible, obj2: Atspi.Accessible) -> bool:
         """Returns true if obj1 and obj2 share the same non-empty name"""
 
         name1 = AXObject.get_name(obj1)
@@ -764,7 +832,7 @@ class AXObject:
         return name1 == AXObject.get_name(obj2)
 
     @staticmethod
-    def get_description(obj):
+    def get_description(obj: Atspi.Accessible) -> str:
         """Returns the accessible description of obj"""
 
         if not AXObject.is_valid(obj):
@@ -780,7 +848,7 @@ class AXObject:
         return description
 
     @staticmethod
-    def get_image_description(obj):
+    def get_image_description(obj: Atspi.Accessible) -> str:
         """Returns the accessible image description of obj"""
 
         if not AXObject.supports_image(obj):
@@ -796,7 +864,7 @@ class AXObject:
         return description
 
     @staticmethod
-    def get_image_size(obj):
+    def get_image_size(obj: Atspi.Accessible) -> tuple[int, int]:
         """Returns a (width, height) tuple of the image in obj"""
 
         if not AXObject.supports_image(obj):
@@ -813,7 +881,7 @@ class AXObject:
         return result.x, result.y
 
     @staticmethod
-    def get_help_text(obj):
+    def get_help_text(obj: Atspi.Accessible) -> str:
         """Returns the accessible help text of obj"""
 
         if not AXObject.is_valid(obj):
@@ -821,7 +889,7 @@ class AXObject:
 
         try:
             # Added in Atspi 2.52.
-            text = Atspi.Accessible.get_help_text(obj)
+            text = Atspi.Accessible.get_help_text(obj) or ""
         except Exception:
             # This is for prototyping in the meantime.
             text = AXObject.get_attribute(obj, "helptext") or ""
@@ -829,7 +897,7 @@ class AXObject:
         return text
 
     @staticmethod
-    def get_child_count(obj):
+    def get_child_count(obj: Atspi.Accessible) -> int:
         """Returns the child count of obj"""
 
         if not AXObject.is_valid(obj):
@@ -845,7 +913,10 @@ class AXObject:
         return count
 
     @staticmethod
-    def iter_children(obj, pred=None):
+    def iter_children(
+        obj: Atspi.Accessible,
+        pred: Optional[Callable[[Atspi.Accessible], bool]] = None
+    ) -> Generator[Atspi.Accessible, None, None]:
         """Generator to iterate through obj's children. If the function pred is
         specified, children for which pred is False will be skipped."""
 
@@ -855,7 +926,7 @@ class AXObject:
         child_count = AXObject.get_child_count(obj)
         if child_count > 500:
             tokens = ["AXObject:", obj, "has more than 500 children"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True, True)
 
         for index in range(child_count):
             child = AXObject.get_child(obj, index)
@@ -863,7 +934,7 @@ class AXObject:
                 yield child
 
     @staticmethod
-    def get_previous_sibling(obj):
+    def get_previous_sibling(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the previous sibling of obj, based on child indices"""
 
         if not AXObject.is_valid(obj):
@@ -880,13 +951,13 @@ class AXObject:
         sibling = AXObject.get_child(parent, index - 1)
         if sibling == obj:
             tokens = ["AXObject:", obj, "claims to be its own sibling"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         return sibling
 
     @staticmethod
-    def get_next_sibling(obj):
+    def get_next_sibling(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the next sibling of obj, based on child indices"""
 
         if not AXObject.is_valid(obj):
@@ -903,13 +974,13 @@ class AXObject:
         sibling = AXObject.get_child(parent, index + 1)
         if sibling == obj:
             tokens = ["AXObject:", obj, "claims to be its own sibling"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         return sibling
 
     @staticmethod
-    def get_next_object(obj):
+    def get_next_object(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the next object (depth first) in the accessibility tree"""
 
         if not AXObject.is_valid(obj):
@@ -928,13 +999,13 @@ class AXObject:
         next_object = AXObject.get_child(parent, index)
         if next_object == obj:
             tokens = ["AXObject:", obj, "claims to be its own next object"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         return next_object
 
     @staticmethod
-    def get_previous_object(obj):
+    def get_previous_object(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
         """Returns the previous object (depth first) in the accessibility tree"""
 
         if not AXObject.is_valid(obj):
@@ -953,13 +1024,13 @@ class AXObject:
         previous_object = AXObject.get_child(parent, index)
         if previous_object == obj:
             tokens = ["AXObject:", obj, "claims to be its own previous object"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         return previous_object
 
     @staticmethod
-    def get_state_set(obj):
+    def get_state_set(obj: Atspi.Accessible) -> Atspi.StateSet:
         """Returns the state set associated with obj"""
 
         if not AXObject.is_valid(obj):
@@ -976,7 +1047,7 @@ class AXObject:
         return state_set
 
     @staticmethod
-    def has_state(obj, state):
+    def has_state(obj: Atspi.Accessible, state: Atspi.StateType) -> bool:
         """Returns true if obj has the specified state"""
 
         if not AXObject.is_valid(obj):
@@ -985,154 +1056,11 @@ class AXObject:
         return AXObject.get_state_set(obj).contains(state)
 
     @staticmethod
-    def state_set_as_string(obj):
-        """Returns the state set associated with obj as a string"""
-
-        if not AXObject.is_valid(obj):
-            return ""
-
-        def as_string(state):
-            return state.value_name[12:].replace("_", "-").lower()
-
-        return ", ".join(map(as_string, AXObject.get_state_set(obj).get_states()))
-
-    @staticmethod
-    def find_real_app_and_window_for(obj, app=None):
-        """Work around for window events coming from mutter-x11-frames."""
-
-        if app is None:
-            try:
-                app = Atspi.Accessible.get_application(obj)
-            except Exception as error:
-                msg = f"AXObject: Exception getting application of {obj}: {error}"
-                AXObject.handle_error(obj, error, msg)
-                return None, None
-
-        if AXObject.get_name(app) != "mutter-x11-frames":
-            return app, obj
-
-        real_app = AXObject.REAL_APP_FOR_MUTTER_FRAME.get(hash(obj))
-        real_frame = AXObject.REAL_FRAME_FOR_MUTTER_FRAME.get(hash(obj))
-        if real_app is not None and real_frame is not None:
-            return real_app, real_frame
-
-        tokens = ["AXObject:", app, "is not valid app for", obj]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        try:
-            desktop = Atspi.get_desktop(0)
-        except Exception as error:
-            tokens = ["AXObject: Exception getting desktop from Atspi:", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return None, None
-
-        name = AXObject.get_name(obj)
-        for desktop_app in AXObject.iter_children(desktop):
-            if AXObject.get_name(desktop_app) == "mutter-x11-frames":
-                continue
-            for frame in AXObject.iter_children(desktop_app):
-                if name == AXObject.get_name(frame):
-                    real_app = desktop_app
-                    real_frame = frame
-
-        tokens = ["AXObject:", real_app, "is real app for", obj]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        if real_frame != obj:
-            msg = "AXObject: Updated frame to frame from real app"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-
-        AXObject.REAL_APP_FOR_MUTTER_FRAME[hash(obj)] = real_app
-        AXObject.REAL_FRAME_FOR_MUTTER_FRAME[hash(obj)] = real_frame
-        return real_app, real_frame
-
-    @staticmethod
-    def get_application(obj):
-        """Returns the accessible application associated with obj"""
-
-        if not AXObject.is_valid(obj):
-            return None
-
-        app = AXObject.REAL_APP_FOR_MUTTER_FRAME.get(hash(obj))
-        if app is not None:
-            return app
-
-        try:
-            app = Atspi.Accessible.get_application(obj)
-        except Exception as error:
-            msg = f"AXObject: Exception in get_application: {error}"
-            AXObject.handle_error(obj, error, msg)
-            return None
-
-        if AXObject.get_name(app) != "mutter-x11-frames":
-            return app
-
-        real_app = AXObject.find_real_app_and_window_for(obj, app)[0]
-        if real_app is not None:
-            app = real_app
-
-        return app
-
-    @staticmethod
-    def get_application_toolkit_name(obj):
-        """Returns the toolkit name reported for obj's application."""
-
-        if not AXObject.is_valid(obj):
-            return ""
-
-        app = AXObject.get_application(obj)
-        if app is None:
-            return ""
-
-        try:
-            name = Atspi.Accessible.get_toolkit_name(app)
-        except Exception as error:
-            tokens = ["AXObject: Exception in get_application_toolkit_name:", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return ""
-
-        return name
-
-    @staticmethod
-    def get_application_toolkit_version(obj):
-        """Returns the toolkit version reported for obj's application."""
-
-        if not AXObject.is_valid(obj):
-            return ""
-
-        app = AXObject.get_application(obj)
-        if app is None:
-            return ""
-
-        try:
-            version = Atspi.Accessible.get_toolkit_version(app)
-        except Exception as error:
-            tokens = ["AXObject: Exception in get_application_toolkit_version:", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return ""
-
-        return version
-
-    @staticmethod
-    def application_as_string(obj):
-        """Returns the application details of obj as a string."""
-
-        if not AXObject.is_valid(obj):
-            return ""
-
-        app = AXObject.get_application(obj)
-        if app is None:
-            return ""
-
-        string = (
-            f"{AXObject.get_name(app)} "
-            f"({AXObject.get_application_toolkit_name(obj)} "
-            f"{AXObject.get_application_toolkit_version(obj)})"
-        )
-        return string
-
-    @staticmethod
-    def clear_cache(obj, recursive=False, reason=""):
+    def clear_cache(
+        obj: Atspi.Accessible,
+        recursive: bool = False,
+        reason: str = ""
+    ) -> None:
         """Clears the Atspi cached information associated with obj"""
 
         if obj is None:
@@ -1141,14 +1069,14 @@ class AXObject:
         tokens = ["AXObject: Clearing AT-SPI cache on", obj, f"Recursive: {recursive}."]
         if reason:
             tokens.append(f" Reason: {reason}")
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         if not recursive:
             try:
                 Atspi.Accessible.clear_cache_single(obj)
             except Exception as error:
                 msg = f"AXObject: Exception in clear_cache_single: {error}"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                debug.print_message(debug.LEVEL_INFO, msg, True)
             return
 
         try:
@@ -1158,7 +1086,7 @@ class AXObject:
             AXObject.handle_error(obj, error, msg)
 
     @staticmethod
-    def get_process_id(obj):
+    def get_process_id(obj: Atspi.Accessible) -> int:
         """Returns the process id associated with obj"""
 
         if not AXObject.is_valid(obj):
@@ -1174,7 +1102,7 @@ class AXObject:
         return pid
 
     @staticmethod
-    def is_dead(obj):
+    def is_dead(obj: Atspi.Accessible) -> bool:
         """Returns true of obj exists but is believed to be dead."""
 
         if obj is None:
@@ -1196,7 +1124,10 @@ class AXObject:
         return False
 
     @staticmethod
-    def get_attributes_dict(obj, use_cache=True):
+    def get_attributes_dict(
+        obj: Atspi.Accessible,
+        use_cache: bool = True
+    ) -> dict[str, str]:
         """Returns the object attributes of obj as a dictionary."""
 
         if not AXObject.is_valid(obj):
@@ -1221,7 +1152,11 @@ class AXObject:
         return attributes
 
     @staticmethod
-    def get_attribute(obj, attribute_name, use_cache=True):
+    def get_attribute(
+        obj: Atspi.Accessible,
+        attribute_name: str,
+        use_cache: bool = True
+    ) -> str:
         """Returns the value of the specified attribute as a string."""
 
         if not AXObject.is_valid(obj):
@@ -1231,19 +1166,7 @@ class AXObject:
         return attributes.get(attribute_name, "")
 
     @staticmethod
-    def attributes_as_string(obj):
-        """Returns the object attributes of obj as a string."""
-
-        if not AXObject.is_valid(obj):
-            return ""
-
-        def as_string(attribute):
-            return f"{attribute[0]}:{attribute[1]}"
-
-        return ", ".join(map(as_string, AXObject.get_attributes_dict(obj).items()))
-
-    @staticmethod
-    def get_n_actions(obj):
+    def get_n_actions(obj: Atspi.Accessible) -> int:
         """Returns the number of actions supported on obj."""
 
         if not AXObject.supports_action(obj):
@@ -1259,7 +1182,7 @@ class AXObject:
         return count
 
     @staticmethod
-    def _normalize_action_name(action_name):
+    def _normalize_action_name(action_name: str) -> str:
         """Adjusts the name to account for differences in implementations."""
 
         if not action_name:
@@ -1270,7 +1193,7 @@ class AXObject:
         return name
 
     @staticmethod
-    def get_action_name(obj, i):
+    def get_action_name(obj: Atspi.Accessible, i: int) -> str:
         """Returns the name of obj's action at index i."""
 
         if not 0 <= i < AXObject.get_n_actions(obj):
@@ -1286,7 +1209,7 @@ class AXObject:
         return AXObject._normalize_action_name(name)
 
     @staticmethod
-    def get_action_names(obj):
+    def get_action_names(obj: Atspi.Accessible) -> list[str]:
         """Returns the list of actions supported on obj."""
 
         results = []
@@ -1297,7 +1220,7 @@ class AXObject:
         return results
 
     @staticmethod
-    def get_action_description(obj, i):
+    def get_action_description(obj: Atspi.Accessible, i: int) -> str:
         """Returns the description of obj's action at index i."""
 
         if not 0 <= i < AXObject.get_n_actions(obj):
@@ -1313,7 +1236,7 @@ class AXObject:
         return description
 
     @staticmethod
-    def get_action_key_binding(obj, i):
+    def get_action_key_binding(obj: Atspi.Accessible, i: int) -> str:
         """Returns the key binding string of obj's action at index i."""
 
         if not 0 <= i < AXObject.get_n_actions(obj):
@@ -1332,13 +1255,112 @@ class AXObject:
         return keybinding
 
     @staticmethod
-    def has_action(obj, action_name):
+    def _get_label_for_key_sequence(sequence: str) -> str:
+        """Returns the human consumable label for the key sequence."""
+
+        if not sequence:
+            return ""
+
+        # We get all sorts of variations in the keybinding string. Try to normalize it.
+        if len(sequence) > 1 and not sequence.startswith("<") and "," not in sequence:
+            tokens = sequence.split("+")
+            sequence = "".join(f"<{part}>" for part in tokens[:-1]) + tokens[-1]
+
+        # We use Gtk for conversion to handle things like <Primary>.
+        try:
+            key, mods = Gtk.accelerator_parse(sequence)
+            result = Gtk.accelerator_get_label(key, mods)
+        except Exception as error:
+            msg = f"AXObject: Exception in _get_label_for_key_sequence: {error}"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            sequence = sequence.replace("<", "").replace(">", " ").strip()
+        else:
+            if result and not result.endswith("+"):
+                sequence = result
+
+        return keynames.localizeKeySequence(sequence)
+
+    @staticmethod
+    def get_accelerator(obj: Atspi.Accessible) -> str:
+        """Returns the accelerator/shortcut associated with obj."""
+
+        attrs = AXObject.get_attributes_dict(obj)
+        # The ARIA spec suggests a given shortcut's components should be separated by a "+".
+        # Multiple shortcuts are apparently allowed and separated by a space.
+        shortcuts = attrs.get("keyshortcuts", "").split(" ")
+        if shortcuts and shortcuts[0]:
+            result = " ".join(map(AXObject._get_label_for_key_sequence, shortcuts)).strip()
+            # Accelerators are typically modified and thus more than one character.
+            if len(result) > 1:
+                return result
+
+        index = AXObject._find_first_action_with_keybinding(obj)
+        if index == -1:
+            return ""
+
+        # This should be a string separated by semicolons and in the form:
+        #     <mnemonic>;<full sequence>;<accelerator/shortcut> (optional)
+        # In practice we get all sorts of variations.
+
+        # If there's a third item, it's probably the accelerator.
+        strings = AXObject.get_action_key_binding(obj, index).split(";")
+        if len(strings) == 3:
+            return AXObject._get_label_for_key_sequence(strings[2])
+
+        # If the last thing has Ctrl in it, it's probably the accelerator.
+        result = AXObject._get_label_for_key_sequence(strings[-1])
+        if "Ctrl" in result:
+            return result
+
+        return ""
+
+    @staticmethod
+    def get_mnemonic(obj: Atspi.Accessible) -> str:
+        """Returns the mnemonic associated with obj."""
+
+        attrs = AXObject.get_attributes_dict(obj)
+        # The ARIA spec suggests a given shortcut's components should be separated by a "+".
+        # Multiple shortcuts are apparently allowed and separated by a space.
+        shortcuts = attrs.get("keyshortcuts", "").split(" ")
+        if shortcuts and shortcuts[0]:
+            result = " ".join(map(AXObject._get_label_for_key_sequence, shortcuts)).strip()
+            # If it's not a single letter it's probably not the mnemonic.
+            if len(result) == 1:
+                return result
+
+        index = AXObject._find_first_action_with_keybinding(obj)
+        if index == -1:
+            return ""
+
+        # This should be a string separated by semicolons and in the form:
+        #     <mnemonic>;<full sequence>;<accelerator/shortcut> (optional)
+        # In practice we get all sorts of variations.
+
+        strings = AXObject.get_action_key_binding(obj, index).split(";")
+        result = AXObject._get_label_for_key_sequence(strings[0])
+        # If Ctrl is in the result, it's probably the accelerator rather than the mnemonic.
+        if "Ctrl" in result or "Control" in result:
+            return ""
+
+        return result
+
+    @staticmethod
+    def _find_first_action_with_keybinding(obj: Atspi.Accessible) -> int:
+        """Returns the index of the first action with a keybinding on obj."""
+
+        for i in range(AXObject.get_n_actions(obj)):
+            if AXObject.get_action_key_binding(obj, i):
+                return i
+        return -1
+
+    @staticmethod
+    def has_action(obj: Atspi.Accessible, action_name: str) -> bool:
         """Returns true if the named action is supported on obj."""
 
         return AXObject.get_action_index(obj, action_name) >= 0
 
     @staticmethod
-    def get_action_index(obj, action_name):
+    def get_action_index(obj: Atspi.Accessible, action_name: str) -> int:
         """Returns the index of the named action or -1 if unsupported."""
 
         action_name = AXObject._normalize_action_name(action_name)
@@ -1349,7 +1371,7 @@ class AXObject:
         return -1
 
     @staticmethod
-    def do_action(obj, i):
+    def do_action(obj: Atspi.Accessible, i: int) -> bool:
         """Invokes obj's action at index i. The return value, if true, may be
         meaningless because most implementors return true without knowing if
         the action was successfully performed."""
@@ -1367,7 +1389,7 @@ class AXObject:
         return result
 
     @staticmethod
-    def do_named_action(obj, action_name):
+    def do_named_action(obj: Atspi.Accessible, action_name: str) -> bool:
         """Invokes the named action on obj. The return value, if true, may be
         meaningless because most implementors return true without knowing if
         the action was successfully performed."""
@@ -1375,27 +1397,13 @@ class AXObject:
         index = AXObject.get_action_index(obj, action_name)
         if index == -1:
             tokens = ["INFO:", action_name, "not an available action for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return False
 
         return AXObject.do_action(obj, index)
 
     @staticmethod
-    def actions_as_string(obj):
-        """Returns information about the actions as a string."""
-
-        results = []
-        for i in range(AXObject.get_n_actions(obj)):
-            result = AXObject.get_action_name(obj, i)
-            keybinding = AXObject.get_action_key_binding(obj, i)
-            if keybinding:
-                result += f" ({keybinding})"
-            results.append(result)
-
-        return "; ".join(results)
-
-    @staticmethod
-    def grab_focus(obj):
+    def grab_focus(obj: Atspi.Accessible) -> bool:
         """Attempts to grab focus on obj. Returns true if successful."""
 
         if not AXObject.supports_component(obj):
@@ -1413,7 +1421,7 @@ class AXObject:
 
         if result and not AXObject.has_state(obj, Atspi.StateType.FOCUSED):
             tokens = ["AXObject:", obj, "lacks focused state after focus grab"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         return result
 

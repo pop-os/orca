@@ -25,9 +25,6 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2013-2014 Igalia, S.L."
 __license__   = "LGPL"
 
-import re
-
-from orca import debug
 from orca import script_utilities
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
@@ -38,16 +35,10 @@ class Utilities(script_utilities.Utilities):
         super().__init__(script)
         self._isComboBoxWithToggleDescendant = {}
         self._isToggleDescendantOfComboBox = {}
-        self._isTypeahead = {}
-        self._isUselessPanel = {}
-        self._isLayoutOnly = {}
 
     def clearCachedObjects(self):
         self._isComboBoxWithToggleDescendant = {}
         self._isToggleDescendantOfComboBox = {}
-        self._isTypeahead = {}
-        self._isUselessPanel = {}
-        self._isLayoutOnly = {}
 
     def infoBar(self, root):
         return AXObject.find_descendant(root, AXUtilities.is_info_bar)
@@ -73,18 +64,6 @@ class Utilities(script_utilities.Utilities):
         self._isComboBoxWithToggleDescendant[hash(obj)] = rv
         return rv
 
-    def isLayoutOnly(self, obj):
-        rv = self._isLayoutOnly.get(hash(obj))
-        if rv is not None:
-            if rv:
-                tokens = ["GTK:", obj, "is deemed to be layout only"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return rv
-
-        rv = super().isLayoutOnly(obj)
-        self._isLayoutOnly[hash(obj)] = rv
-        return rv
-
     def isToggleDescendantOfComboBox(self, obj):
         if not AXUtilities.is_toggle_button(obj):
             return False
@@ -101,71 +80,6 @@ class Utilities(script_utilities.Utilities):
         self._isToggleDescendantOfComboBox[hash(obj)] = rv
         return rv
 
-    def isTypeahead(self, obj):
-        if not obj or AXObject.is_dead(obj):
-            return False
-
-        if not AXUtilities.is_text(obj):
-            return False
-
-        rv = self._isTypeahead.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        parent = AXObject.get_parent(obj)
-        while parent and self.isLayoutOnly(parent):
-            parent = AXObject.get_parent(parent)
-
-        rv = AXUtilities.is_window(parent)
-        self._isTypeahead[hash(obj)] = rv
-        return rv
-
-    def isSearchEntry(self, obj, focusedOnly=False):
-        # Another example of why we need subrole support in ATK and AT-SPI2.
-        if not (AXObject.get_name(obj) and AXUtilities.is_single_line(obj)):
-            return False
-
-        if focusedOnly and not AXUtilities.is_focused(obj):
-            return False
-
-        icons = [x for x in AXObject.iter_children(obj, AXUtilities.is_icon)]
-        if icons:
-            return True
-
-        return False
-
     def isEntryCompletionPopupItem(self, obj):
         return AXUtilities.is_table_cell(obj) \
             and AXObject.find_ancestor(obj, AXUtilities.is_window) is not None
-
-    def isUselessPanel(self, obj):
-        if not AXUtilities.is_panel(obj):
-            return False
-
-        rv = self._isUselessPanel.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        childCount = AXObject.get_child_count(obj)
-        name = AXObject.get_name(obj)
-        rv = not (name or childCount or AXObject.supports_text(obj))
-        self._isUselessPanel[hash(obj)] = rv
-        return rv
-
-    def rgbFromString(self, attributeValue):
-        regex = re.compile(r"rgb|[^\w,]", re.IGNORECASE)
-        string = re.sub(regex, "", attributeValue)
-        red, green, blue = string.split(",")
-
-        return int(red) >> 8, int(green) >> 8, int(blue) >> 8
-
-    def eventIsCanvasNoise(self, event):
-        if not AXUtilities.is_canvas(event.source):
-            return False
-
-        if not self.topLevelObjectIsActiveWindow(event.source):
-            msg = "GTK: Event is believed to be canvas noise"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return True
-
-        return False

@@ -1,19 +1,91 @@
-47.3 - 5 January 2025
+48.alpha - 5 January 2025
+
+Event Processing:
+
+* Replace flood handling with flood protection to remain responsive when
+  an application emits too many events.
+
+* Switch to a priority queue so that scripts get events in a predictable
+  order and important events get handled first.
+
+* Simplify and centralize logic related to identifying if and how an
+  event should be presented to the user.
+
+Clipboard:
+
+* Use gpaste/klipper if possible to increase likelihood that clipboard
+  event presentation works in Wayland.
+
+* Add new unbound command to present clipboard contents.
+
+Spellcheck:
+
+* Prefer the accessible id over other heuristics when attempting to
+  identify components of a spellcheck dialog.
 
 Web:
+
+* Speak digits for telephone number inputs independent of user setting.
+
+* Fix false positive in which different table cells were treated as the
+  same word.
+
+* Don't speak name of non-focusable section unless we know it's author
+  specified. (Eliminates double-presentation of content in Chromium.)
+
+* Fix double-presentation of contents when using the object navigator.
+
+* Support aria-disabled on grid cells.
 
 * Add handling for the "semantics" MathML element which is not being
   pruned from the accessibility tree by Chromium.
 
 * Fix bug related to presentation of a character name in MathML.
 
-* Fix bug in obtaining the fragment portion of a URI.
+General:
 
-* Fix bug in obtaining the document's MIME type.
+* Improve reliability and simplify options related to text attribute
+  presentation.
+
+* Don't announce "<VoidSymbol>" as a keybinding (GTK4 exposes that).
+
+* Fix double execution for a newly-bound command.
+
+* Improve presentation when generating descendants of list items.
+
+* Simplify logic related to determining if an object is layout only.
+
+* Ongoing code cleanup, technical-debt elimination, removal of obsolete
+  workarounds for application issues, etc.
 
 New and updated translations (THANKS EVERYONE!!!):
 
   be              Belarusian                Vasil Pupkin
+  bg              Bulgarian                 Alexander Shopov
+  ca              Catalan                   Jordi Mas i Hernandez
+  da              Danish                    Alan Mortensen
+  de              German                    Jürgen Benvenuti
+  en_GB           British English           Andi Chandler
+  es              Spanish                   Daniel
+  eu              Basque                    Asier Sarasua Garmendia
+  fa              Persian                   Danial Behzadi
+  fr              French                    Irénée THIRION
+  gl              Galician                  Fran Dieguez
+  hu              Hungarian                 Attila Hammer
+  id              Indonesian                Andika Triwidada
+  ka              Georgian                  Ekaterine Papava
+  nl              Dutch                     Nathan Follens
+  pl              Polish                    Piotr Drąg
+  pt              Portuguese                Hugo Carvalho
+  ru              Russian                   Artur S0
+  sl              Slovenian                 Martin
+  sr@latin        Serbian (Latin)           Милош Поповић
+  sr              Serbian                   Милош Поповић
+  sv              Swedish                   Anders Jonsson
+  th              Thai                      Aefgh Threenine
+  tr              Turkish                   Emin Tufan Çetin
+  uk              Ukrainian                 Yuri Chornoivan
+  zh_CN           Chinese (China)           Luming Zh
 
 =========
 

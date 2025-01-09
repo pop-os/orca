@@ -24,6 +24,9 @@
 # pylint: disable=too-many-return-statements
 # pylint: disable=broad-exception-caught
 # pylint: disable=too-few-public-methods
+# pylint: disable=too-many-locals
+# pylint: disable=too-many-boolean-expressions
+# pylint: disable=duplicate-code
 
 """Produces speech presentation for accessible objects."""
 
@@ -101,7 +104,7 @@ class SpeechGenerator(generator.Generator):
         def wrapper(*args, **kwargs):
             result = func(*args, **kwargs)
             tokens = [f"SPEECH GENERATOR: {func.__name__}:", result]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return result
         return wrapper
 
@@ -111,7 +114,7 @@ class SpeechGenerator(generator.Generator):
         rv = self.generate(obj, **args)
         if rv and not list(filter(lambda x: not isinstance(x, Pause), rv)):
             tokens = ["SPEECH GENERATOR: Results for", obj, "are pauses only"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             rv = []
 
         return rv
@@ -125,7 +128,7 @@ class SpeechGenerator(generator.Generator):
         return ""
 
     def get_localized_role_name(self, obj, **args):
-        if self._script.utilities.isEditableComboBox(obj) \
+        if AXUtilities.is_editable_combo_box(obj) \
            or self._script.utilities.isEditableDescendantOfComboBox(obj):
             return object_properties.ROLE_EDITABLE_COMBO_BOX
 
@@ -157,7 +160,7 @@ class SpeechGenerator(generator.Generator):
         if dialog:
             result.append(self._generate_accessible_label_and_name(dialog))
 
-        alert_and_dialog_count = self._script.utilities.unfocusedAlertAndDialogCount(obj)
+        alert_and_dialog_count = len(AXUtilities.get_unfocused_alerts_and_dialogs(obj))
         if alert_and_dialog_count > 0:
             dialogs = [messages.dialogCountSpeech(alert_and_dialog_count)]
             dialogs.extend(self.voice(DEFAULT, obj=obj, **args))
@@ -191,7 +194,7 @@ class SpeechGenerator(generator.Generator):
             f"SPEECH GENERATOR: {key} voice requested with "
             f"language='{language}', dialect='{dialect}'"
         )
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
         # This is purely for debugging. The code needed to actually switch voices
         # does not yet exist due to some problems which need to be debugged and
@@ -368,10 +371,10 @@ class SpeechGenerator(generator.Generator):
         if self._script.utilities.isAnchor(obj):
             return False
 
-        if self._script.utilities.isDesktop(obj):
+        if AXUtilities.is_desktop_frame(obj):
             return False
 
-        if self._script.utilities.isDockedFrame(obj):
+        if AXUtilities.is_docked_frame(obj):
             return False
 
         if AXUtilities.is_panel(obj, role):
@@ -395,7 +398,7 @@ class SpeechGenerator(generator.Generator):
         if AXUtilities.is_menu(obj, args.get("role")) and AXUtilities.is_combo_box(parent):
             return self._generate_accessible_role(parent)
 
-        if self._script.utilities.isSingleLineAutocompleteEntry(obj):
+        if AXUtilities.is_single_line_autocomplete_entry(obj):
             result = [self.get_localized_role_name(obj, role=Atspi.Role.AUTOCOMPLETE)]
             result.extend(self.voice(SYSTEM, obj=obj, **args))
             return result
@@ -559,7 +562,7 @@ class SpeechGenerator(generator.Generator):
             return []
 
         result = []
-        alert_and_dialog_count = self._script.utilities.unfocusedAlertAndDialogCount(obj)
+        alert_and_dialog_count = len(AXUtilities.get_unfocused_alerts_and_dialogs(obj))
         if alert_and_dialog_count > 0:
             result.append(messages.dialogCountSpeech(alert_and_dialog_count))
             result.extend(self.voice(SYSTEM, obj=obj, **args))
@@ -577,6 +580,7 @@ class SpeechGenerator(generator.Generator):
                     Atspi.Role.DESCRIPTION_LIST,
                     'ROLE_FEED',
                     Atspi.Role.FORM,
+                    Atspi.Role.GROUPING,
                     Atspi.Role.LANDMARK,
                     Atspi.Role.LIST,
                     Atspi.Role.PANEL,
@@ -599,6 +603,7 @@ class SpeechGenerator(generator.Generator):
                                 Atspi.Role.TOOL_TIP,
                                 Atspi.Role.CONTENT_DELETION,
                                 Atspi.Role.CONTENT_INSERTION,
+                                Atspi.Role.GROUPING,
                                 Atspi.Role.MARK,
                                 Atspi.Role.SUGGESTION,
                                 'ROLE_DPUB_SECTION'])
@@ -620,6 +625,7 @@ class SpeechGenerator(generator.Generator):
                                 Atspi.Role.TOOL_TIP,
                                 Atspi.Role.CONTENT_DELETION,
                                 Atspi.Role.CONTENT_INSERTION,
+                                Atspi.Role.GROUPING,
                                 Atspi.Role.MARK,
                                 Atspi.Role.SUGGESTION,
                                 'ROLE_DPUB_SECTION'])
@@ -667,6 +673,8 @@ class SpeechGenerator(generator.Generator):
                 result.append(messages.LEAVING_PANEL)
             else:
                 result = ['']
+        elif role == Atspi.Role.GROUPING:
+            result.append(messages.LEAVING_GROUPING)
         elif role == Atspi.Role.TABLE and self._script.utilities.isTextDocumentTable(obj):
             result.append(messages.LEAVING_TABLE)
         elif role == 'ROLE_DPUB_LANDMARK':
@@ -763,7 +771,6 @@ class SpeechGenerator(generator.Generator):
 
         return result
 
-    # pylint: disable=too-many-locals
     def _generate_ancestors(self, obj, **args):
         result = []
 
@@ -783,16 +790,13 @@ class SpeechGenerator(generator.Generator):
         if prior_obj and AXObject.get_parent(prior_obj) == AXObject.get_parent(obj):
             return []
 
-        if self._script.utilities.isTypeahead(prior_obj):
-            return []
-
         if AXUtilities.is_page_tab(obj):
             return []
 
         if AXUtilities.is_tool_tip(obj):
             return []
 
-        common_ancestor = self._script.utilities.commonAncestor(prior_obj, obj)
+        common_ancestor = AXObject.get_common_ancestor(prior_obj, obj)
         if obj == common_ancestor:
             return []
 
@@ -835,9 +839,9 @@ class SpeechGenerator(generator.Generator):
                 pass
             elif include_only and parent_role not in include_only:
                 pass
-            elif self._script.utilities.isLayoutOnly(parent):
+            elif AXUtilities.is_layout_only(parent):
                 pass
-            elif self._script.utilities.isButtonWithPopup(parent):
+            elif AXUtilities.is_button_with_popup(parent):
                 pass
             elif parent != common_ancestor or present_common_ancestor:
                 is_redundant = False
@@ -869,7 +873,6 @@ class SpeechGenerator(generator.Generator):
         if not leaving:
             result.reverse()
         return result
-    # pylint: enable=too-many-locals
 
     @log_generator_output
     def _generate_old_ancestors(self, obj, **args):
@@ -886,7 +889,7 @@ class SpeechGenerator(generator.Generator):
         if AXUtilities.is_page_tab(obj):
             return []
 
-        if AXObject.get_application(obj) != AXObject.get_application(prior_obj) \
+        if AXUtilities.get_application(obj) != AXUtilities.get_application(prior_obj) \
            or AXObject.find_ancestor(obj, lambda x: x == prior_obj):
             return []
 
@@ -993,7 +996,7 @@ class SpeechGenerator(generator.Generator):
 
         string = object_properties.GROUP_INDEX_SPEECH
         if total < 0:
-            if not self._script.utilities.setSizeUnknown(obj):
+            if not AXUtilities.get_set_size_is_unknown(obj):
                 return []
             string = object_properties.GROUP_INDEX_TOTAL_UNKNOWN_SPEECH
 
@@ -1013,7 +1016,7 @@ class SpeechGenerator(generator.Generator):
             return []
 
         result = []
-        accelerator = self._script.utilities.mnemonicShortcutAccelerator(obj)[-1]
+        accelerator = AXObject.get_accelerator(obj)
         if accelerator:
             result.append(accelerator)
             result.extend(self.voice(SYSTEM, obj=obj, **args))
@@ -1028,14 +1031,9 @@ class SpeechGenerator(generator.Generator):
         result = []
         if settings_manager.get_manager().get_setting("enableMnemonicSpeaking") \
            or args.get("forceMnemonic", False):
-            mnemonic, shortcut, _accelerator = \
-                self._script.utilities.mnemonicShortcutAccelerator(obj)
+            mnemonic = AXObject.get_mnemonic(obj)
             if mnemonic:
-                mnemonic = mnemonic[-1] # we just want a single character
-            if not mnemonic and shortcut:
-                mnemonic = shortcut
-            if mnemonic:
-                result = [mnemonic]
+                result = [mnemonic[-1]] # we just want a single character
                 result.extend(self.voice(SYSTEM, obj=obj, **args))
 
         return result
@@ -1159,7 +1157,8 @@ class SpeechGenerator(generator.Generator):
     @log_generator_output
     def _generate_math_enclosed_enclosures(self, obj, **args):
         strings = []
-        enclosures = self._script.utilities.getMathEnclosures(obj)
+        attrs = AXObject.get_attributes_dict(obj)
+        enclosures = attrs.get("notation", "longdiv").split()
         if "actuarial" in enclosures:
             strings.append(messages.MATH_ENCLOSURE_ACTUARIAL)
         if "box" in enclosures:
@@ -1196,7 +1195,7 @@ class SpeechGenerator(generator.Generator):
             strings.append(messages.MATH_ENCLOSURE_MADRUWB)
         if not strings:
             tokens = ["SPEECH GENERATOR: Could not get enclosure message for", enclosures]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return []
 
         if len(strings) == 1:
@@ -1214,7 +1213,8 @@ class SpeechGenerator(generator.Generator):
     @log_generator_output
     def _generate_math_fenced_contents(self, obj, **args):
         result = []
-        separators = self._script.utilities.getMathFencedSeparators(obj)
+        attrs = AXObject.get_attributes_dict(obj)
+        separators = list(attrs.get("separators", ","))
         child_count = AXObject.get_child_count(obj)
         separators.extend(separators[-1] for _ in range(len(separators), child_count - 1))
         separators.append("")
@@ -1231,7 +1231,7 @@ class SpeechGenerator(generator.Generator):
 
     @log_generator_output
     def _generate_math_fraction_numerator(self, obj, **_args):
-        numerator = self._script.utilities.getMathNumerator(obj)
+        numerator = AXObject.get_child(obj, 0)
         if AXUtilities.is_math_layout_only(numerator):
             return self._generate_math_contents(numerator)
 
@@ -1240,7 +1240,7 @@ class SpeechGenerator(generator.Generator):
 
     @log_generator_output
     def _generate_math_fraction_denominator(self, obj, **_args):
-        denominator = self._script.utilities.getMathDenominator(obj)
+        denominator = AXObject.get_child(obj, 1)
         if AXUtilities.is_math_layout_only(denominator):
             return self._generate_math_contents(denominator)
 
@@ -1255,12 +1255,15 @@ class SpeechGenerator(generator.Generator):
 
     @log_generator_output
     def _generate_math_root_base(self, obj, **args):
-        base = self._script.utilities.getMathRootBase(obj)
+        is_square_root = AXUtilities.is_math_square_root(obj)
+        if is_square_root:
+            base = obj
+        else:
+            base = AXObject.get_child(obj, 0)
         if not base:
             return []
 
-        if AXUtilities.is_math_square_root(obj) \
-           or AXUtilities.is_math_token(base) \
+        if is_square_root or AXUtilities.is_math_token(base) \
            or AXUtilities.is_math_layout_only(base):
             return self._generate_math_contents(base)
 
@@ -1270,7 +1273,7 @@ class SpeechGenerator(generator.Generator):
 
     @log_generator_output
     def _generate_math_script_base(self, obj, **_args):
-        base = self._script.utilities.getMathScriptBase(obj)
+        base = AXObject.get_child(obj, 0)
         if not base:
             return []
 
@@ -1286,7 +1289,10 @@ class SpeechGenerator(generator.Generator):
 
     @log_generator_output
     def _generate_math_script_subscript(self, obj, **args):
-        subscript = self._script.utilities.getMathScriptSubscript(obj)
+        if AXObject.get_attribute(obj, "tag") == "msup":
+            return []
+
+        subscript = AXObject.get_child(obj, 1)
         if not subscript:
             return []
 
@@ -1297,8 +1303,12 @@ class SpeechGenerator(generator.Generator):
 
     @log_generator_output
     def _generate_math_script_superscript(self, obj, **args):
-        superscript = self._script.utilities.getMathScriptSuperscript(obj)
-        if not superscript:
+        tag = AXObject.get_attribute(obj, "tag")
+        if tag == "msup":
+            superscript = AXObject.get_child(obj, 1)
+        elif tag == "msubsup":
+            superscript = AXObject.get_child(obj, 2)
+        else:
             return []
 
         result = [messages.MATH_SUPERSCRIPT]
@@ -1308,7 +1318,10 @@ class SpeechGenerator(generator.Generator):
 
     @log_generator_output
     def _generate_math_script_underscript(self, obj, **args):
-        underscript = self._script.utilities.getMathScriptUnderscript(obj)
+        if AXObject.get_attribute(obj, "tag") == "mover":
+            return []
+
+        underscript = AXObject.get_child(obj, 1)
         if not underscript:
             return []
 
@@ -1319,8 +1332,12 @@ class SpeechGenerator(generator.Generator):
 
     @log_generator_output
     def _generate_math_script_overscript(self, obj, **args):
-        overscript = self._script.utilities.getMathScriptOverscript(obj)
-        if not overscript:
+        tag = AXObject.get_attribute(obj, "tag")
+        if tag == "mover":
+            overscript = AXObject.get_child(obj, 1)
+        elif tag == "munderover":
+            overscript = AXObject.get_child(obj, 2)
+        else:
             return []
 
         result = [messages.MATH_OVERSCRIPT]
@@ -1330,8 +1347,16 @@ class SpeechGenerator(generator.Generator):
 
     @log_generator_output
     def _generate_math_script_prescripts(self, obj, **args):
+        prescripts = []
+        found_separator = False
+        for child in AXObject.iter_children(obj):
+            if AXObject.get_attribute(child, "tag") == "mprescripts":
+                found_separator = True
+                continue
+            if found_separator:
+                prescripts.append(child)
+
         result = []
-        prescripts = self._script.utilities.getMathPrescripts(obj)
         for i, script in enumerate(prescripts):
             if AXUtilities.is_math_layout_only(script):
                 continue
@@ -1347,8 +1372,13 @@ class SpeechGenerator(generator.Generator):
 
     @log_generator_output
     def _generate_math_script_postscripts(self, obj, **args):
+        postscripts = []
+        child = AXObject.get_child(obj, 1)
+        while child and AXObject.get_attribute(child, "tag") != "mprescripts":
+            postscripts.append(child)
+            child = AXObject.get_next_sibling(child)
+
         result = []
-        postscripts = self._script.utilities.getMathPostscripts(obj)
         for i, script in enumerate(postscripts):
             if AXUtilities.is_math_layout_only(script):
                 continue
@@ -1502,26 +1532,22 @@ class SpeechGenerator(generator.Generator):
         if settings_manager.get_manager().get_setting("onlySpeakDisplayedText"):
             return []
 
-        fence_start, _fence_end = self._script.utilities.getMathFences(obj)
-        if fence_start:
-            result = [mathsymbols.getCharacterName(fence_start)]
-            result.extend(self.voice(DEFAULT, obj=obj, **args))
-            return result
-
-        return []
+        attrs = AXObject.get_attributes_dict(obj)
+        fence_start = attrs.get("open", "(")
+        result = [mathsymbols.getCharacterName(fence_start)]
+        result.extend(self.voice(DEFAULT, obj=obj, **args))
+        return result
 
     @log_generator_output
     def _generate_end_of_math_fenced(self, obj, **args):
         if settings_manager.get_manager().get_setting("onlySpeakDisplayedText"):
             return []
 
-        _fence_start, fence_end = self._script.utilities.getMathFences(obj)
-        if fence_end:
-            result = [mathsymbols.getCharacterName(fence_end)]
-            result.extend(self.voice(DEFAULT, obj=obj, **args))
-            return result
-
-        return []
+        attrs = AXObject.get_attributes_dict(obj)
+        fence_end = attrs.get("close", ")")
+        result = [mathsymbols.getCharacterName(fence_end)]
+        result.extend(self.voice(DEFAULT, obj=obj, **args))
+        return result
 
     @log_generator_output
     def _generate_start_of_math_fraction(self, obj, **args):
@@ -1553,7 +1579,7 @@ class SpeechGenerator(generator.Generator):
         if AXUtilities.is_math_square_root(obj):
             result = [messages.MATH_SQUARE_ROOT_OF]
         else:
-            index = self._script.utilities.getMathRootIndex(obj)
+            index = AXObject.get_child(obj, 1)
             string = AXText.get_all_text(index)
             if string == "2":
                 result = [messages.MATH_SQUARE_ROOT_OF]
@@ -1593,7 +1619,7 @@ class SpeechGenerator(generator.Generator):
 
         rows = AXTable.get_row_count(obj)
         columns = AXTable.get_column_count(obj)
-        nesting_level = self._script.utilities.getMathNestingLevel(obj)
+        nesting_level = self._script.utilities.nestingLevel(obj)
         if nesting_level > 0:
             result = [messages.mathNestedTableSize(rows, columns)]
         else:
@@ -1606,7 +1632,7 @@ class SpeechGenerator(generator.Generator):
         if settings_manager.get_manager().get_setting("onlySpeakDisplayedText"):
             return []
 
-        nesting_level = self._script.utilities.getMathNestingLevel(obj)
+        nesting_level = self._script.utilities.nestingLevel(obj)
         if nesting_level > 0:
             result = [messages.MATH_NESTED_TABLE_END]
         else:
@@ -1768,7 +1794,7 @@ class SpeechGenerator(generator.Generator):
         if table:
             if input_event_manager.get_manager().last_event_was_left_or_right():
                 return []
-            if self._script.utilities.isLayoutOnly(table):
+            if AXTable.is_layout_table(table):
                 return []
             if not self._script.utilities.isGUICell(obj):
                 return []
@@ -1905,7 +1931,7 @@ class SpeechGenerator(generator.Generator):
         if args.get("leaving"):
             return []
 
-        if self._script.utilities.isLayoutOnly(obj):
+        if AXTable.is_layout_table(obj):
             return []
 
         if self._script.utilities.isSpreadSheetTable(obj):
@@ -1923,7 +1949,7 @@ class SpeechGenerator(generator.Generator):
 
         rows = AXTable.get_row_count(obj)
         cols = AXTable.get_column_count(obj)
-        if (rows < 0 or cols < 0) and not self._script.utilities.rowOrColumnCountUnknown(obj):
+        if (rows < 0 or cols < 0) and not AXUtilities.get_set_size_is_unknown(obj):
             return []
 
         result = [messages.tableSize(rows, cols)]
@@ -2045,13 +2071,14 @@ class SpeechGenerator(generator.Generator):
             args["language"], args["dialect"] = language, dialect
             if "string" in args:
                 msg = f"INFO: Found existing string '{args.get('string')}'; using '{string}'"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                debug.print_message(debug.LEVEL_INFO, msg, True)
                 args.pop("string")
 
             voice = self.voice(string=string, obj=obj, **args)
             # TODO - JD: Can we combine all the adjusting?
             manager = speech_and_verbosity_manager.get_manager()
             string = manager.adjust_for_links(obj, string, start)
+            string = manager.adjust_for_digits(obj, string)
             rv = [manager.adjust_for_repeats(string)]
             rv.extend(voice)
 
@@ -2836,7 +2863,22 @@ class SpeechGenerator(generator.Generator):
     def _generate_grouping(self, obj, **args):
         """Generates speech for the grouping role."""
 
-        return self._generate_default_presentation(obj, **args)
+        result = self._generate_default_prefix(obj, **args)
+        format_type = args.get("formatType", "unfocused")
+        if format_type in ["focused", "ancestor"]:
+            result += self._generate_leaving(obj, **args)
+            if result:
+                return result
+
+        if self._generate_text_substring(obj, **args):
+            result += self._generate_text_line(obj, **args)
+        if not result:
+            result += self._generate_accessible_label_and_name(obj, **args)
+
+        result += self._generate_accessible_static_text(obj, **args)
+        result += self._generate_accessible_role(obj, **args)
+        result += self._generate_default_suffix(obj, **args)
+        return result
 
     def _generate_header(self, obj, **args):
         """Generates speech for the header role."""
@@ -3014,6 +3056,9 @@ class SpeechGenerator(generator.Generator):
             or self._generate_text_content(obj, **args))
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_state_expanded(obj, **args)
+        result += self._generate_keyboard_mnemonic(obj, **args)
+        result += self._generate_pause(obj, **args)
+        result += self._generate_keyboard_accelerator(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
 
@@ -3422,6 +3467,8 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
+        result += self._generate_pause(obj, **args)
+        result += self._generate_keyboard_accelerator(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
 
@@ -3447,6 +3494,9 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_accessible_label_and_name(obj, **args)
         result += self._generate_state_selected_for_radio_button(obj, **args)
         result += self._generate_accessible_role(obj, **args)
+        if not AXUtilities.is_focused(obj):
+            return result
+
         result += self._generate_state_sensitive(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_pause(obj, **args)
@@ -3561,7 +3611,7 @@ class SpeechGenerator(generator.Generator):
 
         format_type = args.get("formatType", "unfocused")
         result = self._generate_default_prefix(obj, **args)
-        if AXUtilities.is_focusable(obj):
+        if AXUtilities.is_focusable(obj) or AXUtilities.has_explicit_name(obj):
             result += self._generate_accessible_label_and_name(obj, **args)
             result += self._generate_pause(obj, **args)
         if format_type == "ancestor":

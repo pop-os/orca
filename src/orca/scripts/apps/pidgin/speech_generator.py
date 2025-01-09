@@ -38,16 +38,16 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         def wrapper(*args, **kwargs):
             result = func(*args, **kwargs)
             tokens = [f"PIDGIN SPEECH GENERATOR: {func.__name__}:", result]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return result
         return wrapper
 
     @log_generator_output
     def _generate_state_expanded(self, obj, **args):
-        cell = self._script.utilities.getExpanderCellFor(obj) or obj
+        cell = self._script.utilities.get_expander_cell_for(obj) or obj
         return super()._generate_state_expanded(cell, **args)
 
     @log_generator_output
     def _generate_number_of_children(self, obj, **args):
-        cell = self._script.utilities.getExpanderCellFor(obj) or obj
+        cell = self._script.utilities.get_expander_cell_for(obj) or obj
         return super()._generate_number_of_children(cell, **args)
