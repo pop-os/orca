@@ -41,7 +41,7 @@ __license__   = "LGPL"
 
 import threading
 import time
-import urllib
+import urllib.parse
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -195,7 +195,7 @@ class AXDocument:
             return ""
 
         attributes = AXDocument._get_attributes_dict(document)
-        return attributes.get("Mimevent_type", "")
+        return attributes.get("MimeType", "")
 
     @staticmethod
     def is_plain_text(document):
