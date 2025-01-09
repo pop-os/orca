@@ -129,9 +129,8 @@ class Utilities(script_utilities.Utilities):
 
         documentFrameParent = AXObject.get_parent(documentFrame)
         context = self._caretContexts.get(hash(documentFrameParent))
-
         tokens = ["WEB: Clearing all cached info for", documentFrame,
-                  "Preserving context:", preserveContext, "Context:", context[0], ",", context[1]]
+                  "Preserving context:", preserveContext, "Context:", context]
         debug.printTokens(debug.LEVEL_INFO, tokens, True)
 
         self._script.structural_navigation.clearCache(documentFrame)
@@ -1131,8 +1130,15 @@ class Utilities(script_utilities.Utilities):
             if x in objects:
                 return False
 
+            if AXUtilities.is_text_input(obj):
+                return False
+
             xObj, xStart, xEnd, xString = x
             if xStart == xEnd or not xString:
+                return False
+
+            if AXUtilities.is_table_cell_or_header(obj) \
+               and AXUtilities.is_table_cell_or_header(xObj) and obj != xObj:
                 return False
 
             xExtents = self.getExtents(xObj, xStart, xStart + 1)
