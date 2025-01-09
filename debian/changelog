@@ -1,8 +1,9 @@
-orca (47.2-2) UNRELEASED; urgency=medium
+orca (47.3-1) unstable; urgency=medium
 
+  * New upstream release
   * watch: Fix upstream vcs tag format.
 
- -- Samuel Thibault <sthibault@debian.org>  Thu, 09 Jan 2025 20:31:34 +0100
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 09 Jan 2025 20:32:24 +0100
 
 orca (47.2-1) unstable; urgency=medium
 
