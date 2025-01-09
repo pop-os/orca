@@ -57,7 +57,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         def wrapper(*args, **kwargs):
             result = func(*args, **kwargs)
             tokens = [f"WEB BRAILLE GENERATOR: {func.__name__}:", result]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return result
         return wrapper
 
@@ -185,7 +185,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
             return []
 
         result = super()._generate_accessible_name(obj, **args)
-        if result and result[0] and not self._script.utilities.hasExplicitName(obj):
+        if result and result[0] and not AXUtilities.has_explicit_name(obj):
             result[0] = result[0].strip()
         elif not result and AXUtilities.is_check_box(obj):
             grid_cell = AXObject.find_ancestor(obj, AXUtilities.is_grid_cell)
@@ -205,11 +205,11 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
     def generate_braille(self, obj, **args):
         if not self._script.utilities.inDocumentContent(obj):
             tokens = ["WEB:", obj, "is not in document content. Calling default braille generator."]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return super().generate_braille(obj, **args)
 
         tokens = ["WEB: Generating braille for document object", obj, args]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True, True)
 
         result = []
 

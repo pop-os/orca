@@ -19,6 +19,7 @@
 # Boston MA  02110-1301 USA.
 
 # pylint: disable=broad-exception-caught
+# pylint: disable=wrong-import-position
 
 """Manages Orca's scripts."""
 
@@ -29,6 +30,11 @@ __copyright__ = "Copyright (c) 2011-2024 Igalia, S.L."
 __license__   = "LGPL"
 
 import importlib
+from typing import Optional
+
+import gi
+gi.require_version("Atspi", "2.0")
+from gi.repository import Atspi
 
 # TODO - JD: The script manager should not be interacting with speech or braille directly.
 # When the presentation manager is created, it should handle speech and braille.
@@ -36,7 +42,7 @@ import importlib
 from . import braille
 from . import debug
 from . import settings_manager
-from . import speech
+from . import speech_and_verbosity_manager
 from .ax_object import AXObject
 from .ax_utilities import AXUtilities
 from .scripts import apps, default, sleepmode, toolkits
@@ -45,32 +51,40 @@ from .scripts import apps, default, sleepmode, toolkits
 class ScriptManager:
     """Manages Orca's scripts."""
 
-    def __init__(self):
-        debug.printMessage(debug.LEVEL_INFO, "SCRIPT MANAGER: Initializing", True)
-        self.app_scripts = {}
-        self.toolkit_scripts = {}
-        self.custom_scripts = {}
-        self._sleep_mode_scripts = {}
-        self._default_script = None
-        self._active_script = None
-        self._active = False
-        debug.printMessage(debug.LEVEL_INFO, "SCRIPT MANAGER: Initialized", True)
+    def __init__(self) -> None:
+        debug.print_message(debug.LEVEL_INFO, "SCRIPT MANAGER: Initializing", True)
+        self.app_scripts: dict = {}
+        self.toolkit_scripts: dict = {}
+        self.custom_scripts: dict = {}
+        self._sleep_mode_scripts: dict = {}
+        self._default_script: Optional[default.Script] = None
+        self._active_script: Optional[default.Script] = None
+        self._active: bool = False
+        debug.print_message(debug.LEVEL_INFO, "SCRIPT MANAGER: Initialized", True)
 
-    def activate(self):
+    def activate(self) -> None:
         """Called when this script manager is activated."""
 
-        debug.printMessage(debug.LEVEL_INFO, "SCRIPT MANAGER: Activating", True)
-        self._default_script = self.get_script(None)
+        debug.print_message(debug.LEVEL_INFO, "SCRIPT MANAGER: Activating", True, True)
+        if self._active:
+            debug.print_message(debug.LEVEL_INFO, "SCRIPT MANAGER: Already activated", True)
+            return
+
+        self._default_script = self.get_default_script(None)
         self._default_script.register_event_listeners()
         self.set_active_script(self._default_script, "activate")
         self._active = True
-        debug.printMessage(debug.LEVEL_INFO, "SCRIPT MANAGER: Activated", True)
+        debug.print_message(debug.LEVEL_INFO, "SCRIPT MANAGER: Activated", True)
 
-    def deactivate(self):
+    def deactivate(self) -> None:
         """Called when this script manager is deactivated."""
 
-        debug.printMessage(debug.LEVEL_INFO, "SCRIPT MANAGER: Deactivating", True)
-        if self._default_script:
+        debug.print_message(debug.LEVEL_INFO, "SCRIPT MANAGER: Deactivating", True, True)
+        if not self._active:
+            debug.print_message(debug.LEVEL_INFO, "SCRIPT MANAGER: Already deactivated", True)
+            return
+
+        if self._default_script is not None:
             self._default_script.deregister_event_listeners()
         self._default_script = None
         self.set_active_script(None, "deactivate")
@@ -78,37 +92,37 @@ class ScriptManager:
         self.toolkit_scripts = {}
         self.custom_scripts = {}
         self._active = False
-        debug.printMessage(debug.LEVEL_INFO, "SCRIPT MANAGER: Deactivated", True)
+        debug.print_message(debug.LEVEL_INFO, "SCRIPT MANAGER: Deactivated", True)
 
-    def get_module_name(self, app):
+    def get_module_name(self, app: Optional[Atspi.Accessible]) -> Optional[str]:
         """Returns the module name of the script to use for application app."""
 
         if app is None:
             msg = "SCRIPT MANAGER: Cannot get module name for null app"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return None
 
         name = AXObject.get_name(app)
         if not name:
             msg = "SCRIPT MANAGER: Cannot get module name for nameless app"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return None
 
-        app_names = {'gtk-window-decorator': 'switcher',
-                     'marco': 'switcher',
-                     'mate-notification-daemon': 'notification-daemon',
-                     'metacity': 'switcher',
-                     'pluma': 'gedit',
-                     'xfce4-notifyd': 'notification-daemon'}
+        app_names = {"gtk-window-decorator": "switcher",
+                     "marco": "switcher",
+                     "mate-notification-daemon": "notification-daemon",
+                     "metacity": "switcher",
+                     "pluma": "gedit",
+                     "xfce4-notifyd": "notification-daemon"}
         alt_names = list(app_names.keys())
         if name.endswith(".py") or name.endswith(".bin"):
-            name = name.split('.')[0]
+            name = name.split(".")[0]
         elif name.startswith("org.") or name.startswith("com."):
-            name = name.split('.')[-1]
+            name = name.split(".")[-1]
 
         names = [n for n in alt_names if n.lower() == name.lower()]
         if names:
-            name = app_names.get(names[0])
+            name = app_names.get(names[0], "")
         else:
             for name_list in (apps.__all__, toolkits.__all__):
                 names = [n for n in name_list if n.lower() == name.lower()]
@@ -117,17 +131,17 @@ class ScriptManager:
                     break
 
         tokens = ["SCRIPT MANAGER: Mapped", app, "to", name]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return name
 
-    def _toolkit_for_object(self, obj):
+    def _toolkit_for_object(self, obj: Atspi.Accessible) -> Optional[str]:
         """Returns the name of the toolkit associated with obj."""
 
-        names = {'GTK': 'gtk', 'GAIL': 'gtk'}
-        name = AXObject.get_attribute(obj, 'toolkit')
+        names = {"GTK": "gtk", "GAIL": "gtk"}
+        name = AXObject.get_attribute(obj, "toolkit")
         return names.get(name, name)
 
-    def _script_for_role(self, obj):
+    def _script_for_role(self, obj: Atspi.Accessible) -> str:
         """Returns the role-based script for obj."""
 
         if AXUtilities.is_terminal(obj):
@@ -135,7 +149,7 @@ class ScriptManager:
 
         return ""
 
-    def _new_named_script(self, app, name):
+    def _new_named_script(self, app: Atspi.Accessible, name: str) -> Optional[default.Script]:
         """Returns a script based on this module if it was located and loadable."""
 
         if not (app and name):
@@ -144,53 +158,56 @@ class ScriptManager:
         packages = ["orca-scripts", "orca.scripts", "orca.scripts.apps", "orca.scripts.toolkits"]
         script = None
         for package in packages:
-            module_name = '.'.join((package, name))
+            module_name = ".".join((package, name))
             try:
                 module = importlib.import_module(module_name)
             except ImportError:
                 continue
-            except OSError:
-                debug.examineProcesses()
+            except OSError as error:
+                tokens = ["EXCEPTION: Could not import", module_name, ":", error]
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True, True)
 
             tokens = ["SCRIPT MANAGER: Found", module_name]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             try:
-                if hasattr(module, 'getScript'):
+                if hasattr(module, "getScript"):
                     script = module.get_script(app)
                 else:
                     script = module.Script(app)
                 break
             except Exception as error:
                 tokens = ["EXCEPTION: Could not load", module_name, ":", error]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True, True)
 
         return script
 
-    def _create_script(self, app, obj=None):
+    def _create_script(
+        self, app: Atspi.Accessible, obj: Optional[Atspi.Accessible] = None
+    ) -> default.Script:
         """For the given application, create a new script instance."""
 
-        module_name = self.get_module_name(app)
+        module_name = self.get_module_name(app) or ""
         script = self._new_named_script(app, module_name)
         if script:
             return script
 
-        obj_toolkit = self._toolkit_for_object(obj)
+        obj_toolkit = self._toolkit_for_object(obj) or ""
         script = self._new_named_script(app, obj_toolkit)
         if script:
             return script
 
-        toolkit_name = AXObject.get_application_toolkit_name(app)
+        toolkit_name = AXUtilities.get_application_toolkit_name(app)
         if app and toolkit_name:
             script = self._new_named_script(app, toolkit_name)
 
         if not script:
             script = self.get_default_script(app)
             tokens = ["SCRIPT MANAGER: Default script created for", app, "(obj: ", obj, ")"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         return script
 
-    def get_default_script(self, app=None):
+    def get_default_script(self, app: Optional[Atspi.Accessible] = None) -> default.Script:
         """Returns the default script."""
 
         if not app and self._default_script:
@@ -202,7 +219,7 @@ class ScriptManager:
 
         return script
 
-    def get_or_create_sleep_mode_script(self, app):
+    def get_or_create_sleep_mode_script(self, app: Atspi.Accessible) -> sleepmode.Script:
         """Gets or crates the sleep mode script."""
 
         script = self._sleep_mode_scripts.get(app)
@@ -213,22 +230,17 @@ class ScriptManager:
         self._sleep_mode_scripts[app] = script
         return script
 
-    def get_script(self, app, obj=None):
-        """Get a script for an app (and make it if necessary).  This is used
-        instead of a simple calls to Script's constructor.
-
-        Arguments:
-        - app: the Python app
-
-        Returns an instance of a Script.
-        """
+    def get_script(
+        self, app: Optional[Atspi.Accessible], obj: Optional[Atspi.Accessible] = None
+    ) -> default.Script:
+        """Get a script for an app (and make it if necessary)."""
 
         tokens = ["SCRIPT MANAGER: Getting script for", app, obj]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
-        custom_script = None
-        app_script = None
-        toolkit_script = None
+        custom_script: Optional[default.Script] = None
+        app_script: Optional[default.Script] = None
+        toolkit_script: Optional[default.Script] = None
 
         role_name = self._script_for_role(obj)
         if role_name:
@@ -258,17 +270,18 @@ class ScriptManager:
                 self.app_scripts[app] = app_script
         except Exception as error:
             tokens = ["EXCEPTION: Exception getting app script for", app, ":", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             app_script = self.get_default_script()
 
+        assert app_script is not None
         if app_script.get_sleep_mode_manager().is_active_for_app(app):
             tokens = ["SCRIPT MANAGER: Sleep-mode toggled on for", app_script, app]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return self.get_or_create_sleep_mode_script(app)
 
         if custom_script:
             tokens = ["SCRIPT MANAGER: Script is custom script", custom_script]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return custom_script
 
         # Only defer to the toolkit script for this object if the app script
@@ -276,31 +289,31 @@ class ScriptManager:
         if toolkit_script and not (AXUtilities.is_frame(obj) or AXUtilities.is_status_bar(obj)) \
            and not issubclass(app_script.__class__, toolkit_script.__class__):
             tokens = ["SCRIPT MANAGER: Script is toolkit script", toolkit_script]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return toolkit_script
 
         tokens = ["SCRIPT MANAGER: Script is app script", app_script]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return app_script
 
-    def get_active_script(self):
+    def get_active_script(self) -> Optional[default.Script]:
         """Returns the active script."""
 
         tokens = ["SCRIPT MANAGER: Active script is:", self._active_script]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return self._active_script
 
-    def get_active_script_app(self):
+    def get_active_script_app(self) -> Optional[Atspi.Accessible]:
         """Returns the app associated with the active script."""
 
         if self._active_script is None:
             return None
 
         tokens = ["SCRIPT MANAGER: Active script app is:", self._active_script.app]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return self._active_script.app
 
-    def set_active_script(self, new_script, reason=""):
+    def set_active_script(self, new_script: Optional[default.Script], reason: str = "") -> None:
         """Set the active script to new_script."""
 
         if self._active_script == new_script:
@@ -308,7 +321,7 @@ class ScriptManager:
 
         if self._active_script is not None:
             tokens = ["SCRIPT MANAGER: Deactivating", self._active_script, "reason:", reason]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             self._active_script.deactivate()
 
         old_script = self._active_script
@@ -323,7 +336,7 @@ class ScriptManager:
             runtime_settings = manager.get_runtime_settings()
 
         tokens = ["SCRIPT MANAGER: Setting active script to", new_script, "reason:", reason]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         new_script.activate()
 
         for key, value in runtime_settings.items():
@@ -331,15 +344,15 @@ class ScriptManager:
 
         braille.checkBrailleSetting()
         braille.setupKeyRanges(new_script.braille_bindings.keys())
-        speech.check_speech_setting()
+        speech_and_verbosity_manager.get_manager().check_speech_setting()
 
-    def reclaim_scripts(self):
+    def reclaim_scripts(self) -> None:
         """Compares the list of known scripts to the list of known apps,
         deleting any scripts as necessary.
         """
 
         msg = "SCRIPT MANAGER: Checking and cleaning up scripts."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
         app_list = list(self.app_scripts.keys())
         for app in app_list:
@@ -350,11 +363,11 @@ class ScriptManager:
                 app_script = self.app_scripts.pop(app)
             except KeyError:
                 tokens = ["SCRIPT MANAGER:", app, "not found in app_scripts"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
                 continue
 
             tokens = ["SCRIPT MANAGER: Old script for app found:", app_script, app_script.app]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
             try:
                 self._sleep_mode_scripts.pop(app)
@@ -371,8 +384,8 @@ class ScriptManager:
             except KeyError:
                 pass
 
-_manager = ScriptManager()
+_manager: ScriptManager = ScriptManager()
 
-def get_manager():
+def get_manager() -> ScriptManager:
     """Returns the Script Manager singleton."""
     return _manager

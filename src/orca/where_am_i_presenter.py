@@ -20,12 +20,17 @@
 
 """Module for commands related to the current accessible object."""
 
+# This has to be the first non-docstring line in the module to make linters happy.
+from __future__ import annotations
+
 __id__        = "$Id$"
 __version__   = "$Revision$"
 __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
                 "Copyright (c) 2016-2023 Igalia, S.L."
 __license__   = "LGPL"
+
+from typing import Optional, TYPE_CHECKING
 
 from . import cmdnames
 from . import debug
@@ -36,24 +41,32 @@ from . import messages
 from . import settings_manager
 from .ax_component import AXComponent
 from .ax_object import AXObject
-from .ax_text import AXText
+from .ax_text import AXText, AXTextAttribute
 from .ax_utilities import AXUtilities
 
+if TYPE_CHECKING:
+    import gi
+    gi.require_version("Atspi", "2.0")
+    from gi.repository import Atspi
+
+    from .scripts import default
 
 class WhereAmIPresenter:
     """Module for commands related to the current accessible object."""
 
-    def __init__(self):
-        self._handlers = self.get_handlers(True)
-        self._desktop_bindings = keybindings.KeyBindings()
-        self._laptop_bindings = keybindings.KeyBindings()
+    def __init__(self) -> None:
+        self._handlers: dict[str, input_event.InputEventHandler] = self.get_handlers(True)
+        self._desktop_bindings: keybindings.KeyBindings = keybindings.KeyBindings()
+        self._laptop_bindings: keybindings.KeyBindings = keybindings.KeyBindings()
 
-    def get_bindings(self, refresh=False, is_desktop=True):
+    def get_bindings(
+        self, refresh: bool = False, is_desktop: bool = True
+    ) -> keybindings.KeyBindings:
         """Returns the where-am-i-presenter keybindings."""
 
         if refresh:
             msg = "WHERE AM I PRESENTER: Refreshing bindings."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             self._setup_bindings()
         elif is_desktop and self._desktop_bindings.is_empty():
             self._setup_bindings()
@@ -64,23 +77,23 @@ class WhereAmIPresenter:
             return self._desktop_bindings
         return self._laptop_bindings
 
-    def get_handlers(self, refresh=False):
+    def get_handlers(self, refresh: bool = False) -> dict[str, input_event.InputEventHandler]:
         """Returns the where-am-i-presenter handlers."""
 
         if refresh:
             msg = "WHERE AM I PRESENTER: Refreshing handlers."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             self._setup_handlers()
 
         return self._handlers
 
-    def _setup_bindings(self):
+    def _setup_bindings(self) -> None:
         """Sets up the where-am-i-presenter key bindings."""
 
         self._setup_desktop_bindings()
         self._setup_laptop_bindings()
 
-    def _setup_handlers(self):
+    def _setup_handlers(self) -> None:
         """Sets up the where-am-i-presenter input event handlers."""
 
         self._handlers = {}
@@ -131,9 +144,9 @@ class WhereAmIPresenter:
                 cmdnames.WHERE_AM_I_SELECTION)
 
         msg = "WHERE AM I PRESENTER: Handlers set up."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
-    def _setup_desktop_bindings(self):
+    def _setup_desktop_bindings(self) -> None:
         """Sets up the where-am-i-presenter desktop key bindings."""
 
         self._desktop_bindings = keybindings.KeyBindings()
@@ -206,9 +219,9 @@ class WhereAmIPresenter:
                 self._handlers.get("whereAmISelectionHandler")))
 
         msg = "WHERE AM I PRESENTER: Desktop bindings set up."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
-    def _setup_laptop_bindings(self):
+    def _setup_laptop_bindings(self) -> None:
         """Sets up the where-am-i-presenter laptop key bindings."""
 
         self._laptop_bindings = keybindings.KeyBindings()
@@ -281,33 +294,50 @@ class WhereAmIPresenter:
                 self._handlers.get("whereAmISelectionHandler")))
 
         msg = "WHERE AM I PRESENTER: Laptop bindings set up."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
-    def present_character_attributes(self, script, event=None):
+    def _localize_text_attribute(self, key, value):
+        if value is None:
+            return ""
+
+        if key == "weight" and (value == "bold" or int(value) > 400):
+            return messages.BOLD
+
+        if key.endswith("spelling") or value == "spelling":
+            return messages.MISSPELLED
+
+        ax_text_attribute = AXTextAttribute.from_string(key)
+        localized_key = ax_text_attribute.get_localized_name()
+        localized_value = ax_text_attribute.get_localized_value(value)
+        return f"{localized_key}: {localized_value}"
+
+    def present_character_attributes(
+        self, script: default.Script, _event: Optional[input_event.InputEvent] = None
+    ) -> bool:
         """Presents the font and formatting details for the current character."""
 
         focus = focus_manager.get_manager().get_locus_of_focus()
         attrs = AXText.get_text_attributes_at_offset(focus)[0]
 
-        # Get a dictionary of text attributes that the user cares about.
-        [user_attr_list, user_attr_dict] = script.utilities.stringToKeysAndDict(
-            settings_manager.get_manager().get_setting('enabledSpokenTextAttributes'))
+        # Get a dictionary of text attributes that the user cares about, falling back on the
+        # default presentable attributes if the user has not specified any.
+        attr_list = list(filter(None, map(
+            AXTextAttribute.from_string,
+            settings_manager.get_manager().get_setting("textAttributesToSpeak"))))
+        if not attr_list:
+            attr_list = AXText.get_all_supported_text_attributes()
 
-        null_values = ['0', '0mm', 'none', 'false']
-        for key in user_attr_list:
-            # Convert the standard key into the non-standard implementor variant.
-            app_key = script.utilities.getAppNameForAttribute(key)
-            value = attrs.get(app_key)
-            ignore_if_value = user_attr_dict.get(key)
-            if value in null_values and ignore_if_value in null_values:
-                continue
-
-            if value and value != ignore_if_value:
-                script.speakMessage(script.utilities.localizeTextAttribute(key, value))
+        for ax_text_attr in attr_list:
+            key = ax_text_attr.get_attribute_name()
+            value = attrs.get(key)
+            if not ax_text_attr.value_is_default(value):
+                script.speakMessage(self._localize_text_attribute(key, value))
 
         return True
 
-    def present_size_and_position(self, script, event=None):
+    def present_size_and_position(
+        self, script: default.Script, event: Optional[input_event.InputEvent] = None
+    ) -> bool:
         """Presents the size and position of the current object."""
 
         if script.get_flat_review_presenter().is_active():
@@ -327,7 +357,9 @@ class WhereAmIPresenter:
         script.presentMessage(full, brief)
         return True
 
-    def present_title(self, script, event=None):
+    def present_title(
+        self, script: default.Script, _event: Optional[input_event.InputEvent] = None
+    ) -> bool:
         """Presents the title of the current window."""
 
         obj = focus_manager.get_manager().get_locus_of_focus()
@@ -343,11 +375,18 @@ class WhereAmIPresenter:
             script.presentMessage(string, voice=voice)
         return True
 
-    def _present_default_button(self, script, event=None, dialog=None, error_messages=True):
+    def _present_default_button(
+        self,
+        script: default.Script,
+        _event: Optional[input_event.InputEvent] = None,
+        dialog: Optional[Atspi.Accessible] = None,
+        error_messages: bool = True
+    ) -> bool:
         """Presents the default button of the current dialog."""
 
         obj = focus_manager.get_manager().get_locus_of_focus()
-        frame, dialog = script.utilities.frameAndDialog(obj)
+        if dialog is None:
+            _frame, dialog = script.utilities.frameAndDialog(obj)
         if dialog is None:
             if error_messages:
                 script.presentMessage(messages.DIALOG_NOT_IN_A)
@@ -367,7 +406,9 @@ class WhereAmIPresenter:
         script.presentMessage(messages.DEFAULT_BUTTON_IS % name)
         return True
 
-    def present_status_bar(self, script, event=None):
+    def present_status_bar(
+        self, script: default.Script, event: Optional[input_event.InputEvent] = None
+    ) -> bool:
         """Presents the status bar of the current window."""
 
         obj = focus_manager.get_manager().get_locus_of_focus()
@@ -391,12 +432,19 @@ class WhereAmIPresenter:
 
         return True
 
-    def present_default_button(self, script, event=None):
+    def present_default_button(
+        self, script: default.Script, event: Optional[input_event.InputEvent] = None
+    ) -> bool:
         """Presents the default button of the current window."""
 
         return self._present_default_button(script, event)
 
-    def present_link(self, script, event=None, link=None):
+    def present_link(
+        self,
+        script: default.Script,
+        event: Optional[input_event.InputEvent] = None,
+        link: Optional[Atspi.Accessible] = None
+    ) -> bool:
         """Presents details about the current link."""
 
         link = link or focus_manager.get_manager().get_locus_of_focus()
@@ -406,7 +454,37 @@ class WhereAmIPresenter:
 
         return self._do_where_am_i(script, event, True, link)
 
-    def present_selected_text(self, script, event=None, obj=None):
+    def _get_all_selected_text(self, script: default.Script, obj: Atspi.Accessible) -> str:
+        """Returns the selected text of obj plus any adjacent text objects."""
+
+        string = AXText.get_selected_text(obj)[0]
+        if script.utilities.isSpreadSheetCell(obj):
+            return string
+
+        prev_obj = script.utilities.findPreviousObject(obj)
+        while prev_obj:
+            selection = AXText.get_selected_text(prev_obj)[0]
+            if not selection:
+                break
+            string = f"{selection} {string}"
+            prev_obj = script.utilities.findPreviousObject(prev_obj)
+
+        next_obj = script.utilities.findNextObject(obj)
+        while next_obj:
+            selection = AXText.get_selected_text(next_obj)[0]
+            if not selection:
+                break
+            string = f"{string} {selection}"
+            next_obj = script.utilities.findNextObject(next_obj)
+
+        return string
+
+    def present_selected_text(
+        self,
+        script: default.Script,
+        _event: Optional[input_event.InputEvent] = None,
+        obj: Optional[Atspi.Accessible] = None
+    ) -> bool:
         """Presents the selected text."""
 
         obj = obj or focus_manager.get_manager().get_locus_of_focus()
@@ -414,7 +492,7 @@ class WhereAmIPresenter:
             script.speakMessage(messages.LOCATION_NOT_FOUND_FULL)
             return True
 
-        text = script.utilities.allSelectedText(obj)[0]
+        text = self._get_all_selected_text(script, obj)
         if not text:
             script.speakMessage(messages.NO_SELECTED_TEXT)
             return True
@@ -426,7 +504,12 @@ class WhereAmIPresenter:
         script.speakMessage(msg)
         return True
 
-    def present_selection(self, script, event=None, obj=None):
+    def present_selection(
+        self,
+        script: default.Script,
+        event: Optional[input_event.InputEvent] = None,
+        obj: Optional[Atspi.Accessible] = None
+    ) -> bool:
         """Presents the selected text or selected objects."""
 
         obj = obj or focus_manager.get_manager().get_locus_of_focus()
@@ -435,7 +518,7 @@ class WhereAmIPresenter:
             return True
 
         tokens = ["WHERE AM I PRESENTER: presenting selection for", obj]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         spreadsheet = AXObject.find_ancestor(obj, script.utilities.isSpreadSheetTable)
         if spreadsheet is not None and script.utilities.speakSelectedCellRange(spreadsheet):
@@ -444,7 +527,7 @@ class WhereAmIPresenter:
         container = script.utilities.getSelectionContainer(obj)
         if container is None:
             tokens = ["WHERE AM I PRESENTER: Selection container not found for", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return self.present_selected_text(script, event, obj)
 
         selected_count = script.utilities.selectedChildCount(container)
@@ -458,11 +541,17 @@ class WhereAmIPresenter:
         script.speakMessage(item_names)
         return True
 
-    def _do_where_am_i(self, script, event=None, basic_only=True, obj=None):
+    def _do_where_am_i(
+        self,
+        script: default.Script,
+        _event: Optional[input_event.InputEvent] = None,
+        basic_only: bool = True,
+        obj: Optional[Atspi.Accessible] = None
+    ) -> bool:
         """Presents details about the current location at the specified level."""
 
-        if script.spellcheck and script.spellcheck.isActive():
-            script.spellcheck.presentErrorDetails(not basic_only)
+        if script.spellcheck and script.spellcheck.is_active():
+            script.spellcheck.present_error_details(not basic_only)
 
         if obj is None:
             obj = focus_manager.get_manager().get_locus_of_focus()
@@ -489,12 +578,16 @@ class WhereAmIPresenter:
 
         return True
 
-    def where_am_i_basic(self, script, event=None):
+    def where_am_i_basic(
+        self, script: default.Script, event: Optional[input_event.InputEvent] = None
+    ) -> bool:
         """Presents basic information about the current location."""
 
         return self._do_where_am_i(script, event)
 
-    def where_am_i_detailed(self, script, event=None):
+    def where_am_i_detailed(
+        self, script: default.Script, event: Optional[input_event.InputEvent] = None
+    ) -> bool:
         """Presents detailed information about the current location."""
 
         # TODO - JD: For some reason, we are starting the basic where am I
@@ -505,7 +598,7 @@ class WhereAmIPresenter:
         return self._do_where_am_i(script, event, False)
 
 _presenter = WhereAmIPresenter()
-def get_presenter():
+def get_presenter() -> WhereAmIPresenter:
     """Returns the Where Am I Presenter"""
 
     return _presenter

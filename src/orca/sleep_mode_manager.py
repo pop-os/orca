@@ -18,15 +18,20 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# pylint: disable=unused-argument
+# pylint: disable=wrong-import-position
 
 """Module for sleep mode"""
+
+# This has to be the first non-docstring line in the module to make linters happy.
+from __future__ import annotations
 
 __id__        = "$Id$"
 __version__   = "$Revision$"
 __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2024 Igalia, S.L."
 __license__   = "LGPL"
+
+from typing import Optional, TYPE_CHECKING
 
 from . import cmdnames
 from . import debug
@@ -36,47 +41,55 @@ from . import messages
 from . import script_manager
 from .ax_object import AXObject
 
+if TYPE_CHECKING:
+    import gi
+    gi.require_version("Atspi", "2.0")
+    from gi.repository import Atspi
+
+    from .scripts import default
 
 class SleepModeManager:
     """Provides sleep mode implementation."""
 
-    def __init__(self):
-        self._handlers = self.get_handlers(True)
-        self._bindings = keybindings.KeyBindings()
-        self._apps = []
+    def __init__(self) -> None:
+        self._handlers: dict[str, input_event.InputEventHandler] = self.get_handlers(True)
+        self._bindings: keybindings.KeyBindings = keybindings.KeyBindings()
+        self._apps: list[int] = []
 
-    def get_bindings(self, refresh=False, is_desktop=True):
+    def get_bindings(
+        self, refresh: bool = False, is_desktop: bool = True
+    ) -> keybindings.KeyBindings:
         """Returns the sleep-mode-manager keybindings."""
 
         if refresh:
             msg = f"SLEEP MODE MANAGER: Refreshing bindings. Is desktop: {is_desktop}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             self._setup_bindings()
         elif self._bindings.is_empty():
             self._setup_bindings()
 
         return self._bindings
 
-    def get_handlers(self, refresh=False):
+    def get_handlers(self, refresh: bool = False) -> dict[str, input_event.InputEventHandler]:
         """Returns the sleep-mode-manager handlers."""
 
         if refresh:
             msg = "SLEEP MODE MANAGER: Refreshing handlers."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             self._setup_handlers()
 
         return self._handlers
 
-    def is_active_for_app(self, app):
+    def is_active_for_app(self, app: Atspi.Accessible) -> bool:
         """Returns True if sleep mode is active for app."""
 
-        result = app and hash(app) in self._apps
+        result = bool(app and hash(app) in self._apps)
         if result:
             tokens = ["SLEEP MODE MANAGER: Is active for", app]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
 
-    def _setup_handlers(self):
+    def _setup_handlers(self) -> None:
         """Sets up and returns the sleep-mode-manager input event handlers."""
 
         self._handlers = {}
@@ -87,9 +100,9 @@ class SleepModeManager:
                 cmdnames.TOGGLE_SLEEP_MODE)
 
         msg = "SLEEP MODE MANAGER: Handlers set up."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
-    def _setup_bindings(self):
+    def _setup_bindings(self) -> None:
         """Sets up and returns the sleep-mode-manager key bindings."""
 
         self._bindings = keybindings.KeyBindings()
@@ -102,9 +115,13 @@ class SleepModeManager:
                 self._handlers.get("toggle_sleep_mode")))
 
         msg = "SLEEP MODE MANAGER: Bindings set up."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
-    def toggle_sleep_mode(self, script, event=None):
+    def toggle_sleep_mode(
+        self,
+        script: default.Script,
+        _event: Optional[input_event.InputEvent] = None
+    ) -> bool:
         """Toggles sleep mode."""
 
         if not (script and script.app):
@@ -127,7 +144,8 @@ class SleepModeManager:
         return True
 
 
-_manager = SleepModeManager()
-def get_manager():
+_manager: SleepModeManager = SleepModeManager()
+
+def get_manager() -> SleepModeManager:
     """Returns the Sleep Mode Manager singleton."""
     return _manager
