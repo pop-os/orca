@@ -762,7 +762,7 @@ class SpeechGenerator(generator.Generator):
             result.append(messages.CONTENT_INSERTION_END)
         elif role == Atspi.Role.MARK:
             result.append(messages.CONTENT_MARK_END)
-        elif role == Atspi.Role.SUGGESTION and not self._script.utilities.isInlineSuggestion(obj):
+        elif role == Atspi.Role.SUGGESTION and not AXUtilities.is_inline_suggestion(obj, role):
             result.append(messages.LEAVING_SUGGESTION)
         else:
             result = ['']
@@ -1775,8 +1775,7 @@ class SpeechGenerator(generator.Generator):
         if not obj:
             return []
 
-        parent = AXObject.get_parent(obj)
-        if not AXObject.supports_selection(parent):
+        if not AXUtilities.is_selectable(obj):
             return []
 
         if AXUtilities.is_selected(obj):
@@ -1790,6 +1789,7 @@ class SpeechGenerator(generator.Generator):
             result.extend(self.voice(STATE, obj=obj, **args))
             return result
 
+        parent = AXObject.get_parent(obj)
         table = AXTable.get_table(obj)
         if table:
             if input_event_manager.get_manager().last_event_was_left_or_right():
@@ -2187,6 +2187,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_accessible_label_and_name(obj, **args)
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -2375,6 +2376,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_pause(obj, **args)
         result += self._generate_state_invalid(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -2395,6 +2397,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_state_checked(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_accelerator(obj, **args)
@@ -2454,6 +2457,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_value(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_position_in_list(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -2618,6 +2622,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_state_required(obj, **args)
         result += self._generate_value_as_percentage(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -2733,6 +2738,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_text_indentation(obj, **args)
         result += self._generate_text_line(obj, **args)
         result += self._generate_text_selection(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -2766,6 +2772,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_state_required(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_state_invalid(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -3035,6 +3042,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_value(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -3056,6 +3064,7 @@ class SpeechGenerator(generator.Generator):
             or self._generate_text_content(obj, **args))
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_state_expanded(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_accelerator(obj, **args)
@@ -3291,6 +3300,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_state_expanded(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_accelerator(obj, **args)
@@ -3325,6 +3335,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_state_checked_if_checkable(obj, **args)
         result += self._generate_state_expanded(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_accelerator(obj, **args)
@@ -3376,6 +3387,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_state_expanded(obj, **args)
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_position_in_list(obj, **args)
@@ -3417,6 +3429,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_text_indentation(obj, **args)
         result += self._generate_text_line(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -3432,6 +3445,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_state_required(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_state_invalid(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -3466,6 +3480,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_state_expanded(obj, **args)
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_accelerator(obj, **args)
@@ -3498,6 +3513,7 @@ class SpeechGenerator(generator.Generator):
             return result
 
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_position_in_list(obj, **args)
@@ -3520,6 +3536,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_state_selected_for_radio_button(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_accelerator(obj, **args)
@@ -3592,6 +3609,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_value(obj, **args)
         result += self._generate_value_as_percentage(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -3620,6 +3638,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_text_indentation(obj, **args)
         result += self._generate_text_line(obj, **args)
         result += self._generate_accessible_role(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -3638,6 +3657,7 @@ class SpeechGenerator(generator.Generator):
         result += (self._generate_accessible_label_and_name(obj, **args) \
             or self._generate_text_content(obj, **args) \
             or self._generate_value(obj, **args))
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -3655,6 +3675,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_value(obj, **args)
         result += self._generate_value_as_percentage(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -3674,6 +3695,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_pause(obj, **args)
         result += self._generate_state_invalid(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -3693,6 +3715,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_value(obj, **args)
         result += self._generate_value_as_percentage(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -3766,6 +3789,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_state_checked_for_switch(obj, **args)
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -3920,6 +3944,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_state_expanded(obj, **args)
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_accelerator(obj, **args)
@@ -3954,6 +3979,7 @@ class SpeechGenerator(generator.Generator):
         result += (self._generate_text_line(obj, **args) \
             or self._generate_accessible_placeholder_text(obj, **args))
         result += self._generate_text_selection(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -3982,6 +4008,7 @@ class SpeechGenerator(generator.Generator):
         result += (self._generate_state_expanded(obj, **args) \
                 or self._generate_state_pressed(obj, **args))
         result += self._generate_state_sensitive(obj, **args)
+        result += self._generate_pause(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result

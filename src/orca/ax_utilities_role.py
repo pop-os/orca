@@ -40,12 +40,18 @@ import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 
+from . import debug
 from . import object_properties
 from .ax_object import AXObject
 from .ax_utilities_state import AXUtilitiesState
 
 class AXUtilitiesRole:
     """Utilities for obtaining role-related information."""
+
+    @staticmethod
+    def _get_display_style(obj: Atspi.Accessible) -> str:
+        attrs = AXObject.get_attributes_dict(obj)
+        return attrs.get("display", "")
 
     @staticmethod
     def _get_tag(obj: Atspi.Accessible) -> Optional[str]:
@@ -56,6 +62,48 @@ class AXUtilitiesRole:
     def _get_xml_roles(obj: Atspi.Accessible) -> list[str]:
         attrs = AXObject.get_attributes_dict(obj)
         return attrs.get("xml-roles", "").split()
+
+    @staticmethod
+    def children_are_presentational(
+        obj: Atspi.Accessible,
+        role: Optional[Atspi.Role] = None
+    ) -> bool:
+        """Returns True if the descendants of obj should be ignored. See ARIA spec."""
+
+        # Note: We are deliberately leaving out listbox options because they can be complex,
+        # both in ARIA and in GTK.
+
+        roles = [
+            Atspi.Role.CHECK_BOX,
+            Atspi.Role.CHECK_MENU_ITEM,
+            Atspi.Role.IMAGE,
+            Atspi.Role.LEVEL_BAR,
+            Atspi.Role.PAGE_TAB,
+            Atspi.Role.PROGRESS_BAR,
+            Atspi.Role.PUSH_BUTTON,
+            Atspi.Role.RADIO_BUTTON,
+            Atspi.Role.RADIO_MENU_ITEM,
+            Atspi.Role.SCROLL_BAR,
+            Atspi.Role.SEPARATOR,
+            Atspi.Role.SLIDER,
+        ]
+
+        # TODO - JD: Remove this check when dependencies are bumped to v2.56.
+        try:
+            roles.append(Atspi.Role.SWITCH)
+        except AttributeError:
+            pass
+
+        if role is None:
+            role = AXObject.get_role(obj)
+
+        # TODO - JD: The is_switch() call be be removed as part of the removal above.
+        if role in roles or AXUtilitiesRole.is_switch(obj, role):
+            tokens = ["AXUtilitiesRole:", obj, "has presentational children."]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return True
+
+        return False
 
     @staticmethod
     def get_dialog_roles(include_alert_as_dialog: bool = True) -> list[Atspi.Role]:
@@ -237,6 +285,13 @@ class AXUtilitiesRole:
                  Atspi.Role.SPIN_BUTTON,
                  Atspi.Role.TEXT, # predicate recommended to check it is editable
                  Atspi.Role.TOGGLE_BUTTON]
+
+        # TODO - JD: Remove this check when dependencies are bumped to v2.56.
+        try:
+            roles.append(Atspi.Role.SWITCH)
+        except AttributeError:
+            pass
+
         return roles
 
     @staticmethod
@@ -376,6 +431,12 @@ class AXUtilitiesRole:
         return Atspi.role_get_localized_name(role)
 
     @staticmethod
+    def has_role_from_aria(obj: Atspi.Accessible) -> bool:
+        """Returns True if obj's role comes from ARIA"""
+
+        return bool(AXUtilitiesRole._get_xml_roles(obj))
+
+    @staticmethod
     def have_same_role(obj1: Atspi.Accessible, obj2: Atspi.Accessible) -> bool:
         """Returns True if obj1 and obj2 have the same role"""
 
@@ -391,11 +452,27 @@ class AXUtilitiesRole:
 
     @staticmethod
     def is_alert(obj: Atspi.Accessible, role: Optional[Atspi.Role] = None) -> bool:
-        """Returns True if obj has the alert role"""
+        """Returns True if obj has the alert (a type of dialog) role"""
 
         if role is None:
             role = AXObject.get_role(obj)
         return role == Atspi.Role.ALERT
+
+    @staticmethod
+    def is_aria_alert(obj: Atspi.Accessible, role: Optional[Atspi.Role] = None) -> bool:
+        """Returns True if obj is an ARIA alert (should have notification role)"""
+
+        if "alert" not in AXUtilitiesRole._get_xml_roles(obj):
+            return False
+
+        if role is None:
+            role = AXObject.get_role(obj)
+
+        if role != Atspi.Role.NOTIFICATION:
+            tokens = ["AXUtilitiesRole: Unexpected role for ARIA alert", obj]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
+        return True
 
     @staticmethod
     def is_animation(obj: Atspi.Accessible, role: Optional[Atspi.Role] = None) -> bool:
@@ -1258,6 +1335,33 @@ class AXUtilitiesRole:
         return role == Atspi.Role.INFO_BAR
 
     @staticmethod
+    def is_inline_internal_frame(obj: Atspi.Accessible, role: Optional[Atspi.Role] = None) -> bool:
+        """Returns True if obj has the internal frame role and is inline."""
+
+        if not AXUtilitiesRole.is_internal_frame(obj, role):
+            return False
+
+        return "inline" in AXUtilitiesRole._get_display_style(obj)
+
+    @staticmethod
+    def is_inline_list_item(obj: Atspi.Accessible, role: Optional[Atspi.Role] = None) -> bool:
+        """Returns True if obj has the list item role and is inline."""
+
+        if not AXUtilitiesRole.is_list_item(obj, role):
+            return False
+
+        return "inline" in AXUtilitiesRole._get_display_style(obj)
+
+    @staticmethod
+    def is_inline_suggestion(obj: Atspi.Accessible, role: Optional[Atspi.Role] = None) -> bool:
+        """Returns True if obj has the suggestion role and is inline."""
+
+        if not AXUtilitiesRole.is_suggestion(obj, role):
+            return False
+
+        return "inline" in AXUtilitiesRole._get_display_style(obj)
+
+    @staticmethod
     def is_input_method_window(obj: Atspi.Accessible, role: Optional[Atspi.Role] = None) -> bool:
         """Returns True if obj has the input method window role"""
 
@@ -1406,6 +1510,14 @@ class AXUtilitiesRole:
         return role == Atspi.Role.LIST_BOX
 
     @staticmethod
+    def is_list_box_item(obj: Atspi.Accessible, role: Optional[Atspi.Role] = None) -> bool:
+        """Returns True if obj is an item in a list box"""
+
+        if not AXUtilitiesRole.is_list_item(obj, role):
+            return False
+        return AXObject.find_ancestor(obj, AXUtilitiesRole.is_list_box) is not None
+
+    @staticmethod
     def is_list_item(obj: Atspi.Accessible, role: Optional[Atspi.Role] = None) -> bool:
         """Returns True if obj has the list item role"""
 
@@ -1420,6 +1532,13 @@ class AXUtilitiesRole:
         if role is None:
             role = AXObject.get_role(obj)
         return role == Atspi.Role.LOG
+
+    @staticmethod
+    def is_live_region(obj: Atspi.Accessible, _role: Optional[Atspi.Role] = None) -> bool:
+        """Returns True if obj is a live region."""
+
+        attrs = AXObject.get_attributes_dict(obj)
+        return "container-live" in attrs
 
     @staticmethod
     def is_mark(obj: Atspi.Accessible, role: Optional[Atspi.Role] = None) -> bool:
@@ -1946,8 +2065,18 @@ class AXUtilitiesRole:
         return AXUtilitiesRole._get_tag(obj) == "svg"
 
     @staticmethod
-    def is_switch(obj: Atspi.Accessible, _role: Optional[Atspi.Role] = None) -> bool:
+    def is_switch(obj: Atspi.Accessible, role: Optional[Atspi.Role] = None) -> bool:
         """Returns True if obj has the switch role."""
+
+        if role is None:
+            role = AXObject.get_role(obj)
+
+        # TODO - JD: Remove this check when dependencies are bumped to v2.56.
+        try:
+            if role == Atspi.Role.SWITCH:
+                return True
+        except AttributeError:
+            pass
 
         return "switch" in AXUtilitiesRole._get_xml_roles(obj)
 
@@ -2312,6 +2441,13 @@ class AXUtilitiesRole:
             return True
         exclude = ["::before", "::after", "::marker"]
         return tag not in exclude
+
+    @staticmethod
+    def is_web_element_custom(obj: Atspi.Accessible) -> bool:
+        """Returns True if obj is a custom web element"""
+
+        tag = AXUtilitiesRole._get_tag(obj)
+        return tag is not None and "-" in tag
 
     @staticmethod
     def is_widget(obj: Atspi.Accessible, role: Optional[Atspi.Role] = None) -> bool:
