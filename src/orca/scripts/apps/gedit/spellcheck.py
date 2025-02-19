@@ -33,11 +33,9 @@ from orca.ax_utilities import AXUtilities
 
 
 class SpellCheck(spellcheck.SpellCheck):
+    """Customized support for spellcheck in Gedit."""
 
-    def __init__(self, script):
-        super(SpellCheck, self).__init__(script)
-
-    def _isCandidateWindow(self, window):
+    def _is_candidate_window(self, window):
         if not window:
             return False
 
@@ -51,32 +49,3 @@ class SpellCheck(spellcheck.SpellCheck):
             return False
 
         return True
-
-    def _findChangeToEntry(self, root):
-        def isEntry(x):
-            return AXUtilities.is_text(x) and AXUtilities.is_single_line(x)
-
-        return AXObject.find_descendant(root, isEntry)
-
-    def _findErrorWidget(self, root):
-        panel = AXObject.find_ancestor(self._changeToEntry, AXUtilities.is_panel)
-        if panel is None:
-            return None
-
-        def isError(x):
-            return AXUtilities.is_label(x) \
-                  and ":" not in AXObject.get_name(x) and AXUtilities.object_is_unrelated(x)
-
-        return AXObject.find_descendant(panel, isError)
-
-    def _findSuggestionsList(self, root):
-        def isTable(x):
-            return AXUtilities.is_table(x) and AXObject.supports_selection(x)
-
-        return AXObject.find_descendant(root, isTable)
-
-    def _getSuggestionIndexAndPosition(self, suggestion):
-        index = AXUtilities.get_position_in_set(suggestion)
-        total = AXUtilities.get_set_size(suggestion)
-        total -= 1
-        return index, total

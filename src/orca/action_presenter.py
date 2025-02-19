@@ -18,7 +18,12 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=wrong-import-position
+
 """Module for performing accessible actions via a menu"""
+
+# This has to be the first non-docstring line in the module to make linters happy.
+from __future__ import annotations
 
 __id__        = "$Id$"
 __version__   = "$Revision$"
@@ -27,6 +32,7 @@ __copyright__ = "Copyright (c) 2023 Igalia, S.L."
 __license__   = "LGPL"
 
 import time
+from typing import Any, Callable, Optional, TYPE_CHECKING
 
 import gi
 gi.require_version("Gdk", "3.0")
@@ -41,6 +47,10 @@ from . import keybindings
 from . import messages
 from . import script_manager
 from .ax_object import AXObject
+from .ax_utilities import AXUtilities
+
+if TYPE_CHECKING:
+    from .scripts import default
 
 
 class ActionPresenter:
@@ -53,29 +63,31 @@ class ActionPresenter:
         self._obj = None
         self._window = None
 
-    def get_bindings(self, refresh=False, is_desktop=True):
+    def get_bindings(self,
+                     refresh: bool = False,
+                     is_desktop: bool = True) -> keybindings.KeyBindings:
         """Returns the action-presenter keybindings."""
 
         if refresh:
-            msg = "ACTION PRESENTER: Refreshing bindings."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            msg = f"ACTION PRESENTER: Refreshing bindings. Is desktop: {is_desktop}"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             self._setup_bindings()
         elif self._bindings.is_empty():
             self._setup_bindings()
 
         return self._bindings
 
-    def get_handlers(self, refresh=False):
+    def get_handlers(self, refresh: bool = False) -> dict[str, input_event.InputEventHandler]:
         """Returns the action-presenter handlers."""
 
         if refresh:
             msg = "ACTION PRESENTER: Refreshing handlers."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             self._setup_handlers()
 
         return self._handlers
 
-    def _setup_handlers(self):
+    def _setup_handlers(self) -> None:
         """Sets up the action-presenter input event handlers."""
 
         self._handlers = {}
@@ -86,9 +98,9 @@ class ActionPresenter:
                 cmdnames.SHOW_ACTIONS_MENU)
 
         msg = "ACTION PRESENTER: Handlers set up."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
-    def _setup_bindings(self):
+    def _setup_bindings(self) -> None:
         """Sets up the action-presenter key bindings."""
 
         self._bindings = keybindings.KeyBindings()
@@ -98,20 +110,20 @@ class ActionPresenter:
                 "a",
                 keybindings.DEFAULT_MODIFIER_MASK,
                 keybindings.ORCA_SHIFT_MODIFIER_MASK,
-                self._handlers.get("show_actions_menu")))
+                self._handlers["show_actions_menu"]))
 
         msg = "ACTION PRESENTER: Bindings set up."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
-    def _restore_focus(self):
+    def _restore_focus(self) -> None:
         """Restores focus to the object associated with the actions menu."""
 
         tokens = ["ACTION PRESENTER: Restoring focus to", self._obj, "in", self._window]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         # TODO - JD: Consider having set_locus_of_focus always update the active script.
         reason = "Action Presenter menu is being destroyed"
-        app = AXObject.get_application(self._obj)
+        app = AXUtilities.get_application(self._obj)
         script = script_manager.get_manager().get_script(app, self._obj)
         script_manager.get_manager().set_active_script(script, reason)
 
@@ -120,15 +132,17 @@ class ActionPresenter:
         manager.set_active_window(self._window)
         manager.set_locus_of_focus(None, self._obj)
 
-    def _perform_action(self, action):
+    def _perform_action(self, action: str) -> None:
         """Attempts to perform the named action."""
 
         result = AXObject.do_named_action(self._obj, action)
         tokens = ["ACTION PRESENTER: Performing", action, "on", self._obj, "succeeded:", result]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         self._gui = None
 
-    def show_actions_menu(self, script, event=None):
+    def show_actions_menu(
+        self, script: default.Script, _event: Optional[input_event.InputEvent] = None
+    ) -> bool:
         """Shows a menu with all the available accessible actions."""
 
         manager = focus_manager.get_manager()
@@ -145,7 +159,7 @@ class ActionPresenter:
             description = AXObject.get_action_description(obj, i)
             tokens = [f"ACTION PRESENTER: Action {i} on", obj,
                       f": '{name}' localized description: '{description}'"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             actions[name] = description or name
 
         if not actions.items():
@@ -158,7 +172,7 @@ class ActionPresenter:
         self._gui = ActionMenu(actions, self._perform_action, self._restore_focus)
         timeout = 500
         msg = f"ACTION PRESENTER: Delaying popup {timeout}ms due to GtkMenu grab conflict."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
         GLib.timeout_add(timeout, self._gui.show_gui)
         return True
 
@@ -166,7 +180,12 @@ class ActionPresenter:
 class ActionMenu(Gtk.Menu):
     """A simple Gtk.Menu containing a list of accessible actions."""
 
-    def __init__(self, actions, action_handler, cleanup_handler):
+    def __init__(
+        self,
+        actions: dict[str, str],
+        action_handler: Callable[[str], None],
+        cleanup_handler: Callable[[], None]
+    ) -> None:
         super().__init__()
         self.connect("popped-up", self._on_popped_up)
         self.connect("hide", self._on_hidden)
@@ -177,25 +196,25 @@ class ActionMenu(Gtk.Menu):
             menu_item.connect("activate", self._on_activate, name)
             self.append(menu_item)
 
-    def _on_activate(self, widget, option):
+    def _on_activate(self, _widget: Gtk.Widget, option: str) -> None:
         """Handler for the 'activate' menuitem signal"""
 
         self.on_option_selected(option)
 
-    def _on_popped_up(self, *args):
+    def _on_popped_up(self, *_args: tuple[Any, ...]) -> None:
         """Handler for the 'popped-up' menu signal"""
 
         msg = "ACTION PRESENTER: ActionMenu popped up"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
-    def _on_hidden(self, *args):
+    def _on_hidden(self, *_args: tuple[Any, ...]) -> None:
         """Handler for the 'hide' menu signal"""
 
         msg = "ACTION PRESENTER: ActionMenu hidden"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
         self.on_menu_hidden()
 
-    def show_gui(self):
+    def show_gui(self) -> None:
         """Shows the menu"""
 
         self.show_all()
@@ -204,7 +223,10 @@ class ActionMenu(Gtk.Menu):
         device = seat.get_pointer()
         screen, x, y = device.get_position()
 
+        # There is indeed a "new" member in the Gdk.Event class.
+        # pylint: disable=no-member
         event = Gdk.Event.new(Gdk.EventType.BUTTON_PRESS)
+        # pylint: enable-no-member
         event.set_screen(screen)
         event.set_device(device)
         event.time = time.time()
@@ -222,5 +244,7 @@ class ActionMenu(Gtk.Menu):
 
 
 _presenter = ActionPresenter()
-def get_presenter():
+def get_presenter() -> ActionPresenter:
+    """Returns the action presenter."""
+
     return _presenter

@@ -58,7 +58,7 @@ class InputEventManager:
         """Starts the watcher for keyboard input events."""
 
         msg = "INPUT EVENT MANAGER: Starting key watcher."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
         self._device = Atspi.Device.new()
         self._device.add_key_watcher(self.process_keyboard_event)
 
@@ -66,7 +66,7 @@ class InputEventManager:
         """Starts the watcher for keyboard input events."""
 
         msg = "INPUT EVENT MANAGER: Stopping key watcher."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
         self._device = None
 
     def add_grabs_for_keybinding(self, binding):
@@ -77,12 +77,12 @@ class InputEventManager:
 
         if binding.has_grabs():
             tokens = ["INPUT EVENT MANAGER:", binding, "already has grabs."]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return []
 
         if self._device is None:
             tokens = ["INPUT EVENT MANAGER: No device to add grab for", binding]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return []
 
         grab_ids = []
@@ -96,13 +96,13 @@ class InputEventManager:
 
         if self._device is None:
             tokens = ["INPUT EVENT MANAGER: No device to remove grab from", binding]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return
 
         grab_ids = binding.get_grab_ids()
         if not grab_ids:
             tokens = ["INPUT EVENT MANAGER:", binding, "doesn't have grabs to remove."]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return
 
         for grab_id in grab_ids:
@@ -113,26 +113,37 @@ class InputEventManager:
 
         if self._device is None:
             msg = f"INPUT EVENT MANAGER: No device to map keycode {keycode} to modifier"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return 0
 
         return self._device.map_modifier(keycode)
 
-    def add_grab_for_modifier(self, modifier, keycode):
+    def map_keysym_to_modifier(self, keysym):
+        """Maps keysym as a modifier, returns the newly-mapped modifier."""
+
+        if self._device is None:
+            msg = f"INPUT EVENT MANAGER: No device to map keysym {keysym} to modifier"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return 0
+
+        return self._device.map_keysym_modifier(keysym)
+
+    def add_grab_for_modifier(self, modifier, keysym, keycode):
         """Adds grab for modifier, returns grab id."""
 
         if self._device is None:
             tokens = ["INPUT EVENT MANAGER: No device to add grab for", modifier]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return -1
 
         kd = Atspi.KeyDefinition()
+        kd.keysym = keysym
         kd.keycode = keycode
         kd.modifiers = 0
         grab_id = self._device.add_key_grab(kd)
 
         tokens = ["INPUT EVENT MANAGER: Grab id for", modifier, ":", grab_id]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return grab_id
 
     def remove_grab_for_modifier(self, modifier, grab_id):
@@ -140,12 +151,12 @@ class InputEventManager:
 
         if self._device is None:
             tokens = ["INPUT EVENT MANAGER: No device to remove grab from", modifier]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return
 
         self._device.remove_key_grab(grab_id)
         tokens = ["INPUT EVENT MANAGER: Grab ID removed for", modifier, ":", grab_id]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
     def grab_keyboard(self, reason=""):
         """Grabs the keyboard, e.g. when entering learn mode."""
@@ -153,7 +164,7 @@ class InputEventManager:
         msg = "INPUT EVENT MANAGER: Grabbing keyboard"
         if reason:
             msg += f" Reason: {reason}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
         Atspi.Device.grab_keyboard(self._device)
 
     def ungrab_keyboard(self, reason=""):
@@ -162,7 +173,7 @@ class InputEventManager:
         msg = "INPUT EVENT MANAGER: Ungrabbing keyboard"
         if reason:
             msg += f" Reason: {reason}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
         Atspi.Device.ungrab_keyboard(self._device)
 
     def process_braille_event(self, event):
@@ -182,23 +193,30 @@ class InputEventManager:
         self._last_input_event = mouse_event
 
     # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-positional-arguments
     def process_keyboard_event(self, _device, pressed, keycode, keysym, modifiers, text):
         """Processes this Atspi keyboard event."""
 
         event = input_event.KeyboardEvent(pressed, keycode, keysym, modifiers, text)
         if event in [self._last_input_event, self._last_non_modifier_key_event]:
             msg = "INPUT EVENT MANAGER: Received duplicate event."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
 
         manager = focus_manager.get_manager()
         if pressed:
             window = manager.get_active_window()
-            if not manager.can_be_active_window(window):
-                window = manager.find_active_window()
-                tokens = ["INPUT EVENT MANAGER: Updating window and active window to", window]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-                manager.set_active_window(window)
+            if not AXUtilities.can_be_active_window(window):
+                new_window = AXUtilities.find_active_window()
+                if new_window is not None:
+                    window = new_window
+                    tokens = ["INPUT EVENT MANAGER: Updating window and active window to", window]
+                    debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+                    manager.set_active_window(window)
+                else:
+                    # One example: Brave's popup menus live in frames which lack the active state.
+                    tokens = ["WARNING:", window, "cannot be active window. No alternative found."]
+                    debug.print_tokens(debug.LEVEL_WARNING, tokens, True)
             event.set_window(window)
             event.set_object(manager.get_locus_of_focus())
             event.set_script(script_manager.get_manager().get_active_script())
@@ -217,12 +235,14 @@ class InputEventManager:
         if event.is_modifier_key():
             if self.is_release_for(event, self._last_input_event):
                 msg = "INPUT EVENT MANAGER: Clearing last non modifier key event"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                debug.print_message(debug.LEVEL_INFO, msg, True)
                 self._last_non_modifier_key_event = None
         else:
             self._last_non_modifier_key_event = event
         self._last_input_event = event
         return result
+    # pylint: enable=too-many-arguments
+    # pylint: enable=too-many-positional-arguments
 
     def _determine_keyboard_event_click_count(self, event):
         """Determines the click count of event."""
@@ -297,7 +317,7 @@ class InputEventManager:
             f"INPUT EVENT MANAGER: {event1.as_single_line_string()} "
             f"is release for {event2.as_single_line_string()}: {result}"
         )
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
         return result
 
     def last_event_equals_or_is_release_for_event(self, event):
@@ -344,10 +364,12 @@ class InputEventManager:
     def last_event_was_command(self):
         """Returns True if the last event is believed to be a command."""
 
-        rv = bool(self._last_key_and_modifiers()[1] & 1 << Atspi.ModifierType.CONTROL)
-        msg = f"INPUT EVENT MANAGER: Last event was command: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return rv
+        if bool(self._last_key_and_modifiers()[1] & 1 << Atspi.ModifierType.CONTROL):
+            msg = "INPUT EVENT MANAGER: Last event was command."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+
+        return False
 
     def last_event_was_shortcut_for(self, obj):
         """Returns True if the last event is believed to be a shortcut key for obj."""
@@ -363,8 +385,9 @@ class InputEventManager:
                 rv = True
                 break
 
-        tokens = ["INPUT EVENT MANAGER: Last event was shortcut for", obj, rv]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        if rv:
+            tokens = ["INPUT EVENT MANAGER: Last event was shortcut for", obj]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return rv
 
     def last_event_was_printable_key(self):
@@ -373,10 +396,12 @@ class InputEventManager:
         if not self.last_event_was_keyboard():
             return False
 
-        rv = self._last_input_event.is_printable_key()
-        msg = f"INPUT EVENT MANAGER: Last event was printable key: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return rv
+        if self._last_input_event.is_printable_key():
+            msg = "INPUT EVENT MANAGER: Last event was printable key"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+
+        return False
 
     def last_event_was_caret_navigation(self):
         """Returns True if the last event is believed to be caret navigation."""
@@ -397,8 +422,9 @@ class InputEventManager:
         else:
             rv = bool(mods & 1 << Atspi.ModifierType.SHIFT)
 
-        msg = f"INPUT EVENT MANAGER: Last event was caret selection: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was caret selection"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_backward_caret_navigation(self):
@@ -410,8 +436,9 @@ class InputEventManager:
         else:
             rv = not mods & 1 << Atspi.ModifierType.SHIFT
 
-        msg = f"INPUT EVENT MANAGER: Last event was backward caret navigation: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was backward caret navigation"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_forward_caret_navigation(self):
@@ -423,8 +450,9 @@ class InputEventManager:
         else:
             rv = not mods & 1 << Atspi.ModifierType.SHIFT
 
-        msg = f"INPUT EVENT MANAGER: Last event was forward caret navigation: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was forward caret navigation"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_forward_caret_selection(self):
@@ -436,8 +464,9 @@ class InputEventManager:
         else:
             rv = bool(mods & 1 << Atspi.ModifierType.SHIFT)
 
-        msg = f"INPUT EVENT MANAGER: Last event was forward caret selection: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was forward caret selection"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_character_navigation(self):
@@ -451,8 +480,9 @@ class InputEventManager:
         else:
             rv = True
 
-        msg = f"INPUT EVENT MANAGER: Last event was character navigation: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was character navigation"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_word_navigation(self):
@@ -464,8 +494,9 @@ class InputEventManager:
         else:
             rv = bool(mods & 1 << Atspi.ModifierType.CONTROL)
 
-        msg = f"INPUT EVENT MANAGER: Last event was word navigation: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was word navigation"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_previous_word_navigation(self):
@@ -477,8 +508,9 @@ class InputEventManager:
         else:
             rv = bool(mods & 1 << Atspi.ModifierType.CONTROL)
 
-        msg = f"INPUT EVENT MANAGER: Last event was previous-word navigation: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was previous-word navigation"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_next_word_navigation(self):
@@ -490,8 +522,9 @@ class InputEventManager:
         else:
             rv = bool(mods & 1 << Atspi.ModifierType.CONTROL)
 
-        msg = f"INPUT EVENT MANAGER: Last event was next-word navigation: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was next-word navigation"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_line_navigation(self):
@@ -504,10 +537,14 @@ class InputEventManager:
             rv = False
         else:
             focus = focus_manager.get_manager().get_locus_of_focus()
-            rv = not AXObject.find_ancestor(focus, AXUtilities.is_combo_box)
+            if AXUtilities.is_single_line(focus):
+                rv = False
+            else:
+                rv = not AXUtilities.is_widget_controlled_by_line_navigation(focus)
 
-        msg = f"INPUT EVENT MANAGER: Last event was line navigation: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was line navigation"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_paragraph_navigation(self):
@@ -519,8 +556,9 @@ class InputEventManager:
         else:
             rv = not mods & 1 << Atspi.ModifierType.SHIFT
 
-        msg = f"INPUT EVENT MANAGER: Last event was paragraph navigation: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was paragraph navigation"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_line_boundary_navigation(self):
@@ -532,8 +570,9 @@ class InputEventManager:
         else:
             rv = not mods & 1 << Atspi.ModifierType.CONTROL
 
-        msg = f"INPUT EVENT MANAGER: Last event was line boundary navigation: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was line boundary navigation"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_file_boundary_navigation(self):
@@ -545,8 +584,9 @@ class InputEventManager:
         else:
             rv = bool(mods & 1 << Atspi.ModifierType.CONTROL)
 
-        msg = f"INPUT EVENT MANAGER: Last event was file boundary navigation: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was file boundary navigation"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_page_navigation(self):
@@ -559,10 +599,14 @@ class InputEventManager:
             rv = False
         else:
             focus = focus_manager.get_manager().get_locus_of_focus()
-            rv = not AXObject.find_ancestor(focus, AXUtilities.is_combo_box)
+            if AXUtilities.is_single_line(focus):
+                rv = False
+            else:
+                rv = not AXUtilities.is_widget_controlled_by_line_navigation(focus)
 
-        msg = f"INPUT EVENT MANAGER: Last event was page navigation: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was page navigation"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_page_switch(self):
@@ -576,8 +620,9 @@ class InputEventManager:
         else:
             rv = False
 
-        msg = f"INPUT EVENT MANAGER: Last event was page switch: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was page switch"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_tab_navigation(self):
@@ -591,8 +636,9 @@ class InputEventManager:
         else:
             rv = True
 
-        msg = f"INPUT EVENT MANAGER: Last event was Tab navigation: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was Tab navigation"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_table_sort(self):
@@ -608,8 +654,9 @@ class InputEventManager:
         else:
             rv = False
 
-        msg = f"INPUT EVENT MANAGER: Last event was table sort: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was table sort"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_unmodified_arrow(self):
@@ -719,8 +766,9 @@ class InputEventManager:
         else:
             rv = False
 
-        msg = f"INPUT EVENT MANAGER: Last event was delete: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was delete"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_cut(self):
@@ -728,15 +776,14 @@ class InputEventManager:
 
         keycode, mods = self._last_keycode_and_modifiers()
         keynames = self._all_names_for_key_code(keycode)
-        if "x" in keynames:
-            rv = mods & 1 << Atspi.ModifierType.CONTROL \
-                and not mods & 1 << Atspi.ModifierType.SHIFT
-        else:
-            rv = False
+        if "x" not in keynames:
+            return False
 
-        msg = f"INPUT EVENT MANAGER: Last event was cut: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return rv
+        if mods & 1 << Atspi.ModifierType.CONTROL and not mods & 1 << Atspi.ModifierType.SHIFT:
+            msg = "INPUT EVENT MANAGER: Last event was cut"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+        return False
 
     def last_event_was_copy(self):
         """Returns True if the last event is believed to be the copy command."""
@@ -750,8 +797,9 @@ class InputEventManager:
         else:
             rv = not mods & 1 << Atspi.ModifierType.SHIFT
 
-        msg = f"INPUT EVENT MANAGER: Last event was copy: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was copy"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_paste(self):
@@ -766,8 +814,9 @@ class InputEventManager:
         else:
             rv = not mods & 1 << Atspi.ModifierType.SHIFT
 
-        msg = f"INPUT EVENT MANAGER: Last event was paste: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was paste"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_undo(self):
@@ -775,15 +824,13 @@ class InputEventManager:
 
         keycode, mods = self._last_keycode_and_modifiers()
         keynames = self._all_names_for_key_code(keycode)
-        if "z" in keynames:
-            rv = mods & 1 << Atspi.ModifierType.CONTROL \
-                and not mods & 1 << Atspi.ModifierType.SHIFT
-        else:
-            rv = False
-
-        msg = f"INPUT EVENT MANAGER: Last event was undo: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return rv
+        if "z" not in keynames:
+            return False
+        if mods & 1 << Atspi.ModifierType.CONTROL and not mods & 1 << Atspi.ModifierType.SHIFT:
+            msg = "INPUT EVENT MANAGER: Last event was undo"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+        return False
 
     def last_event_was_redo(self):
         """Returns True if the last event is believed to be the redo command."""
@@ -799,8 +846,9 @@ class InputEventManager:
         else:
             rv = False
 
-        msg = f"INPUT EVENT MANAGER: Last event was redo: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        if rv:
+            msg = "INPUT EVENT MANAGER: Last event was redo"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
         return rv
 
     def last_event_was_select_all(self):
@@ -808,15 +856,14 @@ class InputEventManager:
 
         keycode, mods = self._last_keycode_and_modifiers()
         keynames = self._all_names_for_key_code(keycode)
-        if "a" in keynames:
-            rv = mods & 1 << Atspi.ModifierType.CONTROL \
-                and not mods & 1 << Atspi.ModifierType.SHIFT
-        else:
-            rv = False
+        if "a" not in keynames:
+            return False
 
-        msg = f"INPUT EVENT MANAGER: Last event was select all: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return rv
+        if (mods & 1 << Atspi.ModifierType.CONTROL and not mods & 1 << Atspi.ModifierType.SHIFT):
+            msg = "INPUT EVENT MANAGER: Last event was select all"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+        return False
 
     def last_event_was_primary_click(self):
         """Returns True if the last event is a primary mouse click."""
@@ -824,10 +871,11 @@ class InputEventManager:
         if not self.last_event_was_mouse_button():
             return False
 
-        rv = self._last_input_event.button == 1 and self._last_input_event.pressed
-        msg = f"INPUT EVENT MANAGER: Last event was primary click: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return rv
+        if self._last_input_event.button == "1" and self._last_input_event.pressed:
+            msg = "INPUT EVENT MANAGER: Last event was primary click"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+        return False
 
     def last_event_was_primary_release(self):
         """Returns True if the last event is a primary mouse release."""
@@ -835,10 +883,11 @@ class InputEventManager:
         if not self.last_event_was_mouse_button():
             return False
 
-        rv = self._last_input_event.button == 1 and not self._last_input_event.pressed
-        msg = f"INPUT EVENT MANAGER: Last event was primary release: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return rv
+        if self._last_input_event.button == "1" and not self._last_input_event.pressed:
+            msg = "INPUT EVENT MANAGER: Last event was primary release"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+        return False
 
     def last_event_was_primary_click_or_release(self):
         """Returns True if the last event is a primary mouse click or release."""
@@ -846,10 +895,11 @@ class InputEventManager:
         if not self.last_event_was_mouse_button():
             return False
 
-        rv = self._last_input_event.button == 1
-        msg = f"INPUT EVENT MANAGER: Last event was primary click or release: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return rv
+        if self._last_input_event.button == "1":
+            msg = "INPUT EVENT MANAGER: Last event was primary click or release"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+        return False
 
     def last_event_was_middle_click(self):
         """Returns True if the last event is a middle mouse click."""
@@ -857,10 +907,11 @@ class InputEventManager:
         if not self.last_event_was_mouse_button():
             return False
 
-        rv = self._last_input_event.button == 2 and self._last_input_event.pressed
-        msg = f"INPUT EVENT MANAGER: Last event was middle click: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return rv
+        if self._last_input_event.button == "2" and self._last_input_event.pressed:
+            msg = "INPUT EVENT MANAGER: Last event was middle click"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+        return False
 
     def last_event_was_middle_release(self):
         """Returns True if the last event is a middle mouse release."""
@@ -868,10 +919,11 @@ class InputEventManager:
         if not self.last_event_was_mouse_button():
             return False
 
-        rv = self._last_input_event.button == 2 and not self._last_input_event.pressed
-        msg = f"INPUT EVENT MANAGER: Last event was middle release: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return rv
+        if self._last_input_event.button == "2" and not self._last_input_event.pressed:
+            msg = "INPUT EVENT MANAGER: Last event was middle release"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+        return False
 
     def last_event_was_secondary_click(self):
         """Returns True if the last event is a secondary mouse click."""
@@ -879,10 +931,11 @@ class InputEventManager:
         if not self.last_event_was_mouse_button():
             return False
 
-        rv = self._last_input_event.button == 3 and self._last_input_event.pressed
-        msg = f"INPUT EVENT MANAGER: Last event was secondary click: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return rv
+        if self._last_input_event.button == "3" and self._last_input_event.pressed:
+            msg = "INPUT EVENT MANAGER: Last event was secondary click"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+        return False
 
     def last_event_was_secondary_release(self):
         """Returns True if the last event is a secondary mouse release."""
@@ -890,10 +943,11 @@ class InputEventManager:
         if not self.last_event_was_mouse_button():
             return False
 
-        rv = self._last_input_event.button == 3 and not self._last_input_event.pressed
-        msg = f"INPUT EVENT MANAGER: Last event was secondary release: {rv}"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
-        return rv
+        if self._last_input_event.button == "3" and not self._last_input_event.pressed:
+            msg = "INPUT EVENT MANAGER: Last event was secondary release"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+        return False
 
 
 _manager = InputEventManager()

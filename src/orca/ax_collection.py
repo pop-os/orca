@@ -20,16 +20,10 @@
 
 # pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
+# pylint: disable=too-many-positional-arguments
+# pylint: disable=duplicate-code
 
-"""
-Utilities for obtaining objects via the collection interface.
-These utilities are app-type- and toolkit-agnostic. Utilities that might have
-different implementations or results depending on the type of app (e.g. terminal,
-chat, web) or toolkit (e.g. Qt, Gtk) should be in script_utilities.py file(s).
-
-N.B. There are currently utilities that should never have custom implementations
-that live in script_utilities.py files. These will be moved over time.
-"""
+"""Utilities for obtaining objects via the collection interface."""
 
 __id__        = "$Id$"
 __version__   = "$Revision$"
@@ -38,6 +32,7 @@ __copyright__ = "Copyright (c) 2023 Igalia, S.L."
 __license__   = "LGPL"
 
 import time
+from typing import Optional
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -54,23 +49,33 @@ class AXCollection:
     # This function wraps Atspi.MatchRule.new which has all the arguments.
     # pylint: disable=R0913,R0914
     @staticmethod
-    def create_match_rule(states=[],
-                          state_match_type=Atspi.CollectionMatchType.ALL,
-                          attributes=[],
-                          attribute_match_type=Atspi.CollectionMatchType.ANY,
-                          roles=[],
-                          role_match_type=Atspi.CollectionMatchType.ANY,
-                          interfaces=[],
-                          interface_match_type=Atspi.CollectionMatchType.ALL,
-                          invert=False):
+    def create_match_rule(
+        states: Optional[list[str]] = None,
+        state_match_type: Atspi.CollectionMatchType = Atspi.CollectionMatchType.ALL,
+        attributes: Optional[list[str]] = None,
+        attribute_match_type: Atspi.CollectionMatchType = Atspi.CollectionMatchType.ANY,
+        roles: Optional[list[str]] = None,
+        role_match_type: Atspi.CollectionMatchType = Atspi.CollectionMatchType.ANY,
+        interfaces: Optional[list[str]] = None,
+        interface_match_type: Atspi.CollectionMatchType = Atspi.CollectionMatchType.ALL,
+        invert: bool = False) -> Optional[Atspi.MatchRule]:
         """Creates a match rule based on the supplied criteria."""
+
+        if states is None:
+            states = []
+        if attributes is None:
+            attributes = []
+        if roles is None:
+            roles = []
+        if interfaces is None:
+            interfaces = []
 
         state_set = Atspi.StateSet()
         if states:
             for state in states:
                 state_set.add(state)
 
-        attributes_dict = {}
+        attributes_dict: dict[str, str] = {}
         if attributes:
             for attr in attributes:
                 key, value = attr.split(":", 1)
@@ -92,19 +97,23 @@ class AXCollection:
                                        invert)
         except Exception as error:
             tokens = ["AXCollection: Exception in create_match_rule:", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         return rule
     # pylint: enable=R0913,R0914
 
     @staticmethod
-    def get_all_matches(obj, rule, order=Atspi.CollectionSortOrder.CANONICAL):
+    def get_all_matches(
+        obj: Atspi.Accessible,
+        rule: Atspi.MatchRule,
+            order: Atspi.CollectionSortOrder = Atspi.CollectionSortOrder.CANONICAL
+        ) -> list[Atspi.Accessible]:
         """Returns a list of objects matching the specified rule."""
 
         if not AXObject.supports_collection(obj):
             tokens = ["AXCollection:", obj, "does not implement this interface."]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return []
 
         if rule is None:
@@ -117,20 +126,24 @@ class AXCollection:
             matches = Atspi.Collection.get_matches(obj, rule, order, 0, True)
         except Exception as error:
             tokens = ["AXCollection: Exception in get_all_matches:", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return []
 
         msg = f"AXCollection: {len(matches)} match(es) found in {time.time() - start:.4f}s"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
         return matches
 
     @staticmethod
-    def get_first_match(obj, rule, order=Atspi.CollectionSortOrder.CANONICAL):
+    def get_first_match(
+        obj: Atspi.Accessible,
+        rule: Atspi.MatchRule,
+        order: Atspi.CollectionSortOrder = Atspi.CollectionSortOrder.CANONICAL
+    ) -> Optional[Atspi.Accessible]:
         """Returns the first object matching the specified rule."""
 
         if not AXObject.supports_collection(obj):
             tokens = ["AXCollection:", obj, "does not implement this interface."]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         if rule is None:
@@ -143,7 +156,7 @@ class AXCollection:
             matches = Atspi.Collection.get_matches(obj, rule, order, 1, True)
         except Exception as error:
             tokens = ["AXCollection: Exception in get_first_match:", error]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         match = None
@@ -151,5 +164,5 @@ class AXCollection:
             match = matches[0]
 
         tokens = ["AXCollection: found", match, f"in {time.time() - start:.4f}s"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return match

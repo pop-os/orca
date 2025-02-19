@@ -28,12 +28,11 @@ import re
 
 from orca import debug
 from orca import focus_manager
-from orca import keybindings
 from orca import input_event_manager
 from orca import script_utilities
-from orca import settings_manager
 from orca.ax_text import AXText
 from orca.ax_utilities import AXUtilities
+from orca.ax_utilities_event import TextEventReason
 
 
 class Utilities(script_utilities.Utilities):
@@ -48,36 +47,36 @@ class Utilities(script_utilities.Utilities):
 
         adjusted = event.any_data[:match.start()]
         tokens = ["TERMINAL: Adjusted deletion: '", adjusted, "'"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return adjusted
 
     def insertedText(self, event):
         if len(event.any_data) == 1:
             return event.any_data
 
-        if self.isAutoTextEvent(event):
+        if AXUtilities.get_text_event_reason(event) == TextEventReason.AUTO_INSERTION_PRESENTABLE:
             return event.any_data
 
-        if self.isClipboardTextChangedEvent(event):
+        if self._script.get_clipboard_presenter().is_clipboard_text_changed_event(event):
             return event.any_data
 
         start, end = event.detail1, event.detail1 + len(event.any_data)
         firstLine = AXText.get_line_at_offset(event.source, start)
         tokens = ["TERMINAL: First line of insertion:", firstLine]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         lastLine = AXText.get_line_at_offset(event.source, end - 1)
         tokens = ["TERMINAL: Last line of insertion:", lastLine]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         if firstLine == lastLine:
             msg = "TERMINAL: Not adjusting single-line insertion."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return event.any_data
 
         currentLine = AXText.get_line_at_offset(event.source, None)
         tokens = ["TERMINAL: Current line:", currentLine]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         if firstLine != ("", 0, 0):
             start = firstLine[1]
@@ -93,10 +92,10 @@ class Utilities(script_utilities.Utilities):
         adjusted = AXText.get_substring(event.source, start, end)
         if adjusted:
             tokens = ["TERMINAL: Adjusted insertion: '", adjusted, "'"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         else:
             msg = "TERMINAL: Adjustment failed. Returning any_data."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             adjusted = event.any_data
 
         return adjusted
@@ -115,24 +114,6 @@ class Utilities(script_utilities.Utilities):
             return True
 
         return super().isTextArea(obj)
-
-    def isAutoTextEvent(self, event):
-        if not event.type.startswith("object:text-changed:insert"):
-            return False
-
-        if not event.any_data or not event.source:
-            return False
-
-        if len(event.any_data) <= 1:
-            return False
-
-        manager = input_event_manager.get_manager()
-        if manager.last_event_was_tab():
-            return event.any_data != "\t"
-        if manager.last_event_was_return() and event.any_data.startswith("\n"):
-            return event.any_data.strip() and not event.any_data.count("\n~")
-
-        return False
 
     def treatEventAsCommand(self, event):
         if event.source != focus_manager.get_manager().get_locus_of_focus():
@@ -174,14 +155,3 @@ class Utilities(script_utilities.Utilities):
                 return True
 
         return False
-
-    def willEchoCharacter(self, event):
-        if not settings_manager.get_manager().get_setting("enableEchoByCharacter"):
-            return False
-
-        # TODO - JD: What case is the modifier check handling?
-        if len(event.event_string) != 1 \
-           or event.modifiers & keybindings.ORCA_CTRL_MODIFIER_MASK:
-            return False
-
-        return True

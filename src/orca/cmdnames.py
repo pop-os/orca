@@ -487,6 +487,11 @@ TOGGLE_SPOKEN_INDENTATION_AND_JUSTIFICATION = \
 # toggling between the two options.
 CHANGE_NUMBER_STYLE = _("Change spoken number style")
 
+# Translators: Orca has a command to present the current clipboard contents to
+# the user without them having to switch to a clipboard manager application. This
+# string is the description of that command.
+CLIPBOARD_PRESENT_CONTENTS = _("Present clipboard contents")
+
 # Translators: Orca allows users to cycle through punctuation levels. None,
 # some, most, or all, punctuation will be spoken.
 CYCLE_PUNCTUATION_LEVEL = _("Cycle to the next speaking of punctuation level")
@@ -528,7 +533,21 @@ CYCLE_KEY_ECHO = _("Cycle to the next key echo level")
 # Translators: this is a debug message that Orca users will not normally see. It
 # describes a debug routine that allows the user to adjust the level of debug
 # information that Orca generates at run time.
-CYCLE_DEBUG_LEVEL = _("Cycle the debug level at run time")
+DEBUG_CYCLE_LEVEL = _("Cycle the debug level at run time")
+
+# Translators: this is a debug message for advanced users and developers. It
+# describes a debug command that allows the user to clear the AT-SPI cache for
+# the currently-running application. This is sometimes needed because applications
+# fail to notify AT-SPI when something changes resulting in AT-SPI having stale
+# information which impacts Orca's logic and/or presentation to users.
+DEBUG_CLEAR_ATSPI_CACHE_FOR_APPLICATION = \
+    _("Clear the AT-SPI cache for the current application")
+
+# Translators: this is a debug message for advanced users and developers. It
+# describes a command to print detailed debugging information about the current
+# state such as the current Orca settings and a list of all the running accessible
+# applications, etc.
+DEBUG_CAPTURE_SNAPSHOT = _("Capture snapshot for debugging")
 
 # Translators: this command announces information regarding the relationship of
 # the given bookmark to the current position. Note that in this context, the

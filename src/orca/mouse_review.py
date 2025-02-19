@@ -131,7 +131,7 @@ class _StringContext:
             return False
 
         tokens = ["MOUSE REVIEW: '", self._string, "' is substring of '", other._string, "'"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return True
 
     def get_bounding_box(self):
@@ -149,17 +149,18 @@ class _StringContext:
 
         if not self._script:
             msg = "MOUSE REVIEW: Not presenting due to lack of script"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
 
         if not self._string:
             msg = "MOUSE REVIEW: Not presenting due to lack of string"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
 
         voice = self._script.speech_generator.voice(obj=self._obj, string=self._string)
         manager = speech_and_verbosity_manager.get_manager()
-        string = manager.adjust_for_repeats(self._string)
+        string = manager.adjust_for_digits(self._obj, self._string)
+        string = manager.adjust_for_repeats(string)
 
         focus_manager.get_manager().emit_region_changed(
             self._obj, self._start, self._end, focus_manager.MOUSE_REVIEW)
@@ -202,27 +203,27 @@ class _ItemContext:
     def _treat_as_duplicate(self, prior):
         if self._obj != prior._obj or self._frame != prior._frame:
             msg = "MOUSE REVIEW: Not a duplicate: different objects"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
 
         if self.get_string() and prior.get_string() and not self._is_substring_of(prior):
             msg = "MOUSE REVIEW: Not a duplicate: not a substring of"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
 
         if self._x == prior._x and self._y == prior._y:
             msg = "MOUSE REVIEW: Treating as duplicate: mouse didn't move"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
 
         interval = self._time - prior._time
         if interval > 0.5:
             msg = f"MOUSE REVIEW: Not a duplicate: was {interval:.2f}s ago"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
 
         msg = "MOUSE REVIEW: Treating as duplicate"
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
         return True
 
     def _treat_as_single_object(self):
@@ -302,7 +303,7 @@ class _ItemContext:
 
         if self == prior or self._treat_as_duplicate(prior):
             msg = "MOUSE REVIEW: Not presenting due to no change"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
 
         interrupt = self._obj and self._obj != prior._obj \
@@ -355,7 +356,7 @@ class MouseReviewer:
 
         if not _MOUSE_REVIEW_CAPABLE:
             msg = "MOUSE REVIEW ERROR: Wnck is not available"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             self._active = False
 
         if not self._active:
@@ -368,7 +369,7 @@ class MouseReviewer:
 
         if refresh:
             msg = f"MOUSE REVIEW: Refreshing bindings. Is desktop: {is_desktop}"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             self._setup_bindings()
         elif self._bindings.is_empty():
             self._setup_bindings()
@@ -380,7 +381,7 @@ class MouseReviewer:
 
         if refresh:
             msg = "MOUSE REVIEW: Refreshing handlers."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             self._setup_handlers()
 
         return self._handlers
@@ -396,7 +397,7 @@ class MouseReviewer:
                 cmdnames.MOUSE_REVIEW_TOGGLE)
 
         msg = "MOUSE REVIEW: Handlers set up."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
     def _setup_bindings(self):
         """Sets up the mouse-review key bindings."""
@@ -411,14 +412,14 @@ class MouseReviewer:
                 self._handlers.get("toggleMouseReviewHandler")))
 
         msg = "MOUSE REVIEW: Bindings set up."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
 
     def activate(self):
         """Activates mouse review."""
 
         if not _MOUSE_REVIEW_CAPABLE:
             msg = "MOUSE REVIEW ERROR: Wnck is not available"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             self._active = False
             return
 
@@ -428,7 +429,7 @@ class MouseReviewer:
         script = None
         frame = None
         if obj:
-            script = script_manager.get_manager().get_script(AXObject.get_application(obj), obj)
+            script = script_manager.get_manager().get_script(AXUtilities.get_application(obj), obj)
         if script:
             frame = script.utilities.topLevelObject(obj)
         self._current_mouse_over = _ItemContext(obj=obj, frame=frame, script=script)
@@ -483,7 +484,7 @@ class MouseReviewer:
 
         if time.time() - self._current_mouse_over.get_time() > 0.1:
             tokens = ["MOUSE REVIEW: Treating", obj, "as stale"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
         return obj
@@ -585,11 +586,11 @@ class MouseReviewer:
         point_x, point_y = event.detail1, event.detail2
         window, window_x, window_y = self._accessible_window_at_point(point_x, point_y)
         tokens = [f"MOUSE REVIEW: Window at ({point_x}, {point_y}) is", window]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         if not window:
             return
 
-        script = script_manager.get_manager().get_script(AXObject.get_application(window))
+        script = script_manager.get_manager().get_script(AXUtilities.get_application(window))
         if not script:
             return
 
@@ -605,18 +606,18 @@ class MouseReviewer:
         if menu:
             obj = AXComponent.get_descendant_at_point(menu, window_x, window_y)
             tokens = ["MOUSE REVIEW: Object in", menu, f"at ({window_x}, {window_y}) is", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         if obj is None:
             obj = AXComponent.get_descendant_at_point(window, window_x, window_y)
             tokens = ["MOUSE REVIEW: Object in", window, f"at ({window_x}, {window_y}) is", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
-        script = script_manager.get_manager().get_script(AXObject.get_application(window), obj)
+        script = script_manager.get_manager().get_script(AXUtilities.get_application(window), obj)
         if menu and obj and not AXObject.find_ancestor(obj, AXUtilities.is_menu):
             if AXComponent.objects_overlap(obj, menu):
                 tokens = ["MOUSE REVIEW:", obj, "believed to be under", menu]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
                 return
 
         granularity = Atspi.TextGranularity.LINE
@@ -626,7 +627,7 @@ class MouseReviewer:
 
         if len(self._event_queue):
             msg = "MOUSE REVIEW: Mouse moved again."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return
 
         new = _ItemContext(window_x, window_y, obj, granularity, window, script)
@@ -643,7 +644,7 @@ class MouseReviewer:
 
         start_time = time.time()
         tokens = ["\nvvvvv PROCESS OBJECT EVENT", event.type, "vvvvv"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, False)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, False)
 
         self.in_mouse_event = True
         self._on_mouse_moved(event)
@@ -651,7 +652,7 @@ class MouseReviewer:
 
         msg = f"TOTAL PROCESSING TIME: {time.time() - start_time:.4f}\n"
         msg += f"^^^^^ PROCESS OBJECT EVENT {event.type} ^^^^^\n"
-        debug.printMessage(debug.LEVEL_INFO, msg, False)
+        debug.print_message(debug.LEVEL_INFO, msg, False)
 
     def _listener(self, event):
         """Generic listener for events of interest."""
