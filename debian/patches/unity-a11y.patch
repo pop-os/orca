@@ -17,10 +17,10 @@ https://bugzilla.gnome.org/show_bug.cgi?id=783063
  create mode 100644 src/orca/scripts/apps/unity/script_utilities.py
 
 diff --git a/src/orca/scripts/apps/__init__.py b/src/orca/scripts/apps/__init__.py
-index f8e9553..7a381b3 100644
+index 727b927..c081bae 100644
 --- a/src/orca/scripts/apps/__init__.py
 +++ b/src/orca/scripts/apps/__init__.py
-@@ -10,4 +10,5 @@ __all__ = ['evince',
+@@ -12,4 +12,5 @@ __all__ = ['evince',
             'SeaMonkey',
             'smuxi-frontend-gnome',
             'Thunderbird',
