@@ -1,11 +1,15 @@
-orca (48~beta-1ubuntu1) UNRELEASED; urgency=medium
+orca (48~beta-1ubuntu1) plucky; urgency=medium
 
+  [ Alessandro Astone ]
   * Merge with Debian. Remaining changes:
     + debian/patches/unity-a11y.patch: add hacks to better work with Unity.
     + Revert "control: Add xkbset dependency (Closes #972621)" This is in
       universe in Ubuntu so we can't depend on it. It's silently skipped if
       not available.
   * Rebase patches
+
+  [ Jeremy Bícha ]
+  * debian/salsa-ci.yml: Use Ubuntu pipeline
 
  -- Alessandro Astone <alessandro.astone@canonical.com>  Wed, 19 Feb 2025 17:25:48 +0100
 
