@@ -68,7 +68,6 @@ class Utilities(script_utilities.Utilities):
         self._hasGridDescendant = {}
         self._isGridDescendant = {}
         self._isLabelDescendant = {}
-        self._isModalDialogDescendant = {}
         self._isMenuDescendant = {}
         self._isNavigableToolTipDescendant = {}
         self._isToolBarDescendant = {}
@@ -147,7 +146,6 @@ class Utilities(script_utilities.Utilities):
         self._isGridDescendant = {}
         self._isLabelDescendant = {}
         self._isMenuDescendant = {}
-        self._isModalDialogDescendant = {}
         self._isNavigableToolTipDescendant = {}
         self._isToolBarDescendant = {}
         self._isWebAppDescendant = {}
@@ -334,16 +332,6 @@ class Utilities(script_utilities.Utilities):
                 return True
 
         return super().isTextArea(obj)
-
-    def isReadOnlyTextArea(self, obj):
-        # NOTE: This method is deliberately more conservative than isTextArea.
-        if not AXUtilities.is_entry(obj):
-            return False
-
-        if AXUtilities.is_read_only(obj):
-            return True
-
-        return AXUtilities.is_focusable(obj) and not AXUtilities.is_editable(obj)
 
     def setCaretOffset(self, obj, characterOffset):
         self.setCaretPosition(obj, characterOffset)
@@ -1455,7 +1443,7 @@ class Utilities(script_utilities.Utilities):
         tokens = ["WEB: First context on line is: ", firstObj, ", ", firstOffset]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
-        skipSpace = not AXUtilities.is_code(firstObj)
+        skipSpace = not settings_manager.get_manager().get_setting("speakBlankLines")
         obj, offset = self.previousContext(firstObj, firstOffset, skipSpace)
         if not obj and firstObj:
             tokens = ["WEB: Previous context is: ", obj, ", ", offset, ". Trying again."]
@@ -1518,7 +1506,7 @@ class Utilities(script_utilities.Utilities):
         tokens = ["WEB: Last context on line is: ", lastObj, ", ", lastOffset]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
-        skipSpace = not AXUtilities.is_code(lastObj)
+        skipSpace = not settings_manager.get_manager().get_setting("speakBlankLines")
         obj, offset = self.nextContext(lastObj, lastOffset, skipSpace)
         if not obj and lastObj:
             tokens = ["WEB: Next context is: ", obj, ", ", offset, ". Trying again."]
@@ -2109,9 +2097,6 @@ class Utilities(script_utilities.Utilities):
         self._isLabelDescendant[hash(obj)] = rv
         return rv
 
-    def isMenuInCollapsedSelectElement(self, obj):
-        return False
-
     def isMenuDescendant(self, obj):
         if not obj:
             return False
@@ -2122,18 +2107,6 @@ class Utilities(script_utilities.Utilities):
 
         rv = AXObject.find_ancestor(obj, AXUtilities.is_menu) is not None
         self._isMenuDescendant[hash(obj)] = rv
-        return rv
-
-    def isModalDialogDescendant(self, obj):
-        if not obj:
-            return False
-
-        rv = self._isModalDialogDescendant.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = super().isModalDialogDescendant(obj)
-        self._isModalDialogDescendant[hash(obj)] = rv
         return rv
 
     def isNavigableToolTipDescendant(self, obj):
@@ -2799,7 +2772,7 @@ class Utilities(script_utilities.Utilities):
                      Atspi.Role.LIST_BOX,
                      Atspi.Role.PASSWORD_TEXT,
                      Atspi.Role.RADIO_BUTTON]
-            rv = role in roles and not self.displayedLabel(obj)
+            rv = role in roles and not AXUtilities.get_displayed_label(obj)
 
         self._shouldInferLabelFor[hash(obj)] = rv
 
