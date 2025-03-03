@@ -733,8 +733,8 @@ class StructuralNavigation:
     def _getAll(self, structuralNavigationObject, arg=None):
         """Returns all the instances of structuralNavigationObject."""
 
-        modalDialog = self._script.utilities.getModalDialog(
-            focus_manager.get_manager().get_locus_of_focus())
+        focus = focus_manager.get_manager().get_locus_of_focus()
+        modalDialog = AXObject.find_ancestor_inclusive(focus, AXUtilities.is_modal_dialog)
         inModalDialog = bool(modalDialog)
         if self._inModalDialog != inModalDialog:
             msg = (
@@ -1023,7 +1023,7 @@ class StructuralNavigation:
     def _getLabel(self, obj):
         # Another case where we'll do this for now, and clean it up when
         # object presentation is refactored.
-        label = self._script.utilities.displayedLabel(obj)
+        label = AXUtilities.get_displayed_label(obj)
         if not label:
             label, objects = self._script.label_inference.infer(
                 obj, focusedOnly=False)
@@ -2140,9 +2140,5 @@ class StructuralNavigation:
         if kwargs.get("sameContainer"):
             self._script.presentMessage(messages.CONTAINER_END)
 
-        characterOffset = arg
-        if characterOffset is None:
-            # TODO - JD: Determine when it is None and see if this can be handled differently.
-            obj, characterOffset = self._script.utilities.getFirstCaretPosition(obj)
-
+        characterOffset = arg or 0
         self._presentLine(obj, characterOffset)
