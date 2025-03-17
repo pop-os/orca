@@ -63,33 +63,27 @@ class Script(default.Script):
     def on_active_descendant_changed(self, event):
         """Callback for object:active-descendant-changed accessibility events."""
 
-        focus = focus_manager.get_manager().get_locus_of_focus()
-        if self.utilities.isTypeahead(focus):
-            msg = "GTK: Locus of focus believed to be typeahead. Presenting change."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            self.presentObject(event.any_data, interrupt=True)
-            return
-
         if AXUtilities.is_table_related(event.source):
             AXObject.clear_cache(event.any_data, True, "active-descendant-changed event.")
             AXUtilities.clear_all_cache_now(event.source, "active-descendant-changed event.")
 
+        focus = focus_manager.get_manager().get_locus_of_focus()
         if AXUtilities.is_table_cell(focus):
             table = AXObject.find_ancestor(focus, AXUtilities.is_tree_or_tree_table)
             if table is not None and table != event.source:
                 msg = "GTK: Event is from a different tree or tree table."
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                debug.print_message(debug.LEVEL_INFO, msg, True)
                 return
 
         child = AXObject.get_active_descendant_checked(event.source, event.any_data)
         if child is not None and child != event.any_data:
             tokens = ["GTK: Bogus any_data suspected. Setting focus to", child]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             focus_manager.get_manager().set_locus_of_focus(event, child)
             return
 
         msg = "GTK: Passing event to super class for processing."
-        debug.printMessage(debug.LEVEL_INFO, msg, True)
+        debug.print_message(debug.LEVEL_INFO, msg, True)
         super().on_active_descendant_changed(event)
 
     def on_caret_moved(self, event):
@@ -99,31 +93,13 @@ class Script(default.Script):
             AXObject.clear_cache(event.source, False, "Work around possibly-missing focused state.")
         super().on_caret_moved(event)
 
-    def on_checked_changed(self, event):
-        """Callback for object:state-changed:checked accessibility events."""
-
-        if event.source == focus_manager.get_manager().get_locus_of_focus():
-            default.Script.on_checked_changed(self, event)
-            return
-
-        # Present changes of child widgets of GtkListBox items
-        if not AXObject.find_ancestor(event.source, AXUtilities.is_list_box):
-            return
-
-        self.presentObject(event.source, alreadyFocused=True, interrupt=True)
-
     def on_focused_changed(self, event):
         """Callback for object:state-changed:focused accessibility events."""
-
-        if self.utilities.isUselessPanel(event.source):
-            msg = "GTK: Event source believed to be useless panel"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-            return
 
         focus = focus_manager.get_manager().get_locus_of_focus()
         if AXObject.is_ancestor(focus, event.source) and AXUtilities.is_focused(focus):
             msg = "GTK: Ignoring focus change on ancestor of still-focused locusOfFocus"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return
 
         super().on_focused_changed(event)
@@ -150,22 +126,12 @@ class Script(default.Script):
 
         focus = focus_manager.get_manager().get_locus_of_focus()
         if self.utilities.isComboBoxWithToggleDescendant(event.source) \
-            and self.utilities.isOrDescendsFrom(focus, event.source):
+           and AXObject.is_ancestor(focus, event.source, True):
             super().on_selection_changed(event)
             return
 
         isFocused = AXUtilities.is_focused(event.source)
         if AXUtilities.is_combo_box(event.source) and not isFocused:
-            return
-
-        if not isFocused and self.utilities.isTypeahead(focus):
-            msg = "GTK: locusOfFocus believed to be typeahead. Presenting change."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
-
-            selectedChildren = self.utilities.selectedChildren(event.source)
-            for child in selectedChildren:
-                if not self.utilities.isLayoutOnly(child):
-                    self.presentObject(child)
             return
 
         if AXUtilities.is_layered_pane(event.source) \
@@ -190,42 +156,3 @@ class Script(default.Script):
             return
 
         super().on_showing_changed(event)
-
-    def on_text_deleted(self, event):
-        """Callback for object:text-changed:delete accessibility events."""
-
-        if not (AXUtilities.is_showing(event.source) and AXUtilities.is_visible(event.source)):
-            tokens = ["GTK:", event.source, "is not showing and visible"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return
-
-        super().on_text_deleted(event)
-
-    def on_text_inserted(self, event):
-        """Callback for object:text-changed:insert accessibility events."""
-
-        if not (AXUtilities.is_showing(event.source) and AXUtilities.is_visible(event.source)):
-            tokens = ["GTK:", event.source, "is not showing and visible"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return
-
-        super().on_text_inserted(event)
-
-    def on_text_selection_changed(self, event):
-        """Callback for object:text-selection-changed accessibility events."""
-
-        if event.source != focus_manager.get_manager().get_locus_of_focus():
-            return
-
-        super().on_text_selection_changed(event)
-
-    def is_activatable_event(self, event):
-        """Returns True if event should cause this script to become active."""
-
-        if self.utilities.eventIsCanvasNoise(event):
-            return False
-
-        if self.utilities.isUselessPanel(event.source):
-            return False
-
-        return super().is_activatable_event(event)

@@ -19,6 +19,8 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+"""Custom script utilities for gnome-shell."""
+
 __id__        = "$Id$"
 __version__   = "$Revision$"
 __date__      = "$Date$"
@@ -27,68 +29,27 @@ __license__   = "LGPL"
 
 from orca import debug
 from orca import script_utilities
-from orca.ax_object import AXObject
-from orca.ax_utilities import AXUtilities
-
 from orca.ax_text import AXText
 
 class Utilities(script_utilities.Utilities):
-
-    def __init__(self, script):
-        script_utilities.Utilities.__init__(self, script)
-        self._isLayoutOnly = {}
-
-    def clearCachedObjects(self):
-        self._isLayoutOnly = {}
+    """Custom script utilities for gnome-shell."""
 
     def insertedText(self, event):
         if event.any_data:
             return event.any_data
 
+        # https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/8092
         if event.detail1 == -1:
             msg = "GNOME SHELL: Broken text insertion event"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
 
             string = AXText.get_all_text(event.source)
             if string:
                 msg = f"GNOME SHELL: Returning last char in '{string}'"
-                debug.printMessage(debug.LEVEL_INFO, msg, True)
+                debug.print_message(debug.LEVEL_INFO, msg, True)
                 return string[-1]
 
             msg = "GNOME SHELL: Unable to correct broken text insertion event"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
 
         return ""
-
-    def unrelatedLabels(self, root, onlyShowing=True, minimumWords=3):
-        if not root:
-            return []
-
-        def hasRole(x):
-            return AXUtilities.is_dialog(x) \
-                or AXUtilities.is_notification(x) \
-                or AXUtilities.is_menu_item(x)
-
-        if not hasRole(root) and AXObject.find_ancestor(root, hasRole) is None:
-            tokens = ["GNOME SHELL: Not seeking unrelated labels for", root]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
-            return []
-
-        return super().unrelatedLabels(root, onlyShowing, minimumWords)
-
-    def isLayoutOnly(self, obj):
-        rv = self._isLayoutOnly.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = super().isLayoutOnly(obj)
-        if not rv and AXUtilities.is_panel(obj) and AXObject.get_child_count(obj) == 1:
-            child = AXObject.get_child(obj, 0)
-            if self.displayedLabel(obj) == AXObject.get_name(child) \
-               and not AXUtilities.is_label(child):
-                rv = True
-                tokens = ["GNOME SHELL:", obj, "is deemed to be layout only"]
-                debug.printTokens(debug.LEVEL_INFO, tokens, True)
-
-        self._isLayoutOnly[hash(obj)] = rv
-        return rv

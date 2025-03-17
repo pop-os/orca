@@ -21,6 +21,7 @@
 # pylint: disable=wrong-import-position
 # pylint: disable=broad-exception-caught
 # pylint: disable=too-few-public-methods
+# pylint: disable=duplicate-code
 
 """Produces braille presentation for accessible objects."""
 
@@ -76,7 +77,7 @@ class BrailleGenerator(generator.Generator):
         def wrapper(*args, **kwargs):
             result = func(*args, **kwargs)
             tokens = [f"BRAILLE GENERATOR: {func.__name__}:", result]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return result
         return wrapper
 
@@ -85,7 +86,7 @@ class BrailleGenerator(generator.Generator):
 
         if not settings_manager.get_manager().get_setting("enableBraille") \
            and not settings_manager.get_manager().get_setting("enableBrailleMonitor"):
-            debug.printMessage(debug.LEVEL_INFO, "BRAILLE GENERATOR: generation disabled", True)
+            debug.print_message(debug.LEVEL_INFO, "BRAILLE GENERATOR: generation disabled", True)
             return [[], None]
 
         if obj == focus_manager.get_manager().get_locus_of_focus() \
@@ -133,7 +134,7 @@ class BrailleGenerator(generator.Generator):
             candidates = list(filter(pred, result))
             tokens = ["BRAILLE GENERATOR: Could not determine focused region for",
                       obj, "Candidates:", candidates]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             if len(candidates) == 1:
                 focused_region = candidates[0]
 
@@ -166,8 +167,10 @@ class BrailleGenerator(generator.Generator):
                     prior = None
                 else:
                     prior = self._as_string(element)
-                    combined = self._script.utilities.appendString(
-                        combined, prior, delimiter)
+                    if combined and prior:
+                        combined = f"{combined}{delimiter}{prior}"
+                    elif not combined:
+                        combined = prior
         return combined
 
     def _generate_result_separator(self, _obj, **_args):
@@ -210,7 +213,7 @@ class BrailleGenerator(generator.Generator):
     @log_generator_output
     def _generate_alert_and_dialog_count(self, obj,  **_args):
         result = []
-        alert_and_dialog_count = self._script.utilities.unfocusedAlertAndDialogCount(obj)
+        alert_and_dialog_count = len(AXUtilities.get_unfocused_alerts_and_dialogs(obj))
         if alert_and_dialog_count > 0:
             result.append(messages.dialogCountBraille(alert_and_dialog_count))
 
@@ -230,7 +233,7 @@ class BrailleGenerator(generator.Generator):
             parent = AXObject.get_parent_checked(parent)
         while parent:
             parent_result = []
-            if not self._script.utilities.isLayoutOnly(parent):
+            if not AXUtilities.is_layout_only(parent):
                 parent_result = self.generate(parent, **args)
             if result and parent_result:
                 result.append(braille.Region(" "))
@@ -254,7 +257,7 @@ class BrailleGenerator(generator.Generator):
             return []
 
         result = []
-        accelerator = self._script.utilities.mnemonicShortcutAccelerator(obj)[-1]
+        accelerator = AXObject.get_accelerator(obj)
         if accelerator:
             result.append("(" + accelerator + ")")
         return result
@@ -789,7 +792,16 @@ class BrailleGenerator(generator.Generator):
     def _generate_grouping(self, obj, **args):
         """Generates braille for the grouping role."""
 
-        return self._generate_default_presentation(obj, **args)
+        if self._generate_text_substring(obj, **args):
+            return self._generate_text_object(obj, **args)
+
+        result = self._generate_default_prefix(obj, **args)
+        result += [braille.Component(
+            obj, self._as_string(
+                self._generate_accessible_label_and_name(obj, **args) +
+                self._generate_accessible_role(obj, **args)))]
+        result += self._generate_default_suffix(obj, **args)
+        return result
 
     def _generate_header(self, obj, **args):
         """Generates braille for the header role."""

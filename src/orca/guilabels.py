@@ -331,6 +331,10 @@ KB_HEADER_KEY_BINDING = _("Key Binding")
 KB_GROUP_DEFAULT = C_("keybindings", "Default")
 
 # Translators: This string is a label for the group of Orca commands which
+# are related to debugging.
+KB_GROUP_DEBUGGING_TOOLS = C_("keybindings", "Debugging Tools")
+
+# Translators: This string is a label for the group of Orca commands which
 # are related to its "learn mode". Please use the same translation as done
 # in cmdnames.py
 KB_GROUP_LEARN_MODE = C_("keybindings", "Learn mode")
@@ -349,6 +353,10 @@ KB_GROUP_BRAILLE = _("Braille Bindings")
 # Translators: This string is a label for the group of Orca commands which
 # are related to saving and jumping among objects via "bookmarks".
 KB_GROUP_BOOKMARKS = _("Bookmarks")
+
+# Translators: This string is a label for the group of Orca commands which
+# are related to the clipboard.
+KB_GROUP_CLIPBOARD = _("Clipboard")
 
 # Translators: This string is a label for the group of Orca commands which
 # are related to presenting the date and time.
@@ -394,10 +402,6 @@ KB_GROUP_TABLE_NAVIGATION = _("Table navigation")
 # name, role, and location of the currently-focused object; the selected
 # text in the currently-focused object; etc.
 KB_GROUP_WHERE_AM_I = _("Object details")
-
-# Translators: This string is a label for the group of Orca commands which
-# do not currently have an associated key binding.
-KB_GROUP_UNBOUND = _("Unbound")
 
 # Translators: This string is a label for the group of Orca commands which
 # are related to Orca's "flat review" feature. This feature allows the blind

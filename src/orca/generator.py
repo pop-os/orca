@@ -36,6 +36,7 @@ __license__   = "LGPL"
 
 import time
 import threading
+from difflib import SequenceMatcher
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -115,6 +116,7 @@ class Generator:
             Atspi.Role.FOOTER: self._generate_footer,
             Atspi.Role.FORM: self._generate_form,
             Atspi.Role.FRAME: self._generate_frame,
+            Atspi.Role.GROUPING: self._generate_grouping,
             Atspi.Role.HEADER: self._generate_header,
             Atspi.Role.HEADING: self._generate_heading,
             Atspi.Role.ICON: self._generate_icon,
@@ -167,6 +169,7 @@ class Generator:
             Atspi.Role.SUBSCRIPT: self._generate_subscript,
             Atspi.Role.SUGGESTION: self._generate_suggestion,
             Atspi.Role.SUPERSCRIPT: self._generate_superscript,
+            # TODO - JD: Replace this with the real role once dependencies are bumped to v2.56.
             "ROLE_SWITCH": self._generate_switch,
             Atspi.Role.TABLE: self._generate_table,
             Atspi.Role.TABLE_CELL: self._generate_table_cell_in_row,
@@ -190,7 +193,7 @@ class Generator:
         def wrapper(*args, **kwargs):
             result = func(*args, **kwargs)
             tokens = [f"GENERATOR: {func.__name__}:", result]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return result
         return wrapper
 
@@ -201,7 +204,7 @@ class Generator:
         while True:
             time.sleep(2)
             msg = "GENERATOR: Clearing cache."
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             with Generator._lock:
                 Generator.CACHED_DESCRIPTION = {}
                 Generator.CACHED_IMAGE_DESCRIPTION = {}
@@ -224,6 +227,23 @@ class Generator:
         thread.daemon = True
         thread.start()
 
+    def _strings_are_redundant(self, str1, str2, threshold=0.7):
+        if not (str1 and str2):
+            return False
+
+        if (str1 in str2 and len(str1.split()) > 3) or (str2 in str1 and len(str2.split()) > 3):
+            msg = f"GENERATOR: Treating '{str2}' as redundant to '{str1}'"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+
+        similarity = round(SequenceMatcher(None, str1.lower(), str2.lower()).ratio(), 2)
+        msg = (
+            f"GENERATOR: Similarity between '{str1}', '{str2}': {similarity} "
+            f"(threshold: {threshold})"
+        )
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        return similarity >= threshold
+
     def generate_contents(self, _contents, **_args):
         """Returns presentation for a list of [obj, start, end, string]."""
 
@@ -240,7 +260,7 @@ class Generator:
         _generator = self._generators.get(args.get("role") or AXObject.get_role(obj))
         if _generator is None:
             tokens = [f"{self._mode.upper()} GENERATOR:", obj, "lacks dedicated generator"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             _generator = self._generate_default_presentation
 
         if not args.get("formatType", None):
@@ -250,11 +270,11 @@ class Generator:
                 args["formatType"] = "unfocused"
 
         tokens = [f"{self._mode.upper()} GENERATOR:", _generator, "for", obj, "args:", args]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         result = _generator(obj, **args)
         tokens = [f"{self._mode.upper()} GENERATOR: Results:", result]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         if args.get("isProgressBarUpdate") and result and result[0]:
             self._set_progress_bar_update_time_and_value(obj)
@@ -322,13 +342,12 @@ class Generator:
             Generator.CACHED_DESCRIPTION[hash(obj)] = []
             return []
 
-        description = AXObject.get_description(obj) \
-            or self._script.utilities.displayedDescription(obj) or ""
+        description = AXObject.get_description(obj) or AXUtilities.get_displayed_description(obj)
         if not description:
             Generator.CACHED_DESCRIPTION[hash(obj)] = []
             return []
 
-        if self._script.utilities.stringsAreRedundant(AXObject.get_name(obj), description):
+        if self._strings_are_redundant(AXObject.get_name(obj), description):
             Generator.CACHED_DESCRIPTION[hash(obj)] = []
             return []
 
@@ -357,7 +376,7 @@ class Generator:
     @log_generator_output
     def _generate_accessible_label(self, obj, **_args):
         result = []
-        label = self._script.utilities.displayedLabel(obj)
+        label = AXUtilities.get_displayed_label(obj)
         if label:
             result.append(label)
         return result
@@ -367,7 +386,8 @@ class Generator:
         focus = focus_manager.get_manager().get_locus_of_focus()
         # TODO - JD: The role check is a quick workaround for issue #535 in which we stopped
         # presenting Qt table cells because Qt keeps giving us a different object each and
-        # every time we ask for the cell. File a bug against Qt to get them to stop that.
+        # every time we ask for the cell. https://bugreports.qt.io/browse/QTBUG-128558
+        # Once that's fixed we can remove the role check.
         if focus and obj != focus and AXObject.get_role(obj) != AXObject.get_role(focus):
             name = AXObject.get_name(obj) or AXObject.get_description(obj)
             if name and name in [AXObject.get_name(focus), AXObject.get_description(focus)]:
@@ -389,7 +409,7 @@ class Generator:
         if not name:
             return result
 
-        if self._script.utilities.stringsAreRedundant(name[0], label[0]):
+        if self._strings_are_redundant(name[0], label[0]):
             if len(name[0]) < len(label[0]):
                 return label
             return name
@@ -521,8 +541,6 @@ class Generator:
             if AXUtilities.is_landmark_region(obj):
                 return "ROLE_REGION"
             return Atspi.Role.LANDMARK
-        if self._script.utilities.isFocusableLabel(obj):
-            return Atspi.Role.LIST_ITEM
         if self._script.utilities.isDocument(obj) and AXObject.supports_image(obj):
             return Atspi.Role.IMAGE
 
@@ -531,8 +549,8 @@ class Generator:
     @log_generator_output
     def _generate_descendants(self, obj, **args):
         result = []
-        obj_name = AXObject.get_name(obj) or self._script.utilities.displayedLabel(obj)
-        obj_desc = AXObject.get_description(obj) or self._script.utilities.displayedDescription(obj)
+        obj_name = AXObject.get_name(obj) or AXUtilities.get_displayed_label(obj)
+        obj_desc = AXObject.get_description(obj) or AXUtilities.get_displayed_description(obj)
         descendants = self._script.utilities.getOnScreenObjects(obj)
         used_description_as_static_text = False
         for child in descendants:
@@ -554,15 +572,20 @@ class Generator:
                 continue
 
             child_name = AXObject.get_name(child)
-            if AXUtilities.is_button(child) and child_name in obj_name:
-                continue
+            if AXUtilities.is_button(child):
+                if child_name in obj_name:
+                    continue
+                if AXUtilities.has_popup(child):
+                    continue
 
             if AXUtilities.is_label(child):
                 if not AXText.has_presentable_text(child):
                     continue
-                if self._script.utilities.stringsAreRedundant(obj_name, child_name):
+                if AXUtilities.get_is_label_for(obj):
                     continue
-                if self._script.utilities.stringsAreRedundant(obj_desc, child_name):
+                if self._strings_are_redundant(obj_name, child_name):
+                    continue
+                if self._strings_are_redundant(obj_desc, child_name):
                     used_description_as_static_text = True
 
             child_result = self.generate(child, includeContext=False, omitDescription=True)
@@ -602,10 +625,14 @@ class Generator:
         if labels:
             radio_group_label = labels[0]
         if radio_group_label:
-            return [AXObject.get_name(radio_group_label)]
+            name = AXObject.get_name(radio_group_label)
+            if name and name != AXObject.get_name(obj):
+                return [name]
 
         parent = AXObject.get_parent_checked(obj)
         while parent:
+            if AXUtilities.is_list(parent):
+                break
             if AXUtilities.is_panel(parent) or AXUtilities.is_filler(parent):
                 label = self._generate_accessible_label_and_name(parent)
                 if label:
@@ -751,7 +778,7 @@ class Generator:
 
     @log_generator_output
     def _generate_state_read_only(self, obj, **_args):
-        if not (AXUtilities.is_read_only(obj) or self._script.utilities.isReadOnlyTextArea(obj)):
+        if not AXUtilities.is_read_only(obj):
             return []
 
         if self._mode == "braille":
@@ -899,7 +926,7 @@ class Generator:
         text = self._script.utilities.expandEOCs(
             obj, args.get("startOffset", 0), args.get("endOffset", -1))
         if text.strip() and self._script.EMBEDDED_OBJECT_CHARACTER not in text \
-           and not self._script.utilities.stringsAreRedundant(AXObject.get_name(obj), text):
+           and not self._strings_are_redundant(AXObject.get_name(obj), text):
             if not AXUtilities.is_editable(obj):
                 Generator.CACHED_TEXT_EXPANDING_EOCS[hash(obj), start, end] = [text]
             return [text]
@@ -980,7 +1007,7 @@ class Generator:
         last_time, last_value = self._get_progress_bar_update_time_and_value(obj, type=self)
         if percent == last_value:
             tokens = ["GENERATOR: Not presenting update for", obj, ". Value still", percent]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return False
 
         if percent == 100:
@@ -1064,7 +1091,7 @@ class Generator:
             obj, forceFullRow=not self._script.utilities.isSpreadSheetCell(obj))
 
         row = AXObject.find_ancestor(obj, AXUtilities.is_table_row)
-        if row and AXObject.get_name(row) and not self._script.utilities.isLayoutOnly(row):
+        if row and AXObject.get_name(row) and not AXUtilities.is_layout_only(row):
             return self.generate(row)
 
         # Remove any pre-calculated values which only apply to obj and not row cells.
@@ -1180,7 +1207,7 @@ class Generator:
 
     @log_generator_output
     def _generate_table_sort_order(self, obj, **_args):
-        description = self._script.utilities.getSortOrderDescription(obj)
+        description = AXTable.get_presentable_sort_order_from_header(obj)
         if not description:
             return []
 

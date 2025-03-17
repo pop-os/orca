@@ -1380,8 +1380,7 @@ msgstr "สลับว่าจะแสดงประวัติข้อค
 #. instead of "<joanie> hello!"). This string to be translated is associated with
 #. the command to toggle room name presentation on or off.
 #: src/orca/cmdnames.py:635
-msgid ""
-"Toggle whether we prefix chat room messages with the name of the chat room"
+msgid "Toggle whether we prefix chat room messages with the name of the chat room"
 msgstr "สลับว่าจะแสดงชื่อห้องหน้าข้อความในห้องสนทนาหรือไม่"
 
 #. Translators: this is a command for a button on a refreshable braille display
@@ -1978,8 +1977,7 @@ msgstr "ประกาศการสำรวจพื้นที่แสด
 #. as a hierarchy.
 #: src/orca/cmdnames.py:1038
 #, fuzzy
-#| msgid ""
-#| "Prints debug information about the ancestry of the object with focus."
+#| msgid "Prints debug information about the ancestry of the object with focus."
 msgid "Go to the parent of the object with navigator focus."
 msgstr "พิมพ์ข้อมูลดีบั๊กเกี่ยวกับบรรพบุรุษของวัตถุที่ได้โฟกัสอยู่"
 
@@ -3401,8 +3399,8 @@ msgstr ""
 #. of 8 dots. Dot 7 is the dot in the bottom left corner. If the user selects
 #. this option, Dot 7 will be used to 'underline' text of interest, e.g. when
 #. "marking"/indicating that a given word is bold.
-#: src/orca/guilabels.py:97 src/orca/orca-setup.ui:2308
-#: src/orca/orca-setup.ui:2408 src/orca/orca-setup.ui:3327
+#: src/orca/guilabels.py:97 src/orca/orca-setup.ui:2308 src/orca/orca-setup.ui:2408
+#: src/orca/orca-setup.ui:3327
 msgid "Dot _7"
 msgstr "จุด _7"
 
@@ -3410,8 +3408,8 @@ msgstr "จุด _7"
 #. of 8 dots. Dot 8 is the dot in the bottom right corner. If the user selects
 #. this option, Dot 8 will be used to 'underline' text of interest,  e.g. when
 #. "marking"/indicating that a given word is bold.
-#: src/orca/guilabels.py:103 src/orca/orca-setup.ui:2324
-#: src/orca/orca-setup.ui:2424 src/orca/orca-setup.ui:3343
+#: src/orca/guilabels.py:103 src/orca/orca-setup.ui:2324 src/orca/orca-setup.ui:2424
+#: src/orca/orca-setup.ui:3343
 msgid "Dot _8"
 msgstr "จุด _8"
 
@@ -3419,8 +3417,8 @@ msgstr "จุด _8"
 #. of 8 dots. Dots 7-8 are the dots at the bottom. If the user selects this
 #. option, Dots 7-8 will be used to 'underline' text of interest,  e.g. when
 #. "marking"/indicating that a given word is bold.
-#: src/orca/guilabels.py:109 src/orca/orca-setup.ui:2340
-#: src/orca/orca-setup.ui:2440 src/orca/orca-setup.ui:3359
+#: src/orca/guilabels.py:109 src/orca/orca-setup.ui:2340 src/orca/orca-setup.ui:2440
+#: src/orca/orca-setup.ui:3359
 msgid "Dots 7 an_d 8"
 msgstr "จุด 7 แ_ละ 8"
 
@@ -4004,9 +4002,8 @@ msgstr ""
 #: src/orca/guilabels.py:509
 #, python-format
 msgid ""
-"You are about to remove profile %s. All unsaved settings and settings saved "
-"in this profile will be lost. Do you want to continue and remove this "
-"profile and all related settings?"
+"You are about to remove profile %s. All unsaved settings and settings saved in this profile will be "
+"lost. Do you want to continue and remove this profile and all related settings?"
 msgstr ""
 
 #. Translators: Orca has a setting which determines which progress bar updates
@@ -4673,8 +4670,7 @@ msgstr "เปิดใช้การท่องดูตามโครงส
 
 #. Translators: This refers to the amount of information Orca provides about a
 #. particular object that receives focus.
-#: src/orca/guilabels.py:957 src/orca/orca-setup.ui:1480
-#: src/orca/orca-setup.ui:2224
+#: src/orca/guilabels.py:957 src/orca/orca-setup.ui:1480 src/orca/orca-setup.ui:2224
 msgid "Brie_f"
 msgstr "โดยย่_อ"
 
@@ -4787,15 +4783,13 @@ msgstr "scroll lock"
 
 #. Translators: this is how someone would speak the name of the page up key
 #.
-#: src/orca/keynames.py:101 src/orca/keynames.py:105 src/orca/keynames.py:109
-#: src/orca/keynames.py:113
+#: src/orca/keynames.py:101 src/orca/keynames.py:105 src/orca/keynames.py:109 src/orca/keynames.py:113
 msgid "page up"
 msgstr "page up"
 
 #. Translators: this is how someone would speak the name of the page down key
 #.
-#: src/orca/keynames.py:117 src/orca/keynames.py:121 src/orca/keynames.py:125
-#: src/orca/keynames.py:129
+#: src/orca/keynames.py:117 src/orca/keynames.py:121 src/orca/keynames.py:125 src/orca/keynames.py:129
 msgid "page down"
 msgstr "page down"
 
@@ -7797,8 +7791,7 @@ msgstr "ไม่สามารถโหลดโปรไฟล์: %s"
 #. Translators: This message is presented to the user who attempts to launch Orca
 #. from some other environment than the graphical desktop.
 #: src/orca/messages.py:261
-msgid ""
-"Cannot start the screen reader because it cannot connect to the Desktop."
+msgid "Cannot start the screen reader because it cannot connect to the Desktop."
 msgstr "ไม่สามารถเริ่มโปรแกรมอ่านหน้าจอได้เนื่องจากไม่สามารถเชื่อมต่อกับเดสก์ท็อปได้"
 
 #. Translators: This message is presented to the user who attempts to launch Orca
@@ -9163,17 +9156,14 @@ msgstr "โหมดเรียนรู้ กด escape เพื่อออ
 #. Mode.
 #: src/orca/messages.py:1243
 msgid ""
-"Entering learn mode.  Press any key to hear its function.  To view the "
-"screen reader’s documentation, press F1. To get a list of the screen "
-"reader’s default shortcuts, press F2. To get a list of the screen reader’s "
-"shortcuts for the current application, press F3. To exit learn mode, press "
-"the escape key."
+"Entering learn mode.  Press any key to hear its function.  To view the screen reader’s documentation, "
+"press F1. To get a list of the screen reader’s default shortcuts, press F2. To get a list of the "
+"screen reader’s shortcuts for the current application, press F3. To exit learn mode, press the escape "
+"key."
 msgstr ""
-"กำลังเข้าสู่โหมดเรียนรู้  กดปุ่มใดก็ได้เพื่อรับฟังเกี่ยวกับการทำงานของโหมดดังกล่าว  "
-"หากต้องการดูเอกสารคู่มือของโปรแกรมอ่านหน้าจอ ให้กด F1 "
-"หากต้องการดูรายชื่อปุ่มลัดเริ่มต้นของโปรแกรมอ่านหน้าจอ ให้กด F2 "
-"หากต้องการดูรายชื่อปุ่มลัดในโปรแกรมอ่านหน้าจอสำหรับแอปพลิเคชันปัจจุบัน ให้กด F3 "
-"หากต้องการออกจากโหมดเรียนรู้ ให้กดปุ่ม Escape"
+"กำลังเข้าสู่โหมดเรียนรู้  กดปุ่มใดก็ได้เพื่อรับฟังเกี่ยวกับการทำงานของโหมดดังกล่าว  หากต้องการดูเอกสารคู่มือของโปรแกรมอ่านหน้าจอ "
+"ให้กด F1 หากต้องการดูรายชื่อปุ่มลัดเริ่มต้นของโปรแกรมอ่านหน้าจอ ให้กด F2 "
+"หากต้องการดูรายชื่อปุ่มลัดในโปรแกรมอ่านหน้าจอสำหรับแอปพลิเคชันปัจจุบัน ให้กด F3 หากต้องการออกจากโหมดเรียนรู้ ให้กดปุ่ม Escape"
 
 #. Translators: This message is presented when a user is navigating within a
 #. blockquote and then navigates out of it.
@@ -11431,8 +11421,7 @@ msgstr[0] "ตารางคณิตศาสตร์ซึ่งมี %d �
 #. which is nested inside another mathematical table.
 #. See http://www.w3.org/TR/MathML3/chapter3.html#presm.mtable
 #. Translators: this represents the number of columns in a table.
-#: src/orca/messages.py:2793 src/orca/messages.py:2809
-#: src/orca/messages.py:2917
+#: src/orca/messages.py:2793 src/orca/messages.py:2809 src/orca/messages.py:2917
 #, python-format
 msgid "%d column"
 msgid_plural "%d columns"
@@ -13029,8 +13018,7 @@ msgid "Display Settings"
 msgstr "การตั้งค่าการแสดงผล"
 
 #. Translators: This option refers to the dot or dots in braille which will be used to underline certain characters.
-#: src/orca/orca-setup.ui:2292 src/orca/orca-setup.ui:2392
-#: src/orca/orca-setup.ui:3311
+#: src/orca/orca-setup.ui:2292 src/orca/orca-setup.ui:2392 src/orca/orca-setup.ui:3311
 msgctxt "braille dots"
 msgid "_None"
 msgstr "_ไม่"
@@ -13224,15 +13212,13 @@ msgstr "คุณลักษณะข้อความ"
 #.
 #: src/orca/phonnames.py:53
 msgid ""
-"a : alpha, b : bravo, c : charlie, d : delta, e : echo, f : foxtrot, g : "
-"golf, h : hotel, i : india, j : juliet, k : kilo, l : lima, m : mike, n : "
-"november, o : oscar, p : papa, q : quebec, r : romeo, s : sierra, t : tango, "
-"u : uniform, v : victor, w : whiskey, x : xray, y : yankee, z : zulu"
+"a : alpha, b : bravo, c : charlie, d : delta, e : echo, f : foxtrot, g : golf, h : hotel, i : india, "
+"j : juliet, k : kilo, l : lima, m : mike, n : november, o : oscar, p : papa, q : quebec, r : romeo, "
+"s : sierra, t : tango, u : uniform, v : victor, w : whiskey, x : xray, y : yankee, z : zulu"
 msgstr ""
-"a : alpha, b : bravo, c : charlie, d : delta, e : echo, f : foxtrot, g : "
-"golf, h : hotel, i : india, j : juliet, k : kilo, l : lima, m : mike, n : "
-"november, o : oscar, p : papa, q : quebec, r : romeo, s : sierra, t : tango, "
-"u : uniform, v : victor, w : whiskey, x : xray, y : yankee, z : zulu"
+"a : alpha, b : bravo, c : charlie, d : delta, e : echo, f : foxtrot, g : golf, h : hotel, i : india, "
+"j : juliet, k : kilo, l : lima, m : mike, n : november, o : oscar, p : papa, q : quebec, r : romeo, "
+"s : sierra, t : tango, u : uniform, v : victor, w : whiskey, x : xray, y : yankee, z : zulu"
 
 #. Translators: this attribute specifies the background color of the text.
 #. The value is an RGB value of the format "u,u,u".
@@ -14202,14 +14188,6 @@ msgctxt "textattr"
 msgid "spelling"
 msgstr "สะกดผิด"
 
-#. Translators: Orca has a "find" feature which allows the user to search the
-#. active application for on screen text and widgets. This label is associated
-#. with a group of options related to what constitutes a match. The options are
-#. to match case and to match the entire word only.
-#: src/orca/guilabels.py:285
-msgid "Match options:"
-msgstr ""
-
 #~ msgid "Perform left click on current item"
 #~ msgstr "คลิกเมาส์ซ้ายที่รายการตรงตำแหน่งปัจจุบัน"
 
@@ -14274,8 +14252,7 @@ msgstr ""
 #~ msgid "Orca Screen Reader and Magnifier"
 #~ msgstr "โปรแกรมอ่านหน้าจอและแว่นขยายของ Orca"
 
-#~ msgid ""
-#~ "Present on-screen information as speech or braille, or magnify the screen"
+#~ msgid "Present on-screen information as speech or braille, or magnify the screen"
 #~ msgstr "นำเสนอข้อมูลหน้าจอเป็นเสียงพูดหรืออักษรเบรลล์ หรือขยายหน้าจอ"
 
 #~ msgid "Orca"
@@ -14622,14 +14599,12 @@ msgstr ""
 #~ msgid "Quits Orca"
 #~ msgstr "ออกจากโปรแกรม Orca"
 
-#~ msgid ""
-#~ "Prints a debug listing of all known applications to the console where "
-#~ "Orca is running."
+#~ msgid "Prints a debug listing of all known applications to the console where Orca is running."
 #~ msgstr "พิมพ์ข้อความดีบั๊กแสดงรายชื่อโปรแกรมทั้งหมดที่รู้จักออกทางคอนโซลที่ Orca ทำงานอยู่"
 
 #~ msgid ""
-#~ "Prints debug information about the currently active application to the "
-#~ "console where Orca is running."
+#~ "Prints debug information about the currently active application to the console where Orca is "
+#~ "running."
 #~ msgstr "พิมพ์ข้อความดีบั๊กแสดงรายชื่อโปรแกรมทั้งหมดที่ทำงานอยู่ออกทางคอนโซลที่ Orca ทำงานอยู่"
 
 #~ msgid "Prints debug information about the application with focus."
@@ -14651,10 +14626,9 @@ msgstr ""
 #~ msgstr "เปิด/ปิดใช้งานแว่นขยาย"
 
 #~ msgid ""
-#~ "Entering learn mode.  Press any key to hear its function.  To exit learn "
-#~ "mode, press the escape key."
-#~ msgstr ""
-#~ "กำลังเข้าสู่โหมดเรียนรู้ กดปุ่มใดๆ เพื่อฟังหน้าที่ของปุ่ม กด escape ถ้าต้องการออกจากโหมดเรียนรู้"
+#~ "Entering learn mode.  Press any key to hear its function.  To exit learn mode, press the escape "
+#~ "key."
+#~ msgstr "กำลังเข้าสู่โหมดเรียนรู้ กดปุ่มใดๆ เพื่อฟังหน้าที่ของปุ่ม กด escape ถ้าต้องการออกจากโหมดเรียนรู้"
 
 #~ msgid "Emacspeak Speech Services"
 #~ msgstr "บริการเสียงพูด Emacspeak"
@@ -15711,28 +15685,22 @@ msgstr ""
 #~ msgid "To activate press space."
 #~ msgstr "เรียกใช้ด้วยปุ่มแคร่เว้นวรรค"
 
-#~ msgid ""
-#~ "Use up or down arrow to select value. Or type in the desired numerical "
-#~ "value."
+#~ msgid "Use up or down arrow to select value. Or type in the desired numerical value."
 #~ msgstr "ใช้ปุ่มลูกศรขึ้นหรือลงเพื่อเปลี่ยนค่า หรือพิมพ์ค่าตัวเลขที่ต้องการ"
 
 #~ msgid "Use arrow keys to change."
 #~ msgstr "ใช้ปุ่มลูกศรเพื่อเปลี่ยนค่าที่เลือก"
 
-#~ msgid ""
-#~ "To navigate, press left or right arrow. To move through items press up or "
-#~ "down arrow."
+#~ msgid "To navigate, press left or right arrow. To move through items press up or down arrow."
 #~ msgstr "ท่องดูด้วยปุ่มลูกศรซ้ายหรือขวา เลื่อนไปยังรายการต่างๆ ด้วยปุ่มลูกศรขึ้นหรือลง"
 
 #~ msgid "To enter sub menu, press right arrow."
 #~ msgstr "เลือกเมนูย่อยด้วยปุ่มลูกศรขวา"
 
 #~ msgid ""
-#~ "To decrease press left arrow, to increase press right arrow. To go to "
-#~ "minimum press home, and for maximum press end."
-#~ msgstr ""
-#~ "ลดค่าด้วยปุ่มลูกศรซ้าย เพิ่มค่าด้วยปุ่มลูกศรขวา ไปยังค่าต่ำสุดด้วยปุ่ม home ไปยังค่าสูงสุดด้วยปุ่ม "
-#~ "end"
+#~ "To decrease press left arrow, to increase press right arrow. To go to minimum press home, and for "
+#~ "maximum press end."
+#~ msgstr "ลดค่าด้วยปุ่มลูกศรซ้าย เพิ่มค่าด้วยปุ่มลูกศรขวา ไปยังค่าต่ำสุดด้วยปุ่ม home ไปยังค่าสูงสุดด้วยปุ่ม end"
 
 #, python-format
 #~ msgid "%s percent"

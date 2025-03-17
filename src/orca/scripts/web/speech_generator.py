@@ -63,7 +63,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         def wrapper(*args, **kwargs):
             result = func(*args, **kwargs)
             tokens = [f"WEB SPEECH GENERATOR: {func.__name__}:", result]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return result
         return wrapper
 
@@ -133,7 +133,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             return []
 
         result = []
-        popup_type = self._script.utilities.popupType(obj)
+        attrs = AXObject.get_attributes_dict(obj)
+        popup_type = attrs.get("haspopup", "false").lower()
         if popup_type == "dialog":
             result = [messages.HAS_POPUP_DIALOG]
         elif popup_type == "grid":
@@ -190,7 +191,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                 return []
 
         format_type = args.get("formatType")
-        if format_type == "basicWhereAmI" and self._script.utilities.isLiveRegion(obj):
+        if format_type == "basicWhereAmI" and AXUtilities.is_live_region(obj):
             return self._script.live_region_manager.generateLiveRegionDescription(obj, **args)
 
         if AXUtilities.is_text(obj, args.get("role")) and format_type != "basicWhereAmI":
@@ -359,7 +360,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                 result = [AXObject.get_description(obj)]
             else:
                 name = AXObject.get_name(obj)
-                if not self._script.utilities.hasExplicitName(obj):
+                if not AXUtilities.has_explicit_name(obj):
                     name = name.strip()
                 result = [name]
 
@@ -448,7 +449,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if not self._script.utilities.inDocumentContent(obj):
             return super().get_localized_role_name(obj, **args)
 
-        role_description = self._script.utilities.getRoleDescription(obj)
+        role_description = AXObject.get_role_description(obj)
         if role_description:
             return role_description
 
@@ -471,7 +472,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if AXUtilities.is_editable(obj) and obj == args.get("priorObj"):
             return []
 
-        roledescription = self._script.utilities.getRoleDescription(obj)
+        roledescription = AXObject.get_role_description(obj)
         if roledescription:
             result = [roledescription]
             result.extend(self.voice(speech_generator.SYSTEM, obj=obj, **args))
@@ -589,11 +590,11 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
     def generate_speech(self, obj, **args):
         if not self._script.utilities.inDocumentContent(obj):
             tokens = ["WEB:", obj, "is not in document content. Calling default speech generator."]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return super().generate_speech(obj, **args)
 
         tokens = ["WEB: Generating speech for document object", obj]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         result = []
         if self._script.utilities.isLink(obj):
@@ -618,7 +619,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
             result = list(filter(lambda x: x, super().generate_speech(obj, **args)))
 
         tokens = ["WEB: Speech generation for document object", obj, "complete."]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
 
     def generate_contents(self, contents, **args):
@@ -628,11 +629,11 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         result = []
         contents = self._script.utilities.filterContentsForPresentation(contents, True)
         tokens = ["WEB: Generating speech contents (length:", len(contents), ")"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         for i, content in enumerate(contents):
             obj, start, end, string = content
             tokens = [f"ITEM {i}: ", obj, f"start: {start}, end: {end} '{string}'"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             utterance = self.generate_speech(
                 obj, startOffset=start, endOffset=end, string=string,
                 index=i, total=len(contents), **args)

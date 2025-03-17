@@ -45,15 +45,6 @@ from orca.ax_utilities import AXUtilities
 
 class Utilities(web.Utilities):
 
-    def isLayoutOnly(self, obj):
-        if super().isLayoutOnly(obj):
-            return True
-
-        if AXUtilities.is_tool_bar(obj) and AXObject.get_child_count(obj):
-            return AXUtilities.is_page_tab_list(AXObject.get_child(obj, 0))
-
-        return False
-
     def getOnScreenObjects(self, root, extents=None):
         objects = super().getOnScreenObjects(root, extents)
 
@@ -77,11 +68,11 @@ class Utilities(web.Utilities):
         document = self.getDocumentForObject(obj)
         if AXUtilities.is_editable(document):
             tokens = ["GECKO:", obj, "is in an editable document:", document]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return True
 
         tokens = ["GECKO: Editable", obj, "not in an editable document"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return False
 
     def isNotRealDocument(self, obj):
@@ -101,28 +92,6 @@ class Utilities(web.Utilities):
 
         return False
 
-    def treatAsEntry(self, obj):
-        if not obj or self.inDocumentContent(obj):
-            return super().treatAsEntry(obj)
-
-        # Firefox seems to have turned its accessible location widget into a
-        # childless editable combobox.
-        if not AXUtilities.is_combo_box(obj):
-            return False
-
-        if AXObject.get_child_count(obj):
-            return False
-
-        if not AXUtilities.is_focused(obj):
-            return False
-
-        if not AXObject.supports_editable_text(obj):
-            return False
-
-        tokens = ["GECKO: Treating", obj, "as entry"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
-        return True
-
     def _isQuickFind(self, obj):
         if not obj or self.inDocumentContent(obj):
             return False
@@ -137,16 +106,16 @@ class Utilities(web.Utilities):
 
         if len(AXUtilities.find_all_entries(obj)) != 1:
             tokens = ["GECKO:", obj, "not believed to be quick-find container (entry count)"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return False
 
         if len(AXUtilities.find_all_push_buttons(obj)) != 1:
             tokens = ["GECKO:", obj, "not believed to be quick-find container (button count)"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return False
 
         tokens = ["GECKO:", obj, "believed to be quick-find container (accessibility tree)"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         self._findContainer = obj
         return True
 
@@ -163,7 +132,7 @@ class Utilities(web.Utilities):
         result = self.getFindResultsCount(obj)
         if result:
             tokens = ["GECKO:", obj, "believed to be find-in-page container (", result, ")"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             self._findContainer = obj
             return True
 
@@ -171,16 +140,16 @@ class Utilities(web.Utilities):
 
         if len(AXUtilities.find_all_entries(obj)) != 1:
             tokens = ["GECKO:", obj, "not believed to be find-in-page container (entry count)"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return False
 
         if len(AXUtilities.find_all_push_buttons(obj)) < 5:
             tokens = ["GECKO:", obj, "not believed to be find-in-page container (button count)"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return False
 
         tokens = ["GECKO:", obj, "believed to be find-in-page container (accessibility tree)"]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         self._findContainer = obj
         return True
 
@@ -198,12 +167,12 @@ class Utilities(web.Utilities):
         result = self.isFindContainer(toolbar)
         if result:
             tokens = ["GECKO:", obj, "believed to be find-in-page widget (toolbar)"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return True
 
         if self._isQuickFind(toolbar):
             tokens = ["GECKO:", obj, "believed to be find-in-page widget (quick find)"]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return True
 
         return False
@@ -223,10 +192,6 @@ class Utilities(web.Utilities):
         label = labels[0]
         AXObject.clear_cache(label, False, "Ensuring we have correct name for find results.")
         return AXObject.get_name(label)
-
-    def localizeTextAttribute(self, key, value):
-        value = value.replace("-moz-", "")
-        return super().localizeTextAttribute(key, value)
 
     def unrelatedLabels(self, root, onlyShowing=True, minimumWords=3):
         return super().unrelatedLabels(root, onlyShowing, minimumWords=1)

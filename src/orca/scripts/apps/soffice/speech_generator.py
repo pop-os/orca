@@ -17,6 +17,8 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=duplicate-code
+
 """Produces speech presentation for accessible objects."""
 
 __id__        = "$Id$"
@@ -46,7 +48,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         def wrapper(*args, **kwargs):
             result = func(*args, **kwargs)
             tokens = [f"SOFFICE SPEECH GENERATOR: {func.__name__}:", result]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return result
         return wrapper
 
@@ -68,11 +70,12 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         # TODO - JD: The SayLine, etc. code should be generated and not put
         # together in the scripts. In addition, the voice crap needs to go
         # here. Then it needs to be removed from the scripts.
-        text = AXText.get_line_at_offset(obj)[0]
-        if not text:
-            result = [messages.BLANK]
-            result.extend(self.voice(string=text, obj=obj, **args))
-            return result
+        if AXObject.supports_text(obj):
+            text = AXText.get_line_at_offset(obj)[0]
+            if not text:
+                result = [messages.BLANK]
+                result.extend(self.voice(string=text, obj=obj, **args))
+                return result
 
         return super()._generate_text_line(obj, **args)
 
@@ -154,7 +157,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if settings_manager.get_manager().get_setting("speakSpreadsheetCoordinates") \
            or args.get("formatType") == "basicWhereAmI":
             label = AXTable.get_label_for_cell_coordinates(obj) \
-                or self._script.utilities.spreadSheetCellName(obj)
+                or self._script.utilities.spreadsheet_cell_name(obj)
             result.append(label)
 
         if self._script.utilities.shouldReadFullRow(obj, args.get("priorObj")):

@@ -19,8 +19,7 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# For the "AXUtilities has no ... member"
-# pylint: disable=E1101
+# pylint: disable=duplicate-code
 
 """Custom script for SeaMonkey."""
 
@@ -39,6 +38,7 @@ from orca.scripts.toolkits import Gecko
 
 
 class Script(Gecko.Script):
+    """Custom script for SeaMonkey."""
 
     def setup_input_event_handlers(self):
         """Defines the input event handlers for this script."""
@@ -65,13 +65,13 @@ class Script(Gecko.Script):
 
         if self.utilities.isContentEditableWithEmbeddedObjects(event.source):
             msg = "SEAMONKEY: Ignoring, event source is content editable"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return
 
         table = AXTable.get_table(focus_manager.get_manager().get_locus_of_focus())
         if table and not self.utilities.isTextDocumentTable(table):
             msg = "SEAMONKEY: Ignoring, table is not text-document table"
-            debug.printMessage(debug.LEVEL_INFO, msg, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return
 
         super().on_busy_changed(event)
@@ -79,11 +79,11 @@ class Script(Gecko.Script):
     def useFocusMode(self, obj, prevObj=None):
         if self.utilities.isEditableMessage(obj):
             tokens = ["SEAMONKEY: Using focus mode for editable message", obj]
-            debug.printTokens(debug.LEVEL_INFO, tokens, True)
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return True
 
         tokens = ["SEAMONKEY:", obj, "is not an editable message."]
-        debug.printTokens(debug.LEVEL_INFO, tokens, True)
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return super().useFocusMode(obj, prevObj)
 
     def enableStickyBrowseMode(self, inputEvent, forceMessage=False):
