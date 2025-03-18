@@ -926,7 +926,7 @@ class Script(default.Script):
             return
 
         mode, _obj = focus_manager.get_manager().get_active_mode_and_object_of_interest()
-        if mode == focus_manager.OBJECT_NAVIGATOR:
+        if mode in [focus_manager.OBJECT_NAVIGATOR, focus_manager.MOUSE_REVIEW]:
             super().presentObject(obj, **args)
             return
 
@@ -944,7 +944,24 @@ class Script(default.Script):
             priorObj, priorOffset = self.utilities.getPriorContext()
             args["priorObj"] = priorObj
 
+        # Objects might be destroyed as a consequence of scrolling, such as in an infinite scroll
+        # list. Therefore, store its name and role beforehand. Objects in the process of being
+        # destroyed typically lose their name even if they lack the defunct state. If the name of
+        # the object is different after scrolling, we'll try to find a child with the same name and
+        # role.
+        document = self.utilities.getDocumentForObject(obj)
+        name = AXObject.get_name(obj)
+        role = AXObject.get_role(obj)
         AXEventSynthesizer.scroll_to_center(obj, start_offset=0)
+        if (name and AXObject.get_name(obj) != name) or AXObject.get_index_in_parent(obj) < 0:
+            tokens = ["WEB:", obj, "believed to be destroyed after scroll."]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            replicant = AXObject.find_descendant(
+                document, lambda x: AXObject.get_name(x) == name and AXObject.get_role(obj) == role)
+            if replicant:
+                obj = replicant
+                tokens = ["WEB: Replacing destroyed object with", obj]
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         if AXUtilities.is_entry(obj):
             if not self._inFocusMode:
@@ -1864,7 +1881,7 @@ class Script(default.Script):
             return False
 
         self.presentMessage(messages.TABLE_REORDERED_COLUMNS)
-        header = self.utilities.containingTableHeader(focus)
+        header = AXObject.find_ancestor_inclusive(focus, AXUtilities.is_table_header)
         msg = AXTable.get_presentable_sort_order_from_header(header, True)
         if msg:
             self.presentMessage(msg)
@@ -1971,9 +1988,13 @@ class Script(default.Script):
             return False
 
         if AXUtilities.is_dialog_or_alert(event.source):
-            msg = "WEB: Event handled: Setting locusOfFocus to event source"
-            debug.print_message(debug.LEVEL_INFO, msg, True)
-            focus_manager.get_manager().set_locus_of_focus(event, event.source)
+            if AXObject.is_ancestor(focus, event.source, True):
+                msg = "WEB: Ignoring event from ancestor of focus"
+                debug.print_message(debug.LEVEL_INFO, msg, True)
+            else:
+                msg = "WEB: Event handled: Setting locusOfFocus to event source"
+                debug.print_message(debug.LEVEL_INFO, msg, True)
+                focus_manager.get_manager().set_locus_of_focus(event, event.source)
             return True
 
         if self.utilities.handleEventFromContextReplicant(event, event.source):
@@ -2099,7 +2120,7 @@ class Script(default.Script):
             return False
 
         self.presentMessage(messages.TABLE_REORDERED_ROWS)
-        header = self.utilities.containingTableHeader(focus)
+        header = AXObject.find_ancestor_inclusive(focus, AXUtilities.is_table_header)
         msg = AXTable.get_presentable_sort_order_from_header(header, True)
         if msg:
             self.presentMessage(msg)

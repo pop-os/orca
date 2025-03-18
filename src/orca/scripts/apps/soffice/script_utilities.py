@@ -78,31 +78,6 @@ class Utilities(script_utilities.Utilities):
 
         return name.strip()
 
-    def frameAndDialog(self, obj):
-        """Returns the frame and (possibly) the dialog containing
-        the object. Overridden here for presentation of the title
-        bar information: If the locusOfFocus is a spreadsheet cell,
-        1) we are not in a dialog and 2) we need to present both the
-        frame name and the sheet name. So we might as well return the
-        sheet in place of the dialog so that the default code can do
-        its thing.
-        """
-
-        if not self.isSpreadSheetCell(obj):
-            return script_utilities.Utilities.frameAndDialog(self, obj)
-
-        results = [None, None]
-
-        parent = AXObject.get_parent_checked(obj)
-        while parent:
-            if AXUtilities.is_frame(parent):
-                results[0] = parent
-            elif AXUtilities.is_table(parent):
-                results[1] = parent
-            parent = AXObject.get_parent_checked(parent)
-
-        return results
-
     @staticmethod
     def flows_from_or_to_selection(obj):
         """Returns True if obj flows to or from another object with selected text."""
@@ -115,14 +90,6 @@ class Utilities(script_utilities.Utilities):
                 return True
 
         return False
-
-    def isReadOnlyTextArea(self, obj):
-        """Returns True if event is believed to be a read-only text area."""
-
-        if not super().isReadOnlyTextArea(obj):
-            return False
-
-        return not self.inDocumentContent(obj)
 
     def getWordAtOffsetAdjustedForNavigation(self, obj, offset=None):
         """Returns the word in obj at the specified or current offset."""

@@ -526,8 +526,8 @@ class AXObject:
         if obj1 == obj2:
             return obj1
 
-        obj1_ancestors = AXObject._get_ancestors(obj1)
-        obj2_ancestors = AXObject._get_ancestors(obj2)
+        obj1_ancestors = AXObject._get_ancestors(obj1) + [obj1]
+        obj2_ancestors = AXObject._get_ancestors(obj2) + [obj2]
         result = None
         for a1, a2 in zip(obj1_ancestors, obj2_ancestors):
             if a1 == a2:
@@ -538,6 +538,18 @@ class AXObject:
         tokens = ["AXObject: Common ancestor of", obj1, "and", obj2, "is", result]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return result
+
+    @staticmethod
+    def find_ancestor_inclusive(
+        obj: Atspi.Accessible,
+        pred: Callable[[Atspi.Accessible], bool]
+    ) -> Optional[Atspi.Accessible]:
+        """Returns obj, or the ancestor of obj, for which the function pred is true"""
+
+        if pred(obj):
+            return obj
+
+        return AXObject.find_ancestor(obj, pred)
 
     @staticmethod
     def find_ancestor(
@@ -786,6 +798,19 @@ class AXObject:
             return ""
 
         return role_name
+
+    @staticmethod
+    def get_role_description(obj: Atspi.Accessible, is_braille: bool = False) -> str:
+        """Returns the accessible role description of obj"""
+
+        if not AXObject.is_valid(obj):
+            return ""
+
+        attrs = AXObject.get_attributes_dict(obj)
+        rv = attrs.get("roledescription", "")
+        if is_braille:
+            rv = attrs.get("brailleroledescription", rv)
+        return rv
 
     @staticmethod
     def get_accessible_id(obj: Atspi.Accessible) -> str:

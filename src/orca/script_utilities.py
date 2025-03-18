@@ -28,10 +28,9 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2010 Joanmarie Diggs."
 __license__   = "LGPL"
 
-import gi
 import re
-from difflib import SequenceMatcher
 
+import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 
@@ -127,23 +126,6 @@ class Utilities:
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return nodes
 
-    def displayedLabel(self, obj):
-        """If there is an object labelling the given object, return the
-        text being displayed for the object labelling this object.
-        Otherwise, return None.
-
-        Argument:
-        - obj: the object in question
-
-        Returns the string of the object labelling this object, or None
-        if there is nothing of interest here.
-        """
-
-        labels = AXUtilities.get_is_labelled_by(obj)
-        strings = [AXObject.get_name(label)
-                   or AXText.get_all_text(label) for label in labels if label is not None]
-        return " ".join(strings)
-
     def preferDescriptionOverName(self, obj):
         return False
 
@@ -168,12 +150,6 @@ class Utilities:
                 detail, lambda x: not AXText.is_whitespace_or_empty(x)))
 
         return textObjects
-
-    def displayedDescription(self, obj):
-        """Returns the text being displayed for the object describing obj."""
-
-        descriptions = AXUtilities.get_is_described_by(obj)
-        return " ".join(AXText.get_all_text(d) or AXObject.get_name(d) for d in descriptions)
 
     def documentFrame(self, obj=None):
         """Returns the document frame which is displaying the content.
@@ -220,10 +196,7 @@ class Utilities:
             def isDialog(x):
                 return AXObject.get_role(x) in dialog_roles
 
-            if isDialog(obj):
-                results[1] = obj
-            else:
-                results[1] = AXObject.find_ancestor(obj, isDialog)
+            results[1] = AXObject.find_ancestor_inclusive(obj, isDialog)
 
         tokens = ["SCRIPT UTILITIES:", obj, "is in frame", results[0], "and dialog", results[1]]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
@@ -361,34 +334,10 @@ class Utilities:
         return self.isDocument(obj) and not AXObject.find_ancestor(obj, self.isDocument)
 
     def getTopLevelDocumentForObject(self, obj):
-        if self.isTopLevelDocument(obj):
-            return obj
-
-        return AXObject.find_ancestor(obj, self.isTopLevelDocument)
+        return AXObject.find_ancestor_inclusive(obj, self.isTopLevelDocument)
 
     def getDocumentForObject(self, obj):
-        if not obj:
-            return None
-
-        if self.isDocument(obj):
-            return obj
-
-        return AXObject.find_ancestor(obj, self.isDocument)
-
-    def getModalDialog(self, obj):
-        if not obj:
-            return False
-
-        if AXUtilities.is_modal_dialog(obj):
-            return obj
-
-        return AXObject.find_ancestor(obj, AXUtilities.is_modal_dialog)
-
-    def isModalDialogDescendant(self, obj):
-        if not obj:
-            return False
-
-        return self.getModalDialog(obj) is not None
+        return AXObject.find_ancestor_inclusive(obj, self.isDocument)
 
     def columnConvert(self, column):
         return column
@@ -511,17 +460,6 @@ class Utilities:
         """Returns True if obj is a link."""
 
         return AXUtilities.is_link(obj)
-
-    def isReadOnlyTextArea(self, obj):
-        """Returns True if obj is a text entry area that is read only."""
-
-        if not self.isTextArea(obj):
-            return False
-
-        if AXUtilities.is_read_only(obj):
-            return True
-
-        return AXUtilities.is_focusable(obj) and not AXUtilities.is_editable(obj)
 
     def getObjectFromPath(self, path):
         start = self._script.app
@@ -730,10 +668,7 @@ class Utilities:
         def inSelectedMenu(x):
             return x == selectedMenu
 
-        if inSelectedMenu(obj):
-            return True
-
-        return AXObject.find_ancestor(obj, inSelectedMenu) is not None
+        return AXObject.find_ancestor_inclusive(obj, inSelectedMenu) is not None
 
     def getOnScreenObjects(self, root, extents=None):
         if not self.isOnScreen(root, extents):
@@ -765,9 +700,7 @@ class Utilities:
             extents = AXComponent.get_rect(root)
 
         if AXObject.supports_table(root) and AXObject.supports_selection(root):
-            visibleCells = self.getVisibleTableCells(root)
-            if visibleCells:
-                return visibleCells
+            return list(AXTable.iter_visible_cells(root))
 
         objects = []
         hasNameOrDesc = AXObject.get_name(root) or AXObject.get_description(root)
@@ -855,16 +788,6 @@ class Utilities:
                  Atspi.Role.ALERT]
         return roles
 
-    def _locusOfFocusIsTopLevelObject(self):
-        focus = focus_manager.get_manager().get_locus_of_focus()
-        if not focus:
-            return False
-
-        rv = focus == self.topLevelObject(focus)
-        tokens = ["SCRIPT UTILITIES:", focus, "is top-level object:", rv]
-        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-        return rv
-
     def _findWindowWithDescendant(self, child):
         """Searches each frame/window/dialog of an application to find the one
         which contains child. This is extremely non-performant and should only
@@ -899,11 +822,7 @@ class Utilities:
         - obj: the Accessible object
         """
 
-        if self._isTopLevelObject(obj):
-            rv = obj
-        else:
-            rv = AXObject.find_ancestor(obj, self._isTopLevelObject)
-
+        rv = AXObject.find_ancestor_inclusive(obj, self._isTopLevelObject)
         tokens = ["SCRIPT UTILITIES:", rv, "is top-level object for:", obj]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
@@ -1024,12 +943,6 @@ class Utilities:
             labels_filtered.append(label)
 
         return AXComponent.sort_objects_by_position(labels_filtered)
-
-    #########################################################################
-    #                                                                       #
-    # Utilities for working with the accessible text interface              #
-    #                                                                       #
-    #########################################################################
 
     def findPreviousObject(self, obj):
         """Finds the object before this one."""
@@ -1181,11 +1094,6 @@ class Utilities:
         offset = AXText.get_caret_offset(obj)
         return obj, offset
 
-    def getFirstCaretPosition(self, obj):
-        # TODO - JD: Do we still need this function? We need to audit callers,
-        # mainly in structural navigation.
-        return obj, 0
-
     def setCaretPosition(self, obj, offset, documentFrame=None):
         focus_manager.get_manager().set_locus_of_focus(None, obj, False)
         self.setCaretOffset(obj, offset)
@@ -1246,12 +1154,6 @@ class Utilities:
             lastLanguage, lastDialect = language, dialect
 
         return rv
-
-    #########################################################################
-    #                                                                       #
-    # Miscellaneous Utilities                                               #
-    #                                                                       #
-    #########################################################################
 
     def shouldVerbalizeAllPunctuation(self, obj):
         if not (AXUtilities.is_code(obj) or self.isCodeDescendant(obj)):
@@ -1431,22 +1333,6 @@ class Utilities:
 
         return name == AXObject.get_name(focus)
 
-    def isMenuWithNoSelectedChild(self, obj):
-        return AXUtilities.is_menu(obj) and not self.selectedChildCount(obj)
-
-    def inMenu(self, obj=None):
-        obj = obj or focus_manager.get_manager().get_locus_of_focus()
-        if obj is None:
-            return False
-
-        if AXUtilities.is_menu_item_of_any_kind(obj) or AXUtilities.is_menu(obj):
-            return True
-
-        if AXUtilities.is_panel(obj) or AXUtilities.is_separator(obj):
-            return AXObject.find_ancestor(obj, AXUtilities.is_menu) is not None
-
-        return False
-
     def isEntryCompletionPopupItem(self, obj):
         return False
 
@@ -1454,7 +1340,7 @@ class Utilities:
         if not AXUtilities.is_combo_box(obj):
             return None
 
-        children = [x for x in AXObject.iter_children(obj, self.isEditableTextArea)]
+        children = [x for x in AXObject.iter_children(obj, AXUtilities.is_text_input)]
         if len(children) == 1:
             return children[0]
 
@@ -1494,10 +1380,6 @@ class Utilities:
     def hasVisibleCaption(self, obj):
         return False
 
-    def popupType(self, obj):
-        attrs = AXObject.get_attributes_dict(obj)
-        return attrs.get("haspopup", "false").lower()
-
     def headingLevel(self, obj):
         if not AXUtilities.is_heading(obj):
             return 0
@@ -1517,15 +1399,6 @@ class Utilities:
     def hasMeaningfulToggleAction(self, obj):
         return AXObject.has_action(obj, "toggle") \
             or AXObject.has_action(obj, object_properties.ACTION_TOGGLE)
-
-    def containingTableHeader(self, obj):
-        if AXUtilities.is_table_header(obj):
-            return obj
-
-        return AXObject.find_ancestor(obj, AXUtilities.is_table_header)
-
-    def treatAsEntry(self, obj):
-        return False
 
     def getWordAtOffsetAdjustedForNavigation(self, obj, offset=None):
         word, start, end = AXText.get_word_at_offset(obj, offset)
@@ -1606,76 +1479,6 @@ class Utilities:
         debug.print_message(debug.LEVEL_INFO, msg, True)
         return word, start, end
 
-    def visibleRows(self, obj, table_rect):
-        nRows = AXTable.get_row_count(obj)
-
-        tokens = ["SCRIPT UTILITIES: ", obj, f"has {nRows} rows"]
-        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-
-        cell = AXComponent.get_descendant_at_point(obj, table_rect.x, table_rect.y + 1)
-        row = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
-        startIndex = max(0, row)
-        tokens = ["SCRIPT UTILITIES: First cell:", cell, f"(row: {row}"]
-        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-
-        # Just in case the row above is a static header row in a scrollable table.
-        cell_rect = AXComponent.get_rect(cell)
-        cell = AXComponent.get_descendant_at_point(
-            obj, table_rect.x, table_rect.y + cell_rect.height + 1)
-        row, AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
-        nextIndex = max(startIndex, row)
-        tokens = ["SCRIPT UTILITIES: Next cell:", cell, f"(row: {row})"]
-        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-
-        cell = AXComponent.get_descendant_at_point(
-            obj, table_rect.x, table_rect.y + table_rect.height - 1)
-        row = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
-        tokens = ["SCRIPT UTILITIES: Last cell:", cell, f"(row: {row})"]
-        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-
-        if row == -1:
-            row = nRows
-        endIndex = row
-
-        rows = list(range(nextIndex, endIndex))
-        if startIndex not in rows:
-            rows.insert(0, startIndex)
-
-        return rows
-
-    def getVisibleTableCells(self, obj):
-        if not AXObject.supports_table(obj):
-            return []
-
-        rows = self.visibleRows(obj, AXComponent.get_rect(obj))
-        if not rows:
-            return []
-
-        colStartIndex, colEndIndex = self._getTableRowRange(obj)
-        if colStartIndex == colEndIndex:
-            return []
-
-        cells = []
-        for col in range(colStartIndex, colEndIndex):
-            headers = []
-            for row in rows:
-                cell = AXTable.get_cell_at(obj, row, col)
-                if cell is None:
-                    continue
-                if not headers:
-                    # TODO - JD: This is needed for flat review to include the column headers
-                    # above the message list in Thunderbird v110. It does not appear necessary
-                    # for more recent versions of Thunderbird (e.g. v115). Looks like a potential
-                    # case of broken table support in (at least) Thunderbird 110. Who else might
-                    # have this same bug?
-                    headers = AXTable.get_column_headers(cell)
-                    if headers and self.isOnScreen(headers[0]):
-                        cells.append(headers[0])
-                if self.isOnScreen(cell):
-                    cells.append(cell)
-
-        return cells
-
     def _getTableRowRange(self, obj):
         table = AXTable.get_table(obj)
         if table is None:
@@ -1683,7 +1486,7 @@ class Utilities:
 
         columnCount = AXTable.get_column_count(table, False)
         startIndex, endIndex = 0, columnCount
-        if not self.isSpreadSheetCell(obj):
+        if not self.isSpreadSheetTable(table):
             return startIndex, endIndex
 
         rect = AXComponent.get_rect(table)
@@ -1765,18 +1568,6 @@ class Utilities:
 
         return values
 
-    def getRoleDescription(self, obj, isBraille=False):
-        attrs = AXObject.get_attributes_dict(obj)
-        rv = attrs.get("roledescription", "")
-        if isBraille:
-            rv = attrs.get("brailleroledescription", rv)
-        return rv
-
-    def isEditableTextArea(self, obj):
-        if not self.isTextArea(obj):
-            return False
-        return AXUtilities.is_editable(obj)
-
     def clearCachedCommandState(self):
         self._script.point_of_reference['undo'] = False
         self._script.point_of_reference['redo'] = False
@@ -1800,7 +1591,8 @@ class Utilities:
         return False
 
     def handleUndoLocusOfFocusChange(self):
-        if self._locusOfFocusIsTopLevelObject():
+        # TODO - JD: Is this still needed?
+        if focus_manager.get_manager().focus_is_active_window():
             return False
 
         if input_event_manager.get_manager().last_event_was_undo():
@@ -1818,7 +1610,8 @@ class Utilities:
         return False
 
     def handlePasteLocusOfFocusChange(self):
-        if self._locusOfFocusIsTopLevelObject():
+        # TODO - JD: Is this still needed?
+        if focus_manager.get_manager().focus_is_active_window():
             return False
 
         if input_event_manager.get_manager().last_event_was_paste():
@@ -2000,20 +1793,3 @@ class Utilities:
             return False
 
         return True
-
-    def stringsAreRedundant(self, str1, str2, threshold=0.7):
-        if not (str1 and str2):
-            return False
-
-        if (str1 in str2 and len(str1.split()) > 3) or (str2 in str1 and len(str2.split()) > 3):
-            msg = f"SCRIPT UTILITIES: Treating '{str2}' as redundant to '{str1}'"
-            debug.print_message(debug.LEVEL_INFO, msg, True)
-            return True
-
-        similarity = round(SequenceMatcher(None, str1.lower(), str2.lower()).ratio(), 2)
-        msg = (
-            f"SCRIPT UTILITIES: Similarity between '{str1}', '{str2}': {similarity} "
-            f"(threshold: {threshold})"
-        )
-        debug.print_message(debug.LEVEL_INFO, msg, True)
-        return similarity >= threshold
