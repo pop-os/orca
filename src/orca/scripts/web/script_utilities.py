@@ -1920,20 +1920,6 @@ class Utilities(script_utilities.Utilities):
         ancestor = AXObject.find_ancestor(obj, AXUtilities.is_inline_iframe)
         return ancestor is not None
 
-    def isFirstItemInInlineContentSuggestion(self, obj):
-        suggestion = AXObject.find_ancestor(obj, AXUtilities.is_inline_suggestion)
-        if not (suggestion and AXObject.get_child_count(suggestion)):
-            return False
-
-        return suggestion[0] == obj
-
-    def isLastItemInInlineContentSuggestion(self, obj):
-        suggestion = AXObject.find_ancestor(obj, AXUtilities.is_inline_suggestion)
-        if not (suggestion and AXObject.get_child_count(suggestion)):
-            return False
-
-        return suggestion[-1] == obj
-
     def getMathAncestor(self, obj):
         if not AXUtilities.is_math_related(obj):
             return None
@@ -2184,7 +2170,8 @@ class Utilities(script_utilities.Utilities):
 
         # Note: We cannot check for the editable-text interface, because Gecko
         # seems to be exposing that for non-editable things. Thanks Gecko.
-        rv = not AXUtilities.is_editable(obj) and len(tokens) > 1
+        rv = len(tokens) > 1 \
+            and not (AXUtilities.is_editable(obj) or AXUtilities.is_text_input(obj))
         if rv:
             i = 0
             while i < nChars:
@@ -2228,7 +2215,7 @@ class Utilities(script_utilities.Utilities):
 
         # Note: We cannot check for the editable-text interface, because Gecko
         # seems to be exposing that for non-editable things. Thanks Gecko.
-        rv = not AXUtilities.is_editable(obj)
+        rv = not (AXUtilities.is_editable(obj) or AXUtilities.is_text_input(obj))
         if rv:
             for i in range(nChars):
                 char = AXText.get_character_at_offset(obj, i)[0]
