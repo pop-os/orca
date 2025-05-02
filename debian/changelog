@@ -1,3 +1,9 @@
+orca (48.1-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 02 May 2025 17:54:28 +0200
+
 orca (48.0-3) unstable; urgency=medium
 
   * control: Add python3-dbus dependency.
