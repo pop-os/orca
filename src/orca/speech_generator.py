@@ -1414,7 +1414,8 @@ class SpeechGenerator(generator.Generator):
             return []
 
         result = []
-        if self._script.utilities.isFirstItemInInlineContentSuggestion(obj):
+        suggestion = AXObject.find_ancestor(obj, AXUtilities.is_inline_suggestion)
+        if suggestion and obj == AXObject.get_child(suggestion, 0):
             result.extend([object_properties.ROLE_CONTENT_SUGGESTION])
             result.extend(self.voice(SYSTEM, obj=obj, **args))
             result.extend(self._generate_pause(obj, **args))
@@ -1437,7 +1438,9 @@ class SpeechGenerator(generator.Generator):
         result = [messages.CONTENT_DELETION_END]
         result.extend(self.voice(SYSTEM, obj=obj, **args))
 
-        if self._script.utilities.isLastItemInInlineContentSuggestion(obj):
+        suggestion = AXObject.find_ancestor(obj, AXUtilities.is_inline_suggestion)
+        if suggestion and obj == AXObject.get_child(
+                suggestion, AXObject.get_child_count(suggestion) - 1):
             result.extend(self._generate_pause(obj, **args))
             result.extend([messages.CONTENT_SUGGESTION_END])
             result.extend(self.voice(SYSTEM, obj=obj, **args))
@@ -1459,7 +1462,8 @@ class SpeechGenerator(generator.Generator):
             return []
 
         result = []
-        if self._script.utilities.isFirstItemInInlineContentSuggestion(obj):
+        suggestion = AXObject.find_ancestor(obj, AXUtilities.is_inline_suggestion)
+        if suggestion and obj == AXObject.get_child(suggestion, 0):
             result.extend([object_properties.ROLE_CONTENT_SUGGESTION])
             result.extend(self.voice(SYSTEM, obj=obj, **args))
             result.extend(self._generate_pause(obj, **args))
@@ -1482,7 +1486,9 @@ class SpeechGenerator(generator.Generator):
         result = [messages.CONTENT_INSERTION_END]
         result.extend(self.voice(SYSTEM, obj=obj, **args))
 
-        if self._script.utilities.isLastItemInInlineContentSuggestion(obj):
+        suggestion = AXObject.find_ancestor(obj, AXUtilities.is_inline_suggestion)
+        if suggestion and obj == AXObject.get_child(
+                suggestion, AXObject.get_child_count(suggestion) - 1):
             result.extend(self._generate_pause(obj, **args))
             result.extend([messages.CONTENT_SUGGESTION_END])
             result.extend(self.voice(SYSTEM, obj=obj, **args))
@@ -2562,8 +2568,12 @@ class SpeechGenerator(generator.Generator):
             return []
 
         result = self._generate_default_prefix(obj, **args)
-        result += (self._generate_accessible_label_and_name(obj, **args) or \
-            self._generate_text_line(obj, **args))
+
+        if self._generate_text_substring(obj, **args):
+            result += self._generate_text_line(obj, **args)
+        else:
+            result += (self._generate_accessible_label_and_name(obj, **args) or \
+                self._generate_text_line(obj, **args))
 
         if settings_manager.get_manager().get_setting("speakContextList"):
             if args.get("index", 0) + 1 < args.get("total", 1):
@@ -3743,8 +3753,13 @@ class SpeechGenerator(generator.Generator):
         if format_type in ["focused", "ancestor"]:
             return result
 
-        result += self._generate_pause(obj, **args)
-        result += self._generate_descendants(obj, **args)
+        content = self._generate_descendants(obj, **args) \
+            or self._generate_text_content(obj, **args)
+        if not content and AXObject.get_child_count(obj) == 1:
+            content = self._generate_text_content(AXObject.get_child(obj, 0), **args)
+        if content:
+            result += self._generate_pause(obj, **args) + content
+
         result += self._generate_default_suffix(obj, **args)
         return result
 
