@@ -350,7 +350,7 @@ class Script(default.Script):
         generalGrid.attach(self._autoFocusModeCaretNavCheckButton, 0, 1, 1, 1)
 
         label = guilabels.USE_STRUCTURAL_NAVIGATION
-        value = self.structural_navigation.enabled
+        value = settings_manager.get_manager().get_setting('structuralNavigationEnabled')
         self._structuralNavigationCheckButton = \
             Gtk.CheckButton.new_with_mnemonic(label)
         self._structuralNavigationCheckButton.set_active(value)
@@ -1360,6 +1360,9 @@ class Script(default.Script):
                 debug.print_message(debug.LEVEL_INFO, msg, True)
                 return True
 
+        if self.utilities.shouldInterruptForLocusOfFocusChange(old_focus, new_focus, event):
+            self.presentationInterrupt()
+
         if contents:
             self.speakContents(contents, **args)
         else:
@@ -1979,6 +1982,9 @@ class Script(default.Script):
             else:
                 msg = "WEB: Event handled: Setting locusOfFocus to web app descendant"
                 debug.print_message(debug.LEVEL_INFO, msg, True)
+                if self.utilities.shouldInterruptForLocusOfFocusChange(focus, event.source, event):
+                    self.presentationInterrupt()
+
                 focus_manager.get_manager().set_locus_of_focus(event, event.source)
                 return True
 
