@@ -1,3 +1,9 @@
+orca (48.6-1) experimental; urgency=medium
+
+  * New upstream release
+
+ -- Samuel Thibault <sthibault@debian.org>  Thu, 26 Jun 2025 09:00:47 +0200
+
 orca (48.5-1) experimental; urgency=medium
 
   * New upstream release
