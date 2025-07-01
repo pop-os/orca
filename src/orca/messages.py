@@ -537,6 +537,31 @@ CONTAINER_NOT_IN_A = _("Not in a container.")
 # in a container that supports selection, such as a GUI table or a list of icons.
 CONTAINER_SELECTED_ALL = _("all items selected")
 
+# Translators: This message is presented when the user is in a date picker and
+# navigates to the item which reflects the current date.
+CURRENT_DATE = _("Current date")
+
+# Translators: This message is presented wwhen the user is in a time picker/schedule
+# and navigates to the item which reflects the current time.
+CURRENT_TIME = _("Current time")
+
+# Translators: This message is presented when the user is in a map or flow chart and
+# navigates to the item which reflects the current location.
+CURRENT_LOCATION = _("Current location")
+
+# Translators: This message is presented when the user is in a table of contents or
+# other set of pagination links and navigates to the item which reflects the current
+# page.
+CURRENT_PAGE = _("Current page")
+
+# Translators: This message is presented when the user is in a wizard or other
+# step-based interface and navigates to the item which reflects the current step.
+CURRENT_STEP = _("Current step")
+
+# Translators: This message is presented when the user is in a list of generic or
+# unspecified items and navigates to the link/object which reflects the current item.
+CURRENT_ITEM = _("Current item")
+
 # Translators: Orca has a command to report CPU and memory usage. This message
 # is presented to the user when they use this command but Orca was unable to
 # retrieve this information.
@@ -1243,6 +1268,14 @@ INDENTATION_JUSTIFICATION_ON_BRIEF = \
 # justification will be spoken.
 INDENTATION_JUSTIFICATION_ON_FULL = \
     _("Speaking of indentation and justification enabled.")
+
+# Translators: Orca announces when a widget has an associated error, such as
+# disallowed characters in an input, or a must-check box that is not checked
+# (e.g. "I read and agree to the terms of service."). When this error message
+# goes away as a consequence of the user fixing the error, Orca will present
+# this string. When translating this string please use language similar to
+# that used for `C_("error", "invalid entry")` in object_properties.py.
+INVALID_ENTRY_FIXED = C_("error", "Entry valid.")
 
 # Translators: Orca has a "Learn Mode" that will allow the user to type any key
 # on the keyboard and hear what the effects of that key would be.  The effects

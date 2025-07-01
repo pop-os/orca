@@ -83,6 +83,11 @@ class AXUtilities:
     ) -> Optional[Atspi.Accessible]: ...
 
     @staticmethod
+    def get_info_bar(
+        obj: Atspi.Accessible
+    ) -> Optional[Atspi.Accessible]: ...
+
+    @staticmethod
     def get_status_bar(
         obj: Atspi.Accessible
     ) -> Optional[Atspi.Accessible]: ...
@@ -116,10 +121,40 @@ class AXUtilities:
     def has_explicit_name(obj: Atspi.Accessible) -> bool: ...
 
     @staticmethod
+    def has_visible_caption(obj: Atspi.Accessible) -> bool: ...
+
+    @staticmethod
     def get_displayed_label(obj: Atspi.Accessible) -> str: ...
 
     @staticmethod
     def get_displayed_description(obj: Atspi.Accessible) -> str: ...
+
+    @staticmethod
+    def get_heading_level(obj: Atspi.Accessible) -> int: ...
+
+    @staticmethod
+    def get_nesting_level(obj: Atspi.Accessible) -> int: ...
+
+    @staticmethod
+    def get_next_object(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]: ...
+
+    @staticmethod
+    def get_previous_object(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]: ...
+
+    @staticmethod
+    def is_on_screen(
+        obj: Atspi.Accessible,
+        bounding_box: Optional[Atspi.Rect] = None
+    ) -> bool: ...
+
+    @staticmethod
+    def treat_as_leaf_node(obj: Atspi.Accessible) -> bool: ...
+
+    @staticmethod
+    def get_on_screen_objects(
+        root: Atspi.Accessible,
+        bounding_box: Optional[Atspi.Rect] = None
+    ) -> list: ...
 
     # From ax_utilities_application.py
     @staticmethod
@@ -173,11 +208,6 @@ class AXUtilities:
     def save_object_info_for_events(
         obj: Atspi.Accessible
     ) -> None: ...
-
-    @staticmethod
-    def get_last_known_name(
-        obj: Atspi.Accessible
-    ) -> str: ...
 
     @staticmethod
     def get_text_event_reason(
@@ -1290,6 +1320,11 @@ class AXUtilities:
     ) -> bool: ...
 
     @staticmethod
+    def is_subscript_or_superscript_text(
+        obj: Atspi.Accessible, role: Optional[Atspi.Role] = None
+    ) -> bool: ...
+
+    @staticmethod
     def is_suggestion(
         obj: Atspi.Accessible, role: Optional[Atspi.Role] = None
     ) -> bool: ...
@@ -1524,6 +1559,9 @@ class AXUtilities:
 
     # From ax_utilities_state.py
     @staticmethod
+    def get_current_item_status_string(obj: Atspi.Accessible) -> str: ...
+
+    @staticmethod
     def has_no_state(obj: Atspi.Accessible) -> bool: ...
 
     @staticmethod
@@ -1576,6 +1614,9 @@ class AXUtilities:
 
     @staticmethod
     def is_focused(obj: Atspi.Accessible) -> bool: ...
+
+    @staticmethod
+    def is_hidden(obj: Atspi.Accessible) -> bool: ...
 
     @staticmethod
     def is_horizontal(obj: Atspi.Accessible) -> bool: ...
@@ -2758,6 +2799,11 @@ class AXUtilities:
 
     @staticmethod
     def find_focused_object(
+        root: Atspi.Accessible
+    ) -> Optional[Atspi.Accessible]: ...
+
+    @staticmethod
+    def find_info_bar(
         root: Atspi.Accessible
     ) -> Optional[Atspi.Accessible]: ...
 

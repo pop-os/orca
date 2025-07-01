@@ -19,7 +19,6 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
 # pylint: disable=too-many-lines
 # pylint: disable=too-many-public-methods
@@ -41,6 +40,7 @@ from typing import Generator, Optional
 import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
+from gi.repository import GLib
 
 from . import debug
 from . import messages
@@ -48,6 +48,7 @@ from . import object_properties
 from .ax_object import AXObject
 from .ax_component import AXComponent
 from .ax_utilities_role import AXUtilitiesRole
+from .ax_utilities_state import AXUtilitiesState
 
 
 class AXTable:
@@ -131,7 +132,7 @@ class AXTable:
 
         try:
             caption = Atspi.Table.get_caption(table)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in get_caption: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return None
@@ -159,7 +160,7 @@ class AXTable:
 
         try:
             count = Atspi.Table.get_n_columns(table)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in get_column_count: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1
@@ -205,7 +206,7 @@ class AXTable:
 
         try:
             count = Atspi.Table.get_n_rows(table)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in get_row_count: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1
@@ -246,7 +247,7 @@ class AXTable:
                         return True
                     if Atspi.Table.get_column_extent_at(table, row, col) > 1:
                         return True
-                except Exception as error:
+                except GLib.GError as error:
                     msg = f"AXTable: Exception in is_non_uniform_table: {error}"
                     debug.print_message(debug.LEVEL_INFO, msg, True)
                     return False
@@ -262,7 +263,7 @@ class AXTable:
 
         try:
             count = Atspi.Table.get_n_selected_columns(table)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in get_selected_column_count {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return 0
@@ -280,7 +281,7 @@ class AXTable:
 
         try:
             columns = Atspi.Table.get_selected_columns(table)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in get_selected_columns: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return []
@@ -298,7 +299,7 @@ class AXTable:
 
         try:
             count = Atspi.Table.get_n_selected_rows(table)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in get_selected_row_count {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return 0
@@ -316,7 +317,7 @@ class AXTable:
 
         try:
             rows = Atspi.Table.get_selected_rows(table)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in get_selected_rows: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return []
@@ -351,7 +352,7 @@ class AXTable:
 
         try:
             cell = Atspi.Table.get_accessible_at(table, row, column)
-        except Exception as error:
+        except GLib.GError as error:
             tokens = [f"AXTable: Exception getting cell at row: {row} col: {column} in", table,
                       ":", error]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
@@ -444,7 +445,7 @@ class AXTable:
 
         try:
             result = Atspi.Table.get_row_column_extents_at_index(table, index)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in _get_cell_spans_from_table: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1, -1
@@ -489,7 +490,7 @@ class AXTable:
             # https://bugzilla.mozilla.org/show_bug.cgi?id=1862437
             row_span = Atspi.TableCell.get_row_span(cell)
             col_span = Atspi.TableCell.get_column_span(cell)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in _get_cell_spans_from_table_cell: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1, -1
@@ -514,7 +515,7 @@ class AXTable:
 
         try:
             header = Atspi.Table.get_column_header(table, column)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in _get_column_headers_from_table: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return []
@@ -535,7 +536,7 @@ class AXTable:
 
         try:
             headers = Atspi.TableCell.get_column_header_cells(cell)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in _get_column_headers_from_table_cell: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return []
@@ -556,7 +557,7 @@ class AXTable:
 
         try:
             header = Atspi.Table.get_row_header(table, row)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in _get_row_headers_from_table: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return []
@@ -577,7 +578,7 @@ class AXTable:
 
         try:
             headers = Atspi.TableCell.get_row_header_cells(cell)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in _get_row_headers_from_table_cell: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return []
@@ -824,7 +825,7 @@ class AXTable:
         try:
             row = Atspi.Table.get_row_at_index(table, index)
             column = Atspi.Table.get_column_at_index(table, index)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in _get_cell_coordinates_from_table: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1, -1
@@ -846,7 +847,7 @@ class AXTable:
 
         try:
             success, row, column = Atspi.TableCell.get_position(cell)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXTable: Exception in _get_cell_coordinates_from_table_cell: {error}"
 
             debug.print_message(debug.LEVEL_INFO, msg, True)
@@ -933,7 +934,7 @@ class AXTable:
         if AXObject.supports_table_cell(obj):
             try:
                 table = Atspi.TableCell.get_table(obj)
-            except Exception as error:
+            except GLib.GError as error:
                 msg = f"AXTable: Exception in get_table: {error}"
                 debug.print_message(debug.LEVEL_INFO, msg, True)
             else:
@@ -1262,6 +1263,34 @@ class AXTable:
         tokens = ["AXTable: Last visible cell is at row", end[0], "column", end[1]]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
+        if end == (-1, -1):
+            last_cell = AXTable.get_last_cell(table)
+            tokens = ["AXTable: Adjusted lasat visible cell for", table, "is", last_cell]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
+            end = AXTable.get_cell_coordinates(last_cell, prefer_attribute=False)
+            tokens = ["AXTable: Adjusted last cell is at row", end[0], "column", end[1]]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
+        if AXUtilitiesRole.is_table_cell(last_cell) \
+           and not AXUtilitiesRole.is_table_cell_or_header(first_cell):
+            candidate = AXTable.get_cell_above(last_cell)
+            while candidate and AXComponent.object_intersects_rect(candidate, rect):
+                first_cell = candidate
+                candidate = AXTable.get_cell_above(first_cell)
+
+            candidate = AXTable.get_cell_on_left(first_cell)
+            while candidate and AXComponent.object_intersects_rect(candidate, rect):
+                first_cell = candidate
+                candidate = AXTable.get_cell_on_left(first_cell)
+
+            tokens = ["AXTable: Adjusted first visible cell for", table, "is", first_cell]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
+            start = AXTable.get_cell_coordinates(first_cell, prefer_attribute=False)
+            tokens = ["AXTable: Adjusted first cell is at row", start[0], "column", start[1]]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
         return start, end
 
     @staticmethod
@@ -1275,8 +1304,54 @@ class AXTable:
         for row in range(start[0], end[0] + 1):
             for col in range(start[1], end[1] + 1):
                 cell = AXTable.get_cell_at(table, row, col)
-                if cell is not None:
-                    yield cell
+                if cell is None:
+                    continue
+                for child in AXObject.iter_children(cell, AXUtilitiesRole.is_table_cell):
+                    if AXObject.get_name(child):
+                        cell = child
+                        break
+                yield cell
+
+    @staticmethod
+    def get_showing_cells_in_same_row(
+        cell: Atspi.Accessible,
+        clip_to_window: bool = False
+    ) -> list[Atspi.Accessible]:
+        """Returns a list of all the cells in the same row as obj that are showing."""
+
+        row = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[0]
+        if row == -1:
+            return []
+
+        table = AXTable.get_table(cell)
+        start_index, end_index = 0, AXTable.get_column_count(table, False)
+        if clip_to_window:
+            rect = AXComponent.get_rect(table)
+            if (cell := AXComponent.get_descendant_at_point(table, rect.x + 1, rect.y)):
+                start_index = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[1]
+            if (cell := AXComponent.get_descendant_at_point(
+                    table, rect.x + rect.width - 1, rect.y)):
+                end_index = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[1] + 1
+
+        if start_index == end_index:
+            return []
+
+        cells = []
+        for i in range(start_index, end_index):
+            cell = AXTable.get_cell_at(table, row, i)
+            if AXUtilitiesState.is_showing(cell):
+                cells.append(cell)
+
+        if not cells:
+            tokens = ["AXTable: No visible cells found in row with", cell]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return []
+
+        tokens = ["AXTable: First visible cell in row with", cell, "is", cells[0]]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        tokens = ["AXTable: Last visible cell in row with", cell, "is", cells[-1]]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        return cells
 
 
 AXTable.start_cache_clearing_thread()

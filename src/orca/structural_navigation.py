@@ -267,13 +267,7 @@ class StructuralNavigationObject:
         """Show a list of all the items with this object type."""
 
         objects = self.structural_navigation._getAll(self)
-
-        def _isValidMatch(x):
-            if AXObject.is_dead(x):
-                return False
-            return not (script.utilities.isHidden(x) or script.utilities.is_empty(x))
-
-        objects = list(filter(_isValidMatch, objects))
+        objects = list(filter(lambda x: not AXUtilities.is_hidden(x), objects))
 
         if self.predicate is not None:
             objects = list(filter(self.predicate, objects))
@@ -340,11 +334,7 @@ class StructuralNavigationObject:
 
         def showListAtLevel(script, inputEvent):
             objects = self.structural_navigation._getAll(self, arg=level)
-
-            def _isValidMatch(x):
-                return not (script.utilities.isHidden(x) or script.utilities.is_empty(x))
-
-            objects = list(filter(_isValidMatch, objects))
+            objects = list(filter(lambda x: not AXUtilities.is_hidden(x), objects))
             if self.predicate is not None:
                 objects = list(filter(self.predicate, objects))
 
@@ -511,14 +501,6 @@ class StructuralNavigation:
         self._last_input_event = None
         self._handlers = self.get_handlers(True)
         self._bindings = keybindings.KeyBindings()
-
-        # When navigating in a non-uniform table, one can move to a
-        # cell which spans multiple rows and/or columns.  When moving
-        # beyond that cell, into a cell that does NOT span multiple
-        # rows/columns, we want to be sure we land in the right place.
-        # Therefore, we'll store the coordinates from "our perspective."
-        #
-        self.lastTableCell = [-1, -1]
 
         self._objectCache = {}
 
@@ -842,9 +824,7 @@ class StructuralNavigation:
             matches.reverse()
 
         def _isValidMatch(obj):
-            if AXObject.is_dead(obj):
-                return False
-            if self._script.utilities.isHidden(obj) or self._script.utilities.is_empty(obj):
+            if AXUtilities.is_hidden(obj):
                 return False
             if structuralNavigationObject.predicate is None:
                 return True
@@ -918,7 +898,7 @@ class StructuralNavigation:
         if AXUtilities.is_list(obj):
             children = list(AXObject.iter_children(obj, AXUtilities.is_list_item))
             if children:
-                if self._script.utilities.nestingLevel(obj):
+                if AXUtilities.get_nesting_level(obj):
                     return messages.nestedListItemCount(len(children))
                 else:
                     return messages.listItemCount(len(children))
@@ -984,8 +964,8 @@ class StructuralNavigation:
         self._script.sayLine(obj, offset)
 
     def _presentWithSayAll(self, obj, offset):
-        if self._script.inSayAll() \
-           and settings_manager.get_manager().get_setting('structNavInSayAll'):
+        if focus_manager.get_manager().in_say_all() \
+           and settings_manager.get_manager().get_setting("structNavInSayAll"):
             self._script.say_all(None, obj, offset)
             return True
 
@@ -1504,8 +1484,7 @@ class StructuralNavigation:
             columnHeaders.append(guilabels.SN_HEADER_LEVEL)
 
             def rowData(obj):
-                return [self._getText(obj),
-                        str(self._script.utilities.headingLevel(obj))]
+                return [self._getText(obj), str(AXUtilities.get_heading_level(obj))]
 
         else:
             title = guilabels.SN_TITLE_HEADING_AT_LEVEL % arg
@@ -1923,7 +1902,6 @@ class StructuralNavigation:
                 tokens = ["STRUCTURAL NAVIGATION: Located", cell, "for first cell"]
                 debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
-        self.lastTableCell = [0, 0]
         if self._presentWithSayAll(cell, 0):
             return
 

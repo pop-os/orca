@@ -18,23 +18,23 @@
 # Benjamin Steinwender <b@stbe.at>, 2014.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2009-2013, 2017.
 # Tim Sabsch <tim@sabsch.com>, 2018-2021, 2023-2024.
-# Philipp Kiemle <l10n@prly.mozmail.com>, 2022-2023, 2025.
-# Jürgen Benvenuti <gastornis@posteo.org>, 2022, 2024.
+# Philipp Kiemle <philipp.kiemle@gmail.com>, 2022-2023.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022, 2024, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: orca\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/orca/issues\n"
-"POT-Creation-Date: 2025-03-22 12:53+0000\n"
-"PO-Revision-Date: 2025-03-23 19:10+0100\n"
-"Last-Translator: Philipp Kiemle <l10n@prly.mozmail.com>\n"
+"POT-Creation-Date: 2025-02-28 16:15+0000\n"
+"PO-Revision-Date: 2025-03-02 11:29+0100\n"
+"Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.4.4\n"
 "X-Project-Style: gnome\n"
 
 #: orca-autostart.desktop.in:4
@@ -1173,7 +1173,7 @@ msgstr "Sprachausgabe ein- oder ausschalten"
 #. for the app being used at the time the command is given.
 #: src/orca/cmdnames.py:458
 msgid "Toggle sleep mode for the current application"
-msgstr "Schlafmodus für die aktuelle Anwendung ein- oder ausschalten"
+msgstr "Schlafmodus für das momentane Programm ein- oder ausschalten"
 
 #. Translators: Orca's verbosity levels control how much (or how little)
 #. Orca will speak when presenting objects as the user navigates within
@@ -1222,7 +1222,7 @@ msgstr "Die Art und Weise ändern, wie Zahlen vorgelesen werden"
 #. string is the description of that command.
 #: src/orca/cmdnames.py:493
 msgid "Present clipboard contents"
-msgstr "Inhalte der Zwischenablage ausgeben"
+msgstr "Inhalt der Zwischenablage ausgeben"
 
 #. Translators: Orca allows users to cycle through punctuation levels. None,
 #. some, most, or all, punctuation will be spoken.
@@ -1294,7 +1294,7 @@ msgstr "Den AT-SPI-Zwischenspeicher für die aktuelle Anwendung leeren"
 #. applications, etc.
 #: src/orca/cmdnames.py:550
 msgid "Capture snapshot for debugging"
-msgstr "Schnappschuss zur Fehlersuche erstellen"
+msgstr "Schnappschuss für die Fehlerdiagnose aufzeichnen"
 
 #. Translators: this command announces information regarding the relationship of
 #. the given bookmark to the current position. Note that in this context, the
@@ -3776,7 +3776,7 @@ msgstr "Vorgabe"
 #: src/orca/guilabels.py:335
 msgctxt "keybindings"
 msgid "Debugging Tools"
-msgstr "Fehlersuche-Werkzeuge"
+msgstr "Fehlerdiagnose-Werkzeuge"
 
 #. Translators: This string is a label for the group of Orca commands which
 #. are related to its "learn mode". Please use the same translation as done
@@ -7964,7 +7964,7 @@ msgstr "Zwischenspeicher wird geleert."
 #. capture has begun.
 #: src/orca/messages.py:566
 msgid "Capturing debugging snapshot"
-msgstr "Schnappschuss zur Fehlersuche wird erstellt"
+msgstr "Schnappschuss für die Fehlerdiagnose wird aufgezeichnet"
 
 #. Translators: this is a debug message for advanced users and developers. It
 #. describes a command to print detailed debugging information about the current
@@ -7974,7 +7974,7 @@ msgstr "Schnappschuss zur Fehlersuche wird erstellt"
 #. capture has begun.
 #: src/orca/messages.py:574
 msgid "Debugging snapshot captured"
-msgstr "Schnappschuss zur Fehlersuche erstellt"
+msgstr "Fehlerdiagnose-Schnappschuss aufgezeichnet"
 
 #. Translators: The "default" button in a dialog box is the button that gets
 #. activated when Enter is pressed anywhere within that dialog box. The string
@@ -8899,7 +8899,7 @@ msgid ""
 "shortcuts for the current application, press F3. To exit learn mode, press "
 "the escape key."
 msgstr ""
-"Der Lernmodus wird gestartet. Drücken Sie eine beliebige Taste, um deren "
+"Der Lernmodus wird gestartet. Drücken Sie eine beliebige Taste, um dessen "
 "Funktion zu hören. Um die Dokumentation des Bildschirmlesers anzuzeigen, "
 "drücken Sie F1. Um eine Liste der vorgegebenen Tastenkombinationen für den "
 "Bildschirmleser zu erhalten, drücken Sie F2. Um eine Liste der für eine "

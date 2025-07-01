@@ -19,6 +19,8 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=wrong-import-position
+
 """The main module for the Orca screen reader."""
 
 __id__        = "$Id$"
@@ -29,19 +31,20 @@ __copyright__ = "Copyright (c) 2004-2009 Sun Microsystems Inc." \
                 "Copyright (c) 2012 Igalia, S.L."
 __license__   = "LGPL"
 
-import gi
 import os
 import signal
 import sys
 
+import gi
 gi.require_version("Atspi", "2.0")
 gi.require_version("Gdk", "3.0")
 from gi.repository import Atspi
 from gi.repository import Gdk
-from gi.repository.Gio import Settings
+from gi.repository import Gio
 
 from . import braille
 from . import clipboard
+from . import dbus_service
 from . import debug
 from . import debugging_tools_manager
 from . import event_manager
@@ -57,44 +60,29 @@ from . import speech_and_verbosity_manager
 from . import sound
 from .ax_utilities import AXUtilities
 
-# The user-settings module (see loadUserSettings).
-#
-_userSettings = None
-
-def loadUserSettings(script=None, skipReloadMessage=False):
+def load_user_settings(script=None, skip_reload_message=False, is_reload=True):
     """(Re)Loads the user settings module, re-initializing things such as speech if necessary."""
 
     debug.print_message(debug.LEVEL_INFO, 'ORCA: Loading User Settings', True)
 
-    global _userSettings
-
-    # Shutdown the output drivers and give them a chance to die.
-
-    player = sound.getPlayer()
-    player.shutdown()
-    speech_and_verbosity_manager.get_manager().shutdown_speech()
-    braille.shutdown()
-    mouse_review.get_reviewer().deactivate()
+    if is_reload:
+        sound.getPlayer().shutdown()
+        speech_and_verbosity_manager.get_manager().shutdown_speech()
+        braille.shutdown()
+        mouse_review.get_reviewer().deactivate()
 
     event_manager.get_manager().pause_queuing(True, True, "Loading user settings.")
-    reloaded = False
-    if _userSettings:
+    if is_reload:
         _profile = settings_manager.get_manager().get_setting('activeProfile')[1]
-        _userSettings = settings_manager.get_manager().get_general_settings(_profile)
         settings_manager.get_manager().set_profile(_profile)
-        reloaded = True
-    else:
-        _profile = settings_manager.get_manager().profile
-        _userSettings = settings_manager.get_manager().get_general_settings(_profile)
 
-    if not script:
+    if script is None:
         script = script_manager.get_manager().get_default_script()
 
     settings_manager.get_manager().load_app_settings(script)
-
     if settings_manager.get_manager().get_setting('enableSpeech'):
         speech_and_verbosity_manager.get_manager().start_speech()
-        if reloaded and not skipReloadMessage:
+        if is_reload and not skip_reload_message:
             script.speakMessage(messages.SETTINGS_RELOADED)
 
     if settings_manager.get_manager().get_setting('enableBraille'):
@@ -105,25 +93,31 @@ def loadUserSettings(script=None, skipReloadMessage=False):
         mouse_review.get_reviewer().activate()
 
     if settings_manager.get_manager().get_setting('enableSound'):
-        player.init()
+        sound.getPlayer().init()
 
     # Handle the case where a change was made in the Orca Preferences dialog.
     orca_modifier_manager.get_manager().refresh_orca_modifiers("Loading user settings.")
     event_manager.get_manager().pause_queuing(False, False, "User settings loaded.")
     debug.print_message(debug.LEVEL_INFO, "ORCA: User Settings Loaded", True)
 
-def timeout(signum=None, frame=None):
-    msg = 'TIMEOUT: something has hung. Aborting.'
-    debug.print_message(debug.LEVEL_SEVERE, msg, True)
-    debugging_tools_manager.get_manager().print_running_applications(force=True)
-    os.kill(os.getpid(), signal.SIGKILL)
+    manager = debugging_tools_manager.get_manager()
+    manager.print_session_details()
+    manager.print_running_applications(force=False)
 
-def shutdown(script=None, inputEvent=None, signum=None):
+def shutdown(script=None, _event=None, _signum=None):
     """Exits Orca. Returns True if shutdown ran to completion."""
 
+    def _timeout(_signum=None, _frame=None):
+        msg = "TIMEOUT: something has hung. Aborting."
+        debug.print_message(debug.LEVEL_SEVERE, msg, True)
+        debugging_tools_manager.get_manager().print_running_applications(force=True)
+        os.kill(os.getpid(), signal.SIGKILL)
+
     debug.print_message(debug.LEVEL_INFO, "ORCA: Shutting down", True)
-    signal.signal(signal.SIGALRM, timeout)
+    signal.signal(signal.SIGALRM, _timeout)
     signal.alarm(5)
+
+    dbus_service.get_remote_controller().shutdown()
 
     orca_modifier_manager.get_manager().unset_orca_modifiers("Shutting down.")
     script = script_manager.get_manager().get_active_script()
@@ -159,33 +153,8 @@ def shutdown(script=None, inputEvent=None, signum=None):
     debug.print_message(debug.LEVEL_INFO, 'ORCA: Shutdown complete', True)
     return True
 
-def shutdownOnSignal(signum, frame):
-    signalString = f'({signal.strsignal(signum)})'
-    msg = f"ORCA: Shutting down and exiting due to signal={signum} {signalString}"
-    debug.print_message(debug.LEVEL_INFO, msg, True)
-    shutdown(signum=signum)
-
 def main():
-    """The main entry point for Orca.  The exit codes for Orca will
-    loosely be based on signals, where the exit code will be the
-    signal used to terminate Orca (if a signal was used).  Otherwise,
-    an exit code of 0 means normal completion and an exit code of 50
-    means Orca exited because of a hang."""
-
-    manager = debugging_tools_manager.get_manager()
-    manager.print_session_details()
-    manager.print_running_applications(force=False)
-
-    signal.signal(signal.SIGHUP, shutdownOnSignal)
-    signal.signal(signal.SIGINT, shutdownOnSignal)
-    signal.signal(signal.SIGTERM, shutdownOnSignal)
-    signal.signal(signal.SIGQUIT, shutdownOnSignal)
-
-    debug.print_message(debug.LEVEL_INFO, "ORCA: Enabling accessibility (if needed).", True)
-    if not settings_manager.get_manager().is_accessibility_enabled():
-        settings_manager.get_manager().set_accessibility(True)
-
-    loadUserSettings()
+    """The main entry point for Orca."""
 
     def _on_enabled_changed(gsetting, key):
         enabled = gsetting.get_boolean(key)
@@ -194,8 +163,31 @@ def main():
         if key == "screen-reader-enabled" and not enabled:
             shutdown()
 
+    def _reload_on_signal(signum, frame):
+        signal_string = f'({signal.strsignal(signum)})'
+        tokens = [f"ORCA: Reloading due to signal={signum} {signal_string}", frame]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        load_user_settings()
+
+    def _shutdown_on_signal(signum, frame):
+        signal_string = f'({signal.strsignal(signum)})'
+        tokens = [f"ORCA: Shutting down and exiting due to signal={signum} {signal_string}", frame]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        shutdown()
+
+    signal.signal(signal.SIGHUP, _reload_on_signal)
+    signal.signal(signal.SIGINT, _shutdown_on_signal)
+    signal.signal(signal.SIGTERM, _shutdown_on_signal)
+    signal.signal(signal.SIGQUIT, _shutdown_on_signal)
+
+    debug.print_message(debug.LEVEL_INFO, "ORCA: Enabling accessibility (if needed).", True)
+    if not settings_manager.get_manager().is_accessibility_enabled():
+        settings_manager.get_manager().set_accessibility(True)
+
+    load_user_settings(is_reload=False)
+
     try:
-        _a11y_applications_gsetting = Settings(schema_id="org.gnome.desktop.a11y.applications")
+        _a11y_applications_gsetting = Gio.Settings(schema_id="org.gnome.desktop.a11y.applications")
         connection = _a11y_applications_gsetting.connect("changed", _on_enabled_changed)
         msg = f"ORCA: Connected to a11y applications gsetting: {bool(connection)}"
         debug.print_message(debug.LEVEL_INFO, msg, True)
@@ -203,29 +195,25 @@ def main():
         msg = f"ORCA: Exception connecting to a11y applications gsetting: {error}"
         debug.print_message(debug.LEVEL_SEVERE, msg, True)
 
+    dbus_service.get_remote_controller().start()
     script = script_manager.get_manager().get_default_script()
     script.presentMessage(messages.START_ORCA)
 
     event_manager.get_manager().activate()
+    script_manager.get_manager().activate()
     window = AXUtilities.find_active_window()
     if window and not focus_manager.get_manager().get_locus_of_focus():
         app = AXUtilities.get_application(window)
-
-        # TODO - JD: Consider having the focus tracker update the active script.
-        script = script_manager.get_manager().get_script(app, window)
-        script_manager.get_manager().set_active_script(script, "Launching.")
         focus_manager.get_manager().set_active_window(
             window, app, set_window_as_focus=True, notify_script=True)
 
-        # TODO - JD: Consider having the focus tracker update the active script.
-        focusedObject = focus_manager.get_manager().find_focused_object()
-        if focusedObject:
-            focus_manager.get_manager().set_locus_of_focus(None, focusedObject)
-            script = script_manager.get_manager().get_script(
-                AXUtilities.get_application(focusedObject), focusedObject)
-            script_manager.get_manager().set_active_script(script, "Found focused object.")
+        focused_object = focus_manager.get_manager().find_focused_object()
+        if focused_object:
+            focus_manager.get_manager().set_locus_of_focus(None, focused_object)
 
-    script_manager.get_manager().activate()
+        script = script_manager.get_manager().get_script(app, focused_object or window)
+        script_manager.get_manager().set_active_script(script, "Launching.")
+
     clipboard.get_presenter().activate()
     Gdk.notify_startup_complete()
 

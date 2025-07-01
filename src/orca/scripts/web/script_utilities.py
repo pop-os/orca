@@ -63,28 +63,15 @@ class Utilities(script_utilities.Utilities):
         self._inTopLevelWebApp = {}
         self._isTextBlockElement = {}
         self._isContentEditableWithEmbeddedObjects = {}
-        self._isCodeDescendant = {}
-        self._isEntryDescendant = {}
         self._hasGridDescendant = {}
-        self._isGridDescendant = {}
-        self._isLabelDescendant = {}
-        self._isMenuDescendant = {}
-        self._isNavigableToolTipDescendant = {}
-        self._isToolBarDescendant = {}
-        self._isWebAppDescendant = {}
         self._isFocusableWithMathChild = {}
         self._isOffScreenLabel = {}
         self._labelIsAncestorOfLabelled = {}
         self._elementLinesAreSingleChars= {}
         self._elementLinesAreSingleWords= {}
         self._hasLongDesc = {}
-        self._hasVisibleCaption = {}
-        self._isNonInteractiveDescendantOfControl = {}
         self._isClickableElement = {}
-        self._isInlineListDescendant = {}
         self._isLink = {}
-        self._isListDescendant = {}
-        self._isNonNavigablePopup = {}
         self._isNonEntryTextWidget = {}
         self._isCustomImage = {}
         self._isUselessImage = {}
@@ -93,7 +80,6 @@ class Utilities(script_utilities.Utilities):
         self._hasNameAndActionAndNoUsefulChildren = {}
         self._isNonNavigableEmbeddedDocument = {}
         self._inferredLabels = {}
-        self._preferDescriptionOverName = {}
         self._shouldFilter = {}
         self._shouldInferLabelFor = {}
         self._treatAsTextObject = {}
@@ -140,28 +126,15 @@ class Utilities(script_utilities.Utilities):
         self._inTopLevelWebApp = {}
         self._isTextBlockElement = {}
         self._isContentEditableWithEmbeddedObjects = {}
-        self._isCodeDescendant = {}
-        self._isEntryDescendant = {}
         self._hasGridDescendant = {}
-        self._isGridDescendant = {}
-        self._isLabelDescendant = {}
-        self._isMenuDescendant = {}
-        self._isNavigableToolTipDescendant = {}
-        self._isToolBarDescendant = {}
-        self._isWebAppDescendant = {}
         self._isFocusableWithMathChild = {}
         self._isOffScreenLabel = {}
         self._labelIsAncestorOfLabelled = {}
         self._elementLinesAreSingleChars= {}
         self._elementLinesAreSingleWords= {}
         self._hasLongDesc = {}
-        self._hasVisibleCaption = {}
-        self._isNonInteractiveDescendantOfControl = {}
         self._isClickableElement = {}
-        self._isInlineListDescendant = {}
         self._isLink = {}
-        self._isListDescendant = {}
-        self._isNonNavigablePopup = {}
         self._isNonEntryTextWidget = {}
         self._isCustomImage = {}
         self._isUselessImage = {}
@@ -170,7 +143,6 @@ class Utilities(script_utilities.Utilities):
         self._hasNameAndActionAndNoUsefulChildren = {}
         self._isNonNavigableEmbeddedDocument = {}
         self._inferredLabels = {}
-        self._preferDescriptionOverName = {}
         self._shouldFilter = {}
         self._shouldInferLabelFor = {}
         self._treatAsTextObject = {}
@@ -305,34 +277,6 @@ class Utilities(script_utilities.Utilities):
 
         return super().inFindContainer(obj)
 
-    def is_empty(self, obj):
-        if not self.isTextBlockElement(obj):
-            return False
-
-        if AXObject.get_name(obj):
-            return False
-
-        return not self.treatAsTextObject(obj, False)
-
-    def isTextArea(self, obj):
-        if not self.inDocumentContent(obj):
-            return super().isTextArea(obj)
-
-        if self.isLink(obj):
-            return False
-
-        if AXUtilities.is_combo_box(obj) \
-           and AXUtilities.is_editable(obj) \
-           and not AXObject.get_child_count(obj):
-            return True
-
-        if AXObject.get_role(obj) in self._textBlockElementRoles():
-            document = self.getDocumentForObject(obj)
-            if AXUtilities.is_editable(document):
-                return True
-
-        return super().isTextArea(obj)
-
     def setCaretOffset(self, obj, characterOffset):
         self.setCaretPosition(obj, characterOffset)
         self._script.update_braille(obj)
@@ -436,15 +380,6 @@ class Utilities(script_utilities.Utilities):
 
         return [ext.x, ext.y, ext.width, ext.height]
 
-    def _preserveTree(self, obj):
-        if not (obj and AXObject.get_child_count(obj)):
-            return False
-
-        if AXUtilities.is_math(obj):
-            return True
-
-        return False
-
     def expandEOCs(self, obj, startOffset=0, endOffset=-1):
         if not self.inDocumentContent(obj):
             return super().expandEOCs(obj, startOffset, endOffset)
@@ -457,21 +392,11 @@ class Utilities(script_utilities.Utilities):
         if not self.treatAsTextObject(obj):
             return ""
 
-        if self._preserveTree(obj):
+        if AXUtilities.is_math(obj) and AXObject.get_child_count(obj):
             utterances = self._script.speech_generator.generate_speech(obj)
             return self._script.speech_generator.utterances_to_string(utterances)
 
-        return super().expandEOCs(obj, startOffset, endOffset).strip()
-
-    def textAttributes(self, acc, offset=None, get_defaults=False):
-        attrs = super().textAttributes(acc, offset, get_defaults)
-        objAttributes = AXObject.get_attributes_dict(acc, False)
-        for key in self._script.attributeNamesDict.keys():
-            value = objAttributes.get(key)
-            if value is not None:
-                attrs[0][key] = value
-
-        return attrs
+        return super().expandEOCs(obj, startOffset, endOffset)
 
     def adjustContentsForLanguage(self, contents):
         rv = []
@@ -524,36 +449,6 @@ class Utilities(script_utilities.Utilities):
                 return contents.index(matches[0])
 
         return -1
-
-    def findPreviousObject(self, obj):
-        result = super().findPreviousObject(obj)
-        if not (obj and self.inDocumentContent(obj)):
-            return result
-
-        if not (result and self.inDocumentContent(result)):
-            return None
-
-        if self.getTopLevelDocumentForObject(result) != self.getTopLevelDocumentForObject(obj):
-            return None
-
-        tokens = ["WEB: Previous object for", obj, "is", result, "."]
-        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-        return result
-
-    def findNextObject(self, obj):
-        result = super().findNextObject(obj)
-        if not (obj and self.inDocumentContent(obj)):
-            return result
-
-        if not (result and self.inDocumentContent(result)):
-            return None
-
-        if self.getTopLevelDocumentForObject(result) != self.getTopLevelDocumentForObject(obj):
-            return None
-
-        tokens = ["WEB: Next object for", obj, "is", result, "."]
-        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-        return result
 
     def isNonEntryTextWidget(self, obj):
         rv = self._isNonEntryTextWidget.get(hash(obj))
@@ -616,7 +511,7 @@ class Utilities(script_utilities.Utilities):
                 tokens = ["WEB: Treating", obj, "as non-text: is non-entry text widget."]
                 debug.print_tokens(debug.LEVEL_INFO, tokens, True)
                 rv = False
-            if rv and (self.isHidden(obj) or self.isOffScreenLabel(obj)):
+            if rv and (AXUtilities.is_hidden(obj) or self.isOffScreenLabel(obj)):
                 tokens = ["WEB: Treating", obj, "as non-text: is hidden or off-screen label."]
                 debug.print_tokens(debug.LEVEL_INFO, tokens, True)
                 rv = False
@@ -653,33 +548,6 @@ class Utilities(script_utilities.Utilities):
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         self._hasNameAndActionAndNoUsefulChildren[hash(obj)] = rv
-        return rv
-
-    def isNonInteractiveDescendantOfControl(self, obj):
-        if not (obj and self.inDocumentContent(obj)):
-            return False
-
-        rv = self._isNonInteractiveDescendantOfControl.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        role = AXObject.get_role(obj)
-        rv = False
-        roles = self._textBlockElementRoles()
-        roles.extend([Atspi.Role.IMAGE, Atspi.Role.CANVAS])
-        if role in roles and not AXUtilities.is_focusable(obj):
-            controls = [Atspi.Role.CHECK_BOX,
-                        Atspi.Role.CHECK_MENU_ITEM,
-                        Atspi.Role.LIST_BOX,
-                        Atspi.Role.MENU_ITEM,
-                        Atspi.Role.RADIO_MENU_ITEM,
-                        Atspi.Role.RADIO_BUTTON,
-                        Atspi.Role.PUSH_BUTTON,
-                        Atspi.Role.TOGGLE_BUTTON,
-                        Atspi.Role.TREE_ITEM]
-            rv = AXObject.find_ancestor(obj, lambda x: AXObject.get_role(x) in controls)
-
-        self._isNonInteractiveDescendantOfControl[hash(obj)] = rv
         return rv
 
     def _treatObjectAsWhole(self, obj, offset=None):
@@ -854,10 +722,7 @@ class Utilities(script_utilities.Utilities):
 
         if granularity == Atspi.TextGranularity.LINE:
             if AXUtilities.is_math_related(obj):
-                if AXUtilities.is_math(obj):
-                    math = obj
-                else:
-                    math = self.getMathAncestor(obj)
+                math = AXObject.find_ancestor_inclusive(obj, AXUtilities.is_math)
                 return [[math, 0, 1, '']]
 
             treatAsText = self.treatAsTextObject(obj)
@@ -1275,8 +1140,8 @@ class Utilities(script_utilities.Utilities):
         else:
             extents = self.getExtents(obj, offset, offset + 1)
 
-        if self.isInlineListDescendant(obj):
-            container = self.listForInlineListDescendant(obj)
+        if AXObject.find_ancestor_inclusive(obj, AXUtilities.is_inline_list_item) is not None:
+            container = AXObject.find_ancestor(obj, AXUtilities.is_list)
             if container:
                 extents = self.getExtents(container, 0, 1)
 
@@ -1313,7 +1178,7 @@ class Utilities(script_utilities.Utilities):
 
             if AXUtilities.is_math(xObj) or AXUtilities.is_math_related(obj):
                 onSameLine = self.extentsAreOnSameLine(extents, xExtents, extents[3])
-            elif self.isTextSubscriptOrSuperscript(xObj):
+            elif AXUtilities.is_subscript_or_superscript_text(xObj):
                 onSameLine = self.extentsAreOnSameLine(extents, xExtents, xExtents[3])
             else:
                 onSameLine = self.extentsAreOnSameLine(extents, xExtents)
@@ -1499,7 +1364,7 @@ class Utilities(script_utilities.Utilities):
             return []
 
         lastObj, lastOffset = line[-1][0], line[-1][2] - 1
-        math = self.getMathAncestor(lastObj)
+        math = AXObject.find_ancestor_inclusive(lastObj, AXUtilities.is_math)
         if math:
             lastObj, lastOffset = self.lastContext(math)
 
@@ -1675,7 +1540,7 @@ class Utilities(script_utilities.Utilities):
         return False
 
     def forceBrowseModeForWebAppDescendant(self, obj):
-        if not self.isWebAppDescendant(obj):
+        if not AXObject.find_ancestor(obj, AXUtilities.is_embedded):
             return False
 
         if AXUtilities.is_tool_tip(obj):
@@ -1749,17 +1614,16 @@ class Utilities(script_utilities.Utilities):
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return True
 
-        if self.isGridDescendant(obj):
+        if AXObject.find_ancestor(obj, AXUtilities.is_grid) is not None:
             tokens = ["WEB:", obj, "is focus mode widget because it's a grid descendant"]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return True
 
-        if self.isMenuDescendant(obj):
+        if AXObject.find_ancestor(obj, AXUtilities.is_menu) is not None:
             tokens = ["WEB:", obj, "is focus mode widget because it's a menu descendant"]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            return True
 
-        if self.isToolBarDescendant(obj):
+        if AXObject.find_ancestor(obj, AXUtilities.is_tool_bar) is not None:
             tokens = ["WEB:", obj, "is focus mode widget because it's a toolbar descendant"]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return True
@@ -1907,28 +1771,6 @@ class Utilities(script_utilities.Utilities):
         self._treatAsDiv[hash(obj)] = rv
         return rv
 
-    def isContentError(self, obj):
-        if not (obj and self.inDocumentContent(obj)):
-            return super().isContentError(obj)
-
-        if AXObject.get_role(obj) not in self._textBlockElementRoles():
-            return False
-
-        return AXUtilities.is_invalid_entry(obj)
-
-    def isInlineIframeDescendant(self, obj):
-        ancestor = AXObject.find_ancestor(obj, AXUtilities.is_inline_iframe)
-        return ancestor is not None
-
-    def getMathAncestor(self, obj):
-        if not AXUtilities.is_math_related(obj):
-            return None
-
-        if AXUtilities.is_math(obj):
-            return obj
-
-        return AXObject.find_ancestor(obj, AXUtilities.is_math)
-
     def filterContentsForPresentation(self, contents, inferLabels=False):
         def _include(x):
             obj, start, end, string = x
@@ -1941,11 +1783,12 @@ class Utilities(script_utilities.Utilities):
 
             text = string or AXObject.get_name(obj)
             rv = True
+            # TODO - JD: Audit this to see if they are now redundant.
             if ((self.isTextBlockElement(obj) or self.isLink(obj)) and not text) \
                or (self.isContentEditableWithEmbeddedObjects(obj) and not string.strip()) \
                or self.isEmptyAnchor(obj) \
                or (AXComponent.has_no_size(obj) and not text) \
-               or self.isHidden(obj) \
+               or AXUtilities.is_hidden(obj) \
                or self.isOffScreenLabel(obj) \
                or self.isUselessImage(obj) \
                or self.isErrorForContents(obj, contents) \
@@ -1982,9 +1825,6 @@ class Utilities(script_utilities.Utilities):
 
         return lastChar.isalnum()
 
-    def supportsSelectionAndTable(self, obj):
-        return AXObject.supports_table(obj) and AXObject.supports_selection(obj)
-
     def hasGridDescendant(self, obj):
         if not obj:
             return False
@@ -2007,18 +1847,6 @@ class Utilities(script_utilities.Utilities):
             rv = bool(grids)
 
         self._hasGridDescendant[hash(obj)] = rv
-        return rv
-
-    def isGridDescendant(self, obj):
-        if not obj:
-            return False
-
-        rv = self._isGridDescendant.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = AXObject.find_ancestor(obj, self.supportsSelectionAndTable) is not None
-        self._isGridDescendant[hash(obj)] = rv
         return rv
 
     def isCellWithNameFromHeader(self, obj):
@@ -2048,7 +1876,7 @@ class Utilities(script_utilities.Utilities):
         if not super().shouldReadFullRow(obj, prevObj):
             return False
 
-        if self.isGridDescendant(obj):
+        if AXObject.find_ancestor(obj, AXUtilities.is_grid) is not None:
             return not self._script.inFocusMode()
 
         if input_event_manager.get_manager().last_event_was_line_navigation():
@@ -2058,82 +1886,6 @@ class Utilities(script_utilities.Utilities):
             return False
 
         return True
-
-    def isEntryDescendant(self, obj):
-        if not obj:
-            return False
-
-        rv = self._isEntryDescendant.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = AXObject.find_ancestor(obj, AXUtilities.is_entry) is not None
-        self._isEntryDescendant[hash(obj)] = rv
-        return rv
-
-    def isLabelDescendant(self, obj):
-        if not obj:
-            return False
-
-        rv = self._isLabelDescendant.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = AXObject.find_ancestor(obj, AXUtilities.is_label_or_caption) is not None
-        self._isLabelDescendant[hash(obj)] = rv
-        return rv
-
-    def isMenuDescendant(self, obj):
-        if not obj:
-            return False
-
-        rv = self._isMenuDescendant.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = AXObject.find_ancestor(obj, AXUtilities.is_menu) is not None
-        self._isMenuDescendant[hash(obj)] = rv
-        return rv
-
-    def isNavigableToolTipDescendant(self, obj):
-        if not obj:
-            return False
-
-        rv = self._isNavigableToolTipDescendant.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        if AXUtilities.is_tool_tip(obj):
-            ancestor = obj
-        else:
-            ancestor = AXObject.find_ancestor(obj, AXUtilities.is_tool_tip)
-        rv = ancestor and not self.isNonNavigablePopup(ancestor)
-        self._isNavigableToolTipDescendant[hash(obj)] = rv
-        return rv
-
-    def isToolBarDescendant(self, obj):
-        if not obj:
-            return False
-
-        rv = self._isToolBarDescendant.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = AXObject.find_ancestor(obj, AXUtilities.is_tool_bar) is not None
-        self._isToolBarDescendant[hash(obj)] = rv
-        return rv
-
-    def isWebAppDescendant(self, obj):
-        if not obj:
-            return False
-
-        rv = self._isWebAppDescendant.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = AXObject.find_ancestor(obj, AXUtilities.is_embedded) is not None
-        self._isWebAppDescendant[hash(obj)] = rv
-        return rv
 
     def elementLinesAreSingleWords(self, obj):
         if not (obj and self.inDocumentContent(obj)):
@@ -2325,7 +2077,9 @@ class Utilities(script_utilities.Utilities):
 
         targets = AXUtilities.get_is_label_for(obj)
         if not contents:
-            return bool(targets) or self.isLabelDescendant(obj)
+            if targets:
+                return True
+            return AXObject.find_ancestor(obj, AXUtilities.is_label_or_caption) is not None
 
         for acc, start, end, string in contents:
             if acc in targets:
@@ -2334,11 +2088,13 @@ class Utilities(script_utilities.Utilities):
         if not self.isTextBlockElement(obj):
             return False
 
-        if not self.isLabelDescendant(obj):
+        if AXObject.find_ancestor(obj, AXUtilities.is_label_or_caption) is None:
             return False
 
         for acc, start, end, string in contents:
-            if not self.isLabelDescendant(acc) or self.isTextBlockElement(acc):
+            if AXObject.find_ancestor(acc, AXUtilities.is_label_or_caption) is None:
+                continue
+            if self.isTextBlockElement(acc):
                 continue
 
             if AXUtilities.is_label_or_caption(AXObject.get_common_ancestor(acc, obj)):
@@ -2400,18 +2156,6 @@ class Utilities(script_utilities.Utilities):
         self._isClickableElement[hash(obj)] = rv
         return rv
 
-    def isCodeDescendant(self, obj):
-        if not (obj and self.inDocumentContent(obj)):
-            return super().isCodeDescendant(obj)
-
-        rv = self._isCodeDescendant.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = AXObject.find_ancestor(obj, AXUtilities.is_code) is not None
-        self._isCodeDescendant[hash(obj)] = rv
-        return rv
-
     def isItemForEditableComboBox(self, item, comboBox):
         if not (AXUtilities.is_list_item(item) or AXUtilities.is_menu_item(item)):
             return False
@@ -2448,46 +2192,10 @@ class Utilities(script_utilities.Utilities):
         return AXObject.find_descendant(obj, _isMatch) is not None
 
     def isBlockListDescendant(self, obj):
-        if not self.isListDescendant(obj):
+        if AXObject.find_ancestor(obj, AXUtilities.is_list) is None:
             return False
 
-        return not self.isInlineListDescendant(obj)
-
-    def isListDescendant(self, obj):
-        if not (obj and self.inDocumentContent(obj)):
-            return False
-
-        rv = self._isListDescendant.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        ancestor = AXObject.find_ancestor(obj, AXUtilities.is_list)
-        rv = ancestor is not None
-        self._isListDescendant[hash(obj)] = rv
-        return rv
-
-    def isInlineListDescendant(self, obj):
-        if not (obj and self.inDocumentContent(obj)):
-            return False
-
-        rv = self._isInlineListDescendant.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        if AXUtilities.is_inline_list_item(obj):
-            rv = True
-        else:
-            ancestor = AXObject.find_ancestor(obj, AXUtilities.is_inline_list_item)
-            rv = ancestor is not None
-
-        self._isInlineListDescendant[hash(obj)] = rv
-        return rv
-
-    def listForInlineListDescendant(self, obj):
-        if not self.isInlineListDescendant(obj):
-            return None
-
-        return AXObject.find_ancestor(obj, AXUtilities.is_list)
+        return AXObject.find_ancestor_inclusive(obj, AXUtilities.is_inline_list_item) is None
 
     def isLink(self, obj):
         if not obj:
@@ -2509,28 +2217,8 @@ class Utilities(script_utilities.Utilities):
         self._isLink[hash(obj)] = rv
         return rv
 
-    def isNonNavigablePopup(self, obj):
-        if not (obj and self.inDocumentContent(obj)):
-            return False
-
-        rv = self._isNonNavigablePopup.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        rv = AXUtilities.is_tool_tip(obj) \
-            and not AXUtilities.is_focusable(obj)
-
-        self._isNonNavigablePopup[hash(obj)] = rv
-        return rv
-
     def hasUselessCanvasDescendant(self, obj):
         return len(AXUtilities.find_all_canvases(obj, self.isUselessImage)) > 0
-
-    def isTextSubscriptOrSuperscript(self, obj):
-        if AXUtilities.is_math_related(obj):
-            return False
-
-        return AXUtilities.is_subscript_or_superscript(obj)
 
     def isNonNavigableEmbeddedDocument(self, obj):
         rv = self._isNonNavigableEmbeddedDocument.get(hash(obj))
@@ -2703,27 +2391,6 @@ class Utilities(script_utilities.Utilities):
         self._hasLongDesc[hash(obj)] = rv
         return rv
 
-    def hasVisibleCaption(self, obj):
-        if not (obj and self.inDocumentContent(obj)):
-            return super().hasVisibleCaption(obj)
-
-        if not (AXUtilities.is_figure(obj) or AXObject.supports_table(obj)):
-            return False
-
-        rv = self._hasVisibleCaption.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        labels = AXUtilities.get_is_labelled_by(obj)
-
-        def isVisibleCaption(x):
-            return AXUtilities.is_caption(x) \
-                and AXUtilities.is_showing(x) and AXUtilities.is_visible(x)
-
-        rv = bool(list(filter(isVisibleCaption, labels)))
-        self._hasVisibleCaption[hash(obj)] = rv
-        return rv
-
     def inferLabelFor(self, obj):
         if not self.shouldInferLabelFor(obj):
             return None, []
@@ -2737,12 +2404,12 @@ class Utilities(script_utilities.Utilities):
         return rv
 
     def shouldInferLabelFor(self, obj):
-        if not self.inDocumentContent() or self.isWebAppDescendant(obj):
+        if not self.inDocumentContent() or AXObject.find_ancestor(obj, AXUtilities.is_embedded):
             return False
 
         rv = self._shouldInferLabelFor.get(hash(obj))
         if rv and not self._script.caret_navigation.last_input_event_was_navigation_command():
-            return not self._script.inSayAll()
+            return not focus_manager.get_manager().in_say_all()
         if rv is False:
             return rv
 
@@ -2830,7 +2497,7 @@ class Utilities(script_utilities.Utilities):
 
             if obj == event.source and isComboBoxItem(obj) \
                and input_event_manager.get_manager().last_event_was_up_or_down():
-                    return True
+                return True
 
         return False
 
@@ -2953,10 +2620,10 @@ class Utilities(script_utilities.Utilities):
             return False
 
         old_focus = old_focus or focus_manager.get_manager().get_locus_of_focus()
-        if not self.isGridDescendant(old_focus):
+        if AXObject.find_ancestor(old_focus, AXUtilities.is_grid) is None:
             return False
 
-        return not self.isGridDescendant(event.source)
+        return AXObject.find_ancestor(event.source, AXUtilities.is_grid) is None
 
     def caretMovedToSamePageFragment(self, event, old_focus=None):
         if not (event and event.type.startswith("object:text-caret-moved")):
@@ -3060,16 +2727,16 @@ class Utilities(script_utilities.Utilities):
             tokens = ["WEB: Landmark can have caret context", obj]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             rv = True
+        elif AXUtilities.is_tool_tip(obj):
+            tokens = ["WEB: Non-focusable tooltip cannot have caret context", obj]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            rv = False
         elif self.isUselessEmptyElement(obj):
             tokens = ["WEB: Useless empty element cannot have caret context", obj]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             rv = False
         elif self.isOffScreenLabel(obj):
             tokens = ["WEB: Off-screen label cannot have caret context", obj]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            rv = False
-        elif self.isNonNavigablePopup(obj):
-            tokens = ["WEB: Non-navigable popup cannot have caret context", obj]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             rv = False
         elif self.isUselessImage(obj):
@@ -3088,11 +2755,11 @@ class Utilities(script_utilities.Utilities):
             tokens = ["WEB: Fake placeholder for entry cannot have caret context", obj]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             rv = False
-        elif self.isNonInteractiveDescendantOfControl(obj):
-            tokens = ["WEB: Non interactive descendant of control cannot have caret context", obj]
+        elif AXObject.find_ancestor(obj, AXUtilities.children_are_presentational):
+            tokens = ["WEB: Presentational child cannot have caret context", obj]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             rv = False
-        elif self.isHidden(obj):
+        elif AXUtilities.is_hidden(obj):
             # We try to do this check only if needed because getting object attributes is
             # not as performant, and we cannot use the cached attribute because aria-hidden
             # can change frequently depending on the app.
@@ -3131,7 +2798,7 @@ class Utilities(script_utilities.Utilities):
                 else:
                     break
 
-        if contextObj and not self.isHidden(contextObj):
+        if contextObj and not AXUtilities.is_hidden(contextObj):
             return self.findNextCaretInOrder(contextObj, max(-1, contextOffset - 1))
 
         if self.isDocument(container):
@@ -3572,19 +3239,15 @@ class Utilities(script_utilities.Utilities):
         if self.isTopLevelDocument(obj):
             return None, -1
 
-        while obj and AXObject.get_parent(obj):
-            if self.isDetachedDocument(AXObject.get_parent(obj)):
-                obj = self.iframeForDetachedDocument(AXObject.get_parent(obj))
+        while obj and (parent := AXObject.get_parent(obj)):
+            if self.isDetachedDocument(parent):
+                obj = self.iframeForDetachedDocument(parent)
                 continue
 
-            parent = AXObject.get_parent(obj)
             if not AXObject.is_valid(parent):
                 msg = "WEB: Finding next caret in order. Parent is not valid."
                 debug.print_message(debug.LEVEL_INFO, msg, True)
-                replicant = self.findReplicant(self.documentFrame(), parent)
-                if AXObject.is_valid(replicant):
-                    parent = replicant
-                elif AXObject.get_parent(parent):
+                if AXObject.get_parent(parent):
                     obj = parent
                     continue
                 else:
@@ -3644,19 +3307,15 @@ class Utilities(script_utilities.Utilities):
         if self.isTopLevelDocument(obj):
             return None, -1
 
-        while obj and AXObject.get_parent(obj):
-            if self.isDetachedDocument(AXObject.get_parent(obj)):
-                obj = self.iframeForDetachedDocument(AXObject.get_parent(obj))
+        while obj and (parent := AXObject.get_parent(obj)):
+            if self.isDetachedDocument(parent):
+                obj = self.iframeForDetachedDocument(parent)
                 continue
 
-            parent = AXObject.get_parent(obj)
             if not AXObject.is_valid(parent):
                 msg = "WEB: Finding previous caret in order. Parent is not valid."
                 debug.print_message(debug.LEVEL_INFO, msg, True)
-                replicant = self.findReplicant(self.documentFrame(), parent)
-                if AXObject.is_valid(replicant):
-                    parent = replicant
-                elif AXObject.get_parent(parent):
+                if AXObject.get_parent(parent):
                     obj = parent
                     continue
                 else:
@@ -3693,24 +3352,3 @@ class Utilities(script_utilities.Utilities):
             return False
 
         return True
-
-    def preferDescriptionOverName(self, obj):
-        if not self.inDocumentContent(obj):
-            return super().preferDescriptionOverName(obj)
-
-        rv = self._preferDescriptionOverName.get(hash(obj))
-        if rv is not None:
-            return rv
-
-        name = AXObject.get_name(obj)
-        if len(name) == 1 and ord(name) in range(0xe000, 0xf8ff):
-            tokens = ["WEB: name of", obj, "is in unicode private use area"]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            rv = True
-        elif AXObject.get_description(obj):
-            rv = AXUtilities.is_push_button(obj) and len(name) == 1
-        else:
-            rv = False
-
-        self._preferDescriptionOverName[hash(obj)] = rv
-        return rv

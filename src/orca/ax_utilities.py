@@ -1,6 +1,6 @@
 # Utilities for performing tasks related to accessibility inspection.
 #
-# Copyright 2023 Igalia, S.L.
+# Copyright 2023-2025 Igalia, S.L.
 # Author: Joanmarie Diggs <jdiggs@igalia.com>
 #
 # This library is free software; you can redistribute it and/or
@@ -18,8 +18,8 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# pylint: disable=broad-exception-caught
 # pylint: disable=too-many-branches
+# pylint: disable=too-many-public-methods
 # pylint: disable=too-many-return-statements
 # pylint: disable=too-many-statements
 # pylint: disable=wrong-import-position
@@ -29,11 +29,12 @@
 __id__        = "$Id$"
 __version__   = "$Revision$"
 __date__      = "$Date$"
-__copyright__ = "Copyright (c) 2023 Igalia, S.L."
+__copyright__ = "Copyright (c) 2023-2025 Igalia, S.L."
 __license__   = "LGPL"
 
 import functools
 import inspect
+import queue
 import threading
 import time
 from typing import Optional
@@ -43,6 +44,7 @@ gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 
 from . import debug
+from .ax_component import AXComponent
 from .ax_object import AXObject
 from .ax_selection import AXSelection
 from .ax_table import AXTable
@@ -289,6 +291,18 @@ class AXUtilities:
                 return result
 
         return AXObject.find_descendant(obj, AXUtilitiesState.is_focused)
+
+    @staticmethod
+    def get_info_bar(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+        """Returns the info bar descendant of obj"""
+
+        result = None
+        if AXObject.supports_collection(obj):
+            result = AXUtilitiesCollection.find_info_bar(obj)
+            if not AXUtilities.COMPARE_COLLECTION_PERFORMANCE:
+                return result
+
+        return AXObject.find_descendant(obj, AXUtilitiesRole.is_info_bar)
 
     @staticmethod
     def get_status_bar(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
@@ -652,6 +666,21 @@ class AXUtilities:
         return AXObject.get_attribute(obj, "explicit-name") == "true"
 
     @staticmethod
+    def has_visible_caption(obj: Atspi.Accessible) -> bool:
+        """Returns True if obj has a visible caption."""
+
+        if not (AXUtilitiesRole.is_figure(obj) or AXObject.supports_table(obj)):
+            return False
+
+        labels = AXUtilitiesRelation.get_is_labelled_by(obj)
+        for label in labels:
+            if AXUtilitiesRole.is_caption(label) \
+               and AXUtilitiesState.is_showing(label) and AXUtilitiesState.is_visible(label):
+                return True
+
+        return False
+
+    @staticmethod
     def get_displayed_label(obj: Atspi.Accessible) -> str:
         """Returns the displayed label of obj."""
 
@@ -677,6 +706,241 @@ class AXUtilities:
         AXUtilities.DISPLAYED_DESCRIPTION[hash(obj)] = result
         return result
 
+    @staticmethod
+    def get_heading_level(obj: Atspi.Accessible) -> int:
+        """Returns the heading level of obj."""
+
+        if not AXUtilitiesRole.is_heading(obj):
+            return 0
+
+        use_cache = not AXUtilitiesState.is_editable(obj)
+        attrs = AXObject.get_attributes_dict(obj, use_cache)
+
+        try:
+            value = int(attrs.get("level", "0"))
+        except ValueError:
+            tokens = ["AXUtilities: Exception getting value for", obj, "(", attrs, ")"]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return 0
+
+        return value
+
+    @staticmethod
+    def get_nesting_level(obj: Atspi.Accessible) -> int:
+        """Returns the nesting level of obj."""
+
+        def pred(x: Atspi.Accessible) -> bool:
+            if AXUtilitiesRole.is_list_item(obj):
+                return AXUtilitiesRole.is_list(AXObject.get_parent(x))
+            return AXUtilitiesRole.have_same_role(obj, x)
+
+        ancestors = []
+        ancestor = AXObject.find_ancestor(obj, pred)
+        while ancestor:
+            ancestors.append(ancestor)
+            ancestor = AXObject.find_ancestor(ancestor, pred)
+
+        return len(ancestors)
+
+    @staticmethod
+    def get_next_object(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+        """Returns the next object (depth first, unless there's a flows-to relation)"""
+
+        if not AXObject.is_valid(obj):
+            return None
+
+        targets = AXUtilitiesRelation.get_flows_to(obj)
+        if targets:
+            return targets[0]
+
+        index = AXObject.get_index_in_parent(obj) + 1
+        parent = AXObject.get_parent(obj)
+        while parent and not 0 < index < AXObject.get_child_count(parent):
+            obj = parent
+            index = AXObject.get_index_in_parent(obj) + 1
+            parent = AXObject.get_parent(obj)
+
+        if parent is None:
+            return None
+
+        next_object = AXObject.get_child(parent, index)
+        if next_object == obj:
+            tokens = ["AXUtilities:", obj, "claims to be its own next object"]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return None
+
+        return next_object
+
+    @staticmethod
+    def get_previous_object(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+        """Returns the previous object (depth first, unless there's a flows-from relation)"""
+
+        if not AXObject.is_valid(obj):
+            return None
+
+        targets = AXUtilitiesRelation.get_flows_from(obj)
+        if targets:
+            return targets[0]
+
+        index = AXObject.get_index_in_parent(obj) - 1
+        parent = AXObject.get_parent(obj)
+        while parent and not 0 <= index < AXObject.get_child_count(parent) - 1:
+            obj = parent
+            index = AXObject.get_index_in_parent(obj) - 1
+            parent = AXObject.get_parent(obj)
+
+        if parent is None:
+            return None
+
+        previous_object = AXObject.get_child(parent, index)
+        if previous_object == obj:
+            tokens = ["AXUtilities:", obj, "claims to be its own previous object"]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return None
+
+        return previous_object
+
+    @staticmethod
+    def is_on_screen(
+        obj: Atspi.Accessible,
+        bounding_box: Optional[Atspi.Rect] = None
+    ) -> bool:
+        """Returns true if obj should be treated as being on screen."""
+
+        AXObject.clear_cache(obj, False, "Updating to check if object is on screen.")
+        if not (AXUtilitiesState.is_showing(obj) and AXUtilitiesState.is_visible(obj)):
+            tokens = ["AXUtilities:", obj, "is not showing and visible. Treating as offscreen."]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return False
+
+        if AXUtilitiesState.is_hidden(obj):
+            tokens = ["AXUtilities:", obj, "is reports being hidden. Treating as offscreen."]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return False
+
+        if AXComponent.has_no_size_or_invalid_rect(obj):
+            tokens = ["AXUtilities: Rect of", obj, "is unhelpful. Treating as onscreen."]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return True
+
+        if AXComponent.object_is_off_screen(obj):
+            tokens = ["AXUtilities:", obj, "is believed to be off screen."]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return False
+
+        if bounding_box is not None and not AXComponent.object_intersects_rect(obj, bounding_box):
+            tokens = ["AXUtilities", obj, "not in", bounding_box, ". Treating as offscreen."]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return False
+
+        return True
+
+    @staticmethod
+    def treat_as_leaf_node(obj: Atspi.Accessible) -> bool:
+        """Returns True if obj should be treated as a leaf node."""
+
+        if AXUtilitiesRole.children_are_presentational(obj):
+            # In GTK, the contents of the page tab descends from the page tab.
+            if AXUtilitiesRole.is_page_tab(obj):
+                return False
+            return True
+
+        role = AXObject.get_role(obj)
+        if AXUtilitiesRole.is_combo_box(obj, role):
+            return not AXUtilitiesState.is_expanded(obj)
+
+        if AXUtilitiesRole.is_menu(obj, role) and not AXUtilitiesRole.has_role_from_aria(obj):
+            return not AXUtilitiesState.is_expanded(obj)
+
+        if AXObject.get_name(obj):
+            return AXUtilitiesRole.is_link(obj, role) or AXUtilitiesRole.is_label(obj, role)
+
+        return False
+
+    @staticmethod
+    def _get_on_screen_objects(
+        root: Atspi.Accessible,
+        cancellation_event: threading.Event,
+        bounding_box: Optional[Atspi.Rect] = None
+    ) -> list:
+
+        tokens = ["AXUtilities: Getting on-screen objects in", root, f"({hex(id(root))})"]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
+        if cancellation_event.is_set():
+            msg = "AXUtilities: Cancellation event set. Stopping search."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return []
+
+        if not AXUtilities.is_on_screen(root, bounding_box):
+            return []
+
+        if AXUtilities.treat_as_leaf_node(root):
+            return [root]
+
+        if AXObject.supports_table(root) and AXObject.supports_selection(root):
+            return list(AXTable.iter_visible_cells(root))
+
+        objects = []
+        root_name = AXObject.get_name(root)
+        if root_name or AXObject.get_description(root) or AXText.has_presentable_text(root):
+            objects.append(root)
+
+        if bounding_box is None:
+            bounding_box = AXComponent.get_rect(root)
+
+        for i, child in enumerate(AXObject.iter_children(root)):
+            tokens = [f"AXUtilities: Child {i} is", child, f"({hex(id(child))})"]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            if cancellation_event.is_set():
+                msg = "AXUtilities: Cancellation event set. Stopping search."
+                debug.print_message(debug.LEVEL_INFO, msg, True)
+                break
+
+            children = AXUtilities._get_on_screen_objects(child, cancellation_event, bounding_box)
+            objects.extend(children)
+            if root_name and children and root in objects and root_name == AXObject.get_name(child):
+                objects.remove(root)
+
+        if objects:
+            return objects
+
+        if AXUtilitiesState.is_focusable(root) or AXObject.has_action(root, "click"):
+            return [root]
+
+        return []
+
+    @staticmethod
+    def get_on_screen_objects(
+        root: Atspi.Accessible,
+        bounding_box: Optional[Atspi.Rect] = None,
+        timeout: float = 5.0
+    ) -> list:
+        """Returns a list of onscreen objects in the given root."""
+
+        result_queue: queue.Queue[list] = queue.Queue()
+        cancellation_event = threading.Event()
+
+        def _worker():
+            result = AXUtilities._get_on_screen_objects(root, cancellation_event, bounding_box)
+            if not cancellation_event.is_set():
+                result_queue.put(result)
+
+        worker_thread = threading.Thread(target=_worker)
+        worker_thread.start()
+
+        try:
+            result = result_queue.get(timeout=timeout)
+        except queue.Empty:
+            tokens = ["AXUtilities: get_on_screen_objects timed out.", root]
+            debug.print_tokens(debug.LEVEL_WARNING, tokens, True)
+            cancellation_event.set()
+            result = []
+
+        worker_thread.join()
+        tokens = [f"AXUtilities: {len(result)} onscreen objects found in", root]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        return result
 
 for method_name, method in inspect.getmembers(AXUtilitiesApplication, predicate=inspect.isfunction):
     setattr(AXUtilities, method_name, method)

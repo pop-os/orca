@@ -222,7 +222,7 @@ class Script(default.Script):
         if self.get_flat_review_presenter().is_active() \
            or not self.isBrailleBeginningShowing() \
            or self.utilities.isSpreadSheetCell(focus) \
-           or not self.utilities.isTextArea(focus):
+           or not AXUtilities.is_paragraph(focus):
             return super().pan_braille_left(event, pan_amount)
 
         start_offset = AXText.get_line_at_offset(focus)[1]
@@ -245,7 +245,7 @@ class Script(default.Script):
         if self.get_flat_review_presenter().is_active() \
            or not self.isBrailleEndShowing() \
            or self.utilities.isSpreadSheetCell(focus) \
-           or not self.utilities.isTextArea(focus):
+           or not AXUtilities.is_paragraph(focus):
             return super().pan_braille_right(event, pan_amount)
 
         end_offset = AXText.get_line_at_offset(focus)[2]
@@ -279,11 +279,8 @@ class Script(default.Script):
     def locus_of_focus_changed(self, event, old_focus, new_focus):
         """Called when the visual object with focus changes."""
 
-        # Check to see if this is this is for the find command. See comment #18 of bug #354463.
-        if self.run_find_command and \
-           event.type.startswith("object:state-changed:focused"):
-            self.run_find_command = False
-            self.get_flat_review_finder().find(self)
+        if self.run_find_command_on:
+            super().locus_of_focus_changed(event, old_focus, new_focus)
             return
 
         if self.get_flat_review_presenter().is_active():
@@ -328,11 +325,6 @@ class Script(default.Script):
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return
 
-        # Prevent this events from activating the find operation.
-        # See comment #18 of bug #354463.
-        if self.run_find_command:
-            return
-
         super().on_active_changed(event)
 
     def on_active_descendant_changed(self, event):
@@ -342,6 +334,9 @@ class Script(default.Script):
         focus = manager.get_locus_of_focus()
         if event.any_data == focus:
             return
+
+        if AXUtilities.is_paragraph(focus):
+            return super().on_active_descendant_changed(event)
 
         if event.source == self.spellcheck.get_suggestions_list():
             if AXUtilities.is_focused(event.source):
@@ -384,9 +379,6 @@ class Script(default.Script):
             if AXUtilities.is_focused(event.source):
                 msg = "SOFFICE: Clearing cache was needed due to missing state-changed event."
                 debug.print_message(debug.LEVEL_INFO, msg, True)
-
-        if self.utilities.flows_from_or_to_selection(event.source):
-            return
 
         if self.get_table_navigator().last_input_event_was_navigation_command():
             msg = "SOFFICE: Event ignored: Last input event was table navigation."
@@ -438,10 +430,10 @@ class Script(default.Script):
         if not event.detail1:
             return
 
-        if self._inSayAll:
+        manager = focus_manager.get_manager()
+        if manager.in_say_all():
             return
 
-        manager = focus_manager.get_manager()
         focus = manager.get_locus_of_focus()
         if AXUtilities.is_root_pane(event.source) and AXObject.is_ancestor(focus, event.source):
             msg = "SOFFICE: Event ignored: Source is root pane ancestor of current focus."
@@ -458,16 +450,7 @@ class Script(default.Script):
                 focus_manager.get_manager().set_locus_of_focus(event, combobox, True)
                 return
 
-        # TODO - JD: Is this still needed?
-        if self.utilities.flows_from_or_to_selection(event.source):
-            return
-
         if AXUtilities.is_paragraph(event.source):
-            obj, _offset = self.point_of_reference.get("lastCursorPosition", (None, -1))
-            _string, start, end = AXText.get_cached_selected_text(obj)
-            if start != end:
-                return
-
             manager = input_event_manager.get_manager()
             if manager.last_event_was_left() or manager.last_event_was_right():
                 focus_manager.get_manager().set_locus_of_focus(event, event.source, False)

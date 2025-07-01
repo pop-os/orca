@@ -19,7 +19,6 @@
 
 # pylint: disable=too-many-lines
 # pylint: disable=wrong-import-position
-# pylint: disable=broad-exception-caught
 # pylint: disable=too-few-public-methods
 # pylint: disable=duplicate-code
 
@@ -105,7 +104,7 @@ class BrailleGenerator(generator.Generator):
         #
         try:
             focused_region = result[0]
-        except Exception:
+        except IndexError:
             focused_region = None
 
         for region in result:
@@ -202,8 +201,8 @@ class BrailleGenerator(generator.Generator):
         if verbosity_level == settings.VERBOSITY_LEVEL_BRIEF:
             do_not_present.extend([Atspi.Role.ICON, Atspi.Role.CANVAS])
 
-        if role == Atspi.Role.HEADING:
-            level = self._script.utilities.headingLevel(obj)
+        level = AXUtilities.get_heading_level(obj)
+        if level:
             result.append(object_properties.ROLE_HEADING_LEVEL_BRAILLE % level)
         elif verbosity_level == settings.VERBOSITY_LEVEL_VERBOSE \
            and not args.get('readingRow', False) and role not in do_not_present:
@@ -241,13 +240,6 @@ class BrailleGenerator(generator.Generator):
             parent = AXObject.get_parent_checked(parent)
         result.reverse()
         return result
-
-    @log_generator_output
-    def _generate_term_value_count(self, obj, **_args):
-        count = len(self._script.utilities.valuesForTerm(obj))
-        if count < 0:
-            return []
-        return [f"({messages.valueCountForTerm(count)})"]
 
     ################################### KEYBOARD ###################################
 
@@ -323,7 +315,8 @@ class BrailleGenerator(generator.Generator):
 
         # For multiline text areas, we only show the context if we are on the very first line,
         # and there is text on that line.
-        if self._script.utilities.isTextArea(obj) or AXUtilities.is_label(obj):
+        is_text_area = AXUtilities.is_editable(obj) or AXUtilities.is_terminal(obj)
+        if is_text_area or AXUtilities.is_label(obj):
             string, start, _end = AXText.get_line_at_offset(obj)
             if start != 0 or not string.strip():
                 return []
@@ -358,6 +351,10 @@ class BrailleGenerator(generator.Generator):
         if description:
             result += [braille.Region(" ")]
             result += [braille.Component(obj, self._as_string(description))]
+        current = self._generate_state_current(obj, **args)
+        if current:
+            result += [braille.Region(" ")]
+            result += [braille.Component(obj, self._as_string(current))]
 
         return result
 
@@ -515,7 +512,9 @@ class BrailleGenerator(generator.Generator):
         result += [braille.Component(
             obj, self._as_string(
                 self._generate_accessible_label_and_name(obj, **args) +
-                self._generate_accessible_role(obj, **args)),
+                self._generate_accessible_role(obj, **args) +
+                self._generate_state_required(obj, **args) +
+                self._generate_state_invalid(obj, **args)),
             indicator=self._as_string(self._generate_state_checked(obj, **args)))]
         result += self._generate_default_suffix(obj, **args)
         return result
@@ -577,11 +576,6 @@ class BrailleGenerator(generator.Generator):
 
     def _generate_content_deletion(self, obj, **args):
         """Generates braille for the content-deletion role."""
-
-        return self._generate_default_presentation(obj, **args)
-
-    def _generate_content_error(self, obj, **args):
-        """Generates braille for a role with a content-related error."""
 
         return self._generate_default_presentation(obj, **args)
 

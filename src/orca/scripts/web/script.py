@@ -49,6 +49,7 @@ from orca import speechserver
 from orca import structural_navigation
 from orca.acss import ACSS
 from orca.scripts import default
+from orca.ax_component import AXComponent
 from orca.ax_document import AXDocument
 from orca.ax_event_synthesizer import AXEventSynthesizer
 from orca.ax_object import AXObject
@@ -69,8 +70,6 @@ class Script(default.Script):
         super().__init__(app)
 
         self._sayAllContents = []
-        self._inSayAll = False
-        self._sayAllIsInterrupted = False
         self._loadingDocumentContent = False
         self._madeFindAnnouncement = False
         self._lastMouseButtonContext = None, -1
@@ -105,10 +104,6 @@ class Script(default.Script):
         self._autoFocusModeCaretNavCheckButton = None
         self._autoFocusModeNativeNavCheckButton = None
         self._layoutModeCheckButton = None
-
-        self.attributeNamesDict["invalid"] = "text-spelling"
-        self.attributeNamesDict["text-align"] = "justification"
-        self.attributeNamesDict["text-indent"] = "indent"
 
     def activate(self):
         """Called when this script is activated."""
@@ -520,8 +515,6 @@ class Script(default.Script):
             super().textLines(obj, offset)
             return
 
-        self._sayAllIsInterrupted = False
-
         sayAllStyle = settings_manager.get_manager().get_setting('sayAllStyle')
         sayAllBySentence = sayAllStyle == settings.SAYALL_STYLE_SENTENCE
         if offset is None:
@@ -547,7 +540,6 @@ class Script(default.Script):
                     voices.append(u)
             return elements, voices
 
-        self._inSayAll = True
         done = False
         while not done:
             if sayAllBySentence:
@@ -602,13 +594,8 @@ class Script(default.Script):
 
             done = obj is None
 
-        self._inSayAll = False
         self._sayAllContents = []
         self._sayAllContexts = []
-
-        msg = "WEB: textLines complete. Verifying SayAll status"
-        debug.print_message(debug.LEVEL_INFO, msg, True)
-        self.inSayAll()
 
     def presentFindResults(self, obj, offset):
         """Updates the context and presents the find results if appropriate."""
@@ -691,30 +678,26 @@ class Script(default.Script):
             super().__sayAllProgressCallback(context, progressType)
             return
 
+        if progressType == speechserver.SayAllContext.PROGRESS:
+            focus_manager.get_manager().emit_region_changed(
+                context.obj, context.currentOffset, context.currentEndOffset, focus_manager.SAY_ALL)
+            return
+
         if progressType == speechserver.SayAllContext.INTERRUPTED:
             manager = input_event_manager.get_manager()
             if manager.last_event_was_keyboard():
-                self._sayAllIsInterrupted = True
                 if manager.last_event_was_down() and self._fastForwardSayAll(context):
                     return
                 if manager.last_event_was_up() and self._rewindSayAll(context):
                     return
-                if not self.structural_navigation.last_input_event_was_navigation_command() \
-                   and not self.get_table_navigator().last_input_event_was_navigation_command():
-                    focus_manager.get_manager().emit_region_changed(
-                        context.obj, context.currentOffset)
-                    self.utilities.setCaretPosition(context.obj, context.currentOffset)
-                    self.update_braille(context.obj)
+                if settings_manager.get_manager().get_setting("structNavInSayAll") \
+                   and self.structural_navigation.last_input_event_was_navigation_command():
+                    return
 
-            self._inSayAll = False
-            self._sayAllContents = []
-            self._sayAllContexts = []
-            return
-
+        self._sayAllContents = []
+        self._sayAllContexts = []
         focus_manager.get_manager().set_locus_of_focus(None, context.obj, notify_script=False)
-        focus_manager.get_manager().emit_region_changed(
-            context.obj, context.currentOffset, context.currentEndOffset,
-            focus_manager.SAY_ALL)
+        focus_manager.get_manager().emit_region_changed(context.obj, context.currentOffset)
         self.utilities.setCaretContext(context.obj, context.currentOffset)
 
     def inFocusMode(self):
@@ -745,7 +728,7 @@ class Script(default.Script):
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
 
-        if self.inSayAll():
+        if focus_manager.get_manager().in_say_all():
             msg = "WEB: Not using focus mode because we're in SayAll."
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
@@ -764,8 +747,8 @@ class Script(default.Script):
 
         lastCommandWasCaretNav = self.caret_navigation.last_input_event_was_navigation_command()
         if not settings_manager.get_manager().get_setting('caretNavTriggersFocusMode') \
-           and  lastCommandWasCaretNav \
-           and not self.utilities.isNavigableToolTipDescendant(prevObj):
+           and lastCommandWasCaretNav \
+           and AXObject.find_ancestor_inclusive(prevObj, AXUtilities.is_tool_tip) is None:
             msg = "WEB: Not using focus mode due to caret nav settings"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
@@ -789,7 +772,7 @@ class Script(default.Script):
             return True
 
         was_in_app = AXObject.find_ancestor(prevObj, AXUtilities.is_embedded)
-        is_in_app = self.utilities.isWebAppDescendant(obj)
+        is_in_app = AXObject.find_ancestor(obj, AXUtilities.is_embedded)
         if not was_in_app and is_in_app:
             msg = "WEB: Using focus mode because we just entered a web application"
             debug.print_message(debug.LEVEL_INFO, msg, True)
@@ -836,7 +819,7 @@ class Script(default.Script):
 
         contents = None
         if self.utilities.treatAsEndOfLine(obj, offset) and AXObject.supports_text(obj):
-            char = AXText.get_character_at_offset(offset)[0]
+            char = AXText.get_character_at_offset(obj, offset)[0]
             if char == self.EMBEDDED_OBJECT_CHARACTER:
                 char = ""
             contents = [[obj, offset, offset + 1, char]]
@@ -1421,6 +1404,16 @@ class Script(default.Script):
     def on_busy_changed(self, event):
         """Callback for object:state-changed:busy accessibility events."""
 
+        if AXComponent.has_no_size(event.source):
+            msg = "WEB: Ignoring event from page with no size."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+
+        if not AXDocument.get_uri(event.source):
+            msg = "WEB: Ignoring event from page with no URI."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+
         AXUtilities.clear_all_cache_now(event.source, "busy-changed event.")
 
         if event.detail1 and self._loadingDocumentContent:
@@ -1630,7 +1623,7 @@ class Script(default.Script):
             msg = "WEB: Event handled: Last command was mouse button"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             self.utilities.setCaretContext(event.source, event.detail1)
-            notify = not self.utilities.isEntryDescendant(event.source)
+            notify = AXObject.find_ancestor_inclusive(obj, AXUtilities.is_entry) is None
             focus_manager.get_manager().set_locus_of_focus(event, event.source, notify, True)
             return True
 
@@ -1900,6 +1893,22 @@ class Script(default.Script):
     def on_document_load_complete(self, event):
         """Callback for document:load-complete accessibility events."""
 
+        if AXComponent.has_no_size(event.source):
+            msg = "WEB: Ignoring event from page with no size."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+
+        uri = AXDocument.get_uri(event.source)
+        if not uri:
+            msg = "WEB: Ignoring event from page with no URI."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+
+        if uri.startswith("moz-extension"):
+            msg = f"WEB: Ignoring event from page with URI: {uri}"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+
         AXUtilities.clear_all_cache_now(event.source, "load-complete event.")
         if self.utilities.getDocumentForObject(AXObject.get_parent(event.source)):
             msg = "WEB: Ignoring: Event source is nested document"
@@ -1977,9 +1986,9 @@ class Script(default.Script):
             tokens = ["WEB: document changed from", prevDocument, "to", document]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
-        if self.utilities.isWebAppDescendant(event.source):
+        if AXObject.find_ancestor(event.source, AXUtilities.is_embedded):
             if self._browseModeIsSticky:
-                msg = "WEB: Web app descendant claimed focus, but browse mode is sticky"
+                msg = "WEB: Embedded descendant claimed focus, but browse mode is sticky"
                 debug.print_message(debug.LEVEL_INFO, msg, True)
             elif AXUtilities.is_tool_tip(event.source) \
               and AXObject.find_ancestor(focus, lambda x: x == event.source):
@@ -1987,7 +1996,7 @@ class Script(default.Script):
                 debug.print_message(debug.LEVEL_INFO, msg, True)
                 return True
             else:
-                msg = "WEB: Event handled: Setting locusOfFocus to web app descendant"
+                msg = "WEB: Event handled: Setting locusOfFocus to embedded descendant"
                 debug.print_message(debug.LEVEL_INFO, msg, True)
                 if self.utilities.shouldInterruptForLocusOfFocusChange(focus, event.source, event):
                     self.presentationInterrupt()
@@ -2198,18 +2207,18 @@ class Script(default.Script):
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
 
-        if self.utilities.isWebAppDescendant(event.source):
+        if AXObject.find_ancestor(event.source, AXUtilities.is_embedded):
             if self._inFocusMode:
                 # Because we cannot count on the app firing the right state-changed events
                 # for descendants.
                 AXObject.clear_cache(event.source,
                                      True,
                                      "Workaround for missing events on descendants.")
-                msg = "WEB: Event source is web app descendant and we're in focus mode"
+                msg = "WEB: Event source is embedded descendant and we're in focus mode"
                 debug.print_message(debug.LEVEL_INFO, msg, True)
                 return False
 
-            msg = "WEB: Event source is web app descendant and we're in browse mode"
+            msg = "WEB: Event source is embedded descendant and we're in browse mode"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
 

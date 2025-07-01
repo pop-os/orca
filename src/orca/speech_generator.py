@@ -22,7 +22,6 @@
 # pylint: disable=too-many-statements
 # pylint: disable=wrong-import-position
 # pylint: disable=too-many-return-statements
-# pylint: disable=broad-exception-caught
 # pylint: disable=too-few-public-methods
 # pylint: disable=too-many-locals
 # pylint: disable=too-many-boolean-expressions
@@ -127,9 +126,16 @@ class SpeechGenerator(generator.Generator):
             return generated[0]
         return ""
 
+    def get_error_message(self, obj, **args):
+        """Returns the generated error message for obj as a string."""
+
+        generated = self._generate_state_invalid(obj, **args)
+        if generated:
+            return generated[0]
+        return ""
+
     def get_localized_role_name(self, obj, **args):
-        if AXUtilities.is_editable_combo_box(obj) \
-           or self._script.utilities.isEditableDescendantOfComboBox(obj):
+        if AXObject.find_ancestor_inclusive(obj, AXUtilities.is_editable_combo_box):
             return object_properties.ROLE_EDITABLE_COMBO_BOX
 
         if AXUtilities.is_link(obj, args.get("role")) and AXUtilities.is_visited(obj):
@@ -252,6 +258,8 @@ class SpeechGenerator(generator.Generator):
 
         result = super()._generate_accessible_description(obj, **args)
         if result:
+            manager = speech_and_verbosity_manager.get_manager()
+            result[0] = manager.adjust_for_presentation(obj, result[0])
             result.extend(self.voice(SYSTEM, obj=obj, **args))
         return result
 
@@ -288,9 +296,21 @@ class SpeechGenerator(generator.Generator):
         return result
 
     @log_generator_output
+    def _generate_accessible_label_and_name(self, obj, **args):
+        result = super()._generate_accessible_label_and_name(obj, **args)
+        if result:
+            manager = speech_and_verbosity_manager.get_manager()
+            result[0] = manager.adjust_for_presentation(obj, result[0])
+            if len(result) == 1:
+                result.extend(self.voice(DEFAULT, obj=obj, **args))
+        return result
+
+    @log_generator_output
     def _generate_accessible_placeholder_text(self, obj, **args):
         result = super()._generate_accessible_placeholder_text(obj, **args)
         if result:
+            manager = speech_and_verbosity_manager.get_manager()
+            result[0] = manager.adjust_for_presentation(obj, result[0])
             result.extend(self.voice(DEFAULT, obj=obj, **args))
         return result
 
@@ -405,14 +425,13 @@ class SpeechGenerator(generator.Generator):
             result.extend(self.voice(SYSTEM, obj=obj, **args))
             return result
 
-        if AXUtilities.is_heading(obj):
-            level = self._script.utilities.headingLevel(obj)
-            if level:
-                result = [object_properties.ROLE_HEADING_LEVEL_SPEECH % {
-                    "role": self.get_localized_role_name(obj, **args),
-                    "level": level}]
-                result.extend(self.voice(SYSTEM, obj=obj, **args))
-                return result
+        level = AXUtilities.get_heading_level(obj)
+        if level:
+            result = [object_properties.ROLE_HEADING_LEVEL_SPEECH % {
+                "role": self.get_localized_role_name(obj, **args),
+                "level": level}]
+            result.extend(self.voice(SYSTEM, obj=obj, **args))
+            return result
 
         result = [self.get_localized_role_name(obj, **args)]
         result.extend(self.voice(SYSTEM, obj=obj, **args))
@@ -476,13 +495,9 @@ class SpeechGenerator(generator.Generator):
 
     @log_generator_output
     def _generate_term_value_count(self, obj, **args):
-        count = len(self._script.utilities.valuesForTerm(obj))
-        # If we have a simple 1-term, 1-value situation, this announcment is chatty.
-        if count in (-1, 1):
-            return []
-
-        result = [messages.valueCountForTerm(count)]
-        result.extend(self.voice(SYSTEM, obj=obj, **args))
+        result = super()._generate_term_value_count(obj, **args)
+        if result:
+            result.extend(self.voice(SYSTEM, obj=obj, **args))
         return result
 
     @log_generator_output
@@ -492,7 +507,7 @@ class SpeechGenerator(generator.Generator):
                == settings.VERBOSITY_LEVEL_BRIEF:
             return []
 
-        if self._script.utilities.isTreeDescendant(obj):
+        if AXObject.find_ancestor(obj, AXUtilities.is_tree_or_tree_table):
             child_nodes = self._script.utilities.childNodes(obj)
             if child_nodes:
                 result = [messages.itemCount(len(child_nodes))]
@@ -591,7 +606,7 @@ class SpeechGenerator(generator.Generator):
                     Atspi.Role.TOOL_TIP]
 
         enabled, disabled = [], []
-        if self._script.inSayAll():
+        if focus_manager.get_manager().in_say_all():
             if settings_manager.get_manager().get_setting('sayAllContextBlockquote'):
                 enabled.append(Atspi.Role.BLOCK_QUOTE)
             if settings_manager.get_manager().get_setting('sayAllContextLandmark'):
@@ -1627,7 +1642,7 @@ class SpeechGenerator(generator.Generator):
 
         rows = AXTable.get_row_count(obj)
         columns = AXTable.get_column_count(obj)
-        nesting_level = self._script.utilities.nestingLevel(obj)
+        nesting_level = self._get_nesting_level(obj)
         if nesting_level > 0:
             result = [messages.mathNestedTableSize(rows, columns)]
         else:
@@ -1640,7 +1655,7 @@ class SpeechGenerator(generator.Generator):
         if settings_manager.get_manager().get_setting("onlySpeakDisplayedText"):
             return []
 
-        nesting_level = self._script.utilities.nestingLevel(obj)
+        nesting_level = self._get_nesting_level(obj)
         if nesting_level > 0:
             result = [messages.MATH_NESTED_TABLE_END]
         else:
@@ -1649,6 +1664,16 @@ class SpeechGenerator(generator.Generator):
         return result
 
     ##################################### STATE #####################################
+
+    @log_generator_output
+    def _generate_state_current(self, obj, **args):
+        if settings_manager.get_manager().get_setting("onlySpeakDisplayedText"):
+            return []
+
+        result = super()._generate_state_current(obj, **args)
+        if result:
+            result.extend(self.voice(STATE, obj=obj, **args))
+        return result
 
     @log_generator_output
     def _generate_state_checked(self, obj, **args):
@@ -1902,7 +1927,11 @@ class SpeechGenerator(generator.Generator):
         if not settings_manager.get_manager().get_setting("speakCellHeaders"):
             return []
 
-        if self._script.inSayAll():
+        if focus_manager.get_manager().in_say_all():
+            return []
+
+        if not self._script.utilities.cellColumnChanged(obj, args.get("priorObj")) \
+           and not args.get("formatType", "").endswith("WhereAmI"):
             return []
 
         args["newOnly"] = not self._get_is_nameless_toggle(obj)
@@ -1919,10 +1948,11 @@ class SpeechGenerator(generator.Generator):
         if not settings_manager.get_manager().get_setting("speakCellHeaders"):
             return []
 
-        if self._script.inSayAll():
+        if focus_manager.get_manager().in_say_all():
             return []
 
-        if not self._script.utilities.cellRowChanged(obj, args.get("priorObj")):
+        if not self._script.utilities.cellRowChanged(obj, args.get("priorObj")) \
+           and not args.get("formatType", "").endswith("WhereAmI"):
             return []
 
         args["newOnly"] = True
@@ -2042,14 +2072,14 @@ class SpeechGenerator(generator.Generator):
         result.extend(self.voice(DEFAULT, obj=obj, **args))
         if result[0] in ['\n', ''] \
            and settings_manager.get_manager().get_setting("speakBlankLines") \
-           and not self._script.inSayAll() and args.get('total', 1) == 1 \
+           and not focus_manager.get_manager().in_say_all() \
+           and args.get("total", 1) == 1 \
            and not AXUtilities.is_table_cell_or_header(obj) \
            and args.get("formatType") != "ancestor":
             result[0] = messages.BLANK
 
-        if self._script.utilities.shouldVerbalizeAllPunctuation(obj):
-            result[0] = self._script.utilities.verbalizeAllPunctuation(result[0])
-
+        manager = speech_and_verbosity_manager.get_manager()
+        result[0] = manager.adjust_for_presentation(obj, result[0])
         return result
 
     @log_generator_output
@@ -2063,7 +2093,8 @@ class SpeechGenerator(generator.Generator):
 
         text, start_offset = AXText.get_line_at_offset(obj)[0:2]
         if text == '\n' and settings_manager.get_manager().get_setting("speakBlankLines") \
-           and not self._script.inSayAll() and args.get('total', 1) == 1 \
+           and not focus_manager.get_manager().in_say_all() \
+           and args.get("total", 1) == 1 \
            and not AXUtilities.is_table_cell_or_header(obj) \
            and args.get("formatType") != "ancestor":
             result = [messages.BLANK]
@@ -2083,11 +2114,8 @@ class SpeechGenerator(generator.Generator):
                 args.pop("string")
 
             voice = self.voice(string=string, obj=obj, **args)
-            # TODO - JD: Can we combine all the adjusting?
             manager = speech_and_verbosity_manager.get_manager()
-            string = manager.adjust_for_links(obj, string, start)
-            string = manager.adjust_for_digits(obj, string)
-            rv = [manager.adjust_for_repeats(string)]
+            rv = [manager.adjust_for_presentation(obj, string, start)]
             rv.extend(voice)
 
             # TODO - JD: speech.speak() has a bug which causes a list of utterances to
@@ -2114,6 +2142,8 @@ class SpeechGenerator(generator.Generator):
             if charname and charname != string:
                 result[0] = charname
 
+        manager = speech_and_verbosity_manager.get_manager()
+        result[0] = manager.adjust_for_presentation(obj, result[0])
         result.extend(self.voice(DEFAULT, obj=obj, **args))
         return result
 
@@ -2134,8 +2164,14 @@ class SpeechGenerator(generator.Generator):
         if not settings_manager.get_manager().get_setting("enableSpeechIndentation"):
             return []
 
-        line = AXText.get_line_at_offset(obj)[0]
-        description = self._script.utilities.indentationDescription(line)
+        format_type = args.get("formatType", "unfocused")
+        only_if_changed = None
+        if format_type.endswith("WhereAmI"):
+            only_if_changed = False
+
+        line = AXText.get_line_at_offset(obj, args.get("startOffset"))[0]
+        description = speech_and_verbosity_manager.get_manager().get_indentation_description(
+            line, only_if_changed)
         if not description:
             return []
 
@@ -2220,6 +2256,9 @@ class SpeechGenerator(generator.Generator):
             if result and not isinstance(result[-1], Pause):
                 result += self._generate_pause(obj, **args)
 
+        result += self._generate_state_current(obj, **args)
+        if result and not isinstance(result[-1], Pause):
+            result += self._generate_pause(obj, **args)
         result += self._generate_has_click_action(obj, **args)
         if result and not isinstance(result[-1], Pause):
             result += self._generate_pause(obj, **args)
@@ -2466,6 +2505,9 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_pause(obj, **args)
         result += self._generate_position_in_list(obj, **args)
         result += self._generate_pause(obj, **args)
+        result += self._generate_state_required(obj, **args)
+        result += self._generate_pause(obj, **args)
+        result += self._generate_state_invalid(obj, **args)
         result += self._generate_keyboard_mnemonic(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return self._generate_default_prefix(obj, **args) + result
@@ -2499,16 +2541,6 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_text_content(obj, **args)
         result += self._generate_pause(obj, **args)
         result += self._generate_end_of_deletion(obj, **args)
-        result += self._generate_default_suffix(obj, **args)
-        return result
-
-    def _generate_content_error(self, obj, **args):
-        """Generates speech for a role with a content-related error."""
-
-        result = self._generate_default_prefix(obj, **args)
-        result += self._generate_text_content(obj, **args)
-        result += self._generate_pause(obj, **args)
-        result += self._generate_state_invalid(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
 
@@ -2778,6 +2810,7 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_accessible_label_and_name(obj, **args)
         result += self._generate_state_read_only(obj, **args)
         result += self._generate_accessible_role(obj, **args)
+        result += self._generate_text_indentation(obj, **args)
         result += (self._generate_text_line(obj, **args) \
             or self._generate_accessible_placeholder_text(obj, **args))
         result += self._generate_text_selection(obj, **args)
@@ -3736,8 +3769,12 @@ class SpeechGenerator(generator.Generator):
         """Generates speech for the static role."""
 
         result = self._generate_default_prefix(obj, **args)
-        result += (self._generate_text_content(obj, **args) \
-            or self._generate_accessible_name(obj, **args))
+        if AXUtilities.is_code(obj):
+            result += self._generate_text_indentation(obj, **args)
+            result += self._generate_text_line(obj, **args)
+        else:
+            result += (self._generate_text_content(obj, **args) \
+                or self._generate_accessible_name(obj, **args))
         result += self._generate_accessible_role(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result

@@ -20,7 +20,6 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
 
 """Module to manage the focused object, window, etc."""
@@ -129,11 +128,8 @@ class FocusManager:
         if mode is None:
             mode = FOCUS_TRACKING
 
-        try:
+        if obj is not None:
             obj.emit("mode-changed::" + mode, 1, "")
-        except Exception as error:
-            msg = f"FOCUS MANAGER: Exception emitting mode-changed notification: {error}"
-            debug.print_message(debug.LEVEL_INFO, msg, True)
 
         if mode != self._active_mode:
             tokens = ["FOCUS MANAGER: Switching mode from", self._active_mode, "to", mode]
@@ -144,19 +140,21 @@ class FocusManager:
             else:
                 braille.setBrlapiPriority()
 
-        try:
-            tokens = ["FOCUS MANAGER: Region of interest:", obj, f"({start_offset}, {end_offset})"]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        tokens = ["FOCUS MANAGER: Region of interest:", obj, f"({start_offset}, {end_offset})"]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        if obj is not None:
             obj.emit("region-changed", start_offset, end_offset)
-        except Exception as error:
-            msg = f"FOCUS MANAGER: Exception emitting region-changed notification: {error}"
-            debug.print_message(debug.LEVEL_INFO, msg, True)
 
         if obj != self._object_of_interest:
             tokens = ["FOCUS MANAGER: Switching object of interest from",
                       self._object_of_interest, "to", obj]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             self._object_of_interest = obj
+
+    def in_say_all(self) -> bool:
+        """Returns True if we are in say-all mode."""
+
+        return self._active_mode == SAY_ALL
 
     def get_active_mode_and_object_of_interest(
         self

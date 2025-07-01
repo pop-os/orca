@@ -86,6 +86,7 @@ class AXUtilitiesRole:
             Atspi.Role.SCROLL_BAR,
             Atspi.Role.SEPARATOR,
             Atspi.Role.SLIDER,
+            Atspi.Role.TOGGLE_BUTTON,
         ]
 
         # TODO - JD: Remove this check when dependencies are bumped to v2.56.
@@ -2042,6 +2043,16 @@ class AXUtilitiesRole:
         return role in [Atspi.Role.SUBSCRIPT, Atspi.Role.SUPERSCRIPT]
 
     @staticmethod
+    def is_subscript_or_superscript_text(
+        obj: Atspi.Accessible, role: Optional[Atspi.Role] = None
+    ) -> bool:
+        """Returns True if obj has the subscript or superscript role and is not math-related"""
+
+        if AXUtilitiesRole.is_math_related(obj, role):
+            return False
+        return AXUtilitiesRole.is_subscript_or_superscript(obj, role)
+
+    @staticmethod
     def is_suggestion(obj: Atspi.Accessible, role: Optional[Atspi.Role] = None) -> bool:
         """Returns True if obj has the suggestion role"""
 
@@ -2232,14 +2243,14 @@ class AXUtilitiesRole:
         if "searchbox" in AXUtilitiesRole._get_xml_roles(obj):
             return True
 
-        ax_id = AXObject.get_accessible_id(obj).lower()
+        ax_id = AXObject.get_accessible_id(obj) or ""
         if ax_id:
-            return "search" in ax_id or "find" in ax_id
+            return "search" in ax_id.lower() or "find" in ax_id.lower()
 
         child = AXObject.get_child(obj, 0)
         if AXUtilitiesRole.is_icon(child) or AXUtilitiesRole.is_image(child):
-            child_id = AXObject.get_accessible_id(child).lower()
-            if "search" in child_id or "find" in child_id:
+            child_id = AXObject.get_accessible_id(child) or ""
+            if "search" in child_id.lower() or "find" in child_id.lower():
                 return True
             # Some toolkits don't localize the symbolic icon names, so it's worth a try.
             child_name = AXObject.get_name(child).lower()
