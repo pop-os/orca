@@ -18,6 +18,7 @@ Build-Depends: debhelper-compat (= 13), meson, git,
                python3-brlapi,
                python3-louis, liblouis-dev,
                python3-speechd,
+               python3-dasbus,
                yelp-tools
 Rules-Requires-Root: no
 Standards-Version: 4.6.2
@@ -42,6 +43,7 @@ Depends: ${misc:Depends},
          python3-louis,
          at-spi2-core (>= 2.50.0~),
          python3-speechd,
+         python3-dasbus,
          python3-dbus,
          speech-dispatcher,
          gsettings-desktop-schemas,
