@@ -18,7 +18,6 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
 # pylint: disable=too-many-return-statements
 # pylint: disable=too-many-branches
@@ -68,7 +67,8 @@ class EventManager:
     PRIORITY_IMPORTANT = 2
     PRIORITY_HIGH = 3
     PRIORITY_NORMAL = 4
-    PRIORITY_LOW = 5
+    PRIORITY_LOWER = 5
+    PRIORITY_LOW = 6
 
     def __init__(self) -> None:
         debug.print_message(debug.LEVEL_INFO, "EVENT MANAGER: Initializing", True)
@@ -135,6 +135,10 @@ class EventManager:
             priority = EventManager.PRIORITY_HIGH
         elif event_type.startswith("object:active-descendant-changed"):
             priority = EventManager.PRIORITY_HIGH
+        elif event_type.startswith("object:state-changed:invalid-entry"):
+            # Setting this to lower ensures we present the state and/or text changes that triggered
+            # the invalid state prior to presenting the invalid state.
+            priority = EventManager.PRIORITY_LOWER
         elif event_type.startswith("object:children-changed"):
             priority = EventManager.PRIORITY_LOW
         else:
@@ -198,7 +202,7 @@ class EventManager:
         with self._event_queue.mutex:
             try:
                 events = list(reversed(self._event_queue.queue))
-            except Exception as error:
+            except queue.Empty as error:
                 msg = f"EVENT MANAGER: Exception in _isObsoletedBy: {error}"
                 debug.print_message(debug.LEVEL_INFO, msg, True)
                 events = []
@@ -242,7 +246,7 @@ class EventManager:
             return True
 
         event_type = event.type
-        if event_type.startswith('window') or event_type.startswith('mouse:button'):
+        if event_type.startswith(('window', 'mouse:button')):
             return False
 
         # gnome-shell fires "focused" events spuriously after the Alt+Tab switcher
@@ -560,14 +564,11 @@ class EventManager:
                     GLib.timeout_add(2500, self._on_no_focus)
                     self._gidle_id = 0
                     rerun = False  # destroy and don't call again
-
         except queue.Empty:
             msg = 'EVENT MANAGER: Attempted dequeue, but the event queue is empty'
             debug.print_message(debug.LEVEL_SEVERE, msg, True)
             self._gidle_id = 0
             rerun = False # destroy and don't call again
-        except Exception:
-            debug.print_exception(debug.LEVEL_SEVERE)
 
         return rerun
 
@@ -821,13 +822,12 @@ class EventManager:
                 if event.type.startswith(key):
                     listener = value
                     break
-
-        try:
-            listener(event)
-        except Exception as error:
-            msg = f"EVENT MANAGER: Exception processing {event.type}: {error}"
+        if listener is None:
+            msg = f"EVENT MANAGER: No listener for event type {event.type}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
-            debug.print_exception(debug.LEVEL_INFO)
+            return
+
+        listener(event)
 
 _manager: EventManager = EventManager()
 

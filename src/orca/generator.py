@@ -21,7 +21,6 @@
 # pylint: disable=too-many-lines
 # pylint: disable=wrong-import-position
 # pylint: disable=too-many-return-statements
-# pylint: disable=broad-exception-caught
 # pylint: disable=too-many-branches
 # pylint: disable=too-many-statements
 
@@ -45,6 +44,7 @@ from gi.repository import Atspi
 from . import braille
 from . import debug
 from . import focus_manager
+from . import messages
 from . import object_properties
 from . import settings
 from . import settings_manager
@@ -92,7 +92,6 @@ class Generator:
             Atspi.Role.COMBO_BOX: self._generate_combo_box,
             Atspi.Role.COMMENT: self._generate_comment,
             Atspi.Role.CONTENT_DELETION: self._generate_content_deletion,
-            "ROLE_CONTENT_ERROR": self._generate_content_error,
             Atspi.Role.CONTENT_INSERTION: self._generate_content_insertion,
             Atspi.Role.DEFINITION: self._generate_definition,
             Atspi.Role.DESCRIPTION_LIST: self._generate_description_list,
@@ -326,6 +325,23 @@ class Generator:
 
     ################################# BASIC DETAILS #################################
 
+    def _prefer_description_over_name(self, obj):
+        if not AXObject.get_description(obj):
+            return False
+
+        name = AXObject.get_name(obj)
+        if len(name) == 1:
+            if ord(name) in range(0xe000, 0xf8ff):
+                tokens = ["GENERATOR: Name of", obj, "is in unicode private use area."]
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+                return True
+            if AXUtilities.is_push_button(obj):
+                tokens = ["GENERATOR: Preferring description over name of", obj]
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+                return True
+
+        return False
+
     @log_generator_output
     def _generate_accessible_description(self, obj, **args):
         if args.get("omitDescription"):
@@ -525,8 +541,6 @@ class Generator:
             return Atspi.Role.BLOCK_QUOTE
         if AXUtilities.is_comment(obj, role):
             return Atspi.Role.COMMENT
-        if self._script.utilities.isContentError(obj):
-            return "ROLE_CONTENT_ERROR"
         if AXUtilities.is_description_list(obj, role):
             return Atspi.Role.DESCRIPTION_LIST
         if AXUtilities.is_description_term(obj, role):
@@ -551,7 +565,7 @@ class Generator:
         result = []
         obj_name = AXObject.get_name(obj) or AXUtilities.get_displayed_label(obj)
         obj_desc = AXObject.get_description(obj) or AXUtilities.get_displayed_description(obj)
-        descendants = self._script.utilities.getOnScreenObjects(obj)
+        descendants = AXUtilities.get_on_screen_objects(obj)
         used_description_as_static_text = False
         for child in descendants:
             if child == obj:
@@ -640,7 +654,34 @@ class Generator:
             parent = AXObject.get_parent_checked(parent)
         return []
 
+    def _get_values_for_term(self, obj):
+        if not AXUtilities.is_description_term(obj):
+            return []
+
+        values = []
+        obj = AXObject.get_next_sibling(obj)
+        while obj and AXUtilities.is_description_value(obj):
+            values.append(obj)
+            obj = AXObject.get_next_sibling(obj)
+
+        return values
+
+    @log_generator_output
+    def _generate_term_value_count(self, obj, **_args):
+        count = len(self._get_values_for_term(obj))
+        if count in (-1, 1):
+            return []
+
+        return [f"({messages.valueCountForTerm(count)})"]
+
     ##################################### STATE #####################################
+
+    @log_generator_output
+    def _generate_state_current(self, obj, **_args):
+        result = AXUtilities.get_current_item_status_string(obj)
+        if not result:
+            return []
+        return [f"({result})"]
 
     @log_generator_output
     def _generate_state_checked(self, obj, **_args):
@@ -664,6 +705,7 @@ class Generator:
         result = []
         if self._script.utilities.hasMeaningfulToggleAction(obj):
             args["role"] = Atspi.Role.CHECK_BOX
+            args["includeContext"] = False
             result.extend(self.generate(obj, **args))
 
         return result
@@ -718,8 +760,12 @@ class Generator:
 
     @log_generator_output
     def _generate_state_invalid(self, obj, **_args):
-        error = self._script.utilities.getError(obj)
-        if not error:
+        if not AXUtilities.is_invalid_entry(obj):
+            return []
+
+        attrs, _start, _end = AXText.get_text_attributes_at_offset(obj)
+        error = attrs.get("invalid")
+        if error == "false":
             return []
 
         if self._mode == "braille":
@@ -732,14 +778,15 @@ class Generator:
             return []
 
         result = []
-        if error == 'spelling':
+        if error == "spelling":
             indicator = indicators[1]
-        elif error == 'grammar':
+        elif error == "grammar":
             indicator = indicators[2]
         else:
             indicator = indicators[0]
 
-        error_message = self._script.utilities.getErrorMessage(obj)
+        targets = AXUtilities.get_error_message(obj)
+        error_message = "\n".join(map(self._script.utilities.expandEOCs, targets))
         if error_message:
             result.append(f"{indicator}: {error_message}")
         else:
@@ -941,7 +988,7 @@ class Generator:
     def _get_nesting_level(self, obj):
         level = Generator.CACHED_NESTING_LEVEL.get(hash(obj))
         if level is None:
-            level = self._script.utilities.nestingLevel(obj)
+            level = AXUtilities.get_nesting_level(obj)
             Generator.CACHED_NESTING_LEVEL[hash(obj)] = level
         return level
 
@@ -1085,14 +1132,14 @@ class Generator:
         if not present_all:
             return self._generate_real_table_cell(obj, **args)
 
-        args["readingRow"] = True
-        result = []
-        cells = self._script.utilities.getShowingCellsInSameRow(
-            obj, forceFullRow=not self._script.utilities.isSpreadSheetCell(obj))
-
         row = AXObject.find_ancestor(obj, AXUtilities.is_table_row)
         if row and AXObject.get_name(row) and not AXUtilities.is_layout_only(row):
             return self.generate(row)
+
+        args["readingRow"] = True
+        result = []
+        cells = AXTable.get_showing_cells_in_same_row(
+            obj, clip_to_window=self._script.utilities.isSpreadSheetCell(obj))
 
         # Remove any pre-calculated values which only apply to obj and not row cells.
         do_not_include = ["startOffset", "endOffset", "string"]
@@ -1111,7 +1158,6 @@ class Generator:
 
         result.extend(self._generate_position_in_list(obj, **args))
         return result
-
 
     # TODO - JD: If we had dedicated generators for cell types, we wouldn't need this.
     @log_generator_output
@@ -1153,9 +1199,13 @@ class Generator:
 
         tokens = []
         for header in headers:
-            token = AXObject.get_name(header).strip() or AXText.get_all_text(header).strip()
-            if token:
-                tokens.append(token)
+            name = self._generate_accessible_name(header)
+            if name and name[0].strip():
+                tokens.append(name[0])
+            else:
+                text = self._generate_text_content(header)
+                if text and text[0].strip():
+                    tokens.append(text[0])
 
         if not tokens:
             return result
@@ -1186,9 +1236,13 @@ class Generator:
 
         tokens = []
         for header in headers:
-            token = AXObject.get_name(header).strip() or AXText.get_all_text(header).strip()
-            if token:
-                tokens.append(token)
+            name = self._generate_accessible_name(header)
+            if name and name[0].strip():
+                tokens.append(name[0])
+            else:
+                text = self._generate_text_content(header)
+                if text and text[0].strip():
+                    tokens.append(text[0])
 
         if not tokens:
             return result
@@ -1215,10 +1269,29 @@ class Generator:
 
     ##################################### VALUE #####################################
 
+    def _get_combo_box_value(self, obj):
+        attrs = AXObject.get_attributes_dict(obj, False)
+        if "valuetext" in attrs:
+            return attrs.get("valuetext")
+
+        if not AXObject.get_child_count(obj):
+            return AXObject.get_name(obj) or AXText.get_all_text(obj)
+
+        children = list(AXObject.iter_children(obj, AXUtilities.is_text_input))
+        if len(children) == 1:
+            return AXText.get_all_text(children[0])
+
+        selected = self._script.utilities.selectedChildren(obj)
+        selected = selected or self._script.utilities.selectedChildren(AXObject.get_child(obj, 0))
+        if len(selected) == 1:
+            return AXObject.get_name(selected[0]) or AXText.get_all_text(selected[0])
+
+        return AXObject.get_name(obj) or AXText.get_all_text(obj)
+
     @log_generator_output
     def _generate_value(self, obj, **args):
         if AXUtilities.is_combo_box(obj, args.get("role")):
-            value = self._script.utilities.getComboBoxValue(obj)
+            value = self._get_combo_box_value(obj)
             return [value]
 
         if AXUtilities.is_separator(obj, args.get("role")) and not AXUtilities.is_focused(obj):
@@ -1346,11 +1419,6 @@ class Generator:
 
     def _generate_content_deletion(self, _obj, **_args):
         """Generates presentation for the content-deletion role."""
-
-        return []
-
-    def _generate_content_error(self, _obj, **_args):
-        """Generates presentation for a role with a content-related error."""
 
         return []
 

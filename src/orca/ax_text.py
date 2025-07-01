@@ -19,7 +19,6 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
 # pylint: disable=too-many-locals
 # pylint: disable=too-many-public-methods
@@ -44,6 +43,7 @@ from typing import Generator, Optional
 import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
+from gi.repository import GLib
 
 from . import colornames
 from . import debug
@@ -205,17 +205,10 @@ class AXText:
 
         try:
             result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.CHAR)
-        except Exception as error:
-            try:
-                result = Atspi.Text.get_text_at_offset(obj, offset, Atspi.TextBoundaryType.CHAR)
-            except Exception as error2:
-                msg = f"AXText: Exception in get_character_at_offset: {error2}"
-                debug.print_message(debug.LEVEL_INFO, msg, True)
-                return "", 0, 0
-
-            # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/161
-            msg = f"WARNING: String at offset failed; text at offset succeeded: {error}"
+        except GLib.GError as error:
+            msg = f"AXText: Exception in get_character_at_offset: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
+            return "", 0, 0
 
         debug_string = result.content.replace("\n", "\\n")
         tokens = [f"AXText: Character at offset {offset} in", obj,
@@ -269,18 +262,10 @@ class AXText:
         offset = min(max(0, offset), length - 1)
         try:
             result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.WORD)
-        except Exception as error:
-            try:
-                result = Atspi.Text.get_text_at_offset(
-                    obj, offset, Atspi.TextBoundaryType.WORD_START)
-            except Exception as error2:
-                msg = f"AXText: Exception in get_word_at_offset: {error2}"
-                debug.print_message(debug.LEVEL_INFO, msg, True)
-                return "", 0, 0
-
-            # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/161
-            msg = f"WARNING: String at offset failed; text at offset succeeded: {error}"
+        except GLib.GError as error:
+            msg = f"AXText: Exception in get_word_at_offset: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
+            return "", 0, 0
 
         tokens = [f"AXText: Word at offset {offset} in", obj,
                   f"'{result.content}' ({result.start_offset}-{result.end_offset})"]
@@ -338,25 +323,18 @@ class AXText:
             offset = min(max(0, offset), length - 1)
         else:
             offset = max(0, offset)
+
         try:
             result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.LINE)
-        except Exception as error:
-            try:
-                result = Atspi.Text.get_text_at_offset(
-                    obj, offset, Atspi.TextBoundaryType.LINE_START)
-            except Exception as error2:
-                msg = f"AXText: Exception in get_line_at_offset: {error2}"
-                debug.print_message(debug.LEVEL_INFO, msg, True)
-                return "", 0, 0
-
-            # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/161
-            msg = f"WARNING: String at offset failed; text at offset succeeded: {error}"
+        except GLib.GError as error:
+            msg = f"AXText: Exception in get_line_at_offset: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
-        else:
-            # Try again, e.g. Chromium returns "", -1, -1.
-            if result.start_offset == result.end_offset == -1 and offset == length:
-                offset -= 1
-                result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.LINE)
+            return "", 0, 0
+
+        # Try again, e.g. Chromium returns "", -1, -1.
+        if result.start_offset == result.end_offset == -1 and offset == length:
+            offset -= 1
+            result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.LINE)
 
         debug_string = result.content.replace("\n", "\\n")
         tokens = [f"AXText: Line at offset {offset} in", obj,
@@ -410,18 +388,10 @@ class AXText:
         offset = min(max(0, offset), length - 1)
         try:
             result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.SENTENCE)
-        except Exception as error:
-            try:
-                result = Atspi.Text.get_text_at_offset(
-                    obj, offset, Atspi.TextBoundaryType.SENTENCE_START)
-            except Exception as error2:
-                msg = f"AXText: Exception in get_sentence_at_offset: {error2}"
-                debug.print_message(debug.LEVEL_INFO, msg, True)
-                return "", 0, 0
-
-            # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/161
-            msg = f"WARNING: String at offset failed; text at offset succeeded: {error}"
+        except GLib.GError as error:
+            msg = f"AXText: Exception in get_sentence_at_offset: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
+            return "", 0, 0
 
         tokens = [f"AXText: Sentence at offset {offset} in", obj,
                   f"'{result.content}' ({result.start_offset}-{result.end_offset})"]
@@ -487,7 +457,7 @@ class AXText:
         offset = min(max(0, offset), length - 1)
         try:
             result = Atspi.Text.get_string_at_offset(obj, offset, Atspi.TextGranularity.PARAGRAPH)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in get_paragraph_at_offset: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return "", 0, 0
@@ -549,7 +519,7 @@ class AXText:
 
         try:
             count = Atspi.Text.get_character_count(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in get_character_count: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return 0
@@ -567,7 +537,7 @@ class AXText:
 
         try:
             offset = Atspi.Text.get_caret_offset(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in get_caret_offset: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1
@@ -585,7 +555,7 @@ class AXText:
 
         try:
             result = Atspi.Text.set_caret_offset(obj, offset)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in set_caret_offset: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
@@ -618,9 +588,9 @@ class AXText:
 
         try:
             result = Atspi.Text.get_text(obj, start_offset, end_offset)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in get_substring: {error}"
-            debug.print_message(debug.LEVEL_INFO, msg, True, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return ""
 
         debug_string = result.replace("\n", "\\n")
@@ -638,13 +608,13 @@ class AXText:
 
         try:
             result = Atspi.Text.get_text(obj, 0, length)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in get_all_text: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return ""
 
         words = result.split()
-        if len(words) > 10:
+        if len(words) > 20:
             debug_string = f"{' '.join(words[:5])} ... {' '.join(words[-5:])}"
         else:
             debug_string = result
@@ -663,7 +633,7 @@ class AXText:
 
         try:
             result = Atspi.Text.get_n_selections(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in _get_n_selections: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return 0
@@ -681,7 +651,7 @@ class AXText:
 
         try:
             Atspi.Text.remove_selection(obj, selection_number)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in _remove_selection: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return
@@ -745,7 +715,7 @@ class AXText:
         for i in range(count):
             try:
                 result = Atspi.Text.get_selection(obj, i)
-            except Exception as error:
+            except GLib.GError as error:
                 msg = f"AXText: Exception in get_selected_ranges: {error}"
                 debug.print_message(debug.LEVEL_INFO, msg, True)
                 break
@@ -791,7 +761,7 @@ class AXText:
 
         text = " ".join(strings)
         words = text.split()
-        if len(text) > 10:
+        if len(words) > 20:
             debug_string = f"{' '.join(words[:5])} ... {' '.join(words[-5:])}"
         else:
             debug_string = text
@@ -810,7 +780,7 @@ class AXText:
 
         try:
             result = Atspi.Text.add_selection(obj, start_offset, end_offset)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in _add_selection: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
@@ -828,7 +798,7 @@ class AXText:
 
         try:
             result = Atspi.Text.set_selection(obj, selection_number, start_offset, end_offset)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in set_selected_text: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
@@ -871,16 +841,28 @@ class AXText:
 
         try:
             result = Atspi.Text.get_attribute_run(obj, offset, include_defaults=True)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in get_text_attributes_at_offset: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return {}, 0, AXText.get_character_count(obj)
 
         tokens = ["AXText: Attributes for", obj, f"at offset {offset} : {result}"]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
+        # Adjust for web browsers that report indentation and justification at object attributes
+        # rather than text attributes.
+        obj_attributes = AXObject.get_attributes_dict(obj, False)
+        if not result[0].get("justification"):
+            alternative = obj_attributes.get("text-align")
+            if alternative:
+                result[0]["justification"] = alternative
+        if not result[0].get("indent"):
+            alternative = obj_attributes.get("text-indent")
+            if alternative:
+                result[0]["indent"] = alternative
+
         return result[0] or {}, result[1] or 0, result[2] or AXText.get_character_count(obj)
 
-    # TODO - JD: This should be converted to return AXTextAttribute values.
     @staticmethod
     def get_all_text_attributes(
         obj: Atspi.Accessible, start_offset: int = 0, end_offset: int = -1
@@ -927,7 +909,7 @@ class AXText:
 
         try:
             offset = Atspi.Text.get_offset_at_point(obj, x, y, Atspi.CoordType.WINDOW)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in get_offset_at_point: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return -1
@@ -948,7 +930,7 @@ class AXText:
 
         try:
             rect = Atspi.Text.get_character_extents(obj, offset, Atspi.CoordType.WINDOW)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in get_character_rect: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return Atspi.Rect()
@@ -966,9 +948,9 @@ class AXText:
 
         try:
             rect = Atspi.Text.get_range_extents(obj, start, end, Atspi.CoordType.WINDOW)
-        except Exception as error:
-            tokens = ["AXText: Exception in get_range_rect for", obj, f":{ error}"]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        except GLib.GError as error:
+            msg = f"AXText: Exception in get_range_rect: {error}"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             return Atspi.Rect()
 
         tokens = [f"AXText: Range {start}-{end} in", obj, "has rect", rect]
@@ -1115,7 +1097,7 @@ class AXText:
         return result
 
     @staticmethod
-    def is_word_misspelled(obj: Atspi.Accessible, offset: Optional[int] = None) -> bool:
+    def string_has_spelling_error(obj: Atspi.Accessible, offset: Optional[int] = None) -> bool:
         """Returns True if the text attributes indicate a spelling error."""
 
         attributes = AXText.get_text_attributes_at_offset(obj, offset)[0]
@@ -1124,6 +1106,17 @@ class AXText:
         if attributes.get("text-spelling") == "misspelled":
             return True
         if attributes.get("underline") in ["error", "spelling"]:
+            return True
+        return False
+
+    @staticmethod
+    def string_has_grammar_error(obj: Atspi.Accessible, offset: Optional[int] = None) -> bool:
+        """Returns True if the text attributes indicate a grammar error."""
+
+        attributes = AXText.get_text_attributes_at_offset(obj, offset)[0]
+        if attributes.get("invalid") == "grammar":
+            return True
+        if attributes.get("underline") in ["error", "grammar"]:
             return True
         return False
 
@@ -1174,7 +1167,7 @@ class AXText:
         try:
             result = Atspi.Text.scroll_substring_to_point(
                 obj, start_offset, end_offset, Atspi.CoordType.WINDOW, x, y)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in scroll_substring_to_point: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
@@ -1202,7 +1195,7 @@ class AXText:
 
         try:
             result = Atspi.Text.scroll_substring_to(obj, start_offset, end_offset, location)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXText: Exception in scroll_substring_to_location: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return False

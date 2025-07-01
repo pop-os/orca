@@ -28,7 +28,6 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2010 Joanmarie Diggs."
 __license__   = "LGPL"
 
-import re
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -37,10 +36,8 @@ from gi.repository import Atspi
 from . import debug
 from . import focus_manager
 from . import input_event_manager
-from . import mathsymbols
 from . import messages
 from . import object_properties
-from . import pronunciation_dict
 from . import script_manager
 from . import settings
 from . import settings_manager
@@ -56,9 +53,6 @@ from .ax_value import AXValue
 class Utilities:
     EMBEDDED_OBJECT_CHARACTER = '\ufffc'
     ZERO_WIDTH_NO_BREAK_SPACE = '\ufeff'
-    flags = re.UNICODE
-    WORDS_RE = re.compile(r"(\W+)", flags)
-    PUNCTUATION = re.compile(r"[^\w\s]", flags)
 
     def __init__(self, script):
         """Creates an instance of the Utilities class.
@@ -68,13 +62,31 @@ class Utilities:
         """
 
         self._script = script
-        self._selectedMenuBarMenu = {}
 
-    #########################################################################
-    #                                                                       #
-    # Utilities for finding, identifying, and comparing accessibles         #
-    #                                                                       #
-    #########################################################################
+    def nodeLevel(self, obj):
+        """Determines the node level of this object if it is in a tree
+        relation, with 0 being the top level node.  If this object is
+        not in a tree relation, then -1 will be returned.
+
+        Arguments:
+        -obj: the Accessible object
+        """
+
+        if not AXObject.find_ancestor(obj, AXUtilities.is_tree_or_tree_table):
+            return -1
+
+        attrs = AXObject.get_attributes_dict(obj)
+        if "level" in attrs:
+            # ARIA levels are 1-based.
+            return int(attrs.get("level", 0)) - 1
+
+        nodes = []
+        node = obj
+        while node and (targets := AXUtilities.get_is_node_child_of(node)):
+            node = targets[0]
+            nodes.append(node)
+
+        return len(nodes) - 1
 
     def childNodes(self, obj):
         """Gets all of the children that have RELATION_NODE_CHILD_OF pointing
@@ -89,13 +101,10 @@ class Utilities:
         if not AXUtilities.is_expanded(obj):
             return []
 
-        parent = AXTable.get_table(obj)
-        if parent is None:
+        table = AXTable.get_table(obj)
+        if table is None:
             return []
 
-        # First see if this accessible implements RELATION_NODE_PARENT_OF.
-        # If it does, the full target list are the nodes. If it doesn't
-        # we'll do an old-school, row-by-row search for child nodes.
         nodes = AXUtilities.get_is_node_parent_of(obj)
         tokens = ["SCRIPT UTILITIES:", len(nodes), "child nodes for", obj, "via node-parent-of"]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
@@ -110,8 +119,8 @@ class Utilities:
         row, col = AXTable.get_cell_coordinates(obj, prefer_attribute=False)
         nodeLevel = self.nodeLevel(obj)
 
-        for i in range(row + 1, AXTable.get_row_count(parent, prefer_attribute=False)):
-            cell = AXTable.get_cell_at(parent, i, col)
+        for i in range(row + 1, AXTable.get_row_count(table, prefer_attribute=False)):
+            cell = AXTable.get_cell_at(table, i, col)
             targets = AXUtilities.get_is_node_child_of(cell)
             if not targets:
                 continue
@@ -125,9 +134,6 @@ class Utilities:
         tokens = ["SCRIPT UTILITIES:", len(nodes), "child nodes for", obj, "via node-child-of"]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return nodes
-
-    def preferDescriptionOverName(self, obj):
-        return False
 
     def detailsContentForObject(self, obj):
         details = self.detailsForObject(obj)
@@ -235,30 +241,6 @@ class Utilities:
     def isAnchor(self, obj):
         return False
 
-    def isCodeDescendant(self, obj):
-        return False
-
-    def isComboBoxWithToggleDescendant(self, obj):
-        return False
-
-    def isToggleDescendantOfComboBox(self, obj):
-        return False
-
-    def isContentError(self, obj):
-        return False
-
-    def is_empty(self, obj):
-        return False
-
-    def isHidden(self, obj):
-        attrs = AXObject.get_attributes_dict(obj, False)
-        return attrs.get("hidden", False)
-
-    def isProgressBar(self, obj):
-        if not AXUtilities.is_progress_bar(obj):
-            return False
-        return AXValue.get_value_as_percent(obj) is not None
-
     def topLevelObjectIsActiveWindow(self, obj):
         return self.topLevelObject(obj) == focus_manager.get_manager().get_active_window()
 
@@ -268,8 +250,11 @@ class Utilities:
            and not settings_manager.get_manager().get_setting('beepProgressBarUpdates'):
             return False, "Updates not enabled"
 
-        if not self.isProgressBar(obj):
+        if not AXUtilities.is_progress_bar(obj):
             return False, "Is not progress bar"
+
+        if not AXValue.get_value_as_percent(obj):
+            return False, "Could not obtain value"
 
         if AXComponent.has_no_size(obj):
             return False, "Has no size"
@@ -397,7 +382,7 @@ class Utilities:
         return row != lastRow
 
     def shouldReadFullRow(self, obj, prevObj=None):
-        if self._script.inSayAll():
+        if focus_manager.get_manager().in_say_all():
             return False
 
         if self._script.get_table_navigator().last_input_event_was_navigation_command():
@@ -441,15 +426,6 @@ class Utilities:
 
         return " ".join(tokens)
 
-    def isTreeDescendant(self, obj):
-        if obj is None:
-            return False
-
-        if AXUtilities.is_tree_item(obj):
-            return True
-
-        return AXObject.find_ancestor(obj, AXUtilities.is_tree_or_tree_table) is not None
-
     def isLink(self, obj):
         """Returns True if obj is a link."""
 
@@ -469,265 +445,6 @@ class Utilities:
             rv = start
 
         return rv
-
-    def _hasSamePath(self, obj1, obj2):
-        path1 = AXObject.get_path(obj1)
-        path2 = AXObject.get_path(obj2)
-        if len(path1) != len(path2):
-            return False
-
-        if not (path1 and path2):
-            return False
-
-        # The first item in all paths, even valid ones, is -1.
-        path1 = path1[1:]
-        path2 = path2[1:]
-
-        # If the object is being destroyed and the replacement is too, which
-        # sadly can happen in at least Firefox, both will have an index of -1.
-        # If the rest of the paths are valid and match, it's probably ok.
-        if path1[-1] == -1 and path2[-1] == -1:
-            path1 = path1[:-1]
-            path2 = path2[:-1]
-
-        # If both have invalid child indices, all bets are off.
-        if path1.count(-1) and path2.count(-1):
-            return False
-
-        try:
-            index = path1.index(-1)
-        except ValueError:
-            try:
-                index = path2.index(-1)
-            except ValueError:
-                index = len(path2)
-
-        return path1[0:index] == path2[0:index]
-
-    def isTextArea(self, obj):
-        """Returns True if obj is a GUI component that is for entering text.
-
-        Arguments:
-        - obj: an accessible
-        """
-
-        if self.isLink(obj):
-            return False
-
-        # TODO - JD: This might have been enough way back when, but additional
-        # checks are needed now.
-        return AXUtilities.is_text_input(obj) \
-            or AXUtilities.is_text(obj) \
-            or AXUtilities.is_paragraph(obj)
-
-    def nestingLevel(self, obj):
-        """Determines the nesting level of this object.
-
-        Arguments:
-        -obj: the Accessible object
-        """
-
-        if obj is None:
-            return 0
-        def pred(x):
-            if AXUtilities.is_block_quote(obj):
-                return AXUtilities.is_block_quote(x)
-            if AXUtilities.is_list_item(obj):
-                return AXUtilities.is_list(AXObject.get_parent(x))
-            return AXUtilities.have_same_role(obj, x)
-
-        ancestors = []
-        ancestor = AXObject.find_ancestor(obj, pred)
-        while ancestor:
-            ancestors.append(ancestor)
-            ancestor = AXObject.find_ancestor(ancestor, pred)
-
-        return len(ancestors)
-
-    def nodeLevel(self, obj):
-        """Determines the node level of this object if it is in a tree
-        relation, with 0 being the top level node.  If this object is
-        not in a tree relation, then -1 will be returned.
-
-        Arguments:
-        -obj: the Accessible object
-        """
-
-        if not self.isTreeDescendant(obj):
-            return -1
-
-        attrs = AXObject.get_attributes_dict(obj)
-        if "level" in attrs:
-            # ARIA levels are 1-based.
-            return int(attrs.get("level", 0)) - 1
-
-        nodes = []
-        node = obj
-        done = False
-        while not done:
-            targets = AXUtilities.get_is_node_child_of(node)
-            node = None
-            if targets:
-                node = targets[0]
-
-            # We want to avoid situations where something gives us an
-            # infinite cycle of nodes.  Bon Echo has been seen to do
-            # this (see bug 351847).
-            if nodes.count(node):
-                tokens = ["SCRIPT UTILITIES:", node, "is already in the list of nodes for", obj]
-                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-                done = True
-            if len(nodes) > 100:
-                tokens = ["SCRIPT UTILITIES: More than 100 nodes found for", obj]
-                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-                done = True
-            elif node:
-                nodes.append(node)
-            else:
-                done = True
-
-        return len(nodes) - 1
-
-    def isOnScreen(self, obj, boundingbox=None):
-        if AXObject.is_dead(obj):
-            return False
-
-        if self.isHidden(obj):
-            return False
-
-        if not (AXUtilities.is_showing(obj) and AXUtilities.is_visible(obj)):
-            tokens = ["SCRIPT UTILITIES:", obj, "is not showing and visible"]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-
-            if AXUtilities.is_filler(obj):
-                AXObject.clear_cache(obj, False, "Suspecting filler might have wrong state")
-                if AXUtilities.is_showing(obj) and AXUtilities.is_visible(obj):
-                    tokens = ["WARNING: Now", obj, "is showing and visible"]
-                    debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-                    return True
-
-            return False
-
-        if AXComponent.has_no_size_or_invalid_rect(obj):
-            tokens = ["SCRIPT UTILITIES: Rect of", obj, "is unhelpful. Treating as onscreen"]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            return True
-
-        if AXComponent.object_is_off_screen(obj):
-            return False
-
-        if boundingbox is None:
-            return True
-
-        if not AXComponent.object_intersects_rect(obj, boundingbox):
-            tokens = ["SCRIPT UTILITIES:", obj, "not in", boundingbox]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
-        return True
-
-    def selectedMenuBarMenu(self, menubar):
-        if not AXUtilities.is_menu_bar(menubar):
-            return None
-
-        if AXObject.supports_selection(menubar):
-            selected = self.selectedChildren(menubar)
-            if selected:
-                return selected[0]
-            return None
-
-        for menu in AXObject.iter_children(menubar):
-            # TODO - JD: Can we remove this?
-            AXObject.clear_cache(menu, False, "Ensuring we have the correct state.")
-            if AXUtilities.is_expanded(menu) or AXUtilities.is_selected(menu):
-                return menu
-
-        return None
-
-    def isInOpenMenuBarMenu(self, obj):
-        if obj is None:
-            return False
-
-        menubar = AXObject.find_ancestor(obj, AXUtilities.is_menu_bar)
-        if menubar is None:
-            return False
-
-        selectedMenu = self._selectedMenuBarMenu.get(hash(menubar))
-        if selectedMenu is None:
-            selectedMenu = self.selectedMenuBarMenu(menubar)
-
-        if selectedMenu is None:
-            return False
-
-        def inSelectedMenu(x):
-            return x == selectedMenu
-
-        return AXObject.find_ancestor_inclusive(obj, inSelectedMenu) is not None
-
-    def getOnScreenObjects(self, root, extents=None):
-        if not self.isOnScreen(root, extents):
-            return []
-
-        if AXObject.get_role(root) == Atspi.Role.INVALID:
-            return []
-
-        if AXUtilities.is_button(root) or AXUtilities.is_combo_box(root):
-            return [root]
-
-        if AXUtilities.is_menu_bar(root):
-            self._selectedMenuBarMenu[hash(root)] = self.selectedMenuBarMenu(root)
-
-        if AXUtilities.is_menu_bar(AXObject.get_parent(root)) \
-           and not self.isInOpenMenuBarMenu(root):
-            return [root]
-
-        if AXUtilities.is_filler(root) and not AXObject.get_child_count(root):
-            AXObject.clear_cache(root, True, "Root is empty filler.")
-            count = AXObject.get_child_count(root)
-            tokens = ["SCRIPT UTILITIES:", root, f"now reports {count} children"]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            if not count:
-                tokens = ["WARNING: unexpectedly empty filler", root]
-                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-
-        if extents is None:
-            extents = AXComponent.get_rect(root)
-
-        if AXObject.supports_table(root) and AXObject.supports_selection(root):
-            return list(AXTable.iter_visible_cells(root))
-
-        objects = []
-        hasNameOrDesc = AXObject.get_name(root) or AXObject.get_description(root)
-        if hasNameOrDesc and (AXUtilities.is_page_tab(root) or AXUtilities.is_image(root)):
-            objects.append(root)
-        elif AXText.has_presentable_text(root):
-            objects.append(root)
-
-        for child in AXObject.iter_children(root):
-            objects.extend(self.getOnScreenObjects(child, extents))
-
-        if AXUtilities.is_menu_bar(root):
-            self._selectedMenuBarMenu[hash(root)] = None
-
-        if objects:
-            return objects
-
-        if AXUtilities.is_label(root) and not hasNameOrDesc and AXText.is_whitespace_or_empty(root):
-            return []
-
-        containers = [Atspi.Role.CANVAS,
-                      Atspi.Role.FILLER,
-                      Atspi.Role.IMAGE,
-                      Atspi.Role.LINK,
-                      Atspi.Role.LIST_BOX,
-                      Atspi.Role.PANEL,
-                      Atspi.Role.SECTION,
-                      Atspi.Role.SCROLL_PANE,
-                      Atspi.Role.VIEWPORT]
-        if AXObject.get_role(root) in containers and not hasNameOrDesc:
-            return []
-
-        return [root]
 
     def realActiveAncestor(self, obj):
         if AXUtilities.is_focused(obj):
@@ -770,9 +487,6 @@ class Utilities:
             return child
 
         return obj
-
-    def infoBar(self, root):
-        return None
 
     def _topLevelRoles(self):
         roles = [Atspi.Role.DIALOG,
@@ -860,6 +574,16 @@ class Utilities:
         return 0
 
     def findAllDescendants(self, root, includeIf=None, excludeIf=None):
+        if root is None:
+            return []
+
+        # Don't bother if the root is a 'pre' or 'code' element. Those often have
+        # nothing but a TON of static text leaf nodes, which we want to ignore.
+        if AXUtilities.is_code(root):
+            tokens = ["SCRIPUT UTILITIES: Returning 0 descendants for pre/code", root]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return []
+
         return AXObject.find_all_descendants(root, includeIf, excludeIf)
 
     def unrelatedLabels(self, root, onlyShowing=True, minimumWords=3):
@@ -938,29 +662,36 @@ class Utilities:
 
         return AXComponent.sort_objects_by_position(labels_filtered)
 
-    def findPreviousObject(self, obj):
+    def findPreviousObject(self, obj, restrict_to=None):
         """Finds the object before this one."""
 
-        if not AXObject.is_valid(obj):
+        if restrict_to is None:
+            restrict_to = self.getTopLevelDocumentForObject(obj)
+
+        result = AXUtilities.get_previous_object(obj)
+        tokens = ["SCRIPT UTILITIES: Previous object for", obj, "is", result, "."]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        if restrict_to is not None and not AXObject.is_ancestor(result, restrict_to, True):
+            tokens = ["SCRIPT UTILITIES:", result, "is not a descendant of", restrict_to]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
 
-        targets = AXUtilities.get_flows_from(obj)
-        if targets:
-            return targets[0]
+        return result
 
-        return AXObject.get_previous_object(obj)
-
-    def findNextObject(self, obj):
+    def findNextObject(self, obj, restrict_to=None):
         """Finds the object after this one."""
 
-        if not AXObject.is_valid(obj):
+        if restrict_to is None:
+            restrict_to = self.getTopLevelDocumentForObject(obj)
+
+        result = AXUtilities.get_next_object(obj)
+        tokens = ["SCRIPT UTILITIES: Next object for", obj, "is", result, "."]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        if restrict_to is not None and not AXObject.is_ancestor(result, restrict_to, True):
+            tokens = ["SCRIPT UTILITIES:", result, "is not a descendant of", restrict_to]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
-
-        targets = AXUtilities.get_flows_to(obj)
-        if targets:
-            return targets[0]
-
-        return AXObject.get_next_object(obj)
+        return result
 
     def expandEOCs(self, obj, startOffset=0, endOffset=-1):
         """Expands the current object replacing EMBEDDED_OBJECT_CHARACTERS
@@ -1018,49 +749,21 @@ class Utilities:
 
         return result
 
-    def getError(self, obj):
-        if not AXUtilities.is_invalid_entry(obj):
-            return False
-
-        attrs, _start, _end = self.textAttributes(obj, 0, True)
-        error = attrs.get("invalid")
-        if error == "false":
-            return False
-        if error not in ["spelling", "grammar"]:
-            return True
-
-        return error
-
-    def _getErrorMessageContainer(self, obj):
-        if not self.getError(obj):
-            return None
-
-        targets = AXUtilities.get_error_message(obj)
-        if targets:
-            return targets[0]
-
-        return None
-
     def isErrorForContents(self, obj, contents=None):
         """Returns True of obj is an error message for the contents."""
 
         if not contents:
             return False
 
-        if not self.isErrorMessage(obj):
+        if not AXUtilities.get_is_error_for(obj):
             return False
 
         for acc, _start, _end, _string in contents:
-            if self._getErrorMessageContainer(acc) == obj:
+            targets = AXUtilities.get_error_message(acc)
+            if obj in targets:
                 return True
 
         return False
-
-    def getErrorMessage(self, obj):
-        return self.expandEOCs(self._getErrorMessageContainer(obj))
-
-    def isErrorMessage(self, obj):
-        return bool(AXUtilities.get_is_error_for(obj))
 
     def deletedText(self, event):
         return event.any_data
@@ -1095,10 +798,6 @@ class Utilities:
     def setCaretOffset(self, obj, offset):
         # TODO - JD. Remove this function if the web override can be adjusted
         AXText.set_caret_offset(obj, offset)
-
-    def textAttributes(self, acc, offset=None, get_defaults=False):
-        # TODO - JD: Replace all calls to this function with the one below
-        return AXText.get_text_attributes_at_offset(acc, offset)
 
     def splitSubstringByLanguage(self, obj, start, end):
         """Returns a list of (start, end, string, language, dialect) tuples."""
@@ -1149,83 +848,6 @@ class Utilities:
 
         return rv
 
-    def shouldVerbalizeAllPunctuation(self, obj):
-        if not (AXUtilities.is_code(obj) or self.isCodeDescendant(obj)):
-            return False
-
-        # If the user has set their punctuation level to All, then the synthesizer will
-        # do the work for us. If the user has set their punctuation level to None, then
-        # they really don't want punctuation and we mustn't override that.
-        style = settings_manager.get_manager().get_setting("verbalizePunctuationStyle")
-        if style in [settings.PUNCTUATION_STYLE_ALL, settings.PUNCTUATION_STYLE_NONE]:
-            return False
-
-        return True
-
-    def verbalizeAllPunctuation(self, string):
-        result = string
-        for symbol in set(re.findall(self.PUNCTUATION, result)):
-            charName = f" {symbol} "
-            result = re.sub(r"\%s" % symbol, charName, result)
-
-        return result
-
-    def adjustForPronunciation(self, line):
-        """Adjust the line to replace words in the pronunciation dictionary,
-        with what those words actually sound like.
-
-        Arguments:
-        - line: the string to adjust for words in the pronunciation dictionary.
-
-        Returns: a new line adjusted for words found in the pronunciation
-        dictionary.
-        """
-
-        # TODO - JD: We had been making this change in response to bgo#591734.
-        # It may or may not still be needed or wanted to replace no-break-space
-        # characters with plain spaces. Surely modern synthesizers can cope with
-        # both types of spaces.
-        line = line.replace("\u00a0", " ")
-
-        focus = focus_manager.get_manager().get_locus_of_focus()
-        if AXUtilities.is_math_related(focus):
-            line = mathsymbols.adjustForSpeech(line)
-
-        if len(line) == 1 and not self._script.inSayAll() and AXUtilities.is_math_related(focus):
-            charname = mathsymbols.getCharacterName(line)
-            if charname != line:
-                return charname
-
-        if not settings.usePronunciationDictionary:
-            return line
-
-        newLine = ""
-        words = self.WORDS_RE.split(line)
-        newLine = ''.join(map(pronunciation_dict.getPronunciation, words))
-        return newLine
-
-    def indentationDescription(self, line):
-        if settings_manager.get_manager().get_setting('onlySpeakDisplayedText') \
-           or not settings_manager.get_manager().get_setting('enableSpeechIndentation'):
-            return ""
-
-        line = line.replace("\u00a0", " ")
-        end = re.search("[^ \t]", line)
-        if end:
-            line = line[:end.start()]
-
-        result = ""
-        spaces = [m.span() for m in re.finditer(" +", line)]
-        tabs = [m.span() for m in re.finditer("\t+", line)]
-        spans = sorted(spaces + tabs)
-        for (start, end) in spans:
-            if (start, end) in spaces:
-                result += f"{messages.spacesCount(end - start)} "
-            else:
-                result += f"{messages.tabsCount(end - start)} "
-
-        return result
-
     def getLineContentsAtOffset(self, obj, offset, layoutMode=True, useCache=True):
         return []
 
@@ -1263,7 +885,9 @@ class Utilities:
         if not obj:
             return None
 
-        if self.isTextArea(obj):
+        # LO Writer implements the selection interface on paragraphs and possibly
+        # other things.
+        if AXUtilities.is_paragraph(obj) or AXUtilities.is_editable(obj):
             return None
 
         if AXObject.supports_selection(obj):
@@ -1314,81 +938,21 @@ class Utilities:
         return AXSelection.get_selected_child_count(obj)
 
     def isPopupMenuForCurrentItem(self, obj):
-        focus = focus_manager.get_manager().get_locus_of_focus()
-        if obj == focus:
-            return False
-
         if not AXUtilities.is_menu(obj):
             return False
 
-        name = AXObject.get_name(obj)
-        if not name:
-            return False
+        focus = focus_manager.get_manager().get_locus_of_focus()
+        if AXUtilities.is_menu_item(focus) and AXUtilities.has_popup(focus):
+            name = AXObject.get_name(obj)
+            return name and name == AXObject.get_name(focus)
 
-        return name == AXObject.get_name(focus)
-
-    def isEntryCompletionPopupItem(self, obj):
         return False
-
-    def getEntryForEditableComboBox(self, obj):
-        if not AXUtilities.is_combo_box(obj):
-            return None
-
-        children = [x for x in AXObject.iter_children(obj, AXUtilities.is_text_input)]
-        if len(children) == 1:
-            return children[0]
-
-        return None
-
-    def isEditableDescendantOfComboBox(self, obj):
-        if not AXUtilities.is_editable(obj):
-            return False
-
-        return AXObject.find_ancestor(obj, AXUtilities.is_combo_box) is not None
-
-    def getComboBoxValue(self, obj):
-        attrs = AXObject.get_attributes_dict(obj, False)
-        if "valuetext" in attrs:
-            return attrs.get("valuetext")
-
-        if not AXObject.get_child_count(obj):
-            return AXObject.get_name(obj) or AXText.get_all_text(obj)
-
-        entry = self.getEntryForEditableComboBox(obj)
-        if entry:
-            return AXText.get_all_text(entry)
-
-        selected = self._script.utilities.selectedChildren(obj)
-        selected = selected or self._script.utilities.selectedChildren(AXObject.get_child(obj, 0))
-        if len(selected) == 1:
-            return AXObject.get_name(selected[0]) or AXText.get_all_text(selected[0])
-
-        return AXObject.get_name(obj) or AXText.get_all_text(obj)
 
     def isClickableElement(self, obj):
         return False
 
     def hasLongDesc(self, obj):
         return False
-
-    def hasVisibleCaption(self, obj):
-        return False
-
-    def headingLevel(self, obj):
-        if not AXUtilities.is_heading(obj):
-            return 0
-
-        use_cache = not AXUtilities.is_editable(obj)
-        attrs = AXObject.get_attributes_dict(obj, use_cache)
-
-        try:
-            value = int(attrs.get('level', '0'))
-        except ValueError:
-            tokens = ["SCRIPT UTILITIES: Exception getting value for", obj, "(", attrs, ")"]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            return 0
-
-        return value
 
     def hasMeaningfulToggleAction(self, obj):
         return AXObject.has_action(obj, "toggle") \
@@ -1472,95 +1036,6 @@ class Utilities:
         )
         debug.print_message(debug.LEVEL_INFO, msg, True)
         return word, start, end
-
-    def _getTableRowRange(self, obj):
-        table = AXTable.get_table(obj)
-        if table is None:
-            return -1, -1
-
-        columnCount = AXTable.get_column_count(table, False)
-        startIndex, endIndex = 0, columnCount
-        if not self.isSpreadSheetTable(table):
-            return startIndex, endIndex
-
-        rect = AXComponent.get_rect(table)
-        cell = AXComponent.get_descendant_at_point(table, rect.x + 1, rect.y)
-        if cell:
-            column = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[1]
-            startIndex = column
-
-        cell = AXComponent.get_descendant_at_point(table, rect.x + rect.width - 1, rect.y)
-        if cell:
-            column = AXTable.get_cell_coordinates(cell, prefer_attribute=False)[1]
-            endIndex = column + 1
-
-        return startIndex, endIndex
-
-    def getShowingCellsInSameRow(self, obj, forceFullRow=False):
-        row = AXTable.get_cell_coordinates(obj, prefer_attribute=False)[0]
-        if row == -1:
-            return []
-
-        table = AXTable.get_table(obj)
-        if forceFullRow:
-            startIndex, endIndex = 0, AXTable.get_column_count(table)
-        else:
-            startIndex, endIndex = self._getTableRowRange(obj)
-        if startIndex == endIndex:
-            return []
-
-        cells = []
-        for i in range(startIndex, endIndex):
-            cell = AXTable.get_cell_at(table, row, i)
-            if AXUtilities.is_showing(cell):
-                cells.append(cell)
-
-        return cells
-
-    def findReplicant(self, root, obj):
-        tokens = ["SCRIPT UTILITIES: Searching for replicant for", obj, "in", root]
-        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-        if not (root and obj):
-            return None
-
-        if AXUtilities.is_table(root) or AXUtilities.is_embedded(root):
-            return None
-
-        def isSame(x):
-            if x == obj:
-                return True
-            if x is None:
-                return False
-            if not AXUtilities.have_same_role(obj, x):
-                return False
-            if self._hasSamePath(obj, x):
-                return True
-            # Objects which claim to be different and which are in different
-            # locations are almost certainly not recreated objects.
-            if not AXComponent.objects_have_same_rect(obj, x):
-                return False
-            return not AXComponent.has_no_size(x)
-
-        if isSame(root):
-            replicant = root
-        else:
-            replicant = AXObject.find_descendant(root, isSame)
-
-        tokens = ["HACK: Returning", replicant, "as replicant for invalid object", obj]
-        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-        return replicant
-
-    def valuesForTerm(self, obj):
-        if not AXUtilities.is_description_term(obj):
-            return []
-
-        values = []
-        obj = AXObject.get_next_sibling(obj)
-        while obj and AXUtilities.is_description_value(obj):
-            values.append(obj)
-            obj = AXObject.get_next_sibling(obj)
-
-        return values
 
     def clearCachedCommandState(self):
         self._script.point_of_reference['undo'] = False
@@ -1779,6 +1254,8 @@ class Utilities:
                 debug.print_message(debug.LEVEL_INFO, msg, True)
                 return False
             if AXUtilities.is_dialog_or_window(old_focus):
+                if AXUtilities.is_menu(new_focus):
+                    return True
                 msg += "old locusOfFocus is ancestor dialog or window of the new locusOfFocus"
                 debug.print_message(debug.LEVEL_INFO, msg, True)
                 return False

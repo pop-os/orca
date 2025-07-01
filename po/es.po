@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: orca.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/orca/issues\n"
-"POT-Creation-Date: 2025-04-11 06:28+0000\n"
-"PO-Revision-Date: 2025-04-15 09:38+0200\n"
+"POT-Creation-Date: 2025-02-13 04:44+0000\n"
+"PO-Revision-Date: 2025-03-05 16:26+0100\n"
 "Last-Translator: Daniel Mustieles García <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 48.0\n"
+"X-Generator: Gtranslator 47.1\n"
 
 #: orca-autostart.desktop.in:4
 msgid "Orca Screen Reader"
@@ -1207,7 +1207,7 @@ msgstr "Cambiar el estilo de número hablado"
 #. string is the description of that command.
 #: src/orca/cmdnames.py:493
 msgid "Present clipboard contents"
-msgstr "Mostrar el contenido del portapapeles"
+msgstr "Mostrar el contenido del portapapeles."
 
 #. Translators: Orca allows users to cycle through punctuation levels. None,
 #. some, most, or all, punctuation will be spoken.
@@ -1271,7 +1271,7 @@ msgstr "Cambiar entre los niveles de depuración en tiempo de ejecución"
 #. information which impacts Orca's logic and/or presentation to users.
 #: src/orca/cmdnames.py:544
 msgid "Clear the AT-SPI cache for the current application"
-msgstr "Limpiar la caché de AT_SPI para la aplicación actual"
+msgstr "Limpiar la caché de AT-SPI para la aplicación actual"
 
 #. Translators: this is a debug message for advanced users and developers. It
 #. describes a command to print detailed debugging information about the current

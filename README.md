@@ -1,4 +1,4 @@
-# Orca v48.6
+# Orca v49.alpha
 
 [TOC]
 
@@ -27,7 +27,7 @@ community, and where to log bugs and feature requests.
 
 ## Dependencies
 
-Orca v48.x is supported on GNOME 48.x only.  We highly suggest you
+Orca v49.x is supported on GNOME 49.x only.  We highly suggest you
 use the latest releases of GNOME because they contain accessibility
 infrastructure and application bug fixes that help Orca work better.
 
@@ -37,6 +37,7 @@ Orca also has the following dependencies:
 * Python 3         - Python platform
 * pygobject-3.0    - Python bindings for the GObject library
 * gtk+-3.0         - GTK+ toolkit
+* python3-dasbus   - Dasbus (<https://dasbus.readthedocs.io/>) support for remote control of Orca
 * python-speechd   - Python bindings for Speech Dispatcher (optional)
 * BrlTTY           - BrlTTY (<https://mielke.cc/brltty/>) support for braille (optional)
 * BrlAPI           - BrlAPI support for braille (optional)
@@ -47,7 +48,7 @@ Orca also has the following dependencies:
 * libwnck3         - Used for mouse review (optional)
 
 You are strongly encouraged to also have the latest stable versions
-of AT-SPI2 and ATK for the GNOME 48.x release.
+of AT-SPI2 and ATK for the GNOME 49.x release.
 
 ## Note for Braille Users
 
@@ -117,7 +118,7 @@ inside the script. Some examples of features imported by scripts include:
 
 * `src/orca/system_information_presenter.py`
 * `src/orca/flat_review_presenter.py`
-* `src/orca/notification-presenter.py`
+* `src/orca/notification_presenter.py`
 * `src/orca/object_navigator.py`
 
 Please note: Historically features were implemented directly inside the scripts.
@@ -128,6 +129,23 @@ outside of `default.py`.
 
 ## Experimental Features
 
+### Remote Controller (D-Bus Interface)
+
+**New in Orca v49.0:** Orca now provides a D-Bus interface that allows external applications
+to remotely control Orca's functionality and present messages to users. This feature is
+currently experimental and should be considered highly unstable until the final v49.0 release.
+
+The D-Bus interface includes:
+
+* **PresentMessage**: Send messages directly to Orca for speech/braille presentation
+* **Module Commands**: Execute Orca commands remotely (speech controls, etc.)
+* **Command Discovery**: List available commands and modules programmatically
+
+For detailed usage instructions, examples, and API documentation, see
+[README-REMOTE-CONTROLLER.md](README-REMOTE-CONTROLLER.md).
+
+### Spiel Text-to-Speech Support
+
 By default, Orca uses speech-dispatcher for its TTS support. In addition, there is
 basic support for [Spiel](https://github.com/project-spiel) which allows choosing
 voices from multiple synthesizers, currently including eSpeak and Piper.
@@ -135,7 +153,7 @@ voices from multiple synthesizers, currently including eSpeak and Piper.
 To test Spiel, configure Orca to build from the latest source. Once compiled,
 `meson devenv` will be used to run Orca.
 
-```
+```sh
 meson setup --force-fallback-for=spiel -Dspiel=true _build
 meson compile -C _build
 meson install -C _build
@@ -144,7 +162,7 @@ meson install -C _build
 If you have an existing build directory, don't forget to use `--reconfigure`. If
 you have problems after an update, you may need to re-build and re-install:
 
-```
+```sh
 meson subprojects purge --confirm
 meson setup --reconfigure --force-fallback-for=spiel -Dspiel=true _build 
 meson compile --clean -C _build
@@ -163,7 +181,7 @@ this flag is highly recommended while Orca's Spiel support is experimental. If y
 to use Spiel by default, you can select it in Orca's Preferences dialog. To then switch back
 to Speech Dispatcher, use `orca --replace --speech-system=speechdispatcherfactory`.
 
-```
+```sh
 # Enter the development environment
 meson devenv -C _build
 
@@ -200,6 +218,5 @@ your distribution before proceeding.
    meson install -C _build
    ```
 
-Now start Orca following the [instructions](#experimental-features) above and
+Now start Orca following the [instructions](#spiel-text-to-speech-support) above and
 the Spiel providers you installed will start automatically.
-

@@ -39,6 +39,7 @@ from . import input_event
 from . import keybindings
 from . import messages
 from . import settings_manager
+from . import speech_and_verbosity_manager
 from .ax_component import AXComponent
 from .ax_object import AXObject
 from .ax_text import AXText, AXTextAttribute
@@ -409,7 +410,7 @@ class WhereAmIPresenter:
     def present_status_bar(
         self, script: default.Script, event: Optional[input_event.InputEvent] = None
     ) -> bool:
-        """Presents the status bar of the current window."""
+        """Presents the status bar and info bar of the current window."""
 
         obj = focus_manager.get_manager().get_locus_of_focus()
         frame, dialog = script.utilities.frameAndDialog(obj)
@@ -422,8 +423,8 @@ class WhereAmIPresenter:
                 brief = messages.STATUS_BAR_NOT_FOUND_BRIEF
                 script.presentMessage(full, brief)
 
-            infobar = script.utilities.infoBar(frame)
-            if infobar:
+            infobar = AXUtilities.get_info_bar(frame)
+            if infobar and AXUtilities.is_showing(infobar) and AXUtilities.is_visible(infobar):
                 script.presentObject(infobar, interrupt=statusbar is None)
 
         # TODO - JD: Pending user feedback, this should be removed.
@@ -497,10 +498,10 @@ class WhereAmIPresenter:
             script.speakMessage(messages.NO_SELECTED_TEXT)
             return True
 
-        if script.utilities.shouldVerbalizeAllPunctuation(obj):
-            text = script.utilities.verbalizeAllPunctuation(text)
-
-        msg = messages.SELECTED_TEXT_IS % text
+        manager = speech_and_verbosity_manager.get_manager()
+        indentation = manager.get_indentation_description(text, only_if_changed=False)
+        text = manager.adjust_for_presentation(obj, text)
+        msg = messages.SELECTED_TEXT_IS % f"{indentation} {text}"
         script.speakMessage(msg)
         return True
 

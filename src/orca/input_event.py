@@ -63,6 +63,7 @@ if TYPE_CHECKING:
 KEYBOARD_EVENT     = "keyboard"
 BRAILLE_EVENT      = "braille"
 MOUSE_BUTTON_EVENT = "mouse:button"
+REMOTE_CONTROLLER_EVENT = "remote controller"
 
 class InputEvent:
     """Provides support for handling input events."""
@@ -825,6 +826,8 @@ class BrailleEvent(InputEvent):
 class MouseButtonEvent(InputEvent):
     """Provides support for handling mouse button events."""
 
+    # TODO - JD: Remove this and the validation logic once we have a fix for
+    # https://gitlab.gnome.org/GNOME/at-spi2-core/-/issues/194.
     try:
         display = Gdk.Display.get_default()
         seat = Gdk.Display.get_default_seat(display)
@@ -870,6 +873,12 @@ class MouseButtonEvent(InputEvent):
         )
         debug.print_message(debug.LEVEL_INFO, msg, True)
         self.x, self.y = x, y
+
+class RemoteControllerEvent(InputEvent):
+    """A simple input event whose main purpose is identification of the origin."""
+
+    def __init__(self):
+        super().__init__(REMOTE_CONTROLLER_EVENT)
 
 class InputEventHandler:
     """A handler for an input event."""

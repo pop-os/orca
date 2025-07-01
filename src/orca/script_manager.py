@@ -18,7 +18,6 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
 
 """Manages Orca's scripts."""
@@ -115,9 +114,9 @@ class ScriptManager:
                      "pluma": "gedit",
                      "xfce4-notifyd": "notification-daemon"}
         alt_names = list(app_names.keys())
-        if name.endswith(".py") or name.endswith(".bin"):
+        if name.endswith((".py", ".bin")):
             name = name.split(".")[0]
-        elif name.startswith("org.") or name.startswith("com."):
+        elif name.startswith(("org.", "com.")):
             name = name.split(".")[-1]
 
         names = [n for n in alt_names if n.lower() == name.lower()]
@@ -170,12 +169,12 @@ class ScriptManager:
             tokens = ["SCRIPT MANAGER: Found", module_name]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             try:
-                if hasattr(module, "getScript"):
+                if hasattr(module, "get_script"):
                     script = module.get_script(app)
                 else:
                     script = module.Script(app)
                 break
-            except Exception as error:
+            except (AttributeError, TypeError, ImportError) as error:
                 tokens = ["EXCEPTION: Could not load", module_name, ":", error]
                 debug.print_tokens(debug.LEVEL_INFO, tokens, True, True)
 
@@ -268,7 +267,7 @@ class ScriptManager:
             else:
                 app_script = self._create_script(app, None)
                 self.app_scripts[app] = app_script
-        except Exception as error:
+        except (KeyError, AttributeError, ImportError) as error:
             tokens = ["EXCEPTION: Exception getting app script for", app, ":", error]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             app_script = self.get_default_script()

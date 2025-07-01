@@ -76,6 +76,7 @@ class TextEventReason(enum.Enum):
     PAGE_SWITCH = enum.auto()
     PASTE = enum.auto()
     REDO = enum.auto()
+    SAY_ALL = enum.auto()
     SEARCH_PRESENTABLE = enum.auto()
     SEARCH_UNPRESENTABLE = enum.auto()
     SELECT_ALL = enum.auto()
@@ -108,6 +109,7 @@ class AXUtilitiesEvent:
     LAST_KNOWN_CHECKED: dict[int, bool] = {}
     LAST_KNOWN_EXPANDED: dict[int, bool] = {}
     LAST_KNOWN_INDETERMINATE: dict[int, bool] = {}
+    LAST_KNOWN_INVALID_ENTRY: dict[int, bool] = {}
     LAST_KNOWN_PRESSED: dict[int, bool] = {}
     LAST_KNOWN_SELECTED: dict[int, bool] = {}
 
@@ -134,6 +136,7 @@ class AXUtilitiesEvent:
         AXUtilitiesEvent.LAST_KNOWN_CHECKED.clear()
         AXUtilitiesEvent.LAST_KNOWN_EXPANDED.clear()
         AXUtilitiesEvent.LAST_KNOWN_INDETERMINATE.clear()
+        AXUtilitiesEvent.LAST_KNOWN_INVALID_ENTRY.clear()
         AXUtilitiesEvent.LAST_KNOWN_PRESSED.clear()
         AXUtilitiesEvent.LAST_KNOWN_SELECTED.clear()
         AXUtilitiesEvent.TEXT_EVENT_REASON.clear()
@@ -173,12 +176,6 @@ class AXUtilitiesEvent:
         thread.start()
 
     @staticmethod
-    def get_last_known_name(obj: Atspi.Accessible) -> str:
-        """Returns the last known name of obj."""
-
-        return AXUtilitiesEvent.LAST_KNOWN_NAME.get(hash(obj), "")
-
-    @staticmethod
     def get_text_event_reason(event: Atspi.Event) -> TextEventReason:
         """Returns the TextEventReason for the given event."""
 
@@ -212,8 +209,10 @@ class AXUtilitiesEvent:
         reason = TextEventReason.UNKNOWN
         mgr = input_event_manager.get_manager()
         obj = event.source
-        focus = focus_manager.get_manager().get_locus_of_focus()
-        if focus != obj and AXUtilitiesRole.is_text_input_search(focus):
+        mode, focus = focus_manager.get_manager().get_active_mode_and_object_of_interest()
+        if mode == focus_manager.SAY_ALL:
+            reason = TextEventReason.SAY_ALL
+        elif focus != obj and AXUtilitiesRole.is_text_input_search(focus):
             if mgr.last_event_was_backspace() or mgr.last_event_was_delete():
                 reason = TextEventReason.SEARCH_UNPRESENTABLE
             else:
@@ -540,6 +539,11 @@ class AXUtilitiesEvent:
     def is_presentable_description_change(event: Atspi.Event) -> bool:
         """Returns True if this event should be presented as a description change."""
 
+        if not isinstance(event.any_data, str):
+            msg = "AXUtilitiesEvent: The any_data is not a string."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return False
+
         old_description = AXUtilitiesEvent.LAST_KNOWN_DESCRIPTION.get(hash(event.source))
         new_description = event.any_data
         if old_description == new_description:
@@ -630,8 +634,34 @@ class AXUtilitiesEvent:
         return True
 
     @staticmethod
+    def is_presentable_invalid_entry_change(event: Atspi.Event) -> bool:
+        """Returns True if this event should be presented as an invalid-entry-state change."""
+
+        old_state = AXUtilitiesEvent.LAST_KNOWN_INVALID_ENTRY.get(hash(event.source))
+        new_state = AXUtilitiesState.is_invalid_entry(event.source)
+        if old_state == new_state:
+            msg = "AXUtilitiesEvent: The new state matches the old state."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return False
+
+        AXUtilitiesEvent.LAST_KNOWN_INVALID_ENTRY[hash(event.source)] = new_state
+        if event.source != focus_manager.get_manager().get_locus_of_focus():
+            msg = "AXUtilitiesEvent: The event is not from the locus of focus."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return False
+
+        msg = "AXUtilitiesEvent: Event is presentable."
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        return True
+
+    @staticmethod
     def is_presentable_name_change(event: Atspi.Event) -> bool:
         """Returns True if this event should be presented as a name change."""
+
+        if not isinstance(event.any_data, str):
+            msg = "AXUtilitiesEvent: The any_data is not a string."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return False
 
         old_name = AXUtilitiesEvent.LAST_KNOWN_NAME.get(hash(event.source))
         new_name = event.any_data

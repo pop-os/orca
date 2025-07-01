@@ -76,7 +76,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
     @log_generator_output
     def _generate_new_ancestors(self, obj, **args):
-        if args.get("index", 0) > 0 and not self._script.utilities.isListDescendant(obj):
+        if args.get("index", 0) > 0 and AXObject.find_ancestor(obj, AXUtilities.is_list) is None:
             return []
 
         return super()._generate_new_ancestors(obj, **args)
@@ -85,7 +85,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if not self._script.utilities.inDocumentContent(obj):
             return super()._generate_ancestors(obj, **args)
 
-        if self._script.inSayAll() and obj == focus_manager.get_manager().get_locus_of_focus():
+        manager = focus_manager.get_manager()
+        if manager.in_say_all() and obj == manager.get_locus_of_focus():
             return []
 
         result = []
@@ -119,7 +120,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                              Atspi.Role.TEXT]
         args["stop_after_roles"] = [Atspi.Role.TOOL_BAR]
 
-        if self._script.utilities.isEditableDescendantOfComboBox(obj):
+        if AXObject.find_ancestor(obj, AXUtilities.is_editable_combo_box):
             args["skipRoles"].append(Atspi.Role.COMBO_BOX)
 
         result.extend(super()._generate_ancestors(obj, **args))
@@ -181,7 +182,8 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if not AXObject.is_valid(obj):
             return []
 
-        if self._script.utilities.preferDescriptionOverName(obj):
+        # TODO - JD: Can this logic be moved into the default speech generator?
+        if self._prefer_description_over_name(obj):
             return []
 
         if obj != focus_manager.get_manager().get_locus_of_focus():
@@ -285,9 +287,11 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if args.get("leaving"):
             return []
 
+        if focus_manager.get_manager().in_say_all():
+            return []
+
         manager = input_event_manager.get_manager()
-        if (manager.last_event_was_forward_caret_navigation() or self._script.inSayAll()) \
-           and args.get("startOffset"):
+        if manager.last_event_was_forward_caret_navigation() and args.get("startOffset"):
             return []
         if manager.last_event_was_backward_caret_navigation() \
            and self._script.utilities.treatAsTextObject(obj) \
@@ -344,7 +348,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         if AXUtilities.is_link(obj) and args.get("string"):
             return []
 
-        if self._script.utilities.hasVisibleCaption(obj):
+        if AXUtilities.has_visible_caption(obj):
             return []
 
         if AXUtilities.is_figure(obj, args.get("role")) and args.get("ancestorOf"):
@@ -356,7 +360,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         # TODO - JD: Can this logic be moved to the default speech generator?
         if AXObject.get_name(obj):
-            if self._script.utilities.preferDescriptionOverName(obj):
+            if self._prefer_description_over_name(obj):
                 result = [AXObject.get_description(obj)]
             else:
                 name = AXObject.get_name(obj)
@@ -494,7 +498,9 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
         mgr = input_event_manager.get_manager()
         is_editable = AXUtilities.is_editable(obj)
         if is_editable and not self._script.utilities.isContentEditableWithEmbeddedObjects(obj):
-            if (mgr.last_event_was_forward_caret_navigation() or self._script.inSayAll()) and start:
+            if focus_manager.get_manager().in_say_all() and start:
+                return []
+            if mgr.last_event_was_forward_caret_navigation() and start:
                 return []
             if mgr.last_event_was_backward_caret_navigation() \
                and self._script.utilities.treatAsTextObject(obj) \
@@ -512,7 +518,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
 
         elif role == Atspi.Role.HEADING:
             if index == total - 1 or not self._script.utilities.isFocusableWithMathChild(obj):
-                level = self._script.utilities.headingLevel(obj)
+                level = AXUtilities.get_heading_level(obj)
                 if level:
                     result.append(object_properties.ROLE_HEADING_LEVEL_SPEECH % {
                         "role": self.get_localized_role_name(obj, **args),
@@ -646,7 +652,7 @@ class SpeechGenerator(speech_generator.SpeechGenerator):
                 args["priorObj"] = obj
 
         if not result:
-            if self._script.inSayAll(treatInterruptedAsIn=False) \
+            if focus_manager.get_manager().in_say_all() \
                or not settings_manager.get_manager().get_setting("speakBlankLines") \
                or args.get("formatType") == "ancestor":
                 string = ""

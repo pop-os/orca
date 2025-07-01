@@ -19,6 +19,8 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+"""Custom script for GTK."""
+
 __id__        = "$Id$"
 __version__   = "$Revision$"
 __date__      = "$Date$"
@@ -30,30 +32,18 @@ from orca import focus_manager
 from orca.scripts import default
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
-from .script_utilities import Utilities
-
 
 class Script(default.Script):
-
-    def get_utilities(self):
-        """Returns the utilities for this script."""
-
-        return Utilities(self)
-
-    def deactivate(self):
-        """Called when this script is deactivated."""
-
-        self.utilities.clearCachedObjects()
-        super().deactivate()
+    """Custom script for GTK."""
 
     def locus_of_focus_changed(self, event, old_focus, new_focus):
         """Handles changes of focus of interest to the script."""
 
         manager = focus_manager.get_manager()
-        if self.utilities.isToggleDescendantOfComboBox(new_focus):
+        if AXUtilities.is_toggle_button(new_focus):
             new_focus = AXObject.find_ancestor(new_focus, AXUtilities.is_combo_box) or new_focus
             manager.set_locus_of_focus(event, new_focus, False)
-        elif self.utilities.isInOpenMenuBarMenu(new_focus):
+        elif AXObject.find_ancestor(new_focus, AXUtilities.is_menu_bar):
             window = self.utilities.topLevelObject(new_focus)
             if window and manager.get_active_window() != window:
                 manager.set_active_window(window)
@@ -107,7 +97,9 @@ class Script(default.Script):
     def on_selected_changed(self, event):
         """Callback for object:state-changed:selected accessibility events."""
 
-        if self.utilities.isEntryCompletionPopupItem(event.source):
+        # Handle changes within an entry completion popup.
+        if AXUtilities.is_table_cell(event.source) \
+           and AXObject.find_ancestor(event.source, AXUtilities.is_window) is not None:
             if event.detail1:
                 focus_manager.get_manager().set_locus_of_focus(event, event.source)
                 return
@@ -125,13 +117,13 @@ class Script(default.Script):
         """Callback for object:selection-changed accessibility events."""
 
         focus = focus_manager.get_manager().get_locus_of_focus()
-        if self.utilities.isComboBoxWithToggleDescendant(event.source) \
-           and AXObject.is_ancestor(focus, event.source, True):
+        if AXUtilities.is_toggle_button(focus) and AXUtilities.is_combo_box(event.source) \
+           and AXObject.is_ancestor(focus, event.source):
             super().on_selection_changed(event)
             return
 
-        isFocused = AXUtilities.is_focused(event.source)
-        if AXUtilities.is_combo_box(event.source) and not isFocused:
+        is_focused = AXUtilities.is_focused(event.source)
+        if AXUtilities.is_combo_box(event.source) and not is_focused:
             return
 
         if AXUtilities.is_layered_pane(event.source) \

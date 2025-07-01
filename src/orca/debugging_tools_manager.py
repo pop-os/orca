@@ -20,7 +20,6 @@
 # Boston MA  02110-1301 USA.
 
 # pylint: disable=wrong-import-position
-# pylint: disable=broad-exception-caught
 # pylint: disable=no-name-in-module
 
 """Provides debugging tools."""
@@ -231,7 +230,7 @@ class DebuggingToolsManager:
         """Generator providing strings with basic details about the running accessible apps."""
 
         applications = AXUtilities.get_all_applications(is_debug=True)
-        msg = f"Desktop has {len(applications)} apps:"
+        msg = f"Desktop has {len(applications)} app(s):"
         if not is_command_line:
             msg = f"DEBUGGING TOOLS MANAGER: {msg}"
         yield msg
@@ -244,7 +243,7 @@ class DebuggingToolsManager:
                 name = AXObject.get_name(app) or "[DEAD]"
             try:
                 cmdline = subprocess.getoutput(f"cat /proc/{pid}/cmdline")
-            except Exception as error:
+            except subprocess.SubprocessError as error:
                 cmdline = f"EXCEPTION: {error}"
             else:
                 cmdline = cmdline.replace("\x00", " ")

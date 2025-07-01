@@ -156,13 +156,14 @@ If the static text should not be presented last, a different technique might be 
 any changes to that description, on *ancestors* of the object of interest. In Orca v46 and earlier,
 Orca only presents the name of ancestors and description changes on the object of interest.
 
-### Can I Use Details/Details-For And Error-Message/Errors-For Relations?
+### Can I Use Details/Details-For And Error-Message/Error-For Relations?
 
 The `details`/`details-for` and `error-message`/`error-for` relation types were created for ARIA,
 and there was no indication that they might be of interest to developers of native applications.
-As a result, support in Orca for these new relation types was implemented only for web apps.
-[There are plans to support these relation types globally](https://gitlab.gnome.org/GNOME/orca/-/issues/514),
-hopefully during the v48 release cycle.
+As a result, support in Orca for these new relation types had been implemented only for web apps.
+
+Orca v49 has global support for `error-message`/`error-for`. Global support for `details`/`details-for`
+is still pending. See [issue #514](https://gitlab.gnome.org/GNOME/orca/-/issues/514).
 
 ### Why Is Orca Speaking My Labels As Static Text?
 
@@ -388,6 +389,11 @@ announcer.Announcement("", 1, 0, get_variant(str, "Hello, world!"), [])
 time.sleep(0.5)
 print("Done announcing Hello, world!")
 ```
+
+**New in Orca v49.0:** For headless applications, Orca now provides a much simpler D-Bus API
+called `PresentMessage` that eliminates the need for the complex AT-SPI2 setup shown above.
+See [README-REMOTE-CONTROLLER.md](README-REMOTE-CONTROLLER.md) for details on using this
+streamlined interface.
 
 **Please note:** Because "assertive" messages can be disruptive if presented at the wrong
 time, Orca *currently* treats an "assertive" notification from non-web applications the
