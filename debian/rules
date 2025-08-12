@@ -3,4 +3,7 @@
 %:
 	dh $@
 
+override_dh_installsystemduser:
+	dh_installsystemduser --no-enable
+
 override_dh_gnome_clean:
