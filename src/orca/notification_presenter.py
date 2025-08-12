@@ -22,6 +22,9 @@
 # Boston MA  02110-1301 USA.
 
 # pylint: disable=wrong-import-position
+# pylint: disable=too-many-arguments
+# pylint: disable=too-many-positional-arguments
+# pylint: disable=too-many-locals
 
 """Module for notification messages"""
 
@@ -36,7 +39,7 @@ __copyright__ = "Copyright (c) 2023 Igalia, S.L." \
 __license__   = "LGPL"
 
 import time
-from typing import Callable, Optional, TYPE_CHECKING
+from typing import Callable, TYPE_CHECKING
 
 import gi
 gi.require_version('Gtk', '3.0')
@@ -44,6 +47,7 @@ from gi.repository import GObject
 from gi.repository import Gtk
 
 from . import cmdnames
+from . import dbus_service
 from . import debug
 from . import guilabels
 from . import input_event
@@ -57,7 +61,7 @@ class NotificationPresenter:
     """Provides access to the notification history."""
 
     def __init__(self) -> None:
-        self._gui: Optional[NotificationListGUI] = None
+        self._gui: NotificationListGUI | None = None
         self._handlers: dict[str, input_event.InputEventHandler] = self.get_handlers(True)
         self._bindings: keybindings.KeyBindings = keybindings.KeyBindings()
         self._max_size: int = 55
@@ -69,6 +73,11 @@ class NotificationPresenter:
         self._notifications: list[tuple[str, float]] = []
         self._current_index: int = -1
 
+        msg = "NOTIFICATION PRESENTER: Registering D-Bus commands."
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        controller = dbus_service.get_remote_controller()
+        controller.register_decorated_module("NotificationPresenter", self)
+
     def get_bindings(
             self, refresh: bool = False, is_desktop: bool = True
         ) -> keybindings.KeyBindings:
@@ -77,6 +86,7 @@ class NotificationPresenter:
         if refresh:
             msg = f"NOTIFICATION PRESENTER: Refreshing bindings. Is desktop: {is_desktop}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
+            self._bindings.remove_key_grabs("NOTIFICATION PRESENTER: Refreshing bindings.")
             self._setup_bindings()
         elif self._bindings.is_empty():
             self._setup_bindings()
@@ -117,22 +127,22 @@ class NotificationPresenter:
 
         self._handlers["present_last_notification"] = \
             input_event.InputEventHandler(
-                self._present_last_notification,
+                self.present_last_notification,
                 cmdnames.NOTIFICATION_MESSAGES_LAST)
 
         self._handlers["present_next_notification"] = \
             input_event.InputEventHandler(
-                self._present_next_notification,
+                self.present_next_notification,
                 cmdnames.NOTIFICATION_MESSAGES_NEXT)
 
         self._handlers["present_previous_notification"] = \
             input_event.InputEventHandler(
-                self._present_previous_notification,
+                self.present_previous_notification,
                 cmdnames.NOTIFICATION_MESSAGES_PREVIOUS)
 
         self._handlers["show_notification_list"] = \
             input_event.InputEventHandler(
-                self._show_notification_list,
+                self.show_notification_list,
                 cmdnames.NOTIFICATION_MESSAGES_LIST)
 
         msg = "NOTIFICATION PRESENTER: Handlers set up."
@@ -177,59 +187,65 @@ class NotificationPresenter:
     def _timestamp_to_string(self, timestamp: float) -> str:
         diff = time.time() - timestamp
         if diff < 60:
-            return messages.secondsAgo(diff)
+            return messages.seconds_ago(diff)
 
         if diff < 3600:
             minutes = round(diff / 60)
-            return messages.minutesAgo(minutes)
+            return messages.minutes_ago(minutes)
 
         if diff < 86400:
             hours = round(diff / 3600)
-            return messages.hoursAgo(hours)
+            return messages.hours_ago(hours)
 
         days = round(diff / 86400)
-        return messages.daysAgo(days)
+        return messages.days_ago(days)
 
-    def _present_last_notification(
+    @dbus_service.command
+    def present_last_notification(
         self,
         script: default.Script,
-        _event: Optional[input_event.InputEvent] = None
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the last notification."""
 
-        if not self._notifications:
-            script.presentMessage(messages.NOTIFICATION_NO_MESSAGES)
-            return True
+        tokens = ["NOTIFICATION PRESENTER: present_last_notification. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
-        msg = "NOTIFICATION PRESENTER: Presenting last notification."
-        debug.print_message(debug.LEVEL_INFO, msg, True)
+        if not self._notifications:
+            if notify_user:
+                script.present_message(messages.NOTIFICATION_NO_MESSAGES)
+            return True
 
         message, timestamp = self._notifications[-1]
         string = f"{message} {self._timestamp_to_string(timestamp)}"
-        script.presentMessage(string)
+        script.present_message(string)
         self._current_index = -1
         return True
 
-    def _present_previous_notification(
+    @dbus_service.command
+    def present_previous_notification(
         self,
         script: default.Script,
-        _event: Optional[input_event.InputEvent] = None
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the previous notification."""
 
-        if not self._notifications:
-            script.presentMessage(messages.NOTIFICATION_NO_MESSAGES)
-            return True
+        tokens = ["NOTIFICATION PRESENTER: present_previous_notification. Script:", script,
+                  "Event:", event, "notify_user:", notify_user, "Current index:",
+                  self._current_index]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
-        msg = (
-            f"NOTIFICATION PRESENTER: Presenting previous notification. "
-            f"Current index: {self._current_index}"
-        )
-        debug.print_message(debug.LEVEL_INFO, msg, True)
+        if not self._notifications:
+            if notify_user:
+                script.present_message(messages.NOTIFICATION_NO_MESSAGES)
+            return True
 
         # This is the first (oldest) message in the list.
         if self._current_index == 0 :
-            script.presentMessage(messages.NOTIFICATION_LIST_TOP)
+            script.present_message(messages.NOTIFICATION_LIST_TOP)
             message, timestamp = self._notifications[self._current_index]
         else:
             try:
@@ -239,33 +255,35 @@ class NotificationPresenter:
             except IndexError:
                 msg = "NOTIFICATION PRESENTER: Handling IndexError exception."
                 debug.print_message(debug.LEVEL_INFO, msg, True)
-                script.presentMessage(messages.NOTIFICATION_LIST_TOP)
+                script.present_message(messages.NOTIFICATION_LIST_TOP)
                 message, timestamp = self._notifications[self._current_index]
 
         string = f"{message} {self._timestamp_to_string(timestamp)}"
-        script.presentMessage(string)
+        script.present_message(string)
         return True
 
-    def _present_next_notification(
+    @dbus_service.command
+    def present_next_notification(
         self,
         script: default.Script,
-        _event: Optional[input_event.InputEvent] = None
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the next notification."""
 
-        if not self._notifications:
-            script.presentMessage(messages.NOTIFICATION_NO_MESSAGES)
-            return True
+        tokens = ["NOTIFICATION PRESENTER: present_next_notification. Script:", script,
+                  "Event:", event, "notify_user:", notify_user, "Current index:",
+                  self._current_index]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
-        msg = (
-            f"NOTIFICATION PRESENTER: Presenting next notification. "
-            f"Current index: {self._current_index}"
-        )
-        debug.print_message(debug.LEVEL_INFO, msg, True)
+        if not self._notifications:
+            if notify_user:
+                script.present_message(messages.NOTIFICATION_NO_MESSAGES)
+            return True
 
         # This is the last (newest) message in the list.
         if self._current_index == -1:
-            script.presentMessage(messages.NOTIFICATION_LIST_BOTTOM)
+            script.present_message(messages.NOTIFICATION_LIST_BOTTOM)
             message, timestamp = self._notifications[self._current_index]
         else:
             try:
@@ -275,20 +293,29 @@ class NotificationPresenter:
             except IndexError:
                 msg = "NOTIFICATION PRESENTER: Handling IndexError exception."
                 debug.print_message(debug.LEVEL_INFO, msg, True)
-                script.presentMessage(messages.NOTIFICATION_LIST_BOTTOM)
+                script.present_message(messages.NOTIFICATION_LIST_BOTTOM)
                 message, timestamp = self._notifications[self._current_index]
 
         string = f"{message} {self._timestamp_to_string(timestamp)}"
-        script.presentMessage(string)
+        script.present_message(string)
         return True
 
-    def _show_notification_list(
-        self, script: default.Script, _event: Optional[input_event.InputEvent] = None
+    @dbus_service.command
+    def show_notification_list(
+        self,
+        script: default.Script,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Opens a dialog with a list of the notifications."""
 
+        tokens = ["NOTIFICATION PRESENTER: show_notification_list. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
         if not self._notifications:
-            script.presentMessage(messages.NOTIFICATION_NO_MESSAGES)
+            if notify_user:
+                script.present_message(messages.NOTIFICATION_NO_MESSAGES)
             return True
 
         if self._gui:
@@ -296,9 +323,6 @@ class NotificationPresenter:
             debug.print_message(debug.LEVEL_INFO, msg, True)
             self._gui.show_gui()
             return True
-
-        msg = "NOTIFICATION PRESENTER: Showing notification list."
-        debug.print_message(debug.LEVEL_INFO, msg, True)
 
         rows = [(message, self._timestamp_to_string(timestamp)) \
                     for message, timestamp in reversed(self._notifications)]
@@ -327,7 +351,7 @@ class NotificationListGUI:
         destroyed_callback: Callable[[Gtk.Dialog], None]
     ):
         self._script: default.Script = script
-        self._model: Optional[Gtk.ListStore] = None
+        self._model: Gtk.ListStore | None = None
         self._gui: Gtk.Dialog = self._create_dialog(title, column_headers, rows)
         self._gui.connect("destroy", destroyed_callback)
 
@@ -349,12 +373,12 @@ class NotificationListGUI:
         content_area.add(grid)
 
         scrolled_window = Gtk.ScrolledWindow()
-        grid.add(scrolled_window)
+        grid.add(scrolled_window) # pylint: disable=no-member
 
         tree = Gtk.TreeView()
         tree.set_hexpand(True)
         tree.set_vexpand(True)
-        scrolled_window.add(tree)
+        scrolled_window.add(tree) # pylint: disable=no-member
 
         cols = len(column_headers) * [GObject.TYPE_STRING]
         for i, header in enumerate(column_headers):
@@ -384,14 +408,14 @@ class NotificationListGUI:
         if response == Gtk.ResponseType.APPLY and self._model is not None:
             self._model.clear()
             get_presenter().clear_list()
-            self._script.presentMessage(messages.NOTIFICATION_NO_MESSAGES)
+            self._script.present_message(messages.NOTIFICATION_NO_MESSAGES)
             time.sleep(1)
             self._gui.destroy()
 
     def show_gui(self) -> None:
         """Shows the notifications list dialog."""
 
-        self._gui.show_all()
+        self._gui.show_all() # pylint: disable=no-member
         self._gui.present_with_time(time.time())
 
 _presenter: NotificationPresenter = NotificationPresenter()

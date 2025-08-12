@@ -19,6 +19,9 @@
 # Boston MA  02110-1301 USA.
 
 # pylint: disable=wrong-import-position
+# pylint: disable=too-many-locals
+# pylint: disable=too-many-statements
+# pylint: disable=too-many-return-statements
 
 """Module for learn mode"""
 
@@ -33,7 +36,7 @@ __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
 __license__   = "LGPL"
 
 import time
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 import gi
 gi.require_version("Gdk", "3.0")
@@ -78,6 +81,7 @@ class LearnModePresenter:
         if refresh:
             msg = f"LEARN MODE PRESENTER: Refreshing bindings. Is desktop: {is_desktop}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
+            self._bindings.remove_key_grabs("LEARN MODE PRESENTER: Refreshing bindings.")
             self._setup_bindings()
         elif self._bindings.is_empty():
             self._setup_bindings()
@@ -124,8 +128,8 @@ class LearnModePresenter:
 
     def start(
         self,
-        script: Optional[default.Script] = None,
-        _event: Optional[input_event.InputEvent] = None
+        script: default.Script | None = None,
+        _event: input_event.InputEvent | None = None
     ) -> bool:
         """Starts learn mode."""
 
@@ -138,9 +142,9 @@ class LearnModePresenter:
             script = script_manager.get_manager().get_active_script()
 
         if script is not None:
-            script.presentMessage(messages.VERSION)
-            script.speakMessage(messages.LEARN_MODE_START_SPEECH)
-            script.displayBrailleMessage(messages.LEARN_MODE_START_BRAILLE)
+            script.present_message(messages.VERSION)
+            script.speak_message(messages.LEARN_MODE_START_SPEECH)
+            script.display_message(messages.LEARN_MODE_START_BRAILLE)
 
         input_event_manager.get_manager().grab_keyboard("Entering learn mode")
         msg = "LEARN MODE PRESENTER: Is now active"
@@ -150,8 +154,8 @@ class LearnModePresenter:
 
     def quit(
         self,
-        script: Optional[default.Script] = None,
-        _event: Optional[input_event.InputEvent] = None
+        script: default.Script | None = None,
+        _event: input_event.InputEvent | None = None
     ) -> bool:
         """Quits learn mode."""
 
@@ -164,7 +168,7 @@ class LearnModePresenter:
             script = script_manager.get_manager().get_active_script()
 
         if script is not None:
-            script.presentMessage(messages.LEARN_MODE_STOP)
+            script.present_message(messages.LEARN_MODE_STOP)
 
         input_event_manager.get_manager().ungrab_keyboard("Exiting learn mode")
         msg = "LEARN MODE PRESENTER: Is now inactive"
@@ -172,7 +176,7 @@ class LearnModePresenter:
         self._is_active = False
         return True
 
-    def handle_event(self, event: Optional[input_event.InputEvent] = None) -> bool:
+    def handle_event(self, event: input_event.InputEvent | None = None) -> bool:
         """Handles the event if learn mode is active."""
 
         if not self._is_active:
@@ -188,7 +192,7 @@ class LearnModePresenter:
         script.speak_key_event(event)
         if event.is_printable_key() and event.get_click_count() == 2 \
            and event.get_handler() is None:
-            script.phoneticSpellCurrentItem(event.get_key_name())
+            script.spell_phonetically(event.get_key_name())
 
         if event.keyval_name == "Escape":
             self.quit(script, event)
@@ -205,7 +209,7 @@ class LearnModePresenter:
         self.present_command(event)
         return True
 
-    def present_command(self, event: Optional[input_event.InputEvent] = None) -> bool:
+    def present_command(self, event: input_event.InputEvent | None = None) -> bool:
         """Presents the command bound to event."""
 
         if not isinstance(event, input_event.KeyboardEvent):
@@ -219,7 +223,7 @@ class LearnModePresenter:
             script = script_manager.get_manager().get_active_script()
             if script is None:
                 return True
-            script.presentMessage(handler.description)
+            script.present_message(handler.description)
 
         return True
 
@@ -232,7 +236,7 @@ class LearnModePresenter:
         items = 0
         bindings = {}
         if event is None or event.keyval_name == "F2":
-            bound = script.getDefaultKeyBindings().get_bound_bindings()
+            bound = script.get_default_keybindings_deprecated().get_bound_bindings()
             bindings[guilabels.KB_GROUP_DEFAULT] = bound
             items += len(bound)
 
@@ -269,6 +273,11 @@ class LearnModePresenter:
             bound = script.get_object_navigator().get_bindings(
                 is_desktop=is_desktop).get_bound_bindings()
             bindings[guilabels.KB_GROUP_OBJECT_NAVIGATION] = bound
+            items += len(bound)
+
+            bound = script.get_structural_navigator().get_bindings(
+                is_desktop=is_desktop).get_bound_bindings()
+            bindings[guilabels.KB_GROUP_STRUCTURAL_NAVIGATION] = bound
             items += len(bound)
 
             bound = script.get_table_navigator().get_bindings(
@@ -311,17 +320,16 @@ class LearnModePresenter:
             bindings[guilabels.KB_GROUP_DEBUGGING_TOOLS] = bound
             items += len(bound)
 
-            title = messages.shortcutsFoundOrca(items)
+            title = messages.shortcuts_found_orca(items)
         else:
             app_name = AXObject.get_name(script.app) or messages.APPLICATION_NO_NAME
             bound = script.get_app_key_bindings().get_bound_bindings()
-            bound.extend(script.get_toolkit_key_bindings().get_bound_bindings())
             if bound:
                 bindings[app_name] = bound
-            title = messages.shortcutsFoundApp(len(bound), app_name)
+            title = messages.shortcuts_found_app(len(bound), app_name)
 
         if not bindings:
-            script.presentMessage(title)
+            script.present_message(title)
             return True
 
         self.quit(script, event)
@@ -332,8 +340,8 @@ class LearnModePresenter:
 
     def show_help(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         page: str = ""
     ) -> bool:
         """Displays Orca's documentation."""
@@ -378,12 +386,12 @@ class CommandListGUI:
         content_area.add(grid)
 
         scrolled_window = Gtk.ScrolledWindow()
-        grid.add(scrolled_window)
+        grid.add(scrolled_window) # pylint: disable=no-member
 
         tree = Gtk.TreeView()
         tree.set_hexpand(True)
         tree.set_vexpand(True)
-        scrolled_window.add(tree)
+        scrolled_window.add(tree) # pylint: disable=no-member
 
         cols = len(column_headers) * [GObject.TYPE_STRING]
         for i, header in enumerate(column_headers):
@@ -412,12 +420,11 @@ class CommandListGUI:
 
         if response == Gtk.ResponseType.CLOSE:
             self._gui.destroy()
-            return
 
     def show_gui(self) -> None:
         """Shows the dialog."""
 
-        self._gui.show_all()
+        self._gui.show_all() # pylint: disable=no-member
         self._gui.present_with_time(time.time())
 
 

@@ -19,6 +19,9 @@
 # Boston MA  02110-1301 USA.
 
 # pylint: disable=wrong-import-position
+# pylint: disable=too-few-public-methods
+# pylint: disable=too-many-instance-attributes
+# pylint: disable=too-many-return-statements
 
 """Provides support for a flat review find."""
 
@@ -33,7 +36,7 @@ __license__   = "LGPL"
 import copy
 import re
 import time
-from typing import Callable, Optional
+from typing import Callable
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -110,15 +113,15 @@ class FlatReviewFinder:
     """Provides tools to search the current window's flat-review contents."""
 
     def __init__(self) -> None:
-        self._gui: Optional[FlatReviewFinderGUI] = None
+        self._gui: FlatReviewFinderGUI | None = None
         self._handlers: dict = self.get_handlers(True)
         self._desktop_bindings: keybindings.KeyBindings = keybindings.KeyBindings()
         self._laptop_bindings: keybindings.KeyBindings = keybindings.KeyBindings()
-        self._last_query: Optional[SearchQuery] = None
+        self._last_query: SearchQuery | None = None
         self._location: tuple[int, int, int, int] = 0, 0, 0, 0
         self._wrapped: bool = False
-        self._match: Optional[_SearchQueryMatch] = None
-        self._focus: Optional[Atspi.Accessible] = None
+        self._match: _SearchQueryMatch | None = None
+        self._focus: Atspi.Accessible | None = None
 
     def get_bindings(
         self, refresh: bool = False, is_desktop: bool = True
@@ -128,6 +131,8 @@ class FlatReviewFinder:
         if refresh:
             msg = "FLAT REVIEW FINDER: Refreshing bindings."
             debug.print_message(debug.LEVEL_INFO, msg, True)
+            self._laptop_bindings.remove_key_grabs("FLAT REVIEW FINDER: Refreshing bindings.")
+            self._desktop_bindings.remove_key_grabs("FLAT REVIEW FINDER: Refreshing bindings.")
             self._setup_bindings()
         elif is_desktop and self._desktop_bindings.is_empty():
             self._setup_bindings()
@@ -273,7 +278,7 @@ class FlatReviewFinder:
         self.find(script, self._last_query)
         return True
 
-    def find(self, script, query: Optional[SearchQuery] = None) -> None:
+    def find(self, script, query: SearchQuery | None = None) -> None:
         """Searches for the specified query, or the most recent one."""
 
         query = query or self._last_query
@@ -284,7 +289,7 @@ class FlatReviewFinder:
         context = presenter.get_or_create_context(script)
         location = self._do_find(query, context)
         if not location:
-            script.presentMessage(messages.STRING_NOT_FOUND)
+            script.present_message(messages.STRING_NOT_FOUND)
         else:
             context.set_current_location(location.get_current_location())
             presenter.present_item(script)
@@ -318,10 +323,10 @@ class FlatReviewFinder:
             script = script_manager.get_manager().get_active_script()
             assert script is not None
             if query.search_backwards:
-                script.presentMessage(messages.WRAPPING_TO_BOTTOM)
+                script.present_message(messages.WRAPPING_TO_BOTTOM)
                 moved = context.go_previous_line(True)
             else:
-                script.presentMessage(messages.WRAPPING_TO_TOP)
+                script.present_message(messages.WRAPPING_TO_TOP)
                 moved = context.go_next_line(True)
             return moved
 
@@ -388,7 +393,7 @@ class FlatReviewFinder:
 
         return False
 
-    def _do_find(self, query: SearchQuery, context: Context) -> Optional[Context]:
+    def _do_find(self, query: SearchQuery, context: Context) -> Context | None:
         """Performs the actual search."""
 
         msg = f"FLAT REVIEW FINDER: Searching for {str(query)}"
@@ -436,11 +441,11 @@ class FlatReviewFinderGUI:
 
     def __init__(self, script, query_handler: Callable[[SearchQuery], None]) -> None:
         self._script = script
-        self._entry: Optional[Gtk.Entry] = None
+        self._entry: Gtk.Entry | None = None
         self._gui: Gtk.Dialog = self._create_dialog()
         self._query: SearchQuery = SearchQuery()
         self.on_apply: Callable[[SearchQuery], None] = query_handler
-        self._focus: Optional[Atspi.Accessible] = None
+        self._focus: Atspi.Accessible | None = None
 
     def _create_dialog(self) -> Gtk.Dialog:
         """Creates the Find dialog."""

@@ -18,6 +18,8 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=too-many-lines
+
 """Command names which Orca presents in speech and/or braille. These
 have been put in their own module so that we can present them in
 the correct language when users change the synthesizer language
@@ -30,7 +32,7 @@ __copyright__ = "Copyright (c) 2004-2009 Sun Microsystems Inc." \
                 "Copyright (c) 2010-2013 The Orca Team"
 __license__   = "LGPL"
 
-from .orca_i18n import _
+from .orca_i18n import _ # pylint: disable=import-error
 
 # Translators: this command will move the mouse pointer to the current item,
 # typically a widget, without clicking on it.
@@ -816,13 +818,6 @@ LIVE_REGIONS_REVIEW = _("Review live region announcement")
 # enabled.
 LIVE_REGIONS_MONITOR = _("Monitor live regions")
 
-# Translators: hovering the mouse over certain objects on a web page causes a
-# new object to appear such as a pop-up menu. This command will move the user
-# to the object which just appeared as a result of the user hovering the mouse.
-# If the user is already in the mouse over object, this command will hide the
-# mouse over and return the user to the object he/she was in.
-MOUSE_OVER_MOVE = _("Move focus into and away from the current mouse over")
-
 # Translators: Orca allows you to dynamically define which row of a spreadsheet
 # or table should be treated as containing column headers. This string refers to
 # the command to set the row.
@@ -849,12 +844,14 @@ DYNAMIC_ROW_HEADER_CLEAR = _("Clear the dynamic row headers")
 # to the place where one enters formulas for a spreadsheet.
 PRESENT_INPUT_LINE = _("Present the contents of the input line")
 
-# Translators: the structural navigation keys are designed to move the caret
-# around the document content by object type. Thus H moves you to the next
-# heading, Shift H to the previous heading, T to the next table, and so on.
-# This feature needs to be toggle-able so that it does not interfere with normal
-# writing functions.
-STRUCTURAL_NAVIGATION_TOGGLE = _("Toggle structural navigation keys")
+# Translators: the structural navigation keys are designed to move around in a
+# document or container by object type. Thus H moves you to the next heading, Shift+H
+# to the previous heading, T to the next table, and so on. This feature needs to be
+# toggle-able so that it does not interfere with normal writing functions. In addition,
+# the navigation can be restricted to the current document or to non-document/GUI
+# objects. This string is the description of the command which switches among the
+# available modes: off, document, and GUI.
+STRUCTURAL_NAVIGATION_MODE_CYCLE = _("Cycles to the next structural navigation mode")
 
 # Translators: Orca has commands for navigating within a table, e.g. to the
 # next cell in a given direction. This string is the description of the command

@@ -22,7 +22,6 @@
 # pylint: disable=too-many-lines
 # pylint: disable=too-many-return-statements
 # pylint: disable=too-many-public-methods
-# pylint: disable=duplicate-code
 
 """Utilities for obtaining information about accessible objects."""
 
@@ -35,7 +34,7 @@ __license__   = "LGPL"
 import re
 import threading
 import time
-from typing import Callable, Generator, Optional
+from typing import Callable, Generator
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -213,6 +212,21 @@ class AXObject:
         return iface is not None
 
     @staticmethod
+    def _has_document_spreadsheet(obj: Atspi.Accessible) -> bool:
+        # To avoid circular import. pylint: disable=import-outside-toplevel
+        from .ax_collection import AXCollection
+        rule = AXCollection.create_match_rule(roles=[Atspi.Role.DOCUMENT_SPREADSHEET])
+        if rule is None:
+            return False
+
+        frame = AXObject.find_ancestor_inclusive(
+            obj, lambda x: AXObject.get_role(x) == Atspi.Role.FRAME)
+        if frame is None:
+            return False
+        return bool(Atspi.Collection.get_matches(
+            frame, rule, Atspi.CollectionSortOrder.CANONICAL, 1, True))
+
+    @staticmethod
     def supports_collection(obj: Atspi.Accessible) -> bool:
         """Returns True if the collection interface is supported on obj"""
 
@@ -226,17 +240,6 @@ class AXObject:
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
 
-        app_name = AXObject.get_name(app)
-        if app_name == "soffice":
-            if AXObject.find_ancestor_inclusive(
-               obj, lambda x: AXObject.get_role(x) == Atspi.Role.DOCUMENT_TEXT):
-                return True
-
-            tokens = ["AXObject: Treating soffice as not supporting collection:",
-                      obj, "is not in a text document"]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
         try:
             iface = Atspi.Accessible.get_collection_iface(obj)
         except GLib.GError as error:
@@ -244,7 +247,20 @@ class AXObject:
             AXObject.handle_error(obj, error, msg)
             return False
 
-        return iface is not None
+        app_name = AXObject.get_name(app)
+        if app_name != "soffice":
+            return iface is not None
+
+        if AXObject.find_ancestor_inclusive(
+            obj, lambda x: AXObject.get_role(x) == Atspi.Role.DOCUMENT_TEXT):
+            return True
+
+        if AXObject._has_document_spreadsheet(obj):
+            msg = "AXObject: Treating soffice as not supporting collection due to spreadsheet."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return False
+
+        return True
 
     @staticmethod
     def supports_component(obj: Atspi.Accessible) -> bool:
@@ -460,7 +476,7 @@ class AXObject:
         return index
 
     @staticmethod
-    def get_parent(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_parent(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the accessible parent of obj. See also get_parent_checked."""
 
         if not AXObject.is_valid(obj):
@@ -486,7 +502,7 @@ class AXObject:
         return parent
 
     @staticmethod
-    def get_parent_checked(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_parent_checked(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the parent of obj, doing checks for tree validity"""
 
         if not AXObject.is_valid(obj):
@@ -534,7 +550,7 @@ class AXObject:
     def get_common_ancestor(
         obj1: Atspi.Accessible,
         obj2: Atspi.Accessible
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns the common ancestor of obj1 and obj2."""
 
         tokens = ["AXObject: Looking for common ancestor of", obj1, "and", obj2]
@@ -562,7 +578,7 @@ class AXObject:
     def find_ancestor_inclusive(
         obj: Atspi.Accessible,
         pred: Callable[[Atspi.Accessible], bool]
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns obj, or the ancestor of obj, for which the function pred is true"""
 
         if pred(obj):
@@ -574,7 +590,7 @@ class AXObject:
     def find_ancestor(
         obj: Atspi.Accessible,
         pred: Callable[[Atspi.Accessible], bool]
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns the ancestor of obj if the function pred is true"""
 
         if not AXObject.is_valid(obj):
@@ -618,7 +634,7 @@ class AXObject:
         return AXObject.find_ancestor(obj, lambda x: x == ancestor) is not None
 
     @staticmethod
-    def get_child(obj: Atspi.Accessible, index: int) -> Optional[Atspi.Accessible]:
+    def get_child(obj: Atspi.Accessible, index: int) -> Atspi.Accessible | None:
         """Returns the nth child of obj. See also get_child_checked."""
 
         if not AXObject.is_valid(obj):
@@ -651,7 +667,7 @@ class AXObject:
     @staticmethod
     def get_child_checked(
         obj: Atspi.Accessible, index: int
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns the nth child of obj, doing checks for tree validity"""
 
         if not AXObject.is_valid(obj):
@@ -672,7 +688,7 @@ class AXObject:
     def get_active_descendant_checked(
         container: Atspi.Accessible,
         reported_child: Atspi.Accessible
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Checks the reported active descendant and return the real/valid one."""
 
         if not AXObject.has_state(container, Atspi.StateType.MANAGES_DESCENDANTS):
@@ -699,7 +715,7 @@ class AXObject:
     def _find_descendant(
         obj: Atspi.Accessible,
         pred: Callable[[Atspi.Accessible], bool]
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns the descendant of obj if the function pred is true"""
 
         if not AXObject.is_valid(obj):
@@ -721,7 +737,7 @@ class AXObject:
     def find_descendant(
         obj: Atspi.Accessible,
         pred: Callable[[Atspi.Accessible], bool]
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns the descendant of obj if the function pred is true"""
 
         start = time.time()
@@ -731,7 +747,7 @@ class AXObject:
         return result
 
     @staticmethod
-    def find_deepest_descendant(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def find_deepest_descendant(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the deepest descendant of obj"""
 
         if not AXObject.is_valid(obj):
@@ -746,8 +762,8 @@ class AXObject:
     @staticmethod
     def _find_all_descendants(
         obj: Atspi.Accessible,
-        include_if: Optional[Callable[[Atspi.Accessible], bool]],
-        exclude_if: Optional[Callable[[Atspi.Accessible], bool]],
+        include_if: Callable[[Atspi.Accessible], bool] | None,
+        exclude_if: Callable[[Atspi.Accessible], bool] | None,
         matches: list[Atspi.Accessible]
     ) -> None:
         """Returns all descendants which match the specified inclusion and exclusion"""
@@ -767,8 +783,8 @@ class AXObject:
     @staticmethod
     def find_all_descendants(
         root: Atspi.Accessible,
-        include_if: Optional[Callable[[Atspi.Accessible], bool]] = None,
-        exclude_if: Optional[Callable[[Atspi.Accessible], bool]] = None
+        include_if: Callable[[Atspi.Accessible], bool] | None = None,
+        exclude_if: Callable[[Atspi.Accessible], bool] | None = None
     ) -> list[Atspi.Accessible]:
         """Returns all descendants which match the specified inclusion and exclusion"""
 
@@ -959,7 +975,7 @@ class AXObject:
     @staticmethod
     def iter_children(
         obj: Atspi.Accessible,
-        pred: Optional[Callable[[Atspi.Accessible], bool]] = None
+        pred: Callable[[Atspi.Accessible], bool] | None = None
     ) -> Generator[Atspi.Accessible, None, None]:
         """Generator to iterate through obj's children. If the function pred is
         specified, children for which pred is False will be skipped."""
@@ -983,7 +999,7 @@ class AXObject:
                 yield child
 
     @staticmethod
-    def get_previous_sibling(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_previous_sibling(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the previous sibling of obj, based on child indices"""
 
         if not AXObject.is_valid(obj):
@@ -1006,7 +1022,7 @@ class AXObject:
         return sibling
 
     @staticmethod
-    def get_next_sibling(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_next_sibling(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the next sibling of obj, based on child indices"""
 
         if not AXObject.is_valid(obj):
@@ -1277,7 +1293,7 @@ class AXObject:
             if result and not result.endswith("+"):
                 sequence = result
 
-        return keynames.localizeKeySequence(sequence)
+        return keynames.localize_key_sequence(sequence)
 
     @staticmethod
     def get_accelerator(obj: Atspi.Accessible) -> str:

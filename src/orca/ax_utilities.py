@@ -37,7 +37,6 @@ import inspect
 import queue
 import threading
 import time
-from typing import Optional
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -65,8 +64,6 @@ class AXUtilities:
     # Things we cache.
     SET_MEMBERS: dict[int, list[Atspi.Accessible]] = {}
     IS_LAYOUT_ONLY: dict[int, tuple[bool, str]] = {}
-    DISPLAYED_DESCRIPTION: dict[int, str] = {}
-    DISPLAYED_LABEL: dict[int, str] = {}
 
     _lock = threading.Lock()
 
@@ -96,11 +93,9 @@ class AXUtilities:
         with AXUtilities._lock:
             AXUtilities.SET_MEMBERS.clear()
             AXUtilities.IS_LAYOUT_ONLY.clear()
-            AXUtilities.DISPLAYED_DESCRIPTION.clear()
-            AXUtilities.DISPLAYED_LABEL.clear()
 
     @staticmethod
-    def clear_all_cache_now(obj: Optional[Atspi.Accessible] = None, reason: str = "") -> None:
+    def clear_all_cache_now(obj: Atspi.Accessible | None = None, reason: str = "") -> None:
         """Clears all cached information immediately."""
 
         AXUtilities._clear_all_dictionaries(reason)
@@ -155,7 +150,7 @@ class AXUtilities:
         return True
 
     @staticmethod
-    def find_active_window() -> Optional[Atspi.Accessible]:
+    def find_active_window() -> Atspi.Accessible | None:
         """Tries to locate the active window; may or may not succeed."""
 
         candidates = []
@@ -195,7 +190,7 @@ class AXUtilities:
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return filtered[0]
 
-        guess: Optional[Atspi.Accessible] = None
+        guess: Atspi.Accessible | None = None
         if filtered:
             tokens = ["AXUtilities: Still have multiple active windows:", filtered]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
@@ -269,7 +264,7 @@ class AXUtilities:
         return AXObject.find_all_descendants(obj, is_match)
 
     @staticmethod
-    def get_default_button(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_default_button(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the default button descendant of obj"""
 
         result = None
@@ -281,7 +276,7 @@ class AXUtilities:
         return AXObject.find_descendant(obj, AXUtilitiesRole.is_default_button)
 
     @staticmethod
-    def get_focused_object(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_focused_object(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the focused descendant of obj"""
 
         result = None
@@ -293,7 +288,7 @@ class AXUtilities:
         return AXObject.find_descendant(obj, AXUtilitiesState.is_focused)
 
     @staticmethod
-    def get_info_bar(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_info_bar(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the info bar descendant of obj"""
 
         result = None
@@ -305,7 +300,7 @@ class AXUtilities:
         return AXObject.find_descendant(obj, AXUtilitiesRole.is_info_bar)
 
     @staticmethod
-    def get_status_bar(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_status_bar(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the status bar descendant of obj"""
 
         result = None
@@ -684,26 +679,18 @@ class AXUtilities:
     def get_displayed_label(obj: Atspi.Accessible) -> str:
         """Returns the displayed label of obj."""
 
-        if hash(obj) in AXUtilities.DISPLAYED_LABEL:
-            return AXUtilities.DISPLAYED_LABEL.get(hash(obj), "")
-
         labels = AXUtilitiesRelation.get_is_labelled_by(obj)
         strings = [AXObject.get_name(label) or AXText.get_all_text(label) for label in labels]
         result = " ".join(strings)
-        AXUtilities.DISPLAYED_LABEL[hash(obj)] = result
         return result
 
     @staticmethod
     def get_displayed_description(obj: Atspi.Accessible) -> str:
         """Returns the displayed description of obj."""
 
-        if hash(obj) in AXUtilities.DISPLAYED_DESCRIPTION:
-            return AXUtilities.DISPLAYED_DESCRIPTION.get(hash(obj), "")
-
         descriptions = AXUtilitiesRelation.get_is_described_by(obj)
         strings = [AXObject.get_name(desc) or AXText.get_all_text(desc) for desc in descriptions]
         result = " ".join(strings)
-        AXUtilities.DISPLAYED_DESCRIPTION[hash(obj)] = result
         return result
 
     @staticmethod
@@ -743,7 +730,7 @@ class AXUtilities:
         return len(ancestors)
 
     @staticmethod
-    def get_next_object(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_next_object(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the next object (depth first, unless there's a flows-to relation)"""
 
         if not AXObject.is_valid(obj):
@@ -772,7 +759,7 @@ class AXUtilities:
         return next_object
 
     @staticmethod
-    def get_previous_object(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_previous_object(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the previous object (depth first, unless there's a flows-from relation)"""
 
         if not AXObject.is_valid(obj):
@@ -803,36 +790,55 @@ class AXUtilities:
     @staticmethod
     def is_on_screen(
         obj: Atspi.Accessible,
-        bounding_box: Optional[Atspi.Rect] = None
+        bounding_box: Atspi.Rect | None = None
     ) -> bool:
         """Returns true if obj should be treated as being on screen."""
 
         AXObject.clear_cache(obj, False, "Updating to check if object is on screen.")
+
+        tokens = ["AXUtilities: Checking if", obj, "is showing and visible...."]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
         if not (AXUtilitiesState.is_showing(obj) and AXUtilitiesState.is_visible(obj)):
-            tokens = ["AXUtilities:", obj, "is not showing and visible. Treating as offscreen."]
+            tokens = ["AXUtilities:", obj, "is not showing and visible. Treating as off screen."]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return False
+
+        tokens = ["AXUtilities:", obj, "is showing and visible. Checking hidden..."]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         if AXUtilitiesState.is_hidden(obj):
-            tokens = ["AXUtilities:", obj, "is reports being hidden. Treating as offscreen."]
+            tokens = ["AXUtilities:", obj, "is reports being hidden. Treating as off screen."]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return False
 
+        tokens = ["AXUtilities:", obj, "is not hidden. Checking size and rect..."]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
         if AXComponent.has_no_size_or_invalid_rect(obj):
-            tokens = ["AXUtilities: Rect of", obj, "is unhelpful. Treating as onscreen."]
+            tokens = ["AXUtilities: Rect of", obj, "is unhelpful. Treating as on screen."]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return True
+
+        tokens = ["AXUtilities:", obj, "has size and a valid rect. Checking if off screen..."]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         if AXComponent.object_is_off_screen(obj):
             tokens = ["AXUtilities:", obj, "is believed to be off screen."]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return False
 
+        tokens = ["AXUtilities:", obj, "is not off screen. Checking",
+                  bounding_box, "intersection..."]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
         if bounding_box is not None and not AXComponent.object_intersects_rect(obj, bounding_box):
-            tokens = ["AXUtilities", obj, "not in", bounding_box, ". Treating as offscreen."]
+            tokens = ["AXUtilities", obj, "not in", bounding_box, ". Treating as off screen."]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return False
 
+        tokens = ["AXUtilities:", obj, "is believed to be on screen."]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return True
 
     @staticmethod
@@ -861,7 +867,7 @@ class AXUtilities:
     def _get_on_screen_objects(
         root: Atspi.Accessible,
         cancellation_event: threading.Event,
-        bounding_box: Optional[Atspi.Rect] = None
+        bounding_box: Atspi.Rect | None = None
     ) -> list:
 
         tokens = ["AXUtilities: Getting on-screen objects in", root, f"({hex(id(root))})"]
@@ -913,7 +919,7 @@ class AXUtilities:
     @staticmethod
     def get_on_screen_objects(
         root: Atspi.Accessible,
-        bounding_box: Optional[Atspi.Rect] = None,
+        bounding_box: Atspi.Rect | None = None,
         timeout: float = 5.0
     ) -> list:
         """Returns a list of onscreen objects in the given root."""
@@ -936,6 +942,12 @@ class AXUtilities:
             debug.print_tokens(debug.LEVEL_WARNING, tokens, True)
             cancellation_event.set()
             result = []
+
+            msg = "AXUtilities: Checking AT-SPI responsiveness...."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            desktop = AXUtilitiesApplication.get_desktop()
+            tokens = ["AXUtilities: Desktop is", desktop]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         worker_thread.join()
         tokens = [f"AXUtilities: {len(result)} onscreen objects found in", root]

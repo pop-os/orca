@@ -32,7 +32,7 @@ import os
 from gi.repository import Gio, GLib
 
 from . import debug
-from . import orca_i18n
+from . import orca_i18n # pylint: disable=no-name-in-module
 from . import settings
 from . import pronunciation_dict
 from .acss import ACSS
@@ -473,7 +473,7 @@ class SettingsManager:
         pronunciation_dict.pronunciation_dict = {}
         for key, value in pronunciationsDict.values():
             if key and value:
-                pronunciation_dict.setPronunciation(key, value)
+                pronunciation_dict.set_pronunciation(key, value)
 
     def get_general_settings(self, profile='default'):
         """Return the current general settings.

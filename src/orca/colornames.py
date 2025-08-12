@@ -19,6 +19,10 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=too-many-locals
+
+"""Provides localized color names."""
+
 __id__        = "$Id$"
 __version__   = "$Revision$"
 __date__      = "$Date$"
@@ -27,7 +31,7 @@ __license__   = "LGPL"
 
 import re
 
-from .orca_i18n import C_
+from .orca_i18n import C_ # pylint: disable=import-error
 
 css_names = {}
 

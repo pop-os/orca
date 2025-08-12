@@ -37,10 +37,10 @@ class Bookmarks(bookmarks.Bookmarks):
         """Add an in-page accessible object bookmark for this key and URI."""
 
         index = (inputEvent.hw_code, self.getURIKey())
-        obj, characterOffset = self._script.utilities.getCaretContext()
+        obj, characterOffset = self._script.utilities.get_caret_context()
         path = self._objToPath()
         self._bookmarks[index] = path, characterOffset
-        self._script.presentMessage(messages.BOOKMARK_ENTERED)
+        self._script.present_message(messages.BOOKMARK_ENTERED)
 
     def goToBookmark(self, script, inputEvent, index=None):
         """Go to the bookmark indexed at this key and this page's URI."""
@@ -49,18 +49,16 @@ class Bookmarks(bookmarks.Bookmarks):
         try:
             path, offset = self._bookmarks[index]
         except KeyError:
-            self._script.systemBeep()
             return
 
         obj = self.pathToObj(path)
         if not obj:
-            self._script.systemBeep()
             return
 
-        self._script.utilities.setCaretPosition(obj, offset)
-        contents = self._script.utilities.getObjectContentsAtOffset(obj, offset)
-        self._script.speakContents(contents)
-        self._script.displayContents(contents)
+        self._script.utilities.set_caret_position(obj, offset)
+        contents = self._script.utilities.get_object_contents_at_offset(obj, offset)
+        self._script.speak_contents(contents)
+        self._script.display_contents(contents)
         self._currentbookmarkindex[index[1]] = index[0]
 
     def saveBookmarks(self, script, inputEvent):
@@ -72,9 +70,9 @@ class Bookmarks(bookmarks.Bookmarks):
 
         try:
             self.saveBookmarksToDisk(saved)
-            self._script.presentMessage(messages.BOOKMARKS_SAVED)
+            self._script.present_message(messages.BOOKMARKS_SAVED)
         except IOError:
-            self._script.presentMessage(messages.BOOKMARKS_SAVED_FAILURE)
+            self._script.present_message(messages.BOOKMARKS_SAVED_FAILURE)
 
         for o in self._saveObservers:
             o()
@@ -96,7 +94,6 @@ class Bookmarks(bookmarks.Bookmarks):
         thispage_hwkeys.sort()
 
         if len(thispage_hwkeys) == 0:
-            self._script.systemBeep()
             return
 
         if len(thispage_hwkeys) == 1 or current_uri not in self._currentbookmarkindex:
@@ -123,7 +120,6 @@ class Bookmarks(bookmarks.Bookmarks):
         thispage_hwkeys.sort()
 
         if len(thispage_hwkeys) == 0:
-            self._script.systemBeep()
             return
 
         if len(thispage_hwkeys) == 1 or current_uri not in self._currentbookmarkindex:
