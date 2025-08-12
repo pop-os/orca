@@ -1,9 +1,10 @@
-orca (49~beta-1) UNRELEASED; urgency=medium
+orca (49~beta-0ubuntu1) questing; urgency=medium
 
   * New upstream beta release
   * d/rules: Do not enable systemd service by default
+  * d/p/unity-a11y.patch: Rebase patch
 
- -- Alessandro Astone <alessandro.astone@canonical.com>  Tue, 12 Aug 2025 14:47:36 +0200
+ -- Alessandro Astone <alessandro.astone@canonical.com>  Tue, 12 Aug 2025 15:00:11 +0200
 
 orca (49~alpha-1) experimental; urgency=medium
 
