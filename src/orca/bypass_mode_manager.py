@@ -31,7 +31,7 @@ __copyright__ = "Copyright (c) 2024 Igalia, S.L." \
                 "Copyright (c) 2024 GNOME Foundation Inc."
 __license__   = "LGPL"
 
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 from . import cmdnames
 from . import debug
@@ -113,21 +113,21 @@ class BypassModeManager:
         return self._is_active
 
     def toggle_enabled(
-        self, script: default.Script, event: Optional[input_event.InputEvent] = None
+        self, script: default.Script, event: input_event.InputEvent | None = None
     ) -> bool:
         """Toggles bypass mode."""
 
         self._is_active = not self._is_active
         if not self._is_active:
             if event is not None:
-                script.presentMessage(messages.BYPASS_MODE_DISABLED)
+                script.present_message(messages.BYPASS_MODE_DISABLED)
             reason = "bypass mode disabled"
             script.add_key_grabs(reason)
             orca_modifier_manager.get_manager().refresh_orca_modifiers(reason)
             return True
 
         if event is not None:
-            script.presentMessage(messages.BYPASS_MODE_ENABLED)
+            script.present_message(messages.BYPASS_MODE_ENABLED)
 
         reason = "bypass mode enabled"
         script.remove_key_grabs(reason)

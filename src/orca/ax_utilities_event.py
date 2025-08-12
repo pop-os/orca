@@ -21,7 +21,6 @@
 
 # pylint: disable=wrong-import-position
 # pylint: disable=too-many-return-statements
-# pylint: disable=duplicate-code
 # pylint: disable=too-many-branches
 # pylint: disable=too-many-statements
 
@@ -44,7 +43,6 @@ from gi.repository import Atspi
 
 from . import debug
 from . import focus_manager
-from . import input_event_manager
 from . import settings_manager
 
 from .ax_object import AXObject
@@ -206,8 +204,10 @@ class AXUtilitiesEvent:
     def _get_caret_moved_event_reason(event: Atspi.Event) -> TextEventReason:
         """Returns the TextEventReason for the given event."""
 
-        reason = TextEventReason.UNKNOWN
+        from . import input_event_manager # pylint: disable=import-outside-toplevel
         mgr = input_event_manager.get_manager()
+
+        reason = TextEventReason.UNKNOWN
         obj = event.source
         mode, focus = focus_manager.get_manager().get_active_mode_and_object_of_interest()
         if mode == focus_manager.SAY_ALL:
@@ -280,8 +280,10 @@ class AXUtilitiesEvent:
     def _get_text_deletion_event_reason(event: Atspi.Event) -> TextEventReason:
         """Returns the TextEventReason for the given event."""
 
-        reason = TextEventReason.UNKNOWN
+        from . import input_event_manager # pylint: disable=import-outside-toplevel
         mgr = input_event_manager.get_manager()
+
+        reason = TextEventReason.UNKNOWN
         obj = event.source
         if AXObject.get_role(obj) in AXUtilitiesRole.get_text_ui_roles():
             reason = TextEventReason.UI_UPDATE
@@ -324,8 +326,10 @@ class AXUtilitiesEvent:
     def _get_text_insertion_event_reason(event: Atspi.Event) -> TextEventReason:
         """Returns the TextEventReason for the given event."""
 
-        reason = TextEventReason.UNKNOWN
+        from . import input_event_manager # pylint: disable=import-outside-toplevel
         mgr = input_event_manager.get_manager()
+
+        reason = TextEventReason.UNKNOWN
         obj = event.source
         if AXObject.get_role(obj) in AXUtilitiesRole.get_text_ui_roles():
             reason = TextEventReason.UI_UPDATE
@@ -363,7 +367,8 @@ class AXUtilitiesEvent:
                 else:
                     reason = TextEventReason.TYPING
             elif mgr.last_event_was_tab() or mgr.last_event_was_return():
-                reason = TextEventReason.TYPING
+                if not event.any_data.strip():
+                    reason = TextEventReason.TYPING
             elif mgr.last_event_was_printable_key():
                 if reason == TextEventReason.SELECTED_TEXT_INSERTION:
                     reason = TextEventReason.AUTO_INSERTION_PRESENTABLE
@@ -405,8 +410,10 @@ class AXUtilitiesEvent:
     def _get_text_selection_changed_event_reason(event: Atspi.Event) -> TextEventReason:
         """Returns the TextEventReason for the given event."""
 
-        reason = TextEventReason.UNKNOWN
+        from . import input_event_manager # pylint: disable=import-outside-toplevel
         mgr = input_event_manager.get_manager()
+
+        reason = TextEventReason.UNKNOWN
         obj = event.source
         focus = focus_manager.get_manager().get_locus_of_focus()
         if focus != obj and AXUtilitiesRole.is_text_input_search(focus):
@@ -523,10 +530,12 @@ class AXUtilitiesEvent:
                 debug.print_message(debug.LEVEL_INFO, msg, True)
                 return False
 
+        from . import input_event_manager # pylint: disable=import-outside-toplevel
+        mgr = input_event_manager.get_manager()
+
         # Radio buttons normally change their state when you arrow to them, so we handle the
         # announcement of their state changes in the focus handling code.
-        if AXUtilitiesRole.is_radio_button(event.source) \
-           and not input_event_manager.get_manager().last_event_was_space():
+        if AXUtilitiesRole.is_radio_button(event.source) and not mgr.last_event_was_space():
             msg = "AXUtilitiesEvent: Only presentable for this role if toggled by user."
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
@@ -584,10 +593,16 @@ class AXUtilitiesEvent:
             return False
 
         AXUtilitiesEvent.LAST_KNOWN_EXPANDED[hash(event.source)] = new_state
-        if event.source == focus_manager.get_manager().get_locus_of_focus():
+        focus = focus_manager.get_manager().get_locus_of_focus()
+        if event.source == focus:
             msg = "AXUtilitiesEvent: Event is presentable, from the locus of focus."
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
+
+        if not event.detail1 and not AXObject.is_ancestor(focus, event.source):
+            msg = "AXUtilitiesEvent: Event is not from the locus of focus or ancestor."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return False
 
         if AXUtilitiesRole.is_table_row(event.source) or AXUtilitiesRole.is_list_box(event.source):
             msg = "AXUtilitiesEvent: Event is presentable based on role."
@@ -749,6 +764,52 @@ class AXUtilitiesEvent:
         msg = "AXUtilitiesEvent: Event is presentable."
         debug.print_message(debug.LEVEL_INFO, msg, True)
         return True
+
+    @staticmethod
+    def _is_presentable_text_event(event: Atspi.Event) -> bool:
+        """Returns True if this text event should be presented."""
+
+        if not (AXUtilitiesState.is_editable(event.source) or \
+               AXUtilitiesRole.is_terminal(event.source)):
+            msg = "AXUtilitiesEvent: The source is neither editable nor a terminal."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return False
+
+        focus = focus_manager.get_manager().get_locus_of_focus()
+        if focus != event.source and not AXUtilitiesState.is_focused(event.source):
+            msg = "AXUtilitiesEvent: The source is neither focused, nor the locus of focus"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+
+            # This can happen in web content where the focus is a contenteditable element and a
+            # new child element is created for new or changed text.
+            if AXObject.is_ancestor(event.source, focus):
+                msg = "AXUtilitiesEvent: The locus of focus is an ancestor of the source."
+                debug.print_message(debug.LEVEL_INFO, msg, True)
+                return True
+
+            return False
+
+        msg = "AXUtilitiesEvent: Event is presentable."
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        return True
+
+    @staticmethod
+    def is_presentable_text_attributes_change(event: Atspi.Event) -> bool:
+        """Returns True if this text-attributes-change event should be presented."""
+
+        return AXUtilitiesEvent._is_presentable_text_event(event)
+
+    @staticmethod
+    def is_presentable_text_deletion(event: Atspi.Event) -> bool:
+        """Returns True if this text-deletion event should be presented."""
+
+        return AXUtilitiesEvent._is_presentable_text_event(event)
+
+    @staticmethod
+    def is_presentable_text_insertion(event: Atspi.Event) -> bool:
+        """Returns True if this text-insertion event should be presented."""
+
+        return AXUtilitiesEvent._is_presentable_text_event(event)
 
 
 AXUtilitiesEvent.start_cache_clearing_thread()

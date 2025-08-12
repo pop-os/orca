@@ -40,13 +40,14 @@ import itertools
 import queue
 import threading
 import time
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 from gi.repository import GLib
 
+from . import braille
 from . import debug
 from . import focus_manager
 from . import input_event
@@ -82,7 +83,7 @@ class EventManager:
         self._gidle_id: int = 0
         self._gidle_lock = threading.Lock()
         self._listener: Atspi.EventListener = Atspi.EventListener.new(self._enqueue_object_event)
-        self._event_history: dict[str, tuple[Optional[int], float]] = {}
+        self._event_history: dict[str, tuple[int | None, float]] = {}
         debug.print_message(debug.LEVEL_INFO, "Event manager initialized", True)
 
     def activate(self) -> None:
@@ -121,6 +122,7 @@ class EventManager:
         self._paused = pause
         if clear_queue:
             self._event_queue = queue.PriorityQueue(0)
+        input_event_manager.get_manager().pause_key_watcher(pause, reason)
 
     def _get_priority(self, event: Atspi.Event) -> int:
         """Returns the priority associated with event."""
@@ -135,6 +137,13 @@ class EventManager:
             priority = EventManager.PRIORITY_HIGH
         elif event_type.startswith("object:active-descendant-changed"):
             priority = EventManager.PRIORITY_HIGH
+        elif event_type.startswith("object:announcement"):
+            if event.detail1 == Atspi.Live.ASSERTIVE:
+                priority = EventManager.PRIORITY_IMPORTANT
+            elif event.detail1 == Atspi.Live.POLITE:
+                priority = EventManager.PRIORITY_HIGH
+            else:
+                priority = EventManager.PRIORITY_NORMAL
         elif event_type.startswith("object:state-changed:invalid-entry"):
             # Setting this to lower ensures we present the state and/or text changes that triggered
             # the invalid state prior to presenting the invalid state.
@@ -148,7 +157,7 @@ class EventManager:
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return priority
 
-    def _is_obsoleted_by(self, event: Atspi.Event) -> Optional[Atspi.Event]:
+    def _is_obsoleted_by(self, event: Atspi.Event) -> Atspi.Event | None:
         """Returns the event which renders this one no longer worthy of being processed."""
 
         def is_same(x):
@@ -533,8 +542,8 @@ class EventManager:
 
         if script_manager.get_manager().get_active_script() is None:
             default_script = script_manager.get_manager().get_default_script()
-            script_manager.get_manager().set_active_script(default_script, 'No focus')
-            default_script.idleMessage()
+            script_manager.get_manager().set_active_script(default_script, "No focus")
+            braille.disableBraille()
 
         return False
 
@@ -636,8 +645,8 @@ class EventManager:
 
     @staticmethod
     def _get_script_for_event(
-        event: Atspi.Event, active_script: Optional[default.Script] = None
-    ) -> Optional[default.Script]:
+        event: Atspi.Event, active_script: default.Script | None = None
+    ) -> default.Script | None:
         """Returns the script associated with event."""
 
         if event.source == focus_manager.get_manager().get_locus_of_focus():
@@ -670,7 +679,7 @@ class EventManager:
         return script
 
     def _is_activatable_event(
-        self, event: Atspi.Event, script: Optional[default.Script] = None
+        self, event: Atspi.Event, script: default.Script | None = None
     ) -> tuple[bool, str]:
         """Determines if event should cause us to change the active script."""
 

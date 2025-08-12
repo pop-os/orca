@@ -37,9 +37,11 @@ __license__   = "LGPL"
 
 import re
 import time
+from typing import Any, Callable, TYPE_CHECKING
+
 from dasbus.connection import SessionMessageBus
 from dasbus.error import DBusError
-from typing import Any, Callable, Optional, TYPE_CHECKING
+from dasbus.client.proxy import InterfaceProxy
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -48,6 +50,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Atspi, Gdk, Gtk
 
 from . import cmdnames
+from . import dbus_service
 from . import debug
 from . import input_event
 from . import input_event_manager
@@ -108,7 +111,7 @@ class _ClipboardManagerFallback(_ClipboardManager):
 
     def __init__(self, change_callback: Callable[[str], None]) -> None:
         super().__init__("FALLBACK", change_callback)
-        self._handler_id: Optional[int] = None
+        self._handler_id: int | None = None
 
     def connect(self) -> None:
         """Connects to the clipboard manager."""
@@ -162,11 +165,11 @@ class _ClipboardManagerGPaste(_ClipboardManager):
 
     def __init__(self, change_callback: Callable[[str], None]) -> None:
         super().__init__("GPASTE", change_callback)
-        self._bus: Optional[SessionMessageBus] = None
-        self._gpaste_proxy: Any = None
-        self._props_proxy: Any = None
-        self._signal_subscription: Any = None
-        self._original_active_state: Optional[bool] = None
+        self._bus: SessionMessageBus | None = None
+        self._gpaste_proxy: InterfaceProxy | None = None
+        self._props_proxy: InterfaceProxy | None = None
+        self._signal_subscription: Any | None = None
+        self._original_active_state: bool | None = None
 
     def connect(self) -> None:
         """Connects to the clipboard manager."""
@@ -254,9 +257,9 @@ class _ClipboardManagerKlipper(_ClipboardManager):
 
     def __init__(self, change_callback: Callable[[str], None]) -> None:
         super().__init__("KLIPPER", change_callback)
-        self._bus: Optional[SessionMessageBus] = None
-        self._klipper_proxy: Any = None
-        self._signal_subscription: Any = None
+        self._bus: SessionMessageBus | None = None
+        self._klipper_proxy: InterfaceProxy | None = None
+        self._signal_subscription: Any | None = None
 
     def connect(self) -> None:
         """Connects to the clipboard manager."""
@@ -322,9 +325,14 @@ class ClipboardPresenter:
         self._event_listener: Atspi.EventListener = Atspi.EventListener.new(self._listener)
         self._last_clipboard_update_text: str = ""
         self._last_clipboard_update_time: float = time.time()
-        self._manager: Optional[_ClipboardManager] = None
+        self._manager: _ClipboardManager | None = None
         self._handlers: dict[str, input_event.InputEventHandler] = self.get_handlers(True)
         self._bindings: keybindings.KeyBindings = keybindings.KeyBindings()
+
+        msg = "CLIPBOARD PRESENTER: Registering D-Bus commands."
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        controller = dbus_service.get_remote_controller()
+        controller.register_decorated_module("ClipboardPresenter", self)
 
     def get_bindings(
         self, refresh: bool = False, is_desktop: bool = True
@@ -334,6 +342,7 @@ class ClipboardPresenter:
         if refresh:
             msg = f"CLIPBOARD PRESENTER: Refreshing bindings. Is desktop: {is_desktop}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
+            self._bindings.remove_key_grabs("CLIPBOARD PRESENTER: Refreshing bindings.")
             self._setup_bindings()
         elif self._bindings.is_empty():
             self._setup_bindings()
@@ -357,7 +366,7 @@ class ClipboardPresenter:
 
         self._handlers["present_clipboard_contents"] = \
             input_event.InputEventHandler(
-                self._present_clipboard_contents,
+                self.present_clipboard_contents,
                 cmdnames.CLIPBOARD_PRESENT_CONTENTS)
 
     def _setup_bindings(self) -> None:
@@ -378,20 +387,28 @@ class ClipboardPresenter:
         self._bindings = settings_manager.get_manager().override_key_bindings(
             self._handlers, self._bindings, False)
 
-    def _present_clipboard_contents(
-        self, script: default.Script, _event: Optional[Atspi.Event] = None
+    @dbus_service.command
+    def present_clipboard_contents(
+        self,
+        script: default.Script,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the clipboard contents."""
+
+        tokens = ["CLIPBOARD PRESENTER: present_clipboard_contents. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         if self._manager is None:
             msg = "CLIPBOARD PRESENTER: Cannot present contents, no active manager."
             debug.print_message(debug.LEVEL_INFO, msg, True)
-            return True
+            return False
 
         contents = self._manager.get_contents()
         if not contents or len(contents) > 5000:
-            contents = messages.characterCount(len(contents))
-        script.presentMessage(messages.CLIPBOARD_CONTAINS % contents, contents)
+            contents = messages.character_count(len(contents))
+        script.present_message(messages.CLIPBOARD_CONTAINS % contents, contents)
         return True
 
     def _connect(self) -> None:
@@ -400,7 +417,7 @@ class ClipboardPresenter:
         if self._manager is not None:
             return
 
-        manager: Optional[_ClipboardManager] = None
+        manager: _ClipboardManager | None = None
 
         # If you try to connect to Klipper from a GNOME session, it will fail with a DBus
         # exception. However, if you try to connect to GPaste from a KDE session, it will
@@ -545,15 +562,15 @@ class ClipboardPresenter:
 
         manager = input_event_manager.get_manager()
         if manager.last_event_was_cut():
-            script.presentMessage(messages.CLIPBOARD_CUT_FULL, messages.CLIPBOARD_CUT_BRIEF)
+            script.present_message(messages.CLIPBOARD_CUT_FULL, messages.CLIPBOARD_CUT_BRIEF)
             return
 
         if manager.last_event_was_copy():
-            script.presentMessage(messages.CLIPBOARD_COPIED_FULL, messages.CLIPBOARD_COPIED_BRIEF)
+            script.present_message(messages.CLIPBOARD_COPIED_FULL, messages.CLIPBOARD_COPIED_BRIEF)
             return
 
         if manager.last_event_was_paste():
-            script.presentMessage(messages.CLIPBOARD_PASTED_FULL, messages.CLIPBOARD_PASTED_BRIEF)
+            script.present_message(messages.CLIPBOARD_PASTED_FULL, messages.CLIPBOARD_PASTED_BRIEF)
             return
 
         msg = "CLIPBOARD PRESENTER: Not presenting change: is not cut, copy, or paste"

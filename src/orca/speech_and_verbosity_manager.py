@@ -20,6 +20,8 @@
 
 # pylint: disable=too-many-public-methods
 # pylint: disable=too-many-lines
+# pylint: disable=too-many-arguments
+# pylint: disable=too-many-positional-arguments
 
 """Configures speech and verbosity settings and adjusts strings accordingly."""
 
@@ -33,13 +35,16 @@ __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
                 "Copyright (c) 2016-2025 Igalia, S.L."
 __license__   = "LGPL"
 
+import importlib
+import queue
 import re
 import string
-from typing import Optional, TYPE_CHECKING
+import threading
+from typing import TYPE_CHECKING
 
 from . import cmdnames
-from . import debug
 from . import dbus_service
+from . import debug
 from . import focus_manager
 from . import input_event
 from . import keybindings
@@ -50,6 +55,7 @@ from . import pronunciation_dict
 from . import settings
 from . import settings_manager
 from . import speech
+from . import speechserver
 from .acss import ACSS
 from .ax_hypertext import AXHypertext
 from .ax_object import AXObject
@@ -87,6 +93,7 @@ class SpeechAndVerbosityManager:
         if refresh:
             msg = f"SPEECH AND VERBOSITY MANAGER: Refreshing bindings.  Is desktop: {is_desktop}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
+            self._bindings.remove_key_grabs("SPEECH AND VERBOSITY MANAGER: Refreshing bindings.")
             self._setup_bindings()
         elif self._bindings.is_empty():
             self._setup_bindings()
@@ -299,16 +306,257 @@ class SpeechAndVerbosityManager:
         msg = "SPEECH AND VERBOSITY MANAGER: Bindings set up."
         debug.print_message(debug.LEVEL_INFO, msg, True)
 
-    def _get_server(self) -> Optional[SpeechServer]:
+    def _get_server(self) -> SpeechServer | None:
+        """Returns the speech server if it is responsive.."""
+
         result = speech.get_speech_server()
+        if result is None:
+            msg = "SPEECH AND VERBOSITY MANAGER: Speech server is None."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return None
+
+        result_queue: queue.Queue[bool] = queue.Queue()
+
+        def health_check_thread():
+            result.get_output_module()
+            result_queue.put(True)
+
+        thread = threading.Thread(target=health_check_thread, daemon=True)
+        thread.start()
+
+        try:
+            result_queue.get(timeout=2.0)
+        except queue.Empty:
+            msg = "SPEECH AND VERBOSITY MANAGER: Speech server health check timed out"
+            debug.print_message(debug.LEVEL_WARNING, msg, True)
+            return None
+
         tokens = ["SPEECH AND VERBOSITY MANAGER: Speech server is", result]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        return result
+
+    def _get_available_servers(self) -> list[str]:
+        """Returns a list of available speech servers."""
+
+        return list(self._get_server_module_map().keys())
+
+    def _get_server_module_map(self) -> dict[str, str]:
+        """Returns a mapping of server names to module names."""
+
+        result = {}
+        for module_name in settings.speechFactoryModules:
+            try:
+                factory = importlib.import_module(f"orca.{module_name}")
+            except ImportError:
+                try:
+                    factory = importlib.import_module(module_name)
+                except ImportError:
+                    continue
+
+            try:
+                speech_server_class = factory.SpeechServer
+                if server_name := speech_server_class.get_factory_name():
+                    result[server_name] = module_name
+
+            except (AttributeError, TypeError, ImportError) as error:
+                tokens = [f"SPEECH AND VERBOSITY MANAGER: {module_name} not available:", error]
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
+        return result
+
+    def _switch_server(self, target_server: str) -> bool:
+        """Switches to the specified server."""
+
+        server_module_map = self._get_server_module_map()
+        target_module = server_module_map.get(target_server)
+        if not target_module:
+            return False
+
+        self.shutdown_speech()
+        settings_manager.get_manager().set_setting("speechServerFactory", target_module)
+        self.start_speech()
+        return self.get_current_server() == target_server
+
+    @dbus_service.getter
+    def get_available_servers(self) -> list[str]:
+        """Returns a list of available servers."""
+
+        result = self._get_available_servers()
+        msg = f"SPEECH AND VERBOSITY MANAGER: Available servers: {result}."
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        return result
+
+    @dbus_service.getter
+    def get_current_server(self) -> str:
+        """Returns the name of the current speech server (Speech Dispatcher or Spiel)."""
+
+        server = self._get_server()
+        if server is None:
+            msg = "SPEECH AND VERBOSITY MANAGER: Cannot get speech server."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return ""
+
+        name = server.get_factory_name()
+        msg = f"SPEECH AND VERBOSITY MANAGER: Server is: {name}."
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        return name
+
+    @dbus_service.setter
+    def set_current_server(self, value: str) -> bool:
+        """Sets the current speech server (e.g. Speech Dispatcher or Spiel)."""
+
+        return self._switch_server(value)
+
+    @dbus_service.getter
+    def get_current_synthesizer(self) -> str:
+        """Returns the current synthesizer of the speech server."""
+
+        server = self._get_server()
+        if server is None:
+            msg = "SPEECH AND VERBOSITY MANAGER: Cannot get speech server."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return ""
+
+        result = server.get_output_module()
+        msg = f"SPEECH AND VERBOSITY MANAGER: Synthesizer is: {result}."
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        return result
+
+    @dbus_service.setter
+    def set_current_synthesizer(self, value: str) -> bool:
+        """Sets the current synthesizer of the active speech server."""
+
+        server = self._get_server()
+        if server is None:
+            msg = "SPEECH AND VERBOSITY MANAGER: Cannot get speech server."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return False
+
+        available = self.get_available_synthesizers()
+        if value not in available:
+            tokens = [f"SPEECH AND VERBOSITY MANAGER: '{value}' is not in", available]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return False
+
+        msg = f"SPEECH AND VERBOSITY MANAGER: Setting synthesizer to: {value}."
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        server.set_output_module(value)
+        return server.get_output_module() == value
+
+    @dbus_service.getter
+    def get_available_synthesizers(self) -> list[str]:
+        """Returns a list of available synthesizers of the speech server."""
+
+        server = self._get_server()
+        if server is None:
+            msg = "SPEECH AND VERBOSITY MANAGER: Cannot get speech server."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return []
+
+        synthesizers = server.get_speech_servers()
+        result = [s.get_info()[1] for s in synthesizers]
+        msg = f"SPEECH AND VERBOSITY MANAGER: Available synthesizers: {result}."
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        return result
+
+    @dbus_service.getter
+    def get_available_voices(self) -> list[str]:
+        """Returns a list of available voices for the current synthesizer."""
+
+        server = self._get_server()
+        if server is None:
+            return []
+
+        voices = server.get_voice_families()
+        if not voices:
+            return []
+
+        result = []
+        for voice in voices:
+            if voice_name := voice.get(speechserver.VoiceFamily.NAME, ""):
+                result.append(voice_name)
+        result = sorted(set(result))
+        return result
+
+    @dbus_service.parameterized_command
+    def get_voices_for_language(
+        self,
+        language: str,
+        variant: str = "",
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = False
+    ) -> list[tuple[str, str, str]]:
+        """Returns a list of available voices for the specified language."""
+
+        tokens = ["SPEECH AND VERBOSITY MANAGER: get_voices_for_language. Language:", language,
+                  "Variant:", variant, "Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
+        server = self._get_server()
+        if server is None:
+            return []
+
+        voices = server.get_voice_families_for_language(language, variant)
+        result = []
+        for name, lang, var in voices:
+            result.append((name, lang or "", var or ""))
+
+        msg = f"SPEECH AND VERBOSITY MANAGER: Found {len(result)} voice(s) for '{language}'."
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        return result
+
+    @dbus_service.getter
+    def get_current_voice(self) -> str:
+        """Returns the current voice name."""
+
+        server = self._get_server()
+        if server is None:
+            return ""
+
+        result = ""
+        if voice_family := server.get_voice_family():
+            result = voice_family.get(speechserver.VoiceFamily.NAME, "")
+
+        return result
+
+    @dbus_service.setter
+    def set_current_voice(self, voice_name: str) -> bool:
+        """Sets the current voice for the active synthesizer."""
+
+        server = self._get_server()
+        if server is None:
+            return False
+
+        available = self.get_available_voices()
+        if voice_name not in available:
+            msg = f"SPEECH AND VERBOSITY MANAGER: '{voice_name}' is not in {available}"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return False
+
+        voices = server.get_voice_families()
+        if not voices:
+            return False
+
+        result = False
+        for voice_family in voices:
+            family_name = voice_family.get(speechserver.VoiceFamily.NAME, "")
+            if family_name == voice_name:
+                server.set_voice_family(voice_family)
+                result = True
+                break
+
+        msg = f"SPEECH AND VERBOSITY MANAGER: Set voice to '{voice_name}': {result}"
+        debug.print_message(debug.LEVEL_INFO, msg, True)
         return result
 
     def get_current_speech_server_info(self) -> tuple[str, str]:
         """Returns the name and ID of the current speech server."""
 
         # TODO - JD: The result is not in sync with the current output module. Should it be?
+        # TODO - JD: The only caller is the preferences dialog. And the useful functionality is in
+        # the methods to get (and set) the output module. So why exactly do we need this?
         server = self._get_server()
         if server is None:
             return ("", "")
@@ -335,8 +583,8 @@ class SpeechAndVerbosityManager:
     @dbus_service.command
     def start_speech(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = False
     ) -> bool:
         """Starts the speech server."""
@@ -350,8 +598,8 @@ class SpeechAndVerbosityManager:
     @dbus_service.command
     def interrupt_speech(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = False
     ) -> bool:
         """Interrupts the speech server."""
@@ -368,8 +616,8 @@ class SpeechAndVerbosityManager:
     @dbus_service.command
     def shutdown_speech(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = False
     ) -> bool:
         """Shuts down the speech server."""
@@ -379,7 +627,7 @@ class SpeechAndVerbosityManager:
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         if server := self._get_server():
-            server.shutdownActiveServers()
+            server.shutdown_active_servers()
             speech.deprecated_clear_server()
 
         return True
@@ -387,8 +635,8 @@ class SpeechAndVerbosityManager:
     @dbus_service.command
     def refresh_speech(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = False
     ) -> bool:
         """Shuts down and re-initializes speech."""
@@ -432,8 +680,8 @@ class SpeechAndVerbosityManager:
     @dbus_service.command
     def decrease_rate(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Decreases the speech rate."""
@@ -448,17 +696,17 @@ class SpeechAndVerbosityManager:
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
 
-        server.decreaseSpeechRate()
+        server.decrease_speech_rate()
         if notify_user and script is not None:
-            script.presentMessage(messages.SPEECH_SLOWER)
+            script.present_message(messages.SPEECH_SLOWER)
 
         return True
 
     @dbus_service.command
     def increase_rate(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Increases the speech rate."""
@@ -473,9 +721,9 @@ class SpeechAndVerbosityManager:
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
 
-        server.increaseSpeechRate()
+        server.increase_speech_rate()
         if notify_user and script is not None:
-            script.presentMessage(messages.SPEECH_FASTER)
+            script.present_message(messages.SPEECH_FASTER)
 
         return True
 
@@ -510,8 +758,8 @@ class SpeechAndVerbosityManager:
     @dbus_service.command
     def decrease_pitch(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Decreases the speech pitch"""
@@ -526,17 +774,17 @@ class SpeechAndVerbosityManager:
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
 
-        server.decreaseSpeechPitch()
+        server.decrease_speech_pitch()
         if notify_user and script is not None:
-            script.presentMessage(messages.SPEECH_LOWER)
+            script.present_message(messages.SPEECH_LOWER)
 
         return True
 
     @dbus_service.command
     def increase_pitch(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Increase the speech pitch"""
@@ -551,9 +799,9 @@ class SpeechAndVerbosityManager:
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
 
-        server.increaseSpeechPitch()
+        server.increase_speech_pitch()
         if notify_user and script is not None:
-            script.presentMessage(messages.SPEECH_HIGHER)
+            script.present_message(messages.SPEECH_HIGHER)
 
         return True
 
@@ -588,8 +836,8 @@ class SpeechAndVerbosityManager:
     @dbus_service.command
     def decrease_volume(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Decreases the speech volume"""
@@ -604,17 +852,17 @@ class SpeechAndVerbosityManager:
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
 
-        server.decreaseSpeechVolume()
+        server.decrease_speech_volume()
         if notify_user and script is not None:
-            script.presentMessage(messages.SPEECH_SOFTER)
+            script.present_message(messages.SPEECH_SOFTER)
 
         return True
 
     @dbus_service.command
     def increase_volume(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Increases the speech volume"""
@@ -629,9 +877,9 @@ class SpeechAndVerbosityManager:
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
 
-        server.increaseSpeechVolume()
+        server.increase_speech_volume()
         if notify_user and script is not None:
-            script.presentMessage(messages.SPEECH_LOUDER)
+            script.present_message(messages.SPEECH_LOUDER)
 
         return True
 
@@ -644,7 +892,7 @@ class SpeechAndVerbosityManager:
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
 
-        server.updateCapitalizationStyle()
+        server.update_capitalization_style()
         return True
 
     def update_punctuation_level(self) -> bool:
@@ -656,10 +904,10 @@ class SpeechAndVerbosityManager:
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
 
-        server.updatePunctuationLevel()
+        server.update_punctuation_level()
         return True
 
-    def update_synthesizer(self, server_id: Optional[str] = "") -> None:
+    def update_synthesizer(self, server_id: str | None = "") -> None:
         """Updates the synthesizer to the specified id or value from settings."""
 
         server = self._get_server()
@@ -668,7 +916,7 @@ class SpeechAndVerbosityManager:
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return
 
-        active_id = server.getOutputModule()
+        active_id = server.get_output_module()
         info = settings.speechServerInfo or ["", ""]
         if not server_id and len(info) == 2:
             server_id = info[1]
@@ -679,13 +927,13 @@ class SpeechAndVerbosityManager:
                 f"to {server_id}."
             )
             debug.print_message(debug.LEVEL_INFO, msg, True)
-            server.setOutputModule(server_id)
+            server.set_output_module(server_id)
 
     @dbus_service.command
     def cycle_synthesizer(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Cycles through available speech synthesizers."""
@@ -706,26 +954,29 @@ class SpeechAndVerbosityManager:
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
 
-        current = server.getOutputModule()
+        current = server.get_output_module()
         if not current:
             msg = "SPEECH AND VERBOSITY MANAGER: Cannot get current output module."
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return True
 
-        index = available.index(current) + 1
-        if index == len(available):
+        try:
+            index = available.index(current) + 1
+            if index == len(available):
+                index = 0
+        except ValueError:
             index = 0
 
-        server.setOutputModule(available[index])
+        server.set_output_module(available[index])
         if script is not None and notify_user:
-            script.presentMessage(available[index])
+            script.present_message(available[index])
         return True
 
     @dbus_service.command
     def cycle_capitalization_style(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Cycle through the speech-dispatcher capitalization styles."""
@@ -751,15 +1002,15 @@ class SpeechAndVerbosityManager:
 
         manager.set_setting("capitalizationStyle", new_style)
         if script is not None and notify_user:
-            script.presentMessage(full, brief)
+            script.present_message(full, brief)
         self.update_capitalization_style()
         return True
 
     @dbus_service.command
     def cycle_punctuation_level(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Cycles through punctuation levels for speech."""
@@ -789,15 +1040,15 @@ class SpeechAndVerbosityManager:
 
         manager.set_setting("verbalizePunctuationStyle", new_level)
         if script is not None and notify_user:
-            script.presentMessage(full, brief)
+            script.present_message(full, brief)
         self.update_punctuation_level()
         return True
 
     @dbus_service.command
     def cycle_key_echo(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Cycle through the key echo levels."""
@@ -841,14 +1092,14 @@ class SpeechAndVerbosityManager:
         manager.set_setting("enableEchoByWord", new_word)
         manager.set_setting("enableEchoBySentence", new_sentence)
         if script is not None and notify_user:
-            script.presentMessage(full, brief)
+            script.present_message(full, brief)
         return True
 
     @dbus_service.command
     def change_number_style(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Changes spoken number style between digits and words."""
@@ -868,14 +1119,14 @@ class SpeechAndVerbosityManager:
 
         manager.set_setting("speakNumbersAsDigits", not speak_digits)
         if script is not None and notify_user:
-            script.presentMessage(full, brief)
+            script.present_message(full, brief)
         return True
 
     @dbus_service.command
     def toggle_speech(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Toggles speech on and off."""
@@ -886,27 +1137,27 @@ class SpeechAndVerbosityManager:
 
         manager = settings_manager.get_manager()
         if script is not None:
-            script.presentationInterrupt()
+            script.interrupt_presentation()
         if manager.get_setting("silenceSpeech"):
             manager.set_setting("silenceSpeech", False)
             if script is not None and notify_user:
-                script.presentMessage(messages.SPEECH_ENABLED)
+                script.present_message(messages.SPEECH_ENABLED)
         elif not manager.get_setting("enableSpeech"):
             manager.set_setting("enableSpeech", True)
             speech.init()
             if script is not None and notify_user:
-                script.presentMessage(messages.SPEECH_ENABLED)
+                script.present_message(messages.SPEECH_ENABLED)
         else:
             if script is not None and notify_user:
-                script.presentMessage(messages.SPEECH_DISABLED)
+                script.present_message(messages.SPEECH_DISABLED)
             manager.set_setting("silenceSpeech", True)
         return True
 
     @dbus_service.command
     def toggle_verbosity(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Toggles speech verbosity level between verbose and brief."""
@@ -919,19 +1170,19 @@ class SpeechAndVerbosityManager:
         value = manager.get_setting("speechVerbosityLevel")
         if value == settings.VERBOSITY_LEVEL_BRIEF:
             if script is not None and notify_user:
-                script.presentMessage(messages.SPEECH_VERBOSITY_VERBOSE)
+                script.present_message(messages.SPEECH_VERBOSITY_VERBOSE)
             manager.set_setting("speechVerbosityLevel", settings.VERBOSITY_LEVEL_VERBOSE)
         else:
             if script is not None and notify_user:
-                script.presentMessage(messages.SPEECH_VERBOSITY_BRIEF)
+                script.present_message(messages.SPEECH_VERBOSITY_BRIEF)
             manager.set_setting("speechVerbosityLevel", settings.VERBOSITY_LEVEL_BRIEF)
         return True
 
     @dbus_service.command
     def toggle_indentation_and_justification(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Toggles the speaking of indentation and justification."""
@@ -950,14 +1201,14 @@ class SpeechAndVerbosityManager:
             full = messages.INDENTATION_JUSTIFICATION_OFF_FULL
             brief = messages.INDENTATION_JUSTIFICATION_OFF_BRIEF
         if script is not None and notify_user:
-            script.presentMessage(full, brief)
+            script.present_message(full, brief)
         return True
 
     @dbus_service.command
     def toggle_table_cell_reading_mode(
         self,
-        script: Optional[default.Script] = None,
-        event: Optional[input_event.InputEvent] = None,
+        script: default.Script | None = None,
+        event: input_event.InputEvent | None = None,
         notify_user: bool = True
     ) -> bool:
         """Toggles between speak cell and speak row."""
@@ -974,12 +1225,12 @@ class SpeechAndVerbosityManager:
 
         table = AXTable.get_table(focus_manager.get_manager().get_locus_of_focus())
         if table is None and notify_user:
-            script.presentMessage(messages.TABLE_NOT_IN_A)
+            script.present_message(messages.TABLE_NOT_IN_A)
             return True
 
-        if not script.utilities.getDocumentForObject(table):
+        if not script.utilities.get_document_for_object(table):
             setting_name = "readFullRowInGUITable"
-        elif script.utilities.isSpreadSheetTable(table):
+        elif script.utilities.is_spreadsheet_table(table):
             setting_name = "readFullRowInSpreadSheet"
         else:
             setting_name = "readFullRowInDocumentTable"
@@ -994,7 +1245,7 @@ class SpeechAndVerbosityManager:
             msg = messages.TABLE_MODE_CELL
 
         if notify_user:
-            script.presentMessage(msg)
+            script.present_message(msg)
         return True
 
     @staticmethod
@@ -1042,8 +1293,8 @@ class SpeechAndVerbosityManager:
             char = match.group(1)
             count = len(match.group(0))
             if match.start() > 0 and text[match.start() - 1].isalnum():
-                return f" {messages.repeatedCharCount(char, count)}"
-            return messages.repeatedCharCount(char, count)
+                return f" {messages.repeated_char_count(char, count)}"
+            return messages.repeated_char_count(char, count)
 
         if len(text) < 4 or settings.repeatCharacterLimit < 4:
             return text
@@ -1089,12 +1340,12 @@ class SpeechAndVerbosityManager:
             return text
 
         words = re.split(r"(\W+)", text)
-        return "".join(map(pronunciation_dict.getPronunciation, words))
+        return "".join(map(pronunciation_dict.get_pronunciation, words))
 
     def get_indentation_description(
         self,
         line: str,
-        only_if_changed: Optional[bool] = None
+        only_if_changed: bool | None = None
     ) -> str:
         """Returns a description of the indentation in the given line."""
 
@@ -1113,9 +1364,9 @@ class SpeechAndVerbosityManager:
         spans = sorted(spaces + tabs)
         for span in spans:
             if span in spaces:
-                result += f"{messages.spacesCount(span[1] - span[0])} "
+                result += f"{messages.spaces_count(span[1] - span[0])} "
             else:
-                result += f"{messages.tabsCount(span[1] - span[0])} "
+                result += f"{messages.tabs_count(span[1] - span[0])} "
 
         if only_if_changed is None:
             only_if_changed = settings_manager.get_manager().get_setting(
@@ -1127,7 +1378,7 @@ class SpeechAndVerbosityManager:
 
             if not result and self._last_indentation_description:
                 self._last_indentation_description = ""
-                return messages.spacesCount(0)
+                return messages.spaces_count(0)
 
         self._last_indentation_description = result
         return result
@@ -1135,8 +1386,8 @@ class SpeechAndVerbosityManager:
     def get_error_description(
         self,
         obj: Atspi.Accessible,
-        offset: Optional[int] = None,
-        only_if_changed: Optional[bool] = True
+        offset: int | None = None,
+        only_if_changed: bool | None = True
     ) -> str:
         """Returns a description of the error at the current offset."""
 
@@ -1165,7 +1416,7 @@ class SpeechAndVerbosityManager:
         self,
         obj: Atspi.Accessible,
         text: str,
-        start_offset: Optional[int] = None
+        start_offset: int | None = None
     ) -> str:
         """Adjusts text for spoken presentation."""
 
@@ -1174,7 +1425,7 @@ class SpeechAndVerbosityManager:
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         if AXUtilities.is_math_related(obj):
-            text = mathsymbols.adjustForSpeech(text)
+            text = mathsymbols.adjust_for_speech(text)
 
         if start_offset is not None:
             text = self._adjust_for_links(obj, text, start_offset)

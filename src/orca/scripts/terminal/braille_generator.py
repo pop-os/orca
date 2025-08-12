@@ -18,7 +18,11 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+
 """Produces braille presentation for accessible objects."""
+
+# This has to be the first non-docstring line in the module to make linters happy.
+from __future__ import annotations
 
 __id__        = "$Id$"
 __version__   = "$Revision$"
@@ -26,8 +30,15 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2016 Igalia, S.L."
 __license__   = "LGPL"
 
+from typing import Any, TYPE_CHECKING
+
 from orca import braille_generator
 from orca import debug
+
+if TYPE_CHECKING:
+    import gi
+    gi.require_version("Atspi", "2.0")
+    from gi.repository import Atspi
 
 
 class BrailleGenerator(braille_generator.BrailleGenerator):
@@ -45,7 +56,7 @@ class BrailleGenerator(braille_generator.BrailleGenerator):
         return wrapper
 
     @log_generator_output
-    def _generate_accessible_description(self, _obj, **_args):
+    def _generate_accessible_description(self, _obj: Atspi.Accessible, **_args) -> list[Any]:
         # The text in the description is the same as the text in the page
         # tab and similar to (and sometimes the same as) the prompt.
         return []

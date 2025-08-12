@@ -19,6 +19,8 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=wrong-import-position
+
 """Module for presenting system information"""
 
 # This has to be the first non-docstring line in the module to make linters happy.
@@ -33,16 +35,17 @@ __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
 __license__   = "LGPL"
 
 import time
-from types import ModuleType
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
-psutil: Optional[ModuleType] = None
+_PSUTIL_AVAILABLE = False
 try:
-    import psutil
+    import psutil  # type: ignore
+    _PSUTIL_AVAILABLE = True
 except ModuleNotFoundError:
     pass
 
 from . import cmdnames
+from . import dbus_service
 from . import debug
 from . import input_event
 from . import keybindings
@@ -59,6 +62,11 @@ class SystemInformationPresenter:
         self._handlers: dict[str, input_event.InputEventHandler] = self.get_handlers(True)
         self._bindings: keybindings.KeyBindings = keybindings.KeyBindings()
 
+        msg = "SYSTEM INFORMATION PRESENTER: Registering D-Bus commands."
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        controller = dbus_service.get_remote_controller()
+        controller.register_decorated_module("SystemInformationPresenter", self)
+
     def get_bindings(
         self, refresh: bool = False, is_desktop: bool = True
     ) -> keybindings.KeyBindings:
@@ -67,6 +75,7 @@ class SystemInformationPresenter:
         if refresh:
             msg = f"SYSTEM INFORMATION PRESENTER: Refreshing bindings. Is desktop: {is_desktop}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
+            self._bindings.remove_key_grabs("SYSTEM INFORMATION PRESENTER: Refreshing bindings.")
             self._setup_bindings()
         elif self._bindings.is_empty():
             self._setup_bindings()
@@ -151,31 +160,55 @@ class SystemInformationPresenter:
         msg = "SYSTEM INFORMATION PRESENTER: Bindings set up."
         debug.print_message(debug.LEVEL_INFO, msg, True)
 
+    @dbus_service.command
     def present_time(
-        self, script: default.Script, _event: Optional[input_event.InputEvent] = None
+        self,
+        script: default.Script,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the current time."""
 
+        tokens = ["SYSTEM INFORMATION PRESENTER: present_time. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
         time_format = settings_manager.get_manager().get_setting('presentTimeFormat')
-        script.presentMessage(time.strftime(time_format, time.localtime()))
+        script.present_message(time.strftime(time_format, time.localtime()))
         return True
 
+    @dbus_service.command
     def present_date(
-        self, script: default.Script, _event: Optional[input_event.InputEvent] = None
+        self,
+        script: default.Script,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the current date."""
 
+        tokens = ["SYSTEM INFORMATION PRESENTER: present_date. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
         data_format = settings_manager.get_manager().get_setting('presentDateFormat')
-        script.presentMessage(time.strftime(data_format, time.localtime()))
+        script.present_message(time.strftime(data_format, time.localtime()))
         return True
 
+    @dbus_service.command
     def present_battery_status(
-        self, script: default.Script, _event: Optional[input_event.InputEvent] = None
+        self,
+        script: default.Script,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the battery status."""
 
-        if not (psutil and psutil.sensors_battery()):
-            script.presentMessage(messages.BATTERY_STATUS_UNKNOWN)
+        tokens = ["SYSTEM INFORMATION PRESENTER: present_battery_status. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
+        if not (_PSUTIL_AVAILABLE and psutil.sensors_battery()):
+            script.present_message(messages.BATTERY_STATUS_UNKNOWN)
             return True
 
         battery = psutil.sensors_battery()
@@ -184,16 +217,24 @@ class SystemInformationPresenter:
         else:
             msg = f"{messages.BATTERY_LEVEL % battery.percent} {messages.BATTERY_PLUGGED_IN_FALSE}"
 
-        script.presentMessage(msg)
+        script.present_message(msg)
         return True
 
+    @dbus_service.command
     def present_cpu_and_memory_usage(
-        self, script: default.Script, _event: Optional[input_event.InputEvent] = None
+        self,
+        script: default.Script,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the cpu and memory usage."""
 
-        if psutil is None:
-            script.presentMessage(messages.CPU_AND_MEMORY_USAGE_UNKNOWN)
+        tokens = ["SYSTEM INFORMATION PRESENTER: present_cpu_and_memory_usage. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
+        if not _PSUTIL_AVAILABLE:
+            script.present_message(messages.CPU_AND_MEMORY_USAGE_UNKNOWN)
             return True
 
         cpu_usage = round(psutil.cpu_percent())
@@ -201,16 +242,19 @@ class SystemInformationPresenter:
         memory = psutil.virtual_memory()
         memory_percent= round(memory.percent)
         if memory.total > 1024 ** 3:
-            details = messages.memoryUsageGB(memory.used / (1024 ** 3), memory.total / (1024 ** 3))
+            details = messages.memory_usage_gb(
+                memory.used / (1024 ** 3), memory.total / (1024 ** 3))
         else:
-            details = messages.memoryUsageMB(memory.used / (1024 ** 2), memory.total / (1024 ** 2))
+            details = messages.memory_usage_mb(
+                memory.used / (1024 ** 2), memory.total / (1024 ** 2))
 
         msg = f"{messages.CPU_AND_MEMORY_USAGE_LEVELS % (cpu_usage, memory_percent)}. {details}"
-        script.presentMessage(msg)
+        script.present_message(msg)
         return True
 
 
 _presenter = SystemInformationPresenter()
 def get_presenter() -> SystemInformationPresenter:
     """Returns the system-information-presenter singleton."""
+
     return _presenter

@@ -1,15 +1,14 @@
-"""Orca's application scripts."""
+"""Orca"s application scripts."""
 
-__all__ = ['evince',
-           'evolution',
-           'gajim',
-           'gedit',
-           'gnome-shell',
-           'kwin',
-           'notification-daemon',
-           'pidgin',
-           'soffice',
-           'SeaMonkey',
-           'smuxi-frontend-gnome',
-           'Thunderbird',
-           'xfwm4']
+__all__ = ["evolution",
+           "gajim",
+           "gedit",
+           "gnome-shell",
+           "kwin",
+           "notification-daemon",
+           "pidgin",
+           "soffice",
+           "SeaMonkey",
+           "smuxi-frontend-gnome",
+           "Thunderbird",
+           "xfwm4"]

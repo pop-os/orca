@@ -51,7 +51,8 @@ class Bookmarks:
 
         if refresh:
             msg = "BOOKMARKS: Refreshing bindings."
-            debug.print_message(debug.LEVEL_INFO, msg, True, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            self._bindings.remove_key_grabs("BOOKMARKS: Refreshing bindings.")
             self._setup_bindings()
         elif self._bindings.is_empty():
             self._setup_bindings()
@@ -163,7 +164,7 @@ class Bookmarks:
                                 context_info['word'], context_info['char'])
             self._bookmarks[index] = context_info
         except KeyError:
-            self._script.presentMessage(messages.BOOKMARK_NOT_FOUND)
+            self._script.present_message(messages.BOOKMARK_NOT_FOUND)
             return
 
         flat_review_presenter.get_presenter().present_item(script, inputEvent)
@@ -174,15 +175,15 @@ class Bookmarks:
     def addBookmark(self, script, inputEvent):
         """ Add an in-page accessible object bookmark for this key. """
         self._bookmarks[inputEvent.hw_code] = self._contextToBookmark(self._get_context())
-        self._script.presentMessage(messages.BOOKMARK_ENTERED)
+        self._script.present_message(messages.BOOKMARK_ENTERED)
 
     def saveBookmarks(self, script, inputEvent):
         """ Save the bookmarks for this script. """
         try:
             self.saveBookmarksToDisk(self._bookmarks)
-            self._script.presentMessage(messages.BOOKMARKS_SAVED)
+            self._script.present_message(messages.BOOKMARKS_SAVED)
         except IOError:
-            self._script.presentMessage(messages.BOOKMARKS_SAVED_FAILURE)
+            self._script.present_message(messages.BOOKMARKS_SAVED_FAILURE)
 
         # Notify the observers
         for o in self._saveObservers:
@@ -197,7 +198,7 @@ class Bookmarks:
 
         # no bookmarks have been entered
         if len(hwkeys) == 0:
-            self._script.presentMessage(messages.BOOKMARKS_NOT_FOUND)
+            self._script.present_message(messages.BOOKMARKS_NOT_FOUND)
             return
         # only 1 bookmark or we are just starting out
         elif len(hwkeys) == 1 or self._currentbookmarkindex is None:
@@ -218,7 +219,7 @@ class Bookmarks:
 
         # no bookmarks have been entered
         if len(hwkeys) == 0:
-            self._script.presentMessage(messages.BOOKMARKS_NOT_FOUND)
+            self._script.present_message(messages.BOOKMARKS_NOT_FOUND)
             return
         # only 1 bookmark or we are just starting out
         elif len(hwkeys) == 1 or self._currentbookmarkindex is None:
@@ -298,7 +299,7 @@ class Bookmarks:
     def getURIKey(self):
         """Returns the URI key for a given page as a URI stripped of
         parameters?query#fragment as seen in urlparse."""
-        uri = AXDocument.get_uri(self._script.utilities.documentFrame())
+        uri = AXDocument.get_uri(self._script.utilities.active_document())
         if uri:
             parsed_uri = urllib.parse.urlparse(uri)
             return ''.join(parsed_uri[0:3])
@@ -308,7 +309,7 @@ class Bookmarks:
     def pathToObj(self, path):
         """Return the object with the given path (relative to the
         document frame). """
-        returnobj = self._script.utilities.documentFrame()
+        returnobj = self._script.utilities.active_document()
         for childnumber in path:
             returnobj = AXObject.get_child(returnobj, childnumber)
             if not returnobj:
@@ -320,19 +321,19 @@ class Bookmarks:
         """Given an object, return it's path from the root accessible.  If obj
         is not provided, the current caret context is used. """
         if not start_obj:
-            [start_obj, characterOffset] = self._script.utilities.getCaretContext()
+            [start_obj, _characterOffset] = self._script.utilities.get_caret_context()
 
         if not start_obj:
             return []
 
-        if self._script.utilities.isDocument(start_obj):
+        if self._script.utilities.is_document(start_obj):
             return []
 
         path = []
         path.append(AXObject.get_index_in_parent(start_obj))
         p = AXObject.get_parent(start_obj)
         while p:
-            if self._script.utilities.isDocument(p):
+            if self._script.utilities.is_document(p):
                 path.reverse()
                 return path
             path.append(AXObject.get_index_in_parent(p))

@@ -30,7 +30,6 @@ __license__   = "LGPL"
 
 import os
 import re
-from typing import Optional
 from urllib.parse import urlparse
 
 import gi
@@ -63,7 +62,7 @@ class AXHypertext:
         return count
 
     @staticmethod
-    def _get_link_at_index(obj: Atspi.Accessible, index: int) -> Optional[Atspi.Hyperlink]:
+    def _get_link_at_index(obj: Atspi.Accessible, index: int) -> Atspi.Hyperlink | None:
         """Returns the hyperlink object at the specified index."""
 
         if not AXObject.supports_hypertext(obj):
@@ -199,7 +198,32 @@ class AXHypertext:
         return basename
 
     @staticmethod
-    def get_child_at_offset(obj: Atspi.Accessible, offset: int) -> Optional[Atspi.Accessible]:
+    def find_child_at_offset(obj: Atspi.Accessible, offset: int) -> Atspi.Accessible | None:
+        """Attempts to correct for off-by-one brokenness in implementations"""
+
+        if child := AXHypertext.get_child_at_offset(obj, offset):
+            return child
+
+        if child_before := AXHypertext.get_child_at_offset(obj, offset - 1):
+            offset_in_parent = AXHypertext.get_character_offset_in_parent(child_before)
+            if offset_in_parent == offset:
+                tokens = [f"AXHypertext: Corrected child at offset {offset} in", obj, "is",
+                          child_before, f"at offset {offset - 1}"]
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+                return child_before
+
+        if child_after := AXHypertext.get_child_at_offset(obj, offset + 1):
+            offset_in_parent = AXHypertext.get_character_offset_in_parent(child_after)
+            if offset_in_parent == offset:
+                tokens = [f"AXHypertext: Corrected child at offset {offset} in", obj, "is",
+                          child_after, f"at offset {offset + 1}"]
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+                return child_after
+
+        return None
+
+    @staticmethod
+    def get_child_at_offset(obj: Atspi.Accessible, offset: int) -> Atspi.Accessible | None:
         """Returns the embedded-object child of obj at the specified offset."""
 
         if not AXObject.supports_hypertext(obj):

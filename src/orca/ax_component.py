@@ -20,7 +20,6 @@
 # Boston MA  02110-1301 USA.
 
 # pylint: disable=wrong-import-position
-# pylint: disable=duplicate-code
 
 """Utilities for obtaining position-related information about accessible objects."""
 
@@ -32,7 +31,6 @@ __copyright__ = "Copyright (c) 2024 Igalia, S.L." \
 __license__   = "LGPL"
 
 import functools
-from typing import Optional
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -92,19 +90,16 @@ class AXComponent:
 
         result = Atspi.Rect()
 
-        x_points1 = range(rect1.x, rect1.x + rect1.width + 1)
-        x_points2 = range(rect2.x, rect2.x + rect2.width + 1)
-        x_intersection = sorted(set(x_points1).intersection(set(x_points2)))
+        dest_x = max(rect1.x, rect2.x)
+        dest_y = max(rect1.y, rect2.y)
+        dest_x2 = min(rect1.x + rect1.width, rect2.x + rect2.width)
+        dest_y2 = min(rect1.y + rect1.height, rect2.y + rect2.height)
 
-        y_points1 = range(rect1.y, rect1.y + rect1.height + 1)
-        y_points2 = range(rect2.y, rect2.y + rect2.height + 1)
-        y_intersection = sorted(set(y_points1).intersection(set(y_points2)))
-
-        if x_intersection and y_intersection:
-            result.x = x_intersection[0]
-            result.y = y_intersection[0]
-            result.width = x_intersection[-1] - result.x
-            result.height = y_intersection[-1] - result.y
+        if dest_x2 > dest_x and dest_y2 > dest_y:
+            result.x = dest_x
+            result.y = dest_y
+            result.width = dest_x2 - dest_x
+            result.height = dest_y2 - dest_y
 
         tokens = ["AXComponent: The intersection of", rect1, "and", rect2, "is:", result]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
@@ -244,11 +239,24 @@ class AXComponent:
 
     @staticmethod
     def on_same_line(obj1: Atspi.Accessible, obj2: Atspi.Accessible, delta: int = 0) -> bool:
-        """Returns True if obj1 and obj2 are on the same line based on the center points."""
+        """Returns True if obj1 and obj2 are on the same line."""
 
-        y1_center = AXComponent.get_center_point(obj1)[1]
-        y2_center = AXComponent.get_center_point(obj2)[1]
-        return abs(y1_center - y2_center) <= delta
+        rect1 = AXComponent.get_rect(obj1)
+        rect2 = AXComponent.get_rect(obj2)
+        y1_center = rect1.y + rect1.height / 2
+        y2_center = rect2.y + rect2.height / 2
+
+        # If the center points differ by more than delta, they are not on the same line.
+        if abs(y1_center - y2_center) > delta:
+            return False
+
+        # If there's a significant difference in height, they are not on the same line.
+        min_height = min(rect1.height, rect2.height)
+        max_height = max(rect1.height, rect2.height)
+        if min_height > 0 and max_height / min_height > 2.0:
+            return False
+
+        return True
 
     @staticmethod
     def _object_bounds_includes_children(obj: Atspi.Accessible) -> bool:
@@ -263,7 +271,7 @@ class AXComponent:
     @staticmethod
     def _find_descendant_at_point(
         obj: Atspi.Accessible, x: int, y: int
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Checks each child to see if it has a descendant at the specified point."""
 
         for child in AXObject.iter_children(obj):
@@ -275,7 +283,7 @@ class AXComponent:
         return None
 
     @staticmethod
-    def _get_object_at_point(obj: Atspi.Accessible, x: int, y: int) -> Optional[Atspi.Accessible]:
+    def _get_object_at_point(obj: Atspi.Accessible, x: int, y: int) -> Atspi.Accessible | None:
         """Returns the child (or descendant?) of obj at the specified point."""
 
         if not AXObject.supports_component(obj):
@@ -295,7 +303,7 @@ class AXComponent:
     @staticmethod
     def _get_descendant_at_point(
         obj: Atspi.Accessible, x: int, y: int
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns the deepest descendant of obj at the specified point."""
 
         child = AXComponent._get_object_at_point(obj, x, y)
@@ -316,7 +324,7 @@ class AXComponent:
     @staticmethod
     def get_descendant_at_point(
         obj: Atspi.Accessible, x: int, y: int
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns the deepest descendant of obj at the specified point."""
 
         result = AXComponent._get_descendant_at_point(obj, x, y)

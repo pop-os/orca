@@ -21,6 +21,7 @@
 
 # pylint: disable=wrong-import-position
 # pylint: disable=too-many-public-methods
+# pylint: disable=too-many-lines
 
 """Provides utilities for managing input events."""
 
@@ -62,6 +63,8 @@ class InputEventManager:
         self._device: Atspi.Device | None = None
         self._mapped_keycodes: list[int] = []
         self._mapped_keysyms: list[int] = []
+        self._grabbed_bindings: dict[int, keybindings.KeyBinding] = {}
+        self._paused: bool = False
 
     def start_key_watcher(self) -> None:
         """Starts the watcher for keyboard input events."""
@@ -81,6 +84,22 @@ class InputEventManager:
         debug.print_message(debug.LEVEL_INFO, msg, True)
         self._device = None
 
+    def pause_key_watcher(self, pause: bool = True, reason: str = "") -> None:
+        """Pauses processing of keyboard input events."""
+
+        msg = f"INPUT EVENT MANAGER: Pause queueing: {pause}. {reason}"
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        self._paused = pause
+
+    def check_grabbed_bindings(self) -> None:
+        """Checks the grabbed key bindings."""
+
+        msg = f"INPUT EVENT MANAGER: {len(self._grabbed_bindings)} grabbed key bindings."
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        for grab_id, binding in self._grabbed_bindings.items():
+            msg = f"INPUT EVENT MANAGER: {grab_id} for: {binding}"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+
     def add_grabs_for_keybinding(self, binding: keybindings.KeyBinding) -> list[int]:
         """Adds grabs for binding if it is enabled, returns grab IDs."""
 
@@ -99,7 +118,9 @@ class InputEventManager:
 
         grab_ids = []
         for kd in binding.key_definitions():
-            grab_ids.append(self._device.add_key_grab(kd, None))
+            grab_id = self._device.add_key_grab(kd, None)
+            grab_ids.append(grab_id)
+            self._grabbed_bindings[grab_id] = binding
 
         return grab_ids
 
@@ -119,6 +140,10 @@ class InputEventManager:
 
         for grab_id in grab_ids:
             self._device.remove_key_grab(grab_id)
+            removed = self._grabbed_bindings.pop(grab_id, None)
+            if removed is None:
+                msg = f"INPUT EVENT MANAGER: No key binding for grab id {grab_id}"
+                debug.print_message(debug.LEVEL_INFO, msg, True)
 
     def map_keycode_to_modifier(self, keycode: int) -> int:
         """Maps keycode as a modifier, returns the newly-mapped modifier."""
@@ -223,6 +248,14 @@ class InputEventManager:
         mouse_event.set_click_count(self._determine_mouse_event_click_count(mouse_event))
         self._last_input_event = mouse_event
 
+    def process_remote_controller_event(self, event: input_event.RemoteControllerEvent) -> None:
+        """Processes this RemoteController event."""
+
+        # TODO - JD: It probably makes sense to process remote controller events here rather
+        # than just updating state.
+        self._last_input_event = event
+        self._last_non_modifier_key_event = None
+
     # pylint: disable=too-many-arguments
     # pylint: disable=too-many-positional-arguments
     def process_keyboard_event(
@@ -235,6 +268,11 @@ class InputEventManager:
         text: str
     ) -> bool:
         """Processes this Atspi keyboard event."""
+
+        if self._paused:
+            msg = "INPUT EVENT MANAGER: Keyboard event processing is paused."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return False
 
         event = input_event.KeyboardEvent(pressed, keycode, keysym, modifiers, text)
         if event in [self._last_input_event, self._last_non_modifier_key_event]:
@@ -365,7 +403,13 @@ class InputEventManager:
         return result
 
     def last_event_equals_or_is_release_for_event(self, event):
-        """Returns True if the last non-modifier event equals, or is the release for, event."""
+        """Returns True if the last event equals the provided event, or is the release for it."""
+
+        if self._last_input_event is event:
+            return True
+
+        if not self.last_event_was_keyboard():
+            return False
 
         if self._last_non_modifier_key_event is None:
             return False

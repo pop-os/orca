@@ -21,6 +21,7 @@
 # Boston MA  02110-1301 USA.
 
 # pylint: disable=wrong-import-position
+# pylint: disable=too-many-instance-attributes
 
 """Module to manage the focused object, window, etc."""
 
@@ -31,8 +32,6 @@ __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
                 "Copyright (c) 2016-2023 Igalia, S.L."
 __license__   = "LGPL"
 
-from typing import Any, Optional
-
 import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
@@ -41,6 +40,8 @@ from . import braille
 from . import debug
 from . import script_manager
 from .ax_object import AXObject
+from .ax_table import AXTable
+from .ax_text import AXText
 from .ax_utilities import AXUtilities
 
 CARET_TRACKING = "caret-tracking"
@@ -55,10 +56,13 @@ class FocusManager:
     """Manages the focused object, window, etc."""
 
     def __init__(self) -> None:
-        self._window: Optional[Atspi.Accessible] = None
-        self._focus: Optional[Atspi.Accessible] = None
-        self._object_of_interest: Optional[Atspi.Accessible] = None
-        self._active_mode: Optional[str] = None
+        self._window: Atspi.Accessible | None = None
+        self._focus: Atspi.Accessible | None = None
+        self._object_of_interest: Atspi.Accessible | None = None
+        self._active_mode: str | None = None
+        self._last_cell_coordinates: tuple[int, int] = (-1, -1)
+        self._last_cursor_position: tuple[Atspi.Accessible | None, int] = (None, -1)
+        self._penultimate_cursor_position: tuple[Atspi.Accessible | None, int] = (None, -1)
 
     def clear_state(self, reason: str = "") -> None:
         """Clears everything we're tracking."""
@@ -72,7 +76,7 @@ class FocusManager:
         self._object_of_interest = None
         self._active_mode = None
 
-    def find_focused_object(self) -> Optional[Atspi.Accessible]:
+    def find_focused_object(self) -> Atspi.Accessible | None:
         """Returns the focused object in the active window."""
 
         result = AXUtilities.get_focused_object(self._window)
@@ -115,9 +119,9 @@ class FocusManager:
 
     def emit_region_changed(
         self, obj: Atspi.Accessible,
-        start_offset: Optional[int] = None,
-        end_offset: Optional[int] = None,
-        mode: Optional[str] = None
+        start_offset: int | None = None,
+        end_offset: int | None = None,
+        mode: str | None = None
     ) -> None:
         """Notifies interested clients that the current region of interest has changed."""
 
@@ -158,7 +162,7 @@ class FocusManager:
 
     def get_active_mode_and_object_of_interest(
         self
-    ) -> tuple[Optional[str], Optional[Atspi.Accessible]]:
+    ) -> tuple[str | None, Atspi.Accessible | None]:
         """Returns the current mode and associated object of interest"""
 
         tokens = ["FOCUS MANAGER: Active mode:", self._active_mode,
@@ -166,7 +170,46 @@ class FocusManager:
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return self._active_mode, self._object_of_interest
 
-    def get_locus_of_focus(self) -> Optional[Atspi.Accessible]:
+    def get_penultimate_cursor_position(self) -> tuple[Atspi.Accessible | None, int]:
+        """Returns the penultimate cursor position as a tuple of (object, offset)."""
+
+        obj, offset = self._penultimate_cursor_position
+        tokens = ["FOCUS MANAGER: Penultimate cursor position:", obj, offset]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        return obj, offset
+
+    def get_last_cursor_position(self) -> tuple[Atspi.Accessible | None, int]:
+        """Returns the last cursor position as a tuple of (object, offset)."""
+
+        obj, offset = self._last_cursor_position
+        tokens = ["FOCUS MANAGER: Last cursor position:", obj, offset]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        return obj, offset
+
+    def set_last_cursor_position(self, obj: Atspi.Accessible | None, offset: int) -> None:
+        """Sets the last cursor position as a tuple of (object, offset)."""
+
+        tokens = ["FOCUS MANAGER: Setting last cursor position to", obj, offset]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        self._penultimate_cursor_position = self._last_cursor_position
+        self._last_cursor_position = obj, offset
+
+    def get_last_cell_coordinates(self) -> tuple[int, int]:
+        """Returns the last known cell coordinates as a tuple of (row, column)."""
+
+        row, column = self._last_cell_coordinates
+        msg = f"FOCUS MANAGER: Last known cell coordinates: row={row}, column={column}"
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        return row, column
+
+    def set_last_cell_coordinates(self, row: int, column: int) -> None:
+        """Sets the last known cell coordinates as a tuple of (row, column)."""
+
+        msg = f"FOCUS MANAGER: Setting last cell coordinates to row={row}, column={column}"
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        self._last_cell_coordinates = row, column
+
+    def get_locus_of_focus(self) -> Atspi.Accessible | None:
         """Returns the current locus of focus (i.e. the object with visual focus)."""
 
         tokens = ["FOCUS MANAGER: Locus of focus is", self._focus]
@@ -175,8 +218,8 @@ class FocusManager:
 
     def set_locus_of_focus(
         self,
-        event: Optional[Any],
-        obj: Optional[Atspi.Accessible],
+        event: Atspi.Event | None,
+        obj: Atspi.Accessible | None,
         notify_script: bool = True,
         force: bool = False
     ) -> None:
@@ -184,7 +227,6 @@ class FocusManager:
 
         tokens = ["FOCUS MANAGER: Request to set locus of focus to", obj]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True, True)
-
 
         # We clear the cache on the locus of focus because too many apps and toolkits fail
         # to emit the correct accessibility events. We do so recursively on table cells
@@ -195,6 +237,23 @@ class FocusManager:
             msg = "FOCUS MANAGER: Setting locus of focus to existing locus of focus"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return
+
+        # We save the current row and column of a newly focused or selected table cell so that on
+        # subsequent cell focus/selection we only present the changed location.
+        row, column = AXTable.get_cell_coordinates(obj, find_cell=True)
+        self.set_last_cell_coordinates(row, column)
+
+        # We save the offset for text objects because some apps and toolkits emit caret-moved events
+        # immediately after a text object gains focus, even though the caret has not actually moved.
+        # TODO - JD: We should consider making this part of `save_object_info_for_events()` for the
+        # motivation described above. However, we need to audit callers that set/get the position
+        # before doing so.
+        self.set_last_cursor_position(obj, AXText.get_caret_offset(obj))
+        AXText.update_cached_selected_text(obj)
+
+        # We save additional information about the object for events that were received at the same
+        # time as the prioritized focus-change event so we don't double-present aspects about obj.
+        AXUtilities.save_object_info_for_events(obj)
 
         # TODO - JD: Consider always updating the active script here.
         script = script_manager.get_manager().get_active_script()
@@ -249,7 +308,7 @@ class FocusManager:
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return is_active
 
-    def get_active_window(self) -> Optional[Atspi.Accessible]:
+    def get_active_window(self) -> Atspi.Accessible | None:
         """Returns the currently-active window (i.e. without searching or verifying)."""
 
         tokens = ["FOCUS MANAGER: Active window is", self._window]
@@ -258,8 +317,8 @@ class FocusManager:
 
     def set_active_window(
         self,
-        frame: Optional[Atspi.Accessible],
-        app: Optional[Atspi.Accessible] = None,
+        frame: Atspi.Accessible | None,
+        app: Atspi.Accessible | None = None,
         set_window_as_focus: bool = False,
         notify_script: bool = False
     ) -> None:

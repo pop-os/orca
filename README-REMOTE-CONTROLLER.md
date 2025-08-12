@@ -51,6 +51,26 @@ gdbus call --session --dest org.gnome.Orca.Service \
 
 **Returns:** Boolean indicating success
 
+### Show Orca's Preferences GUI
+
+```bash
+gdbus call --session --dest org.gnome.Orca.Service \
+    --object-path /org/gnome/Orca/Service \
+    --method org.gnome.Orca.Service.ShowPreferences
+```
+
+**Returns:** Boolean indicating success
+
+### Quit Orca
+
+```bash
+gdbus call --session --dest org.gnome.Orca.Service \
+    --object-path /org/gnome/Orca/Service \
+    --method org.gnome.Orca.Service.Quit
+```
+
+**Returns:** Boolean indicating if the quit request was accepted
+
 ### List Available Service Commands
 
 ```bash
@@ -98,6 +118,27 @@ gdbus call --session --dest org.gnome.Orca.Service \
 Replace `ModuleName` with an actual module name from `ListModules`.
 
 **Returns:** List of (command_name, description) tuples.
+
+#### List Parameterized Commands for a Module
+
+```bash
+gdbus call --session --dest org.gnome.Orca.Service \
+    --object-path /org/gnome/Orca/Service/ModuleName \
+    --method org.gnome.Orca.Module.ListParameterizedCommands
+```
+
+Replace `ModuleName` with an actual module name from `ListModules`.
+
+**Returns:** List of (command_name, description, parameters) tuples, where `parameters` is a
+list of (parameter_name, parameter_type) tuples.
+
+**Example output:**
+
+```
+([('GetVoicesForLanguage',
+   'Returns a list of available voices for the specified language.',
+   [('language', 'str'), ('variant', 'str'), ('notify_user', 'bool')])],)
+```
 
 #### List Runtime Getters for a Module
 
@@ -194,6 +235,34 @@ gdbus call --session --dest org.gnome.Orca.Service \
 
 **Returns:** Boolean indicating success
 
+#### Execute a Parameterized Command
+
+```bash
+gdbus call --session --dest org.gnome.Orca.Service \
+    --object-path /org/gnome/Orca/Service/ModuleName \
+    --method org.gnome.Orca.Module.ExecuteParameterizedCommand 'CommandName' \
+    '{"param1": <"value1">, "param2": <"value2">}' false
+```
+
+**Parameters:**
+
+- `CommandName` (string): The name of the parameterized command to execute
+- `parameters` (dict): Dictionary of parameter names and values as GLib variants
+- `notify_user` (boolean): Whether to notify the user of the action
+
+**Returns:** The result returned by the command as a GLib variant (type depends on the command)
+
+##### Example: Get voices for a specific language
+
+```bash
+gdbus call --session --dest org.gnome.Orca.Service \
+    --object-path /org/gnome/Orca/Service/SpeechAndVerbosityManager \
+    --method org.gnome.Orca.Module.ExecuteParameterizedCommand 'GetVoicesForLanguage' \
+    '{"language": <"en-us">, "variant": <"">}' false
+```
+
+This will return a list of available voices for US English.
+
 ### Please Note
 
 **Setting `notify_user=true` is not a guarantee that feedback will be presented.** Some commands
@@ -208,11 +277,19 @@ gdbus call --session --dest org.gnome.Orca.Service \
 
 In those cases Orca will ingore the value of `notify_user`.
 
-**Setting `notify_user=false` is a guarantee that Orca will remain silent.** If Orca provides any
-feedback when `notify_user=false`, it should be considered a bug.
+**Setting `notify_user=false` is not a guarantee that Orca will remain silent**, though for the
+most part Orca will try to respect this value. The exceptions are:
+
+1. If excecuting the command has resulted in UI being shown, such as a dialog or menu, the
+   newly-shown UI will be presented in speech and/or braille based on the user's settings.
+   Failure to announce that the user has been removed from one window and placed in another
+   could be extremely confusing.
+2. If the *sole* purpose of the command is to announce something without making any other
+   changes, e.g. `PresentTime`, executing it with `notify_user=false` makes no sense. Adding
+   checks and early returns to handle this possibility does not seem worth doing. If you
+   don't want Orca to present the time, don't ask Orca to present the time. 😃
 
 ## TODO
 
-- Add more speech configuration commands, getters, and setters to the SpeechAndVerbosityManager module.
-- Progressively expose all of Orca's commands and settings via the remote controller interface.
+- Add support for more commands, getters, and setters.
 - Fix bugs, of which there are undoubtedly many.

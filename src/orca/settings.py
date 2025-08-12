@@ -17,9 +17,7 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-"""Manages the settings for Orca.  This will defer to user settings first, but
-fallback to local settings if the user settings doesn't exist (e.g., in the
-case of gdm) or doesn't have the specified attribute."""
+"""Settings managed by Orca."""
 
 __id__        = "$Id$"
 __version__   = "$Revision$"
@@ -27,7 +25,7 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2004-2009 Sun Microsystems Inc."
 __license__   = "LGPL"
 
-from typing import Any, Optional
+from typing import Any
 
 from . import messages
 from .acss import ACSS
@@ -209,8 +207,8 @@ profile: list[str] = ['Default', 'default']
 # Speech
 speechFactoryModules: list[str] = ["speechdispatcherfactory", "spiel"]
 speechServerFactory: str = "speechdispatcherfactory"
-speechServerInfo: Optional[list[str]] = None # None means let the factory decide.
-speechSystemOverride: Optional[str] = None
+speechServerInfo: list[str] | None = None # None means let the factory decide.
+speechSystemOverride: str | None = None
 enableSpeech: bool = True
 silenceSpeech: bool = False
 enableTutorialMessages: bool = True
@@ -295,7 +293,7 @@ enableDiacriticalKeys: bool = False
 enableEchoByCharacter: bool = False
 enableEchoByWord: bool = False
 enableEchoBySentence: bool = False
-presentLockingKeys: Optional[bool] = None
+presentLockingKeys: bool | None = None
 
 # Mouse review
 enableMouseReview: bool = False
@@ -308,8 +306,8 @@ speakProgressBarUpdates: bool = True
 brailleProgressBarUpdates: bool = False
 beepProgressBarUpdates: bool = False
 progressBarUpdateInterval: int = 10
-progressBarSpeechInterval: Optional[int] = None
-progressBarBrailleInterval: Optional[int] = None
+progressBarSpeechInterval: int | None = None
+progressBarBrailleInterval: int | None = None
 progressBarBeepInterval: int = 0
 progressBarVerbosity: int = PROGRESS_BAR_APPLICATION
 ignoreStatusBarProgressBars: bool = True
