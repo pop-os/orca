@@ -19,9 +19,7 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
-# pylint: disable=duplicate-code
 
 """Utilities for obtaining document-related information about accessible objects."""
 
@@ -39,6 +37,7 @@ import urllib.parse
 import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
+from gi.repository import GLib
 
 from . import debug
 from . import messages
@@ -96,7 +95,7 @@ class AXDocument:
 
         try:
             page = Atspi.Document.get_current_page_number(document)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXDocument: Exception in _get_current_page: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return 0
@@ -125,7 +124,7 @@ class AXDocument:
 
         try:
             count = Atspi.Document.get_page_count(document)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXDocument: Exception in get_page_count: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return 0
@@ -143,7 +142,7 @@ class AXDocument:
 
         try:
             result = Atspi.Document.get_locale(document)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXDocument: Exception in get_locale: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return ""
@@ -161,14 +160,14 @@ class AXDocument:
 
         try:
             result = Atspi.Document.get_document_attributes(document)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXDocument: Exception in _get_attributes_dict: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return {}
 
         tokens = ["AXDocument: Attributes of", document, "are:", result]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-        return result
+        return result or {}
 
     @staticmethod
     def get_uri(document: Atspi.Accessible) -> str:
@@ -257,12 +256,13 @@ class AXDocument:
 
         result = []
         counts = AXDocument._get_object_counts(document)
-        result.append(messages.landmarkCount(counts.get("landmarks", 0), only_if_found))
-        result.append(messages.headingCount(counts.get("headings", 0), only_if_found))
-        result.append(messages.formCount(counts.get("forms", 0), only_if_found))
-        result.append(messages.tableCount(counts.get("tables", 0), only_if_found))
-        result.append(messages.visitedLinkCount(counts.get("visited_links", 0), only_if_found))
-        result.append(messages.unvisitedLinkCount(counts.get("unvisited_links", 0), only_if_found))
+        result.append(messages.landmark_count(counts.get("landmarks", 0), only_if_found))
+        result.append(messages.heading_count(counts.get("headings", 0), only_if_found))
+        result.append(messages.form_count(counts.get("forms", 0), only_if_found))
+        result.append(messages.table_count(counts.get("tables", 0), only_if_found))
+        result.append(messages.visited_link_count(counts.get("visited_links", 0), only_if_found))
+        result.append(messages.unvisited_link_count(
+            counts.get("unvisited_links", 0), only_if_found))
         result = list(filter(lambda x: x, result))
         if not result:
             return ""

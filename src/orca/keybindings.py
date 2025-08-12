@@ -17,7 +17,6 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
 # pylint: disable=too-many-instance-attributes
 # pylint: disable=too-many-arguments
@@ -33,18 +32,18 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc."
 __license__   = "LGPL"
 
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 import gi
-gi.require_version('Atspi', '2.0')
-gi.require_version('Gdk', '3.0')
+gi.require_version("Atspi", "2.0")
+gi.require_version("Gdk", "3.0")
 from gi.repository import Atspi
 from gi.repository import Gdk
 
 from . import debug
 from . import input_event_manager
 from . import settings
-from .orca_i18n import _
+from .orca_i18n import _ # pylint: disable=import-error
 
 if TYPE_CHECKING:
     from .input_event import KeyboardEvent, InputEventHandler
@@ -393,6 +392,11 @@ class KeyBindings:
     def __str__(self) -> str:
         return "\n".join(map(str, self.key_bindings))
 
+    def get_bindings_with_grabs_for_debugging(self) -> list[KeyBinding]:
+        """Returns a list of key bindings that have active grabs for debugging purposes."""
+
+        return [binding for binding in self.key_bindings if binding.has_grabs()]
+
     def add(self, key_binding: KeyBinding, include_grabs: bool = False) -> None:
         """Adds KeyBinding instance to this set of keybindings, optionally updating grabs."""
 
@@ -457,7 +461,7 @@ class KeyBindings:
                 count += 1
                 binding.add_grabs()
 
-        msg = f"KEYBINDINGS: {count} key grabs out of {len(self.key_bindings)} added."
+        msg = f"KEYBINDINGS: {count} key grabs added (total bindings: {len(self.key_bindings)})."
         debug.print_message(debug.LEVEL_INFO, msg, True, not reason)
 
     def remove_key_grabs(self, reason: str = "") -> None:
@@ -474,7 +478,7 @@ class KeyBindings:
                 count += 1
                 binding.remove_grabs()
 
-        msg = f"KEYBINDINGS: {count} key grabs out of {len(self.key_bindings)} removed."
+        msg = f"KEYBINDINGS: {count} key grabs removed (total bindings: {len(self.key_bindings)})."
         debug.print_message(debug.LEVEL_INFO, msg, True, not reason)
 
     def has_handler(self, handler: "InputEventHandler") -> bool:
@@ -576,7 +580,7 @@ class KeyBindings:
         )
         debug.print_message(debug.LEVEL_INFO, msg, True)
 
-    def get_input_handler(self, event: KeyboardEvent) -> Optional[InputEventHandler]:
+    def get_input_handler(self, event: KeyboardEvent) -> InputEventHandler | None:
         """Returns the input handler matching keyboardEvent)"""
 
         matches: list[KeyBinding] = []

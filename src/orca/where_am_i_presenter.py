@@ -30,15 +30,17 @@ __copyright__ = "Copyright (c) 2005-2008 Sun Microsystems Inc." \
                 "Copyright (c) 2016-2023 Igalia, S.L."
 __license__   = "LGPL"
 
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 from . import cmdnames
+from . import dbus_service
 from . import debug
 from . import focus_manager
 from . import input_event
 from . import keybindings
 from . import messages
 from . import settings_manager
+from . import speech_and_verbosity_manager
 from .ax_component import AXComponent
 from .ax_object import AXObject
 from .ax_text import AXText, AXTextAttribute
@@ -59,6 +61,11 @@ class WhereAmIPresenter:
         self._desktop_bindings: keybindings.KeyBindings = keybindings.KeyBindings()
         self._laptop_bindings: keybindings.KeyBindings = keybindings.KeyBindings()
 
+        msg = "WhereAmIPresenter: Registering D-Bus commands."
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        controller = dbus_service.get_remote_controller()
+        controller.register_decorated_module("WhereAmIPresenter", self)
+
     def get_bindings(
         self, refresh: bool = False, is_desktop: bool = True
     ) -> keybindings.KeyBindings:
@@ -67,6 +74,8 @@ class WhereAmIPresenter:
         if refresh:
             msg = "WHERE AM I PRESENTER: Refreshing bindings."
             debug.print_message(debug.LEVEL_INFO, msg, True)
+            self._desktop_bindings.remove_key_grabs("WHERE AM I PRESENTER: Refreshing bindings.")
+            self._laptop_bindings.remove_key_grabs("WHERE AM I PRESENTER: Refreshing bindings.")
             self._setup_bindings()
         elif is_desktop and self._desktop_bindings.is_empty():
             self._setup_bindings()
@@ -311,10 +320,18 @@ class WhereAmIPresenter:
         localized_value = ax_text_attribute.get_localized_value(value)
         return f"{localized_key}: {localized_value}"
 
+    @dbus_service.command
     def present_character_attributes(
-        self, script: default.Script, _event: Optional[input_event.InputEvent] = None
+        self,
+        script: default.Script,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the font and formatting details for the current character."""
+
+        tokens = ["WHERE AM I PRESENTER: present_character_attributes. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         focus = focus_manager.get_manager().get_locus_of_focus()
         attrs = AXText.get_text_attributes_at_offset(focus)[0]
@@ -331,14 +348,22 @@ class WhereAmIPresenter:
             key = ax_text_attr.get_attribute_name()
             value = attrs.get(key)
             if not ax_text_attr.value_is_default(value):
-                script.speakMessage(self._localize_text_attribute(key, value))
+                script.speak_message(self._localize_text_attribute(key, value))
 
         return True
 
+    @dbus_service.command
     def present_size_and_position(
-        self, script: default.Script, event: Optional[input_event.InputEvent] = None
+        self,
+        script: default.Script,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the size and position of the current object."""
+
+        tokens = ["WHERE AM I PRESENTER: present_size_and_position. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         if script.get_flat_review_presenter().is_active():
             obj = script.get_flat_review_presenter().get_current_object(script, event)
@@ -349,204 +374,231 @@ class WhereAmIPresenter:
         if AXComponent.is_empty_rect(rect):
             full = messages.LOCATION_NOT_FOUND_FULL
             brief = messages.LOCATION_NOT_FOUND_BRIEF
-            script.presentMessage(full, brief)
+            script.present_message(full, brief)
             return True
 
         full = messages.SIZE_AND_POSITION_FULL % (rect.width, rect.height, rect.x, rect.y)
         brief = messages.SIZE_AND_POSITION_BRIEF % (rect.width, rect.height, rect.x, rect.y)
-        script.presentMessage(full, brief)
+        script.present_message(full, brief)
         return True
 
+    @dbus_service.command
     def present_title(
-        self, script: default.Script, _event: Optional[input_event.InputEvent] = None
+        self,
+        script: default.Script,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the title of the current window."""
+
+        tokens = ["WHERE AM I PRESENTER: present_title. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         obj = focus_manager.get_manager().get_locus_of_focus()
         if AXObject.is_dead(obj):
             obj = focus_manager.get_manager().get_active_window()
 
         if obj is None or AXObject.is_dead(obj):
-            script.presentMessage(messages.LOCATION_NOT_FOUND_FULL)
+            script.present_message(messages.LOCATION_NOT_FOUND_FULL)
             return True
 
         title = script.speech_generator.generate_window_title(obj)
         for (string, voice) in title:
-            script.presentMessage(string, voice=voice)
+            script.present_message(string, voice=voice)
         return True
 
-    def _present_default_button(
+    @dbus_service.command
+    def present_default_button(
         self,
         script: default.Script,
-        _event: Optional[input_event.InputEvent] = None,
-        dialog: Optional[Atspi.Accessible] = None,
-        error_messages: bool = True
+        event: input_event.InputEvent | None = None,
+        dialog: Atspi.Accessible | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the default button of the current dialog."""
 
+        tokens = ["WHERE AM I PRESENTER: present_default_button. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
         obj = focus_manager.get_manager().get_locus_of_focus()
         if dialog is None:
-            _frame, dialog = script.utilities.frameAndDialog(obj)
+            _frame, dialog = script.utilities.frame_and_dialog(obj)
         if dialog is None:
-            if error_messages:
-                script.presentMessage(messages.DIALOG_NOT_IN_A)
+            if notify_user:
+                script.present_message(messages.DIALOG_NOT_IN_A)
             return True
 
         button = AXUtilities.get_default_button(dialog)
         if button is None:
-            if error_messages:
-                script.presentMessage(messages.DEFAULT_BUTTON_NOT_FOUND)
+            if notify_user:
+                script.present_message(messages.DEFAULT_BUTTON_NOT_FOUND)
             return True
 
         name = AXObject.get_name(button)
         if not AXUtilities.is_sensitive(button):
-            script.presentMessage(messages.DEFAULT_BUTTON_IS_GRAYED % name)
+            script.present_message(messages.DEFAULT_BUTTON_IS_GRAYED % name)
             return True
 
-        script.presentMessage(messages.DEFAULT_BUTTON_IS % name)
+        script.present_message(messages.DEFAULT_BUTTON_IS % name)
         return True
 
+    @dbus_service.command
     def present_status_bar(
-        self, script: default.Script, event: Optional[input_event.InputEvent] = None
+        self,
+        script: default.Script,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
-        """Presents the status bar of the current window."""
+        """Presents the status bar and info bar of the current window."""
+
+        tokens = ["WHERE AM I PRESENTER: present_status_bar. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         obj = focus_manager.get_manager().get_locus_of_focus()
-        frame, dialog = script.utilities.frameAndDialog(obj)
+        frame, _dialog = script.utilities.frame_and_dialog(obj)
         if frame:
             statusbar = AXUtilities.get_status_bar(frame)
             if statusbar:
-                script.presentObject(statusbar, interrupt=True)
+                script.present_object(statusbar, interrupt=True)
             else:
                 full = messages.STATUS_BAR_NOT_FOUND_FULL
                 brief = messages.STATUS_BAR_NOT_FOUND_BRIEF
-                script.presentMessage(full, brief)
+                script.present_message(full, brief)
 
-            infobar = script.utilities.infoBar(frame)
-            if infobar:
-                script.presentObject(infobar, interrupt=statusbar is None)
-
-        # TODO - JD: Pending user feedback, this should be removed.
-        if dialog:
-            self._present_default_button(script, event, dialog, False)
+            infobar = AXUtilities.get_info_bar(frame)
+            if infobar and AXUtilities.is_showing(infobar) and AXUtilities.is_visible(infobar):
+                script.present_object(infobar, interrupt=statusbar is None)
 
         return True
 
-    def present_default_button(
-        self, script: default.Script, event: Optional[input_event.InputEvent] = None
-    ) -> bool:
-        """Presents the default button of the current window."""
-
-        return self._present_default_button(script, event)
-
+    @dbus_service.command
     def present_link(
         self,
         script: default.Script,
-        event: Optional[input_event.InputEvent] = None,
-        link: Optional[Atspi.Accessible] = None
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents details about the current link."""
 
-        link = link or focus_manager.get_manager().get_locus_of_focus()
-        if not script.utilities.isLink(link):
-            script.presentMessage(messages.NOT_ON_A_LINK)
+        tokens = ["WHERE AM I PRESENTER: present_link. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
+        link = focus_manager.get_manager().get_locus_of_focus()
+        if not script.utilities.is_link(link):
+            if notify_user:
+                script.present_message(messages.NOT_ON_A_LINK)
             return True
 
-        return self._do_where_am_i(script, event, True, link)
+        return self._do_where_am_i(script, True, link)
 
     def _get_all_selected_text(self, script: default.Script, obj: Atspi.Accessible) -> str:
         """Returns the selected text of obj plus any adjacent text objects."""
 
         string = AXText.get_selected_text(obj)[0]
-        if script.utilities.isSpreadSheetCell(obj):
+        if script.utilities.is_spreadsheet_cell(obj):
             return string
 
-        prev_obj = script.utilities.findPreviousObject(obj)
+        prev_obj = script.utilities.find_previous_object(obj)
         while prev_obj:
             selection = AXText.get_selected_text(prev_obj)[0]
             if not selection:
                 break
             string = f"{selection} {string}"
-            prev_obj = script.utilities.findPreviousObject(prev_obj)
+            prev_obj = script.utilities.find_previous_object(prev_obj)
 
-        next_obj = script.utilities.findNextObject(obj)
+        next_obj = script.utilities.find_next_object(obj)
         while next_obj:
             selection = AXText.get_selected_text(next_obj)[0]
             if not selection:
                 break
             string = f"{string} {selection}"
-            next_obj = script.utilities.findNextObject(next_obj)
+            next_obj = script.utilities.find_next_object(next_obj)
 
         return string
 
+    @dbus_service.command
     def present_selected_text(
         self,
         script: default.Script,
-        _event: Optional[input_event.InputEvent] = None,
-        obj: Optional[Atspi.Accessible] = None
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the selected text."""
 
-        obj = obj or focus_manager.get_manager().get_locus_of_focus()
+        tokens = ["WHERE AM I PRESENTER: present_selected_text. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
+        obj = focus_manager.get_manager().get_locus_of_focus()
         if obj is None:
-            script.speakMessage(messages.LOCATION_NOT_FOUND_FULL)
+            script.speak_message(messages.LOCATION_NOT_FOUND_FULL)
             return True
 
         text = self._get_all_selected_text(script, obj)
         if not text:
-            script.speakMessage(messages.NO_SELECTED_TEXT)
+            script.speak_message(messages.NO_SELECTED_TEXT)
             return True
 
-        if script.utilities.shouldVerbalizeAllPunctuation(obj):
-            text = script.utilities.verbalizeAllPunctuation(text)
-
-        msg = messages.SELECTED_TEXT_IS % text
-        script.speakMessage(msg)
+        manager = speech_and_verbosity_manager.get_manager()
+        indentation = manager.get_indentation_description(text, only_if_changed=False)
+        text = manager.adjust_for_presentation(obj, text)
+        msg = messages.SELECTED_TEXT_IS % f"{indentation} {text}"
+        script.speak_message(msg)
         return True
 
+    @dbus_service.command
     def present_selection(
         self,
         script: default.Script,
-        event: Optional[input_event.InputEvent] = None,
-        obj: Optional[Atspi.Accessible] = None
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents the selected text or selected objects."""
 
-        obj = obj or focus_manager.get_manager().get_locus_of_focus()
+        tokens = ["WHERE AM I PRESENTER: present_selection. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+
+        obj = focus_manager.get_manager().get_locus_of_focus()
         if obj is None:
-            script.speakMessage(messages.LOCATION_NOT_FOUND_FULL)
+            if not script.utilities.is_link(obj):
+                script.speak_message(messages.LOCATION_NOT_FOUND_FULL)
             return True
 
         tokens = ["WHERE AM I PRESENTER: presenting selection for", obj]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
-        spreadsheet = AXObject.find_ancestor(obj, script.utilities.isSpreadSheetTable)
-        if spreadsheet is not None and script.utilities.speakSelectedCellRange(spreadsheet):
+        spreadsheet = AXObject.find_ancestor(obj, script.utilities.is_spreadsheet_table)
+        if spreadsheet is not None and script.utilities.speak_selected_cell_range(spreadsheet):
             return True
 
-        container = script.utilities.getSelectionContainer(obj)
+        container = script.utilities.get_selection_container(obj)
         if container is None:
             tokens = ["WHERE AM I PRESENTER: Selection container not found for", obj]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return self.present_selected_text(script, event, obj)
 
-        selected_count = script.utilities.selectedChildCount(container)
-        child_count = script.utilities.selectableChildCount(container)
-        script.presentMessage(messages.selectedItemsCount(selected_count, child_count))
+        selected_count = script.utilities.selected_child_count(container)
+        child_count = script.utilities.selectable_child_count(container)
+        script.present_message(messages.selected_items_count(selected_count, child_count))
         if not selected_count:
             return True
 
-        selected_items = script.utilities.selectedChildren(container)
+        selected_items = script.utilities.selected_children(container)
         item_names = ",".join(map(AXObject.get_name, selected_items))
-        script.speakMessage(item_names)
+        script.speak_message(item_names)
         return True
 
     def _do_where_am_i(
         self,
         script: default.Script,
-        _event: Optional[input_event.InputEvent] = None,
         basic_only: bool = True,
-        obj: Optional[Atspi.Accessible] = None
+        obj: Atspi.Accessible | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents details about the current location at the specified level."""
 
@@ -559,16 +611,31 @@ class WhereAmIPresenter:
             obj = focus_manager.get_manager().get_active_window()
 
         if obj is None or AXObject.is_dead(obj):
-            script.presentMessage(messages.LOCATION_NOT_FOUND_FULL)
+            if notify_user:
+                script.present_message(messages.LOCATION_NOT_FOUND_FULL)
             return True
 
         if basic_only:
-            format_type = 'basicWhereAmI'
+            format_type = "basicWhereAmI"
         else:
-            format_type = 'detailedWhereAmI'
+            format_type = "detailedWhereAmI"
 
-        script.presentObject(
-            script.utilities.realActiveAncestor(obj),
+        def real_object(acc: Atspi.Accessible) -> Atspi.Accessible:
+            if AXUtilities.is_focused(acc):
+                return acc
+
+            def pred(x):
+                return AXUtilities.is_table_cell_or_header(x) or AXUtilities.is_list_item(x)
+
+            ancestor = AXObject.find_ancestor(acc, pred)
+            if ancestor is not None \
+              and not AXUtilities.is_layout_only(AXObject.get_parent(ancestor)):
+                acc = ancestor
+
+            return acc
+
+        script.present_object(
+            real_object(obj),
             alreadyFocused=True,
             formatType=format_type,
             forceMnemonic=True,
@@ -578,24 +645,39 @@ class WhereAmIPresenter:
 
         return True
 
+    @dbus_service.command
     def where_am_i_basic(
-        self, script: default.Script, event: Optional[input_event.InputEvent] = None
+        self,
+        script: default.Script,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents basic information about the current location."""
 
-        return self._do_where_am_i(script, event)
+        tokens = ["WHERE AM I PRESENTER: where_am_i_basic. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+        return self._do_where_am_i(script, notify_user=notify_user)
 
+    @dbus_service.command
     def where_am_i_detailed(
-        self, script: default.Script, event: Optional[input_event.InputEvent] = None
+        self,
+        script: default.Script,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
     ) -> bool:
         """Presents detailed information about the current location."""
+
+        tokens = ["WHERE AM I PRESENTER: where_am_i_detailed. Script:", script,
+                  "Event:", event, "notify_user:", notify_user]
+        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
         # TODO - JD: For some reason, we are starting the basic where am I
         # in response to the first click. Then we do the detailed one in
         # response to the second click. Until that's fixed, interrupt the
         # first one.
-        script.presentationInterrupt()
-        return self._do_where_am_i(script, event, False)
+        script.interrupt_presentation()
+        return self._do_where_am_i(script, False, notify_user=notify_user)
 
 _presenter = WhereAmIPresenter()
 def get_presenter() -> WhereAmIPresenter:

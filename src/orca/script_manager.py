@@ -18,7 +18,6 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
 
 """Manages Orca's scripts."""
@@ -30,7 +29,6 @@ __copyright__ = "Copyright (c) 2011-2024 Igalia, S.L."
 __license__   = "LGPL"
 
 import importlib
-from typing import Optional
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -57,8 +55,8 @@ class ScriptManager:
         self.toolkit_scripts: dict = {}
         self.custom_scripts: dict = {}
         self._sleep_mode_scripts: dict = {}
-        self._default_script: Optional[default.Script] = None
-        self._active_script: Optional[default.Script] = None
+        self._default_script: default.Script | None = None
+        self._active_script: default.Script | None = None
         self._active: bool = False
         debug.print_message(debug.LEVEL_INFO, "SCRIPT MANAGER: Initialized", True)
 
@@ -94,7 +92,7 @@ class ScriptManager:
         self._active = False
         debug.print_message(debug.LEVEL_INFO, "SCRIPT MANAGER: Deactivated", True)
 
-    def get_module_name(self, app: Optional[Atspi.Accessible]) -> Optional[str]:
+    def get_module_name(self, app: Atspi.Accessible | None) -> str | None:
         """Returns the module name of the script to use for application app."""
 
         if app is None:
@@ -115,9 +113,9 @@ class ScriptManager:
                      "pluma": "gedit",
                      "xfce4-notifyd": "notification-daemon"}
         alt_names = list(app_names.keys())
-        if name.endswith(".py") or name.endswith(".bin"):
+        if name.endswith((".py", ".bin")):
             name = name.split(".")[0]
-        elif name.startswith("org.") or name.startswith("com."):
+        elif name.startswith(("org.", "com.")):
             name = name.split(".")[-1]
 
         names = [n for n in alt_names if n.lower() == name.lower()]
@@ -134,7 +132,7 @@ class ScriptManager:
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return name
 
-    def _toolkit_for_object(self, obj: Atspi.Accessible) -> Optional[str]:
+    def _toolkit_for_object(self, obj: Atspi.Accessible) -> str | None:
         """Returns the name of the toolkit associated with obj."""
 
         names = {"GTK": "gtk", "GAIL": "gtk"}
@@ -149,7 +147,7 @@ class ScriptManager:
 
         return ""
 
-    def _new_named_script(self, app: Atspi.Accessible, name: str) -> Optional[default.Script]:
+    def _new_named_script(self, app: Atspi.Accessible, name: str) -> default.Script | None:
         """Returns a script based on this module if it was located and loadable."""
 
         if not (app and name):
@@ -170,19 +168,19 @@ class ScriptManager:
             tokens = ["SCRIPT MANAGER: Found", module_name]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             try:
-                if hasattr(module, "getScript"):
+                if hasattr(module, "get_script"):
                     script = module.get_script(app)
                 else:
                     script = module.Script(app)
                 break
-            except Exception as error:
+            except (AttributeError, TypeError, ImportError) as error:
                 tokens = ["EXCEPTION: Could not load", module_name, ":", error]
                 debug.print_tokens(debug.LEVEL_INFO, tokens, True, True)
 
         return script
 
     def _create_script(
-        self, app: Atspi.Accessible, obj: Optional[Atspi.Accessible] = None
+        self, app: Atspi.Accessible, obj: Atspi.Accessible | None = None
     ) -> default.Script:
         """For the given application, create a new script instance."""
 
@@ -207,7 +205,7 @@ class ScriptManager:
 
         return script
 
-    def get_default_script(self, app: Optional[Atspi.Accessible] = None) -> default.Script:
+    def get_default_script(self, app: Atspi.Accessible | None = None) -> default.Script:
         """Returns the default script."""
 
         if not app and self._default_script:
@@ -231,16 +229,16 @@ class ScriptManager:
         return script
 
     def get_script(
-        self, app: Optional[Atspi.Accessible], obj: Optional[Atspi.Accessible] = None
+        self, app: Atspi.Accessible | None, obj: Atspi.Accessible | None = None
     ) -> default.Script:
         """Get a script for an app (and make it if necessary)."""
 
         tokens = ["SCRIPT MANAGER: Getting script for", app, obj]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
-        custom_script: Optional[default.Script] = None
-        app_script: Optional[default.Script] = None
-        toolkit_script: Optional[default.Script] = None
+        custom_script: default.Script | None = None
+        app_script: default.Script | None = None
+        toolkit_script: default.Script | None = None
 
         role_name = self._script_for_role(obj)
         if role_name:
@@ -268,7 +266,7 @@ class ScriptManager:
             else:
                 app_script = self._create_script(app, None)
                 self.app_scripts[app] = app_script
-        except Exception as error:
+        except (KeyError, AttributeError, ImportError) as error:
             tokens = ["EXCEPTION: Exception getting app script for", app, ":", error]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             app_script = self.get_default_script()
@@ -296,14 +294,14 @@ class ScriptManager:
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return app_script
 
-    def get_active_script(self) -> Optional[default.Script]:
+    def get_active_script(self) -> default.Script | None:
         """Returns the active script."""
 
         tokens = ["SCRIPT MANAGER: Active script is:", self._active_script]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return self._active_script
 
-    def get_active_script_app(self) -> Optional[Atspi.Accessible]:
+    def get_active_script_app(self) -> Atspi.Accessible | None:
         """Returns the app associated with the active script."""
 
         if self._active_script is None:
@@ -313,7 +311,7 @@ class ScriptManager:
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
         return self._active_script.app
 
-    def set_active_script(self, new_script: Optional[default.Script], reason: str = "") -> None:
+    def set_active_script(self, new_script: default.Script | None, reason: str = "") -> None:
         """Set the active script to new_script."""
 
         if self._active_script == new_script:

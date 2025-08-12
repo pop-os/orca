@@ -1,5 +1,5 @@
 project('orca',
-  version: '48.0',
+  version: '49.beta',
   meson_version: '>= 1.0.0',
 )
 
@@ -14,9 +14,15 @@ if not python3.language_version().version_compare(f'>= @python_minimum_version@'
 endif
 
 # Hard dependencies (checked via pkg-config)
-dependency('atspi-2', version: '>= 2.50.0')
+dependency('atspi-2', version: '>= 2.52.0')
 dependency('atk-bridge-2.0', version: '>= 2.50.0')
 dependency('pygobject-3.0', version: '>= 3.18')
+
+# Hard Python module dependencies
+dasbus_result = python.find_installation('python3', modules:['dasbus'], required: false)
+if not dasbus_result.found()
+  error('dasbus is required for D-Bus remote controller interface')
+endif
 
 # End users might not have the Gtk development libraries installed, making pkg-config fail.
 # Therefore, check this dependency via python.
@@ -79,6 +85,17 @@ else
   summary += {'speech output': 'no (missing speechd, spiel)'}
 endif
 
+# Integration with session startup
+systemd = dependency('systemd', required: false)
+systemd_user_unit_dir = systemd.get_variable(
+    'systemd_user_unit_dir',
+    pkgconfig_define: ['prefix', get_option('prefix')],
+    default_value: get_option('prefix') / 'lib' / 'systemd' / 'user'
+)
+install_data(
+    'orca.service',
+    install_dir: systemd_user_unit_dir
+)
 i18n.merge_file(
   input: 'orca-autostart.desktop.in',
   output: '@BASENAME@',
@@ -99,6 +116,7 @@ subdir('help')
 subdir('icons')
 subdir('po')
 subdir('src')
+subdir('tests')
 
 summary(summary)
 

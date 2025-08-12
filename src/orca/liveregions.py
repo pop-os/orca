@@ -127,7 +127,8 @@ class LiveRegionManager:
 
         if refresh:
             msg = "LIVE REGION MANAGER: Refreshing bindings."
-            debug.print_message(debug.LEVEL_INFO, msg, True, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            self._bindings.remove_key_grabs("LIVE REGION MANAGER: Refreshing bindings.")
             self._setup_bindings()
         elif self._bindings.is_empty():
             self._setup_bindings()
@@ -139,7 +140,7 @@ class LiveRegionManager:
 
         if refresh:
             msg = "LIVE REGION MANAGER: Refreshing handlers."
-            debug.print_message(debug.LEVEL_INFO, msg, True, True)
+            debug.print_message(debug.LEVEL_INFO, msg, True)
             self._setup_handlers()
 
         return self._handlers
@@ -342,7 +343,9 @@ class LiveRegionManager:
                 utts = message['labels'] + message['content']
 
             if self.monitoring:
-                self._script.presentMessage(utts)
+                if isinstance(utts, list):
+                    utts = " ".join(utts)
+                self._script.present_message(utts)
             else:
                 msg = "INFO: Not presenting message because monitoring is off"
                 debug.print_message(debug.LEVEL_INFO, msg, True)
@@ -378,7 +381,7 @@ class LiveRegionManager:
         """Advance the politeness level of the given object"""
 
         if not settings_manager.get_manager().get_setting('inferLiveRegions'):
-            self._script.presentMessage(messages.LIVE_REGIONS_OFF)
+            self._script.present_message(messages.LIVE_REGIONS_OFF)
             return
 
         obj = focus_manager.get_manager().get_locus_of_focus()
@@ -396,20 +399,20 @@ class LiveRegionManager:
 
         if cur_priority == LIVE_OFF or cur_priority == LIVE_NONE:
             self._politenessOverrides[(uri, objectid)] = LIVE_POLITE
-            self._script.presentMessage(messages.LIVE_REGIONS_LEVEL_POLITE)
+            self._script.present_message(messages.LIVE_REGIONS_LEVEL_POLITE)
         elif cur_priority == LIVE_POLITE:
             self._politenessOverrides[(uri, objectid)] = LIVE_ASSERTIVE
-            self._script.presentMessage(messages.LIVE_REGIONS_LEVEL_ASSERTIVE)
+            self._script.present_message(messages.LIVE_REGIONS_LEVEL_ASSERTIVE)
         elif cur_priority == LIVE_ASSERTIVE:
             self._politenessOverrides[(uri, objectid)] = LIVE_OFF
-            self._script.presentMessage(messages.LIVE_REGIONS_LEVEL_OFF)
+            self._script.present_message(messages.LIVE_REGIONS_LEVEL_OFF)
 
     def goLastLiveRegion(self):
         """Move the caret to the last announced live region and speak the
         contents of that object"""
         if self.lastliveobj:
-            self._script.utilities.setCaretPosition(self.lastliveobj, 0)
-            self._script.speakContents(self._script.utilities.getObjectContentsAtOffset(
+            self._script.utilities.set_caret_position(self.lastliveobj, 0)
+            self._script.speak_contents(self._script.utilities.get_object_contents_at_offset(
                                        self.lastliveobj, 0))
 
     def reviewLiveAnnouncement(self, script, inputEvent):
@@ -417,31 +420,31 @@ class LiveRegionManager:
 
         msgnum = int(inputEvent.keyval_name[1:])
         if not settings_manager.get_manager().get_setting('inferLiveRegions'):
-            self._script.presentMessage(messages.LIVE_REGIONS_OFF)
+            self._script.present_message(messages.LIVE_REGIONS_OFF)
             return
 
         if msgnum > len(self.msg_cache):
-            self._script.presentMessage(messages.LIVE_REGIONS_NO_MESSAGE)
+            self._script.present_message(messages.LIVE_REGIONS_NO_MESSAGE)
         else:
-            self._script.presentMessage(self.msg_cache[-msgnum])
+            self._script.present_message(self.msg_cache[-msgnum])
 
     def setLivePolitenessOff(self, script, inputEvent):
         """User toggle to set all live regions to LIVE_OFF or back to their
         original politeness."""
 
         if not settings_manager.get_manager().get_setting('inferLiveRegions'):
-            self._script.presentMessage(messages.LIVE_REGIONS_OFF)
+            self._script.present_message(messages.LIVE_REGIONS_OFF)
             return
 
         # start at the document frame
-        docframe = self._script.utilities.documentFrame()
+        docframe = self._script.utilities.active_document()
         # get the URI of the page.  It is used as a partial key.
         uri = self._script.bookmarks.getURIKey()
 
         # The user is currently monitoring live regions but now wants to
         # change all live region politeness on page to LIVE_OFF
         if self.monitoring:
-            self._script.presentMessage(messages.LIVE_REGIONS_ALL_OFF)
+            self._script.present_message(messages.LIVE_REGIONS_ALL_OFF)
             self.msg_queue.clear()
 
             # First we'll save off a copy for quick restoration
@@ -466,7 +469,7 @@ class LiveRegionManager:
         else:
             for key, value in self._restoreOverrides.items():
                 self._politenessOverrides[key] = value
-            self._script.presentMessage(messages.LIVE_REGIONS_ALL_RESTORED)
+            self._script.present_message(messages.LIVE_REGIONS_ALL_RESTORED)
             # Toggle our flag
             self.monitoring = True
 
@@ -541,11 +544,11 @@ class LiveRegionManager:
                 if "\ufffc" not in event.any_data:
                     content = event.any_data
                 else:
-                    content = self._script.utilities.expandEOCs(
+                    content = self._script.utilities.expand_eocs(
                         event.source, event.detail1, event.detail1 + event.detail2)
             else:
                 container = self._findContainer(event.source)
-                content = self._script.utilities.expandEOCs(container)
+                content = self._script.utilities.expand_eocs(container)
 
         if not content:
             return None
@@ -562,8 +565,8 @@ class LiveRegionManager:
         # instantly send out notify messages
         if attrs.get('channel') == 'notify':
             utts = labels + content
-            self._script.presentationInterrupt()
-            self._script.presentMessage(utts)
+            self._script.interrupt_presentation()
+            self._script.present_message(utts)
             return None
 
         return {'content':[content], 'labels':[labels]}
@@ -647,7 +650,7 @@ class LiveRegionManager:
     def _getPath(self, obj):
         """ Returns, as a tuple of integers, the path from the given object
         to the document frame."""
-        docframe = self._script.utilities.documentFrame()
+        docframe = self._script.utilities.active_document()
         path = []
         while True:
             if obj == docframe or AXObject.get_parent(obj) is None:
@@ -659,8 +662,8 @@ class LiveRegionManager:
     def toggleMonitoring(self, script, inputEvent):
         if not settings_manager.get_manager().get_setting('inferLiveRegions'):
             settings_manager.get_manager().set_setting('inferLiveRegions', True)
-            self._script.presentMessage(messages.LIVE_REGIONS_MONITORING_ON)
+            self._script.present_message(messages.LIVE_REGIONS_MONITORING_ON)
         else:
             settings_manager.get_manager().set_setting('inferLiveRegions', False)
             self.flushMessages()
-            self._script.presentMessage(messages.LIVE_REGIONS_MONITORING_OFF)
+            self._script.present_message(messages.LIVE_REGIONS_MONITORING_OFF)

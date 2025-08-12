@@ -18,9 +18,7 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
-# pylint: disable=duplicate-code
 
 """Utilities for obtaining information about containers supporting selection."""
 
@@ -30,11 +28,10 @@ __date__      = "$Date$"
 __copyright__ = "Copyright (c) 2023 Igalia, S.L."
 __license__   = "LGPL"
 
-from typing import Optional
-
 import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
+from gi.repository import GLib
 
 from . import debug
 from .ax_object import AXObject
@@ -53,7 +50,7 @@ class AXSelection:
 
         try:
             count = Atspi.Selection.get_n_selected_children(obj)
-        except Exception as error:
+        except GLib.GError as error:
             tokens = ["AXSelection: Exception in get_selected_child_count:", error]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return 0
@@ -63,7 +60,7 @@ class AXSelection:
         return count
 
     @staticmethod
-    def get_selected_child(obj: Atspi.Accessible, index: int) -> Optional[Atspi.Accessible]:
+    def get_selected_child(obj: Atspi.Accessible, index: int) -> Atspi.Accessible | None:
         """Returns the nth selected child of obj."""
 
         n_children = AXSelection.get_selected_child_count(obj)
@@ -78,7 +75,7 @@ class AXSelection:
 
         try:
             child = Atspi.Selection.get_selected_child(obj, index)
-        except Exception as error:
+        except GLib.GError as error:
             tokens = ["AXSelection: Exception in get_selected_child:", error]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
             return None
@@ -109,7 +106,7 @@ class AXSelection:
         for i in range(count):
             try:
                 child = Atspi.Selection.get_selected_child(obj, i)
-            except Exception as error:
+            except GLib.GError as error:
                 tokens = ["AXSelection: Exception in get_selected_children:", error]
                 debug.print_tokens(debug.LEVEL_INFO, tokens, True)
                 return []

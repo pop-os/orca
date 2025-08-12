@@ -1,3 +1,243 @@
+49.beta - 12 August 2025
+
+New Features:
+
+* Orca now has a systemd user service. (Thanks Adrian Vovk!)
+
+* Structural Navigation is now available in all apps; not just web
+  content. To toggle it, try Orca + Z. Note that there are still many
+  improvements to be made and some bugs to be fixed.
+
+* Many commands are now available via the still-work-in-progress D-Bus
+  "Remote Controller." Documentation: README-REMOTE-CONTROLLER.md.
+
+Other Changes:
+
+* Support "politeness" level in the accessible "announcement" event.
+
+* Improve performance of finding "clickables" in web content.
+
+* Improve line identification of web content with sub/superscripts.
+
+* Use SIGUSR1 to show the preferences dialog for the running Orca.
+  Also provide a D-Bus command to accomplish the same thing.
+
+* Fix several issues related to shutting down Orca when a speech
+  server was unresponsive.
+
+* Work around some hypertext/hyperlink implementation brokenness that
+  was causing Orca to get stuck in certain Chromium content.
+
+* Fix several bugs in Say All's rewind/fast-forward support.
+
+* General code clean up, fixes for tracebacks, etc.
+
+New and updated translations (THANKS EVERYONE!!!):
+
+  eo              Esperanto                 Kristjan SCHMIDT
+  gl              Galician                  Fran Diéguez
+  hu              Hungarian                 Attila Hammer
+  ro              Romanian                  Antonio Marin
+  ru              Russian                   Artur S0
+  sl              Slovenian                 Martin
+  tr              Turkish                   Emin Tufan Çetin
+
+=========
+
+49.alpha - 1 July 2025
+
+Updated Dependencies:
+
+* The minimum version of AT-SPI2 is now 2.52.
+
+* Dasbus is now a required dependency.
+
+New Features:
+
+* Orca now has a very basic, very work-in-progress and unstable D-Bus
+  "Remote Controller". Support for executing commands and adjusting
+  settings is currently quite limited. But now that the plumbing is
+  in place, support can be increased and should be quite extensive
+  by the 49.0 release. Documentation: README-REMOTE-CONTROLLER.md.
+
+* Orca's support for the error-message/error-for relations is now
+  global (before it was just for web apps).
+
+* Orca will announce grammar errors similar to what is done for
+  spelling errors. Note: this requires app/toolkit exposure of
+  the presence of the error.
+
+* Orca now has an "experimental" setting to only speak indentation
+  if it changed. To enable this, add the following lines to
+  $HOME/.local/share/orca/orca_customizations.py:
+
+    import orca.settings
+    orca.settings.speakIndentationOnlyIfChanged = True
+
+Other Changes:
+
+* The flat review code was significantly refactored and bugs found
+  in the process fixed.
+
+* Fix bug causing the default script to become activated when it
+  should not.
+
+* Fix several chattiness issues.
+
+* General code clean up, fixes for tracebacks, etc.
+
+New and updated translations (THANKS EVERYONE!!!):
+
+  ca              Catalan                   Jordi Mas i Hernandez
+  cs              Czech                     Daniel Rusek
+  da              Danish                    Alan Mortensen
+  de              German                    Jürgen Benvenuti
+  en_GB           British English           Andi Chandler
+  es              Spanish                   Daniel Mustieles
+  eu              Basque                    Asier Saratsua Garmendia
+  hu              Hungarian                 Attila Hammer
+  id              Indonesian                Andika Triwidada
+  it              Italian                   Davide Ferracin
+  ne              Nepali                    Pawan Chitrakar
+  ro              Romanian                  Antonio Marin
+  sk              Slovak                    Peter Vágner
+  sl              Slovenian                 Martin
+  tr              Turkish                   Emin Tufan Çetin
+
+=========
+
+48.6 - 25 June 2025
+
+Web:
+
+* Enter focus mode when focus moves inside descendant of web app.
+
+General:
+
+* Fix bug in adjust_for_digits() that could cause the space between
+  words to be removed.
+
+* Fix bug that could lead to the double-presentation of value-change
+  events.
+
+* Fix traceback from debugging utilities.
+
+=========
+
+48.5 - 21 June 2025
+
+General:
+
+* Interrupt speech when the old focus and the new focus have the same
+  name.
+
+=========
+
+48.4 - 21 June 2025
+
+Web:
+
+* Interrupt speech sooner when focus changes in a web app.
+
+General:
+
+* Fix bug causing the Help button to fail in the Preferences dialog.
+
+=========
+
+48.3 - 19 June 2025
+
+General:
+
+* Interrupt speech when value changes on non-progressbar widgets.
+
+=========
+
+48.2 - 10 June 2025
+
+Web:
+
+* Fix two instances of Orca failing to interrupt speech during
+  navigation.
+
+* Handle structural navigation among headings with broken ARIA
+  authoring.
+
+* Fix population of the enable-structural-navigation checkbox.
+
+Flat Review:
+
+* Fall back to clicking on object when clicking on character fails.
+
+* Work around issue causing objects with "dead"/missing children to
+  not be included in the collection of objects.
+
+General:
+
+* Fix several unhandled exceptions.
+
+* Fix chattiness related to deleting selected text.
+
+* Include state expanded when generating braille for table rows.
+
+* Include ancestors when generating speech for focused combo boxes.
+
+
+New and updated translations (THANKS EVERYONE!!!):
+
+  en_GB           British English           Andi Chandler
+  uz              Uzbek (Latin)             Baxrom Raxmatov
+
+=========
+
+48.1 - 1 May 2025
+
+Web:
+
+* Fix bug causing failure to present suggestions in Google Docs.
+
+* Fix chattiness related to description terms with embedded objects.
+
+* Fix incorrect word presentation when navigating out of an embedded
+  child.
+
+* Fix presentation of value of readonly ARIA spin buttons.
+
+* Chromium: Update heuristic to identify the find-in-page widget.
+
+* Work around Gecko bug causing us to present state page tab names.
+
+* Work around one of Gecko's broken text-insertion events causing
+  double-presentation or lack of presentation in contenteditables
+  and Thunderbird.
+
+General:
+
+* Fix changing shortcuts if the a11y manager is used by at-spi2.
+
+* Fix bug causing ancestor panels/groupings to not be announced.
+
+* Work around GTK failing to set the read-only state on read-only text.
+
+* Fix bug causing flat review to sometimes fail.
+
+* Fix braille sometimes displaying stale information after the focused
+  object changes names.
+
+* Don't try to clean up in response to SIGSEGV.
+
+New and updated translations (THANKS EVERYONE!!!):
+
+  ca              Catalan                   Jordi Mas i Hernandez
+  cs              Czech                     Daniel Rusek
+  de              German                    Philipp Kiemle
+  es              Spanish                   Daniel Mustieles
+  eu              Basque                    Asier Saratsua Garmendia
+  id              Indonesian                Andika Triwidada
+  ro              Romanian                  Antonio Marin
+
+=========
+
 48.0 - 17 March 2025
 
 (No updates since the RC release.)

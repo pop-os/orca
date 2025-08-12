@@ -19,10 +19,12 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# For the "AXUtilities has no ... member"
-# pylint: disable=E1101
+# pylint: disable=too-many-return-statements
 
 """Custom script utilities for Chromium"""
+
+# This has to be the first non-docstring line in the module to make linters happy.
+from __future__ import annotations
 
 __id__        = "$Id$"
 __version__   = "$Revision$"
@@ -31,178 +33,55 @@ __copyright__ = "Copyright (c) 2018-2019 Igalia, S.L."
 __license__   = "LGPL"
 
 import re
+from typing import TYPE_CHECKING
 
 from orca import debug
 from orca import focus_manager
-from orca import input_event_manager
 from orca.scripts import web
 from orca.ax_object import AXObject
 from orca.ax_utilities import AXUtilities
 
+if TYPE_CHECKING:
+    import gi
+    gi.require_version("Atspi", "2.0")
+    from gi.repository import Atspi
 
 class Utilities(web.Utilities):
+    """Custom script utilities for Chromium"""
 
-    def __init__(self, script):
-        super().__init__(script)
-        self._topLevelObject = {}
+    def get_find_results_count(self, root: Atspi.Accessible | None = None) -> str:
+        """Returns a string description of the number of find-in-page results in root."""
 
-    def clearCachedObjects(self):
-        super().clearCachedObjects()
-        self._topLevelObject = {}
-
-    def treatAsMenu(self, obj):
-        # Unlike other apps and toolkits, submenus in Chromium have the menu item
-        # role rather than the menu role, but we can identify them as submenus via
-        # the has-popup state.
-        return AXUtilities.is_menu_item(obj) and AXUtilities.has_popup(obj)
-
-    def isPopupMenuForCurrentItem(self, obj):
-        # When a submenu is closed, it has role menu item. But when that submenu
-        # is opened/expanded, a menu with that same name appears. It would be
-        # nice if there were a connection (parent/child or an accessible relation)
-        # between the two....
-        return self.treatAsMenu(focus_manager.get_manager().get_locus_of_focus()) \
-            and super().isPopupMenuForCurrentItem(obj)
-
-    def isFrameForPopupMenu(self, obj):
-        # The ancestry of a popup menu appears to be a menu bar (even though
-        # one is not actually showing) contained in a nameless frame. It would
-        # be nice if these things were pruned from the accessibility tree....
-        if not AXUtilities.is_frame(obj):
-            return False
-        if AXObject.get_name(obj):
-            return False
-        if AXObject.get_child_count(obj) != 1:
-            return False
-        return AXUtilities.is_menu_bar(AXObject.get_child(obj, 0))
-
-    def popupMenuForFrame(self, obj):
-        if not self.isFrameForPopupMenu(obj):
-            return None
-
-        menu = AXObject.find_descendant(obj, AXUtilities.is_menu)
-        tokens = ["CHROMIUM: Popup menu for", obj, ":", menu]
-        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-        return menu
-
-    def topLevelObject(self, obj, useFallbackSearch=False):
-        if not obj:
-            return None
-
-        result = super().topLevelObject(obj)
-        if AXObject.get_role(result) in self._topLevelRoles():
-            if not self.isFindContainer(result):
-                return result
-            else:
-                parent = AXObject.get_parent(result)
-                tokens = ["CHROMIUM: Top level object for", obj, "is", parent]
-                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-                return parent
-
-        cached = self._topLevelObject.get(hash(obj))
-        if cached is not None:
-            return cached
-
-        tokens = ["CHROMIUM: WARNING: Top level object for", obj, "is", result]
-        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-
-        # The only (known) object giving us a broken ancestry is the omnibox popup.
-        if not (AXUtilities.is_list_item(obj or AXUtilities.is_list_box(obj))):
-            return result
-
-        listbox = obj
-        if AXUtilities.is_list_item(obj):
-            listbox = AXObject.get_parent(listbox)
-
-        if listbox is None:
-            return result
-
-        # The listbox sometimes claims to be a redundant object rather than a listbox.
-        # Clearing the AT-SPI2 cache seems to be the trigger.
-        if not AXUtilities.is_list_box(listbox):
-            if AXUtilities.is_redundant_object(listbox):
-                tokens = ["CHROMIUM: WARNING: Suspected bogus role on listbox", listbox]
-                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            else:
-                return result
-
-        autocomplete = self.autocompleteForPopup(listbox)
-        if autocomplete:
-            result = self.topLevelObject(autocomplete)
-            tokens = ["CHROMIUM: Top level object for", autocomplete, "is", result]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-
-        self._topLevelObject[hash(obj)] = result
-        return result
-
-    def autocompleteForPopup(self, obj):
-        targets = AXUtilities.get_is_popup_for(obj)
-        if not targets:
-            return None
-
-        target = targets[0]
-        if AXUtilities.is_autocomplete(target):
-            return target
-
-        return None
-
-    def isBrowserAutocompletePopup(self, obj):
-        if not obj or self.inDocumentContent(obj):
-            return False
-
-        return self.autocompleteForPopup(obj) is not None
-
-    def isRedundantAutocompleteEvent(self, event):
-        if not AXUtilities.is_autocomplete(event.source):
-            return False
-
-        if event.type.startswith("object:text-caret-moved"):
-            return input_event_manager.get_manager().last_event_was_up_or_down()
-
-        return False
-
-    def setCaretPosition(self, obj, offset, documentFrame=None):
-        super().setCaretPosition(obj, offset, documentFrame)
-
-        # TODO - JD: Is this hack still needed?
-        link = AXObject.find_ancestor(obj, AXUtilities.is_link)
-        if link is not None:
-            tokens = ["CHROMIUM: HACK: Grabbing focus on", obj, "'s ancestor", link]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            AXObject.grab_focus(link)
-
-    def getFindResultsCount(self, root=None):
-        root = root or self._findContainer
+        root = root or self._find_container
         if not root:
             return ""
 
-        statusBars = AXUtilities.find_all_status_bars(root)
-        if len(statusBars) != 1:
+        status_bars = AXUtilities.find_all_status_bars(root)
+        if len(status_bars) != 1:
             return ""
 
-        bar = statusBars[0]
+        status_bar = status_bars[0]
         # TODO - JD: Is this still needed?
-        AXObject.clear_cache(bar, False, "Ensuring we have correct name for find results.")
-        if len(re.findall(r"\d+", AXObject.get_name(bar))) == 2:
-            return AXObject.get_name(bar)
+        AXObject.clear_cache(status_bar, False, "Ensuring we have correct name for find results.")
+        if len(re.findall(r"\d+", AXObject.get_name(status_bar))) == 2:
+            return AXObject.get_name(status_bar)
 
         return ""
 
-    def isFindContainer(self, obj):
-        if not obj or self.inDocumentContent(obj):
+    def _is_find_container(self, obj: Atspi.Accessible | None = None) -> bool:
+        """Returns True if obj is a find-in-page container."""
+
+        if not obj or self.in_document_content(obj):
             return False
 
-        if obj == self._findContainer:
+        if obj == self._find_container:
             return True
 
-        if not AXUtilities.is_dialog(obj):
-            return False
-
-        result = self.getFindResultsCount(obj)
+        result = self.get_find_results_count(obj)
         if result:
             tokens = ["CHROMIUM:", obj, "believed to be find-in-page container (", result, ")"]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            self._findContainer = obj
+            self._find_container = obj
             return True
 
         # When there are no results due to the absence of a search term, the status
@@ -229,32 +108,21 @@ class Utilities(web.Utilities):
 
         tokens = ["CHROMIUM:", obj, "believed to be find-in-page container (accessibility tree)"]
         debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-        self._findContainer = obj
+        self._find_container = obj
         return True
 
-    def inFindContainer(self, obj=None):
+    def in_find_container(self, obj: Atspi.Accessible | None = None) -> bool:
+        """Returns True if obj is in a find-in-page container."""
+
         obj = obj or focus_manager.get_manager().get_locus_of_focus()
         if not (AXUtilities.is_entry(obj) or AXUtilities.is_push_button(obj)):
             return False
-        if self.inDocumentContent(obj):
+        if self.in_document_content(obj):
             return False
 
-        result = self.isFindContainer(AXObject.find_ancestor(obj, AXUtilities.is_dialog))
+        result = AXObject.find_ancestor(obj, self._is_find_container)
         if result:
             tokens = ["CHROMIUM:", obj, "believed to be find-in-page widget"]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
-        return result
-
-    def findAllDescendants(self, root, includeIf=None, excludeIf=None):
-        if not root:
-            return []
-
-        # Don't bother if the root is a 'pre' or 'code' element. Those often have
-        # nothing but a TON of static text leaf nodes, which we want to ignore.
-        if AXUtilities.is_code(root):
-            tokens = ["CHROMIUM: Returning 0 descendants for pre/code", root]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            return []
-
-        return super().findAllDescendants(root, includeIf, excludeIf)
+        return bool(result)

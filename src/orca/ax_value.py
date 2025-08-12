@@ -19,9 +19,7 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
-# pylint: disable=duplicate-code
 
 """Utilities for obtaining value-related information about accessible objects."""
 
@@ -34,11 +32,11 @@ __license__   = "LGPL"
 
 import threading
 import time
-from typing import Optional
 
 import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
+from gi.repository import GLib
 
 from . import debug
 from .ax_object import AXObject
@@ -92,7 +90,7 @@ class AXValue:
 
         try:
             value = Atspi.Value.get_current_value(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXValue: Exception in _get_current_value: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return 0.0
@@ -127,7 +125,7 @@ class AXValue:
 
         try:
             value = Atspi.Value.get_text(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXValue: Exception in get_current_value_text: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             value = ""
@@ -137,7 +135,7 @@ class AXValue:
         if value:
             return value
 
-        current = AXValue._get_current_value(obj)
+        current = AXValue.get_current_value(obj)
         if abs(current) < 1 and current != 0:
             str_current = str(current)
             decimal_places = len(str_current.split('.')[1])
@@ -147,13 +145,13 @@ class AXValue:
         return f"{current:.{decimal_places}f}"
 
     @staticmethod
-    def get_value_as_percent(obj: Atspi.Accessible) -> Optional[int]:
+    def get_value_as_percent(obj: Atspi.Accessible) -> int | None:
         """Returns the current value as a percent, or None if that is not applicable."""
 
         if not AXObject.supports_value(obj):
             return None
 
-        value = AXValue._get_current_value(obj)
+        value = AXValue.get_current_value(obj)
         if AXUtilities.is_indeterminate(obj) and value <= 0:
             tokens = ["AXValue:", obj, "has state indeterminate"]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True)
@@ -178,7 +176,7 @@ class AXValue:
 
         try:
             value = Atspi.Value.get_minimum_value(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXValue: Exception in get_minimum_value: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return 0.0
@@ -196,7 +194,7 @@ class AXValue:
 
         try:
             value = Atspi.Value.get_maximum_value(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXValue: Exception in get_maximum_value: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return 0.0

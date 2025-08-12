@@ -18,6 +18,8 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
+# pylint: disable=too-many-lines
+
 """Labels for Orca's GUIs. These have been put in their own module so that we
 can present them in the correct language when users change the language on the
 fly without having to reload a bunch of modules."""
@@ -29,7 +31,7 @@ __copyright__ = "Copyright (c) 2004-2009 Sun Microsystems Inc." \
                 "Copyright (c) 2010-2013 The Orca Team"
 __license__   = "LGPL"
 
-from .orca_i18n import _, C_, ngettext
+from .orca_i18n import _, C_, ngettext # pylint: disable=import-error
 
 # Translators: This string appears on a button in a dialog. "Activating" the
 # selected item will perform the action that one would expect to occur if the
@@ -91,7 +93,7 @@ AUTO_FOCUS_MODE_CARET_NAV = _("Automatic focus mode during caret navigation")
 AUTO_FOCUS_MODE_NATIVE_NAV = _("Automatic focus mode during native navigation")
 
 # Translators: A single braille cell on a refreshable braille display consists
-# of 8 dots. Dot 7 is the dot in the bottom left corner. If the user selects 
+# of 8 dots. Dot 7 is the dot in the bottom left corner. If the user selects
 # this option, Dot 7 will be used to 'underline' text of interest, e.g. when
 # "marking"/indicating that a given word is bold.
 BRAILLE_DOT_7 = _("Dot _7")
@@ -343,6 +345,7 @@ KB_GROUP_LEARN_MODE = C_("keybindings", "Learn mode")
 # are related to presenting and performing the accessible actions associated
 # with the current object.
 KB_GROUP_ACTIONS = _("Actions")
+ACTIONS_LIST = KB_GROUP_ACTIONS
 
 # Translators: An external braille device has buttons on it that permit the
 # user to create input gestures from the braille device. The braille bindings
@@ -390,6 +393,11 @@ KB_GROUP_OBJECT_NAVIGATION = _("Object navigation")
 # related to presenting information about the system, such as date, time,
 # battery status, CPU status, etc.
 KB_GROUP_SYSTEM_INFORMATION = _("System information")
+
+# Translators: This string is a label for the group of Orca commands which
+# are related to structural navigation, such as moving to the next heading,
+# paragraph, form field, etc. in a given direction.
+KB_GROUP_STRUCTURAL_NAVIGATION = _("Structural navigation")
 
 # Translators: This string is a label for the group of Orca commands which
 # are related to table navigation, such as moving to the next cell in a
@@ -538,7 +546,7 @@ PROFILE_LOAD_MESSAGE = \
 
 # Translators: Profiles in Orca make it possible for users to quickly switch
 # amongst a group of pre-defined settings (e.g. an 'English' profile for reading
-# text written in English using an English-language speech synthesizer and 
+# text written in English using an English-language speech synthesizer and
 # braille rules, and a similar 'Spanish' profile for reading Spanish text. The
 # following string is the title of a dialog in which users can save a newly-
 # defined profile.
@@ -918,7 +926,7 @@ SPEECH_VOICE_TYPE_HYPERLINK = C_("VoiceType", "Hyperlink")
 # which is not displayed on the screen as text, but is still being communicated
 # by the system in some visual fashion. For instance, Orca says "misspelled" to
 # indicate the presence of the red squiggly line found under a spelling error;
-# Orca might say "3 of 6" when a user Tabs into a list of six items and the 
+# Orca might say "3 of 6" when a user Tabs into a list of six items and the
 # third item is selected. And so on.
 SPEECH_VOICE_TYPE_SYSTEM = C_("VoiceType", "System")
 

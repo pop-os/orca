@@ -22,9 +22,7 @@
 # pylint: disable=wrong-import-position
 # pylint: disable=too-many-branches
 # pylint: disable=too-many-public-methods
-# pylint: disable=broad-exception-caught
 # pylint: disable=too-many-return-statements
-# pylint: disable=duplicate-code
 
 """Utilities for obtaining accessibility information for debugging."""
 
@@ -43,6 +41,7 @@ from typing import Any
 import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
+from gi.repository import GLib
 
 from .ax_object import AXObject
 from .ax_utilities_application import AXUtilitiesApplication
@@ -54,6 +53,9 @@ class AXUtilitiesDebugging:
 
     @staticmethod
     def _format_string(string: str = "") -> str:
+        if not string:
+            return ""
+
         string = string.replace("\n", "\\n").replace("\ufffc", "[OBJ]")
         if len(string) < 100:
             return string
@@ -74,7 +76,7 @@ class AXUtilitiesDebugging:
             if not result:
                 result = "DEAD"
 
-            return f"[{result}]"
+            return f"[{result} ({hex(id(obj))})] "
 
         if isinstance(obj, Atspi.Event):
             any_data = AXUtilitiesDebugging._format_string(
@@ -219,7 +221,7 @@ class AXUtilitiesDebugging:
 
         try:
             result = Atspi.Text.get_text(obj, 0, Atspi.Text.get_character_count(obj))
-        except Exception:
+        except GLib.GError:
             return ""
 
         return AXUtilitiesDebugging._format_string(result)
@@ -248,7 +250,8 @@ class AXUtilitiesDebugging:
         help_text = AXUtilitiesDebugging._format_string(AXObject.get_help_text(obj))
         ax_id = AXObject.get_accessible_id(obj)
         string += (
-            f"name='{name}' role='{AXObject.get_role_name(obj)}' id='{ax_id}'\n"
+            f"name='{name}' role='{AXObject.get_role_name(obj)}'"
+            f" axid='{ax_id}' id={hex(id(obj))}\n"
             f"{indent}description='{desc}'\n"
             f"{indent}help='{help_text}'\n"
             f"{indent}states='{AXUtilitiesDebugging.state_set_as_string(obj)}'\n"

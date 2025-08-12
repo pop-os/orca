@@ -21,8 +21,6 @@
 
 # pylint: disable=wrong-import-position
 # pylint: disable=too-many-public-methods
-# pylint: disable=broad-exception-caught
-# pylint: disable=duplicate-code
 
 """Utilities for obtaining relation-related information."""
 
@@ -35,11 +33,11 @@ __license__   = "LGPL"
 
 import threading
 import time
-from typing import Optional
 
 import gi
 gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
+from gi.repository import GLib
 
 from . import debug
 from .ax_object import AXObject
@@ -99,7 +97,7 @@ class AXUtilitiesRelation:
 
         try:
             relations = Atspi.Accessible.get_relation_set(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXUtilitiesRelation: Exception in get_relations: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return []
@@ -111,7 +109,7 @@ class AXUtilitiesRelation:
     def _get_relation(
         obj: Atspi.Accessible,
         relation_type: Atspi.RelationType
-    ) -> Optional[Atspi.Relation]:
+    ) -> Atspi.Relation | None:
         """Returns the specified Atspi.Relation for obj"""
 
         for relation in AXUtilitiesRelation.get_relations(obj):

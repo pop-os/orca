@@ -18,12 +18,10 @@
 # Free Software Foundation, Inc., Franklin Street, Fifth Floor,
 # Boston MA  02110-1301 USA.
 
-# pylint: disable=broad-exception-caught
 # pylint: disable=wrong-import-position
 # pylint: disable=too-many-lines
 # pylint: disable=too-many-return-statements
 # pylint: disable=too-many-public-methods
-# pylint: disable=duplicate-code
 
 """Utilities for obtaining information about accessible objects."""
 
@@ -36,12 +34,13 @@ __license__   = "LGPL"
 import re
 import threading
 import time
-from typing import Callable, Generator, Optional
+from typing import Callable, Generator
 
 import gi
 gi.require_version("Atspi", "2.0")
 gi.require_version("Gtk", "3.0")
 from gi.repository import Atspi
+from gi.repository import GLib
 from gi.repository import Gtk
 
 from . import debug
@@ -90,6 +89,20 @@ class AXObject:
         thread.start()
 
     @staticmethod
+    def _get_toolkit_name(obj: Atspi.Accessible) -> str:
+        """Returns the toolkit name of obj as a lowercase string"""
+
+        try:
+            app = Atspi.Accessible.get_application(obj)
+            name = Atspi.Accessible.get_toolkit_name(app) or ""
+        except GLib.GError as error:
+            tokens = ["AXObject: Exception calling _get_toolkit_name_on", app, f": {error}"]
+            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            return ""
+
+        return name.lower()
+
+    @staticmethod
     def is_bogus(obj: Atspi.Accessible) -> bool:
         """Hack to ignore certain objects. All entries must have a bug."""
 
@@ -99,7 +112,7 @@ class AXObject:
         # https://bugzilla.mozilla.org/show_bug.cgi?id=1879750
         if AXObject.get_role(obj) == Atspi.Role.SECTION \
            and AXObject.get_role(AXObject.get_parent(obj)) == Atspi.Role.FRAME \
-           and Atspi.Accessible.get_toolkit_name(obj).lower() == "gecko":
+           and AXObject._get_toolkit_name(obj) == "gecko":
             tokens = ["AXObject:", obj, "is bogus. See mozilla bug 1879750."]
             debug.print_tokens(debug.LEVEL_INFO, tokens, True, True)
             return True
@@ -114,8 +127,8 @@ class AXObject:
             return False
 
         # https://bugreports.qt.io/browse/QTBUG-130116
-        toolkit_name = Atspi.Accessible.get_toolkit_name(obj) or ""
-        if not toolkit_name.lower().startswith("qt"):
+        toolkit_name = AXObject._get_toolkit_name(obj)
+        if not toolkit_name.startswith("qt"):
             return False
 
         reached_app = False
@@ -191,12 +204,27 @@ class AXObject:
 
         try:
             iface = Atspi.Accessible.get_action_iface(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception calling get_action_iface on {obj}: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
 
         return iface is not None
+
+    @staticmethod
+    def _has_document_spreadsheet(obj: Atspi.Accessible) -> bool:
+        # To avoid circular import. pylint: disable=import-outside-toplevel
+        from .ax_collection import AXCollection
+        rule = AXCollection.create_match_rule(roles=[Atspi.Role.DOCUMENT_SPREADSHEET])
+        if rule is None:
+            return False
+
+        frame = AXObject.find_ancestor_inclusive(
+            obj, lambda x: AXObject.get_role(x) == Atspi.Role.FRAME)
+        if frame is None:
+            return False
+        return bool(Atspi.Collection.get_matches(
+            frame, rule, Atspi.CollectionSortOrder.CANONICAL, 1, True))
 
     @staticmethod
     def supports_collection(obj: Atspi.Accessible) -> bool:
@@ -207,25 +235,32 @@ class AXObject:
 
         try:
             app = Atspi.Accessible.get_application(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in supports_collection: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             return False
 
-        app_name = AXObject.get_name(app)
-        if app_name in ["soffice"]:
-            tokens = ["AXObject: Treating", app_name, "as not supporting collection."]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            return False
-
         try:
             iface = Atspi.Accessible.get_collection_iface(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception calling get_collection_iface on {obj}: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
 
-        return iface is not None
+        app_name = AXObject.get_name(app)
+        if app_name != "soffice":
+            return iface is not None
+
+        if AXObject.find_ancestor_inclusive(
+            obj, lambda x: AXObject.get_role(x) == Atspi.Role.DOCUMENT_TEXT):
+            return True
+
+        if AXObject._has_document_spreadsheet(obj):
+            msg = "AXObject: Treating soffice as not supporting collection due to spreadsheet."
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return False
+
+        return True
 
     @staticmethod
     def supports_component(obj: Atspi.Accessible) -> bool:
@@ -236,7 +271,7 @@ class AXObject:
 
         try:
             iface = Atspi.Accessible.get_component_iface(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception calling get_component_iface on {obj}: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
@@ -253,7 +288,7 @@ class AXObject:
 
         try:
             iface = Atspi.Accessible.get_document_iface(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception calling get_document_iface on {obj}: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
@@ -269,7 +304,7 @@ class AXObject:
 
         try:
             iface = Atspi.Accessible.get_editable_text_iface(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception calling get_editable_text_iface on {obj}: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
@@ -285,7 +320,7 @@ class AXObject:
 
         try:
             iface = Atspi.Accessible.get_hyperlink(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception calling get_hyperlink on {obj}: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
@@ -301,7 +336,7 @@ class AXObject:
 
         try:
             iface = Atspi.Accessible.get_hypertext_iface(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception calling get_hypertext_iface on {obj}: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
@@ -317,7 +352,7 @@ class AXObject:
 
         try:
             iface = Atspi.Accessible.get_image_iface(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception calling get_image_iface on {obj}: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
@@ -333,7 +368,7 @@ class AXObject:
 
         try:
             iface = Atspi.Accessible.get_selection_iface(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception calling get_selection_iface on {obj}: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
@@ -349,7 +384,7 @@ class AXObject:
 
         try:
             iface = Atspi.Accessible.get_table_iface(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception calling get_table_iface on {obj}: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
@@ -365,7 +400,7 @@ class AXObject:
 
         try:
             iface = Atspi.Accessible.get_table_cell(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception calling get_table_cell on {obj}: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
@@ -381,7 +416,7 @@ class AXObject:
 
         try:
             iface = Atspi.Accessible.get_text_iface(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception calling get_text_iface on {obj}: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
@@ -396,7 +431,7 @@ class AXObject:
 
         try:
             iface = Atspi.Accessible.get_value_iface(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception calling get_value_iface on {obj}: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
@@ -415,7 +450,7 @@ class AXObject:
         while acc:
             try:
                 path.append(Atspi.Accessible.get_index_in_parent(acc))
-            except Exception as error:
+            except GLib.GError as error:
                 msg = f"AXObject: Exception getting index in parent for {acc}: {error}"
                 AXObject.handle_error(acc, error, msg)
                 return []
@@ -433,7 +468,7 @@ class AXObject:
 
         try:
             index = Atspi.Accessible.get_index_in_parent(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_index_in_parent: {error}"
             AXObject.handle_error(obj, error, msg)
             return -1
@@ -441,7 +476,7 @@ class AXObject:
         return index
 
     @staticmethod
-    def get_parent(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_parent(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the accessible parent of obj. See also get_parent_checked."""
 
         if not AXObject.is_valid(obj):
@@ -449,7 +484,7 @@ class AXObject:
 
         try:
             parent = Atspi.Accessible.get_parent(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_parent: {error}"
             AXObject.handle_error(obj, error, msg)
             return None
@@ -467,7 +502,7 @@ class AXObject:
         return parent
 
     @staticmethod
-    def get_parent_checked(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_parent_checked(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the parent of obj, doing checks for tree validity"""
 
         if not AXObject.is_valid(obj):
@@ -515,7 +550,7 @@ class AXObject:
     def get_common_ancestor(
         obj1: Atspi.Accessible,
         obj2: Atspi.Accessible
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns the common ancestor of obj1 and obj2."""
 
         tokens = ["AXObject: Looking for common ancestor of", obj1, "and", obj2]
@@ -543,7 +578,7 @@ class AXObject:
     def find_ancestor_inclusive(
         obj: Atspi.Accessible,
         pred: Callable[[Atspi.Accessible], bool]
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns obj, or the ancestor of obj, for which the function pred is true"""
 
         if pred(obj):
@@ -555,7 +590,7 @@ class AXObject:
     def find_ancestor(
         obj: Atspi.Accessible,
         pred: Callable[[Atspi.Accessible], bool]
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns the ancestor of obj if the function pred is true"""
 
         if not AXObject.is_valid(obj):
@@ -599,7 +634,7 @@ class AXObject:
         return AXObject.find_ancestor(obj, lambda x: x == ancestor) is not None
 
     @staticmethod
-    def get_child(obj: Atspi.Accessible, index: int) -> Optional[Atspi.Accessible]:
+    def get_child(obj: Atspi.Accessible, index: int) -> Atspi.Accessible | None:
         """Returns the nth child of obj. See also get_child_checked."""
 
         if not AXObject.is_valid(obj):
@@ -617,7 +652,7 @@ class AXObject:
 
         try:
             child = Atspi.Accessible.get_child_at_index(obj, index)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_child: {error}"
             AXObject.handle_error(obj, error, msg)
             return None
@@ -632,7 +667,7 @@ class AXObject:
     @staticmethod
     def get_child_checked(
         obj: Atspi.Accessible, index: int
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns the nth child of obj, doing checks for tree validity"""
 
         if not AXObject.is_valid(obj):
@@ -653,7 +688,7 @@ class AXObject:
     def get_active_descendant_checked(
         container: Atspi.Accessible,
         reported_child: Atspi.Accessible
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Checks the reported active descendant and return the real/valid one."""
 
         if not AXObject.has_state(container, Atspi.StateType.MANAGES_DESCENDANTS):
@@ -662,7 +697,7 @@ class AXObject:
         index = AXObject.get_index_in_parent(reported_child)
         try:
             real_child = Atspi.Accessible.get_child_at_index(container, index)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_active_descendant_checked: {error}"
             AXObject.handle_error(container, error, msg)
             return reported_child
@@ -680,7 +715,7 @@ class AXObject:
     def _find_descendant(
         obj: Atspi.Accessible,
         pred: Callable[[Atspi.Accessible], bool]
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns the descendant of obj if the function pred is true"""
 
         if not AXObject.is_valid(obj):
@@ -702,7 +737,7 @@ class AXObject:
     def find_descendant(
         obj: Atspi.Accessible,
         pred: Callable[[Atspi.Accessible], bool]
-    ) -> Optional[Atspi.Accessible]:
+    ) -> Atspi.Accessible | None:
         """Returns the descendant of obj if the function pred is true"""
 
         start = time.time()
@@ -712,7 +747,7 @@ class AXObject:
         return result
 
     @staticmethod
-    def find_deepest_descendant(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def find_deepest_descendant(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the deepest descendant of obj"""
 
         if not AXObject.is_valid(obj):
@@ -727,8 +762,8 @@ class AXObject:
     @staticmethod
     def _find_all_descendants(
         obj: Atspi.Accessible,
-        include_if: Optional[Callable[[Atspi.Accessible], bool]],
-        exclude_if: Optional[Callable[[Atspi.Accessible], bool]],
+        include_if: Callable[[Atspi.Accessible], bool] | None,
+        exclude_if: Callable[[Atspi.Accessible], bool] | None,
         matches: list[Atspi.Accessible]
     ) -> None:
         """Returns all descendants which match the specified inclusion and exclusion"""
@@ -748,8 +783,8 @@ class AXObject:
     @staticmethod
     def find_all_descendants(
         root: Atspi.Accessible,
-        include_if: Optional[Callable[[Atspi.Accessible], bool]] = None,
-        exclude_if: Optional[Callable[[Atspi.Accessible], bool]] = None
+        include_if: Callable[[Atspi.Accessible], bool] | None = None,
+        exclude_if: Callable[[Atspi.Accessible], bool] | None = None
     ) -> list[Atspi.Accessible]:
         """Returns all descendants which match the specified inclusion and exclusion"""
 
@@ -772,7 +807,7 @@ class AXObject:
 
         try:
             role = Atspi.Accessible.get_role(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_role: {error}"
             AXObject.handle_error(obj, error, msg)
             return Atspi.Role.INVALID
@@ -792,7 +827,7 @@ class AXObject:
                 role_name = Atspi.Accessible.get_role_name(obj)
             else:
                 role_name = Atspi.Accessible.get_localized_role_name(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_role_name: {error}"
             AXObject.handle_error(obj, error, msg)
             return ""
@@ -821,7 +856,7 @@ class AXObject:
 
         try:
             result = Atspi.Accessible.get_accessible_id(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_accessible_id: {error}"
             AXObject.handle_error(obj, error, msg)
             return ""
@@ -838,7 +873,7 @@ class AXObject:
 
         try:
             name = Atspi.Accessible.get_name(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_name: {error}"
             AXObject.handle_error(obj, error, msg)
             return ""
@@ -865,7 +900,7 @@ class AXObject:
 
         try:
             description = Atspi.Accessible.get_description(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_description: {error}"
             AXObject.handle_error(obj, error, msg)
             return ""
@@ -881,7 +916,7 @@ class AXObject:
 
         try:
             description = Atspi.Image.get_image_description(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_image_description: {error}"
             AXObject.handle_error(obj, error, msg)
             return ""
@@ -897,7 +932,7 @@ class AXObject:
 
         try:
             result = Atspi.Image.get_image_size(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_image_size: {error}"
             AXObject.handle_error(obj, error, msg)
             return 0, 0
@@ -915,7 +950,7 @@ class AXObject:
         try:
             # Added in Atspi 2.52.
             text = Atspi.Accessible.get_help_text(obj) or ""
-        except Exception:
+        except GLib.GError:
             # This is for prototyping in the meantime.
             text = AXObject.get_attribute(obj, "helptext") or ""
 
@@ -930,7 +965,7 @@ class AXObject:
 
         try:
             count = Atspi.Accessible.get_child_count(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_child_count: {error}"
             AXObject.handle_error(obj, error, msg)
             return 0
@@ -940,7 +975,7 @@ class AXObject:
     @staticmethod
     def iter_children(
         obj: Atspi.Accessible,
-        pred: Optional[Callable[[Atspi.Accessible], bool]] = None
+        pred: Callable[[Atspi.Accessible], bool] | None = None
     ) -> Generator[Atspi.Accessible, None, None]:
         """Generator to iterate through obj's children. If the function pred is
         specified, children for which pred is False will be skipped."""
@@ -955,11 +990,16 @@ class AXObject:
 
         for index in range(child_count):
             child = AXObject.get_child(obj, index)
+            if child is None and not AXObject.is_valid(obj):
+                tokens = ["AXObject:", obj, "is no longer valid"]
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+                return
+
             if child is not None and (pred is None or pred(child)):
                 yield child
 
     @staticmethod
-    def get_previous_sibling(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_previous_sibling(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the previous sibling of obj, based on child indices"""
 
         if not AXObject.is_valid(obj):
@@ -982,7 +1022,7 @@ class AXObject:
         return sibling
 
     @staticmethod
-    def get_next_sibling(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
+    def get_next_sibling(obj: Atspi.Accessible) -> Atspi.Accessible | None:
         """Returns the next sibling of obj, based on child indices"""
 
         if not AXObject.is_valid(obj):
@@ -1005,56 +1045,6 @@ class AXObject:
         return sibling
 
     @staticmethod
-    def get_next_object(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
-        """Returns the next object (depth first) in the accessibility tree"""
-
-        if not AXObject.is_valid(obj):
-            return None
-
-        index = AXObject.get_index_in_parent(obj) + 1
-        parent = AXObject.get_parent(obj)
-        while parent and not 0 < index < AXObject.get_child_count(parent):
-            obj = parent
-            index = AXObject.get_index_in_parent(obj) + 1
-            parent = AXObject.get_parent(obj)
-
-        if parent is None:
-            return None
-
-        next_object = AXObject.get_child(parent, index)
-        if next_object == obj:
-            tokens = ["AXObject:", obj, "claims to be its own next object"]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            return None
-
-        return next_object
-
-    @staticmethod
-    def get_previous_object(obj: Atspi.Accessible) -> Optional[Atspi.Accessible]:
-        """Returns the previous object (depth first) in the accessibility tree"""
-
-        if not AXObject.is_valid(obj):
-            return None
-
-        index = AXObject.get_index_in_parent(obj) - 1
-        parent = AXObject.get_parent(obj)
-        while parent and not 0 <= index < AXObject.get_child_count(parent) - 1:
-            obj = parent
-            index = AXObject.get_index_in_parent(obj) - 1
-            parent = AXObject.get_parent(obj)
-
-        if parent is None:
-            return None
-
-        previous_object = AXObject.get_child(parent, index)
-        if previous_object == obj:
-            tokens = ["AXObject:", obj, "claims to be its own previous object"]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-            return None
-
-        return previous_object
-
-    @staticmethod
     def get_state_set(obj: Atspi.Accessible) -> Atspi.StateSet:
         """Returns the state set associated with obj"""
 
@@ -1063,7 +1053,7 @@ class AXObject:
 
         try:
             state_set = Atspi.Accessible.get_state_set(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_state_set: {error}"
             AXObject.handle_error(obj, error, msg)
             return Atspi.StateSet()
@@ -1099,14 +1089,14 @@ class AXObject:
         if not recursive:
             try:
                 Atspi.Accessible.clear_cache_single(obj)
-            except Exception as error:
+            except GLib.GError as error:
                 msg = f"AXObject: Exception in clear_cache_single: {error}"
                 debug.print_message(debug.LEVEL_INFO, msg, True)
             return
 
         try:
             Atspi.Accessible.clear_cache(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in clear_cache: {error}"
             AXObject.handle_error(obj, error, msg)
 
@@ -1119,7 +1109,7 @@ class AXObject:
 
         try:
             pid = Atspi.Accessible.get_process_id(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_process_id: {error}"
             AXObject.handle_error(obj, error, msg)
             return -1
@@ -1140,7 +1130,7 @@ class AXObject:
             # We use the Atspi function rather than the AXObject function because the
             # latter intentionally handles exceptions.
             Atspi.Accessible.get_name(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Accessible is dead: {error}"
             AXObject.handle_error(obj, error, msg)
             return True
@@ -1165,7 +1155,7 @@ class AXObject:
 
         try:
             attributes = Atspi.Accessible.get_attributes(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_attributes_dict: {error}"
             AXObject.handle_error(obj, error, msg)
             return {}
@@ -1199,7 +1189,7 @@ class AXObject:
 
         try:
             count = Atspi.Action.get_n_actions(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_n_actions: {error}"
             AXObject.handle_error(obj, error, msg)
             return 0
@@ -1226,7 +1216,7 @@ class AXObject:
 
         try:
             name = Atspi.Action.get_action_name(obj, i)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_action_name: {error}"
             AXObject.handle_error(obj, error, msg)
             return ""
@@ -1253,7 +1243,7 @@ class AXObject:
 
         try:
             description = Atspi.Action.get_action_description(obj, i)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_action_description: {error}"
             AXObject.handle_error(obj, error, msg)
             return ""
@@ -1269,7 +1259,7 @@ class AXObject:
 
         try:
             keybinding = Atspi.Action.get_key_binding(obj, i)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in get_action_key_binding: {error}"
             AXObject.handle_error(obj, error, msg)
             return ""
@@ -1295,7 +1285,7 @@ class AXObject:
         try:
             key, mods = Gtk.accelerator_parse(sequence)
             result = Gtk.accelerator_get_label(key, mods)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in _get_label_for_key_sequence: {error}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
             sequence = sequence.replace("<", "").replace(">", " ").strip()
@@ -1303,7 +1293,7 @@ class AXObject:
             if result and not result.endswith("+"):
                 sequence = result
 
-        return keynames.localizeKeySequence(sequence)
+        return keynames.localize_key_sequence(sequence)
 
     @staticmethod
     def get_accelerator(obj: Atspi.Accessible) -> str:
@@ -1410,7 +1400,7 @@ class AXObject:
 
         try:
             result = Atspi.Action.do_action(obj, i)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in do_action: {error}"
             AXObject.handle_error(obj, error, msg)
             return False
@@ -1440,7 +1430,7 @@ class AXObject:
 
         try:
             result = Atspi.Component.grab_focus(obj)
-        except Exception as error:
+        except GLib.GError as error:
             msg = f"AXObject: Exception in grab_focus: {error}"
             AXObject.handle_error(obj, error, msg)
             return False

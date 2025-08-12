@@ -1,6 +1,7 @@
-__all__ = ['Chromium',
-           'gtk',
-           'Gecko',
-           'J2SE-access-bridge',
-           'Qt',
-           'WebKitGTK']
+"""Orca's application scripts."""
+
+__all__ = ["Chromium",
+           "gtk",
+           "Gecko",
+           "Qt",
+           "WebKitGTK"]

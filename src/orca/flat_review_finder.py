@@ -19,6 +19,9 @@
 # Boston MA  02110-1301 USA.
 
 # pylint: disable=wrong-import-position
+# pylint: disable=too-few-public-methods
+# pylint: disable=too-many-instance-attributes
+# pylint: disable=too-many-return-statements
 
 """Provides support for a flat review find."""
 
@@ -33,14 +36,17 @@ __license__   = "LGPL"
 import copy
 import re
 import time
-from typing import Callable, Optional
+from typing import Callable
 
 import gi
+gi.require_version("Atspi", "2.0")
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Atspi, Gtk
 
 from . import cmdnames
 from . import debug
+from . import flat_review_presenter
+from . import focus_manager
 from . import guilabels
 from . import input_event
 from . import keybindings
@@ -54,12 +60,9 @@ class _SearchQueryMatch:
     """Represents a SearchQuery match."""
 
     def __init__(self, context: Context, pattern: re.Pattern) -> None:
-        self._line: int = context.lineIndex
-        self._zone: int = context.zoneIndex
-        self._word: int = context.wordIndex
-        self._char: int = context.charIndex
+        self._line, self._zone, self._word, self._char = context.get_current_location()
+        self._line_string: str = context.get_current_line_string()
         self._pattern: re.Pattern = pattern
-        self._line_string: str = context.getCurrent(Context.LINE)[0]
 
     def __str__(self) -> str:
         return (
@@ -110,14 +113,15 @@ class FlatReviewFinder:
     """Provides tools to search the current window's flat-review contents."""
 
     def __init__(self) -> None:
-        self._gui: Optional[FlatReviewFinderGUI] = None
+        self._gui: FlatReviewFinderGUI | None = None
         self._handlers: dict = self.get_handlers(True)
         self._desktop_bindings: keybindings.KeyBindings = keybindings.KeyBindings()
         self._laptop_bindings: keybindings.KeyBindings = keybindings.KeyBindings()
-        self._last_query: Optional[SearchQuery] = None
-        self._location: list[int] = [0, 0, 0, 0]
+        self._last_query: SearchQuery | None = None
+        self._location: tuple[int, int, int, int] = 0, 0, 0, 0
         self._wrapped: bool = False
-        self._match: Optional[_SearchQueryMatch] = None
+        self._match: _SearchQueryMatch | None = None
+        self._focus: Atspi.Accessible | None = None
 
     def get_bindings(
         self, refresh: bool = False, is_desktop: bool = True
@@ -127,6 +131,8 @@ class FlatReviewFinder:
         if refresh:
             msg = "FLAT REVIEW FINDER: Refreshing bindings."
             debug.print_message(debug.LEVEL_INFO, msg, True)
+            self._laptop_bindings.remove_key_grabs("FLAT REVIEW FINDER: Refreshing bindings.")
+            self._desktop_bindings.remove_key_grabs("FLAT REVIEW FINDER: Refreshing bindings.")
             self._setup_bindings()
         elif is_desktop and self._desktop_bindings.is_empty():
             self._setup_bindings()
@@ -243,8 +249,9 @@ class FlatReviewFinder:
     def show_dialog(self, script, _event=None) -> bool:
         """Shows the Find dialog."""
 
+        self._focus = focus_manager.get_manager().get_locus_of_focus()
         self._gui = FlatReviewFinderGUI(script, self._on_query)
-        self._gui.show_gui()
+        self._gui.show_gui(self._focus)
         return True
 
     def find_next(self, script, event=None) -> bool:
@@ -271,44 +278,43 @@ class FlatReviewFinder:
         self.find(script, self._last_query)
         return True
 
-    def find(self, script, query: Optional[SearchQuery] = None) -> None:
+    def find(self, script, query: SearchQuery | None = None) -> None:
         """Searches for the specified query, or the most recent one."""
 
         query = query or self._last_query
         if query is None:
             return
 
-        context = script.getFlatReviewContext()
+        presenter = flat_review_presenter.get_presenter()
+        context = presenter.get_or_create_context(script)
         location = self._do_find(query, context)
         if not location:
-            script.presentMessage(messages.STRING_NOT_FOUND)
+            script.present_message(messages.STRING_NOT_FOUND)
         else:
-            context.setCurrent(location.lineIndex, location.zoneIndex, \
-                                location.wordIndex, location.charIndex)
-            script.get_flat_review_presenter().present_item(script)
-            script.targetCursorCell = script.getBrailleCursorCell()
+            context.set_current_location(location.get_current_location())
+            presenter.present_item(script)
 
     def _move(self, query: SearchQuery, context: Context, context_type: int) -> bool:
         """Moves within the flat review context while looking for a match."""
 
         if context_type == Context.WORD:
             if query.search_backwards:
-                return context.goPrevious(Context.WORD, Context.WRAP_LINE)
-            return context.goNext(Context.WORD, Context.WRAP_LINE)
+                return context.go_previous_word()
+            return context.go_next_word()
 
         if context_type == Context.ZONE:
             if query.search_backwards:
-                moved = context.goPrevious(Context.ZONE, Context.WRAP_LINE)
-                context.goEnd(Context.ZONE)
+                moved = context.go_previous_zone()
+                context.go_to_end_of(Context.ZONE)
                 return moved
-            return context.goNext(Context.ZONE, Context.WRAP_LINE)
+            return context.go_next_zone()
 
         if context_type == Context.LINE:
             if query.search_backwards:
-                moved = context.goPrevious(Context.LINE, Context.WRAP_LINE)
-                context.goEnd(Context.LINE)
+                moved = context.go_previous_line()
+                context.go_to_end_of(Context.LINE)
             else:
-                moved = context.goNext(Context.LINE, Context.WRAP_LINE)
+                moved = context.go_next_line()
             if moved:
                 return True
             if not query.window_wrap or self._wrapped:
@@ -317,11 +323,11 @@ class FlatReviewFinder:
             script = script_manager.get_manager().get_active_script()
             assert script is not None
             if query.search_backwards:
-                script.presentMessage(messages.WRAPPING_TO_BOTTOM)
-                moved = context.goPrevious(Context.LINE, Context.WRAP_ALL)
+                script.present_message(messages.WRAPPING_TO_BOTTOM)
+                moved = context.go_previous_line(True)
             else:
-                script.presentMessage(messages.WRAPPING_TO_TOP)
-                moved = context.goNext(Context.LINE, Context.WRAP_ALL)
+                script.present_message(messages.WRAPPING_TO_TOP)
+                moved = context.go_next_line(True)
             return moved
 
         return False
@@ -332,16 +338,19 @@ class FlatReviewFinder:
         """Searches for a match of pattern in context for the given type."""
 
         def matches(context, pattern, context_type):
+            string = ""
             if context_type == Context.LINE:
                 type_string = "LINE"
+                string = context.get_current_line_string()
             elif context_type == Context.ZONE:
                 type_string = "ZONE"
+                string = context.get_current_zone_string()
             elif context_type == Context.WORD:
                 type_string = "WORD"
+                string = context.get_current_word_string()
             else:
                 return False
 
-            string = context.getCurrent(context_type)[0]
             match = re.search(pattern, string)
             debug_string = string.replace("\n", "\\n")
             msg = f"FLAT REVIEW FINDER: Looking in {type_string}='{debug_string}'. Match: {match}"
@@ -384,7 +393,7 @@ class FlatReviewFinder:
 
         return False
 
-    def _do_find(self, query: SearchQuery, context: Context) -> Optional[Context]:
+    def _do_find(self, query: SearchQuery, context: Context) -> Context | None:
         """Performs the actual search."""
 
         msg = f"FLAT REVIEW FINDER: Searching for {str(query)}"
@@ -403,7 +412,7 @@ class FlatReviewFinder:
 
         self._save_location(context)
         if query.start_at_top:
-            context.goBegin(Context.WINDOW)
+            context.go_to_start_of(Context.WINDOW)
 
         location = None
         if self._find_match(query, context, pattern):
@@ -419,40 +428,38 @@ class FlatReviewFinder:
     def _save_location(self, context: Context) -> None:
         """Saves the context location."""
 
-        self._location = [context.lineIndex,
-                          context.zoneIndex,
-                          context.wordIndex,
-                          context.charIndex]
+        self._location = context.get_current_location()
 
     def _restore_location(self, context: Context) -> None:
         """Restores the context location."""
 
-        context.setCurrent(*self._location)
-        self._location = [0, 0, 0, 0]
+        context.set_current_location(self._location)
+        self._location = 0, 0, 0, 0
 
 class FlatReviewFinderGUI:
     """The dialog containing the find options."""
 
     def __init__(self, script, query_handler: Callable[[SearchQuery], None]) -> None:
         self._script = script
-        self._entry: Optional[Gtk.Entry] = None
+        self._entry: Gtk.Entry | None = None
         self._gui: Gtk.Dialog = self._create_dialog()
         self._query: SearchQuery = SearchQuery()
         self.on_apply: Callable[[SearchQuery], None] = query_handler
+        self._focus: Atspi.Accessible | None = None
 
     def _create_dialog(self) -> Gtk.Dialog:
         """Creates the Find dialog."""
 
         def _frame_with_grid(label, widgets):
             frame = Gtk.Frame()
-            frame.set_shadow_type(Gtk.ShadowType.NONE)
+            frame.set_shadow_type(Gtk.ShadowType.NONE) # pylint: disable=no-member
             label = Gtk.Label(f"<b>{label}</b>")
             label.set_use_markup(True)
             frame.set_label_widget(label)
             grid = Gtk.Grid()
             for i, widget in enumerate(widgets):
                 grid.attach(widget, 0, i, 1, 1)
-            frame.add(grid)
+            frame.add(grid) # pylint: disable=no-member
             return frame
 
         dialog = Gtk.Dialog(
@@ -462,7 +469,7 @@ class FlatReviewFinderGUI:
         grid = Gtk.Grid()
         grid.set_row_spacing(20)
         grid.set_column_spacing(20)
-        grid.set_border_width(12)
+        grid.set_border_width(12) # pylint: disable=no-member
         dialog.get_content_area().add(grid)
 
         entry_grid = Gtk.Grid()
@@ -541,18 +548,14 @@ class FlatReviewFinderGUI:
 
         if response == Gtk.ResponseType.APPLY:
             self.on_apply(copy.copy(self._query))
-
-            # TODO - JD: Verify this.
-            # Merely hiding the dialog causes the find to take place before
-            # the original window has fully regained focus.
             dialog.destroy()
+            self._script.run_find_command_on = self._focus
 
-            self._script.run_find_command = True
+    def show_gui(self, focus: Atspi.Accessible) -> None:
+        """Shows the find dialog."""
 
-    def show_gui(self) -> None:
-        """Shows the notifications list dialog."""
-
-        self._gui.show_all()
+        self._focus = focus
+        self._gui.show_all() # pylint: disable=no-member
         self._gui.present_with_time(time.time())
 
 

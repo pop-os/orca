@@ -20,7 +20,6 @@
 # Boston MA  02110-1301 USA.
 
 # pylint: disable=wrong-import-position
-# pylint: disable=broad-exception-caught
 # pylint: disable=no-name-in-module
 
 """Provides debugging tools."""
@@ -39,7 +38,7 @@ import faulthandler
 import os
 import subprocess
 import time
-from typing import Generator, Optional, TYPE_CHECKING
+from typing import Generator, TYPE_CHECKING
 
 import gi
 gi.require_version("Atspi", "2.0")
@@ -80,6 +79,7 @@ class DebuggingToolsManager:
         if refresh:
             msg = f"DEBUGGING TOOLS MANAGER: Refreshing bindings. Is desktop: {is_desktop}"
             debug.print_message(debug.LEVEL_INFO, msg, True)
+            self._bindings.remove_key_grabs("DEBUGGING TOOLS MANAGER: Refreshing bindings.")
             self._setup_bindings()
         elif self._bindings.is_empty():
             self._setup_bindings()
@@ -153,7 +153,7 @@ class DebuggingToolsManager:
             self._handlers, self._bindings, False)
 
     def _cycle_debug_level(
-        self, script: default.Script, _event: Optional[input_event.InputEvent] = None
+        self, script: default.Script, _event: input_event.InputEvent | None = None
     ) -> bool:
         """Cycles through the existing debug levels."""
 
@@ -173,11 +173,11 @@ class DebuggingToolsManager:
         level = keys[next_level]
         brief = levels.get(level)
         debug.debugLevel = level
-        script.presentMessage(f"Debug level {brief}.", brief)
+        script.present_message(f"Debug level {brief}.", brief)
         return True
 
     def _clear_atspi_app_cache(
-        self, script: default.Script, _event: Optional[input_event.InputEvent] = None
+        self, script: default.Script, _event: input_event.InputEvent | None = None
     ) -> bool:
         """Clears the AT-SPI cache for the current application."""
 
@@ -185,26 +185,26 @@ class DebuggingToolsManager:
         if obj is None:
             msg = "DEBUGGING TOOLS MANAGER: Cannot clear cache on null object of interest."
             debug.print_message(debug.debugLevel, msg, True)
-            script.presentMessage(messages.DEBUG_CLEAR_CACHE_FAILED)
+            script.present_message(messages.DEBUG_CLEAR_CACHE_FAILED)
             return True
 
         app = AXUtilities.get_application(obj)
         if app is None:
             msg = "DEBUGGING TOOLS MANAGER: Cannot clear cache on null application."
             debug.print_message(debug.debugLevel, msg, True)
-            script.presentMessage(messages.DEBUG_CLEAR_CACHE_FAILED)
+            script.present_message(messages.DEBUG_CLEAR_CACHE_FAILED)
             return True
 
-        script.presentMessage(messages.DEBUG_CLEAR_CACHE)
+        script.present_message(messages.DEBUG_CLEAR_CACHE)
         AXObject.clear_cache(app, recursive=True, reason="User request.")
         return True
 
     def _capture_snapshot(
-        self, script: default.Script, _event: Optional[input_event.InputEvent] = None
+        self, script: default.Script, _event: input_event.InputEvent | None = None
     ) -> bool:
         """Clears the AT-SPI cache for the current application."""
 
-        script.presentMessage(messages.DEBUG_CAPTURE_SNAPSHOT_START)
+        script.present_message(messages.DEBUG_CAPTURE_SNAPSHOT_START)
 
         old_level = debug.debugLevel
         debug.debugLevel = debug.LEVEL_SEVERE
@@ -221,7 +221,7 @@ class DebuggingToolsManager:
         debug.print_message(debug.debugLevel, msg, True)
 
         debug.print_message(debug.debugLevel, "DEBUGGING SNAPSHOT FINISHED", True)
-        script.presentMessage(messages.DEBUG_CAPTURE_SNAPSHOT_END)
+        script.present_message(messages.DEBUG_CAPTURE_SNAPSHOT_END)
         debug.debugLevel = old_level
         return True
 
@@ -231,7 +231,7 @@ class DebuggingToolsManager:
         """Generator providing strings with basic details about the running accessible apps."""
 
         applications = AXUtilities.get_all_applications(is_debug=True)
-        msg = f"Desktop has {len(applications)} apps:"
+        msg = f"Desktop has {len(applications)} app(s):"
         if not is_command_line:
             msg = f"DEBUGGING TOOLS MANAGER: {msg}"
         yield msg
@@ -244,7 +244,7 @@ class DebuggingToolsManager:
                 name = AXObject.get_name(app) or "[DEAD]"
             try:
                 cmdline = subprocess.getoutput(f"cat /proc/{pid}/cmdline")
-            except Exception as error:
+            except subprocess.SubprocessError as error:
                 cmdline = f"EXCEPTION: {error}"
             else:
                 cmdline = cmdline.replace("\x00", " ")

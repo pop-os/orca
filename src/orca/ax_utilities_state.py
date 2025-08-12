@@ -20,7 +20,7 @@
 
 # pylint: disable=wrong-import-position
 # pylint: disable=too-many-public-methods
-# pylint: disable=duplicate-code
+# pylint: disable=too-many-return-statements
 
 """Utilities for obtaining state-related information."""
 
@@ -35,11 +35,34 @@ gi.require_version("Atspi", "2.0")
 from gi.repository import Atspi
 
 from . import debug
+from . import messages
 from .ax_object import AXObject
 
 
 class AXUtilitiesState:
     """Utilities for obtaining state-related information."""
+
+    @staticmethod
+    def get_current_item_status_string(obj: Atspi.Accessible) -> str:
+        """Returns the current item status string of obj."""
+
+        if not AXUtilitiesState.is_active(obj):
+            return ""
+
+        result = AXObject.get_attribute(obj, "current")
+        if not result:
+            return ""
+        if result == "date":
+            return messages.CURRENT_DATE
+        if result == "time":
+            return messages.CURRENT_TIME
+        if result == "location":
+            return messages.CURRENT_LOCATION
+        if result == "page":
+            return messages.CURRENT_PAGE
+        if result == "step":
+            return messages.CURRENT_STEP
+        return messages.CURRENT_ITEM
 
     @staticmethod
     def has_no_state(obj: Atspi.Accessible) -> bool:
@@ -195,6 +218,12 @@ class AXUtilitiesState:
         return True
 
     @staticmethod
+    def is_hidden(obj: Atspi.Accessible) -> bool:
+        """Returns true if obj reports being hidden"""
+
+        return AXObject.get_attribute(obj, "hidden", False) == "true"
+
+    @staticmethod
     def is_horizontal(obj: Atspi.Accessible) -> bool:
         """Returns true if obj has the horizontal state"""
 
@@ -258,7 +287,13 @@ class AXUtilitiesState:
     def is_read_only(obj: Atspi.Accessible) -> bool:
         """Returns true if obj has the read-only state"""
 
-        return AXObject.has_state(obj, Atspi.StateType.READ_ONLY)
+        if AXObject.has_state(obj, Atspi.StateType.READ_ONLY):
+            return True
+        if AXUtilitiesState.is_editable(obj):
+            return False
+
+        # We cannot count on GTK to set the read-only state on text objects.
+        return AXObject.get_role(obj) == Atspi.Role.TEXT
 
     @staticmethod
     def is_required(obj: Atspi.Accessible) -> bool:
