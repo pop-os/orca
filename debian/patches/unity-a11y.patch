@@ -17,20 +17,20 @@ https://bugzilla.gnome.org/show_bug.cgi?id=783063
  create mode 100644 src/orca/scripts/apps/unity/script_utilities.py
 
 diff --git a/src/orca/scripts/apps/__init__.py b/src/orca/scripts/apps/__init__.py
-index 727b927..c081bae 100644
+index fe87e6e..762aa8f 100644
 --- a/src/orca/scripts/apps/__init__.py
 +++ b/src/orca/scripts/apps/__init__.py
-@@ -12,4 +12,5 @@ __all__ = ['evince',
-            'SeaMonkey',
-            'smuxi-frontend-gnome',
-            'Thunderbird',
-+           'unity',
-            'xfwm4']
+@@ -11,4 +11,5 @@ __all__ = ["evolution",
+            "SeaMonkey",
+            "smuxi-frontend-gnome",
+            "Thunderbird",
++           "unity",
+            "xfwm4"]
 diff --git a/src/orca/scripts/apps/meson.build b/src/orca/scripts/apps/meson.build
-index 95055d8..ca00401 100644
+index e1bb1ba..d31a30f 100644
 --- a/src/orca/scripts/apps/meson.build
 +++ b/src/orca/scripts/apps/meson.build
-@@ -10,6 +10,7 @@ subdir('soffice')
+@@ -9,6 +9,7 @@ subdir('soffice')
  subdir('SeaMonkey')
  subdir('smuxi-frontend-gnome')
  subdir('Thunderbird')
