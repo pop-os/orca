@@ -1,3 +1,10 @@
+orca (49~beta-1) UNRELEASED; urgency=medium
+
+  * New upstream beta release
+  * d/rules: Do not enable systemd service by default
+
+ -- Alessandro Astone <alessandro.astone@canonical.com>  Tue, 12 Aug 2025 14:47:36 +0200
+
 orca (49~alpha-1) experimental; urgency=medium
 
   * New upstream alpha release
