@@ -66,7 +66,8 @@ class AXUtilities:
     @staticmethod
     def get_all_widgets(
         obj: Atspi.Accessible,
-        must_be_showing_and_visible: bool = True
+        must_be_showing_and_visible: bool = True,
+        exclude_push_button: bool = False
     ) -> list[Atspi.Accessible]: ...
 
     @staticmethod
@@ -588,6 +589,9 @@ class AXUtilities:
 
     @staticmethod
     def is_glass_pane(obj: Atspi.Accessible, role: Atspi.Role | None = None) -> bool: ...
+
+    @staticmethod
+    def is_gui_list(obj: Atspi.Accessible, role: Atspi.Role | None = None) -> bool: ...
 
     @staticmethod
     def is_grid(obj: Atspi.Accessible, role: Atspi.Role | None = None) -> bool: ...
