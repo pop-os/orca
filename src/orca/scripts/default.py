@@ -40,7 +40,6 @@ __copyright__ = "Copyright (c) 2004-2009 Sun Microsystems Inc." \
 __license__   = "LGPL"
 
 import re
-import string
 from typing import Any, Callable, TYPE_CHECKING
 
 from orca import braille
@@ -172,8 +171,10 @@ class Script(script.Script):
         self.input_event_handlers.update(self.bookmarks.get_handlers())
         self.input_event_handlers.update(self.get_object_navigator().get_handlers())
         self.input_event_handlers.update(self.get_say_all_presenter().get_handlers())
+        self.input_event_handlers.update(self.get_caret_navigator().get_handlers())
         self.input_event_handlers.update(self.get_structural_navigator().get_handlers())
         self.input_event_handlers.update(self.get_table_navigator().get_handlers())
+        self.input_event_handlers.update(self.get_typing_echo_presenter().get_handlers())
         self.input_event_handlers.update(self.get_where_am_i_presenter().get_handlers())
         self.input_event_handlers.update(self.get_learn_mode_presenter().get_handlers())
         self.input_event_handlers.update(self.get_mouse_reviewer().get_handlers())
@@ -270,17 +271,17 @@ class Script(script.Script):
         for binding in bindings.key_bindings:
             key_bindings.add(binding)
 
-        bindings = self.get_say_all_presenter().get_bindings(
-            refresh=True, is_desktop=is_desktop)
-        for binding in bindings.key_bindings:
-            key_bindings.add(binding)
-
         bindings = self.get_system_information_presenter().get_bindings(
             refresh=True, is_desktop=is_desktop)
         for binding in bindings.key_bindings:
             key_bindings.add(binding)
 
         bindings = self.get_object_navigator().get_bindings(
+            refresh=True, is_desktop=is_desktop)
+        for binding in bindings.key_bindings:
+            key_bindings.add(binding)
+
+        bindings = self.get_caret_navigator().get_bindings(
             refresh=True, is_desktop=is_desktop)
         for binding in bindings.key_bindings:
             key_bindings.add(binding)
@@ -448,6 +449,11 @@ class Script(script.Script):
         say_all_bindings = self.get_say_all_presenter().get_bindings(
             refresh=True, is_desktop=is_desktop)
         for binding in say_all_bindings.key_bindings:
+            bindings.add(binding)
+
+        typing_echo_bindings = self.get_typing_echo_presenter().get_bindings(
+            refresh=True, is_desktop=is_desktop)
+        for binding in typing_echo_bindings.key_bindings:
             bindings.add(binding)
 
         return bindings
@@ -638,6 +644,7 @@ class Script(script.Script):
         self.get_speech_and_verbosity_manager().update_synthesizer()
 
         self.get_structural_navigator().set_mode(self, self._default_sn_mode)
+        self.get_caret_navigator().set_enabled(self, self._default_caret_navigation_enabled)
 
         self.add_key_grabs("script activation")
         tokens = ["DEFAULT: Script for", self.app, "activated"]
@@ -1064,7 +1071,10 @@ class Script(script.Script):
             self.get_flat_review_presenter().quit()
 
         offset = AXText.get_caret_offset(event.source)
+
+        # TODO - JD: These need to be harmonized / unified / simplified.
         manager.set_last_cursor_position(event.source, offset)
+        self.utilities.set_caret_context(event.source, offset)
 
         ignore = [TextEventReason.CUT,
                   TextEventReason.PASTE,
@@ -1503,13 +1513,11 @@ class Script(script.Script):
            or reason not in [TextEventReason.TYPING, TextEventReason.TYPING_ECHOABLE]:
             return True
 
-        if settings_manager.get_manager().get_setting("enableEchoBySentence") \
-           and self._echo_previous_sentence(event.source):
+        presenter = self.get_typing_echo_presenter()
+        if presenter.echo_previous_sentence(self, event.source):
             return True
 
-        if settings_manager.get_manager().get_setting("enableEchoByWord"):
-            self._echo_previous_word(event.source)
-
+        presenter.echo_previous_word(self, event.source)
         return True
 
     def on_text_selection_changed(self, event: Atspi.Event) -> bool:
@@ -1699,6 +1707,16 @@ class Script(script.Script):
 
         obj = obj or event.source
         self._update_braille_caret_position(obj)
+
+        # TODO - JD: Make this a TextEventReason. Also handle structural navigation
+        # and table navigation here. Technically that's not been necessary because
+        # it won't match anything below. But it would be cleaner to cover each cause
+        # explicitly.
+        if self.get_caret_navigator().last_input_event_was_navigation_command():
+            msg = "DEFAULT: Event ignored: Last command was caret nav"
+            debug.print_message(debug.LEVEL_INFO, msg, True)
+            return True
+
         if reason == TextEventReason.SAY_ALL:
             msg = "DEFAULT: Not presenting text because SayAll is active"
             debug.print_message(debug.LEVEL_INFO, msg, True)
@@ -1728,57 +1746,14 @@ class Script(script.Script):
                 return True
         return False
 
-    def _echo_previous_sentence(self, obj: Atspi.Accessible) -> bool:
-        """Speaks the sentence prior to the caret if at a sentence boundary."""
-
-        offset = AXText.get_caret_offset(obj)
-        char, start = AXText.get_character_at_offset(obj, offset - 1)[0:-1]
-        previous_char, previous_start = AXText.get_character_at_offset(obj, start - 1)[0:-1]
-        if not (char in string.whitespace + "\u00a0" and previous_char in "!.?:;"):
-            return False
-
-        sentence = AXText.get_sentence_at_offset(obj, previous_start)[0]
-        if not sentence:
-            msg = "DEFAULT: At a sentence boundary, but no sentence found. Missing implementation?"
-            debug.print_message(debug.LEVEL_INFO, msg, True)
-            return False
-
-        voice = self.speech_generator.voice(obj=obj, string=sentence)
-        self.speak_message(sentence, voice, obj=obj)
-        return True
-
-    def _echo_previous_word(self, obj: Atspi.Accessible) -> bool:
-        """Speaks the word prior to the caret if at a word boundary."""
-
-        offset = AXText.get_caret_offset(obj)
-        if offset == -1:
-            offset = AXText.get_character_count(obj)
-
-        if offset <= 0:
-            return False
-
-        # If the previous character is not a word delimiter, there's nothing to echo.
-        prev_char, prev_start = AXText.get_character_at_offset(obj, offset - 1)[0:-1]
-        if prev_char not in string.punctuation + string.whitespace + "\u00a0":
-            return False
-
-        # Two back-to-back delimiters should not result in a re-echo.
-        prev_char, prev_start = AXText.get_character_at_offset(obj, prev_start - 1)[0:-1]
-        if prev_char in string.punctuation + string.whitespace + "\u00a0":
-            return False
-
-        word = AXText.get_word_at_offset(obj, prev_start)[0]
-        if not word:
-            return False
-
-        voice = self.speech_generator.voice(obj=obj, string=word)
-        self.speak_message(word, voice, obj=obj)
-        return True
-
     def say_character(self, obj: Atspi.Accessible) -> None:
         """Speak the character at the caret."""
 
-        offset = AXText.get_caret_offset(obj)
+        context_obj, context_offset = self.utilities.get_caret_context(obj)
+        if context_obj == obj:
+            offset = context_offset
+        else:
+            offset = AXText.get_caret_offset(obj)
 
         # If we have selected text and the last event was a move to the
         # right, then speak the character to the left of where the text
@@ -1888,7 +1863,12 @@ class Script(script.Script):
     def say_word(self, obj: Atspi.Accessible) -> None:
         """Speaks the word at the caret, taking into account the previous caret position."""
 
-        offset = AXText.get_caret_offset(obj)
+        context_obj, context_offset = self.utilities.get_caret_context(obj)
+        if context_obj == obj:
+            offset = context_offset
+        else:
+            offset = AXText.get_caret_offset(obj)
+
         word, start_offset, end_offset = \
             self.utilities.get_word_at_offset_adjusted_for_navigation(obj, offset)
 
@@ -2025,31 +2005,7 @@ class Script(script.Script):
     def present_keyboard_event(self, event: input_event.KeyboardEvent) -> None:
         """Presents the KeyboardEvent event."""
 
-        if not event.is_pressed_key():
-            self.utilities.clear_cached_command_state_deprecated()
-
-        if not event.should_echo() or event.is_orca_modified():
-            return
-
-        focus = focus_manager.get_manager().get_locus_of_focus()
-        if AXUtilities.is_dialog_or_window(focus):
-            if focused_object := focus_manager.get_manager().find_focused_object():
-                focus_manager.get_manager().set_locus_of_focus(None, focused_object, False)
-
-        if AXUtilities.is_password_text(focus) and not event.is_locking_key():
-            return
-
-        if not event.is_pressed_key():
-            return
-
-        braille.displayKeyEvent(event)
-        orca_modifier_pressed = event.is_orca_modifier() and event.is_pressed_key()
-        if event.is_character_echoable() and not orca_modifier_pressed:
-            return
-
-        msg = "DEFAULT: Presenting keyboard event"
-        debug.print_message(debug.LEVEL_INFO, msg, True)
-        self.speak_key_event(event)
+        self.get_typing_echo_presenter().echo_keyboard_event(self, event)
 
     def present_message(
         self,
@@ -2133,16 +2089,6 @@ class Script(script.Script):
 
         braille.displayMessage(message, cursor, flash_time)
 
-    def speak_key_event(self, event: input_event.KeyboardEvent) -> None:
-        """Speaks the KeyboardEvent event."""
-
-        key_name = None
-        if event.is_printable_key():
-            key_name = event.get_key_name()
-
-        voice = self.speech_generator.voice(string=key_name)
-        speech.speak_key_event(event, voice[0] if voice else None)
-
     def spell_item(self, text: str) -> None:
         """Speak the characters in the string one by one."""
 
@@ -2174,25 +2120,22 @@ class Script(script.Script):
             debug.print_exception(debug.LEVEL_WARNING)
             return
 
-        manager = settings_manager.get_manager()
-        if not manager.get_setting("enableSpeech") \
-           or (manager.get_setting("onlySpeakDisplayedText") and not force):
+        speech_manager = speech_and_verbosity_manager.get_manager()
+        if speech_manager.get_speech_is_muted() \
+           or (speech_manager.get_only_speak_displayed_text() and not force):
             return
 
         voices = settings_manager.get_manager().get_setting("voices")
         system_voice = voices.get(settings.SYSTEM_VOICE)
-
         voice = voice or system_voice
         if voice == system_voice and reset_styles:
-            cap_style = settings_manager.get_manager().get_setting("capitalizationStyle")
-            manager.set_setting("capitalizationStyle", settings.CAPITALIZATION_STYLE_NONE)
-            self.get_speech_and_verbosity_manager().update_capitalization_style()
+            cap_style = speech_manager.get_capitalization_style()
+            speech_manager.set_capitalization_style("none")
 
-            punct_style = manager.get_setting("verbalizePunctuationStyle")
-            manager.set_setting("verbalizePunctuationStyle", settings.PUNCTUATION_STYLE_NONE)
-            self.get_speech_and_verbosity_manager().update_punctuation_level()
+            punct_style = speech_manager.get_punctuation_level()
+            speech_manager.set_punctuation_level("some")
 
-        text = speech_and_verbosity_manager.get_manager().adjust_for_presentation(obj, text)
+        text = speech_manager.adjust_for_presentation(obj, text)
         voice_to_use: ACSS | dict[str, Any] | None = None
         if isinstance(voice, list) and voice:
             voice_to_use = voice[0]
@@ -2201,8 +2144,5 @@ class Script(script.Script):
         speech.speak(text, voice_to_use, interrupt)
 
         if voice == system_voice and reset_styles:
-            manager.set_setting("capitalizationStyle", cap_style)
-            self.get_speech_and_verbosity_manager().update_capitalization_style()
-
-            manager.set_setting("verbalizePunctuationStyle", punct_style)
-            self.get_speech_and_verbosity_manager().update_punctuation_level()
+            speech_manager.set_capitalization_style(cap_style)
+            speech_manager.set_punctuation_level(punct_style)

@@ -571,7 +571,7 @@ class Text(Region):
         cursor_offset += len(self._label)
 
         if self.contracted:
-            self.string, self.inPos, self.outPos, cursor_offset = \
+            self.string, self.in_position, self.out_position, cursor_offset = \
                        self._contract_line(self._raw_line, cursor_offset, True)
 
         self.cursor_offset = cursor_offset
@@ -663,7 +663,7 @@ class Text(Region):
 
         if self.contracted:
             contracted_mask = [0] * len(self._raw_line)
-            out_position = self.outPos[len(self._label):]
+            out_position = self.out_position[len(self._label):]
             if self._label:
                 out_position = [offset - len(self._label) - 1 for offset in out_position]
             for i, m in enumerate(region_mask):
@@ -1443,16 +1443,6 @@ def displayMessage(message, cursor=-1, flashTime=0):
     add_line(Line(region))
     setFocus(region)
     refresh(True, stopFlash=False)
-
-def displayKeyEvent(event):
-    """Displays a KeyboardEvent. Typically reserved for locking keys like
-    Caps Lock and Num Lock."""
-
-    locking_state_string = event.get_locking_state_string()
-    if locking_state_string:
-        keyname = event.get_key_name()
-        msg = f"{keyname} {locking_state_string}"
-        displayMessage(msg, flashTime=settings.brailleFlashTime)
 
 def _adjustForWordWrap(targetCursorCell):
     start_position = viewport[0]

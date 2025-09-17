@@ -53,6 +53,7 @@ from . import messages
 from . import script_manager
 from . import settings
 from . import settings_manager
+from . import speech
 from .ax_object import AXObject
 
 if TYPE_CHECKING:
@@ -189,7 +190,13 @@ class LearnModePresenter:
         if script is None:
             return False
 
-        script.speak_key_event(event)
+        key_name = None
+        if event.is_printable_key():
+            key_name = event.get_key_name()
+
+        voice = script.speech_generator.voice(string=key_name)
+        speech.speak_key_event(event, voice[0] if voice else None)
+
         if event.is_printable_key() and event.get_click_count() == 2 \
            and event.get_handler() is None:
             script.spell_phonetically(event.get_key_name())
@@ -273,6 +280,11 @@ class LearnModePresenter:
             bound = script.get_object_navigator().get_bindings(
                 is_desktop=is_desktop).get_bound_bindings()
             bindings[guilabels.KB_GROUP_OBJECT_NAVIGATION] = bound
+            items += len(bound)
+
+            bound = script.get_caret_navigator().get_bindings(
+                is_desktop=is_desktop).get_bound_bindings()
+            bindings[guilabels.KB_GROUP_CARET_NAVIGATION] = bound
             items += len(bound)
 
             bound = script.get_structural_navigator().get_bindings(

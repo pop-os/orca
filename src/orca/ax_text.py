@@ -511,10 +511,12 @@ class AXText:
             offset = AXText.get_caret_offset(obj)
 
         current_line, start, end = AXText.get_line_at_offset(obj, offset)
-        if not current_line:
-            return "", 0, 0
+        if not current_line and offset == AXText.get_character_count(obj):
+            current_line, start, end = AXText.get_line_at_offset(obj, offset - 1)
+            if current_line.endswith("\n"):
+                start = offset - 1
 
-        if start <= 0:
+        if not current_line or start <= 0:
             return "", 0, 0
 
         prev_offset = start - 1
@@ -538,14 +540,22 @@ class AXText:
         if not line:
             return
 
-        yield line, start, end
+        # If the caller provides an offset positioned at the end boundary of the
+        # current line (e.g. start iteration from the previous line's end), some
+        # implementations of Atspi return the same line again for that offset.
+        # To avoid yielding duplicates (e.g. in get_visible_lines()), only yield
+        # the current line when the offset points inside it; otherwise start with
+        # the next distinct line.
+        if offset is None or offset < end:
+            yield line, start, end
+        current_start = start
 
         while True:
-            next_line, next_start, next_end = AXText.get_next_line(obj, offset)
-            if not next_line:
+            next_line, next_start, next_end = AXText.get_next_line(obj, current_start)
+            if not next_line or next_start <= current_start:
                 break
             yield next_line, next_start, next_end
-            offset = next_start
+            current_start = next_start
 
     @staticmethod
     def _find_sentence_boundaries(text: str) -> list[int]:
@@ -710,14 +720,19 @@ class AXText:
         if not sentence:
             return
 
-        yield sentence, start, end
+        # Avoid yielding a duplicate when the starting offset is exactly at the
+        # end boundary of the current sentence. Some implementations can return
+        # the same (sentence, start, end) again for that offset.
+        if offset is None or offset < end:
+            yield sentence, start, end
+        current_start = start
 
         while True:
-            next_sentence, next_start, next_end = AXText.get_next_sentence(obj, offset)
-            if not next_sentence:
+            next_sentence, next_start, next_end = AXText.get_next_sentence(obj, current_start)
+            if not next_sentence or next_start <= current_start:
                 break
             yield next_sentence, next_start, next_end
-            offset = next_start
+            current_start = next_start
 
     @staticmethod
     def get_paragraph_at_offset(
@@ -1489,7 +1504,14 @@ class AXText:
     def has_presentable_text(obj: Atspi.Accessible) -> bool:
         """Returns True if obj has presentable text."""
 
-        return bool(re.search(r"\w+", AXText.get_all_text(obj)))
+        if not AXObject.supports_text(obj):
+            return False
+
+        text = AXText.get_all_text(obj).strip()
+        if not text:
+            return AXUtilitiesRole.is_paragraph(obj)
+
+        return bool(re.search(r"\w+", text))
 
     @staticmethod
     def scroll_substring_to_point(
