@@ -46,6 +46,8 @@ Depends: ${misc:Depends},
          python3-speechd,
          python3-dasbus,
          python3-dbus,
+         python3-setproctitle,
+         python3-psutil,
          speech-dispatcher,
          gsettings-desktop-schemas,
 Recommends: xbrlapi

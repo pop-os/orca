@@ -33,6 +33,7 @@ from typing import TYPE_CHECKING
 
 from orca import debug
 from orca import focus_manager
+from orca import typing_echo_presenter
 from orca.scripts import default
 from orca.ax_text import AXText
 
@@ -44,7 +45,6 @@ if TYPE_CHECKING:
     import gi
     gi.require_version("Atspi", "2.0")
     from gi.repository import Atspi
-    from orca.input_event import KeyboardEvent
 
 class Script(default.Script):
     """Script for terminal support."""
@@ -83,6 +83,8 @@ class Script(default.Script):
     def on_text_inserted(self, event: Atspi.Event) -> bool:
         """Callback for object:text-changed:insert accessibility events."""
 
+        typing_echo_presenter.get_presenter().echo_delayed_terminal_press(self, event)
+
         if not self.utilities.treat_event_as_command(event):
             msg = "TERMINAL: Passing along event to default script."
             debug.print_message(debug.LEVEL_INFO, msg, True)
@@ -109,26 +111,3 @@ class Script(default.Script):
         focus_manager.get_manager().set_last_cursor_position(event.source, offset)
         AXText.update_cached_selected_text(event.source)
         return True
-
-    def present_keyboard_event(self, event: KeyboardEvent) -> None:
-        if not event.is_printable_key():
-            super().present_keyboard_event(event)
-
-        if event.is_pressed_key():
-            return
-
-        self.utilities.clear_cached_command_state_deprecated()
-        if not event.should_echo() or event.is_orca_modified() or event.is_character_echoable():
-            return
-
-        # We have no reliable way of knowing a password is being entered into
-        # a terminal -- other than the fact that the text typed isn't there.
-        char, start = AXText.get_character_at_offset(event.get_object())[0:2]
-        prev_char = AXText.get_character_at_offset(event.get_object(), start - 1)[0]
-        name = event.get_key_name()
-        if name not in [prev_char, " ", char]:
-            return
-
-        tokens = ["TERMINAL: Presenting keyboard event", name]
-        debug.print_tokens(debug.LEVEL_INFO, tokens, True)
-        self.speak_key_event(event)

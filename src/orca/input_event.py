@@ -38,6 +38,7 @@ __license__   = "LGPL"
 import inspect
 import math
 import time
+import unicodedata
 from typing import Callable, TYPE_CHECKING
 
 import gi
@@ -158,7 +159,7 @@ class KeyboardEvent(InputEvent):
         return False
 
     def __str__(self) -> str:
-        if self._should_obscure():
+        if self.should_obscure():
             keyid = hw_code = modifiers = text = keyval_name = "*"
         else:
             keyid = str(self.id)
@@ -179,7 +180,7 @@ class KeyboardEvent(InputEvent):
     def as_single_line_string(self) -> str:
         """Returns a single-line string representation of this event."""
 
-        if self._should_obscure():
+        if self.should_obscure():
             return "(obscured)"
 
         return (
@@ -187,7 +188,17 @@ class KeyboardEvent(InputEvent):
             f"{self.type.value_nick}"
         )
 
-    def _should_obscure(self) -> bool:
+    def is_alt_control_or_orca_modified(self) -> bool:
+        """Return True if this key is Alt, Control, or Orca modified."""
+
+        if self.modifiers & keybindings.CTRL_MODIFIER_MASK \
+           or self.modifiers & keybindings.ALT_MODIFIER_MASK \
+           or self.modifiers & keybindings.ORCA_MODIFIER_MASK:
+            return True
+
+        return False
+
+    def should_obscure(self) -> bool:
         """Returns True if we should obscure the details of this event."""
 
         if not AXUtilities.is_password_text(self._obj):
@@ -196,9 +207,7 @@ class KeyboardEvent(InputEvent):
         if not self.is_printable_key():
             return False
 
-        if self.modifiers & keybindings.CTRL_MODIFIER_MASK \
-           or self.modifiers & keybindings.ALT_MODIFIER_MASK \
-           or self.modifiers & keybindings.ORCA_MODIFIER_MASK:
+        if self.is_alt_control_or_orca_modified():
             return False
 
         return True
@@ -223,6 +232,7 @@ class KeyboardEvent(InputEvent):
             Gdk.KEY_BackSpace,
             Gdk.KEY_Delete,
             Gdk.KEY_Escape,
+            Gdk.KEY_KP_Enter,
             Gdk.KEY_Page_Down,
             Gdk.KEY_Page_Up,
             Gdk.KEY_Return,
@@ -296,7 +306,18 @@ class KeyboardEvent(InputEvent):
             Gdk.KEY_dead_u,
             Gdk.KEY_dead_voiced_sound,
         ]
-        return self.id in keys
+
+        if self.id in keys:
+            return True
+
+        name = self.get_key_name()
+        if len(name) == 1:
+            category = unicodedata.category(name)
+            # Mn = Mark, nonspacing; Mc = Mark, spacing combining; Me = Mark, enclosing
+            if category in ("Mn", "Mc", "Me"):
+                return True
+
+        return False
 
     def is_function_key(self) -> bool:
         """Return True if this is a function key."""
@@ -361,6 +382,16 @@ class KeyboardEvent(InputEvent):
             Gdk.KEY_7,
             Gdk.KEY_8,
             Gdk.KEY_9,
+            Gdk.KEY_KP_0,
+            Gdk.KEY_KP_1,
+            Gdk.KEY_KP_2,
+            Gdk.KEY_KP_3,
+            Gdk.KEY_KP_4,
+            Gdk.KEY_KP_5,
+            Gdk.KEY_KP_6,
+            Gdk.KEY_KP_7,
+            Gdk.KEY_KP_8,
+            Gdk.KEY_KP_9,
         ]
         return self.id in keys
 
@@ -435,6 +466,11 @@ class KeyboardEvent(InputEvent):
             Gdk.KEY_guillemotleft,
             Gdk.KEY_guillemotright,
             Gdk.KEY_hyphen,
+            Gdk.KEY_KP_Decimal,
+            Gdk.KEY_KP_Add,
+            Gdk.KEY_KP_Divide,
+            Gdk.KEY_KP_Multiply,
+            Gdk.KEY_KP_Subtract,
             Gdk.KEY_less,
             Gdk.KEY_macron,
             Gdk.KEY_minus,
@@ -467,39 +503,6 @@ class KeyboardEvent(InputEvent):
         """Return True if this is the space key."""
 
         return self.id == Gdk.KEY_space
-
-    def is_character_echoable(self) -> bool:
-        """Returns True if the script will echo this event as part of character echo."""
-
-        if not settings.enableEchoByCharacter:
-            msg = "KEYBOARD EVENT: Not character echoable, setting disabled."
-            debug.print_message(debug.LEVEL_INFO, msg, True)
-            return False
-
-        if not self.is_printable_key():
-            msg = "KEYBOARD EVENT: Not character echoable, is not printable key."
-            debug.print_message(debug.LEVEL_INFO, msg, True)
-            return False
-
-        # TODO - JD: What is this check handling specifically?
-        if self.modifiers & keybindings.ORCA_CTRL_MODIFIER_MASK:
-            msg = "KEYBOARD EVENT: Not character echoable due to modifier mask."
-            debug.print_message(debug.LEVEL_INFO, msg, True)
-            return False
-
-        if AXUtilities.is_password_text(self._obj):
-            msg = "KEYBOARD EVENT: Not character echoable, is password text."
-            debug.print_message(debug.LEVEL_INFO, msg, True)
-            return False
-
-        if AXUtilities.is_editable(self._obj) or AXUtilities.is_terminal(self._obj):
-            msg = "KEYBOARD EVENT: Character echoable, is editable or terminal."
-            debug.print_message(debug.LEVEL_INFO, msg, True)
-            return True
-
-        msg = "KEYBOARD EVENT: Not character echoable, no reason to echo."
-        debug.print_message(debug.LEVEL_INFO, msg, True)
-        return False
 
     def get_locking_state(self) -> bool | None:
         """Returns True if the event locked a locking key, False if the event unlocked it, and None
@@ -630,52 +633,12 @@ class KeyboardEvent(InputEvent):
 
         self._script.present_keyboard_event(self)
 
-    # pylint:disable=too-many-branches
-    # pylint:disable=too-many-return-statements
-    def should_echo(self) -> bool:
-        """Returns True if this input event should be echoed."""
-
-        if not (self.is_pressed_key() or AXUtilities.is_terminal(self._obj)):
-            return False
-
-        if self.is_locking_key():
-            if settings.presentLockingKeys is None:
-                return not settings.onlySpeakDisplayedText
-            return settings.presentLockingKeys
-
-        if not settings.enableKeyEcho:
-            return False
-
-        if self.is_navigation_key():
-            return settings.enableNavigationKeys
-        if self.is_action_key():
-            return settings.enableActionKeys
-        if self.is_modifier_key():
-            return settings.enableModifierKeys
-        if self.is_function_key():
-            return settings.enableFunctionKeys
-        if self.is_diacritical_key():
-            if settings.enableDiacriticalKeys is None:
-                return not settings.onlySpeakDisplayedText
-            return settings.enableDiacriticalKeys
-        if self.is_alphabetic_key():
-            return settings.enableAlphabeticKeys or settings.enableEchoByCharacter
-        if self.is_numeric_key():
-            return settings.enableNumericKeys or settings.enableEchoByCharacter
-        if self.is_punctuation_key():
-            return settings.enablePunctuationKeys or settings.enableEchoByCharacter
-        if self.is_space():
-            return settings.enableSpace or settings.enableEchoByCharacter
-
-        return False
-    # pylint:enable=too-many-branches
-    # pylint:enable=too-many-return-statements
-
     def process(self) -> None:
         """Processes this input event."""
 
         start_time = time.time()
-        if not self._should_obscure():
+        should_obscure = self.should_obscure()
+        if not should_obscure:
             data = f"'{self.keyval_name}' ({self.hw_code})"
         else:
             data = "(obscured)"
@@ -697,8 +660,9 @@ class KeyboardEvent(InputEvent):
         if self._script:
             self._handler = self._get_user_handler() \
                 or self._script.key_bindings.get_input_handler(self)
-            tokens = ["HANDLER:", str(self._handler)]
-            debug.print_tokens(debug.LEVEL_INFO, tokens, True)
+            if not should_obscure:
+                tokens = ["HANDLER:", str(self._handler)]
+                debug.print_tokens(debug.LEVEL_INFO, tokens, True)
 
             if self._script.get_learn_mode_presenter().is_active():
                 self._consumer = self._script.get_learn_mode_presenter().handle_event

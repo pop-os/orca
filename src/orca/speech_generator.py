@@ -3811,7 +3811,10 @@ class SpeechGenerator(generator.Generator):
         result += self._generate_accessible_label_and_name(obj, **args)
         result += (self._generate_number_of_children(obj, **args) \
             or self._generate_accessible_role(obj, **args))
-        result += self._generate_nesting_level(obj, **args)
+        if AXUtilities.is_gui_list(obj):
+            result += self._generate_accessible_static_text(obj, **args)
+        else:
+            result += self._generate_nesting_level(obj, **args)
         result += self._generate_default_suffix(obj, **args)
         return result
 
@@ -5120,7 +5123,19 @@ class SpeechGenerator(generator.Generator):
         result = []
         for content in contents:
             obj, _start, _end, text = content
+            if not text:
+                continue
             voices = self.voice(obj=obj, string=text)
             voice = voices[0] if voices and isinstance(voices, list) else voices
             result.append([text, voice])
+
+        if not result or (len(result) == 1 and result[0][0] == "\n"):
+            if focus_manager.get_manager().in_say_all() \
+               or not settings_manager.get_manager().get_setting("speakBlankLines") \
+               or args.get("formatType") == "ancestor":
+                string = ""
+            else:
+                string = messages.BLANK
+            result = [[string, self.voice(DEFAULT, **args)]]
+
         return result

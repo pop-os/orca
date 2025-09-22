@@ -1,3 +1,23 @@
+orca (49.1-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 20 Sep 2025 14:18:58 +0200
+
+orca (49.0-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Samuel Thibault <sthibault@debian.org>  Wed, 17 Sep 2025 23:20:50 +0200
+
+orca (49~beta-1) experimental; urgency=medium
+
+  [ Alessandro Astone ]
+  * New upstream beta release
+  * d/rules: Do not enable systemd service by default
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 23 Aug 2025 23:23:26 +0200
+
 orca (49~beta-0ubuntu1) questing; urgency=medium
 
   * New upstream beta release

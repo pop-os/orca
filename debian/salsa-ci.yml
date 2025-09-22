@@ -7,5 +7,6 @@ test-crossbuild-arm64:
 
 variables:
   SALSA_CI_REPROTEST_ENABLE_DIFFOSCOPE: 1
+  SALSA_CI_DISABLE_LICENSERECON: 0
 
 # vim: ts=2 sw=2 et sts=2 ft=yaml
