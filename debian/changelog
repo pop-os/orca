@@ -1,3 +1,14 @@
+orca (49.1-1ubuntu1) questing; urgency=medium
+
+  * Merge with debian for new bugfix release (LP: #2125336).
+    Remaining changes:
+    + debian/patches/unity-a11y.patch: add hacks to better work with Unity.
+    + Revert "control: Add xkbset dependency (Closes #972621)" This is in
+      universe in Ubuntu so we can't depend on it. It's silently skipped if
+      not available.
+
+ -- Alessandro Astone <alessandro.astone@canonical.com>  Mon, 22 Sep 2025 10:34:39 +0200
+
 orca (49.1-1) unstable; urgency=medium
 
   * New upstream release
