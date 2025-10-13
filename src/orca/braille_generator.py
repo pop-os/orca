@@ -284,14 +284,16 @@ class BrailleGenerator(generator.Generator):
             return []
 
         result: list[Any] = []
-        args['includeContext'] = False
+        args["includeContext"] = False
+        args["formatType"] = "ancestor"
         parent = AXObject.get_parent_checked(obj)
         if parent and (AXObject.get_role(parent) in self.SKIP_CONTEXT_ROLES):
             parent = AXObject.get_parent_checked(parent)
         while parent:
             parent_result = []
             if not AXUtilities.is_layout_only(parent):
-                parent_result = self.generate(parent, **args)
+                parent_args = {k: v for k, v in args.items() if k != "role"}
+                parent_result = self.generate(parent, **parent_args)
             if result and parent_result:
                 result.append(braille.Region(" "))
             result.extend(parent_result)
@@ -388,6 +390,13 @@ class BrailleGenerator(generator.Generator):
 
     def _generate_default_presentation(self, obj: Atspi.Accessible, **args) -> list[Any]:
         """Provides a default/role-agnostic presentation of obj."""
+
+        if args.get("formatType") == "ancestor":
+            result = [braille.Component(
+                obj, self._as_string(
+                    self._generate_accessible_label_and_name(obj, **args) +
+                    self._generate_accessible_role(obj, **args)))]
+            return result
 
         result = self._generate_default_prefix(obj, **args)
         result += [braille.Component(
