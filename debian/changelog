@@ -1,3 +1,15 @@
+orca (49.4-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Samuel Thibault <sthibault@debian.org>  Fri, 17 Oct 2025 00:56:30 +0200
+
+orca (49.3-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Samuel Thibault <sthibault@debian.org>  Mon, 13 Oct 2025 21:31:26 +0200
+
 orca (49.1-1ubuntu1) questing; urgency=medium
 
   * Merge with debian for new bugfix release (LP: #2125336).

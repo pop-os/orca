@@ -327,7 +327,7 @@ class AXUtilities:
             return result, reason
 
         if AXUtilitiesRole.is_menu(obj, role) or AXUtilitiesRole.is_list(obj, role):
-            result = AXUtilitiesRole.is_combo_box(AXObject.get_parent(obj))
+            result = AXObject.find_ancestor(obj, AXUtilitiesRole.is_combo_box) is not None
             if result:
                 reason = "is inside combo box"
             return result, reason
@@ -477,7 +477,7 @@ class AXUtilities:
         """Returns the list of objects sorted according to child index."""
 
         def cmp(x, y):
-            return AXObject.get_index_in_parent(y) - AXObject.get_index_in_parent(x)
+            return AXObject.get_index_in_parent(x) - AXObject.get_index_in_parent(y)
 
         result = sorted(object_list, key=functools.cmp_to_key(cmp))
         if object_list != result:
@@ -583,6 +583,8 @@ class AXUtilities:
 
         if AXUtilitiesRole.is_combo_box(obj):
             selected_children = AXSelection.get_selected_children(obj)
+            if not selected_children:
+                return -1
             if len(selected_children) == 1:
                 obj = selected_children[0]
 
@@ -641,6 +643,8 @@ class AXUtilities:
 
         if AXUtilitiesRole.is_combo_box(obj):
             selected_children = AXSelection.get_selected_children(obj)
+            if not selected_children:
+                return -1
             if len(selected_children) == 1:
                 obj = selected_children[0]
 

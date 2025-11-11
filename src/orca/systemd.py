@@ -32,12 +32,15 @@ import socket
 import time
 from gi.repository import GLib
 
+from . import debug
+
 class Systemd:
     """Orca's integration with the systemd service manager"""
 
     def __init__(self) -> None:
         self._notify_socket: socket.socket | None = None
         self._watchdog_interval: int | None = None
+        self._last_ping: float = 0.0
 
         socket_path = os.environ.get("NOTIFY_SOCKET")
         if socket_path:
@@ -61,6 +64,8 @@ class Systemd:
         # Reference:
         # https://freedesktop.org/software/systemd/man/sd_notify.html#Standalone%20Implementations
         if self._notify_socket:
+            debug.print_message(
+                debug.LEVEL_INFO, f"SYSTEMD: Sending: {message.decode('utf-8')}", True)
             self._notify_socket.sendall(message)
 
     def notify_ready(self) -> None:
@@ -77,6 +82,23 @@ class Systemd:
         """Tell systemd that Orca is shutting down"""
         self._notify(b"STOPPING=1")
 
+    def _ping_watchdog(self) -> None:
+        """Send a watchdog ping and update last-ping timestamp"""
+        self._notify(b"WATCHDOG=1")
+        self._last_ping = time.time()
+
+    def notify_alive(self, reason: str = "") -> None:
+        """Tell systemd that Orca is still alive"""
+
+        if not self._watchdog_interval:
+            return
+
+        msg = f"SYSTEMD: notify_alive called. {reason}"
+        debug.print_message(debug.LEVEL_INFO, msg, True)
+        elapsed_ms = (time.time() - self._last_ping) * 1000
+        if elapsed_ms >= self._watchdog_interval // 2:
+            self._ping_watchdog()
+
     def start_watchdog(self) -> None:
         """Start regularly sending keepalive pings to the systemd watchdog"""
         if not self._watchdog_interval:
@@ -84,7 +106,7 @@ class Systemd:
 
         def _on_watchdog_tick() -> bool:
             """Send a keepalive ping to the watchdog"""
-            self._notify(b"WATCHDOG=1")
+            self._ping_watchdog()
             return GLib.SOURCE_CONTINUE
 
         # The interval systemd reports to us is the deadline: if we miss it,
@@ -92,8 +114,11 @@ class Systemd:
         # requested, to avoid a situation where timer inaccuracies will
         # cause us to miss the deadline. systemd's code for this pings
         # anywhere from 133% - 200% faster than necessary. For us it's
-        # easier to just ping 2x as fast
-        GLib.timeout_add(self._watchdog_interval // 2, _on_watchdog_tick)
+        # easier to just ping 2x as fast. Use a high priority so that it is
+        # scheduled ahead of other work done on the main loop (e.g. event
+        # processing during a flood).
+        GLib.timeout_add(self._watchdog_interval // 2, _on_watchdog_tick,
+                         priority=GLib.PRIORITY_HIGH)
 
     def is_systemd_managed(self) -> bool:
         """Returns whether or not Orca is being managed by systemd"""

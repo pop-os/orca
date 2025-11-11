@@ -644,7 +644,8 @@ class Script(script.Script):
         self.get_speech_and_verbosity_manager().update_synthesizer()
 
         self.get_structural_navigator().set_mode(self, self._default_sn_mode)
-        self.get_caret_navigator().set_enabled(self, self._default_caret_navigation_enabled)
+        self.get_caret_navigator().set_enabled_for_script(
+            self, self._default_caret_navigation_enabled)
 
         self.add_key_grabs("script activation")
         tokens = ["DEFAULT: Script for", self.app, "activated"]
@@ -2146,3 +2147,63 @@ class Script(script.Script):
         if voice == system_voice and reset_styles:
             speech_manager.set_capitalization_style(cap_style)
             speech_manager.set_punctuation_level(punct_style)
+
+    # TODO - JD: This is temporary and in place just so that we could include D-Bus support
+    # for the web script's commands prior to having global browse mode.
+    # pylint: disable=unused-argument
+    def toggle_presentation_mode(
+        self,
+        event: input_event.InputEvent | None = None,
+        document: Atspi.Accessible | None = None,
+        notify_user: bool = True
+    ) -> bool:
+        """Switches between browse mode and focus mode."""
+
+        return False
+
+    def toggle_layout_mode(
+        self,
+        event: input_event.InputEvent | None = None,
+        notify_user: bool = True
+    ) -> bool:
+        """Switches between object mode and layout mode for line presentation."""
+
+        return False
+
+    def enable_sticky_browse_mode(
+        self,
+        event: input_event.InputEvent | None = None,
+        force_message: bool = False
+    ) -> bool:
+        """Enables sticky browse mode."""
+
+        return False
+
+    def enable_sticky_focus_mode(
+        self,
+        event: input_event.InputEvent | None = None,
+        force_message: bool = False
+    ) -> bool:
+        """Enables sticky focus mode."""
+
+        return False
+
+    def in_focus_mode(self) -> bool:
+        """ Returns True if we're in focus mode."""
+
+        return False
+
+    def focus_mode_is_sticky(self) -> bool:
+        """Returns True if we're in 'sticky' focus mode."""
+
+        return False
+
+    def browse_mode_is_sticky(self) -> bool:
+        """Returns True if we're in 'sticky' browse mode."""
+
+        return False
+
+    def in_layout_mode(self) -> bool:
+        """ Returns True if we're in layout mode."""
+
+        return False
