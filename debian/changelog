@@ -1,3 +1,9 @@
+orca (49.4-1pop1) noble; urgency=medium
+
+  * Pop packaging
+
+ -- Ian Douglas Scott <idscott@system76.com>  Fri, 21 Nov 2025 16:54:03 -0800
+
 orca (49.4-1ubuntu1) resolute; urgency=medium
 
   * Merge with debian (LP: #2130183). Remaining changes:
